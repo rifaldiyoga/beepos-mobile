@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Beepos Mobile</string>
+    <string name="version">version</string>
+
+    <string name="pref_screen_orientation">Screen Orientation</string>
+    <string name="pref_is_change_screen_orientation">Is Change Orientation</string>
+    <string name="mohon_tunggu_sebentar">Mohon Tunggu Sebentar..</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="lupa_kata_sandi">Lupa kata sandi?</string>
+    <string name="login">Login</string>
+    <string name="daftar">DAFTAR</string>
+    <string name="atau">Atau</string>
+    <string name="database">Database</string>
+    <string name="mohon_tunggu">Mohon Tunggu</string>
+    <string name="masukkan_email_password_masuk">Masukkan email &amp; password masuk</string>
+    <string name="cth_budi_email_com">Cth. budi@email.com</string>
+    <string name="masuk">Masuk</string>
+    <string name="tentukan_nama_device">Tentukan Nama Device</string>
+    <string name="sebagai_identitas_device_yang_digunakan">Sebagai identitas device yang digunakan</string>
+    <string name="nama_device">Nama Device</string>
+    <string name="cth_smartphone_1">Cth. Smartphone 1</string>
+    <string name="lanjutkan">LANJUTKAN</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu felis nec orci tincidunt lobortis ut non mi. Suspendisse dolor orci, viverra a odio sed, mollis finibus dolor. Nunc in augue fringilla, consectetur dolor a, feugiat arcu. Sed vel leo sem. In et imperdiet quam, ut mollis libero. Etiam faucibus felis urna, ut porta purus auctor ac.</string>
+    <string name="informasi">Informasi ?</string>
+    <string name="konfirmasi_keluar">Anda belum menyelesaikan proses login dan perubahan belum disimpan</string>
+    <string name="yakin_akan_keluar">Yakin ingin keluar?</string>
+    <string name="pilih_database">Pilih Database</string>
+    <string name="pilih_database_untuk_melakukan_transaksi">Pilih database untuk melakukan transaksi</string>
+    <string name="pilih_cabang">Pilih Cabang</string>
+    <string name="pilih_cabang_untuk_melakukan_transaksi">Pilih cabang untuk melakukan transaksi</string>
+    <string name="kasir_yang_tersedia">Kasir yang tersedia</string>
+    <string name="tersedia">Tersedia</string>
+    <string name="login_operator">Login Operator</string>
+    <string name="masukkan_pin_untuk_melanjutkan">Masukkan PIN untuk melanjutkan</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_0">0</string>
+
+</resources>

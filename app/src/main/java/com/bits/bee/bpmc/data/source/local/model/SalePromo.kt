@@ -1,0 +1,66 @@
+package com.bits.bee.bpmc.data.source.local.model
+
+import androidx.room.*
+import java.math.BigDecimal
+
+@Entity(tableName = SalePromo.TBL_NAME,
+    foreignKeys = [
+        ForeignKey(
+            entity = Sale::class,
+            parentColumns = [Sale.ID],
+            childColumns = [SalePromo.SALE_ID],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Saled::class,
+            parentColumns = [Saled.ID],
+            childColumns = [SalePromo.SALED_ID],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Promo::class,
+            parentColumns = [Promo.ID],
+            childColumns = [SalePromo.PROMO_ID],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Bp::class,
+            parentColumns = [Bp.ID],
+            childColumns = [SalePromo.BP_ID],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
+data class SalePromo(
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = ID)
+    val id : Int,
+    @ColumnInfo(name = SALE_ID, index = true)
+    val saleId: Int,
+    @ColumnInfo(name = SALENO)
+    val saleNo: String,
+    @ColumnInfo(name = SALED_ID, index = true)
+    val saledId: Int,
+    @ColumnInfo(name = PROMO_ID, index = true)
+    val promoId: Int,
+    @ColumnInfo(name = BP_ID, index = true)
+    val bpId: Int,
+    @ColumnInfo(name = PROMOQTY)
+    val promoQty: BigDecimal = BigDecimal.ZERO,
+    @ColumnInfo(name = PROMOROLE)
+    val promoRule : String,
+) {
+    companion object {
+        const val TBL_NAME = "salepromo"
+
+        const val ID = "id"
+        const val SALE_ID = "sale_id"
+        const val SALENO = "saleno"
+        const val SALED_ID = "saled_id"
+        const val PROMO_ID = "promo_id"
+        const val BP_ID = "bp_id"
+        const val PROMOQTY = "promoqty"
+        const val PROMOROLE = "promorole"
+
+    }
+}
