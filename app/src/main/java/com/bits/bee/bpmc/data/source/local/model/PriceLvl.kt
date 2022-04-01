@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 data class PriceLvl(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = CODE)
-    val licNumber : String,
+    var licNumber : String,
     @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Long,
+    var updatedAt : Long,
 ) {
     companion object {
         const val TBL_NAME = "price_lvl"

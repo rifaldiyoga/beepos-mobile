@@ -2,8 +2,7 @@ package com.bits.bee.bpmc.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bits.bee.bpmc.data.source.local.dao.BranchDao
-import com.bits.bee.bpmc.data.source.local.dao.CashierDao
+import com.bits.bee.bpmc.data.source.local.dao.*
 import com.bits.bee.bpmc.data.source.local.helper.DbHelper
 import dagger.Module
 import dagger.Provides
@@ -38,5 +37,40 @@ object DatabaseModule {
         return dbHelper.cashierDao
     }
 
+    @Provides
+    @Singleton
+    fun provideUserDao(dbHelper: DbHelper) : UserDao {
+        return dbHelper.userDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCityDao(dbHelper: DbHelper) : CityDao {
+        return dbHelper.cityDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideBpDao(dbHelper: DbHelper) : BpDao {
+        return dbHelper.bpDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideBpAddrDao(dbHelper: DbHelper) : BpAddrDao {
+        return dbHelper.bpAddrDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemGroupDao(dbHelper: DbHelper) : ItemGroupDao {
+        return dbHelper.itemGroupDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePmtdDao(dbHelper: DbHelper) : PmtdDao {
+        return dbHelper.pmtdDao
+    }
 
 }

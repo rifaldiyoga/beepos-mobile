@@ -1,12 +1,14 @@
 package com.bits.bee.bpmc.data.repository
 
-import androidx.lifecycle.LiveData
+import com.bits.bee.bpmc.data.source.local.dao.CashierDao
+import com.bits.bee.bpmc.data.source.local.model.Cashier
 import com.bits.bee.bpmc.data.source.remote.ApiUtils
 import com.bits.bee.bpmc.data.source.remote.response.CashierResponse
 import com.bits.bee.bpmc.domain.repository.CashierRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
-import com.bits.bee.bpmc.utils.NetworkBoundResource
+import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -14,16 +16,28 @@ import javax.inject.Inject
  */
 class CashierRepository @Inject constructor(
     private val apiUtils: ApiUtils,
+    private val cashierDao: CashierDao
 ) : CashierRepositoryI{
 
-    override fun getCashierList(): LiveData<Resource<CashierResponse>> {
-        return object : NetworkBoundResource< CashierResponse>(){
-
-            override fun createCall(): LiveData<ApiResponse<CashierResponse>> {
-                return apiUtils.getCashierApiService().getListCashier()
+    override fun getCashierList(): Flow<Resource<List<Cashier>>> {
+        return object : NetworkDatabaseBoundResource<List<Cashier>, CashierResponse>(){
+            override suspend fun loadFormDB(): List<Cashier>? {
+                return cashierDao.getListCashier()
             }
 
-        }.getAsLiveData()
+            override fun shouldFetch(data: List<Cashier>?): Boolean {
+                return true
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<CashierResponse>> {
+                return apiUtils.getCashierApiService().getCashierList()
+            }
+
+            override suspend fun saveCallResult(data: CashierResponse) {
+                cashierDao.insertBulk(data.data.data.map { it.toCashierEntity() })
+            }
+
+        }.getAsFlow()
     }
 
 }

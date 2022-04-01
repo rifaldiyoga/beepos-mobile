@@ -9,13 +9,13 @@ import java.math.BigDecimal
 data class Cash(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code: String,
+    var code: String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = BALANCE)
-    val balance : BigDecimal,
+    var balance : BigDecimal,
 ) {
     companion object {
         const val TBL_NAME = "cash"

@@ -8,17 +8,17 @@ import androidx.room.PrimaryKey
 data class Sync(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = TRXNO)
-    val trxNo : String,
+    var trxNo : String,
     @ColumnInfo(name = TRXDATE)
-    val trxDate: Long,
+    var trxDate: Long,
     @ColumnInfo(name = BP_ID)
-    val bpId : Int,
+    var bpId : Int,
     @ColumnInfo(name = BP_NAME)
-    val bpName : String,
+    var bpName : String,
     @ColumnInfo(name = IS_UPLOADED)
-    val isUploaded : Boolean
+    var isUploaded : Boolean
 ) {
     companion object {
         const val TBL_NAME = "sync"

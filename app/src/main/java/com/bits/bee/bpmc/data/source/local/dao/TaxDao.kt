@@ -10,6 +10,9 @@ import com.bits.bee.bpmc.data.source.local.model.Tax
 interface TaxDao : BaseDao<Tax> {
 
     @Query("SELECT * FROM tax")
-    fun getTaxList() : LiveData<List<Tax>>
+    fun getTaxList() : List<Tax>
+
+    @Query("DELETE FROM tax")
+    fun deleteAll()
 
 }

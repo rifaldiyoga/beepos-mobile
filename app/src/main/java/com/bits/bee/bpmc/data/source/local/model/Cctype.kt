@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 data class Cctype(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CCTYPE)
-    val cctype: String,
+    var cctype: String,
     @ColumnInfo(name = CCTYPEDESC)
-    val cctypeDesc : String,
+    var cctypeDesc : String,
 ) {
     companion object {
         const val TBL_NAME = "cc_type"

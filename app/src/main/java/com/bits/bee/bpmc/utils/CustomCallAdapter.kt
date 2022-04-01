@@ -51,7 +51,20 @@ class ResponseCallAdapter<T>(
     override fun responseType() = responseType
 
     override fun adapt(call: Call<T>): Flow<ApiResponse<T>> = flow{
+        emit(
+            suspendCancellableCoroutine { continuation ->
+                call.enqueue(object : Callback<T> {
+                    override fun onFailure(call: Call<T>, t: Throwable) {
+                        continuation.resumeWithException(t)
+                    }
 
+                    override fun onResponse(call: Call<T>, response: Response<T>) {
+                        continuation.resume(ApiResponse.create(response)){}
+                    }
+                })
+                continuation.invokeOnCancellation { call.cancel() }
+            }
+        )
     }
 
 }

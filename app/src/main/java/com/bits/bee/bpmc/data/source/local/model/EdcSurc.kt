@@ -16,25 +16,25 @@ import androidx.room.ForeignKey.CASCADE
 data class EdcSurc(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = EDCSURCN0)
-    val edcSurcNo : String,
+    var edcSurcNo : String,
     @ColumnInfo(name = EDC_ID, index = true)
-    val edcId: Int,
+    var edcId: Int,
     @ColumnInfo(name = CCTYPE)
-    val ccType : String,
+    var ccType : String,
     @ColumnInfo(name = CCTYPEDESC)
-    val ccTypeDesc : String,
+    var ccTypeDesc : String,
     @ColumnInfo(name = SURCEXP)
-    val surcExp : String,
+    var surcExp : String,
     @ColumnInfo(name = MDREXP)
-    val mdrExp : String,
+    var mdrExp : String,
     @ColumnInfo(name = SURCACC_ID)
-    val surcAccId : Int,
+    var surcAccId : Int,
     @ColumnInfo(name = MDRACC_ID)
-    val mdrAccId : Int,
+    var mdrAccId : Int,
     @ColumnInfo(name = EDCSURCTYPE)
-    val edcSurcType : String,
+    var edcSurcType : String,
 ) {
     companion object {
         const val TBL_NAME = "edcsurc"

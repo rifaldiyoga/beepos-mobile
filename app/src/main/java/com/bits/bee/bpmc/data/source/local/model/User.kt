@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = USERNAME)
-    val username : String,
+    var username : String,
     @ColumnInfo(name = USER_APIKEY)
-    val userApiKey: String,
+    var userApiKey: String,
     @ColumnInfo(name = COMPANY_NAME)
-    val cmpName : String,
+    var cmpName : String,
 ) {
     companion object {
         const val TBL_NAME = "user"

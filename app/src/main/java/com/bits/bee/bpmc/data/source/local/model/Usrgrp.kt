@@ -8,17 +8,17 @@ import androidx.room.PrimaryKey
 data class Usrgrp(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)  
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = USR_CODE)
-    val usrCode : String,
+    var usrCode : String,
     @ColumnInfo(name = DISABLED)
-    val disabled : Boolean,
+    var disabled : Boolean,
     @ColumnInfo(name = GRP_ID)
-    val grpId : Int,
+    var grpId : Int,
     @ColumnInfo(name = USR_ID)
-    val bpName : String,
+    var bpName : String,
     @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Long
+    var updatedAt : Long
 ) {
     companion object {
         const val TBL_NAME = "usrgrp"

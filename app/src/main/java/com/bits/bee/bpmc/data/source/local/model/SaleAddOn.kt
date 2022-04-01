@@ -15,9 +15,9 @@ import androidx.room.*
 data class SaleAddOn(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = SALE_ID)
-    val saleId: Int,
+    var saleId: Int,
 ) {
     companion object {
         const val TBL_NAME = "saleaddon"

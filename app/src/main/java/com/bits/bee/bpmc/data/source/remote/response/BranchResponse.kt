@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.data.source.remote.response
 
 import android.os.Parcelable
 import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
+import com.bits.bee.bpmc.data.source.remote.model.ValueLabelModel
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
@@ -30,33 +31,33 @@ data class BranchResponse (
     @Parcelize
     data class BranchModel(
         @SerializedName("id")
-        val id : Int,
+        val id : Int = -1,
         @SerializedName("code")
-        val code : String,
+        val code : String = "",
         @SerializedName("name")
-        val name: String,
+        val name: String = "",
         @SerializedName("version")
-        val version: String,
+        val version: String = "",
         @SerializedName("cmpname")
-        val cmpName : String,
+        val cmpName : String = "",
         @SerializedName("phone")
-        val phone : String,
+        val phone : String = "",
         @SerializedName("active")
-        val active : Boolean,
+        val active : Boolean = false,
         @SerializedName("address")
-        val cmpAddress : String,
+        val cmpAddress : String = "",
         @SerializedName("fax")
-        val cmpFax : String,
+        val cmpFax : String = "",
         @SerializedName("custdeft_id")
-        val custDeftId : CustDeft?,
+        val custDeftId : ValueLabelModel?,
         @SerializedName("created_at")
-        val createdAt : String,
+        val createdAt : String = "",
         @SerializedName("created_by")
-        val createdBy : Int,
+        val createdBy : Int = -1,
         @SerializedName("updated_at")
-        val updatedAt : String,
+        val updatedAt : String = "",
         @SerializedName("updated_by")
-        val updatedBy : Int,
+        val updatedBy : Int = -1,
     ) : Parcelable {
 
         fun toBranch() : Branch{
@@ -70,14 +71,5 @@ data class BranchResponse (
         }
 
     }
-
-    @Parcelize
-    data class CustDeft(
-        @SerializedName("value")
-        val value : Int,
-        @SerializedName("label")
-        val label : String,
-    ) : Parcelable
-
 
 }

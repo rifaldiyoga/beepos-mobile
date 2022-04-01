@@ -21,13 +21,13 @@ import androidx.room.*
 data class SelectionD(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = SELECTION_ID, index = true)
-    val selectionId: Int,
+    var selectionId: Int,
     @ColumnInfo(name = DNO)
-    val dno: Int,
+    var dno: Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val itemId: Int,
+    var itemId: Int,
 ) {
     companion object {
         const val TBL_NAME = "selectiond"

@@ -13,7 +13,7 @@ import retrofit2.http.GET
  */
 interface CashierApiService {
 
-    @GET("/dev/master/cashier")
-    fun getListCashier() : LiveData<ApiResponse<CashierResponse>>
+    @GET("/master/cashier")
+    fun getCashierList() : Flow<ApiResponse<CashierResponse>>
 
 }

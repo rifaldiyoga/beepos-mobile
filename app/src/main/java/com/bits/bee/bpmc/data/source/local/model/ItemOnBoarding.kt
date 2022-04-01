@@ -9,19 +9,19 @@ import java.math.BigDecimal
 data class ItemOnBoarding(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = NAME)
-    val name : String,
+    var name : String,
     @ColumnInfo(name = ITEMTYPE)
-    val itemType : String,
+    var itemType : String,
     @ColumnInfo(name = ITEMGROUP)
-    val itemGroup : String,
+    var itemGroup : String,
     @ColumnInfo(name = PRICE)
-    val price : BigDecimal,
+    var price : BigDecimal,
     @ColumnInfo(name = UNIT)
-    val unit : String,
+    var unit : String,
     @ColumnInfo(name = PICPATH)
-    val picPath : String,
+    var picPath : String,
 ) {
     companion object {
         const val TBL_NAME = "dummy_item"

@@ -27,39 +27,39 @@ import androidx.room.*
 data class Salecrcvs(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = RCVTYPE_CODE)
-    val rcvTypeCode : String,
+    var rcvTypeCode : String,
     @ColumnInfo(name = SALE_ID, index = true)
-    val saleInt: Int,
+    var saleInt: Int,
     @ColumnInfo(name = RCVAMT)
-    val rcvAmt : String,
+    var rcvAmt : String,
     @ColumnInfo(name = NOTE)
-    val note : String,
+    var note : String,
     @ColumnInfo(name = EDC_ID, index = true)
-    val edcId: Int,
+    var edcId: Int,
     @ColumnInfo(name = CASH_ID, index = true)
-    val cashId: Int,
+    var cashId: Int,
     @ColumnInfo(name = CARD_NO)
-    val cardNo : String,
+    var cardNo : String,
     @ColumnInfo(name = CCTYPE_CODE)
-    val cctypeCode : String,
+    var cctypeCode : String,
     @ColumnInfo(name = MDREXP)
-    val mdrExp : String,
+    var mdrExp : String,
     @ColumnInfo(name = MDRAMT)
-    val mdrAmt : String,
+    var mdrAmt : String,
     @ColumnInfo(name = SURCEXP)
-    val surcExp : String,
+    var surcExp : String,
     @ColumnInfo(name = SURCAMT)
-    val surcAmt : String,
+    var surcAmt : String,
     @ColumnInfo(name = MDRACC_ID)
-    val mdrAccId : String,
+    var mdrAccId : String,
     @ColumnInfo(name = SURACC_ID)
-    val surAccId : String,
+    var surAccId : String,
     @ColumnInfo(name = REF_ID)
-    val refId : String,
+    var refId : String,
     @ColumnInfo(name = TRACK_NO)
-    val trackNo : String,
+    var trackNo : String,
 ) {
     companion object {
         const val TBL_NAME = "salecrcvs"

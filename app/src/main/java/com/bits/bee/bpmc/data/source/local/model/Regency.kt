@@ -18,13 +18,13 @@ import androidx.room.PrimaryKey
 data class Regency(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
-    val code: String,
+    var code: String,
     @ColumnInfo(name = NAME)
-    val name : String,
+    var name : String,
     @ColumnInfo(name = PROVINCE_CODE, index = true)
-    val provinceCode : String,
+    var provinceCode : String,
     @ColumnInfo(name = ACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "regency"

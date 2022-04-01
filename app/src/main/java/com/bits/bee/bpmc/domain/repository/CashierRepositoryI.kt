@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
 import androidx.lifecycle.LiveData
+import com.bits.bee.bpmc.data.source.local.model.Cashier
 import com.bits.bee.bpmc.data.source.remote.response.BranchResponse
 import com.bits.bee.bpmc.data.source.remote.response.CashierResponse
 import com.bits.bee.bpmc.domain.model.Branch
@@ -13,6 +14,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CashierRepositoryI {
 
-    fun getCashierList() : LiveData<Resource<CashierResponse>>
+    fun getCashierList() : Flow<Resource<List<Cashier>>>
 
 }

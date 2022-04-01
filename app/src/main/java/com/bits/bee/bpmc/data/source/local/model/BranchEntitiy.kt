@@ -9,33 +9,33 @@ import com.bits.bee.bpmc.domain.model.Branch
 data class BranchEntitiy(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = VERSION)
-    val version: String,
+    var version: String,
     @ColumnInfo(name = COMPANY_NAME)
-    val cmpName : String,
+    var cmpName : String,
     @ColumnInfo(name = COMPANY_PHONE)
-    val cmpPhone : String,
+    var cmpPhone : String,
     @ColumnInfo(name = ACTIVE)
-    val active : Boolean,
+    var active : Boolean,
     @ColumnInfo(name = COMPANY_ADDRESS)
-    val cmpAddress : String,
+    var cmpAddress : String,
     @ColumnInfo(name = COMPANY_FAX)
-    val cmpFax : String,
+    var cmpFax : String,
     @ColumnInfo(name = CUST_DEFAULT_ID)
-    val custDeftId : Int?,
+    var custDeftId : Int?,
     @ColumnInfo(name = CREATED_AT)
-    val createdAt : Long,
+    var createdAt : Long,
     @ColumnInfo(name = CREATED_BY)
-    val createdBy : Int,
+    var createdBy : Int,
     @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Long,
+    var updatedAt : Long,
     @ColumnInfo(name = UPDATED_BY)
-    val updatedBy : Int,
+    var updatedBy : Int,
 ) {
     companion object {
         const val TBL_NAME = "branch"

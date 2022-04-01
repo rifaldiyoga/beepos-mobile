@@ -16,17 +16,17 @@ import androidx.room.ForeignKey.CASCADE
 data class Edc(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = CASH_ID)
-    val cash: Int,
+    var cash: Int,
     @ColumnInfo(name = NOTE)
-    val note : String,
+    var note : String,
     @ColumnInfo(name = SURCPAYTO)
-    val surcPayTo : String,
+    var surcPayTo : String,
     @ColumnInfo(name = BRANCH_ID, index = true)
-    val branchId: Int,
+    var branchId: Int,
 ) {
     companion object {
         const val TBL_NAME = "edc"

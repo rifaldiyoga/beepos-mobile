@@ -16,14 +16,14 @@
     <item>
 
         <shape>
-            <solid android:color="?colorPrimary"/>
+            <solid android:color="@color/white"/>
 
             <corners
                 android:radius="@dimen/size6"/>
 
             <stroke
                 android:width="2dp"
-                android:color="?colorSecondary" />
+                android:color="?colorPrimary" />
         </shape>
     </item>
 </selector>

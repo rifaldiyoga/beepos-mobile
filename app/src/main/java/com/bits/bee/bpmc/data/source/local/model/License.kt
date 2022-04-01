@@ -8,15 +8,15 @@ import androidx.room.PrimaryKey
 data class License(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = SERIAL)
-    val licNumber : String,
+    var licNumber : String,
     @ColumnInfo(name = ITEM)
-    val item : String,
+    var item : String,
     @ColumnInfo(name = EXPDATE)
-    val licExp : Long,
+    var licExp : Long,
 ) {
     companion object {
         const val TBL_NAME = "license"

@@ -14,4 +14,6 @@
     <color name="red">#E40904</color>
     <color name="maroon">#9a000c</color>
     <color name="light_red_bpm">#D32F2F</color>
+    <color name="light_teal">#1A9DD1D4</color>
+    <color name="light_orange">#33FFB648</color>
 </resources>

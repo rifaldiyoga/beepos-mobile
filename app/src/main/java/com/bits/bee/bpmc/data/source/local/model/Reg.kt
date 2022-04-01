@@ -8,17 +8,17 @@ import androidx.room.PrimaryKey
 data class Reg(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = VALUE)
-    val value: String,
+    var value: String,
     @ColumnInfo(name = ISVISIBLE)
-    val isVisible : Boolean,
+    var isVisible : Boolean,
     @ColumnInfo(name = MODUL_CODE)
-    val modulCode : String,
+    var modulCode : String,
     @ColumnInfo(name = VALIDATOR)
-    val validator : String,
+    var validator : String,
 ) {
     companion object {
         const val TBL_NAME = "reg"

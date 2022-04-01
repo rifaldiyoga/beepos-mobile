@@ -19,25 +19,25 @@ import androidx.room.PrimaryKey
 data class Cashier(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = CASHIER)
-    val cashierName: String,
+    var cashierName: String,
 //    @ColumnInfo(name = CASHIER_ID)
 //    val cashierId: Long,
     @ColumnInfo(name = BRANCH_ID, index = true)
-    val branchId : Long,
+    var branchId : Long,
     @ColumnInfo(name = CASHBRANCH_ID)
-    val cashBranchId : Int,
+    var cashBranchId : Int,
     @ColumnInfo(name = WH_ID)
-    val whId : Long,
+    var whId : Long,
     @ColumnInfo(name = CASH_ID)
-    val cashId : Long,
+    var cashId : Long,
     @ColumnInfo(name = ACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
     @ColumnInfo(name = STATUS)
-    val status : Boolean,
+    var status : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "cashier"

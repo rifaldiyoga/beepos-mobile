@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.data.source.remote
 
 import com.bits.bee.bpmc.BuildConfig.*
+import com.bits.bee.bpmc.utils.CustomCallAdapterFactory
 import com.bits.bee.bpmc.utils.FlowCallAdapterFactory
 import com.bits.bee.bpmc.utils.LiveDataCallAdapterFactory
 import okhttp3.Interceptor
@@ -38,7 +39,7 @@ class RetrofitClient {
                 .addInterceptor(interceptor).build()
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addCallAdapterFactory(LiveDataCallAdapterFactory.create())
+                .addCallAdapterFactory(FlowCallAdapterFactory.create())
 //                .addConverterFactory(MoshiConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
@@ -68,7 +69,7 @@ class RetrofitClient {
                 .addNetworkInterceptor(AddHeaderInterceptor()).build()
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addCallAdapterFactory(LiveDataCallAdapterFactory.create())
+                .addCallAdapterFactory(FlowCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

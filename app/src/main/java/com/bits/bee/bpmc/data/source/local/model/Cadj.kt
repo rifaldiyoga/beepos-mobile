@@ -28,31 +28,31 @@ import java.math.BigDecimal
 data class Cadj(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = DATE_TRANS)
-    val trxDate : Long,
+    var trxDate : Long,
     @ColumnInfo(name = AMOUNT)
-    val amount: BigDecimal,
+    var amount: BigDecimal,
     @ColumnInfo(name = NOTE)
-    val note : String,
+    var note : String,
     @ColumnInfo(name = STATUS)
-    val status: Boolean,
+    var status: Boolean,
     @ColumnInfo(name = REFTYPE)
-    val refType : String,
+    var refType : String,
     @ColumnInfo(name = AUTOGEN)
-    val autoGen : String,
+    var autoGen : String,
     @ColumnInfo(name = CASH_ID, index = true)
-    val cashAId: Int,
+    var cashAId: Int,
     @ColumnInfo(name = OPERATOR_ID, index = true)
-    val operatorId: Int,
+    var operatorId: Int,
     @ColumnInfo(name = CASHIER_ID, index = true)
-    val cashierId: Int,
+    var cashierId: Int,
     @ColumnInfo(name = ISUPLOADED)
-    val isUploaded: Boolean,
+    var isUploaded: Boolean,
     @ColumnInfo(name = KODE_CADJ)
-    val kodeCadj : String,
+    var kodeCadj : String,
     @ColumnInfo(name = REFNO)
-    val refNo : String,
+    var refNo : String,
 ) {
     companion object {
         const val TBL_NAME = "cadj"

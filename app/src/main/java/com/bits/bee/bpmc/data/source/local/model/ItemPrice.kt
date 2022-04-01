@@ -22,13 +22,13 @@ import androidx.room.PrimaryKey
 data class ItemPrice(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val itemId: Int,
+    var itemId: Int,
     @ColumnInfo(name = PRICELVL_ID, index = true)
-    val pricelvlId: Int,
+    var pricelvlId: Int,
     @ColumnInfo(name = PRICE1)
-    val price: Int,
+    var price: Int,
 ) {
     companion object {
         const val TBL_NAME = "item_price"

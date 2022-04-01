@@ -31,29 +31,29 @@ import java.math.BigDecimal
 data class CashA(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = DATE_TRANS)
-    val trxDate : String,
+    var trxDate : String,
     @ColumnInfo(name = AMOUNT)
-    val amount: BigDecimal,
+    var amount: BigDecimal,
     @ColumnInfo(name = NOTE)
-    val note: String,
+    var note: String,
     @ColumnInfo(name = STATUS)
-    val inOut : Char,
+    var inOut : Char,
     @ColumnInfo(name = REFTYPE)
-    val refType : String,
+    var refType : String,
     @ColumnInfo(name = REFID)
-    val refId : Long,
+    var refId : Long,
     @ColumnInfo(name = AUTOGEN)
-    val autoGen : Boolean,
+    var autoGen : Boolean,
     @ColumnInfo(name = CASH_ID, index = true)
-    val cashId: Int,
+    var cashId: Int,
     @ColumnInfo(name = OPERATOR_ID, index = true)
-    val operatorId: Int,
+    var operatorId: Int,
     @ColumnInfo(name = CASHIER_ID, index = true)
-    val cashierId: Int,
+    var cashierId: Int,
     @ColumnInfo(name = ISUPLOADED)
-    val isUploaded: Boolean,
+    var isUploaded: Boolean,
 ) {
     companion object {
         const val TBL_NAME = "casha"

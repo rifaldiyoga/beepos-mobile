@@ -15,6 +15,6 @@ import retrofit2.http.POST
 interface AuthApiService {
 
     @POST("/v1/auth/loginmobile")
-    fun login(@Body lognPost: LoginPost) : LiveData<ApiResponse<LoginResponse>>
+    fun login(@Body lognPost: LoginPost) : Flow<ApiResponse<LoginResponse>>
 
 }

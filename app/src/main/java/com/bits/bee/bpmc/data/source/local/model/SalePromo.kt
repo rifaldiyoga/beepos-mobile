@@ -34,21 +34,21 @@ import java.math.BigDecimal
 data class SalePromo(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = SALE_ID, index = true)
-    val saleId: Int,
+    var saleId: Int,
     @ColumnInfo(name = SALENO)
-    val saleNo: String,
+    var saleNo: String,
     @ColumnInfo(name = SALED_ID, index = true)
-    val saledId: Int,
+    var saledId: Int,
     @ColumnInfo(name = PROMO_ID, index = true)
-    val promoId: Int,
+    var promoId: Int,
     @ColumnInfo(name = BP_ID, index = true)
-    val bpId: Int,
+    var bpId: Int,
     @ColumnInfo(name = PROMOQTY)
-    val promoQty: BigDecimal = BigDecimal.ZERO,
+    var promoQty: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = PROMOROLE)
-    val promoRule : String,
+    var promoRule : String,
 ) {
     companion object {
         const val TBL_NAME = "salepromo"

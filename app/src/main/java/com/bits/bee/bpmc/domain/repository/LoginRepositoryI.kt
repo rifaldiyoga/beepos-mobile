@@ -10,6 +10,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface LoginRepositoryI {
 
-    fun login(email : String, password : String) : LiveData<Resource<LoginResponse>>
+    fun login(email : String, password : String) : Flow<Resource<LoginResponse>>
 
 }

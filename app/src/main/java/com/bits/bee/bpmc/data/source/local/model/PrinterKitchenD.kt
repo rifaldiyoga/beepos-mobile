@@ -21,11 +21,11 @@ import androidx.room.*
 data class PrinterKitchenD(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = PRINTER_KITCHEN_ID, index = true)
-    val printerKitchenId: Int,
+    var printerKitchenId: Int,
     @ColumnInfo(name = KITCHEN_ID, index = true)
-    val kitchenId: Int,
+    var kitchenId: Int,
 ) {
     companion object {
         const val TBL_NAME = "printer_kitchend"

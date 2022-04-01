@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tentukan_nama_device"
         style="@style/TextHeader"
-        android:textSize="@dimen/font24"
+        android:textSize="@dimen/default_text_header_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size24"
         android:text="@string/nama_device"
-        android:textColor="@color/black"
+        style="@style/TextHeader"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 

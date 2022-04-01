@@ -18,13 +18,13 @@ import androidx.room.PrimaryKey
 data class District(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
-    val code: String,
+    var code: String,
     @ColumnInfo(name = NAME)
-    val name : String,
+    var name : String,
     @ColumnInfo(name = REGENCY_CODE, index = true)
-    val regencyCode : String,
+    var regencyCode : String,
     @ColumnInfo(name = ACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "district"

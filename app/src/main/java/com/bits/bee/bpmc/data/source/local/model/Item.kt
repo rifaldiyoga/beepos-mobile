@@ -7,8 +7,8 @@ import java.math.BigDecimal
 @Entity(tableName = Item.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Itemgrp::class,
-            parentColumns = [Itemgrp.ID],
+            entity = ItemGroup::class,
+            parentColumns = [ItemGroup.ID],
             childColumns = [Item.ITGRP_ID],
             onDelete = CASCADE
         )
@@ -17,47 +17,47 @@ import java.math.BigDecimal
 data class Item(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = TITLE)
-    val title: String,
+    var title: String,
     @ColumnInfo(name = PICPATH)
-    val picPath: String,
+    var picPath: String,
     @ColumnInfo(name = PRICE)
-    val price : BigDecimal,
+    var price : BigDecimal,
     @ColumnInfo(name = TAX)
-    val tax : String,
+    var tax : String,
     @ColumnInfo(name = ITGRP_ID, index = true)
-    val itgrpId: Int,
+    var itgrpId: Int,
     @ColumnInfo(name = BUCKET)
-    val bucket : Long,
+    var bucket : Long,
     @ColumnInfo(name = OBJKEY)
-    val objKey : String,
+    var objKey : String,
     @ColumnInfo(name = TEMPURL)
-    val tempUrl : String,
+    var tempUrl : String,
     @ColumnInfo(name = SALEUNIT)
-    val saleUnit : String,
+    var saleUnit : String,
     @ColumnInfo(name = ACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
     @ColumnInfo(name = ITEMQTY)
-    val itemQty : Int = 0,
+    var itemQty : Int = 0,
     @ColumnInfo(name = ISPOS)
-    val isPos : Boolean,
+    var isPos : Boolean,
     @ColumnInfo(name = TYPE)
-    val type : String,
+    var type : String,
     @ColumnInfo(name = FAVORIT)
-    val isFavorit : Boolean,
+    var isFavorit : Boolean,
     @ColumnInfo(name = AVAILABLE)
-    val isAvailable : Boolean = true,
+    var isAvailable : Boolean = true,
     @ColumnInfo(name = VARIANT)
-    val isVariant : Boolean = false,
+    var isVariant : Boolean = false,
     @ColumnInfo(name = USEPID)
-    val usePid : Boolean = false,
+    var usePid : Boolean = false,
     @ColumnInfo(name = VCODE)
-    val vCode : String,
+    var vCode : String,
     @ColumnInfo(name = VCOLOR)
-    val vColor : String,
+    var vColor : String,
 ) {
     companion object {
         const val TBL_NAME = "item"

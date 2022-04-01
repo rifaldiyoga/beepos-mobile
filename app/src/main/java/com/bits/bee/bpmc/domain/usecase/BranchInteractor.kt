@@ -1,10 +1,10 @@
 package com.bits.bee.bpmc.domain.usecase
 
-import androidx.lifecycle.LiveData
 import com.bits.bee.bpmc.data.repository.BranchRepository
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.repository.BranchRepositoryI
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -12,6 +12,6 @@ import javax.inject.Inject
  */
 class BranchInteractor @Inject constructor(private val branchRepository: BranchRepository) : BranchRepositoryI {
 
-    override fun getBranchList(): LiveData<Resource<List<Branch>>> = branchRepository.getBranchList()
+    override fun getBranchList(): Flow<Resource<List<Branch>>> = branchRepository.getBranchList()
 
 }

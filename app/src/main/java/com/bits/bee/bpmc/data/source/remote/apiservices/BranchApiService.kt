@@ -1,10 +1,8 @@
 package com.bits.bee.bpmc.data.source.remote.apiservices
 
-import androidx.lifecycle.LiveData
 import com.bits.bee.bpmc.data.source.remote.response.BranchResponse
 import com.bits.bee.bpmc.utils.ApiResponse
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 import retrofit2.http.GET
 
 /**
@@ -12,7 +10,7 @@ import retrofit2.http.GET
  */
 interface BranchApiService {
 
-    @GET("/dev/master/branch")
-    fun getListBranch() : LiveData<ApiResponse<BranchResponse>>
+    @GET("/master/branch")
+     fun getBranchList() : Flow<ApiResponse<BranchResponse>>
 
 }

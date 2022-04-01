@@ -15,17 +15,17 @@ import androidx.room.*
 data class PromoMulti(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = PROMO_ID, index = true)
-    val promoId : Int,
+    var promoId : Int,
     @ColumnInfo(name = TYPE)
-    val type : String,
+    var type : String,
     @ColumnInfo(name = VALUE)
-    val value : String,
+    var value : String,
     @ColumnInfo(name = ISREQ)
-    val isReq : Boolean,
+    var isReq : Boolean,
     @ColumnInfo(name = ISDEAL)
-    val isDeal : Boolean,
+    var isDeal : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "promomulti"

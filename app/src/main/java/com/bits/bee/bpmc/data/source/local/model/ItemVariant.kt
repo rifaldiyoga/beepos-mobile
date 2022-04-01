@@ -25,11 +25,11 @@ import androidx.room.PrimaryKey
 data class ItemVariant(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = VARIANT_ID, index = true)
-    val variant: Int,
+    var variant: Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val item : Int,
+    var item : Int,
 ) {
     companion object {
         const val TBL_NAME = "item_variant"

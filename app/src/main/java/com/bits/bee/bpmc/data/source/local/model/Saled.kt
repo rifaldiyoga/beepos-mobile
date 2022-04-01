@@ -22,45 +22,45 @@ import java.math.BigDecimal
 data class Saled(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val itemId : Int,
+    var itemId : Int,
     @ColumnInfo(name = NAME)
-    val name : String,
+    var name : String,
     @ColumnInfo(name = QTY)
-    val qty : BigDecimal = BigDecimal.ZERO,
+    var qty : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = LISTPRICE)
-    val listPrice : BigDecimal = BigDecimal.ZERO,
+    var listPrice : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISC)
-    val disc: BigDecimal = BigDecimal.ZERO,
+    var disc: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TAX)
-    val tax : BigDecimal = BigDecimal.ZERO,
+    var tax : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISCEXP)
-    val discExp : String,
+    var discExp : String,
     @ColumnInfo(name = DISCAMT)
-    val discAmt : BigDecimal = BigDecimal.ZERO,
+    var discAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISC2AMT)
-    val disc2Amt: BigDecimal = BigDecimal.ZERO,
+    var disc2Amt: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TAXAMT)
-    val taxAmt : BigDecimal = BigDecimal.ZERO,
+    var taxAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = BASEPRICE)
-    val basePrice : BigDecimal = BigDecimal.ZERO,
+    var basePrice : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TAXABLEAMT)
-    val taxableAmt : BigDecimal = BigDecimal.ZERO,
+    var taxableAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = SUBTOTAL)
-    val subtotal : BigDecimal = BigDecimal.ZERO,
+    var subtotal : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = SALE_ID, index = true)
-    val saleId: Int,
+    var saleId: Int,
     @ColumnInfo(name = DNO)
-    val dno : Int,
+    var dno : Int,
     @ColumnInfo(name = TOTAL_DISC_AMOUNT)
-    val totalDiscAmt : BigDecimal = BigDecimal.ZERO,
+    var totalDiscAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTAL_DISC2_AMOUNT)
-    val totalDisc2Amt: BigDecimal = BigDecimal.ZERO,
+    var totalDisc2Amt: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTAL_TAX_AMOUNT)
-    val totalTaxAmt : BigDecimal = BigDecimal.ZERO,
+    var totalTaxAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DNOTES)
-    val dNotes: String,
+    var dNotes: String,
 //    @Ignore private var isBonus : Boolean = false,
 //    @Ignore private var isBonusUsed : Boolean = false,
 //    @Ignore private var isDeleted : Boolean = true,

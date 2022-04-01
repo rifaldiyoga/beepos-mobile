@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 data class ItemTax(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code: Int,
+    var code: Int,
     @ColumnInfo(name = PURCTAX)
-    val purcTax: Int,
+    var purcTax: Int,
     @ColumnInfo(name = SALETAX)
-    val saleTax: Int,
+    var saleTax: Int,
 ) {
     companion object {
         const val TBL_NAME = "item_tax"

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.utils
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
@@ -17,7 +18,7 @@ class LiveDataCallAdapterFactory : CallAdapter.Factory() {
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        if (getRawType(returnType) != LiveData::class.java) {
+        if (getRawType(returnType) != ApiResponse::class.java) {
             return null
         }
         val observableType = getParameterUpperBound(0, returnType as ParameterizedType)
@@ -44,12 +45,11 @@ class FlowCallAdapterFactory private constructor() : CallAdapter.Factory() {
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? = when(getRawType(returnType)){
-        Call::class.java -> {
-            val callType = getParameterUpperBound(0, returnType as ParameterizedType)
-            check(callType is ParameterizedType) {
+        Flow::class.java -> {
+            check(returnType is ParameterizedType) {
                 "Flow return type must be parameterized as Flow<Foo> or Flow<out Foo>"
             }
-            val flowType = getParameterUpperBound(0, callType)
+            val flowType = getParameterUpperBound(0, returnType)
             val rawFlowType = getRawType(flowType)
             if (rawFlowType == ApiResponse::class.java) {
                 check(flowType is ParameterizedType) {
@@ -63,12 +63,32 @@ class FlowCallAdapterFactory private constructor() : CallAdapter.Factory() {
                 BodyCallAdapter<Any>(flowType)
             }
         }
-        else -> null
+        else -> {
+            null
+        }
     }
 
 
     companion object {
         @JvmStatic
         fun create() = FlowCallAdapterFactory()
+    }
+}
+
+class CustomCallAdapterFactory private constructor() : CallAdapter.Factory() {
+    override fun get(
+        returnType: Type,
+        annotations: Array<Annotation>,
+        retrofit: Retrofit
+    ): CallAdapter<*, *>? {
+        return ResponseCallAdapter<Any>(
+            returnType
+        )
+    }
+
+
+    companion object {
+        @JvmStatic
+        fun create() = CustomCallAdapterFactory()
     }
 }

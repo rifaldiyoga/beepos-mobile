@@ -17,27 +17,27 @@ import androidx.room.PrimaryKey
 data class Channel(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = ACTIVE)
-    val active: Boolean,
+    var active: Boolean,
     @ColumnInfo(name = IS_POS)
-    val isPos : Boolean,
+    var isPos : Boolean,
     @ColumnInfo(name = CREATED_BY)
-    val createdBy : Int,
+    var createdBy : Int,
     @ColumnInfo(name = CREATED_AT)
-    val createdAt : Long,
+    var createdAt : Long,
     @ColumnInfo(name = UPDATED_BY)
-    val updatedBy : Int,
+    var updatedBy : Int,
     @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Long,
+    var updatedAt : Long,
     @ColumnInfo(name = COLOR)
-    val color : String,
+    var color : String,
     @ColumnInfo(name = PRICELVL_ID, index = true)
-    val priceLvlId : Int,
+    var priceLvlId : Int?,
 ) {
     companion object {
         const val TBL_NAME = "channel"

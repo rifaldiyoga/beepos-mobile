@@ -20,33 +20,33 @@ import java.util.*
 data class Bp(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = GREETING)
-    val greeting: String,
+    var greeting: String,
     @ColumnInfo(name = ANNIVERSARY)
-    val anniversary : Boolean,
+    var anniversary : String,
     @ColumnInfo(name = TAXEDONSALE)
-    val isTaxedOnSale : Boolean,
+    var isTaxedOnSale : Boolean,
     @ColumnInfo(name = TAXINCONSALE)
-    val isTaxIncOnSale : Boolean,
+    var isTaxIncOnSale : Boolean,
     @ColumnInfo(name = NOTE)
-    val note : String,
+    var note : String,
     @ColumnInfo(name = BPGRP1_ID)
-    val bpgrpId : Int,
+    var bpgrpId : Int,
     @ColumnInfo(name = PRICELVL_ID, index = true)
-    val priceLvlId : Int,
+    var priceLvlId : Int,
     @ColumnInfo(name = ACTIVE)
-    val isActive : Boolean,
-    @ColumnInfo(name = CREATED_AT)
-    val createdAt : Date,
-    @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Date,
+    var isActive : Boolean,
+//    @ColumnInfo(name = CREATED_AT)
+//    var createdAt : Date,
+//    @ColumnInfo(name = UPDATED_AT)
+//    var updatedAt : Date,
     @ColumnInfo(name = ISFAVORIT)
-    val isFavorit : Boolean,
+    var isFavorit : Boolean = false,
 ) {
     companion object {
         const val TBL_NAME = "bp"

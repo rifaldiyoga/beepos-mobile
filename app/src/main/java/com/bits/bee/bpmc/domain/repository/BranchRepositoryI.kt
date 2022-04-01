@@ -11,6 +11,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface BranchRepositoryI {
 
-    fun getBranchList() : LiveData<Resource<List<Branch>>>
+    fun getBranchList() : Flow<Resource<List<Branch>>>
 
 }

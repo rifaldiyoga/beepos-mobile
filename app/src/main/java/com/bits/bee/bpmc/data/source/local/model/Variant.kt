@@ -5,8 +5,8 @@ import androidx.room.*
 @Entity(tableName = Variant.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Itemgrp::class,
-            parentColumns = [Itemgrp.ID],
+            entity = ItemGroup::class,
+            parentColumns = [ItemGroup.ID],
             childColumns = [Variant.ITGRP_ID],
             onDelete = ForeignKey.CASCADE
         )
@@ -15,19 +15,19 @@ import androidx.room.*
 data class Variant(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = ITGRP_ID, index = true)
-    val itgrpId: Int,
+    var itgrpId: Int,
     @ColumnInfo(name = PICPATH)
-    val picPath : String,
+    var picPath : String,
     @ColumnInfo(name = FAVORIT)
-    val isFavorit : Boolean,
+    var isFavorit : Boolean,
     @ColumnInfo(name = AVAIABLE)
-    val isAvailable : Boolean,
+    var isAvailable : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "variant"

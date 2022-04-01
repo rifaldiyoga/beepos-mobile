@@ -22,11 +22,11 @@ import androidx.room.ForeignKey.CASCADE
 data class ItemBranch(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = BRANCH_ID, index = true)
-    val branchId: Int,
+    var branchId: Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val itemId: Int,
+    var itemId: Int,
 ) {
     companion object {
         const val TBL_NAME = "item_branch"

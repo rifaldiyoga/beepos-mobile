@@ -24,39 +24,39 @@ import java.math.BigDecimal
 data class Posses(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val possesId : Int,
+    var possesId : Int,
     @ColumnInfo(name = TRXDATE)
-    val trxDate : Long,
+    var trxDate : Long,
     @ColumnInfo(name = START_TIME)
-    val startTime : Long,
+    var startTime : Long,
     @ColumnInfo(name = END_TIME)
-    val endTime : Long,
+    var endTime : Long,
     @ColumnInfo(name = START_BAL)
-    val startBal : BigDecimal,
+    var startBal : BigDecimal,
     @ColumnInfo(name = END_BAL)
-    val endBal : BigDecimal,
+    var endBal : BigDecimal,
     @ColumnInfo(name = TOTAL)
-    val total: BigDecimal ,
+    var total: BigDecimal ,
     @ColumnInfo(name = CREDIT)
-    val credit : BigDecimal,
+    var credit : BigDecimal,
     @ColumnInfo(name = SHIFT)
-    val shift : Int,
+    var shift : Int,
     @ColumnInfo(name = OPERATOR_ID, index = true)
-    val operatorId : Int,
+    var operatorId : Int,
     @ColumnInfo(name = CASHIER_ID, index = true)
-    val cashierId: Int,
+    var cashierId: Int,
     @ColumnInfo(name = TRXNO)
-    val trxNo : String,
+    var trxNo : String,
     @ColumnInfo(name = TOTIN)
-    val totIn : BigDecimal,
+    var totIn : BigDecimal,
     @ColumnInfo(name = TOTOUT)
-    val totOut : BigDecimal,
+    var totOut : BigDecimal,
     @ColumnInfo(name = ENDCASH)
-    val endCash : BigDecimal,
+    var endCash : BigDecimal,
     @ColumnInfo(name = TOTAL_ACTUAL_CASH)
-    val totalActualCash : BigDecimal,
+    var totalActualCash : BigDecimal,
     @ColumnInfo(name = TOTAL_DIFF_CASH)
-    val totalDiffCash : BigDecimal,
+    var totalDiffCash : BigDecimal,
 ) {
     companion object {
         const val TBL_NAME = "posses"

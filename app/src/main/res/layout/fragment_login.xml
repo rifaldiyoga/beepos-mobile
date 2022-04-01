@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/login"
         style="@style/TextHeader"
-        android:textSize="@dimen/font24"
+        android:textSize="@dimen/default_text_header_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +20,6 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:textColor="@color/dark_gray"
-        android:textSize="@dimen/font16"
         android:layout_marginTop="@dimen/size6"
         android:text="@string/masukkan_email_password_masuk"
         app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -34,7 +33,6 @@
         android:layout_marginTop="@dimen/size24"
         android:text="@string/email"
         style="@style/TextHeader"
-        android:textSize="@dimen/font20"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -65,7 +63,6 @@
         android:layout_marginTop="@dimen/size24"
         android:text="@string/password"
         style="@style/TextHeader"
-        android:textSize="@dimen/font20"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
 

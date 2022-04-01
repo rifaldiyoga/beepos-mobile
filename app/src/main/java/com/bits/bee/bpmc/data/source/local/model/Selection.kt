@@ -8,19 +8,19 @@ import androidx.room.PrimaryKey
 data class Selection(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = NOTE)
-    val note: String,
+    var note: String,
     @ColumnInfo(name = ISACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
     @ColumnInfo(name = ISMULTISELECT)
-    val isMultiSelect : Boolean,
+    var isMultiSelect : Boolean,
     @ColumnInfo(name = ISMULTIQTY)
-    val isMultiQty : Boolean,
+    var isMultiQty : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "selection"

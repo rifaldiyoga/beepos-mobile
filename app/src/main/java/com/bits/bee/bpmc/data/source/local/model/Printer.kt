@@ -8,23 +8,23 @@ import androidx.room.PrimaryKey
 data class Printer(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = PRINTERNAME)
-    val printerName : String,
+    var printerName : String,
     @ColumnInfo(name = ADDRESS)
-    val address : String,
+    var address : String,
     @ColumnInfo(name = TIPE)
-    val tipe : Int,
+    var tipe : Int,
     @ColumnInfo(name = SIZE)
-    val size : String,
+    var size : String,
     @ColumnInfo(name = IS_RECEIPT)
-    val isReceipt : Boolean = true,
+    var isReceipt : Boolean = true,
     @ColumnInfo(name = IS_KITCHEN)
-    val isKitchen : Boolean = true,
+    var isKitchen : Boolean = true,
     @ColumnInfo(name = IS_REPORT)
-    val isReport : Boolean = true,
+    var isReport : Boolean = true,
     @ColumnInfo(name = IS_CHECKER)
-    val isChecker : Boolean = true,
+    var isChecker : Boolean = true,
 ) {
     companion object {
         const val TBL_NAME = "printer"

@@ -8,6 +8,7 @@ import com.bits.bee.bpmc.domain.repository.LoginRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -18,15 +19,16 @@ class LoginRepository @Inject constructor(
     private val utils: ApiUtils
 ) : LoginRepositoryI {
 
-    override fun login(email: String, password: String): LiveData<Resource<LoginResponse>> {
+    override fun login(email: String, password: String): Flow<Resource<LoginResponse>> {
 
         val loginPost = LoginPost(email, password)
 
         return object : NetworkBoundResource<LoginResponse>(){
 
-            override fun createCall(): LiveData<ApiResponse<LoginResponse>> {
+            override fun createCall(): Flow<ApiResponse<LoginResponse>> {
+
                 return utils.getAuthApiService().login(loginPost)
             }
-        }.getAsLiveData()
+        }.getAsFlow()
     }
 }

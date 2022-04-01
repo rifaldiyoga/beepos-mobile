@@ -9,93 +9,93 @@ import java.math.BigDecimal
 data class Promo(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = IS_ACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
     @ColumnInfo(name = IS_BRANCH)
-    val isBranch : Boolean,
+    var isBranch : Boolean,
     @ColumnInfo(name = BRANCH_ID)
-    val branchId: Int,
+    var branchId: Int,
     @ColumnInfo(name = IS_PERIODE)
-    val isPeriod : Boolean,
+    var isPeriod : Boolean,
     @ColumnInfo(name = START_DATE)
-    val startDate : String,
+    var startDate : String,
     @ColumnInfo(name = END_DATE)
-    val endDate: String ,
+    var endDate: String ,
     @ColumnInfo(name = IS_TIME)
-    val isTime : Boolean,
+    var isTime : Boolean,
     @ColumnInfo(name = START_TIME)
-    val startTime : String,
+    var startTime : String,
     @ColumnInfo(name = END_TIME)
-    val endTime : String,
+    var endTime : String,
     @ColumnInfo(name = IS_DOW)
-    val isDow: Boolean,
+    var isDow: Boolean,
     @ColumnInfo(name = DOWEXP)
-    val dowExp : String,
+    var dowExp : String,
     @ColumnInfo(name = IS_BPGRP)
-    val isBpgrp : Boolean,
+    var isBpgrp : Boolean,
     @ColumnInfo(name = OFFER_TYPE)
-    val offerType : String,
+    var offerType : String,
     @ColumnInfo(name = MIN_AMT)
-    val minAmt : BigDecimal,
+    var minAmt : BigDecimal,
     @ColumnInfo(name = IS_TARGET_ITEM)
-    val isTargetItem : Boolean,
+    var isTargetItem : Boolean,
     @ColumnInfo(name = ITEM_ID)
-    val itemId : Int,
+    var itemId : Int,
     @ColumnInfo(name = IS_TARGET_ITGRP)
-    val isTargetItgrp : Boolean,
+    var isTargetItgrp : Boolean,
     @ColumnInfo(name = ITGRP_ID)
-    val itgrpId : Int,
+    var itgrpId : Int,
     @ColumnInfo(name = IS_TARGETBRAND)
-    val isTargetBrand : Boolean,
+    var isTargetBrand : Boolean,
     @ColumnInfo(name = BRAND_ID)
-    val brandId : Int,
+    var brandId : Int,
     @ColumnInfo(name = IS_TARGET_VENDOR)
-    val isTargetVendor : Boolean,
+    var isTargetVendor : Boolean,
     @ColumnInfo(name = VENDOR_ID)
-    val vendorId : Int,
+    var vendorId : Int,
     @ColumnInfo(name = IS_MIN_QTY)
-    val isMinQty : Boolean,
+    var isMinQty : Boolean,
     @ColumnInfo(name = MIN_QTY)
-    val minQty : Int,
+    var minQty : Int,
     @ColumnInfo(name = PRIORITY)
-    val priority : Int,
+    var priority : Int,
     @ColumnInfo(name = IS_MIN_AMT)
-    val isMinAmt : Int,
+    var isMinAmt : Int,
     @ColumnInfo(name = NOTE)
-    val note : String,
+    var note : String,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = PROMO_TYPE)
-    val promoType : String,
+    var promoType : String,
     @ColumnInfo(name = PROMO_NAME)
-    val promoName : String,
+    var promoName : String,
     @ColumnInfo(name = ITEM_DISC_EXP)
-    val itemDiscExp : String,
+    var itemDiscExp : String,
     @ColumnInfo(name = PROMO_CAT)
-    val promoCat : String,
+    var promoCat : String,
     @ColumnInfo(name = IS_PRICE_OVERIDE)
-    val isPriceOveride : Boolean,
+    var isPriceOveride : Boolean,
     @ColumnInfo(name = DEAL_ITEM_ID)
-    val dealItemId : Int,
+    var dealItemId : Int,
     @ColumnInfo(name = ITEM_PRICE)
-    val itemPrice : BigDecimal,
+    var itemPrice : BigDecimal,
     @ColumnInfo(name = IS_MIN_QTY_MULTIPLY)
-    val isMinQtyMultiply : Boolean,
+    var isMinQtyMultiply : Boolean,
     @ColumnInfo(name = IS_MAX_QTY)
-    val isMaxQty : Boolean,
+    var isMaxQty : Boolean,
     @ColumnInfo(name = MAX_QTY)
-    val maxQty : Int,
+    var maxQty : Int,
     @ColumnInfo(name = IS_USED)
-    val isUsed : Boolean,
+    var isUsed : Boolean,
     @ColumnInfo(name = IS_ON)
-    val isOn : Boolean,
+    var isOn : Boolean,
     @ColumnInfo(name = ISMULTI)
-    val isMulti : Boolean,
+    var isMulti : Boolean,
     @ColumnInfo(name = DEAL_QTY)
-    val dealQty : Int,
+    var dealQty : Int,
     @ColumnInfo(name = IS_DEAL_SAME_ITEM)
-    val isDealSameItem : Boolean,
+    var isDealSameItem : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "promo"

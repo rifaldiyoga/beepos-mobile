@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:lineColor="@color/light_gray" />
 
-    <com.bits.bee.bpmc.ui.custom.CustomNumpad
+    <com.bits.bee.bpmc.presentation.custom.CustomNumpad
         android:id="@+id/numpad"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"

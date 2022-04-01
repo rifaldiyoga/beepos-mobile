@@ -38,37 +38,39 @@ import java.util.*
 data class BpAddr(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = BP_ID, index = true)
-    val bpId : Int,
+    var bpId : Int,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = GREETING)
-    val greeting: String,
+    var greeting: String,
     @ColumnInfo(name = ADDRESS)
-    val address : String,
+    var address : String,
     @ColumnInfo(name = PHONE)
-    val phone : String,
+    var phone : String,
     @ColumnInfo(name = ZIPCODE)
-    val zipCode : String,
+    var zipCode : String,
     @ColumnInfo(name = EMAIL)
-    val email : String,
+    var email : String,
+    @ColumnInfo(name = NOTE)
+    var note : String,
     @ColumnInfo(name = ISBILLADDR)
-    val isBillAddr : Boolean,
+    var isBillAddr : Boolean,
     @ColumnInfo(name = ISSHIPADDR)
-    val isShipAddr : Boolean,
+    var isShipAddr : Boolean,
     @ColumnInfo(name = ISMAINADDR)
-    val isMainAddr : Boolean,
+    var isMainAddr : Boolean,
     @ColumnInfo(name = PROVINCE_CODE, index = true)
-    val provinceId : String,
+    var provinceId : Int,
     @ColumnInfo(name = REGENCY_CODE, index = true)
-    val regencyId : String,
+    var regencyId : Int,
     @ColumnInfo(name = DISTRICT_CODE, index = true)
-    val districtId : String,
+    var districtId : Int,
     @ColumnInfo(name = CREATED_AT)
-    val createdAt : Date,
+    var createdAt : Date,
     @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Date,
+    var updatedAt : Date,
 ) {
     companion object {
         const val TBL_NAME = "bpaddr"

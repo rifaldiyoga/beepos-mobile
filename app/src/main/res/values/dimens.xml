@@ -69,4 +69,8 @@
     <dimen name="size2">2dp</dimen>
     <dimen name="size1">1dp</dimen>
     <dimen name="size0">0dp</dimen>
+
+
+    <dimen name="default_text_header_size">@dimen/font24</dimen>
+
 </resources>

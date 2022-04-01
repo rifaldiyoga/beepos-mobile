@@ -19,13 +19,13 @@ import androidx.room.*
 data class ItemAddOn(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = ADDON_ID, index = true)
-    val addOnId: Int,
+    var addOnId: Int,
     @ColumnInfo(name = CODE)
-    val code: String,
+    var code: String,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val itemId : Int,
+    var itemId : Int,
 ) {
     companion object {
         const val TBL_NAME = "itemaddon"

@@ -45,63 +45,63 @@ import java.math.BigDecimal
 data class Sale(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = TRXORDERNUM)
-    val trxOrderNum : Int,
+    var trxOrderNum : Int,
     @ColumnInfo(name = TRXNO)
-    val trxNo : String,
+    var trxNo : String,
     @ColumnInfo(name = DRAFT)
-    val isDraft : Boolean,
+    var isDraft : Boolean,
     @ColumnInfo(name = SUBTOTAL)
-    val subtotal : BigDecimal = BigDecimal.ZERO,
+    var subtotal : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTAL)
-    val total : BigDecimal = BigDecimal.ZERO,
+    var total : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = OPRNAME)
-    val oprName: String,
+    var oprName: String,
     @ColumnInfo(name = CASHIERNAME)
-    val cashiername : String,
+    var cashiername : String,
     @ColumnInfo(name = TRXDATE)
-    val trxDate : Long,
+    var trxDate : Long,
     @ColumnInfo(name = TOTPAID)
-    val totPaid : BigDecimal,
+    var totPaid : BigDecimal,
     @ColumnInfo(name = TOTCHANGE)
-    val totChange: BigDecimal,
+    var totChange: BigDecimal,
     @ColumnInfo(name = TAXAMT)
-    val taxAmt : BigDecimal = BigDecimal.ZERO,
+    var taxAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISCAMT)
-    val discAmt : BigDecimal = BigDecimal.ZERO,
+    var discAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = POSSES_ID, index = true)
-    val possesId : Int,
+    var possesId : Int,
     @ColumnInfo(name = POS_KODE)
-    val kodePosses : String,
+    var kodePosses : String,
     @ColumnInfo(name = DISCEXP)
-    val discExp : String,
+    var discExp : String,
     @ColumnInfo(name = OPERATOR_ID, index = true)
-    val operatorId: Int,
+    var operatorId: Int,
     @ColumnInfo(name = CASHIER_ID, index = true)
-    val cashierId: Int,
+    var cashierId: Int,
     @ColumnInfo(name = BP_ID, index = true)
-    val bpId: Int,
+    var bpId: Int,
     @ColumnInfo(name = CUST)
-    val custName : String,
+    var custName : String,
     @ColumnInfo(name = TERMTYPE)
-    val termType: String,
+    var termType: String,
     @ColumnInfo(name = ISUPLOAD)
-    val isUploaded: Boolean,
+    var isUploaded: Boolean,
     @ColumnInfo(name = ISVOID)
-    val isVoid: Boolean,
+    var isVoid: Boolean,
     @ColumnInfo(name = GOPAY_URL)
-    val gopayUrl: String,
+    var gopayUrl: String,
     @ColumnInfo(name = GOPAY_TRANSACTIONID)
-    val gopayTransactionId: String,
+    var gopayTransactionId: String,
     @ColumnInfo(name = GOPAY_PAYMENTSTATUS)
-    val gopayPaymentStatus: String,
+    var gopayPaymentStatus: String,
     @ColumnInfo(name = ROUNDING)
-    val rounding: BigDecimal = BigDecimal.ZERO,
+    var rounding: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = CHANNEL_ID, index = true)
-    val channelId: Int,
+    var channelId: Int,
     @ColumnInfo(name = VOID_NOTE)
-    val voidNote: String,
+    var voidNote: String,
 ) {
     companion object {
         const val TBL_NAME = "sale"

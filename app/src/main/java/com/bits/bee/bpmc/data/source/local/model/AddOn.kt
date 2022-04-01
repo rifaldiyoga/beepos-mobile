@@ -8,15 +8,15 @@ import androidx.room.PrimaryKey
 data class AddOn(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = CODE)
-    val code : String,
+    var code : String,
     @ColumnInfo(name = NAME)
-    val name: String,
+    var name: String,
     @ColumnInfo(name = ISACTIVE)
-    val isActive : Boolean,
+    var isActive : Boolean,
     @ColumnInfo(name = CREATED_AT)
-    val createdAt : Long
+    var createdAt : Long
 ) {
     companion object {
         const val TBL_NAME = "addon"

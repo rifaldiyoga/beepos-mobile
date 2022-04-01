@@ -27,13 +27,13 @@ import androidx.room.*
 data class SaleAddOnD(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = SALEADDON_ID, index = true)
-    val saleAddOnId: Int,
+    var saleAddOnId: Int,
     @ColumnInfo(name = UP_SALED_ID, index = true)
-    val upSaledId: Int,
+    var upSaledId: Int,
     @ColumnInfo(name = SALED_ID, index = true)
-    val saledId: Int,
+    var saledId: Int,
 ) {
     companion object {
         const val TBL_NAME = "saleaddond"

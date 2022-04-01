@@ -25,17 +25,17 @@ import androidx.room.PrimaryKey
 data class AddOnD(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = ADDON_ID, index = true)
-    val addOnId: Int,
+    var addOnId: Int,
     @ColumnInfo(name = SELECTION_ID, index = true)
-    val selectionId: Int,
+    var selectionId: Int,
     @ColumnInfo(name = IDX)
-    val idx : Int,
+    var idx : Int,
     @ColumnInfo(name = UPIDX)
-    val upIdx : Int,
+    var upIdx : Int,
     @ColumnInfo(name = ISSKIP)
-    val isSkip : Boolean,
+    var isSkip : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "addond"

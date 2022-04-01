@@ -22,19 +22,19 @@ import androidx.room.ForeignKey.CASCADE
 data class ItemKitchen(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    val itemId: Int,
+    var itemId: Int,
     @ColumnInfo(name = KITCHEN_ID, index = true)
-    val kitchenId: Int,
+    var kitchenId: Int,
     @ColumnInfo(name = CREATED_BY)
-    val createdBy : Int,
+    var createdBy : Int,
     @ColumnInfo(name = CREATED_AT)
-    val createdAt : Long,
+    var createdAt : Long,
     @ColumnInfo(name = UPDATED_BY)
-    val updatedBy : Int,
+    var updatedBy : Int,
     @ColumnInfo(name = UPDATED_AT)
-    val updatedAt : Long,
+    var updatedAt : Long,
 ) {
     companion object {
         const val TBL_NAME = "item_kitchen"

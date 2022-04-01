@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.source.local.base.BaseDao
 import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
 
 /**
@@ -16,6 +17,6 @@ import javax.inject.Singleton
 interface BranchDao : BaseDao<BranchEntitiy>{
 
     @Query("SELECT * FROM branch")
-    fun getListBranch() : List<BranchEntitiy>
+    fun getBranchList() : List<BranchEntitiy>
 
 }

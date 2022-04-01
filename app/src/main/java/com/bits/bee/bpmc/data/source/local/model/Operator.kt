@@ -15,17 +15,17 @@ import androidx.room.*
 data class Operator(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = BRANCH_ID, index = true)
-    val branchId : Int,
+    var branchId : Int,
     @ColumnInfo(name = CLOUD_LOGIN)
-    val cloudLogin : String,
+    var cloudLogin : String,
     @ColumnInfo(name = OPERATOR)
-    val operator : String,
+    var operator : String,
     @ColumnInfo(name = SANDI)
-    val sandi : String,
+    var sandi : String,
     @ColumnInfo(name = ACTIVE)
-    val active : Boolean,
+    var active : Boolean,
 ) {
     companion object {
         const val TBL_NAME = "operator"

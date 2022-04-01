@@ -8,31 +8,31 @@ import androidx.room.PrimaryKey
 data class GrpPrv(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = UPDATE_AT)
-    val updatedAt : Long,
+    var updatedAt : Long,
     @ColumnInfo(name = OBJ_CODE)
-    val objCode : String,
+    var objCode : String,
     @ColumnInfo(name = ACS_TYPE)
-    val acsType : String,
+    var acsType : String,
     @ColumnInfo(name = IS_ENABLE)
-    val isEnable : String,
+    var isEnable : String,
     @ColumnInfo(name = ACS_VAL)
-    val acsVal : String,
+    var acsVal : String,
     @ColumnInfo(name = GRP_ID)
-    val grpId : String,
+    var grpId : String,
     @ColumnInfo(name = CODE_OBJ)
-    val codeObj : String,
+    var codeObj : String,
     @ColumnInfo(name =  UP_CODE)
-    val upCode : String,
+    var upCode : String,
     @ColumnInfo(name = MODUL_CODE)
-    val moduleCode : String,
+    var moduleCode : String,
     @ColumnInfo(name = NAME_OBJ)
-    val nameObj : String,
+    var nameObj : String,
     @ColumnInfo(name = MNEMONIC)
-    val mnemonic : String,
+    var mnemonic : String,
     @ColumnInfo(name = LEVEL)
-    val level : Int,
+    var level : Int,
 ) {
     companion object {
         const val TBL_NAME = "grpprv"
