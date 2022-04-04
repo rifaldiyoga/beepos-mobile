@@ -11,7 +11,7 @@ import retrofit2.http.GET
  */
 interface ItemGroupApiService {
 
-    @GET("/master/itemgrp1")
+    @GET("master/itemgrp1")
     fun getItemGroupList() : Flow<ApiResponse<ItemGroupResponse>>
     
 }

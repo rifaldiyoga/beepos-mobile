@@ -23,13 +23,12 @@ class RetrofitClient {
 
     fun getClientProvision(): Retrofit? {
         val interceptor = HttpLoggingInterceptor()
-        val baseUrl: String = if (DEBUG) {
+        if (DEBUG) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            API_PROVISION
         } else {
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            API_PROVISION
+            interceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
         }
+        val baseUrl: String = API_PROVISION
         try {
             val timeout = 7
             val client = OkHttpClient.Builder()
@@ -52,13 +51,12 @@ class RetrofitClient {
 
     fun getClientApi(): Retrofit? {
         val interceptor = HttpLoggingInterceptor()
-        val baseUrl: String = if (DEBUG) {
+        if (DEBUG) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            API
         } else {
             interceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
-            API
         }
+        val baseUrl: String = API
         try {
             val timeout = 7
             val client = OkHttpClient.Builder()

@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface PmtdApiService {
 
-    @GET("/master/pmtd")
+    @GET("master/pmtd")
     fun getPmtdList() : Flow<ApiResponse<PmtdResponse>>
     
 }

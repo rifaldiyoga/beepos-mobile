@@ -24,6 +24,7 @@ android {
             buildConfigField "String", "API", "\"https://apibc.bee.id/dev/\""
             buildConfigField "String", "API_PROVISION", "\"http://provision.beecloud.id\""
             buildConfigField "String", "LIMIT_PAGINATION", "\"20\""
+            buildConfigField "Boolean", "DEBUG_MODE", "true"
         }
         release {
             minifyEnabled false
@@ -31,6 +32,7 @@ android {
             buildConfigField "String", "API", "\"https://apibc.bee.id/\""
             buildConfigField "String", "API_PROVISION", "\"http://provision.beecloud.id\""
             buildConfigField "String", "LIMIT_PAGINATION", "\"20\""
+            buildConfigField "Boolean", "DEBUG_MODE", "\"false\""
         }
     }
     compileOptions {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import com.bits.bee.bpmc.databinding.ActivitySplashScreenBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
@@ -14,6 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class SplashScreenActivity(
     override val bindingInflater: (LayoutInflater) -> ActivitySplashScreenBinding = ActivitySplashScreenBinding::inflate
 ) : BaseActivity<ActivitySplashScreenBinding>() {
+
+    private val viewModel :SplashScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +29,7 @@ class SplashScreenActivity(
                 val intent = Intent(this, InitialActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 5000)
+            }, 3000)
     }
 
     override fun initComponents() {

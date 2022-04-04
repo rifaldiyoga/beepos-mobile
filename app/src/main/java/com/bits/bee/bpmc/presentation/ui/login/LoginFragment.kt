@@ -14,6 +14,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -36,10 +37,11 @@ class LoginFragment constructor (
     private lateinit var dialog : LoadingDialogHelper
 
     override fun initComponents() {
+        directPage()
         dialog = LoadingDialogHelper(requireContext())
         binding.apply {
             viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.event.collect { event ->
                         when(event){
                             LoginViewModel.UIEvent.RequestLogin -> {
@@ -74,7 +76,7 @@ class LoginFragment constructor (
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.observeState().collect {
                     it.let {
                         binding.btnMasuk.apply {
@@ -91,26 +93,28 @@ class LoginFragment constructor (
         }
 
         viewModel.observeLoginResponse().removeObservers(viewLifecycleOwner)
-        viewModel.observeLoginResponse().observe(viewLifecycleOwner, {
-            when(it.status){
+        viewModel.observeLoginResponse().observe(viewLifecycleOwner) {
+            when (it.status) {
                 Resource.Status.LOADING -> {
                     dialog.show()
                 }
                 Resource.Status.SUCCESS -> {
                     dialog.hide()
                     it.data?.let {
-                        if(it.status == "ok") {
+                        if (it.status == "ok") {
                             Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG)
                                 .show()
                             viewModel.onSuccessLogin()
-                        }  else {
-                            Toast.makeText(requireContext(), "Error : ${it.msg}", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(requireContext(), "Error : ${it.msg}", Toast.LENGTH_LONG)
+                                .show()
                         }
                     }
                 }
                 Resource.Status.ERROR -> {
                     dialog.hide()
-                    Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
+                        .show()
                 }
                 Resource.Status.TIMEOUT -> {
                     dialog.hide()
@@ -119,7 +123,23 @@ class LoginFragment constructor (
                     dialog.hide()
                 }
             }
-        })
+        }
+    }
+
+    /**
+     * check last page from prefences then direct to last page
+     */
+    fun directPage(){
+        val action = when(BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_last_page), "")){
+            getString(R.string.page_pilih_cabang) -> LoginFragmentDirections.actionLoginFragmentToPilihCabangFragment()
+            getString(R.string.page_pilih_kasir) -> LoginFragmentDirections.actionLoginFragmentToPilihKasirFragment()
+            getString(R.string.page_pilih_operator) -> LoginFragmentDirections.actionLoginFragmentToLoginOperatorFragment()
+            getString(R.string.page_mode_tampilan) -> LoginFragmentDirections.actionLoginFragmentToModeTampilanFragment()
+            else -> null
+        }
+        action?.let {
+            findNavController().navigate(it)
+        }
     }
 
 }

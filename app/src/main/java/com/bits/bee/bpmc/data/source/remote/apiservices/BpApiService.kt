@@ -12,7 +12,7 @@ import retrofit2.http.GET
  */
 interface BpApiService {
 
-    @GET("/master/bp")
+    @GET("master/bp")
     fun getBpList() : Flow<ApiResponse<BpResponse>>
 
 }

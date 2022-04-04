@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface CityApiService {
 
-    @GET("/master/city")
+    @GET("master/city")
     fun getCityList() : Flow<ApiResponse<CityResponse>>
     
 }

@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface BranchApiService {
 
-    @GET("/master/branch")
+    @GET("master/branch")
      fun getBranchList() : Flow<ApiResponse<BranchResponse>>
 
 }

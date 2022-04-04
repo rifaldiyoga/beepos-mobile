@@ -13,7 +13,7 @@ import retrofit2.http.GET
  */
 interface CashierApiService {
 
-    @GET("/master/cashier")
+    @GET("master/cashier")
     fun getCashierList() : Flow<ApiResponse<CashierResponse>>
 
 }

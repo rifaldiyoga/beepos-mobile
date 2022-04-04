@@ -28,21 +28,20 @@ class BeePreferenceManager {
                 is Float -> sharedPreferencesEditor.putFloat(key, value)
                 else -> return false
             }
-            sharedPreferencesEditor.commit()
+            sharedPreferencesEditor.apply()
             return true
         }
 
         fun getDataFromPreferences(context : Context, key : String, value : Any) : Any {
             initPreferences(context)
-            when(value){
+            return when(value){
                 is Boolean -> sharedPreferences.getBoolean(key, value)
-                is String -> sharedPreferences.getString(key, value)
-                is Int -> sharedPreferences.getInt(key, value)
-                is Long -> sharedPreferences.getLong(key, value)
-                is Float -> sharedPreferences.getFloat(key, value)
-                else -> return false
-            }
-            return true
+                is String -> sharedPreferences.getString(key, value.toString())
+                is Int -> sharedPreferences.getInt(key, value.toInt())
+                is Long -> sharedPreferences.getLong(key, value.toLong())
+                is Float -> sharedPreferences.getFloat(key, value.toFloat())
+                else -> false
+            }!!
         }
 
         fun removeAllSharedPreferences(context: Context): Boolean {

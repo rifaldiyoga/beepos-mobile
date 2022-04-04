@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentModeTampilanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
@@ -46,11 +47,12 @@ class ModeTampilanFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
                     when(event){
                         is ModeTampilanViewModel.UIEvent.RequestClickItem -> {
-
+                            val action = ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }

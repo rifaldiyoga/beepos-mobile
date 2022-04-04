@@ -12,6 +12,18 @@
         <action
             android:id="@+id/action_loginFragment_to_namaDeviceFragment"
             app:destination="@id/namaDeviceFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_modeTampilanFragment"
+            app:destination="@id/modeTampilanFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_pilihCabangFragment"
+            app:destination="@id/pilihCabangFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_pilihKasirFragment"
+            app:destination="@id/pilihKasirFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_loginOperatorFragment"
+            app:destination="@id/loginOperatorFragment" />
     </fragment>
 
     <fragment
@@ -54,13 +66,6 @@
             android:id="@+id/action_namaDeviceFragment_to_pilihDbFragment"
             app:destination="@id/pilihDbFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/customDialogBuilder"
-        android:name="com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder"
-        android:label="CustomDialogBuilder" />
-    <action
-        android:id="@+id/action_global_customDialogBuilder"
-        app:destination="@id/customDialogBuilder" />
     <fragment
         tools:layout="@layout/fragment_pilih_kasir"
         android:id="@+id/pilihKasirFragment"
@@ -79,7 +84,7 @@
         tools:layout="@layout/fragment_mode_tampilan"
         android:id="@+id/modeTampilanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.mode_tampilan.ModeTampilanFragment"
-        android:label="ModeTampilanFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_modeTampilanFragment_to_pilihCabangFragment"
             app:destination="@id/pilihCabangFragment" />
