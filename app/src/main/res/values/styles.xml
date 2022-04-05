@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ParentButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:textSize">@dimen/font16</item>
+    </style>
+
+    <style name="ButtonPrimary" parent="ParentButton">
+        <item name="android:background">@drawable/btn_rect_primary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonSecondary" parent="ParentButton">
+        <item name="android:background">@drawable/btn_rect_secondary</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="ButtonDisable" parent="ParentButton">
+        <item name="android:background">@drawable/btn_rect_disable</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextHeader" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">?colorOnBackground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextDetail" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="ShapeAppearanceOverlay.Demo">
+        <item name="cornerSizeTopLeft">@dimen/size18</item>
+        <item name="cornerSizeTopRight">@dimen/size18</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style
+        name="ThemeOverlay.Demo.BottomSheetDialog"
+        parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Demo.BottomSheet</item>
+    </style>
+
+    <style name="Widget.Demo.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Demo</item>
+    </style>
+
+</resources>

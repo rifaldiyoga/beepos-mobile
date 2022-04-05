@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/size24"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="@string/tentukan_nama_device"
+        style="@style/TextHeader"
+        android:textSize="@dimen/default_text_header_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size6"
+        android:text="@string/sebagai_identitas_device_yang_digunakan"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size24"
+        android:text="@string/nama_device"
+        style="@style/TextHeader"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <EditText
+        android:id="@+id/etNamaDevice"
+        android:layout_marginTop="@dimen/size6"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:hint="@string/cth_smartphone_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+
+    <Button
+        android:id="@+id/btnLanjutkan"
+        style="@style/ButtonDisable"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="@string/lanjutkan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

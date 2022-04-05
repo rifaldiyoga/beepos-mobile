@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_nav"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        tools:layout="@layout/fragment_login"
+        android:id="@+id/loginFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.login.LoginFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_loginFragment_to_namaDeviceFragment"
+            app:destination="@id/namaDeviceFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_modeTampilanFragment"
+            app:destination="@id/modeTampilanFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_pilihCabangFragment"
+            app:destination="@id/pilihCabangFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_pilihKasirFragment"
+            app:destination="@id/pilihKasirFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_loginOperatorFragment"
+            app:destination="@id/loginOperatorFragment" />
+    </fragment>
+
+    <fragment
+        tools:layout="@layout/fragment_pilih_db"
+        android:id="@+id/pilihDbFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pilih_db.PilihDbFragment"
+        android:label="" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_pilihDbFragment_to_modeTampilanFragment"
+            app:destination="@id/modeTampilanFragment" />
+    </fragment>
+
+    <fragment
+        tools:layout="@layout/fragment_pilih_cabang"
+        android:id="@+id/pilihCabangFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pilih_cabang.PilihCabangFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_pilihCabangFragment_to_pilihKasirFragment"
+            app:destination="@id/pilihKasirFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_nama_device"
+        android:id="@+id/namaDeviceFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.nama_device.NamaDeviceFragment"
+        android:label="" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_namaDeviceFragment_to_pilihDbFragment"
+            app:destination="@id/pilihDbFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pilih_kasir"
+        android:id="@+id/pilihKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pilih_kasir.PilihKasirFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_pilihKasirFragment_to_loginOperatorFragment"
+            app:destination="@id/loginOperatorFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_login_pin"
+        android:id="@+id/loginOperatorFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.login_operator.LoginOperatorFragment"
+        android:label="" />
+    <fragment
+        tools:layout="@layout/fragment_mode_tampilan"
+        android:id="@+id/modeTampilanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.mode_tampilan.ModeTampilanFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_modeTampilanFragment_to_pilihCabangFragment"
+            app:destination="@id/pilihCabangFragment" />
+    </fragment>
+
+</navigation>
