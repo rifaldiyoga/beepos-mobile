@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.facebook.stetho.Stetho
 
 /**
  * Created by aldi on 04/04/22.
@@ -24,6 +25,7 @@ class MainActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
+        initStetho()
         navHostFragment = supportFragmentManager.findFragmentById(R.id.initialHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
@@ -51,6 +53,15 @@ class MainActivity(
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.initialHostFragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    fun initStetho(){
+        Stetho.initialize(
+            Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build()
+        )
     }
 }
 

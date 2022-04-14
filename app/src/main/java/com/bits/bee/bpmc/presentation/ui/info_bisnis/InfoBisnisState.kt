@@ -1,4 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.info_bisnis
 
-class InfoBisnisState {
-}
+data class InfoBisnisState(
+    var namaPerusahaan: String,
+    var tipeUsaha: String,
+    var kota: String,
+    var alamat: String
+)

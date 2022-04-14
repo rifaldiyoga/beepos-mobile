@@ -6,7 +6,7 @@ import com.bits.bee.bpmc.databinding.FragmentAturPinBinding
 import com.bits.bee.bpmc.databinding.FragmentInfoBisnisBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 
-class AturPin constructor(
+class AturPinFragment constructor(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAturPinBinding = FragmentAturPinBinding::inflate
 ): BaseFragment<FragmentAturPinBinding>() {
     override fun initComponents() {

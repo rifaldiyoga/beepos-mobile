@@ -8,7 +8,9 @@
     <string name="pref_nama_device">pref_nama_device</string>
     <string name="pref_mode_tampilan">pref_mode_tampilan</string>
     <string name="pref_last_page">pref_last_page</string>
-
+    <string name="pref_tes_String">pref_tes</string>
+    <string name="pref_info_kontak_lanjut">pref_lanjut</string>
+    <string name="pref_regid">str_regid</string>
     <!--    Pages       -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
     <string name="page_pilih_kasir">page_pilih_kasir</string>
@@ -66,5 +68,60 @@
     <string name="retail_atau_distributor">Retail atau Distributor</string>
     <string name="desc_retail_distributor">Cocok untuk anda yang memiliki jumlah produk lebih dari 1.000. Mode ini hanya dapat diakses secara portrait</string>
     <string name="page_mode_tampilan">page_mode_tampilan</string>
-
+<!--    Sign Up-->
+    <string name="informasi_kontak">Informasi Kontak</string>
+    <string name="input_data_diri">Masukkan data diri anda untuk memulai</string>
+    <string name="nama">Nama</string>
+    <string name="no_wa">No Whatsapp</string>
+    <string name="conf_pass">Konfirmasi Password</string>
+    <string name="min_8_char_pass">Minimal 8 Karakter</string>
+    <string name="ulangi_pass">Ulangi Password</string>
+    <string name="btn_lanjut">Lanjut</string>
+    <string name="cek_wa_ya">Cek WhatsApp, ya!</string>
+    <string name="kami_telah_mengirimkan">Kami telah mengirimkan 4 digit kode OTP ke</string>
+    <string name="kirim_kode">Kirim ulang kode</string>
+    <string name="info_perusahaan">Info Perusahaan</string>
+    <string name="masukan_info">Masukkan informasi seputar bisnis anda</string>
+    <string name="perusahaan">Nama Perusahaan</string>
+    <string name="bidang">Bidang Usaha</string>
+    <string name="kota">Kota</string>
+    <string name="alamat">Alamat</string>
+    <string name="cth_beestore">Cth. Bee Store</string>
+    <string name="pilih_kota">Pilih Kota</string>
+    <string name="atur_pin">Atur PIN Masuk</string>
+    <string name="pin_digunakan">PIN digunakan setiap akan masuk ke kasir</string>
+    <string name="tampil_pin">Tampilkan PIN</string>
+    <string name="ulangi_pin">Ulangi PIN Masuk</string>
+    <string name="pin_konfirmasi">Masukkan sekali lagi PIN untuk konfirmasi</string>
+    <string name="tambah_produk_baru">Tambah Produk Baru</string>
+    <string name="yuk_siapkan_produk">Yuk siapkan produk yang akan dijual</string>
+    <string name="empat_langkah">Ada 4 langkah mudah membuat produk:</string>
+    <string name="tentukan_nama_harga">Tentukan nama dan harga produk</string>
+    <string name="pilih_satuan">Pilih satuan, tipe, dan grup produk</string>
+    <string name="upload_foto">Upload foto produk terbaikmu</string>
+    <string name="mulai_pengalaman">Simpan dan mulai pengalaman baru bersama
+Beepos</string>
+    <string name="btn_simpan_pin">Simpan PIN</string>
+    <string name="mulai_tambah_prd">Mulai Tambah Produk</string>
+    <string name="nama_prd">Nama Produk</string>
+    <string name="harga">Harga</string>
+    <string name="satuan_prd">Satuan Produk</string>
+    <string name="tipe_prd">Tipe Produk</string>
+    <string name="grup_prd">Grup Produk</string>
+    <string name="foto_prd">Foto Produk (Opsional)</string>
+    <string name="mulai_jualan">Mulai Jualan</string>
+    <string name="tambah_produk">Tambah Produk</string>
+    <string name="btn_simpan">Simpan</string>
+    <string name="pid">PID</string>
+    <string name="pid_avail">PID Produk kini sudah tersedia</string>
+    <string name="gunakan_pid">Gunakan PID untuk varian, ukuran, dll</string>
+    <string name="apasih_pid">Apa sih PID itu? dan gunanya untuk
+apa?</string>
+    <string name="definisi">Definisi</string>
+    <string name="fungsi">Fungsi</string>
+    <string name="cocok_untuk">Cocok untuk siapa aja?</string>
+    <string name="apakah_anda">Apakah anda tertarik</string>
+    <string name="saya_tertarik_pid">Saya tertarik &amp; telah paham apa itu PID</string>
+    <string name="nanti_saja">Nanti Saja</string>
+    <string name="aktif_pid">Aktifkan PID</string>
 </resources>
