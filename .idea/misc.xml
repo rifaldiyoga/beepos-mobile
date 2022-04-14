@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/bg_rounded_red.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/bg_rounded_top_background_color.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/btn_rect_disable.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable/ic_ket_prd_11_background.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/switch_thumb_price.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/track_selector_diskon.xml" value="0.276" />
         <entry key="app/src/main/res/layout/activity_download.xml" value="0.18177083333333333" />
@@ -23,7 +24,12 @@
         <entry key="app/src/main/res/layout/dialog_loading_helper.xml" value="0.22846781504986402" />
         <entry key="app/src/main/res/layout/dialog_radio_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_tax_info.xml" value="0.22846781504986402" />
+        <entry key="app/src/main/res/layout/fragment_atur_pin.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/layout/fragment_atur_produk.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/layout/fragment_beranda.xml" value="0.22708333333333333" />
+        <entry key="app/src/main/res/layout/fragment_info_bisnis.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/layout/fragment_info_kontak.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/layout/fragment_insight_pid.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.3" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22846781504986402" />
         <entry key="app/src/main/res/layout/fragment_pembayaran.xml" value="0.22" />
