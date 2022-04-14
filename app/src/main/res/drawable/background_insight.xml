@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/orange"></item>
+    <item>
+        <rotate android:fromDegrees="100"
+            android:pivotX="40%"
+            android:pivotY="60%">
 
-</selector>
+        <shape
+            android:shape="rectangle">
+            <solid android:color="@color/gray_lite"></solid>
+        </shape>
+
+        </rotate>
+    </item>
+</layer-list>
