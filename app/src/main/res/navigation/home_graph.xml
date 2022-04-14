@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/berandaFragment">
+
+    <fragment
+        tools:layout="@layout/fragment_setting_list"
+        android:id="@+id/settingListFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment"
+        android:label="SettingListFragment" >
+        <action
+            android:id="@+id/action_settingListFragment_to_settingPosFragment"
+            app:destination="@id/settingPosFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_setting_pos"
+        android:id="@+id/settingPosFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosFragment"
+        android:label="SettingPosFragment" />
+    <fragment
+        android:id="@+id/berandaFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.beranda.BerandaFragment"
+        android:label="BerandaFragment" >
+        <action
+            android:id="@+id/action_berandaFragment_to_settingListFragment"
+            app:destination="@id/settingListFragment" />
+        <action
+            android:id="@+id/action_berandaFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_berandaFragment_to_downloadActivity"
+            app:destination="@id/downloadActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.bits.bee.bpmc.presentation.ui.main.MainActivity"
+        android:label="MainActivity" />
+    <activity
+        android:id="@+id/downloadActivity"
+        android:name="com.bits.bee.bpmc.presentation.ui.download.DownloadActivity"
+        android:label="DownloadActivity" />
+
+
+</navigation>

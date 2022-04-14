@@ -15,7 +15,7 @@ import com.bits.bee.bpmc.R
 /**
  * Created by aldi on 24/03/22.
  */
-class CustomNumpad : ConstraintLayout, View.OnClickListener {
+class CustomNumpadPayment : ConstraintLayout, View.OnClickListener {
 
     private lateinit var button1 :Button
     private lateinit var button2 :Button
@@ -27,6 +27,7 @@ class CustomNumpad : ConstraintLayout, View.OnClickListener {
     private lateinit var button8 :Button
     private lateinit var button9 :Button
     private lateinit var button0 :Button
+    private lateinit var button00 :Button
     private lateinit var buttonDelete :ImageButton
 
     private var keyValues : SparseArray<String> = SparseArray()
@@ -49,7 +50,7 @@ class CustomNumpad : ConstraintLayout, View.OnClickListener {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        LayoutInflater.from(context).inflate(R.layout.layout_numpad_pin, this, true)
+        LayoutInflater.from(context).inflate(R.layout.layout_numpad_payment, this, true)
 
         button1 = findViewById(R.id.numpad_btn1)
         button1.setOnClickListener(this)
@@ -71,6 +72,8 @@ class CustomNumpad : ConstraintLayout, View.OnClickListener {
         button9.setOnClickListener(this)
         button0 = findViewById(R.id.numpad_btn0)
         button0.setOnClickListener(this)
+        button00 = findViewById(R.id.numpad_btn00)
+        button00.setOnClickListener(this)
         buttonDelete = findViewById(R.id.numpad_btnDelete)
         buttonDelete.setOnClickListener(this)
 
@@ -84,6 +87,7 @@ class CustomNumpad : ConstraintLayout, View.OnClickListener {
         keyValues.put(R.id.numpad_btn8, "8")
         keyValues.put(R.id.numpad_btn9, "9")
         keyValues.put(R.id.numpad_btn0, "0")
+        keyValues.put(R.id.numpad_btn00, "00")
     }
 
     fun setInputConnection(inputConnection: InputConnection) {

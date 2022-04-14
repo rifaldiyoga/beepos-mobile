@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.main
+package com.bits.bee.bpmc.presentation.ui.home
 
 import android.view.LayoutInflater
 import androidx.appcompat.widget.Toolbar
@@ -10,18 +10,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.ActivityMainBinding
+import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Created by aldi on 07/04/22.
+ * Created by aldi on 04/04/22.
  */
 @AndroidEntryPoint
-class MainActivity(
-    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = ActivityMainBinding::inflate
-) : BaseActivity<ActivityMainBinding>() {
-
+class HomeActivity(
+    override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding = ActivityHomeBinding::inflate
+) : BaseActivity<ActivityHomeBinding>(){
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -37,7 +36,7 @@ class MainActivity(
             navController.addOnDestinationChangedListener { _, _, _ ->
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
             }
-            NavigationUI.setupActionBarWithNavController(this@MainActivity, navController, appBarConfiguration)
+            NavigationUI.setupActionBarWithNavController(this@HomeActivity, navController, appBarConfiguration)
 
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         }
@@ -55,6 +54,5 @@ class MainActivity(
         val navController = findNavController(R.id.initialHostFragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
-
 }
+

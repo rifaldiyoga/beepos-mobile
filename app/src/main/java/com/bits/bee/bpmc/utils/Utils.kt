@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.utils
 
 import android.app.Activity
+import android.text.TextUtils
 import android.util.DisplayMetrics
 import androidx.preference.PreferenceManager
 import com.bits.bee.bpmc.R
@@ -72,6 +73,11 @@ class Utils {
             }
             return BPMConstants.SCREEN_POTRAIT.also { screenDevice = it }
         }
+
+        fun isValidEmail(target : CharSequence) : Boolean {
+            return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
+        }
+
     }
 
 }

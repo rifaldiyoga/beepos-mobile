@@ -48,7 +48,8 @@ class LoginFragment constructor (
                                 viewModel.login()
                             }
                             LoginViewModel.UIEvent.NavigateToNamaDevice -> {
-                                val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(viewModel.state.email, viewModel.state.password)
+                                val value = viewModel.state.value
+                                val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
                                 findNavController().navigate(action)
                             }
                         }
@@ -61,12 +62,12 @@ class LoginFragment constructor (
     override fun subscribeListeners() {
         binding.apply {
             etEmail.addTextChangedListener {
-                viewModel.state.email = etEmail.text.toString().trim()
-                viewModel.validateInput()
+                viewModel.state.value.email = etEmail.text.toString().trim()
+                viewModel.validateEmail()
             }
             etPassword.addTextChangedListener {
-                viewModel.state.password = etPassword.text.toString().trim()
-                viewModel.validateInput()
+                viewModel.state.value.password = etPassword.text.toString().trim()
+                viewModel.validatePassword()
             }
             btnMasuk.setOnClickListener {
                 viewModel.onClickLogin()
@@ -77,14 +78,21 @@ class LoginFragment constructor (
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.observeState().collect {
+                viewModel.state.collect {
                     it.let {
-                        binding.btnMasuk.apply {
-                            background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
-                                true -> R.drawable.btn_rect_primary
-                                false -> R.drawable.btn_rect_disable
-                            })
-                            isEnabled = it.isValid
+                        binding.apply {
+                                tilEmail.error = it.messageEmail
+
+                                tilPassword.error = it.messagePassword
+
+                            btnMasuk.apply {
+                                background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
+                                    true -> R.drawable.btn_rect_primary
+                                    false -> R.drawable.btn_rect_disable
+                                })
+                                isEnabled = it.isValid
+                            }
+
                         }
 
                     }
@@ -129,7 +137,7 @@ class LoginFragment constructor (
     /**
      * check last page from prefences then direct to last page
      */
-    fun directPage(){
+    private fun directPage(){
         val action = when(BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_last_page), "")){
             getString(R.string.page_pilih_cabang) -> LoginFragmentDirections.actionLoginFragmentToPilihCabangFragment()
             getString(R.string.page_pilih_kasir) -> LoginFragmentDirections.actionLoginFragmentToPilihKasirFragment()

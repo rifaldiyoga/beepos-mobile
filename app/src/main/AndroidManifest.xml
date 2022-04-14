@@ -25,6 +25,14 @@
         <activity
             android:name="com.bits.bee.bpmc.presentation.ui.splash.SplashScreenActivity"
             android:exported="true">
+
+        </activity>
+
+        <activity
+            android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
+            android:exported="true"/>
+
+        <activity android:name=".presentation.ui.home.HomeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,10 +42,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
-            android:screenOrientation="portrait"
-            android:exported="true"/>
+        <activity android:name=".presentation.ui.main.MainActivity" android:exported="true">
+
+        </activity>
 
     </application>
 
