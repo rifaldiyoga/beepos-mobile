@@ -26,7 +26,6 @@ class HomeActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.initialHostFragment) as NavHostFragment
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 

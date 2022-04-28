@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,6 +22,8 @@ class MainViewModel @Inject constructor(
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     init {
+        state = MainState()
+
         viewModelScope.launch {
             channelList.collect {
                 when(it.status){
@@ -29,12 +32,12 @@ class MainViewModel @Inject constructor(
                     }
                     Resource.Status.SUCCESS -> {
                         it.data?.let { data ->
-                              _state.update {
-                                  it!!.copy(
-                                      channelList = data,
-                                      channel = data[0]
-                                  )
-                              }
+                            _state.update {
+                                it!!.copy(
+                                    channelList = data,
+                                    channel = data[0]
+                                )
+                            }
                         }
                     }
                     Resource.Status.ERROR -> {

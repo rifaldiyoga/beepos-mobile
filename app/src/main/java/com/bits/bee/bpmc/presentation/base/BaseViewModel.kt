@@ -18,7 +18,7 @@ abstract class BaseViewModel<State, UIEvent>(
     val _state : MutableStateFlow<State?> = MutableStateFlow(null)
     fun viewStates(): StateFlow<State?> = _state
 
-    var state : State
+    protected var state : State
         get() = _state.value
             ?: throw UninitializedPropertyAccessException("state was queried before being initialized")
         set(value) {
@@ -27,5 +27,6 @@ abstract class BaseViewModel<State, UIEvent>(
             }
             _state.value = value
         }
+
 
 }
