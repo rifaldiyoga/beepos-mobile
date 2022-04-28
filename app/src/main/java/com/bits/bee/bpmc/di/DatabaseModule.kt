@@ -73,4 +73,16 @@ object DatabaseModule {
         return dbHelper.pmtdDao
     }
 
+    @Provides
+    @Singleton
+    fun provideChannelDao(dbHelper: DbHelper) : ChannelDao {
+        return dbHelper.channelDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePriceLvlDao(dbHelper: DbHelper) : PriceLvlDao {
+        return dbHelper.priceLvlDao
+    }
+
 }

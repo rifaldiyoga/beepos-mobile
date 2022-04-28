@@ -20,15 +20,15 @@ class BerandaFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-            linearLayout14.setOnClickListener {
+            llPos.setOnClickListener {
                 val action = BerandaFragmentDirections.actionBerandaFragmentToMainActivity()
                 findNavController().navigate(action)
             }
-            linearLayout15.setOnClickListener {
+            llSetting.setOnClickListener {
                 val action = BerandaFragmentDirections.actionBerandaFragmentToSettingListFragment()
                 findNavController().navigate(action)
             }
-            linearLayout16.setOnClickListener {
+            llDownload.setOnClickListener {
                 val action = BerandaFragmentDirections.actionBerandaFragmentToDownloadActivity()
                 findNavController().navigate(action)
             }

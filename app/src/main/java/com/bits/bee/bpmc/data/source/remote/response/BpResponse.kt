@@ -1,8 +1,8 @@
 package com.bits.bee.bpmc.data.source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.source.local.model.Bp
-import com.bits.bee.bpmc.data.source.local.model.BpAddr
+import com.bits.bee.bpmc.data.source.local.model.BpEntity
+import com.bits.bee.bpmc.data.source.local.model.BpAddrEntity
 import com.bits.bee.bpmc.data.source.remote.model.ValueLabelModel
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -18,13 +18,13 @@ data class BpResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : BpModel
 ):Parcelable {
 
     @Parcelize
     data class Data (
         @SerializedName("data")
-        var data : MutableList<BpModel> = mutableListOf()
+        var data :BpModel
     ) : Parcelable
 
     @Parcelize
@@ -46,9 +46,9 @@ data class BpResponse (
         @SerializedName("note")
         var note : String = "",
         @SerializedName("bpgrp1_id")
-        var bpgrpId : Int = -1,
+        var bpgrpId : Int? = -1,
         @SerializedName("pricelvl_id")
-        var priceLvlId : Int = -1,
+        var priceLvlId : ValueLabelModel,
         @SerializedName("active")
         var isActive : Boolean = false,
         @SerializedName("bpaddr")
@@ -56,8 +56,8 @@ data class BpResponse (
 
     ) : Parcelable {
 
-        fun toBp() : Bp {
-            return Bp(id, code, name, greeting, anniversary, isTaxedOnSale, isTaxIncOnSale, note, bpgrpId, priceLvlId, isActive)
+        fun toBp() : BpEntity {
+            return BpEntity(id, code, name, greeting, anniversary, isTaxedOnSale, isTaxIncOnSale, note, bpgrpId, priceLvlId.value, isActive)
         }
 
     }
@@ -100,8 +100,8 @@ data class BpResponse (
         var updatedAt : Date,
     ) : Parcelable {
 
-        fun toBpAddr() : BpAddr {
-            return BpAddr(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.value, regencyCode.value, districtId.value, createdAt, updatedAt)
+        fun toBpAddr() : BpAddrEntity {
+            return BpAddrEntity(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.value, regencyCode.value, districtId.value, createdAt, updatedAt)
         }
 
     }

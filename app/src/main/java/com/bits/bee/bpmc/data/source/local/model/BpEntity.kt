@@ -5,19 +5,18 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import java.util.*
 
-@Entity(tableName = Bp.TBL_NAME,
+@Entity(tableName = BpEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = PriceLvl::class,
-            parentColumns = [PriceLvl.ID],
-            childColumns = [Bp.PRICELVL_ID],
+            entity = PriceLvlEntity::class,
+            parentColumns = [PriceLvlEntity.ID],
+            childColumns = [BpEntity.PRICELVL_ID],
             onDelete = CASCADE
         )
     ]
 )
-data class Bp(
+data class BpEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,
@@ -36,7 +35,7 @@ data class Bp(
     @ColumnInfo(name = NOTE)
     var note : String,
     @ColumnInfo(name = BPGRP1_ID)
-    var bpgrpId : Int,
+    var bpgrpId : Int?,
     @ColumnInfo(name = PRICELVL_ID, index = true)
     var priceLvlId : Int,
     @ColumnInfo(name = ACTIVE)

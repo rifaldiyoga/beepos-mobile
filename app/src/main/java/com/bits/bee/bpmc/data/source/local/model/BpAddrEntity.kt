@@ -7,35 +7,35 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = BpAddr.TBL_NAME,
+@Entity(tableName = BpAddrEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Bp::class,
-            parentColumns = [Bp.ID],
-            childColumns = [BpAddr.BP_ID],
+            entity = BpEntity::class,
+            parentColumns = [BpEntity.ID],
+            childColumns = [BpAddrEntity.BP_ID],
             onDelete = CASCADE
         ),
         ForeignKey(
             entity = Province::class,
             parentColumns = [Province.CODE],
-            childColumns = [BpAddr.PROVINCE_CODE],
+            childColumns = [BpAddrEntity.PROVINCE_CODE],
             onDelete = CASCADE
         ),
         ForeignKey(
             entity = Regency::class,
             parentColumns = [Regency.CODE],
-            childColumns = [BpAddr.REGENCY_CODE],
+            childColumns = [BpAddrEntity.REGENCY_CODE],
             onDelete = CASCADE
         ),
         ForeignKey(
             entity = District::class,
             parentColumns = [District.CODE],
-            childColumns = [BpAddr.DISTRICT_CODE],
+            childColumns = [BpAddrEntity.DISTRICT_CODE],
             onDelete = CASCADE
         ),
     ]
 )
-data class BpAddr(
+data class BpAddrEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,

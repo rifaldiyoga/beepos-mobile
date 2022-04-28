@@ -1,11 +1,9 @@
 package com.bits.bee.bpmc.data.source.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.source.local.base.BaseDao
-import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
-import kotlinx.coroutines.flow.Flow
+import com.bits.bee.bpmc.data.source.local.model.BranchEntity
 import javax.inject.Singleton
 
 /**
@@ -14,9 +12,9 @@ import javax.inject.Singleton
 
 @Singleton
 @Dao
-interface BranchDao : BaseDao<BranchEntitiy>{
+interface BranchDao : BaseDao<BranchEntity>{
 
     @Query("SELECT * FROM branch")
-    fun getBranchList() : List<BranchEntitiy>
+    fun getBranchList() : List<BranchEntity>
 
 }

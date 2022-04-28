@@ -10,4 +10,6 @@ interface BaseInterface {
     fun subscribeListeners()
 
     fun subscribeObservers()
+
+    fun showSnackbar(msg : String)
 }

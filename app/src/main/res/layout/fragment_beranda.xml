@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout15"
+        android:id="@+id/llPos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout14"
+        app:layout_constraintBottom_toTopOf="@+id/llSetting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,14 +22,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout14"
+        android:id="@+id/llSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout16"
+        app:layout_constraintBottom_toTopOf="@+id/llDownload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout15">
+        app:layout_constraintTop_toBottomOf="@+id/llPos">
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,14 +39,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout16"
+        android:id="@+id/llDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/size16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
+        app:layout_constraintTop_toBottomOf="@+id/llSetting">
 
         <TextView
             android:layout_width="wrap_content"

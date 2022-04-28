@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.data.source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.source.local.model.ItemGroup
+import com.bits.bee.bpmc.data.source.local.model.ItemGroupEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -15,7 +15,9 @@ data class ItemGroupResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : Data?,
+    @SerializedName("total_page")
+    var totalPage : Int = 1,
 ): Parcelable {
 
     @Parcelize
@@ -40,8 +42,8 @@ data class ItemGroupResponse (
         val isPos : Boolean,
     ) : Parcelable {
 
-        fun toItemGroup() : ItemGroup {
-            return ItemGroup(id, code, name, level, upId, isPos)
+        fun toItemGroup() : ItemGroupEntity {
+            return ItemGroupEntity(id, code, name, level, upId, isPos)
         }
 
     }

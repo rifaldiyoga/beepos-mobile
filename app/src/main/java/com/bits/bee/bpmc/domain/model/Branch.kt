@@ -1,9 +1,6 @@
 package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
 import kotlinx.parcelize.Parcelize
 
 /**

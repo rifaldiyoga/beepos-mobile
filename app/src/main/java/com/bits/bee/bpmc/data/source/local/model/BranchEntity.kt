@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bits.bee.bpmc.domain.model.Branch
 
-@Entity(tableName = BranchEntitiy.TBL_NAME)
-data class BranchEntitiy(
+@Entity(tableName = BranchEntity.TBL_NAME)
+data class BranchEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,

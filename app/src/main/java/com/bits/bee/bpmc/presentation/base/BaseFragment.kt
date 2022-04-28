@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Created by aldi on 10/03/22.
@@ -47,4 +48,10 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), BaseInterface {
     abstract override fun subscribeListeners()
 
     abstract override fun subscribeObservers()
+
+    override fun showSnackbar(msg: String) {
+        val snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+    }
+
 }

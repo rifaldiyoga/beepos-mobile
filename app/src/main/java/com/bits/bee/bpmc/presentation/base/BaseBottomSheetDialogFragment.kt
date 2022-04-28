@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Created by aldi on 28/03/22.
@@ -51,5 +52,9 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
 
     abstract override fun subscribeObservers()
 
+    override fun showSnackbar(msg: String) {
+        val snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+    }
 
 }

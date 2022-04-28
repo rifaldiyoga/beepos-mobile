@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterface {
 
@@ -45,5 +46,10 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
     abstract override fun subscribeListeners()
 
     abstract override fun subscribeObservers()
+
+    override fun showSnackbar(msg: String) {
+        val snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+    }
 
 }

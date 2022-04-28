@@ -5,8 +5,8 @@ import androidx.room.*
 @Entity(tableName = Variant.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = ItemGroup::class,
-            parentColumns = [ItemGroup.ID],
+            entity = ItemGroupEntity::class,
+            parentColumns = [ItemGroupEntity.ID],
             childColumns = [Variant.ITGRP_ID],
             onDelete = ForeignKey.CASCADE
         )

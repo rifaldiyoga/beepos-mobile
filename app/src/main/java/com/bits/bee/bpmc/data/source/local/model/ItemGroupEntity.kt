@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = ItemGroup.TBL_NAME)
-data class ItemGroup(
+@Entity(tableName = ItemGroupEntity.TBL_NAME)
+data class ItemGroupEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,
@@ -23,6 +23,7 @@ data class ItemGroup(
     @ColumnInfo(name = IS_POS)
     var isPos : Boolean,
 ) : Parcelable {
+
     companion object {
         const val TBL_NAME = "itemgrp"
 

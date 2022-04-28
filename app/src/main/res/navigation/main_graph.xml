@@ -8,7 +8,63 @@
     <fragment
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.pos.PosFragment"
-        android:label="PosFragment" />
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment"
+        android:label="PosFragment" >
+        <action
+            android:id="@+id/action_posFragment_to_invoiceFragment"
+            app:destination="@id/invoiceFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_member"
+        android:id="@+id/memberFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.member.MemberFragment"
+        android:label="MemberFragment" >
+        <action
+            android:id="@+id/action_memberFragment_to_tambahMemberFragment"
+            app:destination="@id/tambahMemberFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_detailMemberDialog"
+            app:destination="@id/detailMemberDialog" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_tambah_member"
+        android:id="@+id/tambahMemberFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.tambah_member.TambahMemberFragment"
+        android:label="TambahMemberFragment" >
+        <action
+            android:id="@+id/action_tambahMemberFragment_to_taxInfoDialog"
+            app:destination="@id/taxInfoDialog" />
+    </fragment>
+    <dialog
+        tools:layout="@layout/dialog_tax_info"
+        android:id="@+id/taxInfoDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog"
+        android:label="TaxInfoDialog" />
+    <dialog
+        tools:layout="@layout/dialog_detail_member"
+        android:id="@+id/detailMemberDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog"
+        android:label="DetailMemberDialog" >
+        <argument
+            android:name="member"
+            app:argType="com.bits.bee.bpmc.domain.model.Bp" />
+        <action
+            android:id="@+id/action_detailMemberDialog_to_taxInfoDialog"
+            app:destination="@id/taxInfoDialog" />
+    </dialog>
+    <fragment
+        tools:layout="@layout/fragment_invoice"
+        android:id="@+id/invoiceFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragment"
+        android:label="InvoiceFragment" >
+        <action
+            android:id="@+id/action_invoiceFragment_to_pembayaranFragment"
+            app:destination="@id/pembayaranFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran"
+        android:id="@+id/pembayaranFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran.PembayaranFragment"
+        android:label="PembayaranFragment" /><action android:id="@+id/action_global_memberFragment" app:destination="@id/memberFragment"/>
 
 </navigation>

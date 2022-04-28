@@ -26,7 +26,7 @@ data class CityResponse (
     ) : Parcelable
 
     @Parcelize
-    data class CityModel(
+    data class CityModel (
         @SerializedName("code")
         val code: String = "",
         @SerializedName("name")

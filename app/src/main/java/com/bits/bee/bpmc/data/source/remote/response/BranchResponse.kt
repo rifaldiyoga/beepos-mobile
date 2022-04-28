@@ -1,9 +1,8 @@
 package com.bits.bee.bpmc.data.source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
+import com.bits.bee.bpmc.data.source.local.model.BranchEntity
 import com.bits.bee.bpmc.data.source.remote.model.ValueLabelModel
-import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.google.gson.annotations.SerializedName
@@ -60,12 +59,9 @@ data class BranchResponse (
         val updatedBy : Int = -1,
     ) : Parcelable {
 
-        fun toBranch() : Branch{
-            return Branch(id, code, name, version, cmpName, phone, active, cmpAddress, cmpFax, custDeftId?.let { it.value }, DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, createdBy, DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, updatedBy)
-        }
 
-        fun toBranchEntity() : BranchEntitiy {
-            return BranchEntitiy(
+        fun toBranchEntity() : BranchEntity {
+            return BranchEntity(
                 id, code, name, version, cmpName, phone, active, cmpAddress, cmpFax, custDeftId?.let { it.value }, DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, createdBy, DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, updatedBy
             )
         }

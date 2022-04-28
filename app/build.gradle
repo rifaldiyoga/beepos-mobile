@@ -125,4 +125,7 @@ dependencies {
     //Optional network helper
     implementation 'com.facebook.stetho:stetho-okhttp:1.5.0'
     implementation 'com.facebook.stetho:stetho:1.5.0'
+
+    //Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 }
