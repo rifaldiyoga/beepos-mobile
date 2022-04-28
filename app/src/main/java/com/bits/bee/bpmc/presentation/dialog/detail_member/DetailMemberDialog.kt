@@ -70,18 +70,20 @@ class DetailMemberDialog(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect {
+                viewModel.viewStates().collect {
                     binding.apply {
-                        if(it.isInfoLainnya)
-                            groupLainnya.visible()
-                        else
-                            groupLainnya.gone()
+                        it?.let {
+                            if(it.isInfoLainnya)
+                                groupLainnya.visible()
+                            else
+                                groupLainnya.gone()
 
-                        it.bp?.let { bp ->
-                            txtMember.text = bp.name
-                            txtLevelHarga.text = bp.priceLvlId.toString()
-                            cbTax.isSelected = bp.isTaxedOnSale
-                            cbTax.isSelected = bp.isTaxIncOnSale
+                            it.bp?.let { bp ->
+                                txtMember.text = bp.name
+                                txtLevelHarga.text = bp.priceLvlId.toString()
+                                cbTax.isSelected = bp.isTaxedOnSale
+                                cbTax.isSelected = bp.isTaxIncOnSale
+                            }
                         }
                     }
                 }

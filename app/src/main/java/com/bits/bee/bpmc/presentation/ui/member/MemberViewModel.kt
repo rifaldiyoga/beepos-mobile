@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.member.MemberInteractor
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MemberViewModel @Inject constructor(
     val memberInteractor: MemberInteractor,
-): BaseViewModel() {
+): ViewModel() {
 
     private val eventChannel = Channel<UIEvent>()
     val event = eventChannel.receiveAsFlow()

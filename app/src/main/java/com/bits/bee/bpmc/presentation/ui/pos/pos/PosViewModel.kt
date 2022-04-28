@@ -17,10 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PosViewModel @Inject constructor(
     private val getActiveItemGroupUseCase: GetActiveItemGroupUseCase,
-): BaseViewModel() {
-
-    private val eventChannel = Channel<UIEvent>()
-    val event = eventChannel.receiveAsFlow()
+): BaseViewModel<PosState, PosViewModel.UIEvent>() {
 
     var itemGroupList = getActiveItemGroupUseCase.invoke()
 

@@ -15,7 +15,7 @@ import com.bits.bee.bpmc.presentation.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Created by aldi on 04/04/22.
+ * Created by aldi on 07/04/22.
  */
 @AndroidEntryPoint
 class HomeActivity(
@@ -26,6 +26,7 @@ class HomeActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.initialHostFragment) as NavHostFragment
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 

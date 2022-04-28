@@ -44,6 +44,12 @@ class ItemGroupRepository @Inject constructor(
         }.getAsFlow()
     }
 
+    fun getItemGroupList() : Flow<Resource<List<ItemGroup>>> {
+        return flow {
+
+        }
+    }
+
     fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>> {
         return flow {
             emit(Resource.loading())

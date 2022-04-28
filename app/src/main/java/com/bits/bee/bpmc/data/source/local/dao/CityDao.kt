@@ -17,6 +17,6 @@ interface CityDao : BaseDao<City>{
     @Query("DELETE FROM city")
     fun deleteAll()
 
-    @Query("SELECT * FROM city ")
-    fun getCityName(): List<City>
+    @Query("SELECT name FROM city ")
+    fun getCityName(): List<String>
 }

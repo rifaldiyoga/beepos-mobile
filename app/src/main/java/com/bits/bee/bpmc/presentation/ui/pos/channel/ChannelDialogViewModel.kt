@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.channel
 
+import androidx.lifecycle.ViewModel
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -10,6 +11,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ChannelDialogViewModel @Inject constructor(
 
-) : BaseViewModel() {
+) : ViewModel() {
 
 }

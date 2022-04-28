@@ -8,13 +8,19 @@ import com.bits.bee.bpmc.databinding.ItemRadioButtonBinding
 /**
  * Created by aldi on 05/04/22.
  */
-class RadioListAdapter(stringList: List<String>) : RecyclerView.Adapter<RadioListAdapter.ViewHolder>() {
+class RadioListAdapter(
+    stringList: List<String>,
+    selected: Int
+) : RecyclerView.Adapter<RadioListAdapter.ViewHolder>() {
 
     private var stringList : List<String> = mutableListOf()
     private var selectedPosition : Int = 0
+//    private var posStr: String
 
     init {
         this.stringList = stringList
+        this.selectedPosition = selected
+//        posStr = selectedStr
     }
 
     fun getSelectedPosition() : Int = selectedPosition

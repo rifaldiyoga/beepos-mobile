@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.tambah_member
 
+import androidx.lifecycle.ViewModel
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -10,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TambahMemberViewModel @Inject constructor(
 
-): BaseViewModel() {
+): ViewModel() {
 
 
 }

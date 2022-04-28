@@ -32,6 +32,15 @@ class SettingListFragment(
             clPos.setOnClickListener {
                 viewModel.onClickSettingPos()
             }
+            clFavorit.setOnClickListener {
+                viewModel.onClickSettingFavorit()
+            }
+            clSistem.setOnClickListener {
+                viewModel.onClickSettingSistem()
+            }
+            clNota.setOnClickListener {
+                viewModel.onClickSettingNota()
+            }
         }
     }
 
@@ -45,19 +54,22 @@ class SettingListFragment(
                             findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingFavorit -> {
-
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingFavoriteFragmentMain()
+                            findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingLisensi -> {
 
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingNota -> {
-
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingNotaFragment()
+                            findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingPrint -> {
 
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingSistem -> {
-
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingSistemFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }

@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.base
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 /**
@@ -15,6 +16,8 @@ abstract class BaseViewModel<State, UIEvent>(
     val event = eventChannel.receiveAsFlow()
 
     val _state : MutableStateFlow<State?> = MutableStateFlow(null)
+    fun viewStates(): StateFlow<State?> = _state
+
     var state : State
         get() = _state.value
             ?: throw UninitializedPropertyAccessException("state was queried before being initialized")

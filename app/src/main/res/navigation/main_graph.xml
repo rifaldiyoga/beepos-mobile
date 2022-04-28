@@ -65,6 +65,7 @@
         tools:layout="@layout/fragment_pembayaran"
         android:id="@+id/pembayaranFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran.PembayaranFragment"
-        android:label="PembayaranFragment" /><action android:id="@+id/action_global_memberFragment" app:destination="@id/memberFragment"/>
+        android:label="PembayaranFragment" />
+    <action android:id="@+id/action_global_memberFragment" app:destination="@id/memberFragment"/>
 
 </navigation>

@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.initial
 
+import androidx.lifecycle.ViewModel
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 
 /**
@@ -7,6 +8,6 @@ import com.bits.bee.bpmc.presentation.base.BaseViewModel
  */
 class InitialViewModel constructor(
 
-) : BaseViewModel() {
+) : ViewModel() {
 
 }

@@ -3,12 +3,7 @@ package com.bits.bee.bpmc.presentation.dialog.detail_member
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,13 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailMemberViewModel @Inject constructor(
 
-): BaseViewModel() {
-
-    private val eventChannel = Channel<UIEvent>()
-    val event = eventChannel.receiveAsFlow()
-
-    private val _state = MutableStateFlow(DetailMemberState())
-    var state = _state.asStateFlow()
+): BaseViewModel<DetailMemberState, DetailMemberViewModel.UIEvent>() {
 
     fun setOnClickInfoTax() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestInfoTax)
@@ -33,15 +22,15 @@ class DetailMemberViewModel @Inject constructor(
 
     fun setOnClickInfo() = viewModelScope.launch {
         _state.update {
-            it.copy(
-                isInfoLainnya = !state.value.isInfoLainnya
+            it!!.copy(
+                isInfoLainnya = !state.isInfoLainnya
             )
         }
     }
 
     fun update(data: Bp) = viewModelScope.launch {
         _state.update {
-            it.copy(
+            it!!.copy(
                 bp = data
             )
         }

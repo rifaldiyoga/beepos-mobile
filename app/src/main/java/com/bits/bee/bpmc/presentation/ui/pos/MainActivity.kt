@@ -77,15 +77,17 @@ class MainActivity(
     override fun subscribeObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect {
+                viewModel.viewStates().collect {
                     binding.apply {
-                        it.channel?.let {
-                            tvChannel.text = it.name
-                            ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
-                                Color.parseColor(it.color)))
-                        }
-                        it.bp?.let {
-                            tvMember.text = it.name
+                        it?.let {
+                            it.channel?.let {
+                                tvChannel.text = it.name
+                                ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
+                                    Color.parseColor(it.color)))
+                            }
+                            it.bp?.let {
+                                tvMember.text = it.name
+                            }
                         }
                     }
                 }
@@ -100,10 +102,10 @@ class MainActivity(
                         }
                         MainViewModel.UIEvent.RequestChannel -> {
                             val dialog = ChannelListDialogBuilder(
-                                viewModel.state.value.channelList,
+                                viewModel.state.channelList,
                                 onChannelClick = { channel ->
                                     viewModel.update(
-                                        viewModel.state.value.copy(
+                                        viewModel.state.copy(
                                             channel = channel
                                         )
                                     )
