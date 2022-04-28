@@ -18,4 +18,6 @@
     <color name="light_orange">#33FFB648</color>
     <color name="orange">#FFB648</color>
     <color name="gray_lite">#F6F6F6</color>
+    <color name="yellow">#FFB32C</color>N
+>>>>>>> origin/pos
 </resources>

@@ -10,3 +10,10 @@ import kotlinx.coroutines.launch
  * Created by aldi on 28/03/22.
  */
 
+fun LifecycleOwner.collectLifecycleFlow(collect : suspend () -> Unit) {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED){
+            collect
+        }
+    }
+}

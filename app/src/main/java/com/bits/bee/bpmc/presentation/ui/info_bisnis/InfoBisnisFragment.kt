@@ -24,10 +24,10 @@ class InfoBisnisFragment constructor(
         super.onViewCreated(view, savedInstanceState)
         viewModel.getCityList()
         viewModel.getCityDaoList()
-        var dao: List<City> = viewModel.getCityDaoList()
+        var dao: List<String> = viewModel.getCityDaoList()
 
 //        var mArrayCity = dao?.let { arrayOfNulls<String>(it.size) }
-        val city_array: Array<City> = dao.toTypedArray()
+        val city_array: Array<String> = dao.toTypedArray()
 
         val autotextView = view.findViewById<AutoCompleteTextView>(R.id.ac_txtView)
         val adapter

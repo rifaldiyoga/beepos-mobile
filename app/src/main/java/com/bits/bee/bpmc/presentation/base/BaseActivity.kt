@@ -3,8 +3,10 @@ package com.bits.bee.bpmc.presentation.base
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
 
@@ -35,6 +37,11 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
         subscribeObservers()
     }
 
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        useMenu(menu)
+//        return true
+//    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -45,5 +52,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
     abstract override fun subscribeListeners()
 
     abstract override fun subscribeObservers()
+
+//    abstract override fun useMenu(menu: Menu)
 
 }

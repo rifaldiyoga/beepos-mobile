@@ -39,7 +39,7 @@ class CityRepository @Inject constructor(
         }.getAsFlow()
     }
 
-    fun getCityDao(): List<City>{
+    fun getCityDao(): List<String>{
         return cityDao.getCityName()
     }
 }

@@ -83,7 +83,7 @@ class NamaDeviceFragment constructor(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collect {
                     if(it.deviceName.isNotEmpty()) {
                         binding.btnLanjutkan.isEnabled = true

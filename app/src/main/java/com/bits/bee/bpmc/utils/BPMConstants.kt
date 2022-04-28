@@ -10,5 +10,7 @@ interface BPMConstants {
         const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
         const val MODE_FOOD_BEVERAGES = "MODE_FOOD_AND_BEVERAGES"
         const val MODE_RETAIL = "MODE_RETAIL"
+        const val NOTASETTING_LOGOPATH = "NOTASETTING_LOGOPATH"
+        const val INIT_DEFAULT_LOGO = "bpm_logo1"
     }
 }

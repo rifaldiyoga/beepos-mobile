@@ -1,9 +1,12 @@
 package com.bits.bee.bpmc.data.source.local.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = ItemGroup.TBL_NAME)
 data class ItemGroup(
     @PrimaryKey(autoGenerate = false)
@@ -19,7 +22,7 @@ data class ItemGroup(
     var upId : Int,
     @ColumnInfo(name = IS_POS)
     var isPos : Boolean,
-) {
+) : Parcelable {
     companion object {
         const val TBL_NAME = "itemgrp"
 

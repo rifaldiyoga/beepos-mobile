@@ -13,13 +13,16 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.facebook.stetho.Stetho
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Created by aldi on 04/04/22.
+ * Created by aldi on 07/04/22.
  */
+@AndroidEntryPoint
 class MainActivity(
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = ActivityMainBinding::inflate
-) : BaseActivity<ActivityMainBinding>(){
+) : BaseActivity<ActivityMainBinding>() {
+
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -27,6 +30,7 @@ class MainActivity(
     override fun initComponents() {
         initStetho()
         navHostFragment = supportFragmentManager.findFragmentById(R.id.initialHostFragment) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -47,7 +51,7 @@ class MainActivity(
     }
 
     override fun subscribeObservers() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

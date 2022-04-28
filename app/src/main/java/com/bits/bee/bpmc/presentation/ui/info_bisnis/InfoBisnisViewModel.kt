@@ -31,7 +31,7 @@ class InfoBisnisViewModel @Inject constructor(
         }
     }
 
-    fun getCityDaoList(): List<City>{
+    fun getCityDaoList(): List<String>{
         return cityInteractor.getCityDao()
     }
 }

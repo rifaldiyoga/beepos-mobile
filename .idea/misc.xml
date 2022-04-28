@@ -4,20 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/background_insight.xml" value="0.162" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_dialog_bottom.xml" value="0.199" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_light_gray.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_light_orange.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_light_teal.xml" value="0.1585" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_stroke_light_gray.xml" value="0.199" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rounded_green.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rounded_top_background_color.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_disable.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_primary.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_secondary.xml" value="0.1585" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/circle_progress.xml" value="0.2" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/fragment_atur_pin.xml" value="0.153" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/ic_baseline_chevron_right_gray.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/ic_baseline_refresh.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout-land/activity_initial.xml" value="0.10230263157894737" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/activity_initial.xml" value="0.1503623188405797" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/activity_main.xml" value="0.1171448087431694" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_atur.xml" value="0.1" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_atur_headerFooter.xml" value="0.15" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_atur_headerfooter.xml" value="0.11031420765027322" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_cloud_dapur.xml" value="0.14" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_info_builder.xml" value="0.12" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_loading_helper.xml" value="0.10758196721311475" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_radio_list.xml" value="0.10758196721311475" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_atur_pin.xml" value="0.14" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_atur_produk.xml" value="0.2" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_cek_wa.xml" value="0.1503623188405797" />
@@ -33,12 +45,29 @@
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_otp.xml" value="0.14" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pilih_cabang.xml" value="0.11577868852459017" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pilih_db.xml" value="0.1503623188405797" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pos.xml" value="0.11577868852459017" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_fav_main.xml" value="0.11441256830601093" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_favorite.xml" value="0.11441256830601093" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_list.xml" value="0.1" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_member_fav.xml" value="0.10040983606557377" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_nota.xml" value="0.18" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_pilih_prd.xml" value="0.1" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_pos.xml" value="0.18" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_produk_fav.xml" value="0.11133879781420765" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_sistem.xml" value="0.16" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_tambah_prd.xml" value="0.22" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_ubah_produk.xml" value="0.1766304347826087" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_ulangi_pin.xml" value="0.1503623188405797" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_invoice.xml" value="0.11" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_member_favorite.xml" value="0.14" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_pilih_db.xml" value="0.1503623188405797" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_produk_baru.xml" value="0.2" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_produk_favorite.xml" value="0.14" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_radio_button.xml" value="0.11031420765027322" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/list_bidang_usaha.xml" value="0.11577868852459017" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/menu/menu_pos.xml" value="0.12138157894736842" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/menu/menu_reload.xml" value="0.12138157894736842" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/menu/menu_search_fav.xml" value="0.12138157894736842" />
       </map>
     </option>
   </component>
