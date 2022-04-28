@@ -44,6 +44,8 @@ abstract class DbHelper : RoomDatabase() {
 
     abstract val pmtdDao : PmtdDao
 
+    abstract val licenseDao: LicenseDao
+
     companion object {
         const val DATABASE_NAME = "bpmData.db"
 

@@ -73,4 +73,10 @@ object DatabaseModule {
         return dbHelper.pmtdDao
     }
 
+    @Provides
+    @Singleton
+    fun provideLicDao(dbHelper: DbHelper): LicenseDao{
+        return dbHelper.licenseDao
+    }
+
 }

@@ -11,6 +11,7 @@
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_stroke_light_gray.xml" value="0.199" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rounded_green.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rounded_top_background_color.xml" value="0.1585" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_react_enable.xml" value="0.2" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_disable.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_primary.xml" value="0.1585" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_secondary.xml" value="0.1585" />
@@ -48,6 +49,7 @@
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pos.xml" value="0.11577868852459017" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_fav_main.xml" value="0.11441256830601093" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_favorite.xml" value="0.11441256830601093" />
+        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_lisensi.xml" value="0.25" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_list.xml" value="0.1" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_member_fav.xml" value="0.10040983606557377" />
         <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_nota.xml" value="0.18" />

@@ -292,4 +292,16 @@ apa?</string>
     <string name="no_fav_member">Belum ada member favorit</string>
     <string name="tambah_baru">Tambah Baru</string>
     <string name="memuat">Memuat Item...</string>
+    <string name="nama_db">Database 2</string>
+    <string name="versi_bpm">Beepos Mobile versi 1.4.4.30</string>
+    <string name="jenis_lisnesi">Beepos Mobile 12 Bulan Extra Lisensi</string>
+    <string name="berakhir_pada">Akan berakhir pada</string>
+    <string name="tgl_berakhir">22 Agustus 2022</string>
+    <string name="nomor_lisensi">Nomor Lisensi</string>
+    <string name="lihat_lainnya">Lihat Lainnya</string>
+    <string name="infor_lainnya">Informasi Lainnya</string>
+    <string name="serial_lisensi">Nomor Serial Lisensi</string>
+    <string name="nama_perangkat">Nama Perangkat</string>
+    <string name="lepas_lisensi">Lepas Lisensi</string>
+    <string name="perpanjang_lisensi">Perpanjang Lisensi</string>
 </resources>
