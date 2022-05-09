@@ -16,6 +16,10 @@ class DetailMemberViewModel @Inject constructor(
 
 ): BaseViewModel<DetailMemberState, DetailMemberViewModel.UIEvent>() {
 
+    init {
+        state = DetailMemberState()
+    }
+
     fun setOnClickInfoTax() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestInfoTax)
     }

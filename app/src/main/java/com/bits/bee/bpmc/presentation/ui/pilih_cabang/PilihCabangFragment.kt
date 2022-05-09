@@ -3,6 +3,9 @@ package com.bits.bee.bpmc.presentation.ui.pilih_cabang
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
@@ -13,6 +16,8 @@ import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Created by aldi on 17/03/22.
@@ -29,8 +34,6 @@ class PilihCabangFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getBranchList()
     }
 
     override fun initComponents() {
@@ -50,38 +53,41 @@ class PilihCabangFragment(
     override fun subscribeListeners() {
         binding.apply {
             swipeRefresh.setOnRefreshListener {
-                viewModel.getBranchList()
+                viewModel.getLatestBranchUseCase()
             }
         }
     }
 
     override fun subscribeObservers() {
-        viewModel.observeListBranch().removeObservers(viewLifecycleOwner)
-        viewModel.observeListBranch().observe(viewLifecycleOwner, {
-            it?.let {
-                when(it.status){
-                    Resource.Status.LOADING -> {
-                        setVisibilityComponent(true)
-                    }
-                    Resource.Status.SUCCESS -> {
-                        setVisibilityComponent(false)
-                        it.data?.let { data ->
-                            adapter.submitList(data)
-                            adapter.notifyDataSetChanged()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.getLatestBranchUseCase().collect {
+                    it?.let {
+                        when(it.status){
+                            Resource.Status.LOADING -> {
+                                setVisibilityComponent(true)
+                            }
+                            Resource.Status.SUCCESS -> {
+                                setVisibilityComponent(false)
+                                it.data?.let { data ->
+                                    adapter.submitList(data)
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                            Resource.Status.ERROR -> {
+                                setVisibilityComponent(false)
+                            }
+                            Resource.Status.TIMEOUT -> {
+                                setVisibilityComponent(false)
+                            }
+                            Resource.Status.UNAUTHORIZED -> {
+                                setVisibilityComponent(false)
+                            }
                         }
-                    }
-                    Resource.Status.ERROR -> {
-                        setVisibilityComponent(false)
-                    }
-                    Resource.Status.TIMEOUT -> {
-                        setVisibilityComponent(false)
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
-                        setVisibilityComponent(false)
                     }
                 }
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -91,7 +97,7 @@ class PilihCabangFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_refresh -> viewModel.getBranchList()
+            R.id.menu_refresh -> viewModel.getLatestBranchUseCase()
         }
         return super.onOptionsItemSelected(item)
     }

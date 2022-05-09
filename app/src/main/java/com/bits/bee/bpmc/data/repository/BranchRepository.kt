@@ -4,7 +4,6 @@ import com.bits.bee.bpmc.data.source.local.dao.BranchDao
 import com.bits.bee.bpmc.data.source.remote.ApiUtils
 import com.bits.bee.bpmc.data.source.remote.response.BranchResponse
 import com.bits.bee.bpmc.domain.model.Branch
-import com.bits.bee.bpmc.domain.repository.BranchRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -20,12 +19,12 @@ import kotlin.coroutines.CoroutineContext
 class BranchRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val branchDao: BranchDao
-) : BranchRepositoryI, CoroutineScope {
+) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    override fun getBranchList(): Flow<Resource<List<Branch>>> {
+    fun getBranchList(): Flow<Resource<List<Branch>>> {
         return object : NetworkDatabaseBoundResource<List<Branch>, BranchResponse>(){
             override suspend fun loadFormDB(): List<Branch> = branchDao.getBranchList().map { it.toBranch() }
 

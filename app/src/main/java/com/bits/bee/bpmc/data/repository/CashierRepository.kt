@@ -4,7 +4,6 @@ import com.bits.bee.bpmc.data.source.local.dao.CashierDao
 import com.bits.bee.bpmc.data.source.local.model.Cashier
 import com.bits.bee.bpmc.data.source.remote.ApiUtils
 import com.bits.bee.bpmc.data.source.remote.response.CashierResponse
-import com.bits.bee.bpmc.domain.repository.CashierRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -17,9 +16,9 @@ import javax.inject.Inject
 class CashierRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val cashierDao: CashierDao
-) : CashierRepositoryI{
+) {
 
-    override fun getCashierList(): Flow<Resource<List<Cashier>>> {
+    fun getCashierList(): Flow<Resource<List<Cashier>>> {
         return object : NetworkDatabaseBoundResource<List<Cashier>, CashierResponse>(){
             override suspend fun loadFormDB(): List<Cashier>? {
                 return cashierDao.getListCashier()

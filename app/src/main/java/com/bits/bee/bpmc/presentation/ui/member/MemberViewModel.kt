@@ -22,7 +22,7 @@ class MemberViewModel @Inject constructor(
     private val eventChannel = Channel<UIEvent>()
     val event = eventChannel.receiveAsFlow()
 
-    val memberList = memberInteractor.getFavoritMemberUseCase.invoke()
+    val memberList = memberInteractor.getFavoritMemberUseCase()
 
     fun onClickDetailMember(model : Bp) = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestDetailMember(model))

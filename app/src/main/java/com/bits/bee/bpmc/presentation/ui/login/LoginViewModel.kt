@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.source.remote.response.LoginResponse
-import com.bits.bee.bpmc.domain.usecase.LoginInteractor
+import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor (
-    private val loginInteractor: LoginInteractor,
+    private val loginUseCase: LoginUseCase,
     @ApplicationContext val context: Context
 ) : ViewModel() {
 
@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor (
     fun observeLoginResponse() = loginResponse as LiveData<Resource<LoginResponse>>
 
     fun login() {
-        val source = loginInteractor.login(_state.value.email, state.value.password).asLiveData()
+        val source = loginUseCase(_state.value.email, state.value.password).asLiveData()
         loginResponse.addSource(source){
             if (it != null) {
                 loginResponse.value = it

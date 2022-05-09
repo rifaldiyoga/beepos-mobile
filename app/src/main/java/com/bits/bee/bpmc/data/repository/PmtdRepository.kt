@@ -4,7 +4,6 @@ import com.bits.bee.bpmc.data.source.local.dao.PmtdDao
 import com.bits.bee.bpmc.data.source.local.model.Pmtd
 import com.bits.bee.bpmc.data.source.remote.ApiUtils
 import com.bits.bee.bpmc.data.source.remote.response.PmtdResponse
-import com.bits.bee.bpmc.domain.repository.PmtdRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -17,9 +16,9 @@ import javax.inject.Inject
 class PmtdRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val pmtdDao: PmtdDao
-) : PmtdRepositoryI {
+)  {
 
-    override fun getPmtdList(): Flow<Resource<List<Pmtd>>> {
+     fun getPmtdList(): Flow<Resource<List<Pmtd>>> {
         return object : NetworkDatabaseBoundResource<List<Pmtd>, PmtdResponse>(){
             override suspend fun loadFormDB(): List<Pmtd>? {
                 return pmtdDao.getPmtdList()
