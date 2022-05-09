@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.utils
 
-import org.json.JSONObject
 import retrofit2.Response
 import java.net.SocketTimeoutException
 
