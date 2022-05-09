@@ -29,14 +29,14 @@ import java.math.BigDecimal
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Bp::class,
-            parentColumns = [Bp.ID],
+            entity = BpEntity::class,
+            parentColumns = [BpEntity.ID],
             childColumns = [Sale.BP_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Channel::class,
-            parentColumns = [Channel.ID],
+            entity = ChannelEntity::class,
+            parentColumns = [ChannelEntity.ID],
             childColumns = [Sale.CHANNEL_ID],
             onDelete = ForeignKey.CASCADE
         )

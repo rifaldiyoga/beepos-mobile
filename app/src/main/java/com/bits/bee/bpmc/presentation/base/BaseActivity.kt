@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterface {
 
@@ -37,11 +38,6 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
         subscribeObservers()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        useMenu(menu)
-//        return true
-//    }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -53,6 +49,9 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
 
     abstract override fun subscribeObservers()
 
-//    abstract override fun useMenu(menu: Menu)
+    override fun showSnackbar(msg: String) {
+        val snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+    }
 
 }

@@ -16,8 +16,7 @@
     <color name="light_red_bpm">#D32F2F</color>
     <color name="light_teal">#1A9DD1D4</color>
     <color name="light_orange">#33FFB648</color>
+    <color name="yellow">#FFB32C</color>
     <color name="orange">#FFB648</color>
     <color name="gray_lite">#F6F6F6</color>
-    <color name="yellow">#FFB32C</color>N
->>>>>>> origin/pos
 </resources>

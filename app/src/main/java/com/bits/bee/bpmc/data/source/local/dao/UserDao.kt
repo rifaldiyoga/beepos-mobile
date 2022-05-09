@@ -3,8 +3,6 @@ package com.bits.bee.bpmc.data.source.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.source.local.base.BaseDao
-import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
-import com.bits.bee.bpmc.data.source.local.model.Cashier
 import com.bits.bee.bpmc.data.source.local.model.User
 
 /**

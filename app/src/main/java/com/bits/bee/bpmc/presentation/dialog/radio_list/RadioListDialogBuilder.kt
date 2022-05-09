@@ -2,12 +2,10 @@ package com.bits.bee.bpmc.presentation.dialog.radio_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogRadioListBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
-import com.bits.bee.bpmc.presentation.ui.setting_sistem.SettingSistemViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +22,7 @@ class RadioListDialogBuilder(
 ) : BaseBottomSheetDialogFragment<DialogRadioListBinding>() {
 
     private lateinit var radioAdapter: RadioListAdapter
+
     private lateinit var selectedStr: String
 
     override fun initComponents() {

@@ -1,12 +1,13 @@
-package com.bits.bee.bpmc.presentation.ui.pos
+package com.bits.bee.bpmc.presentation.ui.pos.pos_item
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.bits.bee.bpmc.data.source.local.model.ItemGroup
+import com.bits.bee.bpmc.data.source.local.model.ItemGroupEntity
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 

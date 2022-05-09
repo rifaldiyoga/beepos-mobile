@@ -75,8 +75,14 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideLicDao(dbHelper: DbHelper): LicenseDao{
-        return dbHelper.licenseDao
+    fun provideChannelDao(dbHelper: DbHelper) : ChannelDao {
+        return dbHelper.channelDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePriceLvlDao(dbHelper: DbHelper) : PriceLvlDao {
+        return dbHelper.priceLvlDao
     }
 
 }

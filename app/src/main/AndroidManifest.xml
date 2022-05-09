@@ -44,9 +44,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.ui.main.MainActivity" android:exported="true">
+        <activity android:name=".presentation.ui.pos.MainActivity" android:exported="true"/>
 
-        </activity>
+        <activity android:name=".presentation.ui.download.DownloadActivity"/>
 
     </application>
 

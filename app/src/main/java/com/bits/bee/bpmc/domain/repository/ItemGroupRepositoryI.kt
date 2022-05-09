@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.source.local.model.ItemGroup
+import com.bits.bee.bpmc.data.source.local.model.ItemGroupEntity
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -9,6 +10,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ItemGroupRepositoryI {
 
-    fun getItemGroupList() : Flow<Resource<List<ItemGroup>>>
+    fun getItemGroupList(page : Int) : Flow<Resource<List<ItemGroup>>>
 
 }

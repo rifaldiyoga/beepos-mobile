@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.data.source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.source.local.model.Channel
+import com.bits.bee.bpmc.data.source.local.model.ChannelEntity
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -39,19 +41,20 @@ data class ChannelResponse (
         @SerializedName("created_by")
         var createdBy : Int = -1,
         @SerializedName("created_at")
-        var createdAt : Long,
+        var createdAt : String,
         @SerializedName("updated_by")
         var updatedBy : Int = -1,
         @SerializedName("updated_at")
-        var updatedAt : Long,
+        var updatedAt : String,
         @SerializedName("color")
         var color : String = "",
         @SerializedName("pricelvl_id")
         var priceLvlId : Int? = -1,
     ) : Parcelable {
 
-        fun toChannel() : Channel {
-            return Channel(id, code, name, active, isPos, createdBy,createdAt, updatedBy, updatedAt, color, priceLvlId)
+        fun toChannel() : ChannelEntity {
+            return ChannelEntity(id, code, name, active, isPos, createdBy,DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, updatedBy, DateFormatUtils.formatStringToDate(
+                BPMConstants.DEFAULT_DATE_FORMAT, updatedAt).time, color, priceLvlId)
         }
 
     }

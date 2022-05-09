@@ -3,18 +3,21 @@ package com.bits.bee.bpmc.data.source.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.source.local.base.BaseDao
-import com.bits.bee.bpmc.data.source.local.model.Channel
-import com.bits.bee.bpmc.data.source.local.model.City
+import com.bits.bee.bpmc.data.source.local.model.ChannelEntity
 
 /**
  * Created by aldi on 30/03/22.
  */
 @Dao
-interface ChannelDao : BaseDao<Channel>{
+interface ChannelDao : BaseDao<ChannelEntity>{
 
     @Query("SELECT * FROM channel")
-    fun getChannelList() : List<Channel>
+    fun getChannelList() : List<ChannelEntity>
 
     @Query("DELETE FROM channel")
     fun deleteAll()
+
+    @Query("SELECT * FROM channel WHERE ispos = 1 AND active = 1")
+    fun getActiveChannelList() : List<ChannelEntity>
+
 }

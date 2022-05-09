@@ -24,8 +24,8 @@ import java.math.BigDecimal
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Bp::class,
-            parentColumns = [Bp.ID],
+            entity = BpEntity::class,
+            parentColumns = [BpEntity.ID],
             childColumns = [SalePromo.BP_ID],
             onDelete = ForeignKey.CASCADE
         )

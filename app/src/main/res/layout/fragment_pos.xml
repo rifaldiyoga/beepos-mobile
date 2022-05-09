@@ -5,136 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout10"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/size16">
-
-            <ImageView
-                android:id="@+id/imageChannel"
-                android:layout_width="@dimen/size24"
-                android:layout_height="@dimen/size24"
-                android:src="@drawable/ic_baseline_bookmark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvTitleChannel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
-                android:text="@string/channel"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font12"
-                app:layout_constraintBottom_toTopOf="@+id/tvChannel"
-                app:layout_constraintStart_toEndOf="@+id/imageChannel"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread" />
-
-            <TextView
-                android:id="@+id/tvChannel"
-                style="@style/TextHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size4"
-                android:text="DINE IN"
-                android:textColor="@color/white"
-                android:textSize="@dimen/size16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tvTitleChannel"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitleChannel" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:layout_width="@dimen/size1"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/size16"
-            android:layout_marginBottom="@dimen/size16"
-            android:background="@color/white" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/size16">
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="@dimen/size20"
-                android:layout_height="@dimen/size20"
-                android:src="@drawable/ic_person"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView39"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
-                android:text="@string/member"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font12"
-                app:layout_constraintBottom_toTopOf="@+id/textView38"
-                app:layout_constraintStart_toEndOf="@+id/imageView6"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread" />
-
-            <TextView
-                android:id="@+id/textView38"
-                style="@style/TextHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size4"
-                android:text="Budi"
-                android:textColor="@color/white"
-                android:textSize="@dimen/size16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView39"
-                app:layout_constraintTop_toBottomOf="@+id/textView39" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="@dimen/size0"
-        app:tabTextColor="@color/white"
-        app:tabMode="scrollable"
-        app:tabIndicatorColor="@color/white"
         android:layout_height="?actionBarSize"
         android:background="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout10" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@color/white"
+        app:tabMode="scrollable"
+        app:tabTextColor="@color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout13"
+        app:layout_constraintBottom_toTopOf="@+id/llNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <LinearLayout
-        android:id="@+id/linearLayout13"
+        android:id="@+id/llNext"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:padding="@dimen/size16"

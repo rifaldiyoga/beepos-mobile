@@ -5,16 +5,16 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = Channel.TBL_NAME,
+@Entity(tableName = ChannelEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = PriceLvl::class,
-            parentColumns = [PriceLvl.ID],
-            childColumns = [Channel.PRICELVL_ID]
+            entity = PriceLvlEntity::class,
+            parentColumns = [PriceLvlEntity.ID],
+            childColumns = [ChannelEntity.PRICELVL_ID]
         )
     ]
 )
-data class Channel(
+data class ChannelEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,

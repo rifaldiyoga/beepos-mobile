@@ -1,11 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.home
 
-import android.app.SearchManager
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.Menu
-import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -20,7 +15,7 @@ import com.bits.bee.bpmc.presentation.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Created by aldi on 04/04/22.
+ * Created by aldi on 07/04/22.
  */
 @AndroidEntryPoint
 class HomeActivity(
@@ -59,31 +54,5 @@ class HomeActivity(
         val navController = findNavController(R.id.initialHostFragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
-//    override fun useMenu(menu: Menu) {
-//        val inflater = menuInflater
-//        inflater.inflate(R.menu.menu_search_fav, menu)
-//
-//        val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        val searchItem = menu.findItem(R.id.search_fav)
-//        val searchView = searchItem.actionView as SearchView
-//
-//        searchView.setSearchableInfo(manager.getSearchableInfo(componentName))
-//
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                searchView.clearFocus()
-//                searchView.setQuery("", false)
-//                searchItem.collapseActionView()
-//                Toast.makeText(this@HomeActivity, "Loking for$query",Toast.LENGTH_SHORT).show()
-//                return true
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                return false
-//            }
-//
-//        })
-//    }
 }
 

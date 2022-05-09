@@ -13,5 +13,5 @@ interface BaseInterface {
 
     fun subscribeObservers()
 
-//    fun useMenu(menu: Menu)
+    fun showSnackbar(msg : String)
 }

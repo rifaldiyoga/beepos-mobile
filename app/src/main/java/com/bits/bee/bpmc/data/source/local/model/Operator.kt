@@ -5,8 +5,8 @@ import androidx.room.*
 @Entity(tableName = Operator.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = BranchEntitiy::class,
-            parentColumns = [BranchEntitiy.ID],
+            entity = BranchEntity::class,
+            parentColumns = [BranchEntity.ID],
             childColumns = [Operator.BRANCH_ID],
             onDelete = ForeignKey.CASCADE
         )

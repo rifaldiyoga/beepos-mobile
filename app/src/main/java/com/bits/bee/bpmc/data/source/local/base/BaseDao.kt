@@ -10,7 +10,7 @@ interface BaseDao<T> {
     suspend fun insertBulk(listEntity: List<T>?)
 
     @Insert(onConflict = REPLACE)
-    fun insertSingle(entity: T): Long
+    suspend fun insertSingle(entity: T): Long
 
     @Update
     fun update(entity: T)

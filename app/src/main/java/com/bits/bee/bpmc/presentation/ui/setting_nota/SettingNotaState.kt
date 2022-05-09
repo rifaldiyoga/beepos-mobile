@@ -5,7 +5,5 @@ data class SettingNotaState(
     var useLogoGalery: Boolean = false,
     var useHeader: Boolean = false,
     var useFooter: Boolean = false,
-    var aturHeader: String ="",
-    var aturFooter: String ="",
     var filePath: String = ""
     )

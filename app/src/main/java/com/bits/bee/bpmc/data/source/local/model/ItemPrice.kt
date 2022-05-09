@@ -13,8 +13,8 @@ import androidx.room.PrimaryKey
             childColumns = [ItemPrice.ITEM_ID]
         ),
         ForeignKey(
-            entity = PriceLvl::class,
-            parentColumns = [PriceLvl.ID],
+            entity = PriceLvlEntity::class,
+            parentColumns = [PriceLvlEntity.ID],
             childColumns = [ItemPrice.PRICELVL_ID]
         )
     ]

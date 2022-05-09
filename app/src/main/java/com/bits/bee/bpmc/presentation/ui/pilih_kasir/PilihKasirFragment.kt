@@ -52,9 +52,9 @@ class PilihKasirFragment(
     }
 
     override fun subscribeObservers() {
-        viewModel.observeCashierResponse().observe(viewLifecycleOwner, {
+        viewModel.observeCashierResponse().observe(viewLifecycleOwner) {
             it?.let {
-                when(it.status){
+                when (it.status) {
                     Resource.Status.LOADING -> {
                         setVisibilityComponent(true)
                     }
@@ -76,7 +76,7 @@ class PilihKasirFragment(
                     }
                 }
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
