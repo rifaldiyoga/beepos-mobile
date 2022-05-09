@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class BpRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val bpDao: BpDao,
-    private val bpAddrDao : BpAddrDao
+    private val bpAddrDao : BpAddrDao,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     fun getLastesBpList(): Flow<Resource<List<Bp>>> {
@@ -51,7 +53,7 @@ class BpRepository @Inject constructor(
     fun getDefaultBp() : Flow<Resource<Bp>> {
         return flow {
             var data : BpEntity
-            withContext(Dispatchers.IO){
+            withContext(ioDispatcher){
                 data = bpDao.getBpById(1)
             }
             emit(Resource.success(BpDataMapper.fromDataToDomain(data)))
@@ -62,7 +64,7 @@ class BpRepository @Inject constructor(
         return flow {
             var data : List<Bp>
             emit(Resource.loading())
-            withContext(Dispatchers.IO){
+            withContext(ioDispatcher){
                 data = bpDao.getFavoritBpList(true).map { BpDataMapper.fromDataToDomain(it) }
             }
             emit(Resource.success(data))
