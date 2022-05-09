@@ -75,12 +75,6 @@ class PilihDbFragment constructor(
                     Resource.Status.ERROR -> {
                         setVisibilityComponent(false)
                     }
-                    Resource.Status.TIMEOUT -> {
-                        setVisibilityComponent(false)
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
-                        setVisibilityComponent(false)
-                    }
                 }
             }
         })

@@ -43,12 +43,6 @@ class MainViewModel @Inject constructor(
                     Resource.Status.ERROR -> {
 
                     }
-                    Resource.Status.TIMEOUT -> {
-
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
-
-                    }
                 }
             }
         }
@@ -68,12 +62,6 @@ class MainViewModel @Inject constructor(
                         }
                     }
                     Resource.Status.ERROR -> {
-
-                    }
-                    Resource.Status.TIMEOUT -> {
-
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
 
                     }
                 }

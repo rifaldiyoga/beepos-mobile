@@ -90,12 +90,6 @@ class PosFragment(
                                 showSnackbar(msg)
                             }
                         }
-                        Resource.Status.TIMEOUT -> {
-
-                        }
-                        Resource.Status.UNAUTHORIZED -> {
-
-                        }
                     }
                 }
             }

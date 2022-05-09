@@ -74,12 +74,6 @@ class InfoBisnisFragment constructor(
                     Resource.Status.ERROR -> {
                         setVisibilityComponent(false)
                     }
-                    Resource.Status.TIMEOUT -> {
-                        setVisibilityComponent(false)
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
-                        setVisibilityComponent(false)
-                    }
                 }
             }
         })

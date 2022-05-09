@@ -91,12 +91,6 @@ class MemberFragment(
                         Resource.Status.ERROR -> {
                             setVisibilityLoading(false)
                         }
-                        Resource.Status.TIMEOUT -> {
-                            setVisibilityLoading(false)
-                        }
-                        Resource.Status.UNAUTHORIZED -> {
-                            setVisibilityLoading(false)
-                        }
                     }
                 }
             }

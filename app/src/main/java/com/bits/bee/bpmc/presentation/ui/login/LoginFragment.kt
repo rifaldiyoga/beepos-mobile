@@ -124,12 +124,6 @@ class LoginFragment constructor (
                     Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
                         .show()
                 }
-                Resource.Status.TIMEOUT -> {
-                    dialog.hide()
-                }
-                Resource.Status.UNAUTHORIZED -> {
-                    dialog.hide()
-                }
             }
         }
     }

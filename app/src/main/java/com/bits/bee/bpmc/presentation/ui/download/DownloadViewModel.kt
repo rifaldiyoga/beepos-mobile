@@ -53,12 +53,6 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.ERROR -> {
 
                 }
-                Resource.Status.TIMEOUT -> {
-
-                }
-                Resource.Status.UNAUTHORIZED -> {
-
-                }
             }
         }
     }
@@ -77,12 +71,6 @@ class DownloadViewModel @Inject constructor (
                     }
                 }
                 Resource.Status.ERROR -> {
-
-                }
-                Resource.Status.TIMEOUT -> {
-
-                }
-                Resource.Status.UNAUTHORIZED -> {
 
                 }
             }
@@ -105,12 +93,6 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.ERROR -> {
 
                 }
-                Resource.Status.TIMEOUT -> {
-
-                }
-                Resource.Status.UNAUTHORIZED -> {
-
-                }
             }
         }
     }
@@ -130,12 +112,6 @@ class DownloadViewModel @Inject constructor (
                     }
                 }
                 Resource.Status.ERROR -> {
-
-                }
-                Resource.Status.TIMEOUT -> {
-
-                }
-                Resource.Status.UNAUTHORIZED -> {
 
                 }
             }
