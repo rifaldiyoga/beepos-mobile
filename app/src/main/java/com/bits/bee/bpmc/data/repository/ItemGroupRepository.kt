@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,7 +22,8 @@ import javax.inject.Inject
  */
 class ItemGroupRepository @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val itemGroupDao: ItemGroupDao
+    private val itemGroupDao: ItemGroupDao,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>> {
@@ -54,7 +56,7 @@ class ItemGroupRepository @Inject constructor(
         return flow {
             emit(Resource.loading())
             var data : List<ItemGroup> = mutableListOf()
-            withContext(Dispatchers.IO){
+            withContext(ioDispatcher){
                 data = itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDataToDomain(it) }
             }
             if(data.isNotEmpty()) {

@@ -8,6 +8,7 @@ import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,7 +20,8 @@ import javax.inject.Inject
  */
 class ChannelRepository  @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val channelDao: ChannelDao
+    private val channelDao: ChannelDao,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     fun getChannelList(): Flow<Resource<List<Channel>>> {
@@ -47,7 +49,7 @@ class ChannelRepository  @Inject constructor(
         return flow {
             emit(Resource.loading())
             var data : List<Channel> = mutableListOf()
-            withContext(Dispatchers.IO){
+            withContext(ioDispatcher){
                 data = channelDao.getActiveChannelList().map { ChannelDataMapper.fromDataToDomain(it) }
             }
             if(data.isNotEmpty()) {
