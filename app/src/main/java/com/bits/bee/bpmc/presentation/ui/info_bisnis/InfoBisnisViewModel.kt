@@ -18,7 +18,7 @@ class InfoBisnisViewModel @Inject constructor(
     fun observeListCity() = cityResponse as LiveData<Resource<List<City>>>
 
     fun getCityList(){
-        val source = cityInteractor.getCityList().asLiveData()
+        val source = cityInteractor().asLiveData()
         cityResponse.addSource(source) {
             if (it != null) {
                 cityResponse.value = it

@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.source.local.dao.UserDao
 import com.bits.bee.bpmc.data.source.local.model.User
-import com.bits.bee.bpmc.domain.repository.UserRepositoryI
 import javax.inject.Inject
 
 /**
@@ -10,9 +9,9 @@ import javax.inject.Inject
  */
 class UserRepository  @Inject constructor(
     private val userDao: UserDao
-) : UserRepositoryI {
+) {
 
-    override fun getActiveUser(): User? {
+    fun getActiveUser(): User? {
         return userDao.geActiveUser()
     }
 }

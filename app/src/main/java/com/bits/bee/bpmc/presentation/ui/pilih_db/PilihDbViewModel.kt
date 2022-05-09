@@ -2,7 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pilih_db
 
 import androidx.lifecycle.*
 import com.bits.bee.bpmc.data.source.remote.response.LoginResponse
-import com.bits.bee.bpmc.domain.usecase.LoginInteractor
+import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
 import com.bits.bee.bpmc.presentation.ui.login.LoginViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PilihDbViewModel @Inject constructor(
-    private val loginInteractor: LoginInteractor,
+    private val loginUseCase: LoginUseCase,
     private val state : SavedStateHandle
 ) : ViewModel() {
 
@@ -39,7 +39,7 @@ class PilihDbViewModel @Inject constructor(
     fun observeLoginResponse() = loginResponse as LiveData<Resource<LoginResponse>>
 
     fun login() {
-        val source = loginInteractor.login(inputEmail, inputPassword).asLiveData()
+        val source = loginUseCase(inputEmail, inputPassword).asLiveData()
         loginResponse.addSource(source){
             if (it != null) {
                 loginResponse.value = it

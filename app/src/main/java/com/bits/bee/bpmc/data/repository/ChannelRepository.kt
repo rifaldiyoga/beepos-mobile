@@ -5,7 +5,6 @@ import com.bits.bee.bpmc.data.source.remote.ApiUtils
 import com.bits.bee.bpmc.data.source.remote.response.ChannelResponse
 import com.bits.bee.bpmc.domain.mapper.ChannelDataMapper
 import com.bits.bee.bpmc.domain.model.Channel
-import com.bits.bee.bpmc.domain.repository.ChannelRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -21,9 +20,9 @@ import javax.inject.Inject
 class ChannelRepository  @Inject constructor(
     private val apiUtils: ApiUtils,
     private val channelDao: ChannelDao
-) : ChannelRepositoryI {
+) {
 
-    override fun getChannelList(): Flow<Resource<List<Channel>>> {
+    fun getChannelList(): Flow<Resource<List<Channel>>> {
         return object : NetworkDatabaseBoundResource<List<Channel>, ChannelResponse>(){
             override suspend fun loadFormDB(): List<Channel>? {
                 return channelDao.getChannelList().map { ChannelDataMapper.fromDataToDomain(it) }

@@ -4,7 +4,6 @@ import com.bits.bee.bpmc.data.source.local.dao.TaxDao
 import com.bits.bee.bpmc.data.source.local.model.Tax
 import com.bits.bee.bpmc.data.source.remote.ApiUtils
 import com.bits.bee.bpmc.data.source.remote.response.TaxResponse
-import com.bits.bee.bpmc.domain.repository.TaxRepositoryI
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -17,9 +16,9 @@ import javax.inject.Inject
 class TaxRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val taxDao: TaxDao
-) : TaxRepositoryI {
+)  {
 
-    override fun getTaxList(): Flow<Resource<List<Tax>>> {
+     fun getTaxList(): Flow<Resource<List<Tax>>> {
         return object : NetworkDatabaseBoundResource<List<Tax>, TaxResponse>(){
             override suspend fun loadFormDB(): List<Tax>? {
                 return taxDao.getTaxList()

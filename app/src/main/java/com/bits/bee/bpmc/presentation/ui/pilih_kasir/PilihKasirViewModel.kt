@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.bits.bee.bpmc.data.source.local.model.Cashier
-import com.bits.bee.bpmc.domain.usecase.CashierInteractor
+import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,14 +15,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PilihKasirViewModel @Inject constructor(
-    private val cashierInteractor: CashierInteractor
+    private val getLatestCashierUseCase: GetLatestCashierUseCase
 ) : ViewModel() {
 
     private var cashierResponse: MediatorLiveData<Resource<List<Cashier>>> = MediatorLiveData()
     fun observeCashierResponse() = cashierResponse as LiveData<Resource<List<Cashier>>>
 
     fun getCashierList() {
-        val source = cashierInteractor.getCashierList().asLiveData()
+        val source = getLatestCashierUseCase().asLiveData()
         cashierResponse.addSource(source){
             if (it != null) {
                 cashierResponse.value = it

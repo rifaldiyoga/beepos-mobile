@@ -38,7 +38,7 @@ class DownloadViewModel @Inject constructor (
     }
 
     private fun downloadItemGroup() = viewModelScope.launch {
-        downloadInteractor.getLatestItemGroupUseCase.getItemGroupList(page).collect {
+        downloadInteractor.getLatestItemGroupUseCase(page).collect {
             when(it.status){
                 Resource.Status.LOADING -> {
                     _state.update {
@@ -64,7 +64,7 @@ class DownloadViewModel @Inject constructor (
     }
 
     private fun downloadChannel() = viewModelScope.launch {
-        downloadInteractor.getLatestChannelUseCase.getChannelList().collect {
+        downloadInteractor.getLatestChannelUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
                     _state.update {
@@ -90,7 +90,7 @@ class DownloadViewModel @Inject constructor (
     }
 
     private fun downloadBp() = viewModelScope.launch {
-        downloadInteractor.getLatestBpUseCase.getBpList().collect {
+        downloadInteractor.getLatestBpUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
                     _state.update {
@@ -116,7 +116,7 @@ class DownloadViewModel @Inject constructor (
     }
 
     private fun downloadPriceLvl() = viewModelScope.launch {
-        downloadInteractor.getLatestPriceLvlUseCase.invoke().collect {
+        downloadInteractor.getLatestPriceLvlUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
                     _state.update {
