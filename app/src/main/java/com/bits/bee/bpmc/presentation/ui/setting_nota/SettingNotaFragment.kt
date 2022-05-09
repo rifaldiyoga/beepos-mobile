@@ -50,10 +50,6 @@ class SettingNotaFragment(
         }
     }
 
-
-
-
-
     override fun subscribeListeners() {
         binding.apply {
             clAturHeader.setOnClickListener {
@@ -65,10 +61,8 @@ class SettingNotaFragment(
             swcLogo.setOnCheckedChangeListener { compoundButton, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo), true)
-//                    viewModel.onSwitchLogo()
                 }else{
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo), false)
-//                    viewModel.offSwitchLogo()
                 }
             }
             swcLogoGaleri.setOnCheckedChangeListener { compoundButton, b ->
@@ -76,11 +70,15 @@ class SettingNotaFragment(
                     if (b){
                         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), true)
                         onShowGaleri()
-//                    viewModel.onSwitchLogoGaleri()
                     }else{
                         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), false)
                         BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, BPMConstants.INIT_DEFAULT_LOGO)
-                        viewModel.offSwitchLogoGaleri()
+                        viewModel.update(
+                            viewModel.state.copy(
+                                useLogoGalery = false,
+                                filePath = BeePreferenceManager.getDataFromPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, "") as String
+                            )
+                        )
                     }
                 }
             }
@@ -88,22 +86,18 @@ class SettingNotaFragment(
                 if (b){
                     clAturHeader.visible()
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_header), true)
-//                    viewModel.onSwitchHeader()
                 }else{
                     clAturHeader.gone()
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_header), false)
-//                    viewModel.offSwitchHeader()
                 }
             }
             swcFooter.setOnCheckedChangeListener { compoundButton, b ->
                 if (b){
                     clAturFooter.visible()
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_footer), true)
-//                    viewModel.onSwitchFooter()
                 }else{
                     clAturFooter.gone()
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_footer), false)
-//                    viewModel.offSwitchFooter()
                 }
             }
         }
@@ -176,7 +170,7 @@ class SettingNotaFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
+                viewModel.viewStates().collect {
                     binding.apply {
                         swcLogo.isChecked = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
                             R.string.pref_logo), false) as Boolean
@@ -192,11 +186,6 @@ class SettingNotaFragment(
             }
         }
 
-
-
-//        viewLifecycleOwner.collectLifecycleFlow {
-//
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -207,8 +196,11 @@ class SettingNotaFragment(
                 val file = arrayOf(MediaStore.Images.Media.DATA)
                 getContentImg(uri, file, requireContext())
                 BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, mImagePath)
-                viewModel.getFilePath()
-//                binding.tVNameFile.text = mImagePath
+                viewModel.update(
+                    viewModel.state.copy(
+                        filePath = mImagePath
+                    )
+                )
             }
         }else{
             BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, BPMConstants.INIT_DEFAULT_LOGO)

@@ -41,6 +41,9 @@ class SettingListFragment(
             clNota.setOnClickListener {
                 viewModel.onClickSettingNota()
             }
+            clLisensi.setOnClickListener {
+                viewModel.onClickSettingLisensi()
+            }
         }
     }
 
@@ -58,7 +61,8 @@ class SettingListFragment(
                             findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingLisensi -> {
-
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToHelpLicenseFragment()
+                            findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingNota -> {
                             val action = SettingListFragmentDirections.actionSettingListFragmentToSettingNotaFragment()

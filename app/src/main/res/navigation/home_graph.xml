@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_settingListFragment_to_settingFavoriteFragmentMain"
             app:destination="@id/settingFavoriteFragmentMain" />
+        <action
+            android:id="@+id/action_settingListFragment_to_helpLicenseFragment"
+            app:destination="@id/helpLicenseFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_setting_pos"
@@ -70,6 +73,11 @@
         tools:layout="@layout/fragment_setting_produk_fav"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavProdukFragment"
         android:label="SettingFavProdukFragment" />
+    <fragment
+        android:id="@+id/helpLicenseFragment"
+        tools:layout="@layout/fragment_help_lisensi"
+        android:name="com.bits.bee.bpmc.presentation.ui.help_license.HelpLicenseFragment"
+        android:label="HelpLicenseFragment" />
 
 
 </navigation>

@@ -137,7 +137,11 @@ class SettingSistemFragment(
                                             R.string.pref_sistem_penyimpanan
                                         ), data.toString()
                                     )
-                                    viewModel.getSistemPenyimpanan()
+                                    viewModel.update(
+                                        viewModel.state.copy(
+                                            sistemPenyimpanan = data.toString()
+                                        )
+                                    )
                                 })
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -154,7 +158,11 @@ class SettingSistemFragment(
                                             R.string.pref_batch_upload
                                         ), data.toString()
                                     )
-                                    viewModel.getSistemBatchUpload()
+                                    viewModel.update(
+                                        viewModel.state.copy(
+                                            sistemBatchUpload = data.toString()
+                                        )
+                                    )
                                 })
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -171,7 +179,11 @@ class SettingSistemFragment(
                                             R.string.pref_periode_upload_otomatis
                                         ), data.toString()
                                     )
-                                    viewModel.getPeriodeOtomatis()
+                                    viewModel.update(
+                                        viewModel.state.copy(
+                                            periodeUploadOtomatis = data.toString()
+                                        )
+                                    )
                                 })
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -193,7 +205,7 @@ class SettingSistemFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
+                viewModel.viewStates().collect {
                     binding.apply {
                         swcloudDapur.isChecked = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
                             R.string.pref_switch_dapur), false) as Boolean

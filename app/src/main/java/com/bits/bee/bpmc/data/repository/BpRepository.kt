@@ -63,7 +63,7 @@ class BpRepository @Inject constructor(
             var data : List<Bp>
             emit(Resource.loading())
             withContext(Dispatchers.IO){
-                data = bpDao.getFavoritBpList().map { BpDataMapper.fromDataToDomain(it) }
+                data = bpDao.getFavoritBpList(true).map { BpDataMapper.fromDataToDomain(it) }
             }
             emit(Resource.success(data))
         }

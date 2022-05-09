@@ -5,6 +5,9 @@ import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.ui.setting_nota.SettingNotaState
+import com.bits.bee.bpmc.presentation.ui.setting_nota.SettingNotaViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosViewState
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -21,12 +24,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingSistemViewModel @Inject constructor(
     @ApplicationContext val application: Context
-): ViewModel() {
-    private val eventChannel = Channel<UIEvent>()
-    val event = eventChannel.receiveAsFlow()
+): BaseViewModel<SettingSistemState, SettingSistemViewModel.UIEvent>() {
 
-    private var _state = MutableStateFlow(SettingSistemState())
-    var state = _state.asStateFlow()
+    init {
+        state = SettingSistemState()
+    }
 
     fun onClickSistemPenyimpanan() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestSistemPenyimpanan)
@@ -44,27 +46,10 @@ class SettingSistemViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestAboutCloudDapur)
     }
 
-    fun getSistemPenyimpanan() {
-        _state.update { it.copy(sistemPenyimpanan = BeePreferenceManager.getDataFromPreferences(application, application.getString(
-            R.string.pref_sistem_penyimpanan), "") as String) }
-    }
-
-    fun getSistemBatchUpload(){
-        _state.update { it.copy(sistemBatchUpload = BeePreferenceManager.getDataFromPreferences(application, application.getString(
-            R.string.pref_batch_upload), "" ) as String ) }
-    }
-
-    fun getPeriodeOtomatis(){
-        _state.update { it.copy(periodeUploadOtomatis = BeePreferenceManager.getDataFromPreferences(application, application.getString(
-            R.string.pref_periode_upload_otomatis), "") as String) }
-    }
-
-    fun onSwitchDataDapur(){
-        _state.update { it.copy(isCloudDapur = true) }
-    }
-
-    fun offSwitchDataDapur(){
-        _state.update { it.copy(isCloudDapur = false) }
+    fun update(state: SettingSistemState){
+        _state.update {
+            state
+        }
     }
 
     sealed class UIEvent{
