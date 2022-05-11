@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_settingListFragment_to_helpLicenseFragment"
             app:destination="@id/helpLicenseFragment" />
+        <action
+            android:id="@+id/action_settingListFragment_to_settingPrinterFragment"
+            app:destination="@id/settingPrinterFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_setting_pos"
@@ -78,6 +81,11 @@
         tools:layout="@layout/fragment_help_lisensi"
         android:name="com.bits.bee.bpmc.presentation.ui.help_license.HelpLicenseFragment"
         android:label="HelpLicenseFragment" />
+    <fragment
+        android:id="@+id/settingPrinterFragment"
+        tools:layout="@layout/fragment_setting_printer"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.SettingPrinterFragment"
+        android:label="SettingPrinterFragment" />
 
 
 </navigation>

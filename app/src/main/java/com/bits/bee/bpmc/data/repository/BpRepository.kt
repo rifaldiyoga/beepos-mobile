@@ -11,7 +11,6 @@ import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -24,7 +23,7 @@ class BpRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val bpDao: BpDao,
     private val bpAddrDao : BpAddrDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher
 ) {
 
     fun getLastesBpList(): Flow<Resource<List<Bp>>> {

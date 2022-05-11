@@ -44,6 +44,9 @@ class SettingListFragment(
             clLisensi.setOnClickListener {
                 viewModel.onClickSettingLisensi()
             }
+            clPrint.setOnClickListener {
+                viewModel.onClickSettingPrint()
+            }
         }
     }
 

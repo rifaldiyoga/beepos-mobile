@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ItemGroupRepository @Inject constructor(
     private val apiUtils: ApiUtils,
     private val itemGroupDao: ItemGroupDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher
 ) {
 
     fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>> {

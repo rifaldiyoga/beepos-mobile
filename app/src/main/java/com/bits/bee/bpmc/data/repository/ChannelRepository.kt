@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ChannelRepository  @Inject constructor(
     private val apiUtils: ApiUtils,
     private val channelDao: ChannelDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher
 ) {
 
     fun getChannelList(): Flow<Resource<List<Channel>>> {
