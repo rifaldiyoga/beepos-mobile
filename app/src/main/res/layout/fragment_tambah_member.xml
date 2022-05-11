@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="@dimen/size16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/button">
+        app:layout_constraintBottom_toTopOf="@+id/btnSimpan">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
+                android:id="@+id/tilNamaMember"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -58,10 +58,10 @@
                 android:layout_marginTop="@dimen/size16"
                 android:text="@string/no_telepon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/tilNamaMember" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout2"
+                android:id="@+id/tilNoTelp"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -89,10 +89,10 @@
                 android:layout_marginTop="@dimen/size16"
                 android:text="@string/alamat"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+                app:layout_constraintTop_toBottomOf="@+id/tilNoTelp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout3"
+                android:id="@+id/tilAlamat"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -117,8 +117,8 @@
                 android:layout_marginTop="@dimen/size16"
                 android:paddingStart="@dimen/size12"
                 android:text="@string/pajak"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
+                app:layout_constraintStart_toStartOf="@+id/tilAlamat"
+                app:layout_constraintTop_toBottomOf="@+id/tilAlamat"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/size12"
                 android:text="@string/harga_termasuk_pajak"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
+                app:layout_constraintStart_toStartOf="@+id/tilAlamat"
                 app:layout_constraintTop_toBottomOf="@+id/cbTax" />
 
             <ImageView
@@ -204,7 +204,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView55" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout4"
+                android:id="@+id/tilKota"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -230,7 +230,7 @@
                 android:layout_marginTop="@dimen/size16"
                 android:text="@string/email"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+                app:layout_constraintTop_toBottomOf="@+id/tilKota" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -243,7 +243,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView56" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout5"
+                android:id="@+id/tilEmail"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -253,6 +253,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView56">
 
                 <EditText
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
@@ -269,11 +270,11 @@
                 android:layout_marginTop="@dimen/size16"
                 android:text="@string/level_harga"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etLevelHarga"
+                android:id="@+id/tilPriceLvl"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -282,7 +283,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textView55"
                 app:layout_constraintTop_toBottomOf="@+id/textView57">
 
-                <EditText
+                <AutoCompleteTextView
+                    android:id="@+id/etLevelHarga"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
@@ -294,8 +296,7 @@
                 android:id="@+id/groupLainnya"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="etLevelHarga, textView1, textView2, textView55,textInputLayout4,textView56,textInputLayout5,textView57" />
+                app:constraint_referenced_ids="tilPriceLvl, textView1, textView2, textView55,tilKota,textView56,tilEmail,textView57" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -303,7 +304,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSimpan"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size16"

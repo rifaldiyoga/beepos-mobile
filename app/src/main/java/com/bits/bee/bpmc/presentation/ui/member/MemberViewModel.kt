@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MemberViewModel @Inject constructor(
-    val memberInteractor: MemberInteractor,
+    memberInteractor: MemberInteractor,
 ): ViewModel() {
 
     private val eventChannel = Channel<UIEvent>()

@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.mapper
 
-import com.bits.bee.bpmc.data.source.local.model.ChannelEntity
+import com.bits.bee.bpmc.data.data_source.local.model.ChannelEntity
 import com.bits.bee.bpmc.domain.model.Channel
 
 /**

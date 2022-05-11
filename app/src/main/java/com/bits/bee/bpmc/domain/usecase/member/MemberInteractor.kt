@@ -7,4 +7,5 @@ import javax.inject.Inject
  */
 data class MemberInteractor @Inject constructor (
     val getFavoritMemberUseCase: GetFavoritMemberUseCase,
+    val addUpdateMemberUseCase: AddUpdateMemberUseCase
 )

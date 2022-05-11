@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.domain.mapper
 
-import com.bits.bee.bpmc.data.source.local.model.PriceLvlEntity
-import com.bits.bee.bpmc.data.source.remote.response.PriceLvlResponse
+import com.bits.bee.bpmc.data.data_source.local.model.PriceLvlEntity
+import com.bits.bee.bpmc.data.data_source.remote.response.PriceLvlResponse
 import com.bits.bee.bpmc.domain.model.PriceLvl
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils

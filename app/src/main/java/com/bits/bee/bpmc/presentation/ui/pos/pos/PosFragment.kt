@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.databinding.FragmentPosBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.utils.Resource
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,7 +86,7 @@ class PosFragment(
                         }
                         Resource.Status.ERROR -> {
                             it.message?.let { msg ->
-                                showSnackbar(msg)
+//                                showSnackbar(msg)
                             }
                         }
                     }

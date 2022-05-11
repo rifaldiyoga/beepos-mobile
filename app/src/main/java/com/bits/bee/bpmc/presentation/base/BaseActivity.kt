@@ -3,8 +3,10 @@ package com.bits.bee.bpmc.presentation.base
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -49,9 +51,22 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
 
     abstract override fun subscribeObservers()
 
-    override fun showSnackbar(msg: String) {
-        val snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
-        snackbar.show()
+    override fun showSnackbar(@StringRes message: Int) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
+
+    override fun showSnackbarWithAction(
+        @StringRes message: Int,
+        @StringRes actionText: Int,
+        action: () -> Any
+    ) {
+        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction(actionText) { _ -> action.invoke() }
+        snackBar.setActionTextColor(ContextCompat.getColor(this, R.color.red))
+        snackBar.show()
+    }
+
+    override fun showToast(message: Int) =
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 }

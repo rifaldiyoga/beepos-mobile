@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.pilih_cabang
 
-import com.bits.bee.bpmc.data.repository.BranchRepository
 import com.bits.bee.bpmc.domain.model.Branch
+import com.bits.bee.bpmc.domain.repository.BranchRepository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

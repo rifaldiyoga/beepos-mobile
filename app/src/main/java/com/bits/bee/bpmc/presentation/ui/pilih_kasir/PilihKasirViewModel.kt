@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.bits.bee.bpmc.data.source.local.model.Cashier
+import com.bits.bee.bpmc.data.data_source.local.model.Cashier
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

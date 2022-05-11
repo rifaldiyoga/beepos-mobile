@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.info_kontak
 
 import androidx.lifecycle.*
-import com.bits.bee.bpmc.data.source.remote.response.RegisterResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.RegisterResponse
 import com.bits.bee.bpmc.domain.usecase.InfoKontakInteractor
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -2,8 +2,8 @@ package com.bits.bee.bpmc.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bits.bee.bpmc.data.source.local.dao.*
-import com.bits.bee.bpmc.data.source.local.helper.DbHelper
+import com.bits.bee.bpmc.data.data_source.local.dao.*
+import com.bits.bee.bpmc.data.data_source.local.helper.DbHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

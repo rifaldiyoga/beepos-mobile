@@ -312,4 +312,5 @@ apa?</string>
     <string name="nama_perangkat">Nama Perangkat</string>
     <string name="lepas_lisensi">Lepas Lisensi</string>
     <string name="perpanjang_lisensi">Perpanjang Lisensi</string>
+    <string name="berhasil_membuat_member">Berhasil membuat member :)</string>
 </resources>

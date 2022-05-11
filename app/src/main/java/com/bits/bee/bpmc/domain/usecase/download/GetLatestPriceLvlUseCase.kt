@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
-import com.bits.bee.bpmc.data.repository.PriceLvlRepository
 import com.bits.bee.bpmc.domain.model.PriceLvl
+import com.bits.bee.bpmc.domain.repository.PriceLvlRepository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
+import com.bits.bee.bpmc.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -52,9 +56,21 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
 
     abstract override fun subscribeObservers()
 
-    override fun showSnackbar(msg: String) {
-        val snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
-        snackbar.show()
+    override fun showSnackbar(@StringRes message: Int) =
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+
+    override fun showSnackbarWithAction(
+        @StringRes message: Int,
+        @StringRes actionText: Int,
+        action: () -> Any
+    ) {
+        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction(actionText) { _ -> action.invoke() }
+        snackBar.setActionTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+        snackBar.show()
     }
+
+    override fun showToast(message: Int) =
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 
 }

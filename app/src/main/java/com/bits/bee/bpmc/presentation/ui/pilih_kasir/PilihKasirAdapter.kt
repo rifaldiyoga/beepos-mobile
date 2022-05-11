@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.source.local.model.Cashier
+import com.bits.bee.bpmc.data.data_source.local.model.Cashier
 import com.bits.bee.bpmc.databinding.ItemPilihKasirBinding
 
 /**

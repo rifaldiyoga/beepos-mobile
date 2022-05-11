@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.di
 
-import com.bits.bee.bpmc.data.source.remote.ApiUtils
-import com.bits.bee.bpmc.data.source.remote.RetrofitClient
+import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.mapper
 
-import com.bits.bee.bpmc.data.source.local.model.BpEntity
+import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
 import com.bits.bee.bpmc.domain.model.Bp
 
 /**
@@ -21,6 +21,7 @@ object BpDataMapper : BaseMapper<BpEntity, Bp>(){
             model.bpgrpId,
             model.priceLvlId,
             model.isActive,
+            "",
             model.isFavorit,
         )
     }

@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.usecase.login
 
-import com.bits.bee.bpmc.data.repository.LoginRepository
+import com.bits.bee.bpmc.domain.repository.LoginRepository
 import javax.inject.Inject
 
 /**

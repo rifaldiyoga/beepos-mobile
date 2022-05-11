@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.source.local.model.City
 import com.bits.bee.bpmc.databinding.FragmentInfoBisnisBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.Resource
@@ -23,8 +22,7 @@ class InfoBisnisFragment constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getCityList()
-        viewModel.getCityDaoList()
-        var dao: List<String> = viewModel.getCityDaoList()
+        var dao: List<String> = mutableListOf()
 
 //        var mArrayCity = dao?.let { arrayOfNulls<String>(it.size) }
         val city_array: Array<String> = dao.toTypedArray()
@@ -52,7 +50,6 @@ class InfoBisnisFragment constructor(
     override fun subscribeListeners() {
         binding.apply {
             viewModel.getCityList()
-            viewModel.getCityDaoList()
         }
     }
 

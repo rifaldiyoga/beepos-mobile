@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.pilih_kasir
 
-import com.bits.bee.bpmc.data.repository.CashierRepository
-import com.bits.bee.bpmc.data.source.local.model.Cashier
+import com.bits.bee.bpmc.data.data_source.local.model.Cashier
+import com.bits.bee.bpmc.domain.repository.CashierRepository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

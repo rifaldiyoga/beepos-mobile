@@ -3,7 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.login
 import android.content.Context
 import androidx.lifecycle.*
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.source.remote.response.LoginResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
