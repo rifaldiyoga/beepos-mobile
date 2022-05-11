@@ -72,7 +72,8 @@ class SettingListFragment(
                             findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingPrint -> {
-
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingPrinterFragment()
+                            findNavController().navigate(action)
                         }
                         SettingListViewModel.UIEvent.NavigateToSettingSistem -> {
                             val action = SettingListFragmentDirections.actionSettingListFragmentToSettingSistemFragment()

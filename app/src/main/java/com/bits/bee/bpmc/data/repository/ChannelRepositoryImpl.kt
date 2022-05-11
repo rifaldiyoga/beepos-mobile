@@ -25,7 +25,6 @@ class ChannelRepositoryImpl  @Inject constructor(
     private val channelDao: ChannelDao,
     private val ioDispatcher: CoroutineDispatcher
 ) : ChannelRepository {
-
     override fun getChannelList(): Flow<Resource<List<Channel>>> {
         return object : NetworkDatabaseBoundResource<List<Channel>, ChannelResponse>(){
             override suspend fun loadFormDB(): List<Channel>? {
