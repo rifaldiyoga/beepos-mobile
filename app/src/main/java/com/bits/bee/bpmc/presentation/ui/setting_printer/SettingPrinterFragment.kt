@@ -29,8 +29,7 @@ class SettingPrinterFragment(
     override fun subscribeListeners() {
         binding.apply {
             btnSimpan.setOnClickListener {
-                viewModel.onClick
-                AddPrinter()
+                viewModel.onClickAddPrinter()
             }
         }
     }
