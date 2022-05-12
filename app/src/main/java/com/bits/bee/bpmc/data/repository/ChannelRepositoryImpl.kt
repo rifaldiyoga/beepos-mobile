@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class ChannelRepositoryImpl  @Inject constructor(
     private val apiUtils: ApiUtils,
     private val channelDao: ChannelDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher
 ) : ChannelRepository {
 
     override fun getChannelList(): Flow<Resource<List<Channel>>> {
@@ -50,14 +51,12 @@ class ChannelRepositoryImpl  @Inject constructor(
         return flow {
             emit(Resource.loading())
             var data : List<Channel> = mutableListOf()
-            withContext(ioDispatcher){
-                data = channelDao.getActiveChannelList().map { ChannelDataMapper.fromDataToDomain(it) }
-            }
+            data = channelDao.getActiveChannelList().map { ChannelDataMapper.fromDataToDomain(it) }
             if(data.isNotEmpty()) {
                 emit(Resource.success(data))
             } else {
                 emit(Resource.error(null, "Data Kosong"))
             }
-        }
+        }.flowOn(ioDispatcher)
     }
 }

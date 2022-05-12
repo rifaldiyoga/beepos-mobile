@@ -94,6 +94,11 @@
         <item>60 Menit</item>
     </string-array>
 
+    <string-array name="list_ukuran_kertas">
+        <item>58 mm</item>
+        <item>60 mm</item>
+    </string-array>
+
     <string name="desc_cloud_data_dapur">Fitur ini digunakan untuk memilih sumber data dapur.Aktifkan fitur ini jika anda ingin mengambil data dapur dari Beecloud. Jika tidak aktif, sistem akan mengambil data dari lokal</string>
     <string name="untuk_penjelasan">Untuk penjelasan lebih, cek video kami, ya~</string>
     
@@ -313,4 +318,19 @@ apa?</string>
     <string name="lepas_lisensi">Lepas Lisensi</string>
     <string name="perpanjang_lisensi">Perpanjang Lisensi</string>
     <string name="berhasil_membuat_member">Berhasil membuat member :)</string>
+    <string name="belum_ada_printer">Belum ada printer yang terhubung</string>
+    <string name="info_printer">Informasi Printer</string>
+    <string name="nama_printer">Nama Printer</string>
+    <string name="mac_address">MAC Adress</string>
+    <string name="tipe">Tipe</string>
+    <string name="ukuran_kertas">Ukuran Kertas</string>
+    <string name="pengaturan_printer">Pengaturan Printer</string>
+    <string name="printer_kasir">Printer Kasir</string>
+    <string name="printer_setoran">Printer Setoran</string>
+    <string name="printer_kitchen">Printer Kitchen</string>
+    <string name="tipe_bluetooth">Tipe Bluetooth</string>
+    <string name="bluetooth">NP12434BT</string>
+    <string name="id_mac_address">72:3C:61:1E:27:14</string>
+    <string name="terhubung">Terhubung</string>
+    <string name="tdk_terhubung">Tidak Terhubung</string>
 </resources>

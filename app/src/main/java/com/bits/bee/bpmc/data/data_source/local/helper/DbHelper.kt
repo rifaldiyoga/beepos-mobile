@@ -12,7 +12,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
     BpEntity::class, BranchEntity::class, Cadj::class, Cash::class,
     CashA::class, Cashier::class, Cctype::class,
     ChannelEntity::class, Regency::class, Cstr::class, Edc::class,
-    EdcSurc::class, GrpPrv::class, Item::class, ItemAddOn::class,
+    EdcSurc::class, GrpPrv::class, ItemEntitiy::class, ItemAddOn::class,
     ItemBranch::class, ItemKitchen::class, ItemOnBoarding::class,
     ItemPrice::class, ItemTax::class, ItemVariant::class,
     ItemGroupEntity::class, Kitchen::class, License::class, Operator::class,
@@ -47,6 +47,8 @@ abstract class DbHelper : RoomDatabase() {
     abstract val channelDao : ChannelDao
 
     abstract val priceLvlDao : PriceLvlDao
+
+    abstract val itemDao : ItemDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

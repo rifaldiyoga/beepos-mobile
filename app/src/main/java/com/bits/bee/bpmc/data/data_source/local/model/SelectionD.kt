@@ -11,8 +11,8 @@ import androidx.room.*
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Item::class,
-            parentColumns = [Item.ID],
+            entity = ItemEntitiy::class,
+            parentColumns = [ItemEntitiy.ID],
             childColumns = [SelectionD.ITEM_ID],
             onDelete = ForeignKey.CASCADE
         )

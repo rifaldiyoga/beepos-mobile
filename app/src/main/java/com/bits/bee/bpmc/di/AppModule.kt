@@ -18,12 +18,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDispatcher() : CoroutineDispatcher = Dispatchers.Default
+    fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Provides
     @Singleton
-    fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddrDao: BpAddrDao) : BpRepository {
-        return BpRepositoryImpl(apiUtils, dao, bpAddrDao)
+    fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddrDao: BpAddrDao, defaultDispatcher: CoroutineDispatcher) : BpRepository {
+        return BpRepositoryImpl(apiUtils, dao, bpAddrDao, defaultDispatcher)
     }
 
     @Provides
@@ -65,8 +65,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeChannelRepository(apiUtils: ApiUtils, dao: ChannelDao) : ChannelRepository {
-        return ChannelRepositoryImpl(apiUtils, dao)
+    fun proivdeChannelRepository(apiUtils: ApiUtils, dao: ChannelDao, defaultDispatcher: CoroutineDispatcher) : ChannelRepository {
+        return ChannelRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
 }

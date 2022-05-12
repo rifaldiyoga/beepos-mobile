@@ -15,7 +15,7 @@ data class ItemGroupResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data?,
+    var data : Data,
     @SerializedName("total_page")
     var totalPage : Int = 1,
 ): Parcelable {
@@ -23,8 +23,10 @@ data class ItemGroupResponse (
     @Parcelize
     data class Data (
         @SerializedName("data")
-        var data : MutableList<ItemGroupModel> = mutableListOf()
-    ) : Parcelable
+        var data : MutableList<ItemGroupModel> = mutableListOf(),
+        @SerializedName("total_page")
+        var totalPage : Int = -1,
+        ) : Parcelable
 
     @Parcelize
     data class ItemGroupModel(
@@ -41,10 +43,6 @@ data class ItemGroupResponse (
         @SerializedName("ispos")
         val isPos : Boolean,
     ) : Parcelable {
-
-        fun toItemGroup() : ItemGroupEntity {
-            return ItemGroupEntity(id, code, name, level, upId, isPos)
-        }
 
     }
 

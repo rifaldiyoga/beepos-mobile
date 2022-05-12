@@ -1,12 +1,15 @@
 package com.bits.bee.bpmc.data.repository
 
+import com.bits.bee.bpmc.data.data_source.local.dao.ItemDao
 import com.bits.bee.bpmc.data.data_source.local.dao.ItemGroupDao
 import com.bits.bee.bpmc.data.data_source.local.model.ItemGroupEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemGroupResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.ItemResponse
 import com.bits.bee.bpmc.domain.mapper.ItemGroupDataMapper
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
+import com.bits.bee.bpmc.domain.repository.ItemRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
@@ -23,37 +26,31 @@ import javax.inject.Inject
 /**
  * Created by aldi on 30/03/22.
  */
-class ItemGroupRepositoryImpl @Inject constructor(
+class ItemRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val itemGroupDao: ItemGroupDao,
+    private val itemDao: ItemDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : ItemGroupRepository {
+) : ItemRepository {
 
-    override suspend fun insertBulkItemGroup(list: List<ItemGroupEntity>) = withContext(ioDispatcher){
-        itemGroupDao.insertBulk(list)
-    }
-
-    override fun getLastesItemGroupList(page : Int): Flow<Resource<ItemGroupResponse>> {
-        return object : NetworkBoundResource<ItemGroupResponse>() {
-            override fun createCall(): Flow<ApiResponse<ItemGroupResponse>> {
-                return apiUtils.getItemGroupApiService().getItemGroupList(page)
+    override fun getLastesItemList(page: Int): Flow<Resource<ItemResponse>> {
+        return object : NetworkDatabaseBoundResource<ItemResponse, ItemResponse>(){
+            override suspend fun loadFormDB(): ItemResponse? {
+                return null
             }
+
+            override fun shouldFetch(data: ItemResponse?): Boolean {
+                return false
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<ItemResponse>> {
+                return apiUtils.getItemApiService().getItem()
+            }
+
+            override suspend fun saveCallResult(data: ItemResponse) {
+//                itemDao.insertSingle()
+            }
+
         }.getAsFlow()
-    }
-
-    override fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>> {
-        return flow {
-            emit(Resource.loading())
-            var data : List<ItemGroup> = mutableListOf()
-            withContext(ioDispatcher){
-                data = itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDataToDomain(it) }
-            }
-            if(data.isNotEmpty()) {
-                emit(Resource.success(data))
-            } else {
-                emit(Resource.error(null, "Data Kosong"))
-            }
-        }
     }
 
 }

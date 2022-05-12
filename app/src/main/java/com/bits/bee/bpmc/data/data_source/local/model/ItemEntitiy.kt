@@ -4,17 +4,17 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import java.math.BigDecimal
 
-@Entity(tableName = Item.TBL_NAME,
+@Entity(tableName = ItemEntitiy.TBL_NAME,
     foreignKeys = [
         ForeignKey(
             entity = ItemGroupEntity::class,
             parentColumns = [ItemGroupEntity.ID],
-            childColumns = [Item.ITGRP_ID],
+            childColumns = [ItemEntitiy.ITGRP_ID],
             onDelete = CASCADE
         )
     ]
 )
-data class Item(
+data class ItemEntitiy(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,

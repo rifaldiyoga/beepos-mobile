@@ -2,14 +2,18 @@ package com.bits.bee.bpmc.presentation.ui.download
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.mapper.ItemGroupDataMapper
+import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
@@ -17,6 +21,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DownloadViewModel @Inject constructor (
+    private val itemGroupRepository: ItemGroupRepository,
     private val downloadInteractor: DownloadInteractor,
 ) : ViewModel() {
 
@@ -30,11 +35,7 @@ class DownloadViewModel @Inject constructor (
     }
 
     private fun downloadAll() = viewModelScope.launch {
-        awaitAll(
-            ::downloadItemGroup,
-            ::downloadChannel,
-            ::downloadPriceLvl,
-        )
+        downloadItemGroup()
     }
 
     private fun downloadItemGroup() = viewModelScope.launch {
@@ -46,8 +47,19 @@ class DownloadViewModel @Inject constructor (
                     }
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Item Group")
+                    it.data?.let { data ->
+                        itemGroupRepository.insertBulkItemGroup(
+                            data.data.data.map { ItemGroupDataMapper.fromDataToResponse(it) }
+                        )
+                        _state.update {
+                            it.copy(status = "Finish Downloading Item Group")
+                        }
+
+//                        if (data.totalPage > page){
+////                            runBlocking { downloadItemGroup(). }
+//                        } else {
+                            downloadChannel()
+//                        }
                     }
                 }
                 Resource.Status.ERROR -> {
@@ -64,6 +76,7 @@ class DownloadViewModel @Inject constructor (
                     _state.update {
                         it.copy(status = "Downloading Channel")
                     }
+                    downloadPriceLvl()
                 }
                 Resource.Status.SUCCESS -> {
                     _state.update {

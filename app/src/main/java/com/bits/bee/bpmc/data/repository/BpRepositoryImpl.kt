@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ class BpRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
     private val bpDao: BpDao,
     private val bpAddrDao : BpAddrDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher
 ) : BpRepository{
 
     override fun getLastesBpList(): Flow<Resource<List<Bp>>> {
@@ -53,23 +54,17 @@ class BpRepositoryImpl @Inject constructor(
 
     override fun getDefaultBp() : Flow<Resource<Bp>> {
         return flow {
-            var data : BpEntity
-            withContext(ioDispatcher){
-                data = bpDao.getBpById(1)
-            }
+            val data : BpEntity = bpDao.getBpById(1)
             emit(Resource.success(BpDataMapper.fromDataToDomain(data)))
-        }
+        }.flowOn(ioDispatcher)
     }
 
     override fun getFavoritBpList() : Flow<Resource<List<Bp>>> {
         return flow {
-            var data : List<Bp> = mutableListOf()
             emit(Resource.loading())
-            withContext(ioDispatcher){
-                data = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDataToDomain(it) }
-            }
+            val data: List<Bp> = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDataToDomain(it) }
             emit(Resource.success(data))
-        }
+        }.flowOn(ioDispatcher)
     }
 
     override suspend fun addUpdateBp(bpEntity: BpEntity){

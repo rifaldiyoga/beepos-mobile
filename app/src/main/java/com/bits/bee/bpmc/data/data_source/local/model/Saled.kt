@@ -6,8 +6,8 @@ import java.math.BigDecimal
 @Entity(tableName = Saled.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Item::class,
-            parentColumns = [Item.ID],
+            entity = ItemEntitiy::class,
+            parentColumns = [ItemEntitiy.ID],
             childColumns = [Saled.ITEM_ID],
             onDelete = ForeignKey.CASCADE
         ),

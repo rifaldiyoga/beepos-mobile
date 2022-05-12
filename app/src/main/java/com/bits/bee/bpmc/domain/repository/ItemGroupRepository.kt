@@ -1,5 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
+import com.bits.bee.bpmc.data.data_source.local.model.ItemGroupEntity
+import com.bits.bee.bpmc.data.data_source.remote.response.ItemGroupResponse
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +11,9 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ItemGroupRepository {
 
-    fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>>
+    suspend fun insertBulkItemGroup(list : List<ItemGroupEntity>)
+
+    fun getLastesItemGroupList(page : Int): Flow<Resource<ItemGroupResponse>>
 
     fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>>
 

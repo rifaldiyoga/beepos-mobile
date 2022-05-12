@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = ItemPrice.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Item::class,
-            parentColumns = [Item.ID],
+            entity = ItemEntitiy::class,
+            parentColumns = [ItemEntitiy.ID],
             childColumns = [ItemPrice.ITEM_ID]
         ),
         ForeignKey(

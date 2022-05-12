@@ -85,4 +85,10 @@ object DatabaseModule {
         return dbHelper.priceLvlDao
     }
 
+    @Provides
+    @Singleton
+    fun provideItemDao(dbHelper: DbHelper) : ItemDao {
+        return dbHelper.itemDao
+    }
+
 }

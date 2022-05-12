@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by aldi on 14/04/22.
  */
-class GetLatestItemGroupUseCase @Inject constructor(private val itemGroupRepository: ItemGroupRepository) {
+class GetLatestItemUseCase @Inject constructor(private val itemGroupRepository: ItemGroupRepository) {
 
     operator fun invoke(page : Int): Flow<Resource<ItemGroupResponse>> = itemGroupRepository.getLastesItemGroupList(page)
 

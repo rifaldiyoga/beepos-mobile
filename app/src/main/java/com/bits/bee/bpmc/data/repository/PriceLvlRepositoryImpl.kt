@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -47,9 +48,7 @@ class PriceLvlRepositoryImpl @Inject constructor(
     }
 
     override fun getActivePriceLvl(): Flow<List<PriceLvl>> = flow {
-        withContext(ioDispatcher){
-            emit(priceLvlDao.getActivePriceLvl().map { PriceLvlDataMapper.fromDataToDomain(it) })
-        }
-    }
+        emit(priceLvlDao.getActivePriceLvl().map { PriceLvlDataMapper.fromDataToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }
