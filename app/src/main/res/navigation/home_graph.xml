@@ -85,7 +85,25 @@
         android:id="@+id/settingPrinterFragment"
         tools:layout="@layout/fragment_setting_printer"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.SettingPrinterFragment"
-        android:label="SettingPrinterFragment" />
+        android:label="SettingPrinterFragment" >
+        <action
+            android:id="@+id/action_settingPrinterFragment_to_addPrinterFragment"
+            app:destination="@id/addPrinterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPrinterFragment"
+        tools:layout="@layout/fragment_setting_add_printer"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterFragment"
+        android:label="AddPrinterFragment" >
+        <action
+            android:id="@+id/action_addPrinterFragment_to_listPrinterFragment"
+            app:destination="@id/listPrinterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listPrinterFragment"
+        tools:layout="@layout/fragment_setting_list_printer"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer.ListPrinterFragment"
+        android:label="ListPrinterFragment" />
 
 
 </navigation>

@@ -9,8 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding
-import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListViewModel
 import kotlinx.coroutines.flow.collect
@@ -28,7 +26,7 @@ class SettingPrinterFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-            btnSimpan.setOnClickListener {
+            btnTambah.setOnClickListener {
                 viewModel.onClickAddPrinter()
             }
         }
@@ -40,7 +38,7 @@ class SettingPrinterFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         SettingPrinterViewModel.UIEvent.RequestAddPrinter -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingPosFragment()
+                            val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment()
                             findNavController().navigate(action)
                         }
                     }
