@@ -8,4 +8,5 @@ abstract class BaseMapper<Data, Domain> {
     abstract fun fromDataToDomain(model : Data) : Domain
 
     abstract fun fromDomainToData(model : Domain) : Data
+
 }

@@ -94,7 +94,7 @@ class MainActivity(
             }
         }
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect {
                     when(it){
                         MainViewModel.UIEvent.RequestMember -> {
@@ -104,7 +104,7 @@ class MainActivity(
                             val dialog = ChannelListDialogBuilder(
                                 viewModel.state.channelList,
                                 onChannelClick = { channel ->
-                                    viewModel.update(
+                                    viewModel.updateState(
                                         viewModel.state.copy(
                                             channel = channel
                                         )

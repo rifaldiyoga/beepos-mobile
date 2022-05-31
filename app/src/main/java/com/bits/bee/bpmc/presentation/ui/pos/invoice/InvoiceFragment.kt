@@ -2,13 +2,16 @@ package com.bits.bee.bpmc.presentation.ui.pos.invoice
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentInvoiceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -23,7 +26,26 @@ class InvoiceFragment(
 
     private val viewModel : InvoiceViewModel by viewModels()
 
+    private val mainViewModel : MainViewModel by activityViewModels()
+
+    private lateinit var invoiceAdapter: InvoiceAdapter
+
     override fun initComponents() {
+        invoiceAdapter = InvoiceAdapter(
+            onItemClicK = { saled ->
+                val action = InvoiceFragmentDirections.actionInvoiceFragmentToEditItemDialog(saled)
+                findNavController().navigate(action)
+            },
+            onDeleteClick = {saled ->
+                mainViewModel.onDeleteDetail(saled)
+            }
+        )
+        binding.apply {
+            rvList.apply {
+                adapter = invoiceAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
     }
 
     override fun subscribeListeners() {
@@ -38,6 +60,15 @@ class InvoiceFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                mainViewModel.viewStates().collect {
+                    it?.let {
+                        invoiceAdapter.submitList(it.saledList)
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {

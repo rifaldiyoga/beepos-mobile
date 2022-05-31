@@ -52,6 +52,9 @@ class TambahMemberFragment(
             etEmail.addTextChangedListener {
                 viewModel.state.email = etEmail.text.toString().trim()
             }
+            etKota.setOnClickListener {
+                viewModel.onClickKota()
+            }
             btnSimpan.setOnClickListener {
                 viewModel.onClickSimpan()
             }
@@ -60,6 +63,13 @@ class TambahMemberFragment(
             }
             cbTaxInc.setOnClickListener {
                 viewModel.state.isTaxInc = cbTaxInc.isChecked
+            }
+            etLevelHarga.setOnItemClickListener { _, _, i, _ ->
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        priceLvl = viewModel.state.priceLvlList[i].id
+                    )
+                )
             }
         }
     }
@@ -72,6 +82,10 @@ class TambahMemberFragment(
                         TambahMemberViewModel.UIEvent.SuccessAddMember -> {
                             findNavController().popBackStack()
                             showToast(R.string.berhasil_membuat_member)
+                        }
+                        TambahMemberViewModel.UIEvent.RequestKota -> {
+                            val action = TambahMemberFragmentDirections.actionTambahMemberFragmentToCariKotaFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }
@@ -99,6 +113,7 @@ class TambahMemberFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.priceLvlList.collect {
+                    viewModel.state.priceLvlList = it
                     adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, it.map { it.name })
                     binding.etLevelHarga.setAdapter(adapter)
                 }

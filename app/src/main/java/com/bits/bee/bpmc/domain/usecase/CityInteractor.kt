@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase
 
-import com.bits.bee.bpmc.data.data_source.local.model.City
+import com.bits.bee.bpmc.data.data_source.local.model.CityEntity
+import com.bits.bee.bpmc.domain.model.City
 import com.bits.bee.bpmc.domain.repository.CityRepository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow

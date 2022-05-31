@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.data_source.local.model.ItemEntitiy
 import com.bits.bee.bpmc.data.data_source.remote.model.ValueLabelModel
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -25,9 +24,9 @@ data class ItemResponse (
         @SerializedName("item")
         var item : ItemModel,
         @SerializedName("unit")
-        var unit : UnitModel,
+        var unit : List<UnitModel> = mutableListOf(),
         @SerializedName("price")
-        var price : PriceModel,
+        var price : List<PriceModel> = mutableListOf(),
     ) : Parcelable
 
     @Parcelize
@@ -39,7 +38,7 @@ data class ItemResponse (
         @SerializedName("name1")
         var name1: String,
         @SerializedName("brand_id")
-        var brandId: Int,
+        var brandId: Int?,
         @SerializedName("itemtype_code")
         var itemTypeCode : String,
         @SerializedName("usepid")
@@ -47,7 +46,7 @@ data class ItemResponse (
         @SerializedName("uniquepid")
         var uniqueid: Boolean,
         @SerializedName("itemgrp1_id")
-        var itemGrp1Id : Int,
+        var itemGrp1Id : Int?,
         @SerializedName("isstock")
         var isStock : Boolean,
         @SerializedName("issale")
@@ -55,7 +54,7 @@ data class ItemResponse (
         @SerializedName("unitdesc")
         var unitdesc : String,
         @SerializedName("note")
-        var note : String,
+        var note : String?,
         @SerializedName("active")
         var active : Boolean,
         @SerializedName("saleunit")
@@ -89,7 +88,7 @@ data class ItemResponse (
         @SerializedName("price1")
         var price1 : BigDecimal,
         @SerializedName("discexp1")
-        var discExp1 : BigDecimal,
+        var discExp1 : String,
     ) : Parcelable
 
 }

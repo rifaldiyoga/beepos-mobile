@@ -69,4 +69,34 @@ object AppModule {
         return ChannelRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao, unitDao: UnitDao, priceDao: PriceDao, defaultDispatcher: CoroutineDispatcher) : ItemRepository {
+        return ItemRepositoryImpl(apiUtils, itemDao, priceDao, unitDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun proivdePriceRepository(dao: PriceDao) : PriceRepository {
+        return PriceRepositoryImpl( dao)
+    }
+
+    @Provides
+    @Singleton
+    fun proivdeCityRepository(apiUtils: ApiUtils,dao: CityDao, defaultDispatcher: CoroutineDispatcher) : CityRepository {
+        return CityRepositoryImpl( apiUtils, dao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun proivdeSaleRepository(apiUtils: ApiUtils,dao: SaleDao, defaultDispatcher: CoroutineDispatcher) : SaleRepository {
+        return SaleRepositoryImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun proivdeSaledRepository(apiUtils: ApiUtils,dao: SaledDao, defaultDispatcher: CoroutineDispatcher) : SaledRepository {
+        return SaledRepositoryImpl()
+    }
+
 }

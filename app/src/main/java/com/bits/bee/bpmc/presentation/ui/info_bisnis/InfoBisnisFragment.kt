@@ -55,9 +55,9 @@ class InfoBisnisFragment constructor(
 
     override fun subscribeObservers() {
         viewModel.observeListCity().removeObservers(viewLifecycleOwner)
-        viewModel.observeListCity().observe(viewLifecycleOwner, {
+        viewModel.observeListCity().observe(viewLifecycleOwner) {
             it?.let {
-                when(it.status){
+                when (it.status) {
                     Resource.Status.LOADING -> {
                         setVisibilityComponent(true)
                     }
@@ -73,7 +73,7 @@ class InfoBisnisFragment constructor(
                     }
                 }
             }
-        })
+        }
     }
 
     private fun setVisibilityComponent(isLoading : Boolean){

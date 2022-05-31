@@ -6,14 +6,14 @@ import androidx.room.ForeignKey.CASCADE
 @Entity(tableName = ItemKitchen.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = ItemEntitiy::class,
-            parentColumns = [ItemEntitiy.ID],
+            entity = ItemEntity::class,
+            parentColumns = [ItemEntity.ID],
             childColumns = [ItemKitchen.ITEM_ID],
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = ItemEntitiy::class,
-            parentColumns = [ItemEntitiy.ID],
+            entity = ItemEntity::class,
+            parentColumns = [ItemEntity.ID],
             childColumns = [ItemKitchen.ITEM_ID],
             onDelete = CASCADE
         )

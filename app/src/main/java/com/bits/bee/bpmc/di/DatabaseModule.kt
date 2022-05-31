@@ -91,4 +91,16 @@ object DatabaseModule {
         return dbHelper.itemDao
     }
 
+    @Provides
+    @Singleton
+    fun provideUnitDao(dbHelper: DbHelper) : UnitDao {
+        return dbHelper.unitDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePriceDao(dbHelper: DbHelper) : PriceDao {
+        return dbHelper.priceDao
+    }
+
 }

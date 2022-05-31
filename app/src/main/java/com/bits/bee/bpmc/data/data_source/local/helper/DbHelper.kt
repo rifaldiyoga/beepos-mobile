@@ -12,17 +12,17 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
     BpEntity::class, BranchEntity::class, Cadj::class, Cash::class,
     CashA::class, Cashier::class, Cctype::class,
     ChannelEntity::class, Regency::class, Cstr::class, Edc::class,
-    EdcSurc::class, GrpPrv::class, ItemEntitiy::class, ItemAddOn::class,
+    EdcSurc::class, GrpPrv::class, ItemEntity::class, ItemAddOn::class,
     ItemBranch::class, ItemKitchen::class, ItemOnBoarding::class,
-    ItemPrice::class, ItemTax::class, ItemVariant::class,
+    PriceEntity::class, ItemTax::class, ItemVariant::class,
     ItemGroupEntity::class, Kitchen::class, License::class, Operator::class,
     Posses::class, PriceLvlEntity::class, Printer::class,
     PrinterKitchen::class, PrinterKitchenD::class,
     Promo::class, PromoMulti::class, Reg::class,
-    Sale::class, Salecrcvs::class, SalePromo::class, Selection::class,
-    SelectionD::class, Saled::class, Sync::class, Tax::class,
-    User::class, Usrgrp::class, Variant::class, City::class, BpAddrEntity::class,
-    Province::class, District::class, Pmtd::class], version = 1, exportSchema = false)
+    SaleEntity::class, Salecrcvs::class, SalePromo::class, Selection::class,
+    SelectionD::class, SaledEntity::class, Sync::class, Tax::class,
+    User::class, Usrgrp::class, Variant::class, CityEntity::class, BpAddrEntity::class,
+    Province::class, District::class, Pmtd::class, UnitEntity::class], version = 1, exportSchema = false)
 @TypeConverters(com.bits.bee.bpmc.data.data_source.local.converter.Converters::class)
 abstract class DbHelper : RoomDatabase() {
 
@@ -49,6 +49,14 @@ abstract class DbHelper : RoomDatabase() {
     abstract val priceLvlDao : PriceLvlDao
 
     abstract val itemDao : ItemDao
+
+    abstract val unitDao : UnitDao
+
+    abstract val priceDao : PriceDao
+
+    abstract val saleDao : SaleDao
+
+    abstract val saledDao : SaledDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

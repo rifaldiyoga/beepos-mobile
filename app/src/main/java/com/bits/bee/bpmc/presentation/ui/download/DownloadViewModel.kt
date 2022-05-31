@@ -7,13 +7,11 @@ import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
@@ -94,6 +92,7 @@ class DownloadViewModel @Inject constructor (
         downloadInteractor.getLatestBpUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
+                    downloadItem()
                     _state.update {
                         it.copy(status = "Downloading Bp")
                     }
@@ -122,6 +121,47 @@ class DownloadViewModel @Inject constructor (
                     downloadBp()
                     _state.update {
                         it.copy(status = "Finish Downloading Price Lvl")
+                    }
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private fun downloadItem() = viewModelScope.launch {
+        downloadInteractor.getLatestItemUseCase(page).collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    downloadCity()
+                    _state.update {
+                        it.copy(status = "Downloading Item")
+                    }
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading Item")
+                    }
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private fun downloadCity() = viewModelScope.launch {
+        downloadInteractor.getLatestCityUseCase(page).collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    _state.update {
+                        it.copy(status = "Downloading City")
+                    }
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading City")
                     }
                 }
                 Resource.Status.ERROR -> {

@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = City.TBL_NAME)
-data class City(
+@Entity(tableName = CityEntity.TBL_NAME)
+data class CityEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
     var code: String,

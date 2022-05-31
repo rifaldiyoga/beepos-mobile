@@ -29,7 +29,10 @@ abstract class NetworkDatabaseBoundResource<ResultType, RequestType> @MainThread
                 withContext(Dispatchers.IO){
                     val a = processResponse(apiResponse)
                     saveCallResult(a)
-                    send(Resource.success(loadFormDB()!!))
+                    val data = loadFormDB()
+                    data?.let {
+                        send(Resource.success(it))
+                    }
                 }
             }
             is ApiTimeoutResponse -> {

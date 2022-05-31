@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.data_source.local.model.City
+import com.bits.bee.bpmc.domain.model.City
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -10,5 +10,9 @@ import kotlinx.coroutines.flow.Flow
 interface CityRepository {
 
     fun getLatestCityList() : Flow<Resource<List<City>>>
+
+    fun getActiveCityList() : Flow<List<City>>
+
+    fun searchCityList(query : String) : Flow<List<City>>
 
 }

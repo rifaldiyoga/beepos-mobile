@@ -5,15 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="@dimen/size0"
-        android:layout_height="?actionBarSize"
-        android:elevation="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView45"
         android:layout_width="wrap_content"
@@ -22,7 +13,7 @@
         android:text="@string/addon"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,10 +22,10 @@
         android:text="@string/ubah"
         android:textColor="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/rvAddon"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +39,7 @@
         android:background="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+        app:layout_constraintTop_toBottomOf="@+id/rvAddon" />
 
     <TextView
         android:id="@+id/textView46"
@@ -67,11 +58,11 @@
         android:layout_height="wrap_content"
         android:text="@string/rp"
         android:textColor="@color/black"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etHarga"
         app:layout_constraintStart_toStartOf="@+id/textView46" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etHarga"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size16"
@@ -89,10 +80,10 @@
         android:text="@string/diskon"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/textView46"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/etHarga" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/etDiskon"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
@@ -105,9 +96,9 @@
         android:id="@+id/switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/editText2"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="@+id/editText2"
+        app:layout_constraintBottom_toBottomOf="@+id/etDiskon"
+        app:layout_constraintEnd_toEndOf="@+id/etHarga"
+        app:layout_constraintTop_toTopOf="@+id/etDiskon"
         app:track="@drawable/track_selector_diskon" />
 
     <TextView
@@ -118,14 +109,14 @@
         android:text="@string/catatan"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/textView46"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/etDiskon" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/etCatatan"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/etHarga"
         app:layout_constraintStart_toStartOf="@+id/textView46"
         app:layout_constraintTop_toBottomOf="@+id/textView49" />
 
@@ -138,39 +129,46 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/etCatatan" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/ivMinus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_circle_minus"
-        app:layout_constraintBottom_toBottomOf="@+id/editText4"
-        app:layout_constraintEnd_toStartOf="@+id/editText4"
+        app:layout_constraintBottom_toBottomOf="@+id/etQty"
+        app:layout_constraintEnd_toStartOf="@+id/etQty"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/etQty"
         android:layout_width="@dimen/size120"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
-        app:layout_constraintEnd_toStartOf="@+id/imageView10"
+        app:layout_constraintEnd_toStartOf="@+id/ivPlus"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView9"
+        app:layout_constraintStart_toEndOf="@+id/ivMinus"
         app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/ivPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_circle_plus"
-        app:layout_constraintBottom_toBottomOf="@+id/editText4"
+        app:layout_constraintBottom_toBottomOf="@+id/etQty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText4"
+        app:layout_constraintStart_toEndOf="@+id/etQty"
         app:layout_constraintTop_toBottomOf="@+id/textView50" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupAddon"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textView45,rvAddon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

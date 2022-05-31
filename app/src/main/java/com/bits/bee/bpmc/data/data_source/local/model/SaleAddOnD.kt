@@ -11,14 +11,14 @@ import androidx.room.*
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Saled::class,
-            parentColumns = [Saled.ID],
+            entity = SaledEntity::class,
+            parentColumns = [SaledEntity.ID],
             childColumns = [SaleAddOnD.UP_SALED_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Saled::class,
-            parentColumns = [Saled.ID],
+            entity = SaledEntity::class,
+            parentColumns = [SaledEntity.ID],
             childColumns = [SaleAddOnD.SALED_ID],
             onDelete = ForeignKey.CASCADE
         ),

@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_tambahMemberFragment_to_taxInfoDialog"
             app:destination="@id/taxInfoDialog" />
+        <action
+            android:id="@+id/action_tambahMemberFragment_to_cariKotaFragment"
+            app:destination="@id/cariKotaFragment" />
     </fragment>
     <dialog
         tools:layout="@layout/dialog_tax_info"
@@ -60,6 +63,9 @@
         <action
             android:id="@+id/action_invoiceFragment_to_pembayaranFragment"
             app:destination="@id/pembayaranFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
@@ -67,5 +73,19 @@
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran.PembayaranFragment"
         android:label="PembayaranFragment" />
     <action android:id="@+id/action_global_memberFragment" app:destination="@id/memberFragment"/>
+    <fragment
+        tools:layout="@layout/fragment_cari_kota"
+        android:id="@+id/cariKotaFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cari_kota.CariKotaFragment"
+        android:label="CariKotaFragment" />
+    <dialog
+        tools:layout="@layout/dialog_edit_item"
+        android:id="@+id/editItemDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.edit_item.EditItemDialog"
+        android:label="EditItemDialog" >
+        <argument
+            android:name="saled"
+            app:argType="com.bits.bee.bpmc.domain.model.Saled" />
+    </dialog>
 
 </navigation>

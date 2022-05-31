@@ -5,8 +5,8 @@ import androidx.room.*
 @Entity(tableName = ItemAddOn.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = ItemEntitiy::class,
-            parentColumns = [ItemEntitiy.ID],
+            entity = ItemEntity::class,
+            parentColumns = [ItemEntity.ID],
             childColumns = [ItemAddOn.ITEM_ID]
         ),
         ForeignKey(

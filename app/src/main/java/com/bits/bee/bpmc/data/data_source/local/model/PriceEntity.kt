@@ -4,39 +4,46 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.math.BigDecimal
 
-@Entity(tableName = ItemPrice.TBL_NAME,
+@Entity(tableName = PriceEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = ItemEntitiy::class,
-            parentColumns = [ItemEntitiy.ID],
-            childColumns = [ItemPrice.ITEM_ID]
+            entity = ItemEntity::class,
+            parentColumns = [ItemEntity.ID],
+            childColumns = [PriceEntity.ITEM_ID]
         ),
         ForeignKey(
             entity = PriceLvlEntity::class,
             parentColumns = [PriceLvlEntity.ID],
-            childColumns = [ItemPrice.PRICELVL_ID]
+            childColumns = [PriceEntity.PRICELVL_ID]
         )
     ]
 )
-data class ItemPrice(
+data class PriceEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = ITEM_ID, index = true)
     var itemId: Int,
     @ColumnInfo(name = PRICELVL_ID, index = true)
-    var pricelvlId: Int,
+    var priceLvlId: Int,
     @ColumnInfo(name = PRICE1)
-    var price: Int,
+    var price: BigDecimal,
+    @ColumnInfo(name = DISCEXP1)
+    var discExp: String,
+    @ColumnInfo(name = CRC_ID)
+    var crcId: Int,
 ) {
     companion object {
-        const val TBL_NAME = "item_price"
+        const val TBL_NAME = "price"
 
         const val ID = "id"
         const val ITEM_ID = "itemid"
         const val PRICE1 = "price1"
+        const val DISCEXP1 = "discexp1"
         const val PRICELVL_ID = "pricelvl_id"
+        const val CRC_ID = "crc_id"
         const val LASTSYNC = "last_sync"
 
     }
