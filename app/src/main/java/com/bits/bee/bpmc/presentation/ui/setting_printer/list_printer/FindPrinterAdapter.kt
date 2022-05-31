@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemBluetoothBinding
 
 class FindPrinterAdapter constructor(
-    private var listDevice: MutableList<ListPrinter>
+    private var listDevice: MutableList<ListPrinter>,
+    private val mListener: PilihBluetoothPrinterI
 ): RecyclerView.Adapter<FindPrinterAdapter.ViewHolder>() {
 
     var mListDevice: MutableList<ListPrinter> = mutableListOf()
@@ -38,9 +39,13 @@ class FindPrinterAdapter constructor(
             itemBluetoothTvTitle.text = current.namaPrinter
             itemBluetoothTvAddress.text = current.address
             itemListClPrinter.setOnClickListener {
-                current
+                mListener.OnItemClick(current)
             }
         }
+    }
+
+    interface PilihBluetoothPrinterI{
+        fun OnItemClick(element: ListPrinter)
     }
 
 }

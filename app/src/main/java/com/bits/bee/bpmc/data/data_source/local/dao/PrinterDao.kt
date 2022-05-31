@@ -21,4 +21,10 @@ interface PrinterDao: BaseDao<Printer> {
 
     @Query("SELECT * FROM printer where is_checker = :isChecker ")
     fun readByActiveChecker(isChecker: Boolean) : List<Printer>
+
+    @Query("SELECT * FROM printer where tipe = :tipe")
+    fun readByTipe(tipe: Int): List<Printer>
+
+    @Query("SELECT * FROM printer ORDER BY id = :id DESC LIMIT 1")
+    fun getLastId(id: Int): Printer
 }

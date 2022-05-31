@@ -11,11 +11,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingListPrinterBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.BluetoothHandlerReceiver
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ListPrinterFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingListPrinterBinding = FragmentSettingListPrinterBinding::inflate
 ): BaseFragment<FragmentSettingListPrinterBinding>() {
@@ -27,6 +38,7 @@ class ListPrinterFragment(
     lateinit var findPrinterAdapter: FindPrinterAdapter
     private val REQUEST_ENABLE_BLUETOOTH = 1
     private lateinit var m_pairedDevices: Set<BluetoothDevice>
+    val viewModel: FindPrinterViewModel by viewModels()
 
     override fun initComponents() {
         init()
@@ -131,7 +143,23 @@ class ListPrinterFragment(
     fun initBinding(){
         binding.apply {
             tvJmlPrinter.text = mListPrinter.size.toString()+" perangkat yang terhubung"
-            findPrinterAdapter = FindPrinterAdapter(mListPrinter)
+            findPrinterAdapter = FindPrinterAdapter(mListPrinter, mListener = object: FindPrinterAdapter.PilihBluetoothPrinterI{
+                override fun OnItemClick(element: ListPrinter) {
+                    BeePreferenceManager.saveToPreferences(
+                        requireContext(),
+                        getString(R.string.pref_name_printer),
+                        element.namaPrinter
+                    )
+                    BeePreferenceManager.saveToPreferences(
+                        requireContext(),
+                        getString(R.string.pref_address_printer),
+                        element.address
+                    )
+                    val action = ListPrinterFragmentDirections.actionListPrinterFragmentToAddPrinterFragment(true, null)
+                    findNavController().navigate(action)
+                }
+
+            })
             rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
             rvListPrinter.adapter = findPrinterAdapter
         }

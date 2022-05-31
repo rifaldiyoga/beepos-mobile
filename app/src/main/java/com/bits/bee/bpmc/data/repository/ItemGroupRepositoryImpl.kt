@@ -17,6 +17,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -54,6 +55,10 @@ class ItemGroupRepositoryImpl @Inject constructor(
                 emit(Resource.error(null, "Data Kosong"))
             }
         }
+    }
+
+    override fun getId(id: Int): ItemGroup {
+        return itemGroupDao.getId(id)
     }
 
 }

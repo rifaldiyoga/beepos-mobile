@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.ItemGroupEntity
+import com.bits.bee.bpmc.domain.model.ItemGroup
 
 @Dao
 interface ItemGroupDao : BaseDao<ItemGroupEntity> {
@@ -16,5 +17,11 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
 
     @Query("SELECT * FROM itemgrp WHERE ispos = 1")
     fun getActiveItemGroupList() : List<ItemGroupEntity>
+
+    @Query("SELECT * FROM itemgrp WHERE code = 'ADDON' AND ispos = :ispos ")
+    fun getItgrpNotAddon(ispos: Boolean): List<ItemGroupEntity>
+
+    @Query("SELECT * FROM itemgrp WHERE id = :id")
+    fun getId(id: Int): ItemGroup
 
 }

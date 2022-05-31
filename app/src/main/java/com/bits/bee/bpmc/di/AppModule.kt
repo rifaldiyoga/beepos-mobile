@@ -69,4 +69,22 @@ object AppModule {
         return ChannelRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun providePrinterKitchenRepository(printerKitchenDao: PrinterKitchenDao): PrinterKitchenRepository{
+        return PrinterKitchenRepositoryImpl(printerKitchenDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providePrinterKitchenDRepository(printerKitchenDDao: PrinterKitchenDDao): PrinterKitchenDRepository{
+        return PrinterKitchenDRepositoryImpl(printerKitchenDDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideKitchenRepository(kitchenDao: KitchenDao): KitchenRepository{
+        return KitchenRepositoryImpl(kitchenDao)
+    }
+
 }

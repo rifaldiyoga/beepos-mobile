@@ -11,6 +11,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListViewModel
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -38,7 +40,7 @@ class SettingPrinterFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         SettingPrinterViewModel.UIEvent.RequestAddPrinter -> {
-                            val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment()
+                            val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(true, Gson().toJson(null))
                             findNavController().navigate(action)
                         }
                     }
