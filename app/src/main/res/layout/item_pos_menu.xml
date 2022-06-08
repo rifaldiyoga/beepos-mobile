@@ -4,8 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     app:cardCornerRadius="@dimen/size8"
+    android:id="@+id/cdContent"
     android:layout_height="wrap_content"
-    app:cardElevation="@dimen/size12"
+    app:cardElevation="@dimen/size4"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
+                android:id="@+id/llQty"
                 android:layout_width="@dimen/size60"
                 android:layout_height="@dimen/size60"
                 android:background="@drawable/bg_circle_white"
@@ -33,6 +34,7 @@
                 tools:layout_editor_absoluteY="16dp">
 
                 <TextView
+                    android:id="@+id/tvQty"
                     style="@style/TextHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
 
 
                 <ImageView
+                    android:id="@+id/imageItem"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:srcCompat="@tools:sample/avatars" />
@@ -87,6 +90,7 @@
 
 
         <LinearLayout
+            android:id="@+id/llMinus"
             android:layout_width="@dimen/size60"
             android:layout_height="@dimen/size60"
             android:background="@drawable/bg_circle_white"

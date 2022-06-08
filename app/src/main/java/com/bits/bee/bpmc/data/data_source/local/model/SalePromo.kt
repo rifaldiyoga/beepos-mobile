@@ -6,14 +6,14 @@ import java.math.BigDecimal
 @Entity(tableName = SalePromo.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Sale::class,
-            parentColumns = [Sale.ID],
+            entity = SaleEntity::class,
+            parentColumns = [SaleEntity.ID],
             childColumns = [SalePromo.SALE_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Saled::class,
-            parentColumns = [Saled.ID],
+            entity = SaledEntity::class,
+            parentColumns = [SaledEntity.ID],
             childColumns = [SalePromo.SALED_ID],
             onDelete = ForeignKey.CASCADE
         ),

@@ -81,147 +81,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView54"
-                style="@style/TextHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
-                android:layout_marginTop="@dimen/size16"
-                android:text="@string/alamat"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilNoTelp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilAlamat"
-                android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:layout_marginEnd="@dimen/size16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView54">
-
-                <EditText
-                    android:id="@+id/etAlamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/cth_smartphone_1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <CheckBox
-                android:id="@+id/cbTax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
-                android:paddingStart="@dimen/size12"
-                android:text="@string/pajak"
-                app:layout_constraintStart_toStartOf="@+id/tilAlamat"
-                app:layout_constraintTop_toBottomOf="@+id/tilAlamat"
-                tools:ignore="RtlSymmetry" />
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="@dimen/size32"
-                android:layout_height="@dimen/size32"
-                android:layout_marginStart="@dimen/size16"
-                android:padding="@dimen/size8"
-                android:src="@drawable/ic_help_circle"
-                app:layout_constraintBottom_toBottomOf="@+id/cbTax"
-                app:layout_constraintStart_toEndOf="@+id/cbTax"
-                app:layout_constraintTop_toTopOf="@+id/cbTax" />
-
-            <CheckBox
-                android:id="@+id/cbTaxInc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/size12"
-                android:text="@string/harga_termasuk_pajak"
-                app:layout_constraintStart_toStartOf="@+id/tilAlamat"
-                app:layout_constraintTop_toBottomOf="@+id/cbTax" />
-
-            <ImageView
-                android:layout_width="@dimen/size32"
-                android:layout_height="@dimen/size32"
-                android:layout_marginStart="@dimen/size16"
-                android:padding="@dimen/size8"
-                android:src="@drawable/ic_help_circle"
-                app:layout_constraintBottom_toBottomOf="@+id/cbTaxInc"
-                app:layout_constraintStart_toEndOf="@+id/cbTaxInc"
-                app:layout_constraintTop_toTopOf="@+id/cbTaxInc" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clInfoLainnya"
-                android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
-                android:background="@color/light_orange"
-                android:padding="@dimen/size16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cbTaxInc">
-
-                <TextView
-                    android:layout_width="@dimen/size0"
-                    android:layout_height="wrap_content"
-                    android:text="@string/informasi_lainnya"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_chevron_down"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/textView55"
-                style="@style/TextHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
-                android:layout_marginTop="@dimen/size16"
-                android:text="@string/kota"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clInfoLainnya" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size6"
-                android:text="@string/opsional"
-                android:textSize="@dimen/font12"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView55"
-                app:layout_constraintStart_toEndOf="@+id/textView55" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilKota"
-                android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:layout_marginEnd="@dimen/size16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView55"
-                app:layout_constraintTop_toBottomOf="@+id/textView55">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/cth_smartphone_1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
                 android:id="@+id/textView56"
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
@@ -230,7 +89,7 @@
                 android:layout_marginTop="@dimen/size16"
                 android:text="@string/email"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilKota" />
+                app:layout_constraintTop_toBottomOf="@+id/tilNoTelp" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -262,6 +121,120 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/textView55"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size16"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/kota"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size6"
+                android:text="@string/opsional"
+                android:textSize="@dimen/font12"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView55"
+                app:layout_constraintStart_toEndOf="@+id/textView55" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilKota"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:layout_marginEnd="@dimen/size16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView55"
+                app:layout_constraintTop_toBottomOf="@+id/textView55">
+
+                <EditText
+                    android:id="@+id/etKota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    android:hint="@string/cth_smartphone_1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView54"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size16"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/alamat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilKota" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size8"
+                android:text="@string/opsional"
+                android:textSize="@dimen/font12"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView54"
+                app:layout_constraintStart_toEndOf="@+id/textView54" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAlamat"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:layout_marginEnd="@dimen/size16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView54">
+
+                <EditText
+                    android:id="@+id/etAlamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    android:hint="@string/cth_smartphone_1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clInfoLainnya"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:background="@color/light_orange"
+                android:padding="@dimen/size16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilAlamat">
+
+                <TextView
+                    android:layout_width="@dimen/size0"
+                    android:layout_height="wrap_content"
+                    android:text="@string/informasi_lainnya"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
                 android:id="@+id/textView57"
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
@@ -270,16 +243,15 @@
                 android:layout_marginTop="@dimen/size16"
                 android:text="@string/level_harga"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
-
+                app:layout_constraintTop_toBottomOf="@+id/clInfoLainnya" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPriceLvl"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
                 android:layout_marginEnd="@dimen/size16"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView55"
                 app:layout_constraintTop_toBottomOf="@+id/textView57">
@@ -289,19 +261,59 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
-                    android:inputType="none"
                     android:clickable="true"
                     android:focusable="true"
-                    android:focusableInTouchMode="false" />
+                    android:focusableInTouchMode="false"
+                    android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/cbTax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/size12"
+                android:text="@string/pajak"
+                app:layout_constraintStart_toStartOf="@+id/tilAlamat"
+                app:layout_constraintTop_toBottomOf="@+id/tilPriceLvl"
+                tools:ignore="RtlSymmetry" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="@dimen/size32"
+                android:layout_height="@dimen/size32"
+                android:layout_marginStart="@dimen/size16"
+                android:padding="@dimen/size8"
+                android:src="@drawable/ic_help_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/cbTax"
+                app:layout_constraintStart_toEndOf="@+id/cbTax"
+                app:layout_constraintTop_toTopOf="@+id/cbTax" />
+
+            <CheckBox
+                android:id="@+id/cbTaxInc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size16"
+                android:paddingStart="@dimen/size12"
+                android:text="@string/harga_termasuk_pajak"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tilAlamat"
+                app:layout_constraintTop_toBottomOf="@+id/cbTax" />
+
+            <ImageView
+                android:layout_width="@dimen/size32"
+                android:layout_height="@dimen/size32"
+                android:layout_marginStart="@dimen/size16"
+                android:padding="@dimen/size8"
+                android:src="@drawable/ic_help_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/cbTaxInc"
+                app:layout_constraintStart_toEndOf="@+id/cbTaxInc"
+                app:layout_constraintTop_toTopOf="@+id/cbTaxInc" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/groupLainnya"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tilPriceLvl, textView1, textView2, textView55,tilKota,textView56,tilEmail,textView57" />
-
+                android:layout_height="wrap_content" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

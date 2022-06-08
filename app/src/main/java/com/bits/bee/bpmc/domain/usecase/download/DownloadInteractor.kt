@@ -1,7 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
-import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemGroupUseCase
 import javax.inject.Inject
 
 /**
@@ -10,6 +8,8 @@ import javax.inject.Inject
 data class DownloadInteractor @Inject constructor(
     val getLatestChannelUseCase: GetLatestChannelUseCase,
     val getLatestItemGroupUseCase: GetLatestItemGroupUseCase,
+    val getLatestItemUseCase: GetLatestItemUseCase,
     val getLatestBpUseCase: GetLatestBpUseCase,
-    val getLatestPriceLvlUseCase: GetLatestPriceLvlUseCase
+    val getLatestPriceLvlUseCase: GetLatestPriceLvlUseCase,
+    val getLatestCityUseCase: GetLatestCityUseCase
 )

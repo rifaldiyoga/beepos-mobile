@@ -3,30 +3,30 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.*
 import java.math.BigDecimal
 
-@Entity(tableName = Saled.TBL_NAME,
+@Entity(tableName = SaledEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = ItemEntitiy::class,
-            parentColumns = [ItemEntitiy.ID],
-            childColumns = [Saled.ITEM_ID],
+            entity = ItemEntity::class,
+            parentColumns = [ItemEntity.ID],
+            childColumns = [SaledEntity.ITEM_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Sale::class,
-            parentColumns = [Sale.ID],
-            childColumns = [Saled.SALE_ID],
+            entity = SaleEntity::class,
+            parentColumns = [SaleEntity.ID],
+            childColumns = [SaledEntity.SALE_ID],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class Saled(
+data class SaledEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = ITEM_ID, index = true)
-    var itemId : Int,
+    var itemId : Int = -1,
     @ColumnInfo(name = NAME)
-    var name : String,
+    var name : String = "",
     @ColumnInfo(name = QTY)
     var qty : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = LISTPRICE)
@@ -36,7 +36,7 @@ data class Saled(
     @ColumnInfo(name = TAX)
     var tax : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISCEXP)
-    var discExp : String,
+    var discExp : String = "",
     @ColumnInfo(name = DISCAMT)
     var discAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISC2AMT)
@@ -50,9 +50,9 @@ data class Saled(
     @ColumnInfo(name = SUBTOTAL)
     var subtotal : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = SALE_ID, index = true)
-    var saleId: Int,
+    var saleId: Int = -1,
     @ColumnInfo(name = DNO)
-    var dno : Int,
+    var dno : Int = -1,
     @ColumnInfo(name = TOTAL_DISC_AMOUNT)
     var totalDiscAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTAL_DISC2_AMOUNT)
@@ -60,10 +60,10 @@ data class Saled(
     @ColumnInfo(name = TOTAL_TAX_AMOUNT)
     var totalTaxAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DNOTES)
-    var dNotes: String,
-//    @Ignore private var isBonus : Boolean = false,
-//    @Ignore private var isBonusUsed : Boolean = false,
-//    @Ignore private var isDeleted : Boolean = true,
+    var dNotes: String = "",
+    @Ignore var isBonus : Boolean = false,
+    @Ignore var isBonusUsed : Boolean = false,
+    @Ignore var isDeleted : Boolean = true,
 ) {
     companion object {
         const val TBL_NAME = "saled"

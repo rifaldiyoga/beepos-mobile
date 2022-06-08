@@ -71,20 +71,62 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePrinterKitchenRepository(printerKitchenDao: PrinterKitchenDao): PrinterKitchenRepository{
+    fun providePrinterKitchenRepository(printerKitchenDao: PrinterKitchenDao): PrinterKitchenRepository {
         return PrinterKitchenRepositoryImpl(printerKitchenDao)
-    }
 
-    @Provides
-    @Singleton
-    fun providePrinterKitchenDRepository(printerKitchenDDao: PrinterKitchenDDao): PrinterKitchenDRepository{
-        return PrinterKitchenDRepositoryImpl(printerKitchenDDao)
-    }
+        fun proivdeItemRepository(
+            apiUtils: ApiUtils,
+            itemDao: ItemDao,
+            unitDao: UnitDao,
+            priceDao: PriceDao,
+            defaultDispatcher: CoroutineDispatcher
+        ): ItemRepository {
+            return ItemRepositoryImpl(apiUtils, itemDao, priceDao, unitDao, defaultDispatcher)
+        }
 
-    @Provides
-    @Singleton
-    fun provideKitchenRepository(kitchenDao: KitchenDao): KitchenRepository{
-        return KitchenRepositoryImpl(kitchenDao)
+        @Provides
+        @Singleton
+        fun providePrinterKitchenDRepository(printerKitchenDDao: PrinterKitchenDDao): PrinterKitchenDRepository {
+            return PrinterKitchenDRepositoryImpl(printerKitchenDDao)
+        }
+
+        fun proivdePriceRepository(dao: PriceDao): PriceRepository {
+            return PriceRepositoryImpl(dao)
+        }
+
+        @Provides
+        @Singleton
+        fun provideKitchenRepository(kitchenDao: KitchenDao): KitchenRepository {
+            return KitchenRepositoryImpl(kitchenDao)
+        }
+
+        fun proivdeCityRepository(
+            apiUtils: ApiUtils,
+            dao: CityDao,
+            defaultDispatcher: CoroutineDispatcher
+        ): CityRepository {
+            return CityRepositoryImpl(apiUtils, dao, defaultDispatcher)
+        }
+
+        @Provides
+        @Singleton
+        fun proivdeSaleRepository(
+            apiUtils: ApiUtils,
+            dao: SaleDao,
+            defaultDispatcher: CoroutineDispatcher
+        ): SaleRepository {
+            return SaleRepositoryImpl()
+        }
+
+        @Provides
+        @Singleton
+        fun proivdeSaledRepository(
+            apiUtils: ApiUtils,
+            dao: SaledDao,
+            defaultDispatcher: CoroutineDispatcher
+        ): SaledRepository {
+            return SaledRepositoryImpl()
+        }
     }
 
 }

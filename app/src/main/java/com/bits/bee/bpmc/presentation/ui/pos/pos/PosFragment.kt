@@ -8,14 +8,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPosBinding
+import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.Resource
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 13/04/22.
@@ -49,11 +54,22 @@ class PosFragment(
 //            }
             llNext.setOnClickListener {
                 viewModel.onClickInvoice()
+
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                mainViewModel.viewStates().collectLatest {
+                    it?.let {
+                        binding.tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(getQtyDetail(it.saledList)))
+                        binding.tvSubtotal.text = CurrencyUtils.formatCurrency(it.sale.total)
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
@@ -93,6 +109,15 @@ class PosFragment(
                 }
             }
         }
+    }
+
+
+    fun getQtyDetail(saledList : List<Saled>) : BigDecimal {
+        var qty = BigDecimal.ZERO
+        saledList.forEach {
+            qty = qty.add(it.qty)
+        }
+        return qty
     }
 
 

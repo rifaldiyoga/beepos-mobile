@@ -37,10 +37,6 @@ class TambahMemberViewModel @Inject constructor(
             errorNamaMember = "Nama member tidak boleh kosong!"
             isValid = false
         }
-        if(state.alamat.isEmpty()) {
-            errorAlamat = "Alamat tidak boleh kosong!"
-            isValid = false
-        }
         if(state.noTelp.isEmpty()) {
             errorNoTelp = "No. Telpon tidak boleh kosong!"
             isValid = false
@@ -65,7 +61,8 @@ class TambahMemberViewModel @Inject constructor(
                 name = state.namaMember,
                 alamat = state.alamat,
                 isTaxedOnSale = state.isTaxed,
-                isTaxIncOnSale = state.isTaxInc
+                isTaxIncOnSale = state.isTaxInc,
+                priceLvlId = state.priceLvl
             )
             addUpdateMemberUseCase(bp)
             eventChannel.send(UIEvent.SuccessAddMember)
@@ -80,7 +77,12 @@ class TambahMemberViewModel @Inject constructor(
         }
     }
 
+    fun onClickKota() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestKota)
+    }
+
     sealed class UIEvent {
         object SuccessAddMember : UIEvent()
+        object RequestKota : UIEvent()
     }
 }

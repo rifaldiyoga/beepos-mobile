@@ -5,8 +5,8 @@ import androidx.room.*
 @Entity(tableName = SaleAddOn.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Sale::class,
-            parentColumns = [Sale.ID],
+            entity = SaleEntity::class,
+            parentColumns = [SaleEntity.ID],
             childColumns = [SaleAddOn.SALE_ID],
             onDelete = ForeignKey.CASCADE
         )

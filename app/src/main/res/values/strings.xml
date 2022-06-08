@@ -258,7 +258,7 @@ apa?</string>
     <string name="channel">Channel :</string>
     <string name="member">Member :</string>
     <string name="search">Search</string>
-    <string name="_1_produk">1 Produk</string>
+    <string name="_1_produk">%1$s Produk</string>
     <string name="anda_mendapatkan_promo">Anda mendapatkan promo</string>
     <string name="total">Total</string>
     <string name="subtotal">Subtotal</string>
@@ -343,4 +343,21 @@ apa?</string>
     <string name="none_printer">Tidak ada printer tersedia</string>
     <string name="nama_dapur">Nama dapur</string>
     <string name="kategori">Kategori</string>
+    <string name="data_item_kosong">Data Item Kosong</string>
+    <string name="cari_kota_kecamatan">Cari kota / kecamatan</string>
+    <string name="min_3_huruf">Min 3 huruf</string>
+    <string name="kota_populer">Kota Populer</string>
+    <string name="surabaya">Surabaya</string>
+    <string name="ovaltine_swiss">Ovaltine Swiss</string>
+    <string name="kartu_kredit">Kartu Kredit</string>
+    <string name="kartu_debit">Kartu Debit</string>
+    <string name="gopay">GOPAY</string>
+    <string name="edc">EDC</string>
+    <string name="tipe_edc">Tipe EDC</string>
+    <string name="track_no">Track No</string>
+    <string name="nomor_kartu">Nomor Kartu</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="bayar_sekarang">Bayar Sekarang</string>
+    <string name="surcharge">Surcharge</string>
+    <string name="nominal_surcharge">Nominal Surcharge</string>
 </resources>

@@ -128,4 +128,7 @@ dependencies {
 
     //Paging
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+
+    //Material Text Drawable
+    implementation "com.amulyakhare:com.amulyakhare.textdrawable:1.0.1"
 }

@@ -1,5 +1,11 @@
 package com.bits.bee.bpmc.utils
 
+import java.math.MathContext
+import java.math.RoundingMode
+
+
+
+
 /**
  * Created by aldi on 01/03/22.
  */
@@ -12,5 +18,6 @@ interface BPMConstants {
         const val MODE_RETAIL = "MODE_RETAIL"
         const val NOTASETTING_LOGOPATH = "NOTASETTING_LOGOPATH"
         const val INIT_DEFAULT_LOGO = "bpm_logo1"
+        val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

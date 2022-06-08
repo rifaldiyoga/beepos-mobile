@@ -1,5 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.tambah_member
 
+import com.bits.bee.bpmc.domain.model.PriceLvl
+
 /**
  * Created by aldi on 27/04/22.
  */
@@ -17,4 +19,5 @@ data class TambahMemberState (
     var errorNoTelp : String = "",
     var errorAlamat : String = "",
     var errorEmail : String = "",
+    var priceLvlList : List<PriceLvl> = mutableListOf(),
 )

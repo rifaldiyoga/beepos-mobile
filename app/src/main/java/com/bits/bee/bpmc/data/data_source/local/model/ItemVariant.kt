@@ -15,8 +15,8 @@ import androidx.room.PrimaryKey
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = ItemEntitiy::class,
-            parentColumns = [ItemEntitiy.ID],
+            entity = ItemEntity::class,
+            parentColumns = [ItemEntity.ID],
             childColumns = [ItemVariant.ITEM_ID],
             onDelete = CASCADE
         )

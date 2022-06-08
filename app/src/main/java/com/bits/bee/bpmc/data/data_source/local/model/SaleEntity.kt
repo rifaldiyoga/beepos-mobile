@@ -3,24 +3,24 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.*
 import java.math.BigDecimal
 
-@Entity(tableName = Sale.TBL_NAME,
+@Entity(tableName = SaleEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
             entity = Posses::class,
             parentColumns = [Posses.ID],
-            childColumns = [Sale.POSSES_ID],
+            childColumns = [SaleEntity.POSSES_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = Operator::class,
             parentColumns = [Operator.ID],
-            childColumns = [Sale.OPERATOR_ID],
+            childColumns = [SaleEntity.OPERATOR_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = Cashier::class,
             parentColumns = [Cashier.ID],
-            childColumns = [Sale.CASHIER_ID]
+            childColumns = [SaleEntity.CASHIER_ID]
         ),
         ForeignKey(
             entity = Operator::class,
@@ -31,77 +31,77 @@ import java.math.BigDecimal
         ForeignKey(
             entity = BpEntity::class,
             parentColumns = [BpEntity.ID],
-            childColumns = [Sale.BP_ID],
+            childColumns = [SaleEntity.BP_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = ChannelEntity::class,
             parentColumns = [ChannelEntity.ID],
-            childColumns = [Sale.CHANNEL_ID],
+            childColumns = [SaleEntity.CHANNEL_ID],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class Sale(
+data class SaleEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = TRXORDERNUM)
-    var trxOrderNum : Int,
+    var trxOrderNum : Int = -1,
     @ColumnInfo(name = TRXNO)
-    var trxNo : String,
+    var trxNo : String = "",
     @ColumnInfo(name = DRAFT)
-    var isDraft : Boolean,
+    var isDraft : Boolean = false,
     @ColumnInfo(name = SUBTOTAL)
     var subtotal : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTAL)
     var total : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = OPRNAME)
-    var oprName: String,
+    var oprName: String = "",
     @ColumnInfo(name = CASHIERNAME)
-    var cashiername : String,
+    var cashiername : String = "",
     @ColumnInfo(name = TRXDATE)
-    var trxDate : Long,
+    var trxDate : Long = -1,
     @ColumnInfo(name = TOTPAID)
-    var totPaid : BigDecimal,
+    var totPaid : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTCHANGE)
-    var totChange: BigDecimal,
+    var totChange: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TAXAMT)
     var taxAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DISCAMT)
     var discAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = POSSES_ID, index = true)
-    var possesId : Int,
+    var possesId : Int = -1,
     @ColumnInfo(name = POS_KODE)
-    var kodePosses : String,
+    var kodePosses : String = "",
     @ColumnInfo(name = DISCEXP)
-    var discExp : String,
+    var discExp : String = "",
     @ColumnInfo(name = OPERATOR_ID, index = true)
-    var operatorId: Int,
+    var operatorId: Int = -1,
     @ColumnInfo(name = CASHIER_ID, index = true)
-    var cashierId: Int,
+    var cashierId: Int = -1,
     @ColumnInfo(name = BP_ID, index = true)
-    var bpId: Int,
+    var bpId: Int = -1,
     @ColumnInfo(name = CUST)
-    var custName : String,
+    var custName : String = "",
     @ColumnInfo(name = TERMTYPE)
-    var termType: String,
+    var termType: String = "",
     @ColumnInfo(name = ISUPLOAD)
-    var isUploaded: Boolean,
+    var isUploaded: Boolean = false,
     @ColumnInfo(name = ISVOID)
-    var isVoid: Boolean,
+    var isVoid: Boolean = false,
     @ColumnInfo(name = GOPAY_URL)
-    var gopayUrl: String,
+    var gopayUrl: String = "",
     @ColumnInfo(name = GOPAY_TRANSACTIONID)
-    var gopayTransactionId: String,
+    var gopayTransactionId: String = "",
     @ColumnInfo(name = GOPAY_PAYMENTSTATUS)
-    var gopayPaymentStatus: String,
+    var gopayPaymentStatus: String = "",
     @ColumnInfo(name = ROUNDING)
     var rounding: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = CHANNEL_ID, index = true)
-    var channelId: Int,
+    var channelId: Int = -1,
     @ColumnInfo(name = VOID_NOTE)
-    var voidNote: String,
+    var voidNote: String = "",
 ) {
     companion object {
         const val TBL_NAME = "sale"

@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.member
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentMemberBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -27,6 +29,8 @@ class MemberFragment(
 ) : BaseFragment<FragmentMemberBinding>() {
 
     private val viewModel : MemberViewModel by viewModels()
+
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     private lateinit var memberAdapter: MemberAdapter
 
@@ -66,8 +70,14 @@ class MemberFragment(
                             findNavController().navigate(action)
                         }
                         is MemberViewModel.UIEvent.RequestDetailMember -> {
-                            val action = MemberFragmentDirections.actionMemberFragmentToDetailMemberDialog(it.model)
-                            findNavController().navigate(action)
+//                            val action = MemberFragmentDirections.actionMemberFragmentToDetailMemberDialog(it.model)
+//                            findNavController().navigate(action)
+                            mainViewModel.updateState(
+                                mainViewModel.state.copy(
+                                    bp = it.model
+                                )
+                            )
+                            findNavController().popBackStack()
                         }
                     }
                 }

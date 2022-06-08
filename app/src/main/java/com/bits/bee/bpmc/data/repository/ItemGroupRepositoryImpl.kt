@@ -9,13 +9,10 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkBoundResource
-import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
@@ -45,9 +42,12 @@ class ItemGroupRepositoryImpl @Inject constructor(
     override fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>> {
         return flow {
             emit(Resource.loading())
-            var data : List<ItemGroup> = mutableListOf()
+            var data : MutableList<ItemGroup> = mutableListOf()
+            data.add(ItemGroup(-1, "*", "All", 1, 1, true))
             withContext(ioDispatcher){
-                data = itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDataToDomain(it) }
+                itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDataToDomain(it) }.onEach {
+                    data.add(it)
+                }
             }
             if(data.isNotEmpty()) {
                 emit(Resource.success(data))
