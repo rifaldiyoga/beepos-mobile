@@ -7,5 +7,14 @@ class PrinterInteractor @Inject constructor(
     val getPrinterFromPrinterKitchen: GetPrinterFromPrinterKitchenUseCase,
     val getPrinterKitchenFromDetail: GetPrinterKitchenFromDetailUseCase,
     val getKitchenId: GetKitchenIdUseCase,
-    val itemGrpId: GetItemgrpIdUseCase
+    val itemGrpId: GetItemgrpIdUseCase,
+    val addUpdatePrinter: AddUpdatePrinterUseCase,
+    val getLastId: GetLastIdUseCase,
+    val addUpdatePrinterK: AddUpdatePrinterKitUseCase,
+    val getLastIdPrinterKitchen: GetLastIdPrinterKitchen,
+    val AddUpdatePrinterKitchenD: AddUpdatePrinterKitchenDUseCase,
+    val getByPrinterUseCase: GetByPrinterUseCase,
+    val deletePrinterKitchenD: DeletePrinterKitchenDDUseCase,
+    val deletePrinterKit: DeletePrinterKitchenUseCase,
+    val loadPrinter: LoadPrinterUseCase
 )

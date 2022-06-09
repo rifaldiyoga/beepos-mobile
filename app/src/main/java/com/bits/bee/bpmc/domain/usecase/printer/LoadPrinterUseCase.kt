@@ -6,10 +6,10 @@ import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAddressPrinterUseCase @Inject constructor(
+class LoadPrinterUseCase @Inject constructor(
     private val printerRepo: PrinterRespository
 ) {
-    operator fun invoke(address: String): Flow<Resource<List<Printer>>> {
-        return printerRepo.getAddressPrinterList(address)
+    operator fun invoke(): Flow<Resource<List<Printer>>>{
+        return printerRepo.readPrinter()
     }
 }

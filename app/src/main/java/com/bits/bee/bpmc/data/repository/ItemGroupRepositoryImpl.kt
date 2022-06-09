@@ -57,8 +57,11 @@ class ItemGroupRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getId(id: Int): ItemGroup {
-        return itemGroupDao.getId(id)
+    override fun getId(id: Int): Flow<Resource<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getId(id)
+            emit((Resource.success(ItemGroupDataMapper.fromDataToDomain(data))))
+        }.flowOn(ioDispatcher)
     }
 
 }

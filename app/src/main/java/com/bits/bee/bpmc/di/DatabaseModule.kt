@@ -103,4 +103,28 @@ object DatabaseModule {
         return dbHelper.priceDao
     }
 
+    @Provides
+    @Singleton
+    fun providePrinterDao(dbHelper: DbHelper): PrinterDao{
+        return dbHelper.printerDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePrinterKitchenDao(dbHelper: DbHelper): PrinterKitchenDao{
+        return dbHelper.printerKitchenDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePrinterKitchenDDao(dbHelper: DbHelper): PrinterKitchenDDao{
+        return dbHelper.printerKitchenDDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideKitchenDao(dbHelper: DbHelper): KitchenDao{
+        return dbHelper.kitchenDao
+    }
+
 }

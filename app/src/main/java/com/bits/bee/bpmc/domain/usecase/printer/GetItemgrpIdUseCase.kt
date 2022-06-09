@@ -9,7 +9,7 @@ import javax.inject.Inject;
 class GetItemgrpIdUseCase @Inject constructor(
    private val itemGroupRepository: ItemGroupRepository
 ) {
-   operator fun invoke(id: Int): ItemGroup{
+   operator fun invoke(id: Int): Flow<Resource<ItemGroup>> {
       return itemGroupRepository.getId(id)
    }
 }

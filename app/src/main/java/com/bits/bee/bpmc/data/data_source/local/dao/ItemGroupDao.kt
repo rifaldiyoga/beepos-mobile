@@ -22,6 +22,6 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
     fun getItgrpNotAddon(ispos: Boolean): List<ItemGroupEntity>
 
     @Query("SELECT * FROM itemgrp WHERE id = :id")
-    fun getId(id: Int): ItemGroup
+    fun getId(id: Int): ItemGroupEntity
 
 }

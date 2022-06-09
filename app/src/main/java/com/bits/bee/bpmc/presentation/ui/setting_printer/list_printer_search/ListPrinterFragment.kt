@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer
+package com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -10,21 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingListPrinterBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.BluetoothHandlerReceiver
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListPrinterFragment(

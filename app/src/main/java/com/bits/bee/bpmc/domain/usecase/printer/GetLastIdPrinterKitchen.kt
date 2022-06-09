@@ -6,10 +6,10 @@ import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetPrinterFromPrinterKitchenUseCase @Inject constructor(
+class GetLastIdPrinterKitchen @Inject constructor(
     private val printerKitchenRepository: PrinterKitchenRepository
 ) {
-    operator fun invoke(id: Int): Flow<Resource<List<PrinterKitchen>>>{
-        return printerKitchenRepository.getByIdPrinter(id)
+    operator fun invoke(): Flow<Resource<PrinterKitchen>>{
+        return printerKitchenRepository.getLastId()
     }
 }

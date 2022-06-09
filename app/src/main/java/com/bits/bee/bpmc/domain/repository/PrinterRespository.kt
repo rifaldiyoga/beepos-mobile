@@ -5,7 +5,7 @@ import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface PrinterRespository {
-    fun getAddressPrinterList(): Flow<Resource<List<Printer>>>
+    fun getAddressPrinterList(address: String): Flow<Resource<List<Printer>>>
 
     fun getActiveReceiptList(): Flow<Resource<List<Printer>>>
 
@@ -17,5 +17,11 @@ interface PrinterRespository {
 
     fun getPrinterTipe(): Flow<Resource<List<Printer>>>
 
-    fun getLastId(): Flow<Resource<List<Printer>>>
+    fun getLastId(): Flow<Resource<Printer>>
+
+    fun readPrinter(): Flow<Resource<List<Printer>>>
+
+    suspend fun addUpdatePrinter(printer: Printer?)
+
+    suspend fun updatePrinter(printer : Printer?)
 }

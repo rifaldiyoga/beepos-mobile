@@ -50,15 +50,21 @@ abstract class DbHelper : RoomDatabase() {
 
     abstract val itemDao : ItemDao
 
-    abstract val printeDao: PrinterDao
+    abstract val priceDao: PriceDao
 
     abstract val unitDao : UnitDao
-
-    abstract val priceDao : PriceDao
 
     abstract val saleDao : SaleDao
 
     abstract val saledDao : SaledDao
+
+    abstract val printerDao: PrinterDao
+
+    abstract val printerKitchenDao: PrinterKitchenDao
+
+    abstract val printerKitchenDDao: PrinterKitchenDDao
+
+    abstract val kitchenDao: KitchenDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

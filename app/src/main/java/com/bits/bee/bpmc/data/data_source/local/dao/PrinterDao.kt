@@ -25,6 +25,9 @@ interface PrinterDao: BaseDao<Printer> {
     @Query("SELECT * FROM printer where tipe = :tipe")
     fun readByTipe(tipe: Int): List<Printer>
 
-    @Query("SELECT * FROM printer ORDER BY id = :id DESC LIMIT 1")
-    fun getLastId(id: Int): Printer
+    @Query("SELECT * FROM printer ORDER BY id DESC LIMIT 1")
+    fun getLastId(): Printer
+
+    @Query("SELECT * FROM printer")
+    fun readPrinter(): List<Printer>
 }

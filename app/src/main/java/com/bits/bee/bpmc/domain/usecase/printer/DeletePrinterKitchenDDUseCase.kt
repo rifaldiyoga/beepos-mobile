@@ -6,10 +6,10 @@ import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetPrinterKitchenFromDetailUseCase @Inject constructor(
+class DeletePrinterKitchenDDUseCase @Inject constructor(
     private val printerKitchenDRepository: PrinterKitchenDRepository
 ) {
-    operator fun invoke(id: Int): Flow<Resource<List<PrinterKitchenD>>>{
-        return printerKitchenDRepository.getPrinterKitchen(id)
+    suspend operator fun invoke(id: Int){
+        printerKitchenDRepository.deletePrinterKitchen(id)
     }
 }

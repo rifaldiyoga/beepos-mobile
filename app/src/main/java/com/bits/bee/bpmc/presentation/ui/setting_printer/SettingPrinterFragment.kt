@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
@@ -9,26 +10,35 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragmentDirections
-import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.data.data_source.local.model.Printer
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SettingPrinterFragment(
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingPrinterBinding = FragmentSettingPrinterBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding = FragmentSettingPrinterBinding::inflate
 ): BaseFragment<FragmentSettingPrinterBinding>() {
 
     private val viewModel : SettingPrinterViewModel by viewModels()
+    private lateinit var printerAdapter: PrinterAdapter
 
     override fun initComponents() {
-
+//        printerAdapter = PrinterAdapter()
+//        binding.apply {
+//            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
+//            rvListPrinter.adapter = printerAdapter
+//        }
     }
 
     override fun subscribeListeners() {
         binding.apply {
             btnTambah.setOnClickListener {
+                viewModel.onClickAddPrinter()
+            }
+            floatBtnTambah.setOnClickListener {
                 viewModel.onClickAddPrinter()
             }
         }
@@ -47,6 +57,52 @@ class SettingPrinterFragment(
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loadPrinter.collect {
+                    it.data?.let { data ->
+                        viewModel.loadFromState(data)
+                        initAdapter(viewModel.get())
+                        validateAdapter()
+                    }
+//                    when(it.status){
+//                        Resource.Status.SUCCESS ->{
+//                        }
+//                        Resource.Status.ERROR -> {
+//                            val error = ""
+//                        }
+//                    }
+                }
+            }
+        }
     }
+
+    private fun validateAdapter(){
+        binding.apply {
+            if (viewModel.get().isEmpty()){
+                floatBtnTambah.visibility = View.GONE
+            }else{
+                btnTambah.visibility = View.GONE
+                floatBtnTambah.visibility = View.VISIBLE
+            }
+        }
+
+    }
+
+    private fun initAdapter(data: List<Printer>) {
+        printerAdapter = PrinterAdapter(data)
+        binding.apply {
+            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
+            rvListPrinter.adapter = printerAdapter
+        }
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        validateAdapter()
+////        printerAdapter.setPrinterList(viewModel.get())
+//    }
+
 
 }

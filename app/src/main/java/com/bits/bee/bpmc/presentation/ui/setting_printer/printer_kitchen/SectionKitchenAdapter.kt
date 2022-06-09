@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen
 
+import android.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +10,27 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.data.data_source.local.model.Kitchen
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
 import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchen
-import com.bits.bee.bpmc.databinding.ItemBluetoothBinding
 import com.bits.bee.bpmc.databinding.ItemSectionKitchenBinding
-import com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer.FindPrinterAdapter
-import java.util.ArrayList
 
 class SectionKitchenAdapter constructor(
     val ctx: Context
 ): RecyclerView.Adapter<SectionKitchenAdapter.ViewHolder>() {
 
-    lateinit var mList: List<PrinterKitchen>
-    lateinit var mMap: HashMap<Int, MutableList<Kitchen>>
+    private var mList: List<PrinterKitchen> = mutableListOf()
+    private var mMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
 
     fun initList(list: List<PrinterKitchen>, map:HashMap<Int, MutableList<Kitchen>>){
         this.mList = list
         this.mMap = map
+    }
+
+    fun getPrinterKitchenList(): List<PrinterKitchen>{
+        return mList
+    }
+
+    fun getPrinterKitchenListmap(): HashMap<Int, MutableList<Kitchen>>{
+        return mMap
     }
 
     class ViewHolder(val binding : ItemSectionKitchenBinding) : RecyclerView.ViewHolder(binding.root)
@@ -46,8 +51,8 @@ class SectionKitchenAdapter constructor(
         }
         val spinner = holder.binding.spinnerKategori
         if (spinner != null){
-//            val adapter = ArrayAdapter(ctx, android.R.layout.simple_list_item_1, mMap)
-//            spinner.adapter = adapter
+            val adapter = ArrayAdapter(ctx, R.layout.simple_list_item_1, listOf("asd") )
+            spinner.adapter = adapter
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(parent: AdapterView<*>,

@@ -105,11 +105,14 @@
             android:name="printer"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_addPrinterFragment_to_settingPrinterFragment"
+            app:destination="@id/settingPrinterFragment" />
     </fragment>
     <fragment
         android:id="@+id/listPrinterFragment"
         tools:layout="@layout/fragment_setting_list_printer"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer.ListPrinterFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.ListPrinterFragment"
         android:label="ListPrinterFragment" >
         <action
             android:id="@+id/action_listPrinterFragment_to_addPrinterFragment"

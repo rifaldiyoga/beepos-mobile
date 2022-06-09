@@ -27,11 +27,13 @@ import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListAdapter
 import com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.SectionKitchenAdapter
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 private const val TAG = "Tambah Printer"
 
+@AndroidEntryPoint
 class AddPrinterFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingAddPrinterBinding = FragmentSettingAddPrinterBinding::inflate
 ): BaseFragment<FragmentSettingAddPrinterBinding>() {
@@ -50,22 +52,22 @@ class AddPrinterFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            viewModel.onReceiveArgument(it.getBoolean("isNew",false), it.getParcelable<Printer>("fdfdf"))
-            mPrinter = Gson().fromJson(it.getString("printerP"), Printer::class.java)
             isNew = it.getBoolean("isNew")
-//            viewModel.onReceiveData(mPrinter, isNew)
+            if (!it.getString("printer").equals("null") && it.getString("printer")?.isNotEmpty() == true){
+                mPrinter = Gson().fromJson(it.getString("printer"), Printer::class.java)
+            }
         }
     }
 
     override fun initComponents() {
-        viewModel.setValuePrinter(mPrinter)
         viewModel.setDataKitchen(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_switch_dapur), false) as Boolean)
+        sectionKitchenAdapter = SectionKitchenAdapter(requireContext())
         binding.apply {
-            if (!swcPrinterKitchen.isChecked){
-
-            }
+//            if (!swcPrinterKitchen.isChecked){
+//
+//            }
             rvKitchenPrinter.layoutManager = LinearLayoutManager(requireContext())
-
+            rvKitchenPrinter.adapter = sectionKitchenAdapter
         }
         var newPrinter = Printer
 //        Printer(0, "")
@@ -119,6 +121,10 @@ class AddPrinterFragment(
                                 requireContext())
                             dialog.show(parentFragmentManager, TAG)
                         }
+                        AddPrinterViewModel.UIEvent.RequestSimpan ->{
+                            val action = AddPrinterFragmentDirections.actionAddPrinterFragmentToSettingPrinterFragment()
+                            findNavController().navigate(action)
+                        }
                     }
                 }
             }
@@ -136,6 +142,98 @@ class AddPrinterFragment(
                         etTipePrinter.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
                             R.string.pref_tipe_printer), "" ) as String)
 
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getPrinterFromPrinterKitchen.collect {
+                    it.data?.let { data ->
+//                        viewModel.setPrinterKitchenList(data)
+                        viewModel.update(
+                            viewModel.state.copy(listPrinterKitchen = data)
+                        )
+                    }
+                }
+                viewModel.getPrinterKitchenFromDetail.collect {
+                    it.data?.let { data ->
+//                        viewModel.setPrinterKitchenDList(data)
+                        viewModel.update(
+                            viewModel.state.copy(listPrinterKitchenD = data)
+                        )
+                    }
+                }
+                viewModel.getKitchenId.collect {
+                    it.data?.let { data ->
+//                        viewModel.setKitchen(data)
+                        viewModel.update(
+                            viewModel.state.copy(kititchen = data)
+                        )
+                    }
+                }
+                viewModel.getItmgrpId.collect {
+                    it.data?.let { data ->
+//                        viewModel.setItemgrp(data)
+                        viewModel.update(
+                            viewModel.state.copy(itmgrp = data)
+                        )
+                    }
+                }
+                viewModel.printerAddressList.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(listPrinter = data)
+                        )
+                    }
+                }
+                viewModel.getLastIdVal.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(mPrinter = data)
+                        )
+                    }
+                }
+                viewModel.getLastIdPrinterKit.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(mPrinterKitchen = data)
+                        )
+                    }
+                }
+                viewModel.getByPrinter.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(listPrinterKitchen = data)
+                        )
+                    }
+                }
+                viewModel.printerAddressList.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(listPrinter = data)
+                        )
+                    }
+                }
+                viewModel.getLastIdVal.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(mPrinter = data)
+                        )
+                    }
+                }
+                viewModel.getLastIdPrinterKit.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(mPrinterKitchen = data)
+                        )
+                    }
+                }
+                viewModel.getByPrinter.collect {
+                    it.data?.let { data ->
+                        viewModel.update(
+                            viewModel.state.copy(listPrinterKitchen = data)
+                        )
                     }
                 }
             }
@@ -165,14 +263,13 @@ class AddPrinterFragment(
         return binding.etMacAddress.text.toString()
     }
 
-    private fun doSave(){
-        if (isNew){
+    fun doSave(){
+//        if (isNew){
 //            mPrinter = Printer()
-        }
+//        }
 //        radioAdapter.getSelectedPosition()
         binding.apply {
             mPrinter = Printer(
-                id = -1,
                 printerName = getNamaPrinter(),
                 address = getMacAddress(),
                 tipe = tipePrinter(),
@@ -183,6 +280,15 @@ class AddPrinterFragment(
             )
         }
         if (validateInput()){
+            var printerKitchenList: List<PrinterKitchen> = mutableListOf()
+            var mListMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
+            if (sectionKitchenAdapter != null){
+//                viewModel.getDataList()
+                printerKitchenList = sectionKitchenAdapter.getPrinterKitchenList()
+                mListMap = sectionKitchenAdapter.getPrinterKitchenListmap()
+            }
+            viewModel.valueIsNewPrinter(mPrinter)
+            viewModel.save(mPrinter, printerKitchenList, mListMap)
             Toast.makeText(requireContext(), "Berhasil simpan print", Toast.LENGTH_LONG)
         }else{
             Toast.makeText(requireContext(), "Lengkapi data terlebih dahulu", Toast.LENGTH_LONG)
@@ -199,12 +305,10 @@ class AddPrinterFragment(
 
     private fun viewKitchen(isKitchen: Boolean){
         if (isKitchen){
-            sectionKitchenAdapter = SectionKitchenAdapter(requireContext())
-            binding.apply {
-                rvKitchenPrinter.visibility = View.VISIBLE
-                binding.rvKitchenPrinter.adapter = sectionKitchenAdapter
-            }
+            binding.rvKitchenPrinter.visibility = View.VISIBLE
             if (!isNew){
+                viewModel.setSectionKitAdapter(sectionKitchenAdapter)
+                viewModel.setValuePrinter(mPrinter)
                 viewModel.setPrinterKitchen()
             }
             if (sectionKitchenAdapter.itemCount == 0){

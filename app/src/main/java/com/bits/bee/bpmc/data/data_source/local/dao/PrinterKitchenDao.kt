@@ -15,6 +15,6 @@ interface PrinterKitchenDao: BaseDao<PrinterKitchen> {
     @Query("SELECT * FROM printer_kitchen where id = :id")
     fun getById(id: Int): PrinterKitchen
 
-    @Query("SELECT * FROM printer_kitchen ORDER BY id = :id DESC LIMIT 1")
-    fun getLastId(id: Int): PrinterKitchen
+    @Query("SELECT * FROM printer_kitchen ORDER BY id DESC LIMIT 1")
+    fun getLastId(): PrinterKitchen
 }
