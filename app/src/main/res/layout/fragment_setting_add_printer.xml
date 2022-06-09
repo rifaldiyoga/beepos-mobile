@@ -178,13 +178,11 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size1"
-                        android:layout_marginBottom="@dimen/size10"
                         android:background="@color/light_gray"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:id="@+id/cl_setting"
-                        android:layout_marginBottom="@dimen/size10"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -201,7 +199,6 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clLogoGaleri"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="@dimen/size10"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -234,7 +231,6 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clHeader"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="@dimen/size10"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -298,7 +294,6 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_Footer"
-                        android:layout_marginBottom="@dimen/size10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 

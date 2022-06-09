@@ -216,7 +216,6 @@ class AddPrinterViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestSimpan)
     }
 
-
     sealed class UIEvent{
         object RequestTipePrinter : UIEvent()
         object RequestSimpan : UIEvent()

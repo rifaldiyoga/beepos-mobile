@@ -19,5 +19,5 @@ data class AddPrinterState(
     var listPrinterKitchen: List<PrinterKitchen>? = null,
     var listPrinterKitchenD: List<PrinterKitchenD>? = null,
     var kititchen: Kitchen? = null,
-    var itmgrp: ItemGroup? = null
+    var itmgrp: ItemGroup? = null,
 )
