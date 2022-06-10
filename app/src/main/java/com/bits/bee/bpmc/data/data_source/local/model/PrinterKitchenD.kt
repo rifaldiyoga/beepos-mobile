@@ -21,7 +21,7 @@ import androidx.room.*
 data class PrinterKitchenD(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int = 0,
     @ColumnInfo(name = PRINTER_KITCHEN_ID, index = true)
     var printerKitchenId: Int,
     @ColumnInfo(name = KITCHEN_ID, index = true)

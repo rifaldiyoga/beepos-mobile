@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.ProcessBuilder.Redirect.to
 
 @AndroidEntryPoint
 class SettingPrinterFragment(
@@ -81,9 +82,10 @@ class SettingPrinterFragment(
     private fun validateAdapter(){
         binding.apply {
             if (viewModel.get().isEmpty()){
+                lLBtnEmptyPrinter.visibility = View.VISIBLE
                 floatBtnTambah.visibility = View.GONE
             }else{
-                btnTambah.visibility = View.GONE
+                lLBtnEmptyPrinter.visibility = View.GONE
                 floatBtnTambah.visibility = View.VISIBLE
             }
         }
@@ -91,7 +93,13 @@ class SettingPrinterFragment(
     }
 
     private fun initAdapter(data: List<Printer>) {
-        printerAdapter = PrinterAdapter(data)
+        printerAdapter = PrinterAdapter(data, mListener = object : PrinterAdapter.PilihPrinterI{
+            override fun onItemClick(printer: Printer) {
+                val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(false, Gson().toJson(printer))
+                findNavController().navigate(action)
+            }
+
+        })
         binding.apply {
             rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
             rvListPrinter.adapter = printerAdapter

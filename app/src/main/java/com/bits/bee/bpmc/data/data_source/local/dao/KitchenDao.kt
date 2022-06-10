@@ -14,4 +14,7 @@ interface KitchenDao: BaseDao<Kitchen> {
 
     @Query("SELECT * FROM kitchen ORDER BY id DESC LIMIT 1")
     fun getLastKitchen(): Kitchen
+
+    @Query("SELECT * FROM  kitchen")
+    fun read(): MutableList<Kitchen>
 }

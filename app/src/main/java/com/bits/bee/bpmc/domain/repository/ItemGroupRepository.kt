@@ -19,4 +19,6 @@ interface ItemGroupRepository {
 
     fun getId(id: Int) : Flow<Resource<ItemGroup>>
 
+    fun getItemgrpKitchen(): Flow<Resource<List<ItemGroup>>>
+
 }

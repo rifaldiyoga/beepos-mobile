@@ -333,6 +333,7 @@ apa?</string>
     <string name="printer_kasir">Printer Kasir</string>
     <string name="printer_setoran">Printer Setoran</string>
     <string name="printer_kitchen">Printer Kitchen</string>
+    <string name="jumlah_dapur">Jumlah Dapur</string>
     <string name="tipe_bluetooth">Tipe Bluetooth</string>
     <string name="bluetooth">NP12434BT</string>
     <string name="id_mac_address">72:3C:61:1E:27:14</string>
