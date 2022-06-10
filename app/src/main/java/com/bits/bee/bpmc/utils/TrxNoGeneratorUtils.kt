@@ -3,6 +3,8 @@ package com.bits.bee.bpmc.utils
 import android.content.Context
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,55 +16,57 @@ import javax.inject.Singleton
  */
 @Singleton
 class TrxNoGeneratorUtils @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext context: Context,
+    getActiveBranchUseCase: GetActiveBranchUseCase,
+    getActiveCashierUseCase: GetActiveCashierUseCase
 ){
 
     companion object {
 
-        fun generatePossesTrxNo(mCounterShift : Int) : String {
+        fun generatePossesTrxNo(mCounterShift : Int, mBranch: Branch, mCashier: Cashier) : String {
             var trxNo = ""
-//            var branch : Branch = Branch()
-//            var cashier : Cashier = Cashier()
-//            val dateFormat = SimpleDateFormat("yyMMdd", Locale.getDefault())
-//            val hourFormat = SimpleDateFormat("HH", Locale.getDefault())
-//            val minuteFormat = SimpleDateFormat("mm", Locale.getDefault())
-//
-//            val dateNow = Date()
-//            val timeNow = Calendar.getInstance().time
-//
-//            if (cashier.id >= 10 && mCounterShift >= 10) {
-//                trxNo = ("PS/" + branch.code + cashier.cashId
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + "0" + mCounterShift)
-//            } else if (cashier.id >= 10 && mCounterShift >= 100) {
-//                trxNo = ("PS/" + branch.code + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + "" + mCounterShift)
-//            } else if (cashier.id >= 10 && mCounterShift >= 1000) {
-//                trxNo = ("PS/" + branch.code + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + mCounterShift)
-//            } else if (cashier.id >= 10 && mCounterShift < 10) {
-//                trxNo = ("PS/" + branch.code + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + "00" + mCounterShift)
-//            } else if (cashier.id < 10 && mCounterShift < 10) {
-//                trxNo = ("PS/" + branch.code + "0" + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + "00" + mCounterShift)
-//            } else if (cashier.id < 10 && mCounterShift >= 10) {
-//                trxNo = ("PS/" + branch.code + "0" + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + "0" + mCounterShift)
-//            } else if (cashier.id < 10 && mCounterShift >= 100) {
-//                trxNo = ("PS/" + branch.code + "0" + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + "" + mCounterShift)
-//            } else if (cashier.id < 10 && mCounterShift >= 1000) {
-//                trxNo = ("PS/" + branch.code + "0" + cashier.id
-//                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
-//                        + "/" + mCounterShift)
-//            }
+            val branch = mBranch
+            var cashier = mCashier
+            val dateFormat = SimpleDateFormat("yyMMdd", Locale.getDefault())
+            val hourFormat = SimpleDateFormat("HH", Locale.getDefault())
+            val minuteFormat = SimpleDateFormat("mm", Locale.getDefault())
+
+            val dateNow = Date()
+            val timeNow = Calendar.getInstance().time
+
+            if (cashier.id >= 10 && mCounterShift >= 10) {
+                trxNo = ("PS/" + branch.code + cashier.cashId
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + "0" + mCounterShift)
+            } else if (cashier.id >= 10 && mCounterShift >= 100) {
+                trxNo = ("PS/" + branch.code + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + "" + mCounterShift)
+            } else if (cashier.id >= 10 && mCounterShift >= 1000) {
+                trxNo = ("PS/" + branch.code + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + mCounterShift)
+            } else if (cashier.id >= 10 && mCounterShift < 10) {
+                trxNo = ("PS/" + branch.code + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + "00" + mCounterShift)
+            } else if (cashier.id < 10 && mCounterShift < 10) {
+                trxNo = ("PS/" + branch.code + "0" + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + "00" + mCounterShift)
+            } else if (cashier.id < 10 && mCounterShift >= 10) {
+                trxNo = ("PS/" + branch.code + "0" + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + "0" + mCounterShift)
+            } else if (cashier.id < 10 && mCounterShift >= 100) {
+                trxNo = ("PS/" + branch.code + "0" + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + "" + mCounterShift)
+            } else if (cashier.id < 10 && mCounterShift >= 1000) {
+                trxNo = ("PS/" + branch.code + "0" + cashier.id
+                        + dateFormat.format(dateNow) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
+                        + "/" + mCounterShift)
+            }
             return trxNo
         }
 

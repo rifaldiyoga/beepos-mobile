@@ -3,6 +3,8 @@ package com.bits.bee.bpmc.data.repository
 import com.bits.bee.bpmc.data.data_source.local.dao.PossesDao
 import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
 import com.bits.bee.bpmc.domain.mapper.PossesDataMapper
+import com.bits.bee.bpmc.domain.model.Branch
+import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
@@ -32,14 +34,14 @@ class PossesRepositoryImpl @Inject constructor(
             }
         }.flowOn(defaultDispatcher)
 
-    override suspend fun createPosses(startBal: BigDecimal, shift : Int) {
+    override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier) {
         val date = Date()
         withContext(defaultDispatcher){
             var posses = PossesEntity(
                 startBal = startBal,
                 trxDate = date,
                 cashierId = 1,
-                trxNo = TrxNoGeneratorUtils.generatePossesTrxNo(shift),
+                trxNo = TrxNoGeneratorUtils.generatePossesTrxNo(shift, branch, cashier),
                 startTime = date,
                 shift = shift,
                 total = BigDecimal.ZERO,

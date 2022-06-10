@@ -29,10 +29,14 @@ class DetailBukaKasirViewModel @Inject constructor(
     val getActiveBranch = getActiveBranchUseCase()
 
     fun onBukaKasir() = viewModelScope.launch{
-        bukaKasirUseCase(state.modal, state.shift)
+        if(state.modal == null){
+            eventChannel.send(UIEvent.NavigateToDefaultModal)
+        }else {
+            bukaKasirUseCase(state.modal!!, state.shift, state.branch!!, state.cashier!!)
+        }
     }
 
     sealed class UIEvent {
-
+        object NavigateToDefaultModal : UIEvent()
     }
 }

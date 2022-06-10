@@ -14,5 +14,6 @@ data class DetailBukaKasirState (
     var branch : Branch? = null,
     var cashier : Cashier? = null,
     var shift : Int = 1,
-    var modal : BigDecimal = BigDecimal.ZERO
+    var modal : BigDecimal? = null,
+    var defaultModal : BigDecimal = BigDecimal.ZERO
 )
