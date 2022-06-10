@@ -260,37 +260,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size1"
                         android:background="@color/light_gray"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_aturHeader"
-                        android:layout_width="match_parent"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/textView38"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/atur_heder"
-                            style="@style/TextHeader"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_chevron_right_gray"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                        android:id="@+id/vJumlahMeja"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size1"
-                        android:background="@color/light_gray"/>
+<!--                    -->
+<!--                    <View-->
+<!--                        android:id="@+id/vJumlahMeja"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/size1"-->
+<!--                        android:background="@color/light_gray"/>-->
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_Footer"
@@ -317,6 +292,82 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_qty_dapur"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/llQtyKitchen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:gravity="center_vertical"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.6"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/textView33"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/jumlah_dapur"
+                                    style="@style/TextHeader"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/activity_add_printer_llQty"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.4"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/white"
+                                android:gravity="center_vertical|end">
+
+                                <ImageView
+                                    android:id="@+id/add_printerKit_ivMinus"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@drawable/ic_circle_minus" />
+
+                                <TextView
+                                    android:id="@+id/tvQty"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:imeOptions=""
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:inputType="number"
+                                    android:text="1"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/size16" />
+
+                                <ImageView
+                                    android:id="@+id/add_printerKit_ivPlus"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@drawable/ic_circle_plus"/>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"

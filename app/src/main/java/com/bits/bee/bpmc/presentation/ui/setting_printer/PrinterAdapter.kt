@@ -8,7 +8,8 @@ import com.bits.bee.bpmc.databinding.ItemBluetoothBinding
 import com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.FindPrinterAdapter
 
 class PrinterAdapter constructor(
-    listPrinter: List<Printer>
+    private val listPrinter: List<Printer>,
+    private val mListener: PilihPrinterI
 ): RecyclerView.Adapter<PrinterAdapter.ViewHolder>() {
 
     private var mList: List<Printer> = mutableListOf()
@@ -31,6 +32,9 @@ class PrinterAdapter constructor(
         holder.binding.apply {
             itemBluetoothTvTitle.text = printer.printerName
             itemBluetoothTvAddress.text = printer.address
+            itemListClPrinter.setOnClickListener {
+                mListener.onItemClick(printer)
+            }
         }
     }
 
@@ -40,5 +44,9 @@ class PrinterAdapter constructor(
 
     fun setPrinterList(list: List<Printer>){
         this.mList = list
+    }
+
+    interface PilihPrinterI{
+        fun onItemClick(printer: Printer)
     }
 }

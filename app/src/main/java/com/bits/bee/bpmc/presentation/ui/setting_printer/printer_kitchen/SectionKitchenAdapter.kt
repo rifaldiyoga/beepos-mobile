@@ -17,20 +17,35 @@ class SectionKitchenAdapter constructor(
     val ctx: Context
 ): RecyclerView.Adapter<SectionKitchenAdapter.ViewHolder>() {
 
-    private var mList: List<PrinterKitchen> = mutableListOf()
+    private var mList: List<PrinterKitchen> = listOf()
     private var mMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
+    private var mutableList: MutableList<PrinterKitchen> = mutableListOf()
+    private var listKitchen: MutableList<Kitchen> = mutableListOf()
 
-    fun initList(list: List<PrinterKitchen>, map:HashMap<Int, MutableList<Kitchen>>){
+    fun initList(list: List<PrinterKitchen>, map: HashMap<Int, MutableList<Kitchen>>){
         this.mList = list
         this.mMap = map
+        this.mutableList = mList.toMutableList()
     }
 
     fun getPrinterKitchenList(): List<PrinterKitchen>{
-        return mList
+        return mutableList
     }
 
     fun getPrinterKitchenListmap(): HashMap<Int, MutableList<Kitchen>>{
         return mMap
+    }
+
+    fun addPrinterKitchen(printerKitchen: PrinterKitchen){
+        mutableList.add(printerKitchen)
+        mMap.put(mutableList.size - 1, mutableListOf())
+        notifyDataSetChanged()
+    }
+
+    fun delePrinterKitchen(){
+        mutableList.removeAt(mutableList.size - 1)
+        mMap.remove(mutableList.size - 1)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(val binding : ItemSectionKitchenBinding) : RecyclerView.ViewHolder(binding.root)
@@ -43,15 +58,27 @@ class SectionKitchenAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val printerKitchen: PrinterKitchen = mList.get(position)
+        val printerKitchen: PrinterKitchen = mutableList.get(position)
         val pos = position + 1
         holder.binding.apply {
-            tvTitleDapur.text = "Nama Dapur {$pos}"
+            tvTitleDapur.text = "Nama Dapur "+pos
             etKitchenDapur.setText(printerKitchen.kitchenName)
         }
         val spinner = holder.binding.spinnerKategori
         if (spinner != null){
-            val adapter = ArrayAdapter(ctx, R.layout.simple_list_item_1, listOf("asd") )
+            for (map in mMap){
+                listKitchen.addAll(map.value)
+            }
+//            val array = arrayListOf<Kitchen>()
+//            for (kitchen in listKitchen){
+//                array.add(kitchen)
+//            }
+
+            var listStr = mutableListOf<String>()
+            for (kit in listKitchen){
+                listStr.add(kit.name)
+            }
+            val adapter = ArrayAdapter(ctx, R.layout.simple_list_item_1, listStr )
             spinner.adapter = adapter
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -70,6 +97,10 @@ class SectionKitchenAdapter constructor(
     }
 
     override fun getItemCount(): Int {
-        return mList.size
+        return mutableList.size
+    }
+
+    fun setKitchenList(mutable: MutableList<Kitchen>) {
+        listKitchen.addAll(mutable)
     }
 }

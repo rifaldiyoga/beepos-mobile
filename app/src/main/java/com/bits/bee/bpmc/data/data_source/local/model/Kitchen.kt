@@ -18,21 +18,21 @@ data class Kitchen(
     @ColumnInfo(name = ID)
     var id : Int,
     @ColumnInfo(name = CODE)
-    var code : String,
+    var code : String? = null,
     @ColumnInfo(name = NAME)
     var name: String,
     @ColumnInfo(name = BRANCH_ID, index = true)
-    var branchId: Int,
+    var branchId: Int = 0,
     @ColumnInfo(name = CREATED_BY)
-    var createdBy : Int,
+    var createdBy : Int = 0,
     @ColumnInfo(name = CREATED_AT)
-    var createdAt : Long,
+    var createdAt : Long = 0,
     @ColumnInfo(name = UPDATED_BY)
-    var updatedBy : Int,
+    var updatedBy : Int = 0,
     @ColumnInfo(name = UPDATED_AT)
-    var updatedAt : Long,
+    var updatedAt : Long = 0,
     @ColumnInfo(name = IS_USED)
-    var isUsed : Boolean,
+    var isUsed : Boolean = false,
 ) {
     companion object {
         const val TBL_NAME = "kitchen"

@@ -24,6 +24,7 @@ import com.bits.bee.bpmc.databinding.FragmentSettingAddPrinterBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.tipe_printer.TipePrinterDialog
 import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListAdapter
+import com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.ListPrinter
 import com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.SectionKitchenAdapter
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.google.gson.Gson
@@ -69,9 +70,7 @@ class AddPrinterFragment(
             rvKitchenPrinter.layoutManager = LinearLayoutManager(requireContext())
             rvKitchenPrinter.adapter = sectionKitchenAdapter
         }
-        var newPrinter = Printer
-//        Printer(0, "")
-
+//        loadData()
     }
 
     override fun subscribeListeners() {
@@ -87,7 +86,28 @@ class AddPrinterFragment(
                     viewKitchen(swcPrinterKitchen.isChecked)
                 }
             }
+            addPrinterKitIvPlus.setOnClickListener {
+                addPrinterKitchen()
+            }
+            addPrinterKitIvMinus.setOnClickListener {
+                sectionKitchenAdapter.delePrinterKitchen()
+                if(sectionKitchenAdapter.itemCount == 0)
+                    doIsKitchen()
+                else
+                    reloadQtyPrinterKitchen()
+            }
         }
+    }
+
+    private fun doIsKitchen(){
+        binding.apply {
+            if (swcPrinterKitchen.isChecked)
+                swcPrinterKitchen.isChecked = false
+            else
+                swcPrinterKitchen.isChecked = true
+            viewKitchen(swcPrinterKitchen.isChecked)
+        }
+
     }
 
     override fun subscribeObservers() {
@@ -134,11 +154,11 @@ class AddPrinterFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {
                     binding.apply {
-                        etNamaPrinter.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_name_printer), "") as String)
-                        etMacAddress.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_address_printer), "") as String)
-                        swcPrinterKasir.isChecked = false
-                        swcPrinterKitchen.isChecked = false
-                        swcPrinterSetoran.isChecked = false
+                        etNamaPrinter.setText(if(!isNew && mPrinter != null) mPrinter!!.printerName else BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_name_printer), "") as String)
+                        etMacAddress.setText(if(!isNew && mPrinter != null) mPrinter!!.address else BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_address_printer), "") as String)
+                        swcPrinterKasir.isChecked = if(!isNew && mPrinter != null) mPrinter!!.isReceipt else false
+                        swcPrinterKitchen.isChecked = if(!isNew && mPrinter != null) mPrinter!!.isKitchen else false
+                        swcPrinterSetoran.isChecked = if(!isNew && mPrinter != null) mPrinter!!.isReport else false
                         etTipePrinter.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
                             R.string.pref_tipe_printer), "" ) as String)
 
@@ -208,31 +228,17 @@ class AddPrinterFragment(
                         )
                     }
                 }
-                viewModel.printerAddressList.collect {
+                viewModel.loadKitchen.collect {
                     it.data?.let { data ->
                         viewModel.update(
-                            viewModel.state.copy(listPrinter = data)
+                            viewModel.state.copy(listKitchen = data)
                         )
                     }
                 }
-                viewModel.getLastIdVal.collect {
+                viewModel.getItemgrpKitchen.collect {
                     it.data?.let { data ->
                         viewModel.update(
-                            viewModel.state.copy(mPrinter = data)
-                        )
-                    }
-                }
-                viewModel.getLastIdPrinterKit.collect {
-                    it.data?.let { data ->
-                        viewModel.update(
-                            viewModel.state.copy(mPrinterKitchen = data)
-                        )
-                    }
-                }
-                viewModel.getByPrinter.collect {
-                    it.data?.let { data ->
-                        viewModel.update(
-                            viewModel.state.copy(listPrinterKitchen = data)
+                            viewModel.state.copy(listItemgrp = data)
                         )
                     }
                 }
@@ -244,6 +250,17 @@ class AddPrinterFragment(
         super.onResume()
         if (mPrinter == null)
             viewModel.onClickShowPrinter()
+    }
+
+    private fun loadData(){
+        binding.apply {
+            etNamaPrinter.setText(mPrinter!!.printerName)
+            etMacAddress.setText(mPrinter!!.address)
+            etTipePrinter.setText(if(mPrinter!!.tipe == 0) R.string.bluetooth_printer else R.string.network_printer)
+            swcPrinterKitchen.isChecked = mPrinter!!.isKitchen
+            swcPrinterKasir.isChecked = mPrinter!!.isReceipt
+            swcPrinterSetoran.isChecked = mPrinter!!.isReport
+        }
     }
 
     private fun tipePrinter(): Int{
@@ -304,19 +321,39 @@ class AddPrinterFragment(
     }
 
     private fun viewKitchen(isKitchen: Boolean){
+        viewModel.setSectionKitAdapter(sectionKitchenAdapter)
         if (isKitchen){
-            binding.rvKitchenPrinter.visibility = View.VISIBLE
+            binding.apply {
+                clQtyDapur.visibility = View.VISIBLE
+                rvKitchenPrinter.visibility = View.VISIBLE
+            }
             if (!isNew){
-                viewModel.setSectionKitAdapter(sectionKitchenAdapter)
                 viewModel.setValuePrinter(mPrinter)
                 viewModel.setPrinterKitchen()
+            }else{
+                viewModel.loadKategoriPrinterKit()
             }
             if (sectionKitchenAdapter.itemCount == 0){
-
+                addPrinterKitchen()
             }
         }else{
-            binding.rvKitchenPrinter.visibility = View.GONE
+            binding.apply {
+                clQtyDapur.visibility = View.GONE
+                rvKitchenPrinter.visibility = View.GONE
+            }
         }
+    }
+
+    private fun reloadQtyPrinterKitchen(){
+        binding.tvQty.text = sectionKitchenAdapter.itemCount.toString()
+    }
+
+    private fun addPrinterKitchen(){
+        val pritnterKitchen = PrinterKitchen(kitchenName = "Makanan")
+        sectionKitchenAdapter.addPrinterKitchen(pritnterKitchen)
+
+        reloadQtyPrinterKitchen()
+
     }
 
 }

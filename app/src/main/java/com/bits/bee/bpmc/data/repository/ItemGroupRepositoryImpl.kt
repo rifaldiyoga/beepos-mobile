@@ -64,4 +64,19 @@ class ItemGroupRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getItemgrpKitchen(): Flow<Resource<List<ItemGroup>>> {
+        return flow {
+            var data = mutableListOf<ItemGroup>()
+            withContext(ioDispatcher){
+                itemGroupDao.getItemgrpKitchen().map { ItemGroupDataMapper.fromDataToDomain(it) }.onEach {
+                    data.add(it)
+                }
+            }
+            if (data.isNotEmpty()){
+                emit(Resource.success(data))
+            }else{
+                emit(Resource.error(null, "data kosong"))
+            }            }
+        }
+
 }

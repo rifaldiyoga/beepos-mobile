@@ -125,6 +125,10 @@ class AddPrinterViewModel @Inject constructor(
 
     val getByPrinter = printerInteractor.getByPrinterUseCase(_idPrinter)
 
+    val loadKitchen = printerInteractor.loadKitchen()
+
+    val getItemgrpKitchen = printerInteractor.getItemgrpKitchen()
+
 
     fun setPrinterKitchen(){
         val printerKitchenList: List<PrinterKitchen>? = state.listPrinterKitchen
@@ -142,14 +146,7 @@ class AddPrinterViewModel @Inject constructor(
                     var itmGrp: ItemGroup = state.itmgrp!!
                     val kitchen = Kitchen(
                         id = itmGrp.id,
-                        code = "",
                         name = itmGrp.name,
-                        branchId = -1,
-                        createdBy = -1,
-                        createdAt = -1,
-                        updatedBy = -1,
-                        updatedAt = -1,
-                        isUsed = false
                     )
                     kitchenList.add(kitchen)
                 }
@@ -190,7 +187,7 @@ class AddPrinterViewModel @Inject constructor(
                 var kitchenList = mListMap.get(index)
 
                 for (kitchen in kitchenList!!){
-                    var printerKitchenD = PrinterKitchenD(0, idPrinterKit, kitchen.id)
+                    var printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit, kitchenId = kitchen.id)
                     addPrinterKitchenD(printerKitchenD)
                 }
             }
@@ -208,12 +205,26 @@ class AddPrinterViewModel @Inject constructor(
 
                 val kitchenList = mListMap.get(index)
                 for (kitchen in kitchenList!!){
-                    val printerKitchenD = PrinterKitchenD(0, idPrinterKit, kitchen.id)
+                    val printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit, kitchenId = kitchen.id)
                     addPrinterKitchenD(printerKitchenD)
                 }
             }
         }
         eventChannel.send(UIEvent.RequestSimpan)
+    }
+
+    fun loadKategoriPrinterKit(){
+        var mutable = mutableListOf<Kitchen>()
+        if (data_kitchen){
+            mutable = state.listKitchen!!
+        }else{
+            val itemgrpList = state.listItemgrp
+            for (itmgrp in itemgrpList!!){
+                var kitchen = Kitchen(id = itmgrp.id, name = itmgrp.name)
+                mutable.add(kitchen)
+            }
+        }
+        sectionKitchenAdapter.setKitchenList(mutable)
     }
 
     sealed class UIEvent{

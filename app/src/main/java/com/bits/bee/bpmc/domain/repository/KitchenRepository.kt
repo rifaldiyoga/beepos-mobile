@@ -7,5 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface KitchenRepository {
     fun getKitchenId(id: Int): Flow<Resource<Kitchen>>
 
-    fun getLastKitchen(): Kitchen
+    fun getLastKitchen(): Flow<Resource<Kitchen>>
+
+    fun readKitchen(): Flow<Resource<MutableList<Kitchen>>>
 }

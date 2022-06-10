@@ -24,4 +24,7 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
     @Query("SELECT * FROM itemgrp WHERE id = :id")
     fun getId(id: Int): ItemGroupEntity
 
+    @Query("SELECT * FROM itemgrp where ispos = 1 AND NOT code = 1 AND NOT code = '*'")
+    fun getItemgrpKitchen(): List<ItemGroupEntity>
+
 }
