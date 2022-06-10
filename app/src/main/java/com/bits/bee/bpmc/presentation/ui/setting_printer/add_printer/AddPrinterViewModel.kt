@@ -160,12 +160,6 @@ class AddPrinterViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestTipePrinter)
     }
 
-    fun update(state: AddPrinterState){
-        _state.update {
-            state
-        }
-    }
-
     fun getDataList(){
         printerKitchenList = sectionKitchenAdapter.getPrinterKitchenList()
         mListMap = sectionKitchenAdapter.getPrinterKitchenListmap()
