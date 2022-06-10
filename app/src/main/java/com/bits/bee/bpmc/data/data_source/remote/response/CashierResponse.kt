@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.data_source.local.model.Cashier
+import com.bits.bee.bpmc.data.data_source.local.model.CashierEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -21,16 +21,16 @@ data class CashierResponse (
     @Parcelize
     data class Data (
         @SerializedName("data")
-        var data : MutableList<Datum> = mutableListOf()
+        var cashierModels : MutableList<CashierModel> = mutableListOf()
     ) : Parcelable
 
     @Parcelize
-    data class Datum(
+    data class CashierModel(
         @SerializedName("id")
         val id : Int = -1,
         @SerializedName("code")
         val code : String = "",
-        @SerializedName("cashier")
+        @SerializedName("name")
         val cashierName: String = "",
         @SerializedName("branch_id")
         val branchId : Long = -1,
@@ -45,10 +45,6 @@ data class CashierResponse (
         @SerializedName("status")
         val status : Boolean = false,
     ) : Parcelable {
-
-        fun toCashierEntity() : Cashier {
-            return Cashier(id, code, cashierName, branchId, cashBranchId, whId, cashId, isActive, status)
-        }
 
     }
 

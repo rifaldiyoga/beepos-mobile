@@ -1,12 +1,12 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_cabang
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.usecase.pilih_cabang.GetLatestBranchUseCase
-import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.domain.usecase.pilih_cabang.UpdateActiveBranchUseCase
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -15,7 +15,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PilihCabangViewModel @Inject constructor (
-    val getLatestBranchUseCase: GetLatestBranchUseCase
-): ViewModel() {
+    private val getLatestBranchUseCase: GetLatestBranchUseCase,
+    private val updateActiveBranchUseCase: UpdateActiveBranchUseCase
+): BaseViewModel<PilihCabangState, PilihCabangViewModel.UIEvent>() {
 
+    val getLatestBranch = getLatestBranchUseCase()
+
+    fun onItemClick(branch: Branch) = viewModelScope.launch {
+        updateActiveBranchUseCase(branch)
+        eventChannel.send(UIEvent.NavigateToCashier)
+    }
+
+    sealed class UIEvent {
+        object NavigateToCashier : UIEvent()
+    }
 }

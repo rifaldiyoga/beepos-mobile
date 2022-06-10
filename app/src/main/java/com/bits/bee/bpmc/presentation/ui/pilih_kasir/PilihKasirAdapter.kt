@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.data_source.local.model.Cashier
 import com.bits.bee.bpmc.databinding.ItemPilihKasirBinding
+import com.bits.bee.bpmc.domain.model.Cashier
 
 /**
  * Created by aldi on 22/03/22.
@@ -33,13 +33,14 @@ class PilihKasirAdapter(private val onItemClick : (Cashier) -> Unit) : ListAdapt
         fun bind(model : Cashier){
             binding.apply {
                 tvNamaKasir.text = model.cashierName
-                rlContent.setOnClickListener {
+                clContent.setOnClickListener {
                     onItemClick(model)
                 }
                 tvStatus.background = if(model.isActive)
-                    ContextCompat.getDrawable(rlContent.context, R.drawable.bg_rounded_green)
+                    ContextCompat.getDrawable(clContent.context, R.drawable.bg_rounded_green)
                 else
-                    ContextCompat.getDrawable(rlContent.context, R.drawable.bg_rounded_red)
+                    ContextCompat.getDrawable(clContent.context, R.drawable.bg_rounded_red)
+
             }
         }
     }

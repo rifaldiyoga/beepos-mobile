@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        app:showAsAction="withText"
+        android:id="@+id/berandaFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/beranda" />
+
+    <item
+        app:showAsAction="withText"
+        android:id="@+id/analasisiSesiFragment"
+        android:icon="@drawable/ic_analisa"
+        android:title="@string/analisa" />
+
+    <item
+        app:showAsAction="withText"
+        android:id="@+id/placeholder"
+        android:title="@string/pos" />
+
+    <item
+        app:showAsAction="withText"
+        android:id="@+id/transaksiPenjualanFragment"
+        android:icon="@drawable/ic_transaksi"
+        android:title="@string/transaksi" />
+
+    <item
+        app:showAsAction="withText"
+        android:id="@+id/lainnyaFragment"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/lainnya" />
+
+</menu>

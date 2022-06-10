@@ -14,6 +14,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -132,15 +133,29 @@ class LoginFragment constructor (
      * check last page from prefences then direct to last page
      */
     private fun directPage(){
-        val action = when(BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_last_page), "")){
-            getString(R.string.page_pilih_cabang) -> LoginFragmentDirections.actionLoginFragmentToPilihCabangFragment()
-            getString(R.string.page_pilih_kasir) -> LoginFragmentDirections.actionLoginFragmentToPilihKasirFragment()
-            getString(R.string.page_pilih_operator) -> LoginFragmentDirections.actionLoginFragmentToLoginOperatorFragment()
-            getString(R.string.page_mode_tampilan) -> LoginFragmentDirections.actionLoginFragmentToModeTampilanFragment()
+        when(BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_last_page), "")){
+            getString(R.string.page_pilih_cabang) -> {
+                val action = LoginFragmentDirections.actionLoginFragmentToPilihCabangFragment()
+                findNavController().navigate(action)
+            }
+            getString(R.string.page_pilih_kasir) -> {
+                val action = LoginFragmentDirections.actionLoginFragmentToPilihKasirFragment()
+                findNavController().navigate(action)
+            }
+            getString(R.string.page_pilih_operator) -> {
+                val action = LoginFragmentDirections.actionLoginFragmentToLoginOperatorFragment()
+                findNavController().navigate(action)
+            }
+            getString(R.string.page_mode_tampilan) -> {
+                val action = LoginFragmentDirections.actionLoginFragmentToModeTampilanFragment()
+                findNavController().navigate(action)
+            }
+            getString(R.string.page_home) -> {
+                val action = LoginFragmentDirections.actionLoginFragmentToHomeActivity()
+                findNavController().navigate(action)
+                (activity as InitialActivity).finish()
+            }
             else -> null
-        }
-        action?.let {
-            findNavController().navigate(it)
         }
     }
 

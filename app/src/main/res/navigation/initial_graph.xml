@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_loginFragment_to_modeInfoKontak"
             app:destination="@id/infoKontakFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
 
     <fragment
@@ -82,7 +85,11 @@
         tools:layout="@layout/fragment_login_pin"
         android:id="@+id/loginOperatorFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.login_operator.LoginOperatorFragment"
-        android:label="" />
+        android:label="" >
+        <action
+            android:id="@+id/action_loginOperatorFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_mode_tampilan"
         android:id="@+id/modeTampilanFragment"
@@ -147,5 +154,9 @@
         android:name="com.bits.bee.bpmc.presentation.ui.ulangi_pin.UlangiPinFragment"
         android:label="UlangiPinFragment"
         tools:layout="@layout/fragment_ulangi_pin"/>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.bits.bee.bpmc.presentation.ui.home.HomeActivity"
+        android:label="HomeActivity" />
 
 </navigation>

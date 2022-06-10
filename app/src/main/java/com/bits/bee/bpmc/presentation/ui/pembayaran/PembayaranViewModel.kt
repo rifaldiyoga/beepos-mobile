@@ -1,8 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.pembayaran
 
+import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BSmartPay
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 /**
@@ -18,8 +20,17 @@ class PembayaranViewModel : BaseViewModel<PembayaranState, PembayaranViewModel.U
 
     }
 
-    sealed class UIEvent {
+    fun onTunaiClick() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateTransaksiBerhasil)
+    }
 
+    fun onNonTunaiClick() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateNonTunai)
+    }
+
+    sealed class UIEvent {
+        object NavigateTransaksiBerhasil : UIEvent()
+        object NavigateNonTunai : UIEvent()
     }
 
 }

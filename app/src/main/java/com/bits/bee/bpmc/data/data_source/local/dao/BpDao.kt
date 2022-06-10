@@ -18,7 +18,7 @@ interface BpDao : BaseDao<BpEntity>{
     fun getBpList() : List<BpEntity>
 
     @Query("SELECT * FROM bp WHERE id = :id")
-    fun getBpById(id : Int) : BpEntity
+    fun getBpById(id : Int) : BpEntity?
 
     @Query("SELECT * FROM bp Where isfavorit = :isFav ")
     fun getFavoritBpList(isFav: Boolean) : List<BpEntity>

@@ -19,8 +19,8 @@ import java.math.BigDecimal
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = Cashier::class,
-            parentColumns = [Cashier.ID],
+            entity = CashierEntity::class,
+            parentColumns = [CashierEntity.ID],
             childColumns = [Cadj.CASHIER_ID]
         )
     ]

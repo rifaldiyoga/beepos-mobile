@@ -10,13 +10,13 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
 @Database(entities = [
     AddOn::class, AddOnD::class,
     BpEntity::class, BranchEntity::class, Cadj::class, Cash::class,
-    CashA::class, Cashier::class, Cctype::class,
-    ChannelEntity::class, Regency::class, Cstr::class, Edc::class,
+    CashA::class, CashierEntity::class, Cctype::class,
+    ChannelEntity::class, Regency::class, CstrEntity::class, Edc::class,
     EdcSurc::class, GrpPrv::class, ItemEntity::class, ItemAddOn::class,
     ItemBranch::class, ItemKitchen::class, ItemOnBoarding::class,
     PriceEntity::class, ItemTax::class, ItemVariant::class,
     ItemGroupEntity::class, Kitchen::class, License::class, Operator::class,
-    Posses::class, PriceLvlEntity::class, Printer::class,
+    PossesEntity::class, PriceLvlEntity::class, Printer::class,
     PrinterKitchen::class, PrinterKitchenD::class,
     Promo::class, PromoMulti::class, Reg::class,
     SaleEntity::class, Salecrcvs::class, SalePromo::class, Selection::class,
@@ -57,6 +57,10 @@ abstract class DbHelper : RoomDatabase() {
     abstract val saleDao : SaleDao
 
     abstract val saledDao : SaledDao
+
+    abstract val possesDao : PossesDao
+
+    abstract val cstrDao : CstrDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

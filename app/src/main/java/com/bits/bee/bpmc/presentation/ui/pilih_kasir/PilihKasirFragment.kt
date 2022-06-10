@@ -3,6 +3,9 @@ package com.bits.bee.bpmc.presentation.ui.pilih_kasir
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
@@ -13,6 +16,8 @@ import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Created by aldi on 22/03/22.
@@ -38,8 +43,7 @@ class PilihKasirFragment(
         setHasOptionsMenu(true)
         binding.apply {
             adapter = PilihKasirAdapter(onItemClick = {
-                val action = PilihKasirFragmentDirections.actionPilihKasirFragmentToLoginOperatorFragment()
-                findNavController().navigate(action)
+                viewModel.onItemClick(cashier = it)
             })
 
             rvList.layoutManager = LinearLayoutManager(requireActivity())
@@ -52,6 +56,18 @@ class PilihKasirFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.event.collect {
+                    when(it){
+                        PilihKasirViewModel.UIEvent.NavigateToPin -> {
+                            val action = PilihKasirFragmentDirections.actionPilihKasirFragmentToLoginOperatorFragment()
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+        }
         viewModel.observeCashierResponse().observe(viewLifecycleOwner) {
             it?.let {
                 when (it.status) {

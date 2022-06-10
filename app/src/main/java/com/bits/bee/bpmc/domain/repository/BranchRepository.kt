@@ -11,4 +11,7 @@ interface BranchRepository {
 
     fun getBranchList() : Flow<Resource<List<Branch>>>
 
+    suspend fun updateActiveBranch(branch : Branch)
+
+    fun getActiveBranch() : Flow<Branch?>
 }

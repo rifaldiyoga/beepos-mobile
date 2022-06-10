@@ -1,13 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_kasir
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.bits.bee.bpmc.data.data_source.local.model.Cashier
+import androidx.lifecycle.*
+import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
+import com.bits.bee.bpmc.domain.usecase.pilih_kasir.UpdateActiveCashierUseCase
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -15,24 +15,33 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PilihKasirViewModel @Inject constructor(
-    private val getLatestCashierUseCase: GetLatestCashierUseCase
-) : ViewModel() {
+    private val getLatestCashierUseCase: GetLatestCashierUseCase,
+    private val updateActiveCashierUseCase: UpdateActiveCashierUseCase
+) : BaseViewModel<PilihKasirState, PilihKasirViewModel.UIEvent>() {
 
-    private var cashierResponse: MediatorLiveData<Resource<List<Cashier>>> = MediatorLiveData()
-    fun observeCashierResponse() = cashierResponse as LiveData<Resource<List<Cashier>>>
+    private var cashierEntityResponse: MediatorLiveData<Resource<List<Cashier>>> = MediatorLiveData()
+    fun observeCashierResponse() = cashierEntityResponse as LiveData<Resource<List<Cashier>>>
 
-    fun getCashierList() {
+    fun getCashierList() = viewModelScope.launch{
         val source = getLatestCashierUseCase().asLiveData()
-        cashierResponse.addSource(source){
+        cashierEntityResponse.addSource(source){
             if (it != null) {
-                cashierResponse.value = it
+                cashierEntityResponse.value = it
                 if (it.status !== Resource.Status.LOADING) {
-                    cashierResponse.removeSource(source)
+                    cashierEntityResponse.removeSource(source)
                 }
             } else {
-                cashierResponse.removeSource(source)
+                cashierEntityResponse.removeSource(source)
             }
         }
     }
 
+    fun onItemClick(cashier: Cashier) = viewModelScope.launch {
+        updateActiveCashierUseCase(cashier)
+        eventChannel.send(UIEvent.NavigateToPin)
+    }
+
+    sealed class UIEvent {
+        object NavigateToPin : UIEvent()
+    }
 }

@@ -13,7 +13,7 @@ class AturDialogBuilder(
     val onSaveClick : (Any) -> Unit,
     val setEdt: String,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogAturHeaderfooterBinding = DialogAturHeaderfooterBinding::inflate
-    ): BaseBottomSheetDialogFragment<DialogAturHeaderfooterBinding>() {
+): BaseBottomSheetDialogFragment<DialogAturHeaderfooterBinding>() {
 
     lateinit var content: String
 

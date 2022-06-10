@@ -73,13 +73,13 @@
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
         android:layout_margin="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/btnNonTunai"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvList" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnNonTunai"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rect_secondary"
@@ -89,12 +89,12 @@
         android:layout_marginBottom="@dimen/size16"
         android:layout_marginEnd="@dimen/size8"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/btnTunai"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnTunai"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size8"
@@ -105,6 +105,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
+        app:layout_constraintStart_toEndOf="@+id/btnNonTunai" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

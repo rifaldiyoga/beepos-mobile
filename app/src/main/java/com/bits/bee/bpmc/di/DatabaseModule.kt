@@ -103,4 +103,16 @@ object DatabaseModule {
         return dbHelper.priceDao
     }
 
+    @Provides
+    @Singleton
+    fun providePossesDao(dbHelper: DbHelper) : PossesDao {
+        return dbHelper.possesDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCstrDao(dbHelper: DbHelper) : CstrDao {
+        return dbHelper.cstrDao
+    }
+
 }

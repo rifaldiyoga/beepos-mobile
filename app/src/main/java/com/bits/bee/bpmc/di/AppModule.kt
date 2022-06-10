@@ -28,15 +28,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeBranchRepository(apiUtils: ApiUtils, dao: BranchDao) : BranchRepository {
-        return BranchRepositoryImpl(apiUtils, dao)
+    fun proivdeBranchRepository(apiUtils: ApiUtils, dao: BranchDao, defaultDispatcher: CoroutineDispatcher) : BranchRepository {
+        return BranchRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
 
     @Provides
     @Singleton
-    fun proivdeCashierRepository(apiUtils: ApiUtils, dao: CashierDao) : CashierRepository {
-        return CashierRepositoryImpl(apiUtils, dao)
+    fun proivdeCashierRepository(apiUtils: ApiUtils, dao: CashierDao, defaultDispatcher: CoroutineDispatcher) : CashierRepository {
+        return CashierRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
@@ -97,6 +97,12 @@ object AppModule {
     @Singleton
     fun proivdeSaledRepository(apiUtils: ApiUtils,dao: SaledDao, defaultDispatcher: CoroutineDispatcher) : SaledRepository {
         return SaledRepositoryImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun providePossesRepository(possesDao: PossesDao, dispatcher: CoroutineDispatcher) : PossesRepository {
+        return PossesRepositoryImpl(possesDao, dispatcher)
     }
 
 }

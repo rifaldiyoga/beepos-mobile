@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_cabang
 
-import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -32,17 +31,12 @@ class PilihCabangFragment(
 
     private lateinit var adapter: PilihCabangAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun initComponents() {
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(R.string.page_pilih_cabang))
         setHasOptionsMenu(true)
         binding.apply {
             adapter = PilihCabangAdapter(onItemClick = {
-                val action = PilihCabangFragmentDirections.actionPilihCabangFragmentToPilihKasirFragment()
-                findNavController().navigate(action)
+                viewModel.onItemClick(branch = it)
             })
 
             rvList.layoutManager = LinearLayoutManager(requireContext())
@@ -53,7 +47,7 @@ class PilihCabangFragment(
     override fun subscribeListeners() {
         binding.apply {
             swipeRefresh.setOnRefreshListener {
-                viewModel.getLatestBranchUseCase()
+                viewModel.getLatestBranch
             }
         }
     }
@@ -61,7 +55,19 @@ class PilihCabangFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.getLatestBranchUseCase().collect {
+                viewModel.event.collect {
+                    when(it){
+                        PilihCabangViewModel.UIEvent.NavigateToCashier -> {
+                            val action = PilihCabangFragmentDirections.actionPilihCabangFragmentToPilihKasirFragment()
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.getLatestBranch.collect {
                     it?.let {
                         when(it.status){
                             Resource.Status.LOADING -> {
@@ -71,7 +77,6 @@ class PilihCabangFragment(
                                 setVisibilityComponent(false)
                                 it.data?.let { data ->
                                     adapter.submitList(data)
-                                    adapter.notifyDataSetChanged()
                                 }
                             }
                             Resource.Status.ERROR -> {
@@ -91,7 +96,7 @@ class PilihCabangFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_refresh -> viewModel.getLatestBranchUseCase()
+            R.id.menu_refresh -> viewModel.getLatestBranch
         }
         return super.onOptionsItemSelected(item)
     }

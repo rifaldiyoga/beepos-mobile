@@ -71,7 +71,14 @@
         tools:layout="@layout/fragment_pembayaran"
         android:id="@+id/pembayaranFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran.PembayaranFragment"
-        android:label="PembayaranFragment" />
+        android:label="PembayaranFragment" >
+        <action
+            android:id="@+id/action_pembayaranFragment_to_pembayaranNonTunaiFragment"
+            app:destination="@id/pembayaranNonTunaiFragment" />
+        <action
+            android:id="@+id/action_pembayaranFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+    </fragment>
     <action android:id="@+id/action_global_memberFragment" app:destination="@id/memberFragment"/>
     <fragment
         tools:layout="@layout/fragment_cari_kota"
@@ -87,5 +94,46 @@
             android:name="saled"
             app:argType="com.bits.bee.bpmc.domain.model.Saled" />
     </dialog>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran_non_tunai"
+        android:id="@+id/pembayaranNonTunaiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiFragment"
+        android:label="PembayaranNonTunaiFragment" >
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranGopayFragment"
+            app:destination="@id/pembayaranGopayFragment" />
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranDebitKreditFragment"
+            app:destination="@id/pembayaranDebitKreditFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran_gopay"
+        android:id="@+id/pembayaranGopayFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranGopayFragment"
+        android:label="PembayaranGopayFragment" >
+        <action
+            android:id="@+id/action_pembayaranGopayFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran_debit_kredit"
+        android:id="@+id/pembayaranDebitKreditFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_debit_kredit.PembayaranDebitKreditFragment"
+        android:label="PembayaranDebitKreditFragment" >
+        <action
+            android:id="@+id/action_pembayaranDebitKreditFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_transaksi_berhasil"
+        android:id="@+id/transaksiBerhasilFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.transaksi_berhasil.TransaksiBerhasilFragment"
+        android:label="TransaksiBerhasilFragment" >
+        <action
+            app:destination="@+id/posFragment"
+            app:popUpTo="@id/posFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_transaksiBerhasilFragment_to_posFragment" />
+    </fragment>
 
 </navigation>

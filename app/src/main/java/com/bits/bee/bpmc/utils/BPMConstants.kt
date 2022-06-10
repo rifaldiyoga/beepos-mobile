@@ -11,6 +11,14 @@ import java.math.RoundingMode
  */
 interface BPMConstants {
     companion object {
+        const val BPM_DEFAULT_TYPE_CASH_POSSES = "POSSES"
+        const val BPM_DEFAULT_TYPE_CASH_CADJ = "CADJ"
+        const val BPM_DEFAULT_TYPE_CASH_CSTR = "CSTR"
+        const val BPM_DEFAULT_TYPE_CASH_SALE = "sale"
+        const val BPM_DEFAULT_TYPE_CASH_TUNAI = "tunai"
+        const val BPM_DEFAULT_TYPE_CASH = "CASH"
+        const val BPM_DEFAULT_TYPE_KREDIT = "KREDIT"
+        const val BPM_DEFAULT_TYPE_CASH_GOPAY = "GOPAY"
         const val SCREEN_POTRAIT = "Portrait"
         const val SCREEN_LANDSCAPE = "Landscape"
         const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"

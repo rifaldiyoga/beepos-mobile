@@ -32,7 +32,7 @@ class BpRepositoryImpl @Inject constructor(
     override fun getLastesBpList(): Flow<Resource<List<Bp>>> {
         return object : NetworkDatabaseBoundResource<List<Bp>, BpResponse>(){
             override suspend fun loadFormDB(): List<Bp> {
-                return bpDao.getBpList().map { BpDataMapper.fromDataToDomain(it) }
+                return bpDao.getBpList().map { BpDataMapper.fromDataToDomain(it)!! }
             }
 
             override fun shouldFetch(data: List<Bp>?): Boolean {
@@ -54,8 +54,12 @@ class BpRepositoryImpl @Inject constructor(
 
     override fun getDefaultBp() : Flow<Resource<Bp>> {
         return flow {
-            val data : BpEntity = bpDao.getBpById(1)
-            emit(Resource.success(BpDataMapper.fromDataToDomain(data)))
+            val data : BpEntity? = bpDao.getBpById(1)
+            data?.let {
+                emit(Resource.success(BpDataMapper.fromDataToDomain(data)))
+            } ?: run {
+                emit(Resource.error(null, "Data Bp Kosong!", 1))
+            }
         }.flowOn(ioDispatcher)
     }
 

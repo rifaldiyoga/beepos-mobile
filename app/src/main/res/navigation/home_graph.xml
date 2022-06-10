@@ -35,18 +35,19 @@
         android:name="com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosFragment"
         android:label="SettingPosFragment" />
     <fragment
+        tools:layout="@layout/fragment_beranda"
         android:id="@+id/berandaFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.beranda.BerandaFragment"
         android:label="BerandaFragment" >
         <action
-            android:id="@+id/action_berandaFragment_to_settingListFragment"
-            app:destination="@id/settingListFragment" />
+            android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
+            app:destination="@id/detailBukaKasirFragment" />
         <action
-            android:id="@+id/action_berandaFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            android:id="@+id/action_berandaFragment_to_detailTutupKasirFragment"
+            app:destination="@id/detailTutupKasirFragment" />
         <action
-            android:id="@+id/action_berandaFragment_to_downloadActivity"
-            app:destination="@id/downloadActivity" />
+            android:id="@+id/action_berandaFragment_to_aturModalDialogBuilder"
+            app:destination="@id/aturModalDialogBuilder" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -86,6 +87,82 @@
         tools:layout="@layout/fragment_setting_printer"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.SettingPrinterFragment"
         android:label="SettingPrinterFragment" />
+    <fragment
+        tools:layout="@layout/fragment_analisa_sesi"
+        android:id="@+id/analasisiSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalasisiSesiFragment"
+        android:label="AnalasisiSesiFragment" />
+    <fragment
+        tools:layout="@layout/fragment_transaksi_penjualan"
+        android:id="@+id/transaksiPenjualanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragment"
+        android:label="TransaksiPenjualanFragment" />
+    <fragment
+        tools:layout="@layout/fragment_detail_buka_kasir"
+        android:id="@+id/detailBukaKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirFragment"
+        android:label="DetailBukaKasirFragment" />
+    <fragment
+        tools:layout="@layout/fragment_detail_tutup_kasir"
+        android:id="@+id/detailTutupKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
+        android:label="DetailTutupKasirFragment" />
+    <fragment
+        tools:layout="@layout/fragment_lainnya"
+        android:id="@+id/lainnyaFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.lainnya.LainnyaFragment"
+        android:label="LainnyaFragment" >
+        <action
+            android:id="@+id/action_lainnyaFragment_to_settingListFragment"
+            app:destination="@id/settingListFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_uploadManualFragment"
+            app:destination="@id/uploadManualFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_rekapKasFragment"
+            app:destination="@id/rekapKasFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_rekapProdukFragment"
+            app:destination="@id/rekapProdukFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_cekStokFragment"
+            app:destination="@id/cekStokFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_kelolaProdukFragment"
+            app:destination="@id/kelolaProdukFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_downloadActivity"
+            app:destination="@id/downloadActivity" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_upload_manual"
+        android:id="@+id/uploadManualFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualFragment"
+        android:label="UploadManualFragment" />
+    <fragment
+        tools:layout="@layout/fragment_rekap_kas"
+        android:id="@+id/rekapKasFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.RekapKasFragment"
+        android:label="RekapKasFragment" />
+    <fragment
+        tools:layout="@layout/fragment_rekap_produk"
+        android:id="@+id/rekapProdukFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.RekapProdukFragment"
+        android:label="RekapProdukFragment" />
+    <fragment
+        tools:layout="@layout/fragment_cek_stok"
+        android:id="@+id/cekStokFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
+        android:label="CekStokFragment" />
+    <fragment
+        android:id="@+id/kelolaProdukFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.kelola_produk.KelolaProdukFragment"
+        android:label="KelolaProdukFragment" />
+    <dialog
+        tools:layout="@layout/dialog_atur_modal_kasir"
+        android:id="@+id/aturModalDialogBuilder"
+        android:name="com.bits.bee.bpmc.presentation.dialog.atur_modal.AturModalDialogBuilder"
+        android:label="AturModalDialogBuilder" />
 
 
 </navigation>

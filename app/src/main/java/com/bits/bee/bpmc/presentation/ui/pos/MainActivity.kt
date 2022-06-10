@@ -55,7 +55,6 @@ class MainActivity(
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
             }
             NavigationUI.setupActionBarWithNavController(this@MainActivity, navController, appBarConfiguration)
-
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         }
     }
@@ -69,7 +68,7 @@ class MainActivity(
                 viewModel.onClickMember()
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                setVisibilityToolbar(destination.id == R.id.invoiceFragment || destination.id == R.id.posFragment)
+                setVisibilityToolbar(destination.id == R.id.invoiceFragment || destination.id == R.id.posFragment || destination.id == R.id.editItemDialog)
             }
         }
     }

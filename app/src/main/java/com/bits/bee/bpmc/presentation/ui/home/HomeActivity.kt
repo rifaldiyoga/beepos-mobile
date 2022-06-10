@@ -12,6 +12,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.visible
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -26,6 +30,8 @@ class HomeActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
+        BeePreferenceManager.saveToPreferences(this, getString(R.string.pref_last_page), getString(
+            R.string.page_home))
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
@@ -33,17 +39,31 @@ class HomeActivity(
 
         binding.apply {
             setSupportActionBar(toolbar)
+            bottomAppBar.setBackgroundResource(R.color.white)
             navController.addOnDestinationChangedListener { _, _, _ ->
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
             }
             NavigationUI.setupActionBarWithNavController(this@HomeActivity, navController, appBarConfiguration)
-
+            val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            NavigationUI.setupWithNavController(bottomNav, navController)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         }
     }
 
     override fun subscribeListeners() {
-
+        binding.apply {
+            fab.setOnClickListener {
+                navController.navigate(R.id.mainActivity)
+            }
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                setVisibilityBottom(
+                    destination.id == R.id.berandaFragment ||
+                    destination.id == R.id.analasisiSesiFragment ||
+                    destination.id == R.id.transaksiPenjualanFragment ||
+                    destination.id == R.id.lainnyaFragment
+                )
+            }
+        }
     }
 
     override fun subscribeObservers() {
@@ -53,6 +73,18 @@ class HomeActivity(
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.initialHostFragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    private fun setVisibilityBottom(isShow : Boolean){
+        binding.apply {
+            if(isShow) {
+                bottomAppBar.visible()
+                fab.visible()
+            } else {
+                bottomAppBar.gone()
+                fab.gone()
+            }
+        }
     }
 }
 

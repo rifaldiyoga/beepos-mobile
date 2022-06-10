@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.math.BigDecimal
 
-@Entity(tableName = Cstr.TBL_NAME)
-data class Cstr(
+@Entity(tableName = CstrEntity.TBL_NAME)
+data class CstrEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     var id : Int,

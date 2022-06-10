@@ -5,36 +5,37 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.math.BigDecimal
+import java.util.*
 
-@Entity(tableName = Posses.TBL_NAME,
+@Entity(tableName = PossesEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
             entity = Operator::class,
             parentColumns = [Operator.ID],
-            childColumns = [Posses.OPERATOR_ID],
+            childColumns = [PossesEntity.OPERATOR_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Cashier::class,
-            parentColumns = [Cashier.ID],
-            childColumns = [Posses.CASHIER_ID]
+            entity = CashierEntity::class,
+            parentColumns = [CashierEntity.ID],
+            childColumns = [PossesEntity.CASHIER_ID]
         )
     ]
 )
-data class Posses(
+data class PossesEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var possesId : Int,
+    var possesId : Int? = null,
     @ColumnInfo(name = TRXDATE)
-    var trxDate : Long,
+    var trxDate : Date,
     @ColumnInfo(name = START_TIME)
-    var startTime : Long,
+    var startTime : Date,
     @ColumnInfo(name = END_TIME)
-    var endTime : Long,
+    var endTime : Date? = null,
     @ColumnInfo(name = START_BAL)
     var startBal : BigDecimal,
     @ColumnInfo(name = END_BAL)
-    var endBal : BigDecimal,
+    var endBal : BigDecimal?,
     @ColumnInfo(name = TOTAL)
     var total: BigDecimal ,
     @ColumnInfo(name = CREDIT)
@@ -48,9 +49,9 @@ data class Posses(
     @ColumnInfo(name = TRXNO)
     var trxNo : String,
     @ColumnInfo(name = TOTIN)
-    var totIn : BigDecimal,
+    var totIn : BigDecimal? = null,
     @ColumnInfo(name = TOTOUT)
-    var totOut : BigDecimal,
+    var totOut : BigDecimal? = null,
     @ColumnInfo(name = ENDCASH)
     var endCash : BigDecimal,
     @ColumnInfo(name = TOTAL_ACTUAL_CASH)

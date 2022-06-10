@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.BranchEntity
+import com.bits.bee.bpmc.domain.model.Branch
 import javax.inject.Singleton
 
 /**
@@ -16,5 +17,11 @@ interface BranchDao : BaseDao<BranchEntity>{
 
     @Query("SELECT * FROM branch")
     fun getBranchList() : List<BranchEntity>
+
+    @Query("UPDATE branch SET active = 0")
+    fun resetActive()
+
+    @Query("SELECT * FROM branch WHERE active = 1 LIMIT 1")
+    fun getActiveBranch() : BranchEntity?
 
 }
