@@ -63,7 +63,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:id="@+id/item_list_clContent"
+            android:id="@+id/item_list_clPrinter"
             android:weightSum="3"
             android:padding="@dimen/size16"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/item_produk_tvTitle"
+                        android:id="@+id/item_bluetooth_tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -137,7 +137,7 @@
                         android:textSize="@dimen/size16"/>
 
                     <TextView
-                        android:id="@+id/item_list_rvContent_tvPid"
+                        android:id="@+id/item_bluetooth_tvAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"

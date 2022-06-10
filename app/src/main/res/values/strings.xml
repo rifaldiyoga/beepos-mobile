@@ -34,6 +34,10 @@
     <string name="pref_footer">pref_footer</string>
     <string name="pref_isi_header">pref_isi_header</string>
     <string name="pref_isi_footer">pref_isi_footer</string>
+    <string name="pref_tipe_printer">pref_tipe_printer</string>
+    <string name="pref_name_printer">pref_name_printer</string>
+    <string name="pref_address_printer">pref_address_printer</string>
+    <string name="pref_sistem_datakitchen">pref_sistem_datakitchen</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -334,6 +338,12 @@ apa?</string>
     <string name="id_mac_address">72:3C:61:1E:27:14</string>
     <string name="terhubung">Terhubung</string>
     <string name="tdk_terhubung">Tidak Terhubung</string>
+    <string name="pilih_tipe_printer">Pilih Tipe Printer</string>
+    <string name="bluetooth_printer">Bluetooth Printer</string>
+    <string name="network_printer">Network Printer</string>
+    <string name="none_printer">Tidak ada printer tersedia</string>
+    <string name="nama_dapur">Nama dapur</string>
+    <string name="kategori">Kategori</string>
     <string name="data_item_kosong">Data Item Kosong</string>
     <string name="cari_kota_kecamatan">Cari kota / kecamatan</string>
     <string name="min_3_huruf">Min 3 huruf</string>
@@ -412,4 +422,5 @@ apa?</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="lainnya">Lainnya</string>
     <string name="seluruh_data_transaksi_sudah_tersinkron">Seluruh data transaksi sudah tersinkron</string>
+
 </resources>

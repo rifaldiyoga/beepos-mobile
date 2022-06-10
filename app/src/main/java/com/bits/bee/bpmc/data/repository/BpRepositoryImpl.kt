@@ -28,7 +28,6 @@ class BpRepositoryImpl @Inject constructor(
     private val bpAddrDao : BpAddrDao,
     private val ioDispatcher: CoroutineDispatcher
 ) : BpRepository{
-
     override fun getLastesBpList(): Flow<Resource<List<Bp>>> {
         return object : NetworkDatabaseBoundResource<List<Bp>, BpResponse>(){
             override suspend fun loadFormDB(): List<Bp> {

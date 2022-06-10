@@ -6,8 +6,13 @@ import java.math.BigDecimal
 @Entity(tableName = SaleEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
+<<<<<<< HEAD:app/src/main/java/com/bits/bee/bpmc/data/data_source/local/model/SaleEntity.kt
             entity = PossesEntity::class,
             parentColumns = [PossesEntity.ID],
+=======
+            entity = Posses::class,
+            parentColumns = [Posses.ID],
+>>>>>>> origin/printer:app/src/main/java/com/bits/bee/bpmc/data/data_source/local/model/Sale.kt
             childColumns = [SaleEntity.POSSES_ID],
             onDelete = ForeignKey.CASCADE
         ),
@@ -18,8 +23,13 @@ import java.math.BigDecimal
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
+<<<<<<< HEAD:app/src/main/java/com/bits/bee/bpmc/data/data_source/local/model/SaleEntity.kt
             entity = CashierEntity::class,
             parentColumns = [CashierEntity.ID],
+=======
+            entity = Cashier::class,
+            parentColumns = [Cashier.ID],
+>>>>>>> origin/printer:app/src/main/java/com/bits/bee/bpmc/data/data_source/local/model/Sale.kt
             childColumns = [SaleEntity.CASHIER_ID]
         ),
         ForeignKey(

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_bottom"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/size18">
+
+    <TextView
+        android:layout_marginEnd="@dimen/size16"
+        android:layout_marginStart="@dimen/size16"
+        android:id="@+id/tvTitle"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pilih_tipe_printer"
+        app:layout_constraintBottom_toBottomOf="@+id/img_close"
+        app:layout_constraintEnd_toStartOf="@+id/img_close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:padding="@dimen/size8"
+        android:id="@+id/img_close"
+        android:layout_width="@dimen/size36"
+        android:layout_height="@dimen/size36"
+        android:src="@drawable/ic_close_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTipe"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_close" />
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:weightSum="5"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <TextView-->
+<!--            android:layout_marginEnd="@dimen/size16"-->
+<!--            android:layout_marginStart="@dimen/size16"-->
+<!--            android:layout_weight="1"-->
+<!--            android:id="@+id/empty"-->
+<!--            style="@style/TextHeader"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text=""-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/imageView2"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/imageView2"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:layout_marginEnd="@dimen/size16"-->
+<!--            android:layout_marginStart="@dimen/size16"-->
+<!--            android:layout_weight="3"-->
+<!--            android:id="@+id/tvTitle"-->
+<!--            style="@style/TextHeader"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/pilih_tipe_printer"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/imageView2"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/imageView2"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <ImageView-->
+<!--            android:padding="@dimen/size8"-->
+<!--            android:id="@+id/imageView2"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_width="@dimen/size36"-->
+<!--            android:layout_height="@dimen/size36"-->
+<!--            android:src="@drawable/ic_close_gray"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        android:paddingTop="@dimen/size24"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+
+<!--            android:id="@+id/cl_bluetooth"-->
+<!--            android:layout_marginTop="@dimen/size16"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/bg_rect_stroke_light_gray"-->
+<!--            android:padding="@dimen/size16"-->
+<!--            android:layout_marginBottom="@dimen/size16"-->
+<!--            tools:ignore="MissingConstraints">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linearLayout"-->
+<!--                android:layout_width="@dimen/size40"-->
+<!--                android:layout_height="@dimen/size40"-->
+<!--                android:background="@drawable/bg_rect_light_gray"-->
+<!--                android:padding="@dimen/size8"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:src="@drawable/bx_bluetooth" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_bluetooth_printer"-->
+<!--                android:layout_width="@dimen/size0"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginStart="@dimen/size16"-->
+<!--                android:text="@string/bluetooth"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/font16"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/linearLayout"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+
+<!--            android:id="@+id/cl_wifi"-->
+<!--            android:layout_marginTop="@dimen/size16"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/bg_rect_stroke_light_gray"-->
+<!--            android:padding="@dimen/size16"-->
+<!--            tools:ignore="MissingConstraints">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linearLayout2"-->
+<!--                android:layout_width="@dimen/size40"-->
+<!--                android:layout_height="@dimen/size40"-->
+<!--                android:background="@drawable/bg_rect_light_gray"-->
+<!--                android:padding="@dimen/size8"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:src="@drawable/bx_wifi" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_wifi_printer"-->
+<!--                android:layout_width="@dimen/size0"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginStart="@dimen/size16"-->
+<!--                android:text="@string/bluetooth"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/font16"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/linearLayout2"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

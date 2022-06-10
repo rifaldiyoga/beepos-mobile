@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Printer(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int = 0,
     @ColumnInfo(name = PRINTERNAME)
     var printerName : String,
     @ColumnInfo(name = ADDRESS)

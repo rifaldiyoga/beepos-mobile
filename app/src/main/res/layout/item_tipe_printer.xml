@@ -6,7 +6,7 @@
     android:layout_marginEnd="@dimen/size4"
     android:layout_marginTop="@dimen/size2"
     android:layout_marginBottom="@dimen/size14"
-    android:id="@+id/rlContent"
+    android:id="@+id/cl_tipe_printer"
     android:background="@drawable/bg_rect_stroke_light_gray"
     android:layout_width="match_parent"
     android:padding="@dimen/size16"
@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/imgview_tipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/bx_bluetooth"/>
@@ -30,7 +31,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvNamaDb"
+        android:id="@+id/tvNama_tipe"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

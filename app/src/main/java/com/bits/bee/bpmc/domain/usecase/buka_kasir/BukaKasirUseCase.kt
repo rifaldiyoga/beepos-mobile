@@ -12,7 +12,7 @@ class BukaKasirUseCase @Inject constructor(
 ){
 
     suspend operator fun invoke(modal : BigDecimal, shift : Int) {
-        possesRepository.createPosses(modal, )
+        possesRepository.createPosses(modal, shift)
     }
 
 }

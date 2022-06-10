@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -54,6 +55,13 @@ class ItemGroupRepositoryImpl @Inject constructor(
                 emit(Resource.error(null, "Data Kosong"))
             }
         }
+    }
+
+    override fun getId(id: Int): Flow<Resource<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getId(id)
+            emit((Resource.success(ItemGroupDataMapper.fromDataToDomain(data))))
+        }.flowOn(ioDispatcher)
     }
 
 }

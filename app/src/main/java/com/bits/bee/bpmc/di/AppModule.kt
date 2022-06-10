@@ -78,7 +78,25 @@ object AppModule {
     @Provides
     @Singleton
     fun proivdePriceRepository(dao: PriceDao) : PriceRepository {
-        return PriceRepositoryImpl( dao)
+        return PriceRepositoryImpl(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun providePrinterRepository(printerDao: PrinterDao, defaultDispatcher: CoroutineDispatcher): PrinterRespository{
+        return PrinterRepositoryImpl(printerDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun providePrinterKitchenRepository(printerKitchenDao: PrinterKitchenDao, defaultDispatcher: CoroutineDispatcher): PrinterKitchenRepository{
+        return PrinterKitchenRepositoryImpl(printerKitchenDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun providePrinterKitchenDRepository(printerKitchenDDao: PrinterKitchenDDao, defaultDispatcher: CoroutineDispatcher): PrinterKitchenDRepository{
+        return PrinterKitchenDRepositoryImpl(printerKitchenDDao,defaultDispatcher)
     }
 
     @Provides
@@ -103,6 +121,12 @@ object AppModule {
     @Singleton
     fun providePossesRepository(possesDao: PossesDao, dispatcher: CoroutineDispatcher) : PossesRepository {
         return PossesRepositoryImpl(possesDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideKitchenRepository(kitchenDao: KitchenDao, defaultDispatcher: CoroutineDispatcher): KitchenRepository{
+        return KitchenRepositoryImpl(kitchenDao, defaultDispatcher)
     }
 
 }
