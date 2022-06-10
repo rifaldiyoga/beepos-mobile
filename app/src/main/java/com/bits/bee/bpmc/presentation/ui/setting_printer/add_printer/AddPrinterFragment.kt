@@ -125,7 +125,7 @@ class AddPrinterFragment(
                                             R.string.pref_tipe_printer
                                         ), data.toString()
                                     )
-                                    viewModel.update(
+                                    viewModel.updateState(
                                         viewModel.state.copy(
                                             tipePrinter = data.toString()
                                         )
@@ -171,7 +171,7 @@ class AddPrinterFragment(
                 viewModel.getPrinterFromPrinterKitchen.collect {
                     it.data?.let { data ->
 //                        viewModel.setPrinterKitchenList(data)
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(listPrinterKitchen = data)
                         )
                     }
@@ -179,7 +179,7 @@ class AddPrinterFragment(
                 viewModel.getPrinterKitchenFromDetail.collect {
                     it.data?.let { data ->
 //                        viewModel.setPrinterKitchenDList(data)
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(listPrinterKitchenD = data)
                         )
                     }
@@ -187,7 +187,7 @@ class AddPrinterFragment(
                 viewModel.getKitchenId.collect {
                     it.data?.let { data ->
 //                        viewModel.setKitchen(data)
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(kititchen = data)
                         )
                     }
@@ -195,49 +195,49 @@ class AddPrinterFragment(
                 viewModel.getItmgrpId.collect {
                     it.data?.let { data ->
 //                        viewModel.setItemgrp(data)
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(itmgrp = data)
                         )
                     }
                 }
                 viewModel.printerAddressList.collect {
                     it.data?.let { data ->
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(listPrinter = data)
                         )
                     }
                 }
                 viewModel.getLastIdVal.collect {
                     it.data?.let { data ->
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(mPrinter = data)
                         )
                     }
                 }
                 viewModel.getLastIdPrinterKit.collect {
                     it.data?.let { data ->
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(mPrinterKitchen = data)
                         )
                     }
                 }
                 viewModel.getByPrinter.collect {
                     it.data?.let { data ->
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(listPrinterKitchen = data)
                         )
                     }
                 }
                 viewModel.loadKitchen.collect {
                     it.data?.let { data ->
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(listKitchen = data)
                         )
                     }
                 }
                 viewModel.getItemgrpKitchen.collect {
                     it.data?.let { data ->
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(listItemgrp = data)
                         )
                     }
