@@ -1,7 +1,11 @@
 package com.bits.bee.bpmc.presentation.ui.home
 
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,11 +16,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Created by aldi on 07/04/22.
@@ -25,6 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeActivity(
     override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding = ActivityHomeBinding::inflate
 ) : BaseActivity<ActivityHomeBinding>(){
+
+    private val viewModel : HomeViewModel by viewModels()
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -53,21 +62,41 @@ class HomeActivity(
     override fun subscribeListeners() {
         binding.apply {
             fab.setOnClickListener {
-                navController.navigate(R.id.mainActivity)
+                if (viewModel.state.activePosses != null){
+                    viewModel.onPosClick()
+                } else {
+                    val dialog = DialogBuilderUtils.showDialogChoice(this@HomeActivity,
+                        getString(R.string.belum_buka_kasir), getString(R.string.msg_info_belum_buka_kasir_pos),
+                        getString(R.string.buka_kasir), {
+                            navController.navigate(R.id.detailBukaKasirFragment)
+                        },
+                        getString(R.string.tutup))
+                    dialog.show(supportFragmentManager, "")
+                }
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 setVisibilityBottom(
                     destination.id == R.id.berandaFragment ||
-                    destination.id == R.id.analasisiSesiFragment ||
-                    destination.id == R.id.transaksiPenjualanFragment ||
-                    destination.id == R.id.lainnyaFragment
+                            destination.id == R.id.analasisiSesiFragment ||
+                            destination.id == R.id.transaksiPenjualanFragment ||
+                            destination.id == R.id.lainnyaFragment
                 )
             }
         }
     }
 
     override fun subscribeObservers() {
-
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.event.collect {
+                    when(it){
+                        HomeViewModel.UIEvent.NavigateToPos -> {
+                            navController.navigate(R.id.mainActivity)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

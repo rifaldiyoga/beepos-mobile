@@ -7,10 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailBukaKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,11 +26,11 @@ class DetailBukaKasirFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBukaKasirBinding = FragmentDetailBukaKasirBinding::inflate
 ) : BaseFragment<FragmentDetailBukaKasirBinding>() {
 
-    private val viewModel : DetailBukaKasirViewModel by viewModels()
+    private val viewModel : DetailTutupKasirViewModel by viewModels()
 
     override fun initComponents() {
         binding.apply {
-
+            viewModel.state.defaultModal = BigDecimal(100000)
         }
     }
 
@@ -48,8 +50,23 @@ class DetailBukaKasirFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
                     when(it){
-                        DetailBukaKasirViewModel.UIEvent.NavigateToDefaultModal -> {
-                            DialogBuilderUtils.showDialogChoice(requireContext(), "", "", "", {}, "", {})
+                        DetailTutupKasirViewModel.UIEvent.NavigateToDefaultModal -> {
+                            val dialog = DialogBuilderUtils.showDialogChoice(requireContext(), getString(
+                                R.string.atur_modal_kasir), getString(R.string.msg_default_modal_kasir),
+                                getString(R.string.ya), {
+                                    viewModel.updateState(
+                                        viewModel.state.copy(
+                                            modal = viewModel.state.defaultModal
+                                        )
+                                    )
+                                    viewModel.saveBukaKasir()
+                                },
+                                getString(R.string.batal), )
+                            dialog.show(parentFragmentManager, "")
+                        }
+                        DetailTutupKasirViewModel.UIEvent.NavigateToPos -> {
+                            val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToMainActivity()
+                            findNavController().navigate(action)
                         }
                     }
                 }

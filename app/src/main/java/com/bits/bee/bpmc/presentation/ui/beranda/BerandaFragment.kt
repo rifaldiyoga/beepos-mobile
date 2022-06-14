@@ -10,6 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentBerandaBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -74,6 +77,20 @@ class BerandaFragment(
                         }
                         it.activeBranch?.let {
                             binding.tvKota.text = getString(R.string.di_surabaya, it.name)
+                        }
+                        if(it.posses != null){
+                            binding.apply {
+                                groupPendapatan.visible()
+                                tvInfoKasir.text = getString(R.string.klik_tutup_kasir_untuk_mengakhiri_shift_3_ya, 1)
+                                btnBukaKasir.text = getString(R.string.tutup_kasir)
+                                tvTotalPendapatan.text = CurrencyUtils.formatCurrency(it.posses!!.total)
+                            }
+                        } else {
+                            binding.apply {
+                                groupPendapatan.gone()
+                                tvInfoKasir.text = getString(R.string.klik_buka_kasir_untuk_memulai_shift_3_ya, 1)
+                                btnBukaKasir.text = getString(R.string.buka_kasir)
+                            }
                         }
                     }
                 }

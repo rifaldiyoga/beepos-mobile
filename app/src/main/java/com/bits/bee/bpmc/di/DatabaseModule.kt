@@ -121,6 +121,8 @@ object DatabaseModule {
         return dbHelper.cstrDao
     }
 
+    @Provides
+    @Singleton
     fun providePrinterKitchenDao(dbHelper: DbHelper): PrinterKitchenDao{
         return dbHelper.printerKitchenDao
     }

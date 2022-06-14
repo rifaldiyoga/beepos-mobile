@@ -26,26 +26,25 @@ class PossesRepositoryImpl @Inject constructor(
 ) : PossesRepository {
 
     override fun getActivePosses(): Flow<Posses?> =
-        flow<Posses> {
+        flow {
             val posses = possesDao.getActivePosses()
             posses?.let {
-                PossesDataMapper.fromDataToDomain(posses)
-//                emit(it)
+                emit(PossesDataMapper.fromDataToDomain(posses))
             }
         }.flowOn(defaultDispatcher)
 
     override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier) {
         val date = Date()
-        withContext(defaultDispatcher){
+        withContext(defaultDispatcher) {
             var posses = PossesEntity(
                 startBal = startBal,
                 trxDate = date,
-                cashierId = 1,
+                cashierId = cashier.id,
                 trxNo = TrxNoGeneratorUtils.generatePossesTrxNo(shift, branch, cashier),
                 startTime = date,
                 shift = shift,
                 total = BigDecimal.ZERO,
-                endBal = BigDecimal.ZERO,
+                endBal = null,
                 endCash = BigDecimal.ZERO,
                 credit = BigDecimal.ZERO,
                 operatorId = 1,

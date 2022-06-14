@@ -50,6 +50,7 @@
             app:destination="@id/aturModalDialogBuilder" />
     </fragment>
     <activity
+        tools:layout="@layout/activity_main"
         android:id="@+id/mainActivity"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.MainActivity"/>
     <activity
@@ -104,13 +105,21 @@
     <fragment
         tools:layout="@layout/fragment_detail_buka_kasir"
         android:id="@+id/detailBukaKasirFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirFragment"
-        android:label="DetailBukaKasirFragment" />
+        android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
+        android:label="DetailBukaKasirFragment" >
+        <action
+            android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_detail_tutup_kasir"
         android:id="@+id/detailTutupKasirFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
-        android:label="DetailTutupKasirFragment" />
+        android:label="DetailTutupKasirFragment" >
+        <action
+            android:id="@+id/action_detailTutupKasirFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_lainnya"
         android:id="@+id/lainnyaFragment"

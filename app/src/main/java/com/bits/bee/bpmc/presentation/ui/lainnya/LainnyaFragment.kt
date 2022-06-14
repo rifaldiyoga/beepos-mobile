@@ -47,6 +47,9 @@ class LainnyaFragment(
             clRekapProduk.setOnClickListener {
                 viewModel.onRekapProduk()
             }
+            clPerbaruiData.setOnClickListener {
+                findNavController().navigate(LainnyaFragmentDirections.actionLainnyaFragmentToDownloadActivity())
+            }
         }
     }
 

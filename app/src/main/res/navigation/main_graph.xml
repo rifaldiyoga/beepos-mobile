@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_posFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -79,7 +82,6 @@
             android:id="@+id/action_pembayaranFragment_to_transaksiBerhasilFragment"
             app:destination="@id/transaksiBerhasilFragment" />
     </fragment>
-    <action android:id="@+id/action_global_memberFragment" app:destination="@id/memberFragment"/>
     <fragment
         tools:layout="@layout/fragment_cari_kota"
         android:id="@+id/cariKotaFragment"

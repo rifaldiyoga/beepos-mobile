@@ -33,14 +33,6 @@ class CustomDialogBuilder private constructor (
         return binding.root
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        binding = DialogInfoBuilderBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        initComponents()
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponents()
@@ -53,7 +45,10 @@ class CustomDialogBuilder private constructor (
             tvMessage.text = builder.message
             btnSecondary.text = builder.negative
             btnPrimary.text = builder.positive
-            btnSecondary.setOnClickListener(builder.negativeCallback ?: View.OnClickListener { dismiss() })
+            btnSecondary.setOnClickListener{
+                builder.negativeCallback
+                dismiss()
+            }
             btnPrimary.setOnClickListener(builder.positiveCallback)
         }
     }

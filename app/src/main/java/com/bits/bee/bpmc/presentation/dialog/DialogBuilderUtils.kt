@@ -23,7 +23,7 @@ class DialogBuilderUtils {
         }
 
         fun showDialogChoice(context: Context, title : String, msg : String, positiveTxt : String,
-                             positiveListener : View.OnClickListener, negativeTxt : String, negativeListener : View.OnClickListener) : CustomDialogBuilder {
+                             positiveListener : View.OnClickListener, negativeTxt : String, negativeListener : View.OnClickListener? = null) : CustomDialogBuilder {
             return CustomDialogBuilder.Builder(context)
                 .setTitle(title)
                 .setMessage(msg)

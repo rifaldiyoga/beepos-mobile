@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="@dimen/size16"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/size16">
 
     <TextView
         android:id="@+id/tvGreeting"
@@ -31,26 +31,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded_stroke_primary"
-        android:text="@string/detail"
-        android:textSize="@dimen/font12"
-        android:textColor="?colorPrimary"
-        android:textStyle="bold"
         android:drawablePadding="@dimen/font8"
+        android:text="@string/detail"
+        android:textColor="?colorPrimary"
+        android:textSize="@dimen/font12"
+        android:textStyle="bold"
+        app:drawableEndCompat="@drawable/ic_chevron_right"
         app:layout_constraintBottom_toBottomOf="@+id/tvKota"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:drawableEndCompat="@drawable/ic_chevron_right" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView62"
+        android:id="@+id/textView61"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/pendapatan"
+        android:textSize="@dimen/font18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvKota" />
+
+    <TextView
+        android:id="@+id/tvTotalPendapatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size8"
+        android:text="@string/rp_18_000"
+        android:textSize="@dimen/font18"
+        app:layout_constraintStart_toStartOf="@+id/textView61"
+        app:layout_constraintTop_toBottomOf="@+id/textView61" />
+
+    <TextView
+        android:id="@+id/tvInfoKasir"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size28"
+        android:layout_marginTop="@dimen/size16"
         android:text="@string/klik_buka_kasir_untuk_memulai_shift_3_ya"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/tvKota" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalPendapatan" />
 
     <Button
         android:id="@+id/btnBukaKasir"
@@ -61,6 +82,12 @@
         android:text="@string/buka_kasir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView62" />
+        app:layout_constraintTop_toBottomOf="@+id/tvInfoKasir" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupPendapatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textView61,tvTotalPendapatan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

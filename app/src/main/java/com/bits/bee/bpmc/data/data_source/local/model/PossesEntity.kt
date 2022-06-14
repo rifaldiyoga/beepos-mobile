@@ -9,12 +9,12 @@ import java.util.*
 
 @Entity(tableName = PossesEntity.TBL_NAME,
     foreignKeys = [
-        ForeignKey(
-            entity = Operator::class,
-            parentColumns = [Operator.ID],
-            childColumns = [PossesEntity.OPERATOR_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
+//        ForeignKey(
+//            entity = Operator::class,
+//            parentColumns = [Operator.ID],
+//            childColumns = [PossesEntity.OPERATOR_ID],
+//            onDelete = ForeignKey.CASCADE
+//        ),
         ForeignKey(
             entity = CashierEntity::class,
             parentColumns = [CashierEntity.ID],
