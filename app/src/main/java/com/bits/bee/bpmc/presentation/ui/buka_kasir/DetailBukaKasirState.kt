@@ -10,10 +10,6 @@ import java.math.BigDecimal
  */
 
 data class DetailBukaKasirState (
-    var posses : Posses? = null,
-    var branch : Branch? = null,
-    var cashier : Cashier? = null,
-    var shift : Int = 1,
     var modal : BigDecimal? = null,
     var defaultModal : BigDecimal = BigDecimal.ZERO
 )

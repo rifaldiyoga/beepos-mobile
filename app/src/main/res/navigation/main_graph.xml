@@ -9,7 +9,7 @@
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment"
-        android:label="PosFragment" >
+        android:label="Pos" >
         <action
             android:id="@+id/action_posFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />

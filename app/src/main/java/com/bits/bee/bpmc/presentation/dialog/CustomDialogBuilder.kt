@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.presentation.dialog
 
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,14 +51,16 @@ class CustomDialogBuilder private constructor (
                 builder.negativeCallback
                 dismiss()
             }
-            btnPrimary.setOnClickListener(builder.positiveCallback)
+            btnPrimary.setOnClickListener{
+                builder.positiveCallback?.let { it(dialog!!) }
+            }
         }
     }
 
     data class Builder (
         @ApplicationContext val context: Context,
-        var positiveCallback: View.OnClickListener? = null,
-        var negativeCallback: View.OnClickListener? = null,
+        var positiveCallback: ((Dialog) -> Unit)? = null,
+        var negativeCallback: ((Dialog) -> Unit)? = null,
         var title: String? = null,
         var message: String? = null,
         var isInfo : Boolean = false,
@@ -64,12 +68,12 @@ class CustomDialogBuilder private constructor (
         var negative : String = "Batal"
     ){
 
-        fun setPositiveCallback(positiveCallback: View.OnClickListener?): Builder {
+        fun setPositiveCallback(positiveCallback: (Dialog) -> Unit): Builder {
             this.positiveCallback = positiveCallback
             return this
         }
 
-        fun setNegativeCallback(negativeCallback: View.OnClickListener?): Builder {
+        fun setNegativeCallback(negativeCallback: ((Dialog) -> Unit)?): Builder {
             this.negativeCallback = negativeCallback
             return this
         }

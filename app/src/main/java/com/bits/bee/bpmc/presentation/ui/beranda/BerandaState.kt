@@ -8,7 +8,5 @@ import com.bits.bee.bpmc.domain.model.Posses
  * Created by aldi on 03/06/22.
  */
 data class BerandaState (
-    var posses : Posses? = null,
-    var activeBranch : Branch? = null,
-    var activeCashier : Cashier? = null
+    var isBukaKasir : Boolean = false,
 )

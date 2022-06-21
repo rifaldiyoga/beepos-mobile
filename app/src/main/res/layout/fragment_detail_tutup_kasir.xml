@@ -130,20 +130,90 @@
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <TextView
+        android:id="@+id/textView62"
         style="@style/TextHeader"
         android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/size16"
         android:layout_height="wrap_content"
-        android:text="@string/modal_kasir"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/modal"
         app:layout_constraintStart_toStartOf="@+id/textView70"
         app:layout_constraintTop_toBottomOf="@+id/textView70" />
 
+    <TextView
+        android:id="@+id/tvModal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/modal_kasir"
+        android:layout_marginEnd="@dimen/size16"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView62"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView95"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/pemasukan"
+        app:layout_constraintStart_toStartOf="@+id/textView70"
+        app:layout_constraintTop_toBottomOf="@+id/textView62" />
+
+    <TextView
+        android:id="@+id/tvPemasukan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pemasukan"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView95"
+        app:layout_constraintEnd_toEndOf="@+id/tvModal" />
+
+    <TextView
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/pengeluaran"
+        app:layout_constraintStart_toStartOf="@+id/textView70"
+        app:layout_constraintTop_toBottomOf="@+id/textView95" />
+
+    <TextView
+        android:id="@+id/tvPengeluaran"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/pengeluaran"
+        app:layout_constraintEnd_toEndOf="@+id/tvPemasukan"
+        app:layout_constraintTop_toBottomOf="@+id/textView95" />
+
+    <TextView
+        android:id="@+id/textView96"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:text="@string/saldo_akhir"
+        android:textSize="@dimen/font18"
+        app:layout_constraintBottom_toTopOf="@+id/btnTutupKasir"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSaldoAkhir"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:text="@string/saldo_akhir"
+        android:textSize="@dimen/font18"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView96"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
+        android:id="@+id/btnTutupKasir"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size16"
         android:background="@drawable/btn_rect_primary"
-        android:text="@string/buka_kasir"
+        android:text="@string/tutup_kasir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

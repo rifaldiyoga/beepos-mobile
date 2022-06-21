@@ -30,7 +30,10 @@ class GetActiveItemUseCase @Inject constructor(
             }
             data.collect {
                 for (item in it){
-                    item.price = priceRepository.getPriceByPriceLvl(priceLvlId).price
+                    val price = priceRepository.getPriceByPriceLvl(priceLvlId, item.id)
+                    price?.let {
+                        item.price = it.price
+                    }
                 }
                 emit(Resource.success(it))
             }

@@ -26,9 +26,13 @@ import java.math.BigDecimal
 class ItemPosAdapter constructor(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
-    private val saledList : List<Saled>
+    private var saledList : List<Saled>
 ) : ListAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()){
 
+    fun submitSaledList(list : List<Saled>) {
+        this.saledList = list
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

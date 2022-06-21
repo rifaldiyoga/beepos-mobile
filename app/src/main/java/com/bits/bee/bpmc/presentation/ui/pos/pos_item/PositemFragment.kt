@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -48,7 +47,6 @@ class PositemFragment(
         arguments?.let {
             val itgrp : ItemGroup = it.getParcelable(ITGRP)!!
             viewModel.onReciveItemGroup(itgrp)
-            Toast.makeText(requireContext(), itgrp.name, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -77,13 +75,13 @@ class PositemFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mainViewModel.viewStates().collectLatest {
+                mainViewModel.viewStates().collect {
                     it?.let {
                         it.bp?.let { bp ->
                             viewModel.state.priceLvlId = bp.priceLvlId
                             viewModel.loadItem()
                         }
-                        posAdapter
+                        posAdapter.submitSaledList(it.saledList)
 //                        it.channel?.let { channel ->
 //                            channel.priceLvlId?.let { pricelvl ->
 //                                viewModel.state.priceLvlId = channel.priceLvlId!!
@@ -150,14 +148,13 @@ class PositemFragment(
         }
     }
 
-    private fun onMinusClick(item : Item){
+    private fun onMinusClick(item : Item) {
         val saled = mainViewModel.state.saledList.firstOrNull {
             item.id == it.itemId
         }
         saled?.let {
             if(it.qty > BigDecimal.ONE) {
-                var saledCopy = it.copy(qty = it.qty - BigDecimal.ONE)
-                mainViewModel.onEditDetail(saled)
+                mainViewModel.onEditDetail(it.copy(qty = it.qty.subtract(BigDecimal.ONE)))
             } else {
                 mainViewModel.onDeleteDetail(saled)
             }

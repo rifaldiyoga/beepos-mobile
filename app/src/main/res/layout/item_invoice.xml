@@ -2,16 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/clContent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        android:layout_marginTop="@dimen/size16"
-        android:layout_marginStart="@dimen/size16"
         android:id="@+id/tvQty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size16"
+        android:layout_marginTop="@dimen/size16"
         android:text="@string/_1"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,40 +22,49 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size20"
+        android:layout_marginTop="@dimen/size16"
         android:layout_marginEnd="@dimen/size16"
         android:text="@string/ayam_bakar"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tvLabelItem"
         app:layout_constraintEnd_toStartOf="@+id/tvHarga"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvQty"
-        app:layout_constraintTop_toTopOf="@+id/tvQty" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="@dimen/size16" />
 
     <TextView
-        android:id="@+id/tvDiskon"
+        android:id="@+id/tvLabelItem"
+        style="@style/TextHeader"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size6"
         android:layout_marginEnd="@dimen/size16"
         android:text="@string/gratis"
-        style="@style/TextHeader"
         android:textColor="@color/yellow"
         android:textSize="@dimen/font12"
+        app:layout_constraintBottom_toTopOf="@+id/tvAddon"
         app:layout_constraintEnd_toStartOf="@+id/tvHarga"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/tvNamaItem"
-        app:layout_constraintTop_toBottomOf="@+id/tvNamaItem" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNamaItem"
+        app:layout_goneMarginBottom="@dimen/size16" />
 
     <TextView
+        android:id="@+id/tvAddon"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size6"
         android:layout_marginEnd="@dimen/size16"
+        android:layout_marginBottom="@dimen/size16"
         android:text="@string/es_banyak_gula_sedikit_2_bubble"
         android:textColor="@color/dark_gray"
         android:textSize="@dimen/font12"
-        android:layout_marginBottom="@dimen/size16"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view10"
         app:layout_constraintEnd_toStartOf="@+id/tvHarga"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/tvNamaItem"
-        app:layout_constraintTop_toBottomOf="@+id/tvDiskon" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLabelItem" />
 
     <TextView
         android:id="@+id/tvHarga"
@@ -68,10 +77,11 @@
         app:layout_constraintTop_toTopOf="@+id/tvQty" />
 
     <TextView
+        android:id="@+id/tvHargaDiskon"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:text="@string/rp_18_000"
         android:layout_marginTop="@dimen/size6"
+        android:text="@string/rp_18_000"
         android:textColor="@color/dark_gray"
         android:textSize="@dimen/font12"
         app:layout_constraintEnd_toEndOf="@+id/tvHarga"
@@ -81,20 +91,21 @@
         android:id="@+id/ivDelete"
         android:layout_width="@dimen/size12"
         android:layout_height="@dimen/size12"
-        android:src="@drawable/ic_close"
         android:layout_marginEnd="@dimen/size16"
+        android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="@+id/tvHarga"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvQty" />
 
 
     <View
+        android:id="@+id/view10"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size1"
         android:background="@color/light_gray"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

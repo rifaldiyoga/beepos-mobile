@@ -7,6 +7,6 @@ import com.bits.bee.bpmc.domain.model.Price
  */
 interface PriceRepository {
 
-    fun getPriceByPriceLvl(priceLvlId : Int) : Price
+    fun getPriceByPriceLvl(priceLvlId : Int, itemId : Int) : Price?
 
 }

@@ -22,7 +22,7 @@ data class ItemResponse (
     @Parcelize
     data class Data (
         @SerializedName("item")
-        var item : ItemModel,
+        var item : ItemModel? = null,
         @SerializedName("unit")
         var unit : List<UnitModel> = mutableListOf(),
         @SerializedName("price")

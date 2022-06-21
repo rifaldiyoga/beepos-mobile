@@ -11,8 +11,9 @@ import java.math.BigDecimal
  */
 interface PossesRepository {
 
-    fun getActivePosses() : Flow<Posses?>
+    suspend fun getActivePosses() : Flow<Posses?>
 
     suspend fun addPosses(startBal : BigDecimal, shift : Int, branch: Branch, cashier: Cashier)
 
+    suspend fun updatePosses(posses: Posses)
 }

@@ -25,13 +25,14 @@ class PossesRepositoryImpl @Inject constructor(
     private val defaultDispatcher: CoroutineDispatcher
 ) : PossesRepository {
 
-    override fun getActivePosses(): Flow<Posses?> =
-        flow {
-            val posses = possesDao.getActivePosses()
-            posses?.let {
-                emit(PossesDataMapper.fromDataToDomain(posses))
-            }
-        }.flowOn(defaultDispatcher)
+    override suspend fun getActivePosses(): Flow<Posses?> = flow<Posses?> {
+        val posses = possesDao.getActivePosses()
+        if(posses != null)
+            emit(PossesDataMapper.fromDataToDomain(posses))
+        else
+            emit(null)
+    }.flowOn(defaultDispatcher)
+
 
     override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier) {
         val date = Date()
@@ -52,6 +53,12 @@ class PossesRepositoryImpl @Inject constructor(
                 totalDiffCash = BigDecimal.ZERO
             )
             possesDao.insertSingle(posses)
+        }
+    }
+
+    override suspend fun updatePosses(posses: Posses) {
+        withContext(defaultDispatcher){
+            possesDao.update(PossesDataMapper.fromDomainToData(posses))
         }
     }
 

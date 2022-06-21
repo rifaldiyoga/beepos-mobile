@@ -18,3 +18,11 @@ fun View.invisible() {
     visibility = View.INVISIBLE
 }
 
+fun <T> List<T>.mapButReplace(targetItem: T, newItem: T) = map {
+    if (it == targetItem) {
+        newItem
+    } else {
+        it
+    }
+}
+

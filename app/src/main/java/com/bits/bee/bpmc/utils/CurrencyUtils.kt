@@ -10,9 +10,9 @@ class CurrencyUtils {
 
     companion object {
 
-        fun formatCurrency(value : BigDecimal) : String {
+        fun formatCurrency(value : BigDecimal?) : String {
             val format  = DecimalFormat("#,###.##")
-            return format.format(value)
+            return if(value != null) format.format(value) else "0"
         }
 
     }

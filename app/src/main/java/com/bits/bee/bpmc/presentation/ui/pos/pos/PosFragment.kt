@@ -61,8 +61,8 @@ class PosFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mainViewModel.viewStates().collectLatest {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.viewStates().collect {
                     it?.let {
                         binding.tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(getQtyDetail(it.saledList)))
                         binding.tvSubtotal.text = CurrencyUtils.formatCurrency(it.sale.total)

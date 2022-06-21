@@ -402,10 +402,8 @@ apa?</string>
     <string name="hapus">Hapus</string>
     <string name="pendapatan_sesi_1">Pendapatan Sesi #1</string>
     <string name="detail_pendapatan">Detail Pendapatan</string>
-    <string name="pemasukan">Pemasukan</string>
     <string name="debit">Debit</string>
     <string name="kredit">Kredit</string>
-    <string name="pengeluaran">Pengeluaran</string>
     <string name="rata_rata_order">Rata - rata order</string>
     <string name="member_baru">Member Baru</string>
     <string name="total_qty">Total Qty</string>
@@ -429,5 +427,9 @@ apa?</string>
     <string name="msg_info_belum_buka_kasir_pos">Untuk memulai jualan, jangan lupa buka kasir dulu, ya~</string>
     <string name="pendapatan">Pendapatan</string>
     <string name="tutup_kasir">Tutup Kasir</string>
+    <string name="pemasukan">Pemasukan</string>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="saldo_akhir">Saldo Akhir</string>
+    <string name="msg_validasi_tutup_kasir">Apakah anda yakin ingin melakukan tutup kasir ?</string>
 
 </resources>

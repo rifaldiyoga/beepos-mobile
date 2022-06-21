@@ -13,9 +13,12 @@ class PriceRepositoryImpl @Inject constructor(
     private val priceDao: PriceDao
 ) : PriceRepository {
 
-    override fun getPriceByPriceLvl(priceLvlId: Int): Price {
-        val price = priceDao.getPriceByPriceLvl(priceLvlId)
-        return PriceDataMapper.fromDataToDomain(price)
+    override fun getPriceByPriceLvl(priceLvlId: Int, itemId : Int): Price? {
+        val price = priceDao.getPriceByPriceLvlItem(priceLvlId, itemId)
+        price?.let {
+            return PriceDataMapper.fromDataToDomain(price)
+        }
+        return null
     }
 
 }

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentInvoiceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -41,6 +43,8 @@ class InvoiceFragment(
             }
         )
         binding.apply {
+            clPromo.gone()
+
             rvList.apply {
                 adapter = invoiceAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -64,7 +68,15 @@ class InvoiceFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 mainViewModel.viewStates().collect {
                     it?.let {
-                        invoiceAdapter.submitList(it.saledList)
+                        binding.apply {
+                            invoiceAdapter.submitList(it.saledList)
+
+                            tvDiskon.text = CurrencyUtils.formatCurrency(it.sale.discAmt)
+                            tvPajak.text = CurrencyUtils.formatCurrency(it.sale.taxAmt)
+                            tvSubtotal.text = CurrencyUtils.formatCurrency(it.sale.subtotal)
+                            tvRounding.text = CurrencyUtils.formatCurrency(it.sale.rounding)
+                            tvTotal.text = CurrencyUtils.formatCurrency(it.sale.total)
+                        }
                     }
                 }
             }

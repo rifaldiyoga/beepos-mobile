@@ -71,8 +71,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao, unitDao: UnitDao, priceDao: PriceDao, defaultDispatcher: CoroutineDispatcher) : ItemRepository {
-        return ItemRepositoryImpl(apiUtils, itemDao, priceDao, unitDao, defaultDispatcher)
+    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao, unitDao: UnitDao, priceDao: PriceDao, defaultDispatcher: CoroutineDispatcher, itemGroupDao: ItemGroupDao, priceLvlDao: PriceLvlDao) : ItemRepository {
+        return ItemRepositoryImpl(apiUtils, itemDao, itemGroupDao, priceLvlDao, priceDao, unitDao, defaultDispatcher)
     }
 
     @Provides

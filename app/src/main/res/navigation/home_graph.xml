@@ -40,14 +40,14 @@
         android:name="com.bits.bee.bpmc.presentation.ui.beranda.BerandaFragment"
         android:label="BerandaFragment" >
         <action
-            android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
-            app:destination="@id/detailBukaKasirFragment" />
-        <action
             android:id="@+id/action_berandaFragment_to_detailTutupKasirFragment"
             app:destination="@id/detailTutupKasirFragment" />
         <action
             android:id="@+id/action_berandaFragment_to_aturModalDialogBuilder"
             app:destination="@id/aturModalDialogBuilder" />
+        <action
+            android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
+            app:destination="@id/detailBukaKasirFragment" />
     </fragment>
     <activity
         tools:layout="@layout/activity_main"
@@ -103,22 +103,14 @@
         android:name="com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragment"
         android:label="TransaksiPenjualanFragment" />
     <fragment
-        tools:layout="@layout/fragment_detail_buka_kasir"
-        android:id="@+id/detailBukaKasirFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
-        android:label="DetailBukaKasirFragment" >
-        <action
-            android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
-    </fragment>
-    <fragment
         tools:layout="@layout/fragment_detail_tutup_kasir"
         android:id="@+id/detailTutupKasirFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
-        android:label="DetailTutupKasirFragment" >
+        android:label="@string/tutup_kasir" >
         <action
             android:id="@+id/action_detailTutupKasirFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            app:destination="@id/mainActivity"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         tools:layout="@layout/fragment_lainnya"
@@ -175,7 +167,17 @@
         tools:layout="@layout/dialog_atur_modal_kasir"
         android:id="@+id/aturModalDialogBuilder"
         android:name="com.bits.bee.bpmc.presentation.dialog.atur_modal.AturModalDialogBuilder"
-        android:label="AturModalDialogBuilder" />
+        android:label="AturModalDialogBuilder" >
+        <argument
+            android:name="cashier"
+            app:argType="com.bits.bee.bpmc.domain.model.Cashier" />
+        <argument
+            android:name="branch"
+            app:argType="com.bits.bee.bpmc.domain.model.Branch" />
+        <argument
+            android:name="shift"
+            app:argType="integer" />
+    </dialog>
 
     <fragment
         android:id="@+id/addPrinterFragment"
@@ -204,5 +206,14 @@
         <action
             android:id="@+id/action_listPrinterFragment_to_addPrinterFragment"
             app:destination="@id/addPrinterFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_buka_kasir"
+        android:id="@+id/detailBukaKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirFragment"
+        android:label="@string/buka_kasir" >
+        <action
+            android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
 </navigation>

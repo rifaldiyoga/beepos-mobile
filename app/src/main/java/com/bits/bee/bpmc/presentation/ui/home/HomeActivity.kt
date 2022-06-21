@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -34,9 +35,14 @@ class HomeActivity(
 ) : BaseActivity<ActivityHomeBinding>(){
 
     private val viewModel : HomeViewModel by viewModels()
+    private val sharedViewModel : BukaTutupKasirSharedViewModel by viewModels()
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+
+    override fun onResume() {
+        super.onResume()
+    }
 
     override fun initComponents() {
         BeePreferenceManager.saveToPreferences(this, getString(R.string.pref_last_page), getString(
@@ -62,13 +68,14 @@ class HomeActivity(
     override fun subscribeListeners() {
         binding.apply {
             fab.setOnClickListener {
-                if (viewModel.state.activePosses != null){
+                if (sharedViewModel.state.activePosses != null){
                     viewModel.onPosClick()
                 } else {
                     val dialog = DialogBuilderUtils.showDialogChoice(this@HomeActivity,
                         getString(R.string.belum_buka_kasir), getString(R.string.msg_info_belum_buka_kasir_pos),
                         getString(R.string.buka_kasir), {
                             navController.navigate(R.id.detailBukaKasirFragment)
+                            it.dismiss()
                         },
                         getString(R.string.tutup))
                     dialog.show(supportFragmentManager, "")
@@ -79,7 +86,8 @@ class HomeActivity(
                     destination.id == R.id.berandaFragment ||
                             destination.id == R.id.analasisiSesiFragment ||
                             destination.id == R.id.transaksiPenjualanFragment ||
-                            destination.id == R.id.lainnyaFragment
+                            destination.id == R.id.lainnyaFragment ||
+                            destination.id == R.id.aturModalDialogBuilder
                 )
             }
         }

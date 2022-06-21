@@ -9,6 +9,9 @@ import com.bits.bee.bpmc.databinding.ItemInvoiceBinding
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.visible
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 24/05/22.
@@ -39,6 +42,17 @@ class InvoiceAdapter(
                 tvNamaItem.text = model.name
                 tvQty.text = CurrencyUtils.formatCurrency(model.qty)
                 tvHarga.text = CurrencyUtils.formatCurrency(model.listPrice)
+
+                if(model.discAmt.compareTo(BigDecimal.ZERO) == 0){
+                    tvLabelItem.gone()
+                    tvHargaDiskon.gone()
+                } else {
+                    tvLabelItem.visible()
+                    tvHargaDiskon.visible()
+                    tvLabelItem.text = "Diskon"
+                }
+
+                tvAddon.gone()
 
                 clContent.setOnClickListener {
                     onItemClicK(model)

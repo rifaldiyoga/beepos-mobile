@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.buka_kasir
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +13,6 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailBukaKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
-import com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,7 +26,8 @@ class DetailBukaKasirFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBukaKasirBinding = FragmentDetailBukaKasirBinding::inflate
 ) : BaseFragment<FragmentDetailBukaKasirBinding>() {
 
-    private val viewModel : DetailTutupKasirViewModel by viewModels()
+    private val viewModel : DetailBukaKasirViewModel by viewModels()
+    private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
 
     override fun initComponents() {
         binding.apply {
@@ -40,7 +41,7 @@ class DetailBukaKasirFragment(
                 viewModel.state.modal = BigDecimal(etModal.text.toString().trim())
             }
             btnBukaKasir.setOnClickListener {
-                viewModel.onBukaKasir()
+                viewModel.onBukaKasirClick()
             }
         }
     }
@@ -50,7 +51,7 @@ class DetailBukaKasirFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
                     when(it){
-                        DetailTutupKasirViewModel.UIEvent.NavigateToDefaultModal -> {
+                        DetailBukaKasirViewModel.UIEvent.NavigateToDefaultModal -> {
                             val dialog = DialogBuilderUtils.showDialogChoice(requireContext(), getString(
                                 R.string.atur_modal_kasir), getString(R.string.msg_default_modal_kasir),
                                 getString(R.string.ya), {
@@ -60,13 +61,18 @@ class DetailBukaKasirFragment(
                                         )
                                     )
                                     viewModel.saveBukaKasir()
+                                    it.dismiss()
                                 },
                                 getString(R.string.batal), )
                             dialog.show(parentFragmentManager, "")
                         }
-                        DetailTutupKasirViewModel.UIEvent.NavigateToPos -> {
+                        DetailBukaKasirViewModel.UIEvent.NavigateToPos -> {
                             val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToMainActivity()
-                            findNavController().navigate(action)
+                            findNavController().popBackStack()
+                            findNavController().navigate(R.id.mainActivity)
+                        }
+                        DetailBukaKasirViewModel.UIEvent.RequestSave -> {
+                            sharedViewModel.doBukaKasir(viewModel.state.modal!!)
                         }
                     }
                 }
@@ -74,41 +80,15 @@ class DetailBukaKasirFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
+                sharedViewModel.viewStates().collect {
                     it?.let {
-                        it.branch?.let { branch ->
+                        it.activeBranch?.let { branch ->
                             binding.tvCabang.text = branch.name
                         }
-                        it.cashier?.let { cashier ->
+                        it.activeCashier?.let { cashier ->
                             binding.tvKasir.text = cashier.cashierName
                         }
                         binding.tvShift.text = it.shift.toString()
-                    }
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.getActiveBranch.collect {
-                    it?.let {
-                        viewModel.updateState(
-                            viewModel.state.copy(
-                                branch = it
-                            )
-                        )
-                    }
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.getActiveCashier.collect {
-                    it?.let {
-                        viewModel.updateState(
-                            viewModel.state.copy(
-                                cashier = it
-                            )
-                        )
                     }
                 }
             }

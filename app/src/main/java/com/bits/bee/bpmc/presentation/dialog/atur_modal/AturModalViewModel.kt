@@ -1,26 +1,22 @@
-package com.bits.bee.bpmc.presentation.ui.buka_kasir
+package com.bits.bee.bpmc.presentation.dialog.atur_modal
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.dialog.atur_modal.AturModalViewModel
+import com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Created by aldi on 08/06/22.
+ * Created by aldi on 09/06/22.
  */
 @HiltViewModel
-class DetailBukaKasirViewModel @Inject constructor(
-    private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val getActiveBranchUseCase: GetActiveBranchUseCase,
-): BaseViewModel<DetailBukaKasirState, DetailBukaKasirViewModel.UIEvent>() {
+class AturModalViewModel @Inject constructor(
+) : BaseViewModel<AturModalState, AturModalViewModel.UIEvent>(){
 
     init {
-        state = DetailBukaKasirState()
+        state = AturModalState()
     }
 
     fun onBukaKasirClick() = viewModelScope.launch {
@@ -40,9 +36,11 @@ class DetailBukaKasirViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToPos)
     }
 
+
+
     sealed class UIEvent {
-        object NavigateToDefaultModal : UIEvent()
         object NavigateToPos : UIEvent()
+        object NavigateToDefaultModal : UIEvent()
         object RequestSave : UIEvent()
     }
 }

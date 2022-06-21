@@ -9,6 +9,7 @@ import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.mapButReplace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
@@ -123,51 +124,85 @@ class MainViewModel @Inject constructor(
 //            currentSaled = saledNew
         } else {
             var isNew = true
-            for (saled in state.saledList) {
-                if (saled.itemId == item.id
-//                    && !ItemAddOnDao.itemAddOnDao().checkAddon(item)
-//                    && (grpAddon == null || grpAddon != null && item.itemGrpId !== grpAddon.id())
-                    && saled.isBonus == isBonus
-                ) {
-                    saled.listPrice = item.price
-                    saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
-                    if (saled.disc != BigDecimal.ZERO) {
-                        if (!saled.discExp.contains("%")) {
-                            saled.disc = saled.disc
-                            saled.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
-                            saled.discExp = saled.discExp
-                        } else if (saled.discExp.contains("%")) {
-                            saled.disc = saled.disc
-                            saled.discAmt =
-                                saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
-                                    .divide(BigDecimal(100), BPMConstants.MC_FOUR)
-                                    .setScale(roundVal, RoundingMode.HALF_UP)
+//            for (saled in state.saledList) {
+//                if (saled.itemId == item.id
+////                    && !ItemAddOnDao.itemAddOnDao().checkAddon(item)
+////                    && (grpAddon == null || grpAddon != null && item.itemGrpId !== grpAddon.id())
+//                    && saled.isBonus == isBonus
+//                ) {
+//                    saled.listPrice = item.price
+//                    saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
+//                    if (saled.disc != BigDecimal.ZERO) {
+//                        if (!saled.discExp.contains("%")) {
+//                            saled.disc = saled.disc
+//                            saled.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
+//                            saled.discExp = saled.discExp
+//                        } else if (saled.discExp.contains("%")) {
+//                            saled.disc = saled.disc
+//                            saled.discAmt =
+//                                saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
+//                                    .divide(BigDecimal(100), BPMConstants.MC_FOUR)
+//                                    .setScale(roundVal, RoundingMode.HALF_UP)
+//
+//                            saled.discExp = saled.discExp
+//                        }
+//                    }
+////                    currentSaled = saled
+//                    isNew = false
+//                    //                    PromoCalc.instance().generatePromoItem(saled);
+////                    calculate()
+//                    break
+//                }
+//            }
 
-                            saled.discExp = saled.discExp
-                        }
+
+            val saledNew = Saled(
+                itemId = item.id,
+                listPrice = item.price,
+                qty = if(useItemqty) item.qty else BigDecimal.ONE,
+                name = item.name1,
+                discExp = "0",
+                disc2Amt = BigDecimal.ZERO,
+                isBonus = isBonus,
+                isBonusUsed = isBonus,
+                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax)
+            )
+            var saledList = mutableListOf<Saled>()
+            saledList.addAll(state.saledList)
+            var saled  = saledList.filter { it.itemId == item.id }.firstOrNull()
+            saled?.let {
+                saledNew.listPrice = item.price
+                saledNew.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
+                if (saledNew.disc != BigDecimal.ZERO) {
+                    if (!saledNew.discExp.contains("%")) {
+                        saledNew.disc = saled.disc
+                        saledNew.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
+                        saledNew.discExp = saled.discExp
+                    } else if (saledNew.discExp.contains("%")) {
+                        saledNew.disc = saled.disc
+                        saledNew.discAmt =
+                            saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
+                                .divide(BigDecimal(100), BPMConstants.MC_FOUR)
+                                .setScale(roundVal, RoundingMode.HALF_UP)
+
+                        saledNew.discExp = saled.discExp
                     }
-//                    currentSaled = saled
-                    isNew = false
-                    //                    PromoCalc.instance().generatePromoItem(saled);
-//                    calculate()
-                    break
                 }
-            }
-            if (isNew) {
-                val saledNew = Saled(
-                    itemId = item.id,
-                    listPrice = item.price,
-                    qty = if(useItemqty) item.qty else BigDecimal.ONE,
-                    name = item.name1,
-                    discExp = "0",
-                    disc2Amt = BigDecimal.ZERO,
-                    isBonus = isBonus,
-                    isBonusUsed = isBonus,
-                    tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax)
+                val list = saledList.mapButReplace(
+                    saled,
+                    saledNew
                 )
+                updateState(
+                    state.copy(
+                        saledList = list.toMutableList()
+                    )
+                )
+            } ?: run {
                 addDetail(saledNew)
-//                currentSaled = saledNew
             }
+
+//                currentSaled = saledNew
+
         }
 //        if (grpAddon != null && item.itemGrpId === grpAddon.id()) {
 //            if (addOnTrans == null) {
@@ -184,27 +219,51 @@ class MainViewModel @Inject constructor(
 //            saledParent = currentSaled
 //        }
 //        if (isBonus) {
-            //Tambah salebonus apabila item bonus
+        //Tambah salebonus apabila item bonus
 //            PromoCalc.instance()
 //                .addSalePromoItem(promoBonus.getPromo(), promoBonus.getSaled(), currentSaled)
 //        }
     }
 
     fun addDetail(saled : Saled) {
-        state.saledList.add(saled)
+        var saledList = mutableListOf<Saled>()
+        saledList.addAll(state.saledList)
+        saledList.add(saled)
+        updateState(
+            state.copy(
+                saledList = saledList
+            )
+        )
     }
 
     fun editDetail(saledEdit: Saled) {
-        for (saled in state.saledList){
-            if(saled == saledEdit){
-                editSaled(saled, saledEdit)
-                calculate()
-                break
+        val saledList = mutableListOf<Saled>()
+        saledList.addAll(state.saledList)
+        val saled  = saledList.filter { it.itemId == saledEdit.itemId }.firstOrNull()
+        saled?.let {
+            val list = saledList.map {
+                if(it.itemId == saled.itemId) {
+                    saledEdit
+                } else {
+                    it
+                }
             }
+            updateState(
+                state.copy(
+                    saledList = list.toMutableList()
+                )
+            )
         }
+//        for (saled in state.saledList){
+//            if(saled == saledEdit){
+//                editSaled(saled, saledEdit)
+//                calculate()
+//                break
+//            }
+//        }
     }
 
-    private fun editSaled(saled: Saled, newSaled: Saled) {
+    private fun editSaled(saled: Saled, newSaled: Saled) = viewModelScope.launch {
         saled.listPrice =  newSaled.listPrice
         saled.qty = newSaled.qty
         saled.disc = newSaled.disc
@@ -215,19 +274,30 @@ class MainViewModel @Inject constructor(
     }
 
     private fun deleteDetail(saledDel: Saled) {
-        for (i in 0 until state.saledList.size){
-            val saled = state.saledList[i]
+        var indexDelete = -1
+        val saledList = mutableListOf<Saled>()
+        saledList.addAll(state.saledList)
+        for (i in 0 until saledList.size){
+            val saled = saledList[i]
             if(saledDel == saled){
-                state.saledList.removeAt(i)
+                indexDelete = i
+                break
             }
         }
+        if(indexDelete > -1) {
+            saledList.removeAt(indexDelete)
+            updateState(
+                state.copy(saledList = saledList)
+            )
+        }
+
     }
 
-    private fun calculate(){
+    private fun calculate() = viewModelScope.launch{
         SaleCalc.calculate(state.sale, state.saledList, state.bp!!)
     }
 
-    private fun deployData() {
+    private fun deployData() = viewModelScope.launch {
         val saledList = mutableListOf<Saled>()
         saledList.addAll(state.saledList)
         updateState(

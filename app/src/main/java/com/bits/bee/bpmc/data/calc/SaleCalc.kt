@@ -39,11 +39,11 @@ class SaleCalc {
             sale.subtotal = BigDecimal.ZERO
             sale.taxAmt = BigDecimal.ZERO
             sale.total = BigDecimal.ZERO
-            for (i in saledList.indices) {
-                val saled = saledList[i]
+            for (i in saledList) {
+                val saled = i
                 val nettprice: BigDecimal =
                     saled.listPrice.subtract(saled.discAmt, BPMConstants.MC_FOUR)
-                if (bp!!.isTaxIncOnSale) {
+                if (bp.isTaxIncOnSale) {
                     val numetor: BigDecimal = BigDecimal(100).add(saled.tax)
                     val denominator = BigDecimal(100)
                     saled.basePrice =
