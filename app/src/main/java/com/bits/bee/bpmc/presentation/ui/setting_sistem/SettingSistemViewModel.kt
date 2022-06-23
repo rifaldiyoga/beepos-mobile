@@ -46,6 +46,10 @@ class SettingSistemViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestAboutCloudDapur)
     }
 
+    fun onClickAturPrinter() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestSettingPritner)
+    }
+
     fun update(state: SettingSistemState){
         _state.update {
             state
@@ -57,5 +61,6 @@ class SettingSistemViewModel @Inject constructor(
         object RequestSistemBatchUpload : UIEvent()
         object RequestPeriodeUploadOtomatis : UIEvent()
         object RequestAboutCloudDapur : UIEvent()
+        object RequestSettingPritner: UIEvent()
     }
 }

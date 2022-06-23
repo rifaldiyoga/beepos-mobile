@@ -2,23 +2,23 @@ package com.bits.bee.bpmc.data.data_source.local.model
 
 import androidx.room.*
 
-@Entity(tableName = PrinterKitchenD.TBL_NAME,
+@Entity(tableName = PrinterKitchenDEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = PrinterKitchen::class,
-            parentColumns = [PrinterKitchen.ID],
-            childColumns = [PrinterKitchenD.PRINTER_KITCHEN_ID],
+            entity = PrinterKitchenEntity::class,
+            parentColumns = [PrinterKitchenEntity.ID],
+            childColumns = [PrinterKitchenDEntity.PRINTER_KITCHEN_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Kitchen::class,
-            parentColumns = [Kitchen.ID],
-            childColumns = [PrinterKitchenD.KITCHEN_ID],
+            entity = KitchenEntity::class,
+            parentColumns = [KitchenEntity.ID],
+            childColumns = [PrinterKitchenDEntity.KITCHEN_ID],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class PrinterKitchenD(
+data class PrinterKitchenDEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     var id : Int = 0,

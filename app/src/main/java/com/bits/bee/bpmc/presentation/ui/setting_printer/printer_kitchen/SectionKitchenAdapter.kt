@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bits.bee.bpmc.data.data_source.local.model.Kitchen
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchen
 import com.bits.bee.bpmc.databinding.ItemSectionKitchenBinding
+import com.bits.bee.bpmc.domain.model.Kitchen
+import com.bits.bee.bpmc.domain.model.PrinterKitchen
 
 class SectionKitchenAdapter constructor(
     val ctx: Context
@@ -20,20 +21,31 @@ class SectionKitchenAdapter constructor(
     private var mList: List<PrinterKitchen> = listOf()
     private var mMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
     private var mutableList: MutableList<PrinterKitchen> = mutableListOf()
-    private var listKitchen: MutableList<Kitchen> = mutableListOf()
+    private var mListKitchen: MutableList<Kitchen> = mutableListOf()
 
-    fun initList(list: List<PrinterKitchen>, map: HashMap<Int, MutableList<Kitchen>>){
+    fun initList(list: List<PrinterKitchen>, listMap :HashMap<Int, MutableList<Kitchen>>){
         this.mList = list
-        this.mMap = map
+        this.mMap = listMap
         this.mutableList = mList.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun setPrinterKitchenList(list: List<PrinterKitchen>){
+        this.mList = list
+        this.mutableList = mList.toMutableList()
+    }
+
+    fun setKitchenList(mutable: MutableList<Kitchen>) {
+        this.mListKitchen = mutable
+        val str= ""
     }
 
     fun getPrinterKitchenList(): List<PrinterKitchen>{
         return mutableList
     }
 
-    fun getPrinterKitchenListmap(): HashMap<Int, MutableList<Kitchen>>{
-        return mMap
+    fun getPrinterKitchenListmap(): MutableList<Kitchen>{
+        return mListKitchen
     }
 
     fun addPrinterKitchen(printerKitchen: PrinterKitchen){
@@ -43,8 +55,8 @@ class SectionKitchenAdapter constructor(
     }
 
     fun delePrinterKitchen(){
-        mutableList.removeAt(mutableList.size - 1)
         mMap.remove(mutableList.size - 1)
+        mutableList.removeAt(mutableList.size - 1)
         notifyDataSetChanged()
     }
 
@@ -66,41 +78,60 @@ class SectionKitchenAdapter constructor(
         }
         val spinner = holder.binding.spinnerKategori
         if (spinner != null){
-            for (map in mMap){
-                listKitchen.addAll(map.value)
-            }
-//            val array = arrayListOf<Kitchen>()
-//            for (kitchen in listKitchen){
-//                array.add(kitchen)
-//            }
 
             var listStr = mutableListOf<String>()
-            for (kit in listKitchen){
+            listStr.add("Pilih Kategori")
+//            var valuesList: List<MutableList<Kitchen>> = mMap.values.toList()
+//            for (kitList in valuesList){
+//                for (kit in kitList){
+//                    listStr.add(kit.name)
+//                }
+//            }
+            for (kit in mListKitchen){
                 listStr.add(kit.name)
             }
-            val adapter = ArrayAdapter(ctx, R.layout.simple_list_item_1, listStr )
-            spinner.adapter = adapter
+            val adapterKitchen = ArrayAdapter(ctx, R.layout.simple_list_item_1, listStr )
+            spinner.adapter = adapterKitchen
 
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(parent: AdapterView<*>,
-                                            view: View, position: Int, id: Long) {
-                    Toast.makeText(ctx," " +
-                                "" + mMap[position], Toast.LENGTH_SHORT).show()
-                }
+            loadSelectedKategori(spinner, adapterKitchen, mMap.get(position))
 
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
+//            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+//                override fun onItemSelected(parent: AdapterView<*>,
+//                                            view: View, position: Int, id: Long) {
+//                    Toast.makeText(ctx," " +
+//                                "" + listStr[position], Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>) {
+//                    // write code to perform some action
+//                }
+//
+//            }
+        }
+    }
 
+    private fun loadSelectedKategori(
+        spinner: Spinner, adapterKitchen: ArrayAdapter<String>,
+        valueList: MutableList<Kitchen>?
+    ) {
+        var kitchenName: String? = null
+        for ((index, value) in valueList!!.withIndex()){
+            if (value != null){
+//                var coma = if (valueList.size != index + 1) ", " else ""
+                kitchenName = value.name
             }
         }
+        if (kitchenName != null){
+            val i: Int = adapterKitchen.getPosition(kitchenName)
+            spinner.setSelection(i)
+        }else{
+            spinner.setSelection(0)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return mutableList.size
     }
 
-    fun setKitchenList(mutable: MutableList<Kitchen>) {
-        listKitchen.addAll(mutable)
-    }
 }

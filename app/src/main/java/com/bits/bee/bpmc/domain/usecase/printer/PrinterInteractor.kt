@@ -5,7 +5,7 @@ import javax.inject.Inject
 class PrinterInteractor @Inject constructor(
     val getAddressPrinterUseCase: GetAddressPrinterUseCase,
     val getPrinterFromPrinterKitchen: GetPrinterFromPrinterKitchenUseCase,
-    val getPrinterKitchenFromDetail: GetPrinterKitchenFromDetailUseCase,
+    val getPrinterKitchenD: GetPrinterKitchenFromDetailUseCase,
     val getKitchenId: GetKitchenIdUseCase,
     val itemGrpId: GetItemgrpIdUseCase,
     val addUpdatePrinter: AddUpdatePrinterUseCase,

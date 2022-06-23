@@ -3,9 +3,9 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import com.bits.bee.bpmc.databinding.ItemBluetoothBinding
-import com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.FindPrinterAdapter
+import com.bits.bee.bpmc.domain.model.Printer
 
 class PrinterAdapter constructor(
     private val listPrinter: List<Printer>,
