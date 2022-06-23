@@ -44,6 +44,19 @@ class BeePreferenceManager {
             }!!
         }
 
+        fun removeSomeKey(context: Context, key: String,  value : Any): Any{
+            initPreferences(context)
+            sharedPreferencesEditor = sharedPreferences.edit()
+            return when(value){
+                is Boolean -> sharedPreferencesEditor.remove(key)
+                is String -> sharedPreferencesEditor.remove(key)
+                is Int -> sharedPreferencesEditor.remove(key)
+                is Long -> sharedPreferencesEditor.remove(key)
+                is Float -> sharedPreferencesEditor.remove(key)
+                else -> false
+            }!!
+        }
+
         fun removeAllSharedPreferences(context: Context): Boolean {
             initPreferences(context)
             sharedPreferencesEditor = sharedPreferences.edit()

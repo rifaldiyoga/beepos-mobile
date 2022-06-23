@@ -40,6 +40,7 @@ class TipePrinterDialog(
 //                        val action = TipePrinterDialogDirections.actionTipePrinterDialogToListPrinterFragment()
 //                        findNavController().navigate(action)
                         onSaveClick(list.get(position).label)
+                        dismiss()
                     }else{
                         onSaveClick(list.get(position).label)
                         dismiss()

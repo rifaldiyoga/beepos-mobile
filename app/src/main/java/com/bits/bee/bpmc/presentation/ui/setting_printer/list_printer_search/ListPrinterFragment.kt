@@ -135,7 +135,7 @@ class ListPrinterFragment(
 
     fun initBinding(){
         binding.apply {
-            tvJmlPrinter.text = mListPrinter.size.toString()+" perangkat yang terhubung"
+            tvJmlPrinter.text = if (mListPrinter.size < 1) "" else mListPrinter.size.toString()+" perangkat yang terhubung"
             findPrinterAdapter = FindPrinterAdapter(mListPrinter, mListener = object: FindPrinterAdapter.PilihBluetoothPrinterI{
                 override fun OnItemClick(element: ListPrinter) {
                     BeePreferenceManager.saveToPreferences(
@@ -147,6 +147,11 @@ class ListPrinterFragment(
                         requireContext(),
                         getString(R.string.pref_address_printer),
                         element.address
+                    )
+                    BeePreferenceManager.saveToPreferences(
+                        requireContext(),
+                        getString(R.string.pref_is_scan),
+                        true
                     )
                     val action = ListPrinterFragmentDirections.actionListPrinterFragmentToAddPrinterFragment(true, null)
                     findNavController().navigate(action)

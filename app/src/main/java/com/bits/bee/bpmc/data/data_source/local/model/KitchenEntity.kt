@@ -3,17 +3,17 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
-@Entity(tableName = Kitchen.TBL_NAME,
+@Entity(tableName = KitchenEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
             entity = BranchEntity::class,
             parentColumns = [BranchEntity.ID],
-            childColumns = [Kitchen.BRANCH_ID],
+            childColumns = [KitchenEntity.BRANCH_ID],
             onDelete = CASCADE
         )
     ]
 )
-data class Kitchen(
+data class KitchenEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
+import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -21,7 +22,7 @@ interface PrinterRespository {
 
     fun readPrinter(): Flow<Resource<List<Printer>>>
 
-    suspend fun addUpdatePrinter(printer: Printer?)
+    suspend fun addUpdatePrinter(printer: PrinterEntity?)
 
-    suspend fun updatePrinter(printer : Printer?)
+    suspend fun updatePrinter(printer : PrinterEntity?)
 }

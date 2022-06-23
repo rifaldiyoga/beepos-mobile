@@ -38,6 +38,11 @@
     <string name="pref_name_printer">pref_name_printer</string>
     <string name="pref_address_printer">pref_address_printer</string>
     <string name="pref_sistem_datakitchen">pref_sistem_datakitchen</string>
+    <string name="pref_is_scan">pref_is_scan</string>
+    <string name="pref_rkp_customer">pref_rkp_customer</string>
+    <string name="pref_rkp_produk_channel">pref_rkp_produk_channel</string>
+    <string name="pref_rkp_faktur">pref_rkp_faktur</string>
+    <string name="pref_rkp_channel">pref_rkp_channel</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -223,6 +228,10 @@ apa?</string>
     <string name="opsional">(Opsional)</string>
     <string name="level_harga">Level Harga</string>
     <string name="detail_member">Detail Member</string>
+    <string name="data_dapur_diperbarui">Data Dapur Berhasil Diperbarui</string>
+    <string name="apakah_anda_ingin_memberbarui_printer">Apakah anda ingin mengatur printer lagi
+untuk memperbarui data dapur?</string>
+    <string name="atur_printer">Atur Printer</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>
@@ -423,5 +432,12 @@ apa?</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="lainnya">Lainnya</string>
     <string name="seluruh_data_transaksi_sudah_tersinkron">Seluruh data transaksi sudah tersinkron</string>
+    <string name="tes_print">Tes Print</string>
+    <string name="kertas58">58 mm</string>
+    <string name="kertas80">80 mm</string>
+    <string name="rkp_customer">Rekap per Customer</string>
+    <string name="rkp_produk_channel">Rekap per Produk per Channel</string>
+    <string name="rkp_faktur">Rekap per Faktur</string>
+    <string name="rkp_channel">Rekap per channel</string>
 
 </resources>

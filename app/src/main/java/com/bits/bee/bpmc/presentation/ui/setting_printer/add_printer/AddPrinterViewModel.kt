@@ -1,224 +1,235 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.data.data_source.local.model.*
-import com.bits.bee.bpmc.domain.model.ItemGroup
+import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.usecase.printer.GetKategoriPrinterKitchenUseCase
+import com.bits.bee.bpmc.domain.usecase.printer.GetListKitchenUseCase
 import com.bits.bee.bpmc.domain.usecase.printer.PrinterInteractor
+import com.bits.bee.bpmc.domain.usecase.printer.SavePrinterUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.SectionKitchenAdapter
+import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddPrinterViewModel @Inject constructor(
-    printerInteractor: PrinterInteractor
+    private val printerInteractor: PrinterInteractor,
+    private val savePrinterUseCase: SavePrinterUseCase,
+    private val getListKitchenUseCase: GetListKitchenUseCase,
+    private val getKategoriPrinterKitchenUseCase: GetKategoriPrinterKitchenUseCase
 ): BaseViewModel<AddPrinterState, AddPrinterViewModel.UIEvent>() {
     private lateinit var sectionKitchenAdapter: SectionKitchenAdapter
     private var data_kitchen = false
-    private var _idPrinter: Int = 0
-    private var _idPrinterKitchen: Int = 0
-    private var _idPrinterKitchenD: Int = 0
-    private var _addresPrinter: String = ""
-    private var mPrinterInteractor: PrinterInteractor
-//    private lateinit var mListPrinterKitchen: List<PrinterKitchen>
-//    private lateinit var mListPrinterKitchenD: List<PrinterKitchenD>
-//    private lateinit var mKitchen: Kitchen
-//    private lateinit var mItmgrp: ItemGroup
-    private var printerKitchenList: List<PrinterKitchen> = mutableListOf()
-    private var mListMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
+
+    private var listKitchen = mutableListOf<Kitchen>()
 
     init {
         state = AddPrinterState()
-        mPrinterInteractor = printerInteractor
     }
 
-    fun setSectionKitAdapter(sectionKitchenAdapter: SectionKitchenAdapter){
-        this.sectionKitchenAdapter = sectionKitchenAdapter
-    }
-
-    fun setDataKitchen(boolean: Boolean){
-        data_kitchen = boolean
-    }
-
-    fun setValuePrinter(printer: Printer?){
-        _idPrinter = printer!!.id
-    }
-
-   private fun setValuePrinterKitchen(printerKitchen: PrinterKitchen){
-        _idPrinterKitchen = printerKitchen.id
-    }
-
-   private fun setValuePrinterKitchenD(printerKitchenD: PrinterKitchenD){
-        _idPrinterKitchenD = printerKitchenD.kitchenId
-    }
-
-    fun valueIsNewPrinter(printer: Printer?){
-        _addresPrinter = printer!!.address
-        _idPrinter = printer.id
-    }
-
-    private fun addPrinter(printer: Printer?) = viewModelScope.launch {
-        mPrinterInteractor.addUpdatePrinter(printer)
-    }
-
-    private fun addPrinterKitchen(printerKitchen: PrinterKitchen) = viewModelScope.launch {
-        mPrinterInteractor.addUpdatePrinterK(printerKitchen)
-    }
-
-    private fun addPrinterKitchenD(printerKitchenD: PrinterKitchenD) = viewModelScope.launch {
-        mPrinterInteractor.AddUpdatePrinterKitchenD(printerKitchenD)
-    }
-
-    private fun updatePrinter(printer: Printer?) = viewModelScope.launch{
-        mPrinterInteractor.addUpdatePrinter.update(printer)
-    }
-
+//    var kitchenList : Flow<Resource<MutableList<Kitchen>>> = getKategoriPrinterKitchenUseCase(state.data_kitchen)
     private fun deletePrinterKitD(id: Int) = viewModelScope.launch{
-        mPrinterInteractor.deletePrinterKitchenD(id)
+        printerInteractor.deletePrinterKitchenD(id)
     }
 
     private fun deletePrinterKit(printK: PrinterKitchen) = viewModelScope.launch{
-        mPrinterInteractor.deletePrinterKit(printK)
+        printerInteractor.deletePrinterKit(printK)
     }
 
-    private fun clearPrinterKitchen() {
+    private fun clearPrinterKitchen(id: Int) = viewModelScope.launch {
+        printerInteractor.getByPrinterUseCase(id).collect {
+            it.data?.let { data ->
+                updateState(
+                    state.copy(listPrinterKitchen = data)
+                )
+            }
+        }
         val printerKitchenL = state.listPrinterKitchen
         for (printK in printerKitchenL!!){
-            deletePrinterKitD(printK.id)
+            printK.id?.let { deletePrinterKitD(it) }
             deletePrinterKit(printK)
         }
     }
 
-//    fun setPrinterKitchenList(list: List<PrinterKitchen>){
-//        this.mListPrinterKitchen = list
-//    }
+//    val loadKitchen = printerInteractor.loadKitchen()
 //
-//    fun setPrinterKitchenDList(list: List<PrinterKitchenD>){
-//        this.mListPrinterKitchenD = list
-//    }
-//
-//    fun setKitchen(kitchen: Kitchen){
-//        this.mKitchen = kitchen
-//    }
-//
-//    fun setItemgrp(itemGroup: ItemGroup){
-//        this.mItmgrp = itemGroup
-//    }
+//    val getItemgrpKitchen = printerInteractor.getItemgrpKitchen()
 
+    fun setPrinterKitchen(mPrinter: Printer?) = viewModelScope.launch {
+        printerInteractor.getPrinterFromPrinterKitchen(mPrinter!!.id).collect {
+            it.data?.let { data ->
+                updateState(
+                    state.copy(listPrinterKitchen = data)
+                )
+            }
+        }
 
-
-    val getPrinterFromPrinterKitchen = printerInteractor.getPrinterFromPrinterKitchen(_idPrinter)
-
-    val getPrinterKitchenFromDetail = printerInteractor.getPrinterKitchenFromDetail(_idPrinterKitchen)
-
-    val getKitchenId = printerInteractor.getKitchenId(_idPrinterKitchenD)
-
-    val getItmgrpId = printerInteractor.itemGrpId(5)
-
-    val printerAddressList = printerInteractor.getAddressPrinterUseCase(_addresPrinter)
-
-    val getLastIdVal = printerInteractor.getLastId()
-
-    val getLastIdPrinterKit = printerInteractor.getLastIdPrinterKitchen()
-
-    val getByPrinter = printerInteractor.getByPrinterUseCase(_idPrinter)
-
-    val loadKitchen = printerInteractor.loadKitchen()
-
-    val getItemgrpKitchen = printerInteractor.getItemgrpKitchen()
-
-
-    fun setPrinterKitchen(){
-        val printerKitchenList: List<PrinterKitchen>? = state.listPrinterKitchen
-        var listMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
-        for((index, value) in printerKitchenList!!.withIndex()){
-            var printerKitchen: PrinterKitchen = printerKitchenList.get(index)
-            setValuePrinterKitchen(printerKitchen)
-            var printerKitchenDlist: List<PrinterKitchenD>? = state.listPrinterKitchenD
-            var kitchenList: MutableList<Kitchen> = mutableListOf()
-            for (printerD in printerKitchenDlist!!){
-                setValuePrinterKitchenD(printerD)
-                if (data_kitchen){
-                    kitchenList.add(state.kititchen!!)
-                }else{
-                    var itmGrp: ItemGroup = state.itmgrp!!
-                    val kitchen = Kitchen(
-                        id = itmGrp.id,
-                        name = itmGrp.name,
+//        val printerKitchenList: List<PrinterKitchen>? = state.listPrinterKitchen
+//        var listMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
+        getListKitchenUseCase(state.listPrinterKitchen, state.data_kitchen).collect {
+            when(it.status){
+                Resource.Status.LOADING ->{
+                    val str=""
+                }
+                Resource.Status.SUCCESS ->{
+                    updateState(
+                        state.copy(listhashMap = it.data)
                     )
-                    kitchenList.add(kitchen)
+                }
+                Resource.Status.ERROR ->{
+                    val str=""
                 }
             }
-            listMap.put(index, kitchenList)
         }
-        sectionKitchenAdapter.initList(printerKitchenList, listMap)
+//        for((index, value) in state.listPrinterKitchen!!!!.withIndex()){
+//            var printerKitchen: PrinterKitchen = state.listPrinterKitchen!!.get(index)
+////            getDetailByPrinterKit(printerKitchen.id)
+//
+//            printerInteractor.getPrinterKitchenD(printerKitchen.id).collect {
+//                it.data?.let { data ->
+//                    updateState(
+//                        state.copy(listPrinterKitchenD = data)
+//                    )
+//                }
+//            }
+//
+//            var printerKitchenDlist: List<PrinterKitchenD>? = state.listPrinterKitchenD
+//            var kitchenList: MutableList<Kitchen> = mutableListOf()
+//            for (printerD in printerKitchenDlist!!){
+////                setValuePrinterKitchenD(printerD)
+//                printerInteractor.getKitchenId(printerD.id).collect {
+//                    it.data?.let { data ->
+//                        updateState(
+//                            state.copy(kitchen = data)
+//                        )
+//                    }
+//                }
+//                if (data_kitchen){
+//                    kitchenList.add(state.kitchen!!)
+//                }else{
+//                    var itmGrp: ItemGroup = state.itmgrp!!
+//                    val kitchen = Kitchen(
+//                        id = itmGrp.id,
+//                        name = itmGrp.name,
+//                    )
+//                    kitchenList.add(kitchen)
+//                    kitchenList.add(Kitchen(id=2, code=null, name="OTG", branchId=0, createdBy=0, createdAt=0, updatedBy=0, updatedAt=0, isUsed=false))
+//                    kitchenList.add(Kitchen(id=5, code=null, name="Keyboard", branchId=0, createdBy=0, createdAt=0, updatedBy=0, updatedAt=0, isUsed=false))
+//                }
+//            }
+////            listMap.put(index, kitchenList)
+//            listKitchen.addAll(kitchenList)
+//            updateState(
+//                state.copy(listKitchen = listKitchen)
+//            )
+//        }
+//        sectionKitchenAdapter.initList(state.listPrinterKitchen!!, listKitchen)
     }
 
     fun onClickShowPrinter() = viewModelScope.launch{
         eventChannel.send(UIEvent.RequestTipePrinter)
     }
 
-    fun getDataList(){
-        printerKitchenList = sectionKitchenAdapter.getPrinterKitchenList()
-        mListMap = sectionKitchenAdapter.getPrinterKitchenListmap()
-    }
-
     fun save(printer: Printer?, printerKitchenList: List<PrinterKitchen>,
-                     mListMap: HashMap<Int, MutableList<Kitchen>>) = viewModelScope.launch{
-        val listPrinter: List<Printer> = state.listPrinter!!
-        if (listPrinter.isEmpty()){
-            addPrinter(printer)
-
-            for ((index, value) in printerKitchenList.withIndex()){
-                var printerKitchen: PrinterKitchen = printerKitchenList.get(index)
-                val idPrinter = state.mPrinter!!.id
-                printerKitchen.copy(kitchenName = printerKitchen.kitchenName, printerId = idPrinter)
-//                printerKitchen = PrinterKitchen(-1, printerKitchen.kitchenName, idPrinter)
-                addPrinterKitchen(printerKitchen)
-                val idPrinterKit = state.mPrinterKitchen!!.id
-                var kitchenList = mListMap.get(index)
-
-                for (kitchen in kitchenList!!){
-                    var printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit, kitchenId = kitchen.id)
-                    addPrinterKitchenD(printerKitchenD)
-                }
-            }
-        }else{
-            printer?.copy(id = listPrinter.get(0).id)
-            updatePrinter(printer)
-//            clearPrinterKitchen()
-
-            for ((index, value) in printerKitchenList.withIndex()){
-                var printerKitchen = printerKitchenList.get(index)
-                val id = printer!!.id
-                printerKitchen.copy(printerId = id, kitchenName = printerKitchen.kitchenName)
-                addPrinterKitchen(printerKitchen)
-                val idPrinterKit = state.mPrinterKitchen!!.id
-
-                val kitchenList = mListMap.get(index)
-                for (kitchen in kitchenList!!){
-                    val printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit, kitchenId = kitchen.id)
-                    addPrinterKitchenD(printerKitchenD)
-                }
-            }
-        }
+             mListKitchen: MutableList<Kitchen>) = viewModelScope.launch{
+        savePrinterUseCase(printer, printerKitchenList, mListKitchen)
+//        if (listPrinter.isEmpty()){
+//
+////            addPrinter(printer)
+//            printerInteractor.addUpdatePrinter(printer)
+//
+//
+//            for ((index, value) in printerKitchenList.withIndex()){
+//                printerInteractor.getLastId().collect {
+//                    it.data?.let { data ->
+//                        updateState(
+//                            state.copy(mPrinter = data)
+//                        )
+//                    }
+//                }
+//                var printerKitchen = printerKitchenList.get(index)
+//                printerKitchen.kitchenName = printerKitchen.kitchenName
+//                printerKitchen.printerId = state.mPrinter!!.id
+//
+//                printerInteractor.addUpdatePrinterK(printerKitchen)
+//
+//                printerInteractor.getLastIdPrinterKitchen().collect {
+//                    it.data?.let { data ->
+//                        updateState(
+//                            state.copy(mPrinterKitchen = data)
+//                        )
+//                    }
+//                }
+//
+//                for (kit in mListKitchen){
+//                    var printerKitchenD = PrinterKitchenD(printerKitchenId = state.mPrinterKitchen!!.id, kitchenId = kit.id)
+////                        addPrinterKitchenD(printerKitchenD)
+//                    printerInteractor.AddUpdatePrinterKitchenD(printerKitchenD)
+//                }
+////                for (kitchen in mList.get(index)){
+////                    var printerKitchenD = PrinterKitchenD(printerKitchenId = state.mPrinterKitchen!!.id, kitchenId = kitchen.id)
+////                    addPrinterKitchenD(printerKitchenD)
+////                }
+//            }
+//        }else{
+//            printer?.id = listPrinter.get(0).id
+////            printer?.copy(id = listPrinter.get(0).id)
+//            updatePrinter(printer)
+//            clearPrinterKitchen(printer!!.id)
+//
+//            for ((index, value) in printerKitchenList.withIndex()){
+//                var printerKitchen = printerKitchenList.get(index)
+//                val id = printer!!.id
+//                printerKitchen.copy(printerId = id, kitchenName = printerKitchen.kitchenName)
+//                addPrinterKitchen(printerKitchen)
+//                val idPrinterKit = state.mPrinterKitchen!!.id
+//
+//                val kitchenList = mListMap.get(index)
+//                for (kitchen in kitchenList!!){
+//                    val printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit, kitchenId = kitchen.id)
+//                    addPrinterKitchenD(printerKitchenD)
+//                }
+//            }
+//        }
         eventChannel.send(UIEvent.RequestSimpan)
     }
 
-    fun loadKategoriPrinterKit(){
-        var mutable = mutableListOf<Kitchen>()
-        if (data_kitchen){
-            mutable = state.listKitchen!!
-        }else{
-            val itemgrpList = state.listItemgrp
-            for (itmgrp in itemgrpList!!){
-                var kitchen = Kitchen(id = itmgrp.id, name = itmgrp.name)
-                mutable.add(kitchen)
+    fun loadKategoriPrinterKit() = viewModelScope.launch {
+//        var mutable = mutableListOf<Kitchen>()
+        getKategoriPrinterKitchenUseCase(state.data_kitchen).collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(
+                            listKitchen = it.data
+                        )
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
             }
         }
-        sectionKitchenAdapter.setKitchenList(mutable)
+
+//        if (data_kitchen){
+//            mutable = state.listKitchen!!
+//        }else{
+//            val itemgrpList = state.listItemgrp
+//            for (itmgrp in itemgrpList!!){
+//                var kitchen = Kitchen(id = itmgrp.id, name = itmgrp.name)
+//                mutable.add(kitchen)
+//            }
+//        }
+//        sectionKitchenAdapter.setKitchenList(listKitchen)
     }
 
     sealed class UIEvent{

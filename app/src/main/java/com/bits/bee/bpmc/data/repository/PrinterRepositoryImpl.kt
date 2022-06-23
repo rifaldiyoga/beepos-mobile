@@ -1,8 +1,9 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.PrinterDao
-import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
+import com.bits.bee.bpmc.domain.mapper.PrinterDataMapper
+import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.domain.repository.PrinterRespository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +20,7 @@ class PrinterRepositoryImpl @Inject constructor(
 ): PrinterRespository {
     override fun getAddressPrinterList(address: String): Flow<Resource<List<Printer>>> {
         return flow {
-            val data: List<Printer> = printerDao.readByAddress(address)
+            val data: List<Printer> = printerDao.readByAddress(address).map { PrinterDataMapper.fromDataToDomain(it) }
             if (data != null){
                 emit(Resource.success(data))
             }else{
@@ -52,7 +53,7 @@ class PrinterRepositoryImpl @Inject constructor(
         return flow {
             val data = printerDao.getLastId()
             if (data != null){
-                emit(Resource.success(data))
+                emit(Resource.success(PrinterDataMapper.fromDataToDomain(data)))
             }else{
                 emit(Resource.error(null, "data kosong"))
             }
@@ -61,7 +62,7 @@ class PrinterRepositoryImpl @Inject constructor(
 
     override fun readPrinter(): Flow<Resource<List<Printer>>> {
         return flow {
-            val data = printerDao.readPrinter()
+            val data = printerDao.readPrinter().map { PrinterDataMapper.fromDataToDomain(it) }
             val str =""
             if (data != null){
                 emit(Resource.success(data))
@@ -71,13 +72,13 @@ class PrinterRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun addUpdatePrinter(printer: Printer?){
+    override suspend fun addUpdatePrinter(printer: PrinterEntity?){
         withContext(ioDispatcher){
             printerDao.insertSingle(printer!!)
         }
     }
 
-    override suspend fun updatePrinter(printer: Printer?) {
+    override suspend fun updatePrinter(printer: PrinterEntity?) {
         withContext(ioDispatcher){
             printer?.let { printerDao.update(it) }
         }

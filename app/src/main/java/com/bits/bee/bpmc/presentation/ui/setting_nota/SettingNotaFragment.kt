@@ -100,6 +100,34 @@ class SettingNotaFragment(
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_footer), false)
                 }
             }
+            swcRkpCustomer.setOnCheckedChangeListener { compoundButton, b ->
+                if (b){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_customer), true)
+                }else{
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_customer), false)
+                }
+            }
+            swcRkpProdukChannel.setOnCheckedChangeListener { compoundButton, b ->
+                if (b){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_produk_channel), true)
+                }else{
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_produk_channel), false)
+                }
+            }
+            swcRkpFaktur.setOnCheckedChangeListener { compoundButton, b ->
+                if (b){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_faktur), true)
+                }else{
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_faktur), false)
+                }
+            }
+            swcRkpChannel.setOnCheckedChangeListener { compoundButton, b ->
+                if (b){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_channel), true)
+                }else{
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_channel), false)
+                }
+            }
         }
     }
 
@@ -181,6 +209,10 @@ class SettingNotaFragment(
                         swcFooter.isChecked = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
                             R.string.pref_footer), false) as Boolean
                         tVPath.text = BeePreferenceManager.getDataFromPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, "") as String
+                        swcRkpCustomer.isChecked = false
+                        swcRkpProdukChannel.isChecked = false
+                        swcRkpFaktur.isChecked = false
+                        swcRkpChannel.isChecked = false
                     }
                 }
             }

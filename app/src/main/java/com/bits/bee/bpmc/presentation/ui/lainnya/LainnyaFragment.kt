@@ -47,6 +47,9 @@ class LainnyaFragment(
             clRekapProduk.setOnClickListener {
                 viewModel.onRekapProduk()
             }
+            clPerbaruiData.setOnClickListener {
+                viewModel.onDownload()
+            }
         }
     }
 

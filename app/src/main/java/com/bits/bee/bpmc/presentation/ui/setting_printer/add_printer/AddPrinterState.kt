@@ -1,10 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer
 
-import com.bits.bee.bpmc.data.data_source.local.model.Kitchen
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchen
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenD
-import com.bits.bee.bpmc.domain.model.ItemGroup
+import com.bits.bee.bpmc.data.data_source.local.model.KitchenEntity
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenEntity
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenDEntity
+import com.bits.bee.bpmc.domain.model.*
 
 data class AddPrinterState(
     var namaPrinter: String="",
@@ -20,6 +20,9 @@ data class AddPrinterState(
     var listPrinterKitchenD: List<PrinterKitchenD>? = null,
     var listKitchen: MutableList<Kitchen>? = null,
     var listItemgrp: List<ItemGroup>? = null,
-    var kititchen: Kitchen? = null,
+    var kitchen: Kitchen? = null,
     var itmgrp: ItemGroup? = null,
+    var data_kitchen: Boolean = false,
+    var listhashMap : HashMap<Int, MutableList<Kitchen>>?
+    = null
 )

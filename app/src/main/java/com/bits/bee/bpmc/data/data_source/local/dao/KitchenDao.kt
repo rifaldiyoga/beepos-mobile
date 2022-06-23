@@ -3,18 +3,18 @@ package com.bits.bee.bpmc.data.data_source.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
-import com.bits.bee.bpmc.data.data_source.local.model.Kitchen
+import com.bits.bee.bpmc.data.data_source.local.model.KitchenEntity
 import javax.inject.Singleton
 
 @Singleton
 @Dao
-interface KitchenDao: BaseDao<Kitchen> {
+interface KitchenDao: BaseDao<KitchenEntity> {
     @Query("SELECT * FROM kitchen WHERE id = :id")
-    fun getByKitchenId(id: Int): Kitchen
+    fun getByKitchenId(id: Int): KitchenEntity
 
     @Query("SELECT * FROM kitchen ORDER BY id DESC LIMIT 1")
-    fun getLastKitchen(): Kitchen
+    fun getLastKitchen(): KitchenEntity
 
     @Query("SELECT * FROM  kitchen")
-    fun read(): MutableList<Kitchen>
+    fun read(): MutableList<KitchenEntity>
 }

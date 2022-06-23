@@ -11,12 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
+import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
+import com.bits.bee.bpmc.domain.model.Printer
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.ProcessBuilder.Redirect.to
 
 @AndroidEntryPoint
 class SettingPrinterFragment(
@@ -51,6 +53,8 @@ class SettingPrinterFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         SettingPrinterViewModel.UIEvent.RequestAddPrinter -> {
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(
+                                R.string.pref_is_scan), false)
                             val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(true, Gson().toJson(null))
                             findNavController().navigate(action)
                         }

@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = Printer.TBL_NAME)
-data class Printer(
+@Entity(tableName = PrinterEntity.TBL_NAME)
+data class PrinterEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     var id : Int = 0,

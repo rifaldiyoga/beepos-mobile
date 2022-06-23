@@ -153,22 +153,22 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <RadioGroup
-                            android:id="@+id/add_printer_rgSize"
+                            android:id="@+id/radioGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toBottomOf="@+id/textView26">
                             <RadioButton
-                                android:id="@+id/add_printer_rbSize1"
+                                android:id="@+id/rbSize1"
                                 android:layout_width="wrap_content"
                                 android:textSize="@dimen/size16"
-                                android:text="58 mm"
+                                android:text="@string/kertas58"
                                 android:layout_height="wrap_content"/>
 
                             <RadioButton
                                 android:layout_marginTop="8dp"
-                                android:id="@+id/add_printer_rbSize2"
+                                android:id="@+id/rbSize2"
                                 android:layout_width="wrap_content"
-                                android:text="80 mm"
+                                android:text="@string/kertas80"
                                 android:textSize="@dimen/size16"
                                 android:layout_height="wrap_content"/>
                         </RadioGroup>
@@ -436,6 +436,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+
+            <Button
+                android:layout_marginTop="@dimen/size28"
+                android:layout_marginEnd="@dimen/size8"
+                android:id="@+id/btn_tes_print"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text="@string/tes_print"
+                android:textColor="?colorPrimary"
+                app:backgroundTint="@null"
+                android:background="@drawable/btn_rect_secondary"
+                app:layout_constraintEnd_toStartOf="@+id/btn_simpan_edit"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btn_simpan_edit"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_simpan"
+                android:background="@drawable/btn_rect_primary"
+                android:layout_marginStart="@dimen/size8"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_tes_print"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btn_tes_print"
+                app:layout_constraintTop_toTopOf="@+id/btn_tes_print" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:padding="@dimen/size8"
+            android:id="@+id/cl_edit_printer_bottom"
+            android:layout_alignParentBottom="true"
+            tools:ignore="MissingConstraints">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

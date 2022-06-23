@@ -13,6 +13,8 @@ import com.bits.bee.bpmc.databinding.FragmentSettingPosBinding
 import com.bits.bee.bpmc.databinding.FragmentSettingSistemBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CloudDapurDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -114,6 +116,7 @@ class SettingSistemFragment(
                 }else{
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_switch_dapur), false)
                 }
+                viewModel.onClickAturPrinter()
             }
         }
 
@@ -198,6 +201,34 @@ class SettingSistemFragment(
                                     )
                                 })
                             dialog.show(parentFragmentManager, TAG)
+                        }
+                        SettingSistemViewModel.UIEvent.RequestSettingPritner -> {
+//                            val dialog = CustomDialogBuilder.Builder(requireContext())
+//                                .setTitle(getString(R.string.data_dapur_diperbarui))
+//                                .setPositiveCallback {
+//                                    val action = SettingSistemFragmentDirections.actionSettingSistemFragmentToSettingPrinterFragment()
+//                                    findNavController().navigate(action)
+//                                }
+//                                .setNegativeCallback{
+////                        dismis()
+//                                }
+//                                .setMessage(getString(R.string.apakah_anda_ingin_memberbarui_printer)).build()
+//
+//                            dialog.show(parentFragmentManager,
+//                                com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+//                            )
+                            val dialog2 = DialogBuilderUtils.showDialogChoice(requireContext(), getString(R.string.data_dapur_diperbarui),
+                                getString(R.string.apakah_anda_ingin_memberbarui_printer),
+                                "Atur sekarang", {
+                                    val action = SettingSistemFragmentDirections.actionSettingSistemFragmentToSettingPrinterFragment()
+                                    findNavController().navigate(action)
+                                    return@showDialogChoice
+                                }, "Nanti", {
+                                    return@showDialogChoice
+                                })
+                            dialog2.show(parentFragmentManager,
+                                com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+                            )
                         }
                     }
                 }
