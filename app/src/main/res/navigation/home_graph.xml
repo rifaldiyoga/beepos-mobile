@@ -101,7 +101,11 @@
         tools:layout="@layout/fragment_transaksi_penjualan"
         android:id="@+id/transaksiPenjualanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragment"
-        android:label="TransaksiPenjualanFragment" />
+        android:label="TransaksiPenjualanFragment" >
+        <action
+            android:id="@+id/action_transaksiPenjualanFragment_to_detailTransaksiPenjualanFragment"
+            app:destination="@id/detailTransaksiPenjualanFragment" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_detail_tutup_kasir"
         android:id="@+id/detailTutupKasirFragment"
@@ -215,5 +219,14 @@
         <action
             android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_transaksi_penjualan"
+        android:id="@+id/detailTransaksiPenjualanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan.DetailTransaksiPenjualanFragment"
+        android:label="DetailTransaksiPenjualanFragment" >
+        <argument
+            android:name="sale"
+            app:argType="com.bits.bee.bpmc.domain.model.Sale" />
     </fragment>
 </navigation>

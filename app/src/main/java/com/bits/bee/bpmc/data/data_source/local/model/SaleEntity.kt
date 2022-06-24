@@ -12,8 +12,8 @@ import java.math.BigDecimal
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Operator::class,
-            parentColumns = [Operator.ID],
+            entity = OperatorEntity::class,
+            parentColumns = [OperatorEntity.ID],
             childColumns = [SaleEntity.OPERATOR_ID],
             onDelete = ForeignKey.CASCADE
         ),
@@ -23,8 +23,8 @@ import java.math.BigDecimal
             childColumns = [SaleEntity.CASHIER_ID]
         ),
         ForeignKey(
-            entity = Operator::class,
-            parentColumns = [Operator.ID],
+            entity = OperatorEntity::class,
+            parentColumns = [OperatorEntity.ID],
             childColumns = [Cadj.OPERATOR_ID],
             onDelete = ForeignKey.CASCADE
         ),

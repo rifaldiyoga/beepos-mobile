@@ -431,5 +431,6 @@ apa?</string>
     <string name="pengeluaran">Pengeluaran</string>
     <string name="saldo_akhir">Saldo Akhir</string>
     <string name="msg_validasi_tutup_kasir">Apakah anda yakin ingin melakukan tutup kasir ?</string>
+    <string name="_2_transaksi">2 Transaksi</string>
 
 </resources>

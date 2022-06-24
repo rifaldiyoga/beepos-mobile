@@ -108,13 +108,13 @@ object AppModule {
     @Provides
     @Singleton
     fun proivdeSaleRepository(apiUtils: ApiUtils,dao: SaleDao, defaultDispatcher: CoroutineDispatcher) : SaleRepository {
-        return SaleRepositoryImpl()
+        return SaleRepositoryImpl(defaultDispatcher, dao)
     }
 
     @Provides
     @Singleton
     fun proivdeSaledRepository(apiUtils: ApiUtils,dao: SaledDao, defaultDispatcher: CoroutineDispatcher) : SaledRepository {
-        return SaledRepositoryImpl()
+        return SaledRepositoryImpl(saledDao = dao, defaultDispatcher = defaultDispatcher)
     }
 
     @Provides
@@ -127,6 +127,12 @@ object AppModule {
     @Singleton
     fun provideKitchenRepository(kitchenDao: KitchenDao, defaultDispatcher: CoroutineDispatcher): KitchenRepository{
         return KitchenRepositoryImpl(kitchenDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOperatorRepository(operatorDao: OperatorDao, defaultDispatcher: CoroutineDispatcher): OperatorRepository{
+        return OperatorRepositoryImpl( defaultDispatcher, operatorDao)
     }
 
 }

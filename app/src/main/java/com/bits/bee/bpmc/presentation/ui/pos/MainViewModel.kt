@@ -4,8 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.data.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.SubmitTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
@@ -24,62 +28,99 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    getActiveChannelUseCase: GetActiveChannelUseCase,
-    getDefaultBpUseCase: GetDefaultBpUseCase,
-//    private val addDetailUseCase: AddDetailUseCase
+    private val getActiveChannelUseCase: GetActiveChannelUseCase,
+    private val getActivePossesUseCase: GetActivePossesUseCase,
+    private val getActiveCashierUseCase: GetActiveCashierUseCase,
+    private val getActiveBranchUseCase: GetActiveBranchUseCase,
+    private val getDefaultBpUseCase: GetDefaultBpUseCase,
+    private val submitTransactionUseCase: SubmitTransactionUseCase,
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     private val roundVal = 0
 
     init {
         state = MainState()
+        getDefaultBp()
+        getChannelList()
+        getActivePosses()
+        getActiveBranch()
+        getActiveCashier()
+    }
 
-        viewModelScope.launch {
-            channelList.collect {
-                when(it.status){
-                    Resource.Status.LOADING -> {
+    fun getActivePosses() = viewModelScope.launch {
+        getActivePossesUseCase().collect {
+            updateState(
+                state.copy(
+                    activePosses = it
+                )
+            )
+        }
+    }
 
-                    }
-                    Resource.Status.SUCCESS -> {
-                        it.data?.let { data ->
-                            _state.update {
-                                it!!.copy(
-                                    channelList = data,
-                                    channel = data[0]
-                                )
-                            }
+    fun getActiveBranch() = viewModelScope.launch {
+        getActiveBranchUseCase().collect {
+            updateState(
+                state.copy(
+                    activeBranch = it
+                )
+            )
+        }
+    }
+
+    fun getActiveCashier() = viewModelScope.launch {
+        getActiveCashierUseCase().collect {
+            updateState(
+                state.copy(
+                    activeCashier = it
+                )
+            )
+        }
+    }
+
+    fun getChannelList() = viewModelScope.launch {
+        getActiveChannelUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let { data ->
+                        _state.update {
+                            it!!.copy(
+                                channelList = data,
+                                channel = data[0]
+                            )
                         }
-                    }
-                    Resource.Status.ERROR -> {
-
                     }
                 }
-            }
-        }
-        viewModelScope.launch {
-            getDefaultBpUseCase.invoke().collect{
-                when(it.status){
-                    Resource.Status.LOADING -> {
+                Resource.Status.ERROR -> {
 
-                    }
-                    Resource.Status.SUCCESS -> {
-                        it.data?.let { data ->
-                            _state.update {
-                                it!!.copy(
-                                    bp = data
-                                )
-                            }
-                        }
-                    }
-                    Resource.Status.ERROR -> {
-
-                    }
                 }
             }
         }
     }
 
-    private val channelList = getActiveChannelUseCase.invoke()
+    fun getDefaultBp() = viewModelScope.launch {
+        getDefaultBpUseCase.invoke().collect{
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let { data ->
+                        _state.update {
+                            it!!.copy(
+                                bp = data
+                            )
+                        }
+                    }
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
 
     fun onClickMember() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestMember)
@@ -105,6 +146,21 @@ class MainViewModel @Inject constructor(
         editDetail(saled)
         calculate()
         deployData()
+    }
+
+    fun submitTrans() = viewModelScope.launch {
+        submitTransactionUseCase(state.sale, state.saledList)
+    }
+
+    fun resetState(){
+        updateState(
+            MainState()
+        )
+        getDefaultBp()
+        getChannelList()
+        getActivePosses()
+        getActiveBranch()
+        getActiveCashier()
     }
 
     private fun addDetail(item: Item, isBonus: Boolean = false, useItemqty: Boolean = false) {
@@ -225,7 +281,7 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
-    fun addDetail(saled : Saled) {
+    private fun addDetail(saled : Saled) {
         var saledList = mutableListOf<Saled>()
         saledList.addAll(state.saledList)
         saledList.add(saled)
@@ -236,7 +292,7 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    fun editDetail(saledEdit: Saled) {
+    private fun editDetail(saledEdit: Saled) {
         val saledList = mutableListOf<Saled>()
         saledList.addAll(state.saledList)
         val saled  = saledList.filter { it.itemId == saledEdit.itemId }.firstOrNull()

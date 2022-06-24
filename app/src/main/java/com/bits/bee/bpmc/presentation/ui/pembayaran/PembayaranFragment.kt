@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentPembayaranBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.BSmartPay
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -35,14 +37,23 @@ class PembayaranFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun initComponents() {
         binding.apply {
+            val total = mainViewModel.state.sale.total
+            viewModel.updateState(
+                viewModel.state.copy(
+                    total = total,
+                    rekomBayarList = BSmartPay.genSmartPay(total)
+                ),
+            )
             rekomBayarAdapter = RekomBayarAdapter(
                 onItemClick = { data ->
-                    etNominalBayar.setText(data)
+                    if(rekomBayarAdapter.getSelectedPosition() > -1)
+                        viewModel.onRekomBayarClick(data)
+                    else
+                        viewModel.onRekomBayarClick("")
                 }
             )
             rvList.apply {
@@ -77,6 +88,14 @@ class PembayaranFragment(
                             val action = PembayaranFragmentDirections.actionPembayaranFragmentToTransaksiBerhasilFragment()
                             findNavController().navigate(action)
                         }
+                        PembayaranViewModel.UIEvent.RequestRekomBayar -> {
+                            binding.apply {
+                                etNominalBayar.setText(viewModel.state.rekomBayar)
+                            }
+                        }
+                        PembayaranViewModel.UIEvent.RequestBayar -> {
+                            mainViewModel.submitTrans()
+                        }
                     }
                 }
             }
@@ -85,7 +104,8 @@ class PembayaranFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let {
-                        rekomBayarAdapter.submitList(it.rekomBayarList.values.toList())
+                        binding.tvTotal.text = CurrencyUtils.formatCurrency(viewModel.state.total)
+                        rekomBayarAdapter.submitList(it.rekomBayarList.values.toList().sorted())
                     }
                 }
             }

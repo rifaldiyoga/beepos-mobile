@@ -3,18 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/size16">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size225"
+        android:layout_marginStart="@dimen/size40"
+        android:layout_marginEnd="@dimen/size40"
         android:src="@drawable/image_content_empty"
         app:layout_constraintBottom_toTopOf="@+id/textView63"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="@dimen/size24"
-        android:layout_marginEnd="@dimen/size24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -31,5 +30,21 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView9"
         app:layout_constraintStart_toStartOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupEmpty"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imageView9,textView63" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

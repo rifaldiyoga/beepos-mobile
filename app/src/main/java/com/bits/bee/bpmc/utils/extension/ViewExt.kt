@@ -1,6 +1,10 @@
 package com.bits.bee.bpmc.utils.extension
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 
 /**
  * Created by aldi on 01/03/22.
@@ -24,5 +28,15 @@ fun <T> List<T>.mapButReplace(targetItem: T, newItem: T) = map {
     } else {
         it
     }
+}
+
+@ColorInt
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int,
+    typedValue: TypedValue = TypedValue(),
+    resolveRefs: Boolean = true
+): Int {
+    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+    return typedValue.data
 }
 

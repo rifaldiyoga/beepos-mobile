@@ -73,7 +73,7 @@ class PosFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
-                    when(event){
+                    when(event) {
                         PosViewModel.UIEvent.RequestInvoice -> {
                             val action = PosFragmentDirections.actionPosFragmentToInvoiceFragment()
                             findNavController().navigate(action)
@@ -112,7 +112,7 @@ class PosFragment(
     }
 
 
-    fun getQtyDetail(saledList : List<Saled>) : BigDecimal {
+    private fun getQtyDetail(saledList : List<Saled>) : BigDecimal {
         var qty = BigDecimal.ZERO
         saledList.forEach {
             qty = qty.add(it.qty)

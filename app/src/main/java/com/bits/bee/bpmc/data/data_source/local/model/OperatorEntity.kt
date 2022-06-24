@@ -2,17 +2,17 @@ package com.bits.bee.bpmc.data.data_source.local.model
 
 import androidx.room.*
 
-@Entity(tableName = Operator.TBL_NAME,
+@Entity(tableName = OperatorEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
             entity = BranchEntity::class,
             parentColumns = [BranchEntity.ID],
-            childColumns = [Operator.BRANCH_ID],
+            childColumns = [OperatorEntity.BRANCH_ID],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class Operator(
+data class OperatorEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
     var id : Int,

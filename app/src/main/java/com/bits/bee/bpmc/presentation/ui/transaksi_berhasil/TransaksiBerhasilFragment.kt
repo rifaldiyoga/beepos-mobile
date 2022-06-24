@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.transaksi_berhasil
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiBerhasilBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,6 +29,8 @@ class TransaksiBerhasilFragment(
 ) : BaseFragment<FragmentTransaksiBerhasilBinding>() {
 
     private val viewModel : TransaksiBerhasilViewModel by viewModels()
+
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun initComponents() {
         binding.apply {
@@ -50,6 +54,7 @@ class TransaksiBerhasilFragment(
                         TransaksiBerhasilViewModel.UIEvent.NavigateToPos -> {
                             val action = TransaksiBerhasilFragmentDirections.actionTransaksiBerhasilFragmentToPosFragment()
                             findNavController().popBackStack(R.id.posFragment, false)
+                            mainViewModel.resetState()
                         }
                     }
                 }

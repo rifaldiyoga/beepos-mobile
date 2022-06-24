@@ -139,4 +139,22 @@ object DatabaseModule {
         return dbHelper.kitchenDao
     }
 
+    @Provides
+    @Singleton
+    fun provideSaleDao(dbHelper: DbHelper): SaleDao{
+        return dbHelper.saleDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaledDao(dbHelper: DbHelper): SaledDao{
+        return dbHelper.saledDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideOperatorDao(dbHelper: DbHelper): OperatorDao{
+        return dbHelper.operatorDao
+    }
+
 }

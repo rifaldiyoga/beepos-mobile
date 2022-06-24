@@ -134,12 +134,13 @@ class DownloadViewModel @Inject constructor (
         downloadInteractor.getLatestItemUseCase(page).collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    downloadCity()
                     _state.update {
                         it.copy(status = "Downloading Item")
                     }
                 }
                 Resource.Status.SUCCESS -> {
+
+                    downloadCity()
                     _state.update {
                         it.copy(status = "Finish Downloading Item")
                     }
@@ -160,8 +161,27 @@ class DownloadViewModel @Inject constructor (
                     }
                 }
                 Resource.Status.SUCCESS -> {
+                    downloadOperator()
                     _state.update {
                         it.copy(status = "Finish Downloading City")
+                    }
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private fun downloadOperator() = viewModelScope.launch {
+        downloadInteractor.getLatestOperatorUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading Operator")
                     }
                 }
                 Resource.Status.ERROR -> {

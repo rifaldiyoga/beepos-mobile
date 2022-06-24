@@ -1,10 +1,13 @@
 package com.bits.bee.bpmc.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 
 /**
  * Created by aldi on 20/05/22.
  */
+@Parcelize
 data class Sale (
     var id : Int? = null,
     var trxOrderNum : Int = -1,
@@ -35,4 +38,4 @@ data class Sale (
     var rounding: BigDecimal = BigDecimal.ZERO,
     var channelId: Int = -1,
     var voidNote: String = "",
-)
+) : Parcelable

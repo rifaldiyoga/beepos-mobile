@@ -80,11 +80,14 @@ class MainActivity(
                     binding.apply {
                         it?.let {
                             it.channel?.let {
+                                viewModel.state.sale.channelId = it.id
                                 tvChannel.text = it.name
                                 ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
                                     Color.parseColor(it.color)))
                             }
                             it.bp?.let {
+                                viewModel.state.sale.bpId = it.id!!
+                                viewModel.state.sale.custName = it.name
                                 tvMember.text = it.name
                             }
                         }
@@ -105,7 +108,7 @@ class MainActivity(
                                 onChannelClick = { channel ->
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            channel = channel
+                                            channel = channel,
                                         )
                                     )
                                 }

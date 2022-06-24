@@ -13,8 +13,8 @@ import java.math.BigDecimal
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = Operator::class,
-            parentColumns = [Operator.ID],
+            entity = OperatorEntity::class,
+            parentColumns = [OperatorEntity.ID],
             childColumns = [Cadj.OPERATOR_ID],
             onDelete = CASCADE
         ),

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.local.dao
 
 import androidx.room.Dao
+import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.SaledEntity
 
@@ -10,6 +11,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.SaledEntity
 @Dao
 interface SaledDao : BaseDao<SaledEntity>{
 
-
+    @Query("SELECT * FROM saled WHERE sale_id = :id")
+    fun getSaledList(id : Int) : List<SaledEntity>
 
 }
