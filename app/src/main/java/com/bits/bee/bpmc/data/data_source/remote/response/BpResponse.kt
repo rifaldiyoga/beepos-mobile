@@ -101,7 +101,7 @@ data class BpResponse (
     ) : Parcelable {
 
         fun toBpAddr() : BpAddrEntity {
-            return BpAddrEntity(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.value, regencyCode.value, districtId.value, createdAt, updatedAt)
+            return BpAddrEntity(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.label, regencyCode.label, 0 ,districtId.label)
         }
 
     }

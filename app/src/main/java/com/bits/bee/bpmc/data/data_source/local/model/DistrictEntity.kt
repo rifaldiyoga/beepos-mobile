@@ -4,18 +4,19 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.bits.bee.bpmc.domain.model.District
 
-@Entity(tableName = District.TBL_NAME,
+@Entity(tableName = DistrictEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Regency::class,
-            parentColumns = [Regency.CODE],
-            childColumns = [District.REGENCY_CODE],
+            entity = RegencyEntity::class,
+            parentColumns = [RegencyEntity.CODE],
+            childColumns = [DistrictEntity.REGENCY_CODE],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class District(
+data class DistrictEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
     var code: String,
@@ -34,5 +35,11 @@ data class District(
         const val REGENCY_CODE = "regency_code"
         const val ACTIVE = "active"
 
+    }
+
+    fun toDistrict(): District{
+        return District(
+            code, name, regencyCode, isActive
+        )
     }
 }

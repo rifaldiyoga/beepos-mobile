@@ -139,4 +139,27 @@ object DatabaseModule {
         return dbHelper.kitchenDao
     }
 
+    @Provides
+    @Singleton
+    fun provideCityPopulerDao(dbHelper: DbHelper): CityPopulerDao{
+        return dbHelper.cityPopulerDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideProvinceDao(dbHelper: DbHelper): ProvinceDao{
+        return dbHelper.provinceDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegencyDao(dbHelper: DbHelper): RegencyDao{
+        return dbHelper.regencyDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideDistrictDao(dbHelper: DbHelper): DistrictDao{
+        return dbHelper.districtDao
+    }
 }

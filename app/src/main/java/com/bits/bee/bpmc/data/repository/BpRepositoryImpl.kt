@@ -70,6 +70,23 @@ class BpRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getlastId(): Flow<Resource<Bp>> {
+        return flow {
+            val data = bpDao.getLastId()
+            if (data != null){
+                emit(Resource.success(BpDataMapper.fromDataToDomain(data)))
+            }else{
+                emit(Resource.error(null, "data kosong"))
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun searchBp(query: String): Flow<Resource<List<Bp>>> {
+        return flow {
+            emit(Resource.success(bpDao.searchCityList(query).map { BpDataMapper.fromDataToDomain(it) }))
+        }.flowOn(ioDispatcher)
+    }
+
     override suspend fun addUpdateBp(bpEntity: BpEntity){
         withContext(ioDispatcher){
             bpDao.insertSingle(bpEntity)

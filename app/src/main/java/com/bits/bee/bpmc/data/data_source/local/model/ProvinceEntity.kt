@@ -3,9 +3,10 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.bits.bee.bpmc.domain.model.Province
 
-@Entity(tableName = Province.TBL_NAME)
-data class Province(
+@Entity(tableName = ProvinceEntity.TBL_NAME)
+data class ProvinceEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
     var code: String,
@@ -21,5 +22,11 @@ data class Province(
         const val NAME = "name"
         const val ACTIVE = "active"
 
+    }
+
+    fun toProvince(): Province{
+        return Province(
+            code, name, isActive
+        )
     }
 }

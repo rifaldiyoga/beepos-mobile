@@ -22,8 +22,6 @@ class SettingFavoriteFragmentMain(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val str=""
     }
 
     override fun initComponents() {

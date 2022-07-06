@@ -43,6 +43,8 @@
     <string name="pref_rkp_produk_channel">pref_rkp_produk_channel</string>
     <string name="pref_rkp_faktur">pref_rkp_faktur</string>
     <string name="pref_rkp_channel">pref_rkp_channel</string>
+    <string name="pref_city">pref_city</string>
+    <string name="pref_is_city">pref_is_city</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -449,4 +451,8 @@ untuk memperbarui data dapur?</string>
     <string name="rkp_faktur">Rekap per Faktur</string>
     <string name="rkp_channel">Rekap per channel</string>
 
+<!--    Member-->
+    <string name="kecamatan_opsional">Kecamatan bersifat opsional (tidak wajib dipilih)</string>
+    <string name="city_kosong">Tidak boleh kosong</string>
+    <string name="citylist_empty">Kota yang anda cari tidak ada, coba cek ejaan atau cari dengan kata kunci lain ya</string>
 </resources>

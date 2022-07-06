@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.tambah_member
 
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -9,11 +10,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahMemberBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog
+import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -31,6 +37,13 @@ class TambahMemberFragment(
     private lateinit var adapter : ArrayAdapter<String>
 
     override fun initComponents() {
+//        var isCity = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_is_city), false) as Boolean
+//        val ss = ""
+//        if (!isCity){
+//            var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+//            sharedPreferences.remove(getString(R.string.pref_city))
+//            sharedPreferences.commit()
+//        }
         binding.apply {
         }
     }
@@ -52,6 +65,9 @@ class TambahMemberFragment(
             etEmail.addTextChangedListener {
                 viewModel.state.email = etEmail.text.toString().trim()
             }
+            etKota.addTextChangedListener {
+                viewModel.state.kota = etKota.text.toString().trim()
+            }
             etKota.setOnClickListener {
                 viewModel.onClickKota()
             }
@@ -71,6 +87,12 @@ class TambahMemberFragment(
                     )
                 )
             }
+            imgClose.setOnClickListener {
+                viewModel.onClickIcon()
+            }
+            imgCloseTaxin.setOnClickListener {
+                viewModel.onClickIcon()
+            }
         }
     }
 
@@ -84,8 +106,13 @@ class TambahMemberFragment(
                             showToast(R.string.berhasil_membuat_member)
                         }
                         TambahMemberViewModel.UIEvent.RequestKota -> {
-                            val action = TambahMemberFragmentDirections.actionTambahMemberFragmentToCariKotaFragment()
+                            val action = TambahMemberFragmentDirections.actionTambahMemberFragmentToCariKotaFragment(
+                                Gson().toJson(null))
                             findNavController().navigate(action)
+                        }
+                        TambahMemberViewModel.UIEvent.RequestTaxInfo ->{
+                            val dialog = TaxInfoDialog()
+                            dialog.show(parentFragmentManager, TAG)
                         }
                     }
                 }
@@ -100,7 +127,7 @@ class TambahMemberFragment(
                             tilAlamat.error = it.errorAlamat
                             tilNoTelp.error = it.errorNoTelp
                             tilEmail.error = it.errorEmail
-
+                            etKota.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_city),"") as String)
                             if(it.isInfoLainnya)
                                 groupLainnya.visible()
                             else

@@ -12,7 +12,8 @@ import com.bits.bee.bpmc.domain.model.Bp
  * Created by aldi on 22/04/22.
  */
 class MemberAdapter constructor(
-    private val onMemberClick : (Bp) -> Unit
+    private val onMemberClick : (Bp) -> Unit,
+    private val onEyeClick: (Bp) -> Unit
 ) : ListAdapter<Bp, RecyclerView.ViewHolder>(Diffcallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -32,8 +33,11 @@ class MemberAdapter constructor(
         fun bind(model : Bp) {
             binding.apply {
                 tvNamaMember.text = model.name
-                clContent.setOnClickListener {
+                lLContentMember.setOnClickListener {
                     onMemberClick(model)
+                }
+                llDetailMember.setOnClickListener {
+                    onEyeClick(model)
                 }
             }
         }

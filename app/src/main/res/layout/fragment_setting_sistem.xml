@@ -158,8 +158,8 @@
 
             <TextView
                 android:id="@+id/help_icon"
-                android:layout_width="@dimen/size16"
-                android:layout_height="@dimen/size16"
+                android:layout_width="10dp"
+                android:layout_height="12dp"
                 android:layout_marginStart="140dp"
                 android:background="@drawable/help_circle"
                 app:layout_constraintBottom_toBottomOf="parent"

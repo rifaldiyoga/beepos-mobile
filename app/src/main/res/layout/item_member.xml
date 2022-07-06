@@ -6,28 +6,92 @@
     android:id="@+id/clContent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tvNamaMember"
-        android:layout_width="@dimen/size0"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/pid_available"
+        android:weightSum="5"
+        android:layout_marginBottom="5dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size16"
-        android:layout_marginStart="@dimen/size16"
-        android:text="@string/budiman"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="@dimen/size20"
+        tools:ignore="MissingConstraints">
 
-    <TextView
-        android:id="@+id/tvNoTelp"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size6"
-        android:layout_marginBottom="@dimen/size16"
-        android:text="@string/_100_000"
-        android:textSize="@dimen/font12"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvNamaMember"
-        app:layout_constraintTop_toBottomOf="@+id/tvNamaMember" />
+
+        <LinearLayout
+            android:id="@+id/lL_content_member"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:weightSum="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_rvContent_LlDec"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/size5"
+                android:layout_weight="5.5"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/size10"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tvNamaMember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="false"
+                    android:text="@string/budiman"
+                    style="@style/TextHeader"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size14"/>
+
+                <TextView
+                    android:id="@+id/tvNoTelp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/_100_000"
+                    android:textSize="@dimen/size12" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_detail_member"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="@dimen/size22"
+                android:layout_height="@dimen/size20"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_eye"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size30"
+                tools:layout_editor_absoluteX="376dp"
+                tools:layout_editor_absoluteY="23dp" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
     <View
         android:layout_width="@dimen/size0"

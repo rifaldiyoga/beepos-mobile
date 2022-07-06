@@ -4,18 +4,19 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.bits.bee.bpmc.domain.model.Regency
 
-@Entity(tableName = Regency.TBL_NAME,
+@Entity(tableName = RegencyEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Province::class,
-            parentColumns = [Province.CODE],
-            childColumns = [Regency.PROVINCE_CODE],
+            entity = ProvinceEntity::class,
+            parentColumns = [ProvinceEntity.CODE],
+            childColumns = [RegencyEntity.PROVINCE_CODE],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class Regency(
+data class RegencyEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CODE)
     var code: String,
@@ -34,5 +35,11 @@ data class Regency(
         const val PROVINCE_CODE = "province_code"
         const val ACTIVE = "active"
 
+    }
+
+    fun toRegency(): Regency{
+        return Regency(
+            code, name, provinceCode, isActive
+        )
     }
 }

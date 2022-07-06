@@ -53,4 +53,16 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
         return retrofitClient.getClientApi()!!.create(PriceLvlApiService::class.java)
     }
 
+    fun getProvinceApiService() : ProvinceApiService {
+        return retrofitClient.getClientApi()!!.create(ProvinceApiService::class.java)
+    }
+
+    fun getRegencyApiService(): RegencyApiService{
+        return retrofitClient.getClientApi()!!.create(RegencyApiService::class.java)
+    }
+
+    fun getDistrictApiService(): DistrictApiService{
+        return retrofitClient.getClientApi()!!.create(DistrictApiService::class.java)
+    }
+
 }

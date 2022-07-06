@@ -17,6 +17,10 @@ interface BpRepository {
 
     fun getFavoritBpList() : Flow<Resource<List<Bp>>>
 
+    fun getlastId(): Flow<Resource<Bp>>
+
+    fun searchBp(query: String): Flow<Resource<List<Bp>>>
+
     suspend fun addUpdateBp(bpEntity: BpEntity)
 
 }

@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-private const val TAG = "SettingSistemFragment"
+const val TAG = "SettingSistemFragment"
 
 @AndroidEntryPoint
 class SettingSistemFragment(

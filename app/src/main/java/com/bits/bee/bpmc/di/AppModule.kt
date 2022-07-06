@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.di
 import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.repository.*
+import com.bits.bee.bpmc.domain.model.Regency
 import com.bits.bee.bpmc.domain.repository.*
 import dagger.Module
 import dagger.Provides
@@ -127,6 +128,36 @@ object AppModule {
     @Singleton
     fun provideKitchenRepository(kitchenDao: KitchenDao, defaultDispatcher: CoroutineDispatcher): KitchenRepository{
         return KitchenRepositoryImpl(kitchenDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCityPopulerRespository(cityPopulerDao: CityPopulerDao, defaultDispatcher: CoroutineDispatcher): CityPopulerRepository{
+        return CityPopulerRepositoryImp(cityPopulerDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBpaddrRepository(bpAddrDao: BpAddrDao, defaultDispatcher: CoroutineDispatcher): BpAddrRepository{
+        return BpAddrRepositoryImpl(bpAddrDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProvinceRepository(apiUtils: ApiUtils, provinceDao: ProvinceDao, defaultDispatcher: CoroutineDispatcher): ProvinceRepository{
+        return ProvinceRepositoryImpl(apiUtils, provinceDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegencyRepository(apiUtils: ApiUtils, regencyDao: RegencyDao, defaultDispatcher: CoroutineDispatcher): RegencyRepository{
+        return RegencyRepositoryImpl(apiUtils, regencyDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDistrictRepository(apiUtils: ApiUtils, districtDao: DistrictDao, defaultDispatcher: CoroutineDispatcher): DistrictRepository{
+        return DistrictRepositoryImpl(apiUtils, districtDao, defaultDispatcher)
     }
 
 }

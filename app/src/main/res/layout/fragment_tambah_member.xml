@@ -279,7 +279,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
-                android:id="@+id/imageView11"
+                android:id="@+id/img_close"
                 android:layout_width="@dimen/size32"
                 android:layout_height="@dimen/size32"
                 android:layout_marginStart="@dimen/size16"
@@ -301,6 +301,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cbTax" />
 
             <ImageView
+                android:id="@+id/img_close_taxin"
                 android:layout_width="@dimen/size32"
                 android:layout_height="@dimen/size32"
                 android:layout_marginStart="@dimen/size16"

@@ -58,6 +58,17 @@ class CityRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getCodeByName(str: String): Flow<Resource<City>> {
+        return flow {
+            val data = cityDao.getCodeByName(str)
+            if (data != null){
+                emit(Resource.success(CityDataMapper.fromDataToDomain(data)))
+            }else{
+                emit(Resource.error(null, "data kosng"))
+            }
+        }.flowOn(defaultDispatcher)
+    }
+
     fun getCityDao(): List<String>{
         return cityDao.getCityName()
     }

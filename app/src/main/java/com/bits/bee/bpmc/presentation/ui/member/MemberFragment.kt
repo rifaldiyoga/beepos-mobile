@@ -1,18 +1,26 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentMemberBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
+import com.bits.bee.bpmc.presentation.dialog.tipe_printer.TipePrinterDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterFragmentDirections
+import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -39,6 +47,9 @@ class MemberFragment(
             memberAdapter = MemberAdapter(
                 onMemberClick = { model ->
                     viewModel.onClickDetailMember(model)
+                },
+                onEyeClick = { model ->
+                    viewModel.onClickEye(model)
                 }
             )
 
@@ -52,9 +63,11 @@ class MemberFragment(
     override fun subscribeListeners() {
         binding.apply {
             fabTambahMember.setOnClickListener {
+                clearPref()
                 viewModel.onClickAddMember()
             }
             btnTambahBaru.setOnClickListener {
+                clearPref()
                 viewModel.onClickAddMember()
             }
         }
@@ -78,6 +91,11 @@ class MemberFragment(
                                 )
                             )
                             findNavController().popBackStack()
+                        }
+
+                        is MemberViewModel.UIEvent.RequestIconEye ->{
+                            val dialog = DetailMemberDialog(it.model)
+                            dialog.show(parentFragmentManager, TAG)
                         }
                     }
                 }
@@ -107,6 +125,45 @@ class MemberFragment(
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_search_member, menu)
+
+        val searchItem = menu.findItem(R.id.search_member)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        viewModel.viewStates().collect {
+                            if (newText?.length == 0){
+
+                            }else if (newText!!.length >= 3){
+                                viewModel.onSearch(newText!!)
+                            }
+                        }
+                    }
+                }
+                return false
+            }
+
+        })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.search_member ->{
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun setVisibilityLoading(isLoading : Boolean, data : List<Bp> = mutableListOf()){
         binding.apply {
             if(isLoading){
@@ -124,5 +181,11 @@ class MemberFragment(
                 }
             }
         }
+    }
+
+    private fun clearPref(){
+        var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+        sharedPreferences.remove(getString(R.string.pref_city))
+        sharedPreferences.commit()
     }
 }

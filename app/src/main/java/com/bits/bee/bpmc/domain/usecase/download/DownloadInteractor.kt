@@ -11,5 +11,8 @@ data class DownloadInteractor @Inject constructor(
     val getLatestItemUseCase: GetLatestItemUseCase,
     val getLatestBpUseCase: GetLatestBpUseCase,
     val getLatestPriceLvlUseCase: GetLatestPriceLvlUseCase,
-    val getLatestCityUseCase: GetLatestCityUseCase
+    val getLatestCityUseCase: GetLatestCityUseCase,
+    val getLatestProvinceUseCase: GetLatestProvinceUseCase,
+    val getLatestRegencyUseCase: GetLatestRegencyUseCase,
+    val getLatestDistrictUseCase: GetLatestDistrictUseCase
 )

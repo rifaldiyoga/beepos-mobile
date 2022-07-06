@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.tambah_member
 
+import com.bits.bee.bpmc.domain.model.City
 import com.bits.bee.bpmc.domain.model.PriceLvl
 
 /**
@@ -20,4 +21,5 @@ data class TambahMemberState (
     var errorAlamat : String = "",
     var errorEmail : String = "",
     var priceLvlList : List<PriceLvl> = mutableListOf(),
+    var city: City? = null
 )

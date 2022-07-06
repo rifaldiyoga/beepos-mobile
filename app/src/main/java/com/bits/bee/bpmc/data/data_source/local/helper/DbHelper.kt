@@ -11,7 +11,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
     AddOn::class, AddOnD::class,
     BpEntity::class, BranchEntity::class, Cadj::class, Cash::class,
     CashA::class, CashierEntity::class, Cctype::class,
-    ChannelEntity::class, Regency::class, CstrEntity::class, Edc::class,
+    ChannelEntity::class, RegencyEntity::class, CstrEntity::class, Edc::class,
     EdcSurc::class, GrpPrv::class, ItemEntity::class, ItemAddOn::class,
     ItemBranch::class, ItemKitchen::class, ItemOnBoarding::class,
     PriceEntity::class, ItemTax::class, ItemVariant::class,
@@ -22,7 +22,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
     SaleEntity::class, Salecrcvs::class, SalePromo::class, Selection::class,
     SelectionD::class, SaledEntity::class, Sync::class, Tax::class,
     User::class, Usrgrp::class, Variant::class, CityEntity::class, BpAddrEntity::class,
-    Province::class, District::class, Pmtd::class, UnitEntity::class], version = 1, exportSchema = false)
+    ProvinceEntity::class, DistrictEntity::class, Pmtd::class, UnitEntity::class, CityPopulerEntity::class], version = 1, exportSchema = false)
 @TypeConverters(com.bits.bee.bpmc.data.data_source.local.converter.Converters::class)
 abstract class DbHelper : RoomDatabase() {
 
@@ -69,6 +69,14 @@ abstract class DbHelper : RoomDatabase() {
     abstract val printerKitchenDDao: PrinterKitchenDDao
 
     abstract val kitchenDao: KitchenDao
+
+    abstract val cityPopulerDao: CityPopulerDao
+
+    abstract val provinceDao: ProvinceDao
+
+    abstract val regencyDao: RegencyDao
+
+    abstract val districtDao: DistrictDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"
