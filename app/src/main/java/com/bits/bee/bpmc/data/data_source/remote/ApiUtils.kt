@@ -53,4 +53,12 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
         return retrofitClient.getClientApi()!!.create(PriceLvlApiService::class.java)
     }
 
+    fun getCrcApiService() : CrcApiService {
+        return retrofitClient.getClientApi()!!.create(CrcApiService::class.java)
+    }
+
+    fun getCmpApiService() : CmpApiService {
+        return retrofitClient.getClientApi()!!.create(CmpApiService::class.java)
+    }
+
 }

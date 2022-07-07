@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
 /**
  * Created by aldi on 22/04/22.
@@ -20,7 +21,9 @@ data class Bp(
     var priceLvlId : Int = 1,
     var isActive : Boolean = true,
     var alamat : String = "",
-//    var createdAt : Date,
-//    var updatedAt : Date,
+    var createdAt : Date = Date(),
+    var createdBy : Int = -1,
+    var updatedAt : Date = Date(),
+    var updatedBy : Int = -1,
     var isFavorit : Boolean = false,
 ) : Parcelable

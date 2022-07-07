@@ -9,6 +9,7 @@ import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -62,7 +63,9 @@ class TambahMemberViewModel @Inject constructor(
                 alamat = state.alamat,
                 isTaxedOnSale = state.isTaxed,
                 isTaxIncOnSale = state.isTaxInc,
-                priceLvlId = state.priceLvl
+                priceLvlId = state.priceLvl,
+                createdBy = -1,
+                createdAt = Date()
             )
             addUpdateMemberUseCase(bp)
             eventChannel.send(UIEvent.SuccessAddMember)

@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size8"
-                    android:text="@string/rp_18_000"
+                    android:text="@string/mata_uang_nominal"
                     android:textSize="@dimen/font24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView85"
@@ -316,7 +316,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/rp_18_000"/>
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -345,7 +345,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/rp_18_000"/>
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -380,7 +380,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/rp_18_000"/>
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -409,7 +409,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/rp_18_000"/>
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -443,7 +443,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/rp_18_000"/>
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -472,7 +472,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/rp_18_000"/>
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"

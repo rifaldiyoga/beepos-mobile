@@ -5,5 +5,9 @@ data class SettingNotaState(
     var useLogoGalery: Boolean = false,
     var useHeader: Boolean = false,
     var useFooter: Boolean = false,
+    var useRekapCustomer: Boolean = false,
+    var useRekapProdukChannel: Boolean = false,
+    var useRekapFaktur: Boolean = false,
+    var useRekapChannel: Boolean = false,
     var filePath: String = ""
     )

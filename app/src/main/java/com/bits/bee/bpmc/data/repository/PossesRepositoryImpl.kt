@@ -48,7 +48,7 @@ class PossesRepositoryImpl @Inject constructor(
                 endBal = null,
                 endCash = BigDecimal.ZERO,
                 credit = BigDecimal.ZERO,
-                operatorId = 1,
+                userId = 1,
                 totalActualCash = BigDecimal.ZERO,
                 totalDiffCash = BigDecimal.ZERO
             )

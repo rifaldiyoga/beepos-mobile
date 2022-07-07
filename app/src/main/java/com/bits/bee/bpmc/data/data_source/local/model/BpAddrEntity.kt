@@ -16,20 +16,20 @@ import java.util.*
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = Province::class,
-            parentColumns = [Province.CODE],
+            entity = ProvinceEntity::class,
+            parentColumns = [ProvinceEntity.CODE],
             childColumns = [BpAddrEntity.PROVINCE_CODE],
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = Regency::class,
-            parentColumns = [Regency.CODE],
+            entity = RegencyEntity::class,
+            parentColumns = [RegencyEntity.CODE],
             childColumns = [BpAddrEntity.REGENCY_CODE],
             onDelete = CASCADE
         ),
         ForeignKey(
-            entity = District::class,
-            parentColumns = [District.CODE],
+            entity = DistrictEntity::class,
+            parentColumns = [DistrictEntity.CODE],
             childColumns = [BpAddrEntity.DISTRICT_CODE],
             onDelete = CASCADE
         ),
@@ -69,8 +69,12 @@ data class BpAddrEntity(
     var districtId : Int,
     @ColumnInfo(name = CREATED_AT)
     var createdAt : Date,
+    @ColumnInfo(name = CREATED_BY)
+    var createdBy : Int,
     @ColumnInfo(name = UPDATED_AT)
     var updatedAt : Date,
+    @ColumnInfo(name = UPDATED_BY)
+    var updatedBy : Int
 ) {
     companion object {
         const val TBL_NAME = "bpaddr"
@@ -91,7 +95,9 @@ data class BpAddrEntity(
         const val REGENCY_CODE = "regency_code"
         const val DISTRICT_CODE = "district_code"
         const val CREATED_AT = "created_at"
+        const val CREATED_BY = "created_by"
         const val UPDATED_AT = "updated_at"
+        const val UPDATED_BY = "updated_by"
 
     }
 }

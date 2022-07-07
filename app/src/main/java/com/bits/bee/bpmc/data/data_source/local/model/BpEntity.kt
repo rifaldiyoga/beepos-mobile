@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = BpEntity.TBL_NAME,
     foreignKeys = [
@@ -40,10 +41,14 @@ data class BpEntity(
     var priceLvlId : Int,
     @ColumnInfo(name = ACTIVE)
     var isActive : Boolean,
-//    @ColumnInfo(name = CREATED_AT)
-//    var createdAt : Date,
-//    @ColumnInfo(name = UPDATED_AT)
-//    var updatedAt : Date,
+    @ColumnInfo(name = CREATED_AT)
+    var createdAt : Date,
+    @ColumnInfo(name = CREATED_BY)
+    var createdBy : Int,
+    @ColumnInfo(name = UPDATED_AT)
+    var updatedAt : Date,
+    @ColumnInfo(name = UPDATED_BY)
+    var updatedBy : Int,
     @ColumnInfo(name = ISFAVORIT)
     var isFavorit : Boolean = false,
 ) {
@@ -62,7 +67,9 @@ data class BpEntity(
         const val PRICELVL_ID = "pricelvl_id"
         const val ACTIVE = "active"
         const val CREATED_AT = "created_at"
+        const val CREATED_BY = "created_by"
         const val UPDATED_AT = "updated_at"
+        const val UPDATED_BY = "updated_by"
         const val ISFAVORIT = "isfavorit"
 
     }

@@ -37,7 +37,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView76"
+                    android:id="@+id/tvTanggal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_08_03_2022_12_12"
@@ -142,7 +142,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/view6" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView2"
+                android:id="@+id/rvList"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size16"
@@ -158,7 +158,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+                app:layout_constraintTop_toBottomOf="@+id/rvList" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="@dimen/size0"
@@ -190,6 +190,7 @@
 
 
                 <TextView
+                    android:id="@+id/tvSubtotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/subtotal"

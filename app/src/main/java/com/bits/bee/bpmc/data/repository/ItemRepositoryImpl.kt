@@ -1,7 +1,13 @@
 package com.bits.bee.bpmc.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.bits.bee.bpmc.BuildConfig
 import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.local.model.ItemEntity
+import com.bits.bee.bpmc.data.data_source.local.model.ItemSaleTaxEntity
 import com.bits.bee.bpmc.data.data_source.local.model.PriceEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemResponse
@@ -11,12 +17,11 @@ import com.bits.bee.bpmc.domain.mapper.UnitDataMapper
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.repository.ItemRepository
 import com.bits.bee.bpmc.utils.ApiResponse
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -26,6 +31,7 @@ import javax.inject.Inject
 class ItemRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
     private val itemDao: ItemDao,
+    private val itemSaleTaxDao: ItemSaleTaxDao,
     private val itemGroupDao: ItemGroupDao,
     private val priceLvlDao: PriceLvlDao,
     private val priceDao: PriceDao,
@@ -63,7 +69,7 @@ class ItemRepositoryImpl @Inject constructor(
             priceDao.deleteAll()
             itemDao.deleteAll()
 
-            for (a in 1..100) {
+            for (a in 1..500) {
                 val item = ItemEntity(
                     id = a,
                     code = "ITEM$a",
@@ -96,6 +102,13 @@ class ItemRepositoryImpl @Inject constructor(
                     priceList.add(price)
                 }
 
+
+                val itemSaleTaxEntity = ItemSaleTaxEntity(
+                    code = "PPN",
+                    calcMtd = "N",
+                    expr = "11%",
+                    exprNoReg = "11%"
+                )
             }
 
             itemDao.insertBulk(itemList)
@@ -108,13 +121,21 @@ class ItemRepositoryImpl @Inject constructor(
 
     override fun getActiveItemListByItemGrp(itemGrpId: Int): Flow<List<Item>> {
         return flow<List<Item>> {
-            emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDataToDomain(it) })
+//            emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDataToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getActiveItemList(): Flow<List<Item>> = flow {
-        emit(itemDao.getActiveItemList().map { ItemDataMapper.fromDataToDomain(it) })
+    override fun getActiveItemList(query : String): Flow<PagingData<Item>> = Pager(
+        config = PagingConfig(
+            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+            maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            itemDao.getActiveItemList(query)
+        }
+    ).flow.mapLatest {
+        it.map { ItemDataMapper.fromDataToDomain(it) }
     }.flowOn(defaultDispatcher)
-
 
 }

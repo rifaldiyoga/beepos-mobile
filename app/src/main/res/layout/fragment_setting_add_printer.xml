@@ -153,22 +153,22 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <RadioGroup
-                            android:id="@+id/add_printer_rgSize"
+                            android:id="@+id/radioGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toBottomOf="@+id/textView26">
                             <RadioButton
-                                android:id="@+id/add_printer_rbSize1"
+                                android:id="@+id/rbSize1"
                                 android:layout_width="wrap_content"
                                 android:textSize="@dimen/size16"
-                                android:text="58 mm"
+                                android:text="@string/kertas58"
                                 android:layout_height="wrap_content"/>
 
                             <RadioButton
                                 android:layout_marginTop="8dp"
-                                android:id="@+id/add_printer_rbSize2"
+                                android:id="@+id/rbSize2"
                                 android:layout_width="wrap_content"
-                                android:text="80 mm"
+                                android:text="@string/kertas80"
                                 android:textSize="@dimen/size16"
                                 android:layout_height="wrap_content"/>
                         </RadioGroup>
@@ -260,37 +260,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size1"
                         android:background="@color/light_gray"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_aturHeader"
-                        android:layout_width="match_parent"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/textView38"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/atur_heder"
-                            style="@style/TextHeader"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_chevron_right_gray"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                        android:id="@+id/vJumlahMeja"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size1"
-                        android:background="@color/light_gray"/>
+<!--                    -->
+<!--                    <View-->
+<!--                        android:id="@+id/vJumlahMeja"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/size1"-->
+<!--                        android:background="@color/light_gray"/>-->
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_Footer"
@@ -317,6 +292,82 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_qty_dapur"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/llQtyKitchen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:gravity="center_vertical"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.6"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/textView33"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/jumlah_dapur"
+                                    style="@style/TextHeader"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/activity_add_printer_llQty"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.4"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/white"
+                                android:gravity="center_vertical|end">
+
+                                <ImageView
+                                    android:id="@+id/add_printerKit_ivMinus"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@drawable/ic_circle_minus" />
+
+                                <TextView
+                                    android:id="@+id/tvQty"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:imeOptions=""
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:inputType="number"
+                                    android:text="1"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/size16" />
+
+                                <ImageView
+                                    android:id="@+id/add_printerKit_ivPlus"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@drawable/ic_circle_plus"/>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -385,6 +436,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+
+            <Button
+                android:layout_marginTop="@dimen/size28"
+                android:layout_marginEnd="@dimen/size8"
+                android:id="@+id/btn_tes_print"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text="@string/tes_print"
+                android:textColor="?colorPrimary"
+                app:backgroundTint="@null"
+                android:background="@drawable/btn_rect_secondary"
+                app:layout_constraintEnd_toStartOf="@+id/btn_simpan_edit"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btn_simpan_edit"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_simpan"
+                android:background="@drawable/btn_rect_primary"
+                android:layout_marginStart="@dimen/size8"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_tes_print"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btn_tes_print"
+                app:layout_constraintTop_toTopOf="@+id/btn_tes_print" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:padding="@dimen/size8"
+            android:id="@+id/cl_edit_printer_bottom"
+            android:layout_alignParentBottom="true"
+            tools:ignore="MissingConstraints">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

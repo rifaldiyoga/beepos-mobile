@@ -25,7 +25,17 @@ class PosViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestInvoice)
     }
 
+    fun onClickDraft() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDraft)
+    }
+
+    fun onClickDiskonNota() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDiskonNota)
+    }
+
     sealed class UIEvent {
         object RequestInvoice : UIEvent()
+        object NavigateToDraft : UIEvent()
+        object NavigateToDiskonNota : UIEvent()
     }
 }

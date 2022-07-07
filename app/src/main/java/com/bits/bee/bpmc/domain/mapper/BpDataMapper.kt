@@ -22,6 +22,10 @@ object BpDataMapper : BaseMapper<BpEntity, Bp>(){
             model.priceLvlId,
             model.isActive,
             "",
+            model.createdAt,
+            model.createdBy,
+            model.updatedAt,
+            model.updatedBy,
             model.isFavorit,
         )
     }
@@ -39,6 +43,10 @@ object BpDataMapper : BaseMapper<BpEntity, Bp>(){
             model.bpgrpId,
             model.priceLvlId,
             model.isActive,
+            model.createdAt,
+            model.createdBy,
+            model.updatedAt,
+            model.updatedBy,
             model.isFavorit,
         )
     }

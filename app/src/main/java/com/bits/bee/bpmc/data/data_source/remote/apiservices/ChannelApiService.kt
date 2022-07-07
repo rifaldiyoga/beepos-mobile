@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface ChannelApiService {
 
-    @GET("master/channel")
+    @GET("v1/channel")
     fun getChannelList() : Flow<ApiResponse<ChannelResponse>>
 
 }

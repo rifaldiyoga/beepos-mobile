@@ -5,6 +5,10 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by aldi on 01/03/22.
@@ -38,5 +42,29 @@ fun Context.getColorFromAttr(
 ): Int {
     theme.resolveAttribute(attrColor, typedValue, resolveRefs)
     return typedValue.data
+}
+
+fun CombinedLoadStates.decideOnState(
+    adapter : PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+    showLoading: (Boolean) -> Unit,
+    showEmptyState: (Boolean) -> Unit,
+    showError: (String) -> Unit
+) {
+    showLoading(refresh is LoadState.Loading)
+
+    showEmptyState(
+        source.append is LoadState.NotLoading
+                && source.append.endOfPaginationReached
+                && adapter.itemCount == 0
+    )
+
+    val errorState = source.append as? LoadState.Error
+        ?: source.prepend as? LoadState.Error
+        ?: source.refresh as? LoadState.Error
+        ?: append as? LoadState.Error
+        ?: prepend as? LoadState.Error
+        ?: refresh as? LoadState.Error
+
+    errorState?.let { showError(it.error.toString()) }
 }
 

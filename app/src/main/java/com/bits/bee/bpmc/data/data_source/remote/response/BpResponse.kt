@@ -57,7 +57,7 @@ data class BpResponse (
     ) : Parcelable {
 
         fun toBp() : BpEntity {
-            return BpEntity(id, code, name, greeting, anniversary, isTaxedOnSale, isTaxIncOnSale, note, bpgrpId, priceLvlId.value, isActive)
+            return BpEntity(id, code, name, greeting, anniversary, isTaxedOnSale, isTaxIncOnSale, note, bpgrpId, priceLvlId.value, isActive, Date(), -1, Date(), -1)
         }
 
     }
@@ -101,7 +101,7 @@ data class BpResponse (
     ) : Parcelable {
 
         fun toBpAddr() : BpAddrEntity {
-            return BpAddrEntity(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.value, regencyCode.value, districtId.value, createdAt, updatedAt)
+            return BpAddrEntity(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.value, regencyCode.value, districtId.value, createdAt, -1, updatedAt, -1)
         }
 
     }

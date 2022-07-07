@@ -51,7 +51,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
 
     abstract override fun subscribeObservers()
 
-    override fun showSnackbar(@StringRes message: Int) {
+    override fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 

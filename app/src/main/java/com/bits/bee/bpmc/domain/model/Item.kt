@@ -8,7 +8,7 @@ import java.math.BigDecimal
  * Created by aldi on 12/05/22.
  */
 @Parcelize
-data class Item (
+data class  Item (
     var id : Int,
     var code : String,
     var name1: String,
@@ -33,4 +33,5 @@ data class Item (
     var vColor : String? = null,
     var price : BigDecimal = BigDecimal.ZERO,
     var tax : String = "",
+    var crcSymbol: String = "Rp."
 ) : Parcelable

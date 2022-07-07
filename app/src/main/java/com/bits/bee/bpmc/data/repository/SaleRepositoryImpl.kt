@@ -34,4 +34,12 @@ class SaleRepositoryImpl @Inject constructor(
         emit(saleDao.getLatestSaleList().map { SaleDataMapper.fromDataToDomain(it) })
     }.flowOn(defaultDispatcher)
 
+    override fun getLatestDraftList(): Flow<List<Sale>> = flow {
+        val saleList = saleDao.getLatestDraftList()
+        if(saleList.size <= 5)
+            emit(saleList.map { SaleDataMapper.fromDataToDomain(it) } )
+        else
+            emit(saleList.slice(0..4).map { SaleDataMapper.fromDataToDomain(it) })
+    }.flowOn(defaultDispatcher)
+
 }

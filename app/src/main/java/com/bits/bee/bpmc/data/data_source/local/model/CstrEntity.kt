@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.math.BigDecimal
+import java.util.*
 
 @Entity(tableName = CstrEntity.TBL_NAME)
 data class CstrEntity(
@@ -36,6 +37,14 @@ data class CstrEntity(
     var isUploaded: Boolean,
     @ColumnInfo(name = KODE_CSTR)
     var kodeCstr : String,
+    @ColumnInfo(name = CREATED_AT)
+    var createdAt: Date = Date(),
+    @ColumnInfo(name = CREATED_BY)
+    var createdBy: Int = -1,
+    @ColumnInfo(name = UPDATED_AT)
+    var updatedAt: Date = Date(),
+    @ColumnInfo(name = UPDATED_BY)
+    var updatedBy: Int = -1,
 ) {
     companion object {
         const val TBL_NAME = "cstr"
@@ -54,6 +63,9 @@ data class CstrEntity(
         const val CASHA_ID_2 = "cash_id2"
         const val ISUPLOADED = "isuploaded"
         const val KODE_CSTR = "kode_cstr"
-
+        const val CREATED_AT = "created_at"
+        const val CREATED_BY = "created_by"
+        const val UPDATED_AT = "updated_at"
+        const val UPDATED_BY = "updated_by"
     }
 }

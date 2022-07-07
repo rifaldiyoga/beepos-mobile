@@ -11,7 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bits.bee.bpmc.data.data_source.local.model.Printer
+import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
+import com.bits.bee.bpmc.domain.model.Printer
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -50,6 +53,8 @@ class SettingPrinterFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         SettingPrinterViewModel.UIEvent.RequestAddPrinter -> {
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(
+                                R.string.pref_is_scan), false)
                             val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(true, Gson().toJson(null))
                             findNavController().navigate(action)
                         }
@@ -81,9 +86,10 @@ class SettingPrinterFragment(
     private fun validateAdapter(){
         binding.apply {
             if (viewModel.get().isEmpty()){
+                lLBtnEmptyPrinter.visibility = View.VISIBLE
                 floatBtnTambah.visibility = View.GONE
             }else{
-                btnTambah.visibility = View.GONE
+                lLBtnEmptyPrinter.visibility = View.GONE
                 floatBtnTambah.visibility = View.VISIBLE
             }
         }
@@ -91,7 +97,13 @@ class SettingPrinterFragment(
     }
 
     private fun initAdapter(data: List<Printer>) {
-        printerAdapter = PrinterAdapter(data)
+        printerAdapter = PrinterAdapter(data, mListener = object : PrinterAdapter.PilihPrinterI{
+            override fun onItemClick(printer: Printer) {
+                val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(false, Gson().toJson(printer))
+                findNavController().navigate(action)
+            }
+
+        })
         binding.apply {
             rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
             rvListPrinter.adapter = printerAdapter

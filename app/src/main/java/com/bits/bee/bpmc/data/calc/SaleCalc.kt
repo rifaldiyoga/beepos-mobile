@@ -51,7 +51,6 @@ class SaleCalc {
                             nettprice.multiply(denominator, BPMConstants.MC_FOUR)
                                 .divide(numetor, BPMConstants.MC_FOUR), BPMConstants.MC_FOUR
                         )
-
                 } else {
                     saled.basePrice = saled.listPrice.setScale(roundVal, RoundingMode.HALF_UP)
                 }
@@ -88,9 +87,7 @@ class SaleCalc {
                     saled.totalTaxAmt  = BigDecimal.ZERO
                     saled.taxAmt = BigDecimal.ZERO
                 }
-                sale.taxAmt =
-                    sale.taxAmt
-                        .add(saled.totalTaxAmt.setScale(roundVal, BigDecimal.ROUND_HALF_UP))
+                sale.taxAmt = sale.taxAmt.add(saled.totalTaxAmt.setScale(roundVal, BigDecimal.ROUND_HALF_UP))
                 //            sale.setDiscamt(sale.discAmt.add(saled.totalDiscAmt).setScale(roundVal, RoundingMode.HALF_UP));
                 sale.subtotal = sale.subtotal.add(saled.subtotal.setScale(roundVal, BigDecimal.ROUND_HALF_UP))
                 saled.subtotal = saled.subtotal.setScale(roundVal, RoundingMode.HALF_UP)

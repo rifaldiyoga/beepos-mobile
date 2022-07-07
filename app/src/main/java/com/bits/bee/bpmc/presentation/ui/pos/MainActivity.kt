@@ -2,9 +2,11 @@ package com.bits.bee.bpmc.presentation.ui.pos
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +23,7 @@ import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
+import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.facebook.stetho.Stetho
@@ -68,7 +71,9 @@ class MainActivity(
                 viewModel.onClickMember()
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                setVisibilityToolbar(destination.id == R.id.invoiceFragment || destination.id == R.id.posFragment || destination.id == R.id.editItemDialog)
+                setVisibilityToolbar(destination.id)
+
+                setBackgroundToolbar(destination.id)
             }
         }
     }
@@ -135,12 +140,41 @@ class MainActivity(
         )
     }
 
-    private fun setVisibilityToolbar(isShow : Boolean){
+    private fun setVisibilityToolbar(destinationId: Int){
         binding.apply {
-            if(isShow)
+            if(destinationId == R.id.diskonNotaDialog || destinationId == R.id.invoiceFragment
+                || destinationId == R.id.posFragment || destinationId == R.id.editItemDialog
+                || destinationId == R.id.draftListDialog)
                 linearLayout10.visible()
             else
                 linearLayout10.gone()
+        }
+    }
+    
+    private fun setBackgroundToolbar(destinationId : Int){
+        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment) {
+            supportActionBar?.setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        R.color.white
+                    )
+                )
+            )
+            binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
+            binding.toolbar.navigationIcon?.let {
+                it.setTint(ContextCompat.getColor(this, R.color.black))
+            }
+        } else {
+            supportActionBar?.setBackgroundDrawable(
+                ColorDrawable(
+                    getColorFromAttr(R.attr.colorPrimary)
+                )
+            )
+            binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+            binding.toolbar.navigationIcon?.let {
+                it.setTint(ContextCompat.getColor(this, R.color.white))
+            }
         }
     }
 }

@@ -72,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/size16"
-        android:text="@string/rp_18_000"
+        android:text="@string/mata_uang_nominal"
         app:layout_constraintEnd_toStartOf="@+id/ivDelete"
         app:layout_constraintTop_toTopOf="@+id/tvQty" />
 
@@ -81,7 +81,7 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size6"
-        android:text="@string/rp_18_000"
+        android:text="@string/mata_uang_nominal"
         android:textColor="@color/dark_gray"
         android:textSize="@dimen/font12"
         app:layout_constraintEnd_toEndOf="@+id/tvHarga"

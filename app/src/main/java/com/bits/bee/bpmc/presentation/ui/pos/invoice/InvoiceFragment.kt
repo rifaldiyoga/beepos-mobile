@@ -60,6 +60,9 @@ class InvoiceFragment(
             btnBatal.setOnClickListener {
                 viewModel.onClickBatal()
             }
+            btnDraft.setOnClickListener {
+                viewModel.onClickDraft()
+            }
         }
     }
 
@@ -87,10 +90,15 @@ class InvoiceFragment(
                     when(it){
                         InvoiceViewModel.UIEvent.RequestBatal -> {
                             findNavController().popBackStack()
+                            mainViewModel.resetState()
                         }
                         InvoiceViewModel.UIEvent.RequestPembayaran -> {
                             val action = InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()
                             findNavController().navigate(action)
+                        }
+                        InvoiceViewModel.UIEvent.RequestDraft -> {
+                            mainViewModel.submitDraftTrans()
+                            findNavController().popBackStack()
                         }
                     }
                 }

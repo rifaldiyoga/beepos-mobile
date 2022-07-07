@@ -4,18 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,6 +66,20 @@ class PositemFragment(
                 },
                 mainViewModel.state.saledList
             )
+            posAdapter.addLoadStateListener { loadState ->
+                loadState.decideOnState(
+                    posAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+                    showLoading = {
+                        setVisibilityComponent(it)
+                    },
+                    showEmptyState = { isVisible ->
+                        binding.groupEmpty.isVisible = isVisible
+                    },
+                    showError = { it ->
+                        showSnackbar(it)
+                    }
+                )
+            }
             rvList.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = posAdapter
@@ -79,7 +98,7 @@ class PositemFragment(
                     it?.let {
                         it.bp?.let { bp ->
                             viewModel.state.priceLvlId = bp.priceLvlId
-                            viewModel.loadItem()
+                            viewModel.loadItem(bp)
                         }
                         posAdapter.submitSaledList(it.saledList)
 //                        it.channel?.let { channel ->
@@ -97,40 +116,46 @@ class PositemFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         it.itemGroup?.let {
-                            viewModel.loadItem()
+                            viewModel.loadItem(mainViewModel.state.bp!!)
                         }
-                        if(it.itemList.isEmpty())
-                            binding.groupEmpty.visible()
-                        else
-                            binding.groupEmpty.gone()
-
-                        posAdapter.submitList(it.itemList)
                     }
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
+            posAdapter.loadStateFlow.collectLatest {
+                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                    if (posAdapter.itemCount == 0)
+                        binding.groupEmpty.visible()
+                    else
+                        binding.groupEmpty.gone()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.itemList.collectLatest {
-                    when(it.status){
-                        Resource.Status.LOADING -> {
-                            setVisibilityComponent(true)
-                        }
-                        Resource.Status.SUCCESS -> {
-                            setVisibilityComponent(false)
-                            it.data?.let { data ->
-                                viewModel.updateState(
-                                    viewModel.state.copy(
-                                        itemList = data
-                                    )
-                                )
-                            }
-                        }
-                        Resource.Status.ERROR -> {
-                            setVisibilityComponent(false)
+                viewModel.itemList.collect {
+                    posAdapter.submitData(it)
 
-                        }
-                    }
+//                    when(it.status){
+//                        Resource.Status.LOADING -> {
+//                            setVisibilityComponent(true)
+//                        }
+//                        Resource.Status.SUCCESS -> {
+//                            setVisibilityComponent(false)
+//                            it.data?.let { data ->
+//                                viewModel.updateState(
+//                                    viewModel.state.copy(
+//                                        itemList = data
+//                                    )
+//                                )
+//                            }
+//                        }
+//                        Resource.Status.ERROR -> {
+//                            setVisibilityComponent(false)
+//
+//                        }
+//                    }
                 }
             }
         }

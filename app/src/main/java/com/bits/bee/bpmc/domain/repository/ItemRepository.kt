@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
+import androidx.paging.PagingData
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemResponse
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.utils.Resource
@@ -14,6 +15,6 @@ interface ItemRepository {
 
     fun getActiveItemListByItemGrp(itemGrpId : Int) : Flow<List<Item>>
 
-    fun getActiveItemList() : Flow<List<Item>>
+    fun getActiveItemList(query : String) : Flow<PagingData<Item>>
 
 }

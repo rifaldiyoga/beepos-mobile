@@ -14,7 +14,7 @@ interface BaseInterface {
 
     fun subscribeObservers()
 
-    fun showSnackbar(@StringRes message: Int)
+    fun showSnackbar(message: String)
 
     fun showSnackbarWithAction(
         @StringRes message: Int,

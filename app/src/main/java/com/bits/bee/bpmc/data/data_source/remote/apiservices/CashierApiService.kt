@@ -13,7 +13,7 @@ import retrofit2.http.Query
  */
 interface CashierApiService {
 
-    @GET("master/cashier")
+    @GET("v1/cashier")
     fun getCashierList(@Query("branch_id") branchId : Int) : Flow<ApiResponse<CashierResponse>>
 
 }

@@ -5,6 +5,9 @@ import com.bits.bee.bpmc.domain.mapper.SaledDataMapper
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaledRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -24,4 +27,9 @@ class SaledRepositoryImpl @Inject constructor(
             saledDao.insertBulk(saledNew)
         }
     }
+
+    override fun getSaledList(saleId: Int): Flow<List<Saled>> = flow {
+        val saledList = saledDao.getSaledList(saleId)
+        emit(saledList.map { SaledDataMapper.fromDataToDomain(it) })
+    }.flowOn(defaultDispatcher)
 }

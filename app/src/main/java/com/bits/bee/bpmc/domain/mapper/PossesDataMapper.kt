@@ -19,7 +19,7 @@ object PossesDataMapper : BaseMapper<PossesEntity, Posses>() {
             model.total,
             model.credit,
             model.shift,
-            model.operatorId,
+            model.userId,
             model.cashierId,
             model.trxNo,
             model.totIn,

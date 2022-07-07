@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos_item
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemUseCase
@@ -26,10 +28,10 @@ class PosItemViewModel @Inject constructor(
         state = PosItemState()
     }
 
-    var itemList : Flow<Resource<List<Item>>> = MutableSharedFlow(1)
+    var itemList : Flow<PagingData<Item>> = MutableSharedFlow(1)
 
-    fun loadItem() = viewModelScope.launch {
-        itemList = getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId)
+    fun loadItem(bp : Bp) = viewModelScope.launch {
+        itemList = getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId, bp)
     }
 
     fun onReciveItemGroup(itemGroup: ItemGroup) = viewModelScope.launch {

@@ -3,17 +3,19 @@ package com.bits.bee.bpmc.data.data_source.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
-import com.bits.bee.bpmc.data.data_source.local.model.User
+import com.bits.bee.bpmc.data.data_source.local.model.UserEntity
 
 /**
  * Created by aldi on 23/03/22.
  */
 
 @Dao
-interface UserDao : BaseDao<User>{
+interface UserDao : BaseDao<UserEntity>{
 
-    @Query("SELECT * FROM user")
-    fun geActiveUser() : User?
+    @Query("SELECT * FROM user WHERE active = 1")
+    fun geActiveUser() : UserEntity
 
+    @Query("DELETE FROM user")
+    fun deleteAll()
 
 }

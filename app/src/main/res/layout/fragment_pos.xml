@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/clContent"
     android:layout_height="match_parent">
 
     <com.google.android.material.tabs.TabLayout
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/size16"
-                android:text="@string/rp_18_000"
+                android:text="@string/mata_uang_nominal"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView7"

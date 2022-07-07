@@ -1,8 +1,11 @@
 package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import com.bits.bee.bpmc.data.data_source.local.model.SaleEntity
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
+import java.util.*
 
 /**
  * Created by aldi on 20/05/22.
@@ -15,9 +18,9 @@ data class Sale (
     var isDraft : Boolean = false,
     var subtotal : BigDecimal = BigDecimal.ZERO,
     var total : BigDecimal = BigDecimal.ZERO,
-    var oprName: String = "",
+    var userName: String = "",
     var cashiername : String = "",
-    var trxDate : Long = -1,
+    var trxDate : Date = Date(),
     var totPaid : BigDecimal = BigDecimal.ZERO,
     var totChange: BigDecimal = BigDecimal.ZERO,
     var taxAmt : BigDecimal = BigDecimal.ZERO,
@@ -38,4 +41,8 @@ data class Sale (
     var rounding: BigDecimal = BigDecimal.ZERO,
     var channelId: Int = -1,
     var voidNote: String = "",
+    var createdAt: Date = Date(),
+    var createdBy: Int = -1,
+    var updatedAt: Date = Date(),
+    var updatedBy: Int = -1,
 ) : Parcelable

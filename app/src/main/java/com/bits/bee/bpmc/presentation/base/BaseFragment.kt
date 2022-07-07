@@ -53,7 +53,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), BaseInterface {
 
     abstract override fun subscribeObservers()
 
-    override fun showSnackbar(message: Int) =
+    override fun showSnackbar(message: String) =
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
 
     override fun showSnackbarWithAction(

@@ -11,6 +11,8 @@ import java.math.RoundingMode
  */
 interface BPMConstants {
     companion object {
+        const val BPM_LIMIT_PAGINATION = 10
+        const val BPM_MAX_PAGINATION = 30
         const val BPM_DEFAULT_TYPE_CASH_POSSES = "POSSES"
         const val BPM_DEFAULT_TYPE_CASH_CADJ = "CADJ"
         const val BPM_DEFAULT_TYPE_CASH_CSTR = "CSTR"

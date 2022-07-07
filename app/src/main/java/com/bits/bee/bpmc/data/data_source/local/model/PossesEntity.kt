@@ -9,12 +9,12 @@ import java.util.*
 
 @Entity(tableName = PossesEntity.TBL_NAME,
     foreignKeys = [
-//        ForeignKey(
-//            entity = Operator::class,
-//            parentColumns = [Operator.ID],
-//            childColumns = [PossesEntity.OPERATOR_ID],
-//            onDelete = ForeignKey.CASCADE
-//        ),
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = [UserEntity.ID],
+            childColumns = [PossesEntity.USER_ID],
+            onDelete = ForeignKey.CASCADE
+        ),
         ForeignKey(
             entity = CashierEntity::class,
             parentColumns = [CashierEntity.ID],
@@ -37,13 +37,13 @@ data class PossesEntity(
     @ColumnInfo(name = END_BAL)
     var endBal : BigDecimal?,
     @ColumnInfo(name = TOTAL)
-    var total: BigDecimal ,
+    var total: BigDecimal,
     @ColumnInfo(name = CREDIT)
     var credit : BigDecimal,
     @ColumnInfo(name = SHIFT)
     var shift : Int,
-    @ColumnInfo(name = OPERATOR_ID, index = true)
-    var operatorId : Int,
+    @ColumnInfo(name = USER_ID, index = true)
+    var userId : Int,
     @ColumnInfo(name = CASHIER_ID, index = true)
     var cashierId: Int,
     @ColumnInfo(name = TRXNO)
@@ -71,7 +71,7 @@ data class PossesEntity(
         const val TOTAL = "total"
         const val CREDIT = "credit"
         const val SHIFT = "shift"
-        const val OPERATOR_ID = "op_id"
+        const val USER_ID = "user_id"
         const val CASHIER_ID = "cashier_id"
         const val TRXNO = "trxno"
         const val KODE_POSSES = "kode_posses"
@@ -80,6 +80,7 @@ data class PossesEntity(
         const val ENDCASH = "endcash"
         const val TOTAL_ACTUAL_CASH = "totactualcash"
         const val TOTAL_DIFF_CASH = "totdiffcash"
+
 
     }
 }

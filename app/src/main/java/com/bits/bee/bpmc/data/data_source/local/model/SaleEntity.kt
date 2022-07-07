@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.data.data_source.local.model
 
 import androidx.room.*
 import java.math.BigDecimal
+import java.util.*
 
 @Entity(tableName = SaleEntity.TBL_NAME,
     foreignKeys = [
@@ -12,9 +13,9 @@ import java.math.BigDecimal
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = OperatorEntity::class,
-            parentColumns = [OperatorEntity.ID],
-            childColumns = [SaleEntity.OPERATOR_ID],
+            entity = UserEntity::class,
+            parentColumns = [UserEntity.ID],
+            childColumns = [SaleEntity.USER_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -23,9 +24,9 @@ import java.math.BigDecimal
             childColumns = [SaleEntity.CASHIER_ID]
         ),
         ForeignKey(
-            entity = OperatorEntity::class,
-            parentColumns = [OperatorEntity.ID],
-            childColumns = [Cadj.OPERATOR_ID],
+            entity = UserEntity::class,
+            parentColumns = [UserEntity.ID],
+            childColumns = [CadjEntity.OPERATOR_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -61,7 +62,7 @@ data class SaleEntity(
     @ColumnInfo(name = CASHIERNAME)
     var cashiername : String = "",
     @ColumnInfo(name = TRXDATE)
-    var trxDate : Long = -1,
+    var trxDate : Date = Date(),
     @ColumnInfo(name = TOTPAID)
     var totPaid : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = TOTCHANGE)
@@ -76,14 +77,14 @@ data class SaleEntity(
     var kodePosses : String = "",
     @ColumnInfo(name = DISCEXP)
     var discExp : String = "",
-    @ColumnInfo(name = OPERATOR_ID, index = true)
-    var operatorId: Int = -1,
+    @ColumnInfo(name = USER_ID, index = true)
+    var userId: Int = -1,
     @ColumnInfo(name = CASHIER_ID, index = true)
     var cashierId: Int = -1,
     @ColumnInfo(name = BP_ID, index = true)
     var bpId: Int = -1,
-    @ColumnInfo(name = CUST)
-    var custName : String = "",
+    @ColumnInfo(name = BP_NAME)
+    var bpName : String = "",
     @ColumnInfo(name = TERMTYPE)
     var termType: String = "",
     @ColumnInfo(name = ISUPLOAD)
@@ -102,6 +103,14 @@ data class SaleEntity(
     var channelId: Int = -1,
     @ColumnInfo(name = VOID_NOTE)
     var voidNote: String = "",
+    @ColumnInfo(name = CREATED_AT)
+    var createdAt: Date = Date(),
+    @ColumnInfo(name = CREATED_BY)
+    var createdBy: Int = -1,
+    @ColumnInfo(name = UPDATED_AT)
+    var updatedAt: Date = Date(),
+    @ColumnInfo(name = UPDATED_BY)
+    var updatedBy: Int = -1,
 ) {
     companion object {
         const val TBL_NAME = "sale"
@@ -122,10 +131,10 @@ data class SaleEntity(
         const val DISCEXP = "discexp"
         const val POSSES_ID = "posses_id"
         const val POS_KODE = "kode_posses"
-        const val OPERATOR_ID = "op_id"
+        const val USER_ID = "op_id"
         const val CASHIER_ID = "cashier_id"
         const val BP_ID = "bp_id"
-        const val CUST = "cust"
+        const val BP_NAME = "bp_name"
         const val TERMTYPE = "termtype"
         const val ISUPLOAD = "isuploaded"
         const val ISVOID = "isvoid"
@@ -135,6 +144,10 @@ data class SaleEntity(
         const val ROUNDING = "rounding"
         const val CHANNEL_ID = "channel_id"
         const val VOID_NOTE = "void_note"
+        const val CREATED_AT = "created_at"
+        const val CREATED_BY = "created_by"
+        const val UPDATED_AT = "updated_at"
+        const val UPDATED_BY = "updated_by"
 
     }
 }

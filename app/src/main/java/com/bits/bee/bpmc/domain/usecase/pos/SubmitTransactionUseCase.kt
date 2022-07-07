@@ -1,10 +1,16 @@
 package com.bits.bee.bpmc.domain.usecase.pos
 
-import com.bits.bee.bpmc.data.data_source.local.dao.SaleDao
+import com.bits.bee.bpmc.data.data_source.local.dao.*
+import com.bits.bee.bpmc.domain.mapper.BranchDataMapper
+import com.bits.bee.bpmc.domain.mapper.CashierDataMapper
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.repository.*
-import kotlinx.coroutines.flow.collect
+import com.bits.bee.bpmc.domain.repository.SaleRepository
+import com.bits.bee.bpmc.domain.repository.SaledRepository
+import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -13,37 +19,45 @@ import javax.inject.Inject
 class SubmitTransactionUseCase @Inject constructor(
     private val saleRepository: SaleRepository,
     private val saledRepository: SaledRepository,
-    private val possesRepository: PossesRepository,
-    private val cashierRepository: CashierRepository,
-    private val operatorRepository: OperatorRepository,
-    private val saleDao: SaleDao
+    private val branchDao: BranchDao,
+    private val cashierDao: CashierDao,
+    private val userDao: UserDao,
+    private val possesDao: PossesDao,
+    private val saleDao: SaleDao,
+    private val defDispatcher: CoroutineDispatcher
 ){
 
     suspend operator fun invoke(sale : Sale, saled : List<Saled>) {
-        possesRepository.getActivePosses().collect {
-            it?.let {
-                sale.possesId = it.possesId!!
-            }
-        }
-        cashierRepository.getActiveCashier().collect {
-            it?.let {
+        withContext(defDispatcher){
+            val branch = branchDao.getActiveBranch()
+            val cashier = cashierDao.getActiveCashier()
+            val user = userDao.geActiveUser()
+            val posses = possesDao.getActivePosses()
+
+
+            cashier?.let {
                 sale.cashierId = it.id
                 sale.cashiername = it.cashierName
             }
-        }
-        operatorRepository.getActiveOperator().collect {
-            it?.let {
+            user.let {
                 sale.operatorId = it.id
-                sale.oprName = it.operator
+                sale.userName = it.name
             }
+            posses?.let {
+                sale.possesId = it.possesId!!
+                sale.kodePosses = it.trxNo
+            }
+
+
+            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1,BranchDataMapper.fromDataToDomain(branch!!), CashierDataMapper.fromDataToDomain(cashier!!))
+            sale.trxDate = Date()
+            val id = saleRepository.addSale(sale)
+
+            saled.map {
+                it.saleId = id.toInt()
+            }
+            saledRepository.addSaled(saled)
+
         }
-
-        val id = saleRepository.addSale(sale)
-
-
-        saled.map {
-            it.saleId = id.toInt()
-        }
-        saledRepository.addSaled(saled)
     }
 }

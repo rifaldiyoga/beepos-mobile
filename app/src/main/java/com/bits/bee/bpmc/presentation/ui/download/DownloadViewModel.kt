@@ -183,6 +183,44 @@ class DownloadViewModel @Inject constructor (
                     _state.update {
                         it.copy(status = "Finish Downloading Operator")
                     }
+                    downloadCrc()
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private fun downloadCrc() = viewModelScope.launch {
+        downloadInteractor.getLatestCrcUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading Crc")
+                    }
+                    downloadCmp()
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private fun downloadCmp() = viewModelScope.launch {
+        downloadInteractor.getLatestCmpUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading Cmp")
+                    }
                 }
                 Resource.Status.ERROR -> {
 

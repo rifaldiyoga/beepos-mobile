@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item >
-        <shape android:shape="rectangle">
-            <solid android:color="?colorPrimary"/>
-
-            <size android:width="@dimen/size65"
-                android:height="@dimen/size45"/>
-
-            <corners android:radius="@dimen/size500"/>
-
-        </shape>
-    </item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/ic_percent_white"
         android:gravity="center"
-        android:width="@dimen/size32"
-        android:height="@dimen/size32"
+        android:state_checked="true"
+        android:width="@dimen/size24"
+        android:height="@dimen/size24"
         />
 
-</layer-list>
+
+    <item android:drawable="@drawable/ic_percent_white"
+        android:gravity="center"
+        android:state_checked="false"
+        android:width="@dimen/size24"
+        android:height="@dimen/size24"
+        />
+
+</selector>

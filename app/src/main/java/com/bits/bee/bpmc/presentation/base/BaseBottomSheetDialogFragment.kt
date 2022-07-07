@@ -56,7 +56,7 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
 
     abstract override fun subscribeObservers()
 
-    override fun showSnackbar(@StringRes message: Int) =
+    override fun showSnackbar(message: String) =
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
 
     override fun showSnackbarWithAction(

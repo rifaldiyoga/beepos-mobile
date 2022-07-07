@@ -1,7 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.os.Bundle
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,7 +19,6 @@ import com.bits.bee.bpmc.utils.Resource
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -38,6 +38,47 @@ class PosFragment(
 
     private val mainViewModel : MainViewModel by activityViewModels()
 
+    private lateinit var searchView: SearchView
+    private lateinit var draftMenu: MenuItem
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_pos, menu)
+        val searchItem = menu.findItem(R.id.menu_search)
+        searchView = searchItem.actionView as SearchView
+        draftMenu = menu.findItem(R.id.menu_draft)
+
+        searchView.setOnSearchClickListener {
+            draftMenu.isVisible = false
+        }
+        searchView.setOnCloseListener(SearchView.OnCloseListener {
+            draftMenu.isVisible = false
+            return@OnCloseListener false
+        })
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+           R.id.menu_draft -> {
+               viewModel.onClickDraft()
+           }
+            R.id.menu_diskon -> {
+                viewModel.onClickDiskonNota()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun initComponents() {
         binding.apply {
 
@@ -46,15 +87,9 @@ class PosFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-//            clChannel.setOnClickListener {
-//                viewModel.onClickChannel()
-//            }
-//            clMember.setOnClickListener {
-//                viewModel.onClickMember()
-//            }
+
             llNext.setOnClickListener {
                 viewModel.onClickInvoice()
-
             }
         }
     }
@@ -66,6 +101,10 @@ class PosFragment(
                     it?.let {
                         binding.tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(getQtyDetail(it.saledList)))
                         binding.tvSubtotal.text = CurrencyUtils.formatCurrency(it.sale.total)
+
+                        binding.llNext.visibility = if(it.saledList.isEmpty()) View.GONE else View.VISIBLE
+
+//                        TransitionManager.beginDelayedTransition(binding.clContent)
                     }
                 }
             }
@@ -76,6 +115,14 @@ class PosFragment(
                     when(event) {
                         PosViewModel.UIEvent.RequestInvoice -> {
                             val action = PosFragmentDirections.actionPosFragmentToInvoiceFragment()
+                            findNavController().navigate(action)
+                        }
+                        PosViewModel.UIEvent.NavigateToDraft -> {
+                            val action = PosFragmentDirections.actionPosFragmentToDraftListDialog()
+                            findNavController().navigate(action)
+                        }
+                        PosViewModel.UIEvent.NavigateToDiskonNota -> {
+                            val action = PosFragmentDirections.actionPosFragmentToDiskonNotaDialog()
                             findNavController().navigate(action)
                         }
                     }

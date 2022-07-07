@@ -71,8 +71,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao, unitDao: UnitDao, priceDao: PriceDao, defaultDispatcher: CoroutineDispatcher, itemGroupDao: ItemGroupDao, priceLvlDao: PriceLvlDao) : ItemRepository {
-        return ItemRepositoryImpl(apiUtils, itemDao, itemGroupDao, priceLvlDao, priceDao, unitDao, defaultDispatcher)
+    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao, unitDao: UnitDao, priceDao: PriceDao, defaultDispatcher: CoroutineDispatcher, itemGroupDao: ItemGroupDao, priceLvlDao: PriceLvlDao, itemSaleTaxDao: ItemSaleTaxDao) : ItemRepository {
+        return ItemRepositoryImpl(
+            apiUtils =  apiUtils,
+            itemDao = itemDao,
+            itemGroupDao = itemGroupDao,
+            itemSaleTaxDao = itemSaleTaxDao,
+            priceLvlDao = priceLvlDao,
+            unitDao = unitDao,
+            defaultDispatcher = defaultDispatcher,
+            priceDao = priceDao
+        )
     }
 
     @Provides
@@ -131,8 +140,20 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideOperatorRepository(operatorDao: OperatorDao, defaultDispatcher: CoroutineDispatcher): OperatorRepository{
-        return OperatorRepositoryImpl( defaultDispatcher, operatorDao)
+    fun provideUserRepository(operatorDao: UserDao, defaultDispatcher: CoroutineDispatcher): UserRepository{
+        return UserRepositoryImpl(operatorDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCrcRepository(operatorDao: CrcDao, defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils): CrcRepository{
+        return CrcRepositoryImpl( defaultDispatcher, operatorDao, apiUtils)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCmpRepository(operatorDao: CmpDao, defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils): CmpRepository{
+        return CmpRepositoryImpl( defaultDispatcher, operatorDao, apiUtils)
     }
 
 }

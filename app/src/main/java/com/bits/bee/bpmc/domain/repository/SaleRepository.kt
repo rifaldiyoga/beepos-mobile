@@ -12,4 +12,6 @@ interface SaleRepository {
 
     fun getLatestSaleList() : Flow<List<Sale>>
 
+    fun getLatestDraftList() : Flow<List<Sale>>
+
 }

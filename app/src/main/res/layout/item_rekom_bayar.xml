@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@drawable/bg_rect_stroke_light_gray"
-        android:text="@string/rp_18_000"
+        android:text="@string/mata_uang_nominal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

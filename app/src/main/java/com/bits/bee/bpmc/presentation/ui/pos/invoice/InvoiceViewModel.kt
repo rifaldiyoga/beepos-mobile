@@ -27,9 +27,14 @@ class InvoiceViewModel @Inject constructor() : ViewModel(){
         eventChannel.send(UIEvent.RequestBatal)
     }
 
+    fun onClickDraft() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDraft)
+    }
+
     sealed class UIEvent {
         object RequestPembayaran : UIEvent()
         object RequestBatal : UIEvent()
+        object RequestDraft : UIEvent()
     }
 
 }

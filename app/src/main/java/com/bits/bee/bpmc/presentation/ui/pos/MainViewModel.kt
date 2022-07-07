@@ -9,6 +9,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.SubmitDraftTransactionUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.SubmitTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -34,6 +35,7 @@ class MainViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val submitTransactionUseCase: SubmitTransactionUseCase,
+    private val submitDraftTransactionUseCase: SubmitDraftTransactionUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     private val roundVal = 0
@@ -150,6 +152,11 @@ class MainViewModel @Inject constructor(
 
     fun submitTrans() = viewModelScope.launch {
         submitTransactionUseCase(state.sale, state.saledList)
+    }
+
+    fun submitDraftTrans() = viewModelScope.launch {
+        submitDraftTransactionUseCase(state.sale, state.saledList)
+        resetState()
     }
 
     fun resetState(){

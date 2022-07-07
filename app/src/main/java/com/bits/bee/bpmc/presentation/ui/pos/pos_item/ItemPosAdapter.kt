@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,7 @@ class ItemPosAdapter constructor(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
     private var saledList : List<Saled>
-) : ListAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()){
+) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()){
 
     fun submitSaledList(list : List<Saled>) {
         this.saledList = list
@@ -53,8 +54,8 @@ class ItemPosAdapter constructor(
         fun bind(item : Item){
             binding.apply {
                 var qty = getSumQty(item)
-                tvNamaItem.text = item.name1
-                tvHarga.text = CurrencyUtils.formatCurrency(item.price)
+                tvNamaItem.text =  item.name1
+                tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,"Rp.", CurrencyUtils.formatCurrency(item.price))
                 tvQty.text = CurrencyUtils.formatCurrency(qty)
                 val generatorCol = ColorGenerator.MATERIAL
                 val text = getInitial(item.name1)

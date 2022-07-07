@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size8"
-            android:text="@string/rp_18_000"
+            android:text="@string/mata_uang_nominal"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

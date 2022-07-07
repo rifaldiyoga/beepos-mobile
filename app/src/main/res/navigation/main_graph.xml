@@ -9,13 +9,19 @@
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment"
-        android:label="Pos" >
+        android:label="@string/pos" >
         <action
             android:id="@+id/action_posFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
         <action
             android:id="@+id/action_posFragment_to_memberFragment"
             app:destination="@id/memberFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_draftListDialog"
+            app:destination="@id/draftListDialog" />
+        <action
+            android:id="@+id/action_posFragment_to_diskonNotaDialog"
+            app:destination="@id/diskonNotaDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -69,6 +75,12 @@
         <action
             android:id="@+id/action_invoiceFragment_to_editItemDialog"
             app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_draftListDialog"
+            app:destination="@id/draftListDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_diskonNotaDialog"
+            app:destination="@id/diskonNotaDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
@@ -137,5 +149,24 @@
             app:popUpToInclusive="true"
             android:id="@+id/action_transaksiBerhasilFragment_to_posFragment" />
     </fragment>
+    <dialog
+        tools:layout="@layout/dialog_draft_list"
+        android:id="@+id/draftListDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.draft_list.DraftListDialog"
+        android:label="DraftListDialog" >
+        <action
+            android:id="@+id/action_draftListDialog_to_draftFragment"
+            app:destination="@id/draftFragment" />
+    </dialog>
+    <fragment
+        tools:layout="@layout/fragment_draft_list"
+        android:id="@+id/draftFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.draft.DraftFragment"
+        android:label="DraftFragment" />
+    <dialog
+        tools:layout="@layout/dialog_diskon_nota"
+        android:id="@+id/diskonNotaDialog"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.diskon_nota.DiskonNotaDialog"
+        android:label="DiskonNotaDialog" />
 
 </navigation>

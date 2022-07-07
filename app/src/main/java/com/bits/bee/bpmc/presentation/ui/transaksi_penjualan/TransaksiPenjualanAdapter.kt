@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemTransaksiPenjualanBinding
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by aldi on 23/06/22.
  */
 class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : ListAdapter<Sale, RecyclerView.ViewHolder>(DiffCallback()){
+
+    private val hourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,6 +37,8 @@ class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : List
 
                 tvTotal.text = CurrencyUtils.formatCurrency(model.total)
 
+                tvJam.text = hourFormat.format(model.trxDate)
+
                 clContent.setOnClickListener {
                     onItemClick(model)
                 }
@@ -48,6 +54,5 @@ class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : List
         override fun areContentsTheSame(oldItem: Sale, newItem: Sale): Boolean {
             return oldItem == newItem
         }
-
     }
 }

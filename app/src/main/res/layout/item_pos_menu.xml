@@ -81,7 +81,7 @@
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size8"
-            android:text="@string/rp_18_000"
+            android:text="@string/mata_uang_nominal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

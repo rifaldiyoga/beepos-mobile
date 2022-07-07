@@ -11,7 +11,10 @@ import com.bits.bee.bpmc.data.data_source.local.model.SaleEntity
 @Dao
 interface SaleDao : BaseDao<SaleEntity> {
 
-    @Query("SELECT * FROM sale ORDER BY id DESC")
+    @Query("SELECT * FROM sale WHERE draft = 0 ORDER BY id DESC")
     fun getLatestSaleList() : List<SaleEntity>
+
+    @Query("SELECT * FROM sale WHERE draft = 1 ORDER BY id DESC")
+    fun getLatestDraftList() : List<SaleEntity>
 
 }

@@ -39,12 +39,6 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideUserDao(dbHelper: DbHelper) : UserDao {
-        return dbHelper.userDao
-    }
-
-    @Provides
-    @Singleton
     fun provideCityDao(dbHelper: DbHelper) : CityDao {
         return dbHelper.cityDao
     }
@@ -153,8 +147,26 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideOperatorDao(dbHelper: DbHelper): OperatorDao{
-        return dbHelper.operatorDao
+    fun provideUserDao(dbHelper: DbHelper): UserDao{
+        return dbHelper.userDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCrcDao(dbHelper: DbHelper): CrcDao{
+        return dbHelper.crcDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCmpDao(dbHelper: DbHelper): CmpDao{
+        return dbHelper.cmpDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemTaxDao(dbHelper: DbHelper): ItemSaleTaxDao{
+        return dbHelper.itemSaleTaxDao
     }
 
 }

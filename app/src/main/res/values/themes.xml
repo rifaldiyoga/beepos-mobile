@@ -22,6 +22,7 @@
         <item name="android:textSize">@dimen/font16</item>
         <item name="materialButtonStyle">@style/ParentButton</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Demo.BottomSheetDialog</item>
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
     </style>
 
 

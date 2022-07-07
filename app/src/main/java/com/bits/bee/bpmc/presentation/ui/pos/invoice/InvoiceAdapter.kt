@@ -18,7 +18,8 @@ import java.math.BigDecimal
  */
 class InvoiceAdapter(
     private val onItemClicK : (Saled) -> Unit,
-    private val onDeleteClick : (Saled) -> Unit
+    private val onDeleteClick : (Saled) -> Unit,
+    private val isDelete : Boolean = true
 ) : ListAdapter<Saled, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -50,6 +51,9 @@ class InvoiceAdapter(
                     tvLabelItem.visible()
                     tvHargaDiskon.visible()
                     tvLabelItem.text = "Diskon"
+                }
+                if(isDelete){
+                    ivDelete.gone()
                 }
 
                 tvAddon.gone()

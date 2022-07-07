@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.PmtdDao
-import com.bits.bee.bpmc.data.data_source.local.model.Pmtd
+import com.bits.bee.bpmc.data.data_source.local.model.PmtdEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.PmtdResponse
 import com.bits.bee.bpmc.domain.repository.PmtdRepository
@@ -19,13 +19,13 @@ class PmtdRepositoryImpl @Inject constructor(
     private val pmtdDao: PmtdDao
 ) : PmtdRepository {
 
-     override fun getPmtdList(): Flow<Resource<List<Pmtd>>> {
-        return object : NetworkDatabaseBoundResource<List<Pmtd>, PmtdResponse>(){
-            override suspend fun loadFormDB(): List<Pmtd>? {
+     override fun getPmtdList(): Flow<Resource<List<PmtdEntity>>> {
+        return object : NetworkDatabaseBoundResource<List<PmtdEntity>, PmtdResponse>(){
+            override suspend fun loadFormDB(): List<PmtdEntity>? {
                 return pmtdDao.getPmtdList()
             }
 
-            override fun shouldFetch(data: List<Pmtd>?): Boolean {
+            override fun shouldFetch(data: List<PmtdEntity>?): Boolean {
                 return true
             }
 

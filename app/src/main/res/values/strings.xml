@@ -38,6 +38,11 @@
     <string name="pref_name_printer">pref_name_printer</string>
     <string name="pref_address_printer">pref_address_printer</string>
     <string name="pref_sistem_datakitchen">pref_sistem_datakitchen</string>
+    <string name="pref_is_scan">pref_is_scan</string>
+    <string name="pref_rkp_customer">pref_rkp_customer</string>
+    <string name="pref_rkp_produk_channel">pref_rkp_produk_channel</string>
+    <string name="pref_rkp_faktur">pref_rkp_faktur</string>
+    <string name="pref_rkp_channel">pref_rkp_channel</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -223,6 +228,10 @@ apa?</string>
     <string name="opsional">(Opsional)</string>
     <string name="level_harga">Level Harga</string>
     <string name="detail_member">Detail Member</string>
+    <string name="data_dapur_diperbarui">Data Dapur Berhasil Diperbarui</string>
+    <string name="apakah_anda_ingin_memberbarui_printer">Apakah anda ingin mengatur printer lagi
+untuk memperbarui data dapur?</string>
+    <string name="atur_printer">Atur Printer</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>
@@ -253,7 +262,7 @@ apa?</string>
     <string name="title">Lorem Ipsum Dolor</string>
     <string name="simpan">Simpan</string>
     <string name="email_tidak_boleh_kosong">Email tidak boleh kosong</string>
-    <string name="rp_18_000">Rp. 18,000</string>
+    <string name="mata_uang_nominal">%1$s %2$s</string>
     <string name="jus_mangga">Jus Mangga</string>
     <string name="strip">-</string>
     <string name="channel">Channel :</string>
@@ -333,6 +342,7 @@ apa?</string>
     <string name="printer_kasir">Printer Kasir</string>
     <string name="printer_setoran">Printer Setoran</string>
     <string name="printer_kitchen">Printer Kitchen</string>
+    <string name="jumlah_dapur">Jumlah Dapur</string>
     <string name="tipe_bluetooth">Tipe Bluetooth</string>
     <string name="bluetooth">NP12434BT</string>
     <string name="id_mac_address">72:3C:61:1E:27:14</string>
@@ -432,5 +442,21 @@ apa?</string>
     <string name="saldo_akhir">Saldo Akhir</string>
     <string name="msg_validasi_tutup_kasir">Apakah anda yakin ingin melakukan tutup kasir ?</string>
     <string name="_2_transaksi">2 Transaksi</string>
+    <string name="tes_print">Tes Print</string>
+    <string name="kertas58">58 mm</string>
+    <string name="kertas80">80 mm</string>
+    <string name="rkp_customer">Rekap per Customer</string>
+    <string name="rkp_produk_channel">Rekap per Produk per Channel</string>
+    <string name="rkp_faktur">Rekap per Faktur</string>
+    <string name="rkp_channel">Rekap per channel</string>
+    <string name="diskon_nota">Diskon Nota</string>
+    <string name="daftar_promo">Daftar Promo</string>
+    <string name="selengkapnya">Selengkapnya</string>
+    <string name="tidak_ada_data_draft_saat_ini">Tidak ada data draft saat ini!</string>
+    <string name="tidak_ada_draft_yang_disimpan">Tidak ada draft yang disimpan</string>
+    <string name="transaksi_draft">Transaksi Draft</string>
+    <string name="tambah">Tambah</string>
+    <string name="hint_diskon_nota">Cth. 10% atau 10,000 atau 10% + 10,000</string>
+    <string name="untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2">Untuk diskon kombinasi, gunakan tanda + diantara diskon 1 dan diskon 2</string>
 
 </resources>

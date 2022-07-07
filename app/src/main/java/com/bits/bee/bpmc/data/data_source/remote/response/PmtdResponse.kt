@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.data_source.local.model.Pmtd
+import com.bits.bee.bpmc.data.data_source.local.model.PmtdEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -26,36 +26,36 @@ data class PmtdResponse (
 
     @Parcelize
     data class PmtdModel(
-        @SerializedName(Pmtd.ID)
+        @SerializedName(PmtdEntity.ID)
         val id : Int,
-        @SerializedName(Pmtd.IDX)
+        @SerializedName(PmtdEntity.IDX)
         val idx : Int,
-        @SerializedName(Pmtd.CODE)
+        @SerializedName(PmtdEntity.CODE)
         val code : String,
-        @SerializedName(Pmtd.NAME)
+        @SerializedName(PmtdEntity.NAME)
         val name: String,
-        @SerializedName(Pmtd.CASH_ID)
+        @SerializedName(PmtdEntity.CASH_ID)
         val cashId : Int,
-        @SerializedName(Pmtd.MDREXP)
+        @SerializedName(PmtdEntity.MDREXP)
         val mdrExp : Int,
-        @SerializedName(Pmtd.MDRACC)
+        @SerializedName(PmtdEntity.MDRACC)
         val mdrAcc : Int,
-        @SerializedName(Pmtd.SURCEXP)
+        @SerializedName(PmtdEntity.SURCEXP)
         val surExp : Int,
-        @SerializedName(Pmtd.SURCACC)
+        @SerializedName(PmtdEntity.SURCACC)
         val surAcc : Int,
-        @SerializedName(Pmtd.BRANCH_ID)
+        @SerializedName(PmtdEntity.BRANCH_ID)
         val branchId : Int,
-        @SerializedName(Pmtd.SETTLEDAYS)
+        @SerializedName(PmtdEntity.SETTLEDAYS)
         val settleDays : Int,
-        @SerializedName(Pmtd.CASH_NAME)
+        @SerializedName(PmtdEntity.CASH_NAME)
         val cashName : String,
-        @SerializedName(Pmtd.BRANCH_NAME)
+        @SerializedName(PmtdEntity.BRANCH_NAME)
         val branchName : String,
     ) : Parcelable {
 
-        fun toPmtd() : Pmtd {
-            return Pmtd(id, idx, code, name, cashId, mdrExp, mdrAcc, surExp, surAcc, branchId, settleDays, cashName, branchName)
+        fun toPmtd() : PmtdEntity {
+            return PmtdEntity(id, idx, code, name, cashId, mdrExp, mdrAcc, surExp, surAcc, branchId, settleDays, cashName, branchName)
         }
 
     }

@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.data_source.local.model.Pmtd
+import com.bits.bee.bpmc.data.data_source.local.model.PmtdEntity
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface PmtdRepository {
 
-    fun getPmtdList() : Flow<Resource<List<Pmtd>>>
+    fun getPmtdList() : Flow<Resource<List<PmtdEntity>>>
 
 }

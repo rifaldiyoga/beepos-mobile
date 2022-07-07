@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.data_source.local.model.Tax
+import com.bits.bee.bpmc.data.data_source.local.model.TaxEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -38,8 +38,8 @@ data class TaxResponse (
         val isDefault : Boolean,
     ) : Parcelable {
 
-        fun toTax() : Tax {
-            return Tax(-1, code, name, expr, isActive, isDefault)
+        fun toTax() : TaxEntity {
+            return TaxEntity(-1, code, name, expr, isActive, isDefault)
         }
 
     }

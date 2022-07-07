@@ -5,6 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="@dimen/size0"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:id="@+id/tvNamaItem"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/font18"
+            style="@style/TextHeader"
+            android:layout_height="wrap_content"
+            tools:text="Ovaltine Swiss Choco"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/textView45"
         android:layout_width="wrap_content"
@@ -13,7 +35,7 @@
         android:text="@string/addon"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +44,7 @@
         android:text="@string/ubah"
         android:textColor="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAddon"
@@ -88,28 +110,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
         android:layout_marginEnd="@dimen/size16"
-        app:layout_constraintEnd_toStartOf="@+id/switch1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/hint_diskon_nota"
         app:layout_constraintStart_toStartOf="@+id/textView46"
         app:layout_constraintTop_toBottomOf="@+id/textView48" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView99"
+        android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/etDiskon"
-        app:layout_constraintEnd_toEndOf="@+id/etHarga"
-        app:layout_constraintTop_toTopOf="@+id/etDiskon"
-        app:track="@drawable/track_selector_diskon" />
+        android:layout_marginStart="@dimen/size16"
+        android:layout_marginTop="@dimen/size8"
+        android:layout_marginEnd="@dimen/size16"
+        android:text="@string/untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDiskon" />
+
 
     <TextView
         android:id="@+id/textView49"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size16"
         android:text="@string/catatan"
+        android:layout_marginTop="@dimen/size16"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/textView46"
-        app:layout_constraintTop_toBottomOf="@+id/etDiskon" />
+        app:layout_constraintTop_toBottomOf="@+id/textView99" />
 
     <EditText
         android:id="@+id/etCatatan"
@@ -138,10 +165,11 @@
         android:src="@drawable/ic_circle_minus"
         app:layout_constraintBottom_toBottomOf="@+id/etQty"
         app:layout_constraintEnd_toStartOf="@+id/etQty"
+        android:layout_marginEnd="@dimen/size16"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView50" />
+        app:layout_constraintTop_toTopOf="@+id/etQty" />
 
     <EditText
         android:id="@+id/etQty"
@@ -161,14 +189,66 @@
         app:layout_constraintBottom_toBottomOf="@+id/etQty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginStart="@dimen/size16"
         app:layout_constraintStart_toEndOf="@+id/etQty"
         app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
+
+    <LinearLayout
+        android:id="@+id/llNext"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rect_primary"
+            android:padding="@dimen/size16">
+
+            <TextView
+                android:id="@+id/tvQty"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_1_produk"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSubtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size16"
+                android:text="@string/mata_uang_nominal"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_chevron_right_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupAddon"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="textView45,rvAddon" />
+        app:constraint_referenced_ids="textView45,rvAddon,view3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

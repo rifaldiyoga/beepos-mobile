@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
-            android:text="@string/rp_18_000"
+            android:text="@string/mata_uang_nominal"
             android:textSize="@dimen/font20" />
 
     </LinearLayout>

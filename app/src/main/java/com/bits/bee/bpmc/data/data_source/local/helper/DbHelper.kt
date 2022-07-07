@@ -8,21 +8,22 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
 
 
 @Database(entities = [
-    AddOn::class, AddOnD::class,
-    BpEntity::class, BranchEntity::class, Cadj::class, Cash::class,
-    CashA::class, CashierEntity::class, Cctype::class,
-    ChannelEntity::class, Regency::class, CstrEntity::class, Edc::class,
-    EdcSurc::class, GrpPrv::class, ItemEntity::class, ItemAddOn::class,
-    ItemBranch::class, ItemKitchen::class, ItemOnBoarding::class,
-    PriceEntity::class, ItemTax::class, ItemVariant::class,
-    ItemGroupEntity::class, Kitchen::class, License::class, OperatorEntity::class,
-    PossesEntity::class, PriceLvlEntity::class, Printer::class,
-    PrinterKitchen::class, PrinterKitchenD::class,
-    Promo::class, PromoMulti::class, Reg::class,
-    SaleEntity::class, Salecrcvs::class, SalePromo::class, Selection::class,
-    SelectionD::class, SaledEntity::class, Sync::class, Tax::class,
-    User::class, Usrgrp::class, Variant::class, CityEntity::class, BpAddrEntity::class,
-    Province::class, District::class, Pmtd::class, UnitEntity::class], version = 1, exportSchema = false)
+    AddOnEntity::class, AddOnDEntity::class,
+    BpEntity::class, BranchEntity::class, CadjEntity::class, CashEntity::class,
+    CashAEntity::class, CashierEntity::class, CctypeEntity::class,
+    ChannelEntity::class, RegencyEntity::class, CstrEntity::class, EdcEntity::class,
+    EdcSurcEntity::class, GrpPrvEntity::class, ItemEntity::class, ItemAddOnEntity::class,
+    ItemBranchEntity::class, ItemKitchenEntity::class, ItemOnBoardingEntity::class,
+    PriceEntity::class, ItemSaleTaxEntity::class, ItemVariantEntity::class,
+    ItemGroupEntity::class, KitchenEntity::class, LicenseEntity::class,
+    PossesEntity::class, PriceLvlEntity::class, PrinterEntity::class,
+    PrinterKitchenEntity::class, PrinterKitchenDEntity::class,
+    PromoEntity::class, PromoMultiEntity::class, RegEntity::class,
+    SaleEntity::class, SalecrcvsEntity::class, SalePromoEntity::class, SelectionEntity::class,
+    SelectionDEntity::class, SaledEntity::class, SyncEntity::class, TaxEntity::class,
+    UserEntity::class, UsrgrpEntity::class, VariantEntity::class, CityEntity::class, BpAddrEntity::class,
+    ProvinceEntity::class, DistrictEntity::class, PmtdEntity::class, UnitEntity::class, CmpEntity::class,
+    CrcEntity::class], version = 1, exportSchema = false)
 @TypeConverters(com.bits.bee.bpmc.data.data_source.local.converter.Converters::class)
 abstract class DbHelper : RoomDatabase() {
 
@@ -70,7 +71,11 @@ abstract class DbHelper : RoomDatabase() {
 
     abstract val kitchenDao: KitchenDao
 
-    abstract val operatorDao : OperatorDao
+    abstract val crcDao : CrcDao
+
+    abstract val cmpDao : CmpDao
+
+    abstract val itemSaleTaxDao : ItemSaleTaxDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

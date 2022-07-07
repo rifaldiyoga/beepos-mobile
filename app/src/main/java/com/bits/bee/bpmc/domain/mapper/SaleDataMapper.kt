@@ -16,7 +16,7 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale>(){
             isDraft = model.isDraft,
             subtotal = model.subtotal,
             total = model.total,
-            oprName = model.oprName,
+            userName = model.oprName,
             cashiername = model.cashiername,
             trxDate = model.trxDate,
             totPaid = model.totPaid,
@@ -26,10 +26,10 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale>(){
             possesId = model.possesId,
             kodePosses = model.kodePosses,
             discExp = model.discExp,
-            operatorId = model.operatorId,
+            operatorId = model.userId,
             cashierId = model.cashierId,
             bpId = model.cashierId,
-            custName = model.custName,
+            custName = model.bpName,
             termType = model.termType,
             isUploaded = model.isUploaded,
             isVoid = model.isVoid,
@@ -38,7 +38,11 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale>(){
             gopayPaymentStatus = model.gopayPaymentStatus,
             rounding = model.rounding,
             channelId = model.channelId,
-            voidNote = model.voidNote
+            voidNote = model.voidNote,
+            createdAt = model.createdAt,
+            createdBy = model.createdBy,
+            updatedAt = model.updatedAt,
+            updatedBy = model.updatedBy
         )
     }
 
@@ -50,7 +54,7 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale>(){
             isDraft = model.isDraft,
             subtotal = model.subtotal,
             total = model.total,
-            oprName = model.oprName,
+            oprName = model.userName,
             cashiername = model.cashiername,
             trxDate = model.trxDate,
             totPaid = model.totPaid,
@@ -60,10 +64,10 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale>(){
             possesId = model.possesId,
             kodePosses = model.kodePosses,
             discExp = model.discExp,
-            operatorId = model.operatorId,
+            userId = model.operatorId,
             cashierId = model.cashierId,
             bpId = model.cashierId,
-            custName = model.custName,
+            bpName = model.custName,
             termType = model.termType,
             isUploaded = model.isUploaded,
             isVoid = model.isVoid,
@@ -72,7 +76,11 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale>(){
             gopayPaymentStatus = model.gopayPaymentStatus,
             rounding = model.rounding,
             channelId = model.channelId,
-            voidNote = model.voidNote
+            voidNote = model.voidNote,
+            createdAt = model.createdAt,
+            createdBy = model.createdBy,
+            updatedAt = model.updatedAt,
+            updatedBy = model.updatedBy
         )
     }
 
