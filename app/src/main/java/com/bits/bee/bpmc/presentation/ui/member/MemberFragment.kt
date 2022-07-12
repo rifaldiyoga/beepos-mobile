@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
+import android.content.Context
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,14 +16,12 @@ import com.bits.bee.bpmc.databinding.FragmentMemberBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
-import com.bits.bee.bpmc.presentation.dialog.tipe_printer.TipePrinterDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -43,6 +41,7 @@ class MemberFragment(
     private lateinit var memberAdapter: MemberAdapter
 
     override fun initComponents() {
+        setHasOptionsMenu(true)
         binding.apply {
             memberAdapter = MemberAdapter(
                 onMemberClick = { model ->
@@ -79,18 +78,18 @@ class MemberFragment(
                 viewModel.event.collect {
                     when(it){
                         MemberViewModel.UIEvent.RequestAddMember -> {
-                            val action = MemberFragmentDirections.actionMemberFragmentToTambahMemberFragment()
+                            val action = MemberFragmentDirections.actionMemberFragmentToTambahMemberFragment(
+                                Gson().toJson(null))
                             findNavController().navigate(action)
                         }
-                        is MemberViewModel.UIEvent.RequestDetailMember -> {
-//                            val action = MemberFragmentDirections.actionMemberFragmentToDetailMemberDialog(it.model)
-//                            findNavController().navigate(action)
+                        is MemberViewModel.UIEvent.RequestPos -> {
+                            val action = MemberFragmentDirections.actionMemberFragmentToPosFragment()
                             mainViewModel.updateState(
                                 mainViewModel.state.copy(
                                     bp = it.model
                                 )
                             )
-                            findNavController().popBackStack()
+                            findNavController().navigate(action)
                         }
 
                         is MemberViewModel.UIEvent.RequestIconEye ->{
@@ -129,8 +128,10 @@ class MemberFragment(
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search_member, menu)
 
-        val searchItem = menu.findItem(R.id.search_member)
-        val searchView = searchItem.actionView as SearchView
+        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE)
+
+        var searchItem = menu.findItem(R.id.search_member)
+        var searchView = searchItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -141,10 +142,18 @@ class MemberFragment(
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                         viewModel.viewStates().collect {
-                            if (newText?.length == 0){
-
-                            }else if (newText!!.length >= 3){
-                                viewModel.onSearch(newText!!)
+                            it?.let {
+                                if (newText?.length == 0){
+                                    viewModel.onSearch("")
+                                    it.listBp?.let {
+                                        memberAdapter.submitList(it)
+                                    }
+                                }else if (newText!!.length >= 3){
+                                    viewModel.onSearch(newText!!.toString().trim())
+                                    it.listBp?.let {
+                                        memberAdapter.submitList(it)
+                                    }
+                                }
                             }
                         }
                     }
@@ -153,6 +162,13 @@ class MemberFragment(
             }
 
         })
+//        if (searchItem != null){
+//            searchView = searchItem.actionView as SearchView
+//        }
+//
+//        if (searchView != null){
+//            searchView.setSearchableInfo(searchManager)
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -186,6 +202,10 @@ class MemberFragment(
     private fun clearPref(){
         var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
         sharedPreferences.remove(getString(R.string.pref_city))
+        sharedPreferences.remove(getString(R.string.pref_add_member_name))
+        sharedPreferences.remove(getString(R.string.pref_add_member_notelp))
+        sharedPreferences.remove(getString(R.string.pref_add_member_email))
+        sharedPreferences.remove(getString(R.string.pref_add_member_alamat))
         sharedPreferences.commit()
     }
 }

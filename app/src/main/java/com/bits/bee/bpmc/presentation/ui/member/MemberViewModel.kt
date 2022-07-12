@@ -27,7 +27,7 @@ class MemberViewModel @Inject constructor(
     val memberList = memberInteractor.getFavoritMemberUseCase()
 
     fun onClickDetailMember(model : Bp) = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestDetailMember(model))
+        eventChannel.send(UIEvent.RequestPos(model))
     }
 
     fun onClickEye(model: Bp) = viewModelScope.launch {
@@ -37,6 +37,7 @@ class MemberViewModel @Inject constructor(
     fun onClickAddMember() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestAddMember)
     }
+
 
     fun onSearch(query: String) = viewModelScope.launch{
         updateState(
@@ -65,7 +66,7 @@ class MemberViewModel @Inject constructor(
 
     sealed class UIEvent {
         object RequestAddMember : UIEvent()
-        data class RequestDetailMember(val model : Bp): UIEvent()
+        data class RequestPos(val model : Bp): UIEvent()
         data class RequestIconEye(val model: Bp): UIEvent()
     }
 

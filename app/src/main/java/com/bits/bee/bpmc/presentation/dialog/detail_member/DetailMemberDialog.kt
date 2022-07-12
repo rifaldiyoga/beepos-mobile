@@ -45,7 +45,8 @@ class DetailMemberDialog(
                 viewModel.update(it)
             }
         }
-        viewModel.getBpaddr()
+        if (!viewModel.state.bp!!.code.equals("CASH"))
+            viewModel.getBpaddr()
     }
 
     override fun initComponents() {
@@ -112,8 +113,14 @@ class DetailMemberDialog(
                                 txtAlamat.text = it.address
                                 txtEmail.text = it.email
                             }
-                            it.regency?.let {
-                                txtKota.text = it.name
+                            if (it.district != null){
+                                it.regency?.let { data ->
+                                    txtKota.text = data.name+", "+it.district.name
+                                }
+                            }else{
+                                it.regency?.let {
+                                    txtKota.text = it.name
+                                }
                             }
                         }
                     }

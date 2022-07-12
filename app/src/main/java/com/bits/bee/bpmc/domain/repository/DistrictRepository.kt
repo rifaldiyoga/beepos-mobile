@@ -12,5 +12,9 @@ interface DistrictRepository {
 
     fun getLatestDistrict(page : Int): Flow<Resource<DistrictResponse>>
 
-    fun getDistrictByCode(code: String): Flow<Resource<List<District>>>
+    fun getListDistrictByCode(code: String): Flow<Resource<List<District>>>
+
+    fun getCodeByName(name: String): Flow<Resource<District>>
+
+    fun getNameByCode(code: String): Flow<Resource<District>>
 }

@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.cari_kecamatan
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.usecase.member.GetDistrictByCodeUseCase
+import com.bits.bee.bpmc.domain.usecase.member.GetListDistrictByCodeUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CariKecamatanViewModel @Inject constructor(
-    private val getDistrictByCodeUseCase: GetDistrictByCodeUseCase,
+    private val getListDistrictByCodeUseCase: GetListDistrictByCodeUseCase,
 //    private val getDistrictByCode
 ): BaseViewModel<CariKecamatanState, CariKecamatanViewModel.UIEvent>() {
 
@@ -19,7 +19,7 @@ class CariKecamatanViewModel @Inject constructor(
     }
 
     fun getDistrictByCode() = viewModelScope.launch{
-        getDistrictByCodeUseCase.invoke(state.cityPopuler!!.nama_city).collect {
+        getListDistrictByCodeUseCase.invoke(state.cityPopuler!!.nama_city).collect {
             it.data?.let {
                 updateState(
                     state.copy(

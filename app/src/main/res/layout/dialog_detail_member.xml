@@ -91,6 +91,72 @@
             app:layout_constraintTop_toBottomOf="@+id/textView53" />
 
         <TextView
+            android:id="@+id/textView56"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNoTelp" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/size6"-->
+<!--            android:text="@string/opsional"-->
+<!--            android:textSize="@dimen/font12"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@+id/textView56"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/textView56" />-->
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView56" />
+
+
+        <TextView
+            android:id="@+id/textView55"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/kota"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/size6"-->
+<!--            android:text="@string/opsional"-->
+<!--            android:textSize="@dimen/font12"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@+id/textView55"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/textView55" />-->
+
+        <TextView
+            android:id="@+id/txtKota"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/kota"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView55" />
+
+
+        <TextView
             android:id="@+id/textView54"
             style="@style/TextHeader"
             android:layout_width="wrap_content"
@@ -99,7 +165,7 @@
             android:layout_marginTop="@dimen/size16"
             android:text="@string/alamat"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNoTelp" />
+            app:layout_constraintTop_toBottomOf="@+id/txtKota" />
 
         <TextView
             android:id="@+id/txtAlamat"
@@ -112,6 +178,59 @@
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView54" />
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clInfoLainnya"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:background="@color/light_orange"
+            android:padding="@dimen/size16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAlamat">
+
+            <TextView
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text="@string/informasi_lainnya"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chevron_down"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView57"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/level_harga"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clInfoLainnya" />
+
+
+        <TextView
+            android:id="@+id/txtLevelHarga"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/_100_000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView55"
+            app:layout_constraintTop_toBottomOf="@+id/textView57" />
+
         <CheckBox
             android:id="@+id/cbTax"
             android:layout_width="wrap_content"
@@ -120,8 +239,8 @@
             android:layout_marginTop="@dimen/size16"
             android:paddingStart="@dimen/size12"
             android:text="@string/pajak"
-            app:layout_constraintStart_toStartOf="@+id/txtAlamat"
-            app:layout_constraintTop_toBottomOf="@+id/txtAlamat"
+            app:layout_constraintStart_toStartOf="@+id/txtLevelHarga"
+            app:layout_constraintTop_toBottomOf="@+id/txtLevelHarga"
             tools:ignore="RtlSymmetry" />
 
         <ImageView
@@ -156,132 +275,13 @@
             app:layout_constraintStart_toEndOf="@+id/cbTaxInc"
             app:layout_constraintTop_toTopOf="@+id/cbTaxInc" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clInfoLainnya"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size16"
-            android:background="@color/light_orange"
-            android:padding="@dimen/size16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbTaxInc">
-
-            <TextView
-                android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
-                android:text="@string/informasi_lainnya"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_down"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/textView55"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size16"
-            android:layout_marginTop="@dimen/size16"
-            android:text="@string/kota"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clInfoLainnya" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size6"
-            android:text="@string/opsional"
-            android:textSize="@dimen/font12"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView55"
-            app:layout_constraintStart_toEndOf="@+id/textView55" />
-
-        <TextView
-            android:id="@+id/txtKota"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size6"
-            android:layout_marginEnd="@dimen/size16"
-            android:text="@string/kota"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView55"
-            app:layout_constraintTop_toBottomOf="@+id/textView55" />
-
-        <TextView
-            android:id="@+id/textView56"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size16"
-            android:layout_marginTop="@dimen/size16"
-            android:text="@string/email"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtKota" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size6"
-            android:text="@string/opsional"
-            android:textSize="@dimen/font12"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView56"
-            app:layout_constraintStart_toEndOf="@+id/textView56" />
-
-        <TextView
-            android:id="@+id/txtEmail"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size6"
-            android:layout_marginEnd="@dimen/size16"
-            android:text="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView55"
-            app:layout_constraintTop_toBottomOf="@+id/textView56" />
-
-        <TextView
-            android:id="@+id/textView57"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size16"
-            android:layout_marginTop="@dimen/size16"
-            android:text="@string/level_harga"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
-
-
-        <TextView
-            android:id="@+id/txtLevelHarga"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size6"
-            android:layout_marginEnd="@dimen/size16"
-            android:text="@string/_100_000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView55"
-            app:layout_constraintTop_toBottomOf="@+id/textView57" />
-
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupLainnya"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="txtLevelHarga, textView1, textView2, textView55,txtKota,textView56,txtEmail,textView57" />
+            android:visibility="visible"
+            app:constraint_referenced_ids="txtLevelHarga, textView57, cbTax,cbTaxInc, imageInfoTax, imageInfoTaxInc" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -293,10 +293,11 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size16"
-        android:layout_marginTop="@dimen/size16"
+        android:layout_marginTop="@dimen/size20"
         android:background="@drawable/btn_rect_primary"
         android:text="@string/tutup"
         android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/nScroll"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

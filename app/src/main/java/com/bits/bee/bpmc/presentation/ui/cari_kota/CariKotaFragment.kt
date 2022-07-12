@@ -37,24 +37,9 @@ class CariKotaFragment(
 ) : BaseFragment<FragmentCariKotaBinding>() {
 
     private val viewModel : CariKotaViewModel by viewModels()
-    private var mDistrict: District? = null
 
     private lateinit var cityAdapterRekomendasi : RekomendasiKotaAdapter
     private lateinit var cityAdapterSearch : CariKotaAdapter
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        arguments?.let {
-            if (!it.getString("district").equals("null") && it.getString("district")?.isNotEmpty() == true){
-                mDistrict = Gson().fromJson(it.getString("district"), District::class.java)
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        district = mDistrict
-                    )
-                )
-            }
-        }
-    }
 
     override fun initComponents() {
         binding.apply {
@@ -62,20 +47,25 @@ class CariKotaFragment(
                 override fun onItemClick(city: CityPopuler) {
                     val action = CariKotaFragmentDirections.actionCariKotaFragmentToCariKecamatanFragment(
                         Gson().toJson(city))
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            etKota = city.nama_city
+                        )
+                    )
                     findNavController().navigate(action)
                 }
 
             })
-            cityAdapterSearch = CariKotaAdapter(mListener = object : CariKotaAdapter.PilihKotaI{
-                override fun onItemClick(city: City) {
-                    viewModel.updateState(
-                        viewModel.state.copy(
-                            etKota = city.name
-                        )
-                    )
-                }
-
-            })
+//            cityAdapterSearch = CariKotaAdapter(mListener = object : CariKotaAdapter.PilihKotaI{
+//                override fun onItemClick(city: City) {
+//                    viewModel.updateState(
+//                        viewModel.state.copy(
+//                            etKota = city.name
+//                        )
+//                    )
+//                }
+//
+//            })
             rvRekomendasi.apply {
                 layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
                 adapter = cityAdapterRekomendasi
@@ -108,8 +98,6 @@ class CariKotaFragment(
                 }else{
                     viewModel.saveValidate()
                 }
-//                doSave()
-//                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }
@@ -165,6 +153,9 @@ class CariKotaFragment(
                                 lLCityEmpty.gone()
 //                                rvCari.gone()
                             }
+                            it.etKota?.let {
+                                acSearch.setText(it)
+                            }
 //                            cityAdapterSearch.submitList(it.cityListCari)
 //                            if(it.cityListCari.size == 0 ){
 //                                lLCityEmpty.visibility = View.VISIBLE
@@ -176,24 +167,16 @@ class CariKotaFragment(
 //                                etCari.editableText
 //                                rvCari.gone()
 //                            }
-                            it.district?.let {
-//                                rvCari.gone()
-                                lLCityEmpty.gone()
-                                acSearch.setText(it.name)
-                            }
+//                            it.district?.let {
+////                                rvCari.gone()
+//                                lLCityEmpty.gone()
+//                                acSearch.setText(it.name)
+//                            }
                         }
                     }
                 }
             }
         }
-    }
-
-
-    private fun doSave(){
-
-
-//        viewModel.saveValidate(str)
-//        BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_is_city), true)
     }
 
 

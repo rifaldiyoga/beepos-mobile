@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.dialog.detail_member
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.member.GetBpAddrByBpUseCase
+import com.bits.bee.bpmc.domain.usecase.member.GetDistrictByCodeUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailMemberViewModel @Inject constructor(
     private val getBpAddrByBpUseCase: GetBpAddrByBpUseCase,
-    private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase
+    private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase,
+    private val getDistrictByCodeUseCase: GetDistrictByCodeUseCase
 ): BaseViewModel<DetailMemberState, DetailMemberViewModel.UIEvent>() {
 
     init {
@@ -53,7 +55,9 @@ class DetailMemberViewModel @Inject constructor(
                 }
                 Resource.Status.SUCCESS ->{
                     updateState(
-                        state.copy(bpAdddr= it.data)
+                        state.copy(
+                            bpAdddr = it.data
+                        )
                     )
                 }
                 Resource.Status.ERROR ->{
@@ -61,18 +65,37 @@ class DetailMemberViewModel @Inject constructor(
                 }
             }
         }
-        getRegencyByCodeUseCase.invoke(state.bpAdddr!!.regencyCode).collect {
-            when(it.status){
-                Resource.Status.LOADING ->{
-                    val str=""
+        if (!state.bpAdddr!!.regencyCode.equals("")){
+            getRegencyByCodeUseCase.invoke(state.bpAdddr!!.regencyCode).collect {
+                when(it.status){
+                    Resource.Status.LOADING ->{
+                        val str=""
+                    }
+                    Resource.Status.SUCCESS ->{
+                        updateState(
+                            state.copy(regency = it.data)
+                        )
+                    }
+                    Resource.Status.ERROR ->{
+                        val str=""
+                    }
                 }
-                Resource.Status.SUCCESS ->{
-                    updateState(
-                        state.copy(regency = it.data)
-                    )
-                }
-                Resource.Status.ERROR ->{
-                    val str=""
+            }
+            if (!state.bpAdddr!!.districtCode.equals("")){
+                getDistrictByCodeUseCase.invoke(state.bpAdddr!!.districtCode).collect {
+                    when(it.status){
+                        Resource.Status.LOADING ->{
+                            val str=""
+                        }
+                        Resource.Status.SUCCESS ->{
+                            updateState(
+                                state.copy(district = it.data)
+                            )
+                        }
+                        Resource.Status.ERROR ->{
+                            val str=""
+                        }
+                    }
                 }
             }
         }

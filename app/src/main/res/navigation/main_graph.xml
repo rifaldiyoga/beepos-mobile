@@ -28,18 +28,27 @@
         <action
             android:id="@+id/action_memberFragment_to_detailMemberDialog"
             app:destination="@id/detailMemberDialog" />
+        <action
+            android:id="@+id/action_memberFragment_to_posFragment"
+            app:destination="@id/posFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_tambah_member"
         android:id="@+id/tambahMemberFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.tambah_member.TambahMemberFragment"
         android:label="TambahMemberFragment" >
+        <argument
+            android:name="district"
+            app:argType="string" />
         <action
             android:id="@+id/action_tambahMemberFragment_to_taxInfoDialog"
             app:destination="@id/taxInfoDialog" />
         <action
             android:id="@+id/action_tambahMemberFragment_to_cariKotaFragment"
             app:destination="@id/cariKotaFragment" />
+        <action
+            android:id="@+id/action_tambahMemberFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
     <dialog
         tools:layout="@layout/dialog_tax_info"
@@ -90,9 +99,6 @@
         <action
             android:id="@+id/action_cariKotaFragment_to_cariKecamatanFragment"
             app:destination="@id/cariKecamatanFragment" />
-        <argument
-            android:name="district"
-            app:argType="string" />
     </fragment>
     <dialog
         tools:layout="@layout/dialog_edit_item"
@@ -153,8 +159,8 @@
             android:name="regency"
             app:argType="string" />
         <action
-            android:id="@+id/action_cariKecamatanFragment_to_cariKotaFragment"
-            app:destination="@id/cariKotaFragment" />
+            android:id="@+id/action_cariKecamatanFragment_to_tambahMemberFragment"
+            app:destination="@id/tambahMemberFragment" />
     </fragment>
 
 </navigation>

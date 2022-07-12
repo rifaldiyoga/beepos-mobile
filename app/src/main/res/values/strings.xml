@@ -45,6 +45,10 @@
     <string name="pref_rkp_channel">pref_rkp_channel</string>
     <string name="pref_city">pref_city</string>
     <string name="pref_is_city">pref_is_city</string>
+    <string name="pref_add_member_name">pref_add_member_name</string>
+    <string name="pref_add_member_notelp">pref_add_member_notelp</string>
+    <string name="pref_add_member_email">pref_add_member_email</string>
+    <string name="pref_add_member_alamat">pref_add_member_alamat</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>

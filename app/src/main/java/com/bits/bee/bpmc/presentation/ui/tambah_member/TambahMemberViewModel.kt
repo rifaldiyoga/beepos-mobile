@@ -4,10 +4,13 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.member.AddUpdateMemberUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetActivePriceLvlUseCase
+import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
 import com.bits.bee.bpmc.domain.usecase.member.SaveBpAddrUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +22,8 @@ import javax.inject.Inject
 class TambahMemberViewModel @Inject constructor(
     private val addUpdateMemberUseCase: AddUpdateMemberUseCase,
     private val getActivePriceLvlUseCase: GetActivePriceLvlUseCase,
-    private val saveBpAddrUseCase: SaveBpAddrUseCase
+    private val saveBpAddrUseCase: SaveBpAddrUseCase,
+    private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase
 ): BaseViewModel<TambahMemberState, TambahMemberViewModel.UIEvent >() {
 
     init {
@@ -47,6 +51,13 @@ class TambahMemberViewModel @Inject constructor(
             errorEmail = "Format email salah!"
             isValid = false
         }
+        if (state.priceLvl == -1){
+            _state.update {
+                state.copy(
+                    priceLvl = 1
+                )
+            }
+        }
 
         _state.update {
             state.copy(
@@ -67,9 +78,29 @@ class TambahMemberViewModel @Inject constructor(
                 priceLvlId = state.priceLvl
             )
 //            addUpdateMemberUseCase(bp)
-            saveBpAddrUseCase.invoke(state.kota, bp, state.noTelp, state.email, state.alamat)
+            saveBpAddrUseCase.invoke(state.kota, bp, state.noTelp, state.email, bp.alamat)
 //            state.city.
             eventChannel.send(UIEvent.SuccessAddMember)
+        }
+    }
+
+    fun getRegency() = viewModelScope.launch{
+        getRegencyByCodeUseCase.invoke(state.district!!.regencyCode).collect {
+            when(it.status){
+                Resource.Status.LOADING ->{
+
+                }
+                Resource.Status.SUCCESS ->{
+                    updateState(
+                        state.copy(
+                            regency = it.data
+                        )
+                    )
+                }
+                Resource.Status.ERROR ->{
+
+                }
+            }
         }
     }
 

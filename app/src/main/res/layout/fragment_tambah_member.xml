@@ -314,7 +314,8 @@
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/groupLainnya"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="textView57, tilPriceLvl, cbTax, cbTaxInc, img_close, img_close_taxin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

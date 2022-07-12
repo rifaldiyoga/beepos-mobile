@@ -9,7 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCariKecamatanBinding
 import com.bits.bee.bpmc.databinding.FragmentCariKotaBinding
 import com.bits.bee.bpmc.domain.model.CityPopuler
@@ -50,7 +52,8 @@ class CariKecamatanFragment(
         binding.apply {
             kecamatanAdapter = KecamatanAdapter(mListener = object : KecamatanAdapter.PilihKecamatanI{
                 override fun onItemClick(district: District) {
-                    val action = CariKecamatanFragmentDirections.actionCariKecamatanFragmentToCariKotaFragment(Gson().toJson(district))
+                    val action = CariKecamatanFragmentDirections.actionCariKecamatanFragmentToTambahMemberFragment(Gson().toJson(district))
+                    clearPref()
                     findNavController().navigate(action)
                 }
 
@@ -81,6 +84,12 @@ class CariKecamatanFragment(
                 }
             }
         }
+    }
+
+    private fun clearPref(){
+        var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+        sharedPreferences.remove(getString(R.string.pref_city))
+        sharedPreferences.commit()
     }
 
 }

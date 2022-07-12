@@ -17,7 +17,11 @@ class SaveBpAddrUseCase @Inject constructor(
     private var city: City? = null
     private var mBp: Bp? = null
     private var mRegency: Regency? = null
+    private var mDistrict: District? = null
     private var mListDistrict: List<District>? = null
+    private lateinit var province_code: String
+    private lateinit var regency_code: String
+    private lateinit var district_code: String
 
     suspend operator fun invoke(kota: String, bp: Bp, noTelp: String, email: String, alamat: String) {
         bpRepository.addUpdateBp(BpDataMapper.fromDomainToData(bp))
@@ -28,30 +32,50 @@ class SaveBpAddrUseCase @Inject constructor(
             }
         }
 
-        regencyRepository.getCodeByRegency(kota).collect {
-            it.data?.let {
-                mRegency = it
-            }
-        }
+        if (!kota.equals("")){
+            val kotaDistrict = kota.split(", ").toTypedArray()
+            var getKota: String? = null
+            var getDistrict: String? = null
 
-        districtRepository.getDistrictByCode(mRegency!!.code).collect {
-            it.data?.let {
-                mListDistrict = it
+            if (kotaDistrict.lastIndex == 1){
+                getKota = kotaDistrict[0]
+                getDistrict = kotaDistrict[1]
+            }else if(kotaDistrict.lastIndex == 0){
+                getKota = kotaDistrict[0]
             }
+
+            regencyRepository.getCodeByRegency(getKota!!).collect {
+                it.data?.let {
+                    mRegency = it
+                }
+            }
+
+            province_code = mRegency!!.provinceCode
+            regency_code = mRegency!!.code
+
+            if (getDistrict != null){
+                districtRepository.getCodeByName(getDistrict).collect {
+                    it.data?.let {
+                        mDistrict = it
+                    }
+                }
+
+                district_code = mDistrict!!.code
+            }else{
+                district_code = ""
+            }
+        }else{
+            province_code = ""
+            regency_code = ""
+            district_code = ""
         }
-//        cityRepository.getCodeByName(kota).collect {
-//            it.data?.let { data ->
-//                city = data
-//            }
-//        }
-        var district_code = mListDistrict!!.get(0).code
 
         if (mBp != null){
             var bpAddr = BpAddr(
                 bpId = mBp?.id!!,
                 name = mBp?.name!!,
-                address = alamat,
                 greeting = "",
+                address = alamat,
                 phone = noTelp,
                 zipCode = "",
                 email = email,
@@ -59,10 +83,10 @@ class SaveBpAddrUseCase @Inject constructor(
                 isBillAddr = false,
                 isShipAddr = false,
                 isMainAddr = false,
-                provinceCode = mRegency!!.provinceCode,
-                regencyCode = mRegency!!.code,
-                districtCode = district_code,
-                cityId = 0
+                provinceCode = province_code,
+                regencyCode = regency_code,
+                cityId = 0,
+                districtCode = district_code
             )
 
             bpAddrRepository.addUpdateBpAddr(BpAddrDataMapper.fromDomainToData(bpAddr))

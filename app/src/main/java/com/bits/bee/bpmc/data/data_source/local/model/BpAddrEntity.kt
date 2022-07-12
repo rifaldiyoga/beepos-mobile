@@ -13,31 +13,31 @@ import androidx.room.PrimaryKey
             parentColumns = [BpEntity.ID],
             childColumns = [BpAddrEntity.BP_ID],
             onDelete = CASCADE
-        ),
-        ForeignKey(
-            entity = ProvinceEntity::class,
-            parentColumns = [ProvinceEntity.CODE],
-            childColumns = [BpAddrEntity.PROVINCE_CODE],
-            onDelete = CASCADE
-        ),
-        ForeignKey(
-            entity = RegencyEntity::class,
-            parentColumns = [RegencyEntity.CODE],
-            childColumns = [BpAddrEntity.REGENCY_CODE],
-            onDelete = CASCADE
-        ),
+        )
+//        ForeignKey(
+//            entity = ProvinceEntity::class,
+//            parentColumns = [ProvinceEntity.CODE],
+//            childColumns = [BpAddrEntity.PROVINCE_CODE],
+//            onDelete = CASCADE
+//        ),
+//        ForeignKey(
+//            entity = RegencyEntity::class,
+//            parentColumns = [RegencyEntity.CODE],
+//            childColumns = [BpAddrEntity.REGENCY_CODE],
+//            onDelete = CASCADE
+//        )
 //        ForeignKey(
 //            entity = CityEntity::class,
 //            parentColumns = [CityEntity.CODE],
 //            childColumns = [BpAddrEntity.CITY_CODE],
 //            onDelete = CASCADE
 //        ),
-        ForeignKey(
-            entity = DistrictEntity::class,
-            parentColumns = [DistrictEntity.CODE],
-            childColumns = [BpAddrEntity.DISTRICT_CODE],
-            onDelete = CASCADE
-        )
+//        ForeignKey(
+//            entity = DistrictEntity::class,
+//            parentColumns = [DistrictEntity.CODE],
+//            childColumns = [BpAddrEntity.DISTRICT_CODE],
+//            onDelete = CASCADE
+//        )
     ]
 )
 data class BpAddrEntity(

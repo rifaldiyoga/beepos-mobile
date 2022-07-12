@@ -59,10 +59,24 @@ class DistrictRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getDistrictByCode(code: String): Flow<Resource<List<District>>> {
+    override fun getListDistrictByCode(code: String): Flow<Resource<List<District>>> {
         return flow {
-            val data = districtDao.getDistrictByCode(code).map { DistrictDataMapper.fromDataToDomain(it) }
+            val data = districtDao.getListDistrictByCode(code).map { DistrictDataMapper.fromDataToDomain(it) }
             emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getCodeByName(name: String): Flow<Resource<District>> {
+        return flow {
+            val data = districtDao.getCodeByName(name)
+            emit(Resource.success(DistrictDataMapper.fromDataToDomain(data)))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getNameByCode(code: String): Flow<Resource<District>> {
+        return flow {
+            val data = districtDao.getNameByCode(code)
+            emit(Resource.success(DistrictDataMapper.fromDataToDomain(data)))
         }.flowOn(defaultDispatcher)
     }
 }
