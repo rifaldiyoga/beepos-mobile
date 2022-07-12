@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemAdapterSimpleBinding
 import com.bits.bee.bpmc.domain.model.City
+import com.bits.bee.bpmc.domain.model.CityPopuler
 
 /**
  * Created by aldi on 18/05/22.
  */
-class CariKotaAdapter : ListAdapter<City, RecyclerView.ViewHolder>(DiffCallback()) {
+class CariKotaAdapter constructor(
+    private val mListener: PilihKotaI
+) : ListAdapter<City, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,6 +33,9 @@ class CariKotaAdapter : ListAdapter<City, RecyclerView.ViewHolder>(DiffCallback(
         fun bind(city: City){
             binding.apply {
                 tvItem.text = city.name
+                clContent.setOnClickListener {
+                    mListener.onItemClick(city)
+                }
             }
         }
 
@@ -44,5 +50,9 @@ class CariKotaAdapter : ListAdapter<City, RecyclerView.ViewHolder>(DiffCallback(
             return oldItem.code == newItem.code
         }
 
+    }
+
+    interface PilihKotaI{
+        fun onItemClick(city: City)
     }
 }

@@ -8,8 +8,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:id="@+id/nScroll"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonClosed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,13 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/detail_member"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintBottom_toBottomOf="@+id/imgView_close"
+            app:layout_constraintEnd_toStartOf="@+id/imgView_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imgView_close"
             android:layout_width="@dimen/size36"
             android:layout_height="@dimen/size36"
             android:layout_margin="@dimen/size16"
@@ -54,7 +55,7 @@
             android:layout_marginTop="@dimen/size16"
             android:text="@string/nama_member"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintTop_toBottomOf="@+id/imgView_close" />
 
         <TextView
             android:id="@+id/txtMember"
@@ -90,6 +91,72 @@
             app:layout_constraintTop_toBottomOf="@+id/textView53" />
 
         <TextView
+            android:id="@+id/textView56"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNoTelp" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/size6"-->
+<!--            android:text="@string/opsional"-->
+<!--            android:textSize="@dimen/font12"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@+id/textView56"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/textView56" />-->
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView56" />
+
+
+        <TextView
+            android:id="@+id/textView55"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/kota"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/size6"-->
+<!--            android:text="@string/opsional"-->
+<!--            android:textSize="@dimen/font12"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@+id/textView55"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/textView55" />-->
+
+        <TextView
+            android:id="@+id/txtKota"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/kota"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView55" />
+
+
+        <TextView
             android:id="@+id/textView54"
             style="@style/TextHeader"
             android:layout_width="wrap_content"
@@ -98,7 +165,7 @@
             android:layout_marginTop="@dimen/size16"
             android:text="@string/alamat"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNoTelp" />
+            app:layout_constraintTop_toBottomOf="@+id/txtKota" />
 
         <TextView
             android:id="@+id/txtAlamat"
@@ -111,62 +178,16 @@
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView54" />
 
-        <CheckBox
-            android:id="@+id/cbTax"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:layout_marginTop="@dimen/size16"
-            android:paddingStart="@dimen/size12"
-            android:text="@string/pajak"
-            app:layout_constraintStart_toStartOf="@+id/txtAlamat"
-            app:layout_constraintTop_toBottomOf="@+id/txtAlamat"
-            tools:ignore="RtlSymmetry" />
-
-        <ImageView
-            android:id="@+id/imageInfoTax"
-            android:layout_width="@dimen/size32"
-            android:layout_height="@dimen/size32"
-            android:layout_marginStart="@dimen/size16"
-            android:padding="@dimen/size8"
-            android:src="@drawable/ic_help_circle"
-            app:layout_constraintBottom_toBottomOf="@+id/cbTax"
-            app:layout_constraintStart_toEndOf="@+id/cbTax"
-            app:layout_constraintTop_toTopOf="@+id/cbTax" />
-
-        <CheckBox
-            android:id="@+id/cbTaxInc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:paddingStart="@dimen/size12"
-            android:text="@string/harga_termasuk_pajak"
-            app:layout_constraintStart_toStartOf="@+id/txtAlamat"
-            app:layout_constraintTop_toBottomOf="@+id/cbTax" />
-
-        <ImageView
-            android:id="@+id/imageInfoTaxInc"
-            android:layout_width="@dimen/size32"
-            android:layout_height="@dimen/size32"
-            android:layout_marginStart="@dimen/size16"
-            android:padding="@dimen/size8"
-            android:src="@drawable/ic_help_circle"
-            app:layout_constraintBottom_toBottomOf="@+id/cbTaxInc"
-            app:layout_constraintStart_toEndOf="@+id/cbTaxInc"
-            app:layout_constraintTop_toTopOf="@+id/cbTaxInc" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clInfoLainnya"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size16"
             android:background="@color/light_orange"
             android:padding="@dimen/size16"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbTaxInc">
+            app:layout_constraintTop_toBottomOf="@+id/txtAlamat">
 
             <TextView
                 android:layout_width="@dimen/size0"
@@ -188,70 +209,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/textView55"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size16"
-            android:layout_marginTop="@dimen/size16"
-            android:text="@string/kota"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clInfoLainnya" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size6"
-            android:text="@string/opsional"
-            android:textSize="@dimen/font12"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView55"
-            app:layout_constraintStart_toEndOf="@+id/textView55" />
-
-        <TextView
-            android:id="@+id/txtKota"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size6"
-            android:layout_marginEnd="@dimen/size16"
-            android:text="@string/kota"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView55"
-            app:layout_constraintTop_toBottomOf="@+id/textView55" />
-
-        <TextView
-            android:id="@+id/textView56"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size16"
-            android:layout_marginTop="@dimen/size16"
-            android:text="@string/email"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtKota" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size6"
-            android:text="@string/opsional"
-            android:textSize="@dimen/font12"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView56"
-            app:layout_constraintStart_toEndOf="@+id/textView56" />
-
-        <TextView
-            android:id="@+id/txtEmail"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size6"
-            android:layout_marginEnd="@dimen/size16"
-            android:text="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView55"
-            app:layout_constraintTop_toBottomOf="@+id/textView56" />
-
-        <TextView
             android:id="@+id/textView57"
             style="@style/TextHeader"
             android:layout_width="wrap_content"
@@ -260,7 +217,7 @@
             android:layout_marginTop="@dimen/size16"
             android:text="@string/level_harga"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/clInfoLainnya" />
 
 
         <TextView
@@ -274,13 +231,57 @@
             app:layout_constraintStart_toStartOf="@+id/textView55"
             app:layout_constraintTop_toBottomOf="@+id/textView57" />
 
+        <CheckBox
+            android:id="@+id/cbTax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:layout_marginTop="@dimen/size16"
+            android:paddingStart="@dimen/size12"
+            android:text="@string/pajak"
+            app:layout_constraintStart_toStartOf="@+id/txtLevelHarga"
+            app:layout_constraintTop_toBottomOf="@+id/txtLevelHarga"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageView
+            android:id="@+id/imageInfoTax"
+            android:layout_width="@dimen/size32"
+            android:layout_height="@dimen/size32"
+            android:layout_marginStart="@dimen/size16"
+            android:padding="@dimen/size8"
+            android:src="@drawable/ic_help_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/cbTax"
+            app:layout_constraintStart_toEndOf="@+id/cbTax"
+            app:layout_constraintTop_toTopOf="@+id/cbTax" />
+
+        <CheckBox
+            android:id="@+id/cbTaxInc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:paddingStart="@dimen/size12"
+            android:text="@string/harga_termasuk_pajak"
+            app:layout_constraintStart_toStartOf="@+id/txtAlamat"
+            app:layout_constraintTop_toBottomOf="@+id/cbTax" />
+
+        <ImageView
+            android:id="@+id/imageInfoTaxInc"
+            android:layout_width="@dimen/size32"
+            android:layout_height="@dimen/size32"
+            android:layout_marginStart="@dimen/size16"
+            android:padding="@dimen/size8"
+            android:src="@drawable/ic_help_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/cbTaxInc"
+            app:layout_constraintStart_toEndOf="@+id/cbTaxInc"
+            app:layout_constraintTop_toTopOf="@+id/cbTaxInc" />
+
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupLainnya"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="txtLevelHarga, textView1, textView2, textView55,txtKota,textView56,txtEmail,textView57" />
+            android:visibility="visible"
+            app:constraint_referenced_ids="txtLevelHarga, textView57, cbTax,cbTaxInc, imageInfoTax, imageInfoTaxInc" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -288,14 +289,15 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/buttonClosed"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size16"
-        android:layout_marginTop="@dimen/size16"
+        android:layout_marginTop="@dimen/size20"
         android:background="@drawable/btn_rect_primary"
         android:text="@string/tutup"
         android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/nScroll"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

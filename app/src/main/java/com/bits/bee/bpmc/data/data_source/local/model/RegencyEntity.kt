@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.bits.bee.bpmc.domain.model.Regency
 
 @Entity(tableName = RegencyEntity.TBL_NAME,
     foreignKeys = [
@@ -34,5 +35,11 @@ data class RegencyEntity(
         const val PROVINCE_CODE = "province_code"
         const val ACTIVE = "active"
 
+    }
+
+    fun toRegency(): Regency{
+        return Regency(
+            code, name, provinceCode, isActive
+        )
     }
 }

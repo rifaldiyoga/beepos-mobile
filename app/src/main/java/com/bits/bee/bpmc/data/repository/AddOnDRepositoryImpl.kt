@@ -25,7 +25,7 @@ class AddOnDRepositoryImpl @Inject constructor(
     override fun getLatestAddOnDList(): Flow<Resource<List<AddOnD>>> {
         return object : NetworkDatabaseBoundResource<List<AddOnD>, AddOnDResponse>(){
             override suspend fun loadFormDB(): List<AddOnD> {
-                return addOnDDao.getAddOnDList().map { AddOnDDataMapper.fromDbToDomain(it)!! }
+                return addOnDDao.getAddOnDList().map { AddOnDDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<AddOnD>?): Boolean {

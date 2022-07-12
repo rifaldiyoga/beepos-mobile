@@ -37,6 +37,7 @@ class SavePrinterUseCase @Inject constructor(
         }
         if (mlistPrinter!!.isEmpty()){
             printerRepo.addUpdatePrinter(printer?.let { PrinterDataMapper.fromDomainToDb(it) })
+
             if (printerKitchenList.isNotEmpty()){
                 for ((index, value) in printerKitchenList.withIndex()){
 

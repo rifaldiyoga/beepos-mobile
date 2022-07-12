@@ -8,6 +8,7 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 
 object KitchenDataMapper: BaseMapper<KitchenEntity, Kitchen, KitchenResponse.KitchenModel>() {
     override fun fromDbToDomain(model: KitchenEntity): Kitchen {
+
         return Kitchen(
             model.id,
             model.code,

@@ -1,13 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.member.MemberInteractor
+import com.bits.bee.bpmc.domain.usecase.member.SearchMemberUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,24 +17,57 @@ import javax.inject.Inject
 @HiltViewModel
 class MemberViewModel @Inject constructor(
     memberInteractor: MemberInteractor,
-): ViewModel() {
+    private val searchMemberUseCase: SearchMemberUseCase
+): BaseViewModel<MemberState, MemberViewModel.UIEvent>() {
 
-    private val eventChannel = Channel<UIEvent>()
-    val event = eventChannel.receiveAsFlow()
+    init {
+        state = MemberState()
+    }
 
     val memberList = memberInteractor.getFavoritMemberUseCase()
 
     fun onClickDetailMember(model : Bp) = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestDetailMember(model))
+        eventChannel.send(UIEvent.RequestPos(model))
+    }
+
+    fun onClickEye(model: Bp) = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestIconEye(model))
     }
 
     fun onClickAddMember() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestAddMember)
     }
 
+
+    fun onSearch(query: String) = viewModelScope.launch{
+        updateState(
+            state.copy(
+                search = query
+            )
+        )
+        searchMemberUseCase.invoke(state.search).collect {
+            when(it.status){
+                Resource.Status.LOADING ->{
+                    val str=""
+                }
+                Resource.Status.SUCCESS ->{
+                    updateState(
+                        state.copy(
+                            listBp = it.data
+                        )
+                    )
+                }
+                Resource.Status.ERROR ->{
+
+                }
+            }
+        }
+    }
+
     sealed class UIEvent {
         object RequestAddMember : UIEvent()
-        data class RequestDetailMember(val model : Bp): UIEvent()
+        data class RequestPos(val model : Bp): UIEvent()
+        data class RequestIconEye(val model: Bp): UIEvent()
     }
 
 }

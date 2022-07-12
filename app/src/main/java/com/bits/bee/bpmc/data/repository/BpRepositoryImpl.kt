@@ -12,7 +12,6 @@ import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -28,10 +27,11 @@ class BpRepositoryImpl @Inject constructor(
     private val bpAddrDao : BpAddrDao,
     private val ioDispatcher: CoroutineDispatcher
 ) : BpRepository{
+
     override fun getLastesBpList(): Flow<Resource<List<Bp>>> {
         return object : NetworkDatabaseBoundResource<List<Bp>, BpResponse>(){
             override suspend fun loadFormDB(): List<Bp> {
-                return bpDao.getBpList().map { BpDataMapper.fromDbToDomain(it)!! }
+                return bpDao.getBpList().map { BpDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Bp>?): Boolean {
@@ -67,6 +67,19 @@ class BpRepositoryImpl @Inject constructor(
             emit(Resource.loading())
             val data: List<Bp> = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getlastId(): Flow<Resource<Bp>> {
+        return flow {
+            val data = bpDao.getLastId()
+            emit(Resource.success(BpDataMapper.fromDbToDomain(data)))
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun searchBp(query: String): Flow<Resource<List<Bp>>> {
+        return flow {
+            emit(Resource.success(bpDao.searchCityList(query).map { BpDataMapper.fromDbToDomain(it) }))
         }.flowOn(ioDispatcher)
     }
 

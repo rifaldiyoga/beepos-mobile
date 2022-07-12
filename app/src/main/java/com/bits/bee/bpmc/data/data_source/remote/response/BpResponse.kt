@@ -110,9 +110,6 @@ data class BpResponse (
         var updatedAt : Date,
     ) : Parcelable {
 
-        fun toBpAddr() : BpAddrEntity {
-            return BpAddrEntity(id, bpId, name, greeting, address, phone, zipCode, if(email.isNotEmpty()) email[0].email else "", note, isBillAddr, isShipAddr, isMainAddr, provinceCode.value, regencyCode.value, districtId.value, createdAt, -1, updatedAt, -1)
-        }
 
     }
 

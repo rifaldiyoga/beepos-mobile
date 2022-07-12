@@ -15,4 +15,6 @@ interface CityRepository {
 
     fun searchCityList(query : String) : Flow<List<City>>
 
+    fun getCodeByName(str: String): Flow<Resource<City>>
+
 }

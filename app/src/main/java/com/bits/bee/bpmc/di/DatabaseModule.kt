@@ -135,20 +135,38 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideSaleDao(dbHelper: DbHelper): SaleDao{
+    fun provideSaleDao(dbHelper: DbHelper): SaleDao {
         return dbHelper.saleDao
     }
 
     @Provides
     @Singleton
-    fun provideSaledDao(dbHelper: DbHelper): SaledDao{
+    fun provideCityPopulerDao(dbHelper: DbHelper): CityPopulerDao{
+        return dbHelper.cityPopulerDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaledDao(dbHelper: DbHelper): SaledDao {
         return dbHelper.saledDao
     }
 
     @Provides
     @Singleton
-    fun provideUserDao(dbHelper: DbHelper): UserDao{
+    fun provideProvinceDao(dbHelper: DbHelper): ProvinceDao{
+        return dbHelper.provinceDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(dbHelper: DbHelper): UserDao {
         return dbHelper.userDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegencyDao(dbHelper: DbHelper): RegencyDao{
+        return dbHelper.regencyDao
     }
 
     @Provides
@@ -169,4 +187,9 @@ object DatabaseModule {
         return dbHelper.itemSaleTaxDao
     }
 
+    @Provides
+    @Singleton
+    fun provideDistrictDao(dbHelper: DbHelper): DistrictDao{
+        return dbHelper.districtDao
+    }
 }

@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.printer
 
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenEntity
 import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDataMapper
 import com.bits.bee.bpmc.domain.model.PrinterKitchen
 import com.bits.bee.bpmc.domain.repository.PrinterKitchenRepository

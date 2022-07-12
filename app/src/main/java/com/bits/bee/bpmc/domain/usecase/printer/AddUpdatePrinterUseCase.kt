@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.printer
 
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import com.bits.bee.bpmc.domain.mapper.PrinterDataMapper
 import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.domain.repository.PrinterRespository
@@ -16,4 +15,5 @@ class AddUpdatePrinterUseCase @Inject constructor(
     suspend fun update(printer : Printer?){
         printerRespository.updatePrinter(printer?.let { PrinterDataMapper.fromDomainToDb(it) })
     }
+
 }

@@ -43,6 +43,12 @@
     <string name="pref_rkp_produk_channel">pref_rkp_produk_channel</string>
     <string name="pref_rkp_faktur">pref_rkp_faktur</string>
     <string name="pref_rkp_channel">pref_rkp_channel</string>
+    <string name="pref_city">pref_city</string>
+    <string name="pref_is_city">pref_is_city</string>
+    <string name="pref_add_member_name">pref_add_member_name</string>
+    <string name="pref_add_member_notelp">pref_add_member_notelp</string>
+    <string name="pref_add_member_email">pref_add_member_email</string>
+    <string name="pref_add_member_alamat">pref_add_member_alamat</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -459,4 +465,8 @@ untuk memperbarui data dapur?</string>
     <string name="hint_diskon_nota">Cth. 10% atau 10,000 atau 10% + 10,000</string>
     <string name="untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2">Untuk diskon kombinasi, gunakan tanda + diantara diskon 1 dan diskon 2</string>
 
+<!--    Member-->
+    <string name="kecamatan_opsional">Kecamatan bersifat opsional (tidak wajib dipilih)</string>
+    <string name="city_kosong">Tidak boleh kosong</string>
+    <string name="citylist_empty">Kota yang anda cari tidak ada, coba cek ejaan atau cari dengan kata kunci lain ya</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.bits.bee.bpmc.domain.model.District
 
 @Entity(tableName = DistrictEntity.TBL_NAME,
     foreignKeys = [
@@ -34,5 +35,11 @@ data class DistrictEntity(
         const val REGENCY_CODE = "regency_code"
         const val ACTIVE = "active"
 
+    }
+
+    fun toDistrict(): District{
+        return District(
+            code, name, regencyCode, isActive
+        )
     }
 }

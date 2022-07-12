@@ -17,4 +17,6 @@ interface BpAddrDao : BaseDao<BpAddrEntity>{
     @Query("SELECT * FROM bpaddr")
     fun getBpAddrList() : List<BpAddrEntity>
 
+    @Query("SELECT * FROM bpaddr where bp_id = :id")
+    fun getBpAddrByBp(id: Int): BpAddrEntity
 }
