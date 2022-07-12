@@ -25,7 +25,7 @@ import androidx.room.PrimaryKey
 data class AddOnDEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = ADDON_ID, index = true)
     var addOnId: Int,
     @ColumnInfo(name = SELECTION_ID, index = true)

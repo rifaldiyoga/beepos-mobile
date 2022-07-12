@@ -1,9 +1,9 @@
 package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
 import com.bits.bee.bpmc.data.data_source.local.model.BpAddrEntity
 import com.bits.bee.bpmc.data.data_source.remote.model.ValueLabelModel
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -30,35 +30,45 @@ data class BpResponse (
     @Parcelize
     data class BpModel(
         @SerializedName("id")
-        var id : Int = -1,
+        @Expose
+        var id: Int = -1,
         @SerializedName("code")
-        var code : String = "",
+        @Expose
+        var code : String ,
         @SerializedName("name")
-        var name: String = "",
-        @SerializedName("greeting")
-        var greeting: String = "",
-        @SerializedName("anniversary")
-        var anniversary : String = "",
+        @Expose
+        var name : String ,
+        @SerializedName("mobile")
+        @Expose
+        var phone : String,
+        @SerializedName("bp_id")
+        @Expose
+        var  bpId:String,
+        @SerializedName("address")
+        @Expose
+        var address:String ,
         @SerializedName("taxedonsale")
-        var isTaxedOnSale : Boolean = false,
+        @Expose
+        var saleistaxed:Boolean,
         @SerializedName("taxinconsale")
-        var isTaxIncOnSale : Boolean = false,
-        @SerializedName("note")
-        var note : String = "",
-        @SerializedName("bpgrp1_id")
-        var bpgrpId : Int? = -1,
+        @Expose
+        var saletaxinc:Boolean,
         @SerializedName("pricelvl_id")
-        var priceLvlId : ValueLabelModel,
-        @SerializedName("active")
-        var isActive : Boolean = false,
-        @SerializedName("bpaddr")
-        var bpAddr : List<BpAddrModel> = mutableListOf()
-
+        @Expose
+        var pricelvl_id:Int,
+        @SerializedName("city_code")
+        @Expose
+        var city_code:String ,
+        @SerializedName("email")
+        @Expose
+        var email:String ,
+        @SerializedName("bpgrp1_id")
+        @Expose
+        var bpgrpid: Int,
+        @SerializedName("created_at")
+        @Expose
+        var created_at:String ,
     ) : Parcelable {
-
-        fun toBp() : BpEntity {
-            return BpEntity(id, code, name, greeting, anniversary, isTaxedOnSale, isTaxIncOnSale, note, bpgrpId, priceLvlId.value, isActive, Date(), -1, Date(), -1)
-        }
 
     }
 

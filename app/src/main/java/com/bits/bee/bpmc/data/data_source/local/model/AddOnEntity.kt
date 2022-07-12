@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = AddOnEntity.TBL_NAME)
 data class AddOnEntity(
@@ -16,7 +17,7 @@ data class AddOnEntity(
     @ColumnInfo(name = ISACTIVE)
     var isActive : Boolean,
     @ColumnInfo(name = CREATED_AT)
-    var createdAt : Long
+    var createdAt : Date
 ) {
     companion object {
         const val TBL_NAME = "addon"

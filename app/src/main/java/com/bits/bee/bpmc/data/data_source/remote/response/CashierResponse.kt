@@ -15,7 +15,7 @@ data class CashierResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : MutableList<CashierModel> = mutableListOf()
 ):Parcelable {
 
     @Parcelize
@@ -42,8 +42,6 @@ data class CashierResponse (
         val cashId : Long = -1,
         @SerializedName("active")
         val isActive : Boolean = false,
-        @SerializedName("status")
-        val status : Boolean = false,
     ) : Parcelable {
 
     }

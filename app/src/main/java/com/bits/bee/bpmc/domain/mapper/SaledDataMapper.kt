@@ -6,9 +6,9 @@ import com.bits.bee.bpmc.domain.model.Saled
 /**
  * Created by aldi on 22/06/22.
  */
-object SaledDataMapper : BaseMapper<SaledEntity, Saled>() {
+object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
 
-    override fun fromDataToDomain(model: SaledEntity): Saled {
+    override fun fromDbToDomain(model: SaledEntity): Saled {
         return Saled(
             id = model.id,
             itemId = model.itemId,
@@ -32,7 +32,7 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled>() {
         )
     }
 
-    override fun fromDomainToData(model: Saled): SaledEntity {
+    override fun fromDomainToDb(model: Saled): SaledEntity {
         return SaledEntity(
             id = model.id,
             itemId = model.itemId,
@@ -54,6 +54,10 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled>() {
             totalDisc2Amt = model.totalDisc2Amt,
             totalTaxAmt = model.totalTaxAmt
         )
+    }
+
+    override fun fromNetworkToData(model: Any): SaledEntity {
+        TODO("Not yet implemented")
     }
 
 }

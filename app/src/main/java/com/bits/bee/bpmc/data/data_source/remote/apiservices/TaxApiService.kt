@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface TaxApiService {
 
-    @GET("master/tax")
+    @GET("v1/tax")
     fun getTaxList() : Flow<ApiResponse<TaxResponse>>
     
 }

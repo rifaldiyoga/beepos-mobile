@@ -31,7 +31,7 @@ class CashierRepositoryImpl @Inject constructor(
 
         return object : NetworkDatabaseBoundResource<List<Cashier>, CashierResponse>(){
             override suspend fun loadFormDB(): List<Cashier> {
-                return cashierDao.getListCashier().map { CashierDataMapper.fromDataToDomain(it) }
+                return cashierDao.getListCashier().map { CashierDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Cashier>?): Boolean {
@@ -43,7 +43,7 @@ class CashierRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CashierResponse) {
-                cashierDao.insertBulk(data.data.cashierModels.map { CashierDataMapper.fromResponseToData(it) })
+                cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToData(it) })
             }
 
         }.getAsFlow()
@@ -52,14 +52,14 @@ class CashierRepositoryImpl @Inject constructor(
     override suspend fun updateActiveCashier(cashier: Cashier) {
         withContext(defaultDispatcher){
             cashierDao.resetActive()
-            cashierDao.update(CashierDataMapper.fromDomainToData(cashier))
+            cashierDao.update(CashierDataMapper.fromDomainToDb(cashier))
         }
     }
 
     override fun getActiveCashier(): Flow<Cashier?> = flow{
         var cashier : Cashier? = null
         cashierDao.getActiveCashier()?.let {
-            cashier = CashierDataMapper.fromDataToDomain(it)
+            cashier = CashierDataMapper.fromDbToDomain(it)
         }
         emit(cashier)
     }.flowOn(defaultDispatcher)

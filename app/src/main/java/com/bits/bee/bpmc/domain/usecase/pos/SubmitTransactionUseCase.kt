@@ -49,7 +49,7 @@ class SubmitTransactionUseCase @Inject constructor(
             }
 
 
-            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1,BranchDataMapper.fromDataToDomain(branch!!), CashierDataMapper.fromDataToDomain(cashier!!))
+            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1,BranchDataMapper.fromDbToDomain(branch!!), CashierDataMapper.fromDbToDomain(cashier!!))
             sale.trxDate = Date()
             val id = saleRepository.addSale(sale)
 

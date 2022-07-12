@@ -5,6 +5,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.BranchEntity
 import com.bits.bee.bpmc.data.data_source.remote.model.ValueLabelModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -18,7 +19,7 @@ data class BranchResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : MutableList<BranchModel> = mutableListOf()
 ):Parcelable {
 
     @Parcelize
@@ -30,42 +31,50 @@ data class BranchResponse (
     @Parcelize
     data class BranchModel(
         @SerializedName("id")
-        val id : Int = -1,
+        @Expose
+        var id: Int = -1,
         @SerializedName("code")
-        val code : String = "",
+        @Expose
+        var code: String,
         @SerializedName("name")
-        val name: String = "",
+        @Expose
+        var name: String,
         @SerializedName("version")
-        val version: String = "",
-        @SerializedName("cmpname")
-        val cmpName : String = "",
-        @SerializedName("phone")
-        val phone : String = "",
-        @SerializedName("active")
-        val active : Boolean = false,
-        @SerializedName("address")
-        val cmpAddress : String = "",
-        @SerializedName("fax")
-        val cmpFax : String = "",
-        @SerializedName("custdeft_id")
-        val custDeftId : ValueLabelModel?,
+        @Expose
+        var version: Int,
         @SerializedName("created_at")
-        val createdAt : String = "",
+        @Expose
+        var createdAt: String,
         @SerializedName("created_by")
-        val createdBy : Int = -1,
+        @Expose
+        var createdBy: Int,
         @SerializedName("updated_at")
-        val updatedAt : String = "",
+        @Expose
+        var updatedAt: String,
         @SerializedName("updated_by")
-        val updatedBy : Int = -1,
-    ) : Parcelable {
-
-
-        fun toBranchEntity() : BranchEntity {
-            return BranchEntity(
-                id, code, name, version, cmpName, phone, active, cmpAddress, cmpFax, custDeftId?.let { it.value }, DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, createdBy, DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, updatedBy
-            )
-        }
-
-    }
+        @Expose
+        var updatedBy: Int,
+        @SerializedName("branchcmpname")
+        @Expose
+        var cmpName: String,
+        @SerializedName("branchaddress")
+        @Expose
+        var cmpAddress: String,
+        @SerializedName("branchphone")
+        @Expose
+        var cmpPhone: String,
+        @SerializedName("branchfax")
+        @Expose
+        var noFax: String,
+        @SerializedName("branchtaxregno")
+        @Expose
+        var noNpwp: String,
+        @SerializedName("branchvatregno")
+        @Expose
+        var noPkp: String,
+        @SerializedName("branchdefaultcust")
+        @Expose
+        var branchDefaultCust: Int,
+    ) : Parcelable
 
 }

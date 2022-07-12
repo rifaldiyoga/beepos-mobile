@@ -3,8 +3,8 @@ package com.bits.bee.bpmc.domain.mapper
 import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenDEntity
 import com.bits.bee.bpmc.domain.model.PrinterKitchenD
 
-object PrinterKitchenDDataMapper: BaseMapper<PrinterKitchenDEntity, PrinterKitchenD>() {
-    override fun fromDataToDomain(model: PrinterKitchenDEntity): PrinterKitchenD {
+object PrinterKitchenDDataMapper: BaseMapper<PrinterKitchenDEntity, PrinterKitchenD, Any>() {
+    override fun fromDbToDomain(model: PrinterKitchenDEntity): PrinterKitchenD {
         return PrinterKitchenD(
             model.id,
             model.printerKitchenId,
@@ -12,11 +12,15 @@ object PrinterKitchenDDataMapper: BaseMapper<PrinterKitchenDEntity, PrinterKitch
         )
     }
 
-    override fun fromDomainToData(model: PrinterKitchenD): PrinterKitchenDEntity {
+    override fun fromDomainToDb(model: PrinterKitchenD): PrinterKitchenDEntity {
         return PrinterKitchenDEntity(
             model.id,
             model.printerKitchenId,
             model.kitchenId
         )
+    }
+
+    override fun fromNetworkToData(model: Any): PrinterKitchenDEntity {
+        TODO("Not yet implemented")
     }
 }

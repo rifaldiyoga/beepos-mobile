@@ -27,16 +27,16 @@ data class ItemVariantEntity(
     @ColumnInfo(name = ID)
     var id : Int,
     @ColumnInfo(name = VARIANT_ID, index = true)
-    var variant: Int,
+    var variantId: Int,
     @ColumnInfo(name = ITEM_ID, index = true)
-    var item : Int,
+    var itemId : Int,
 ) {
     companion object {
         const val TBL_NAME = "item_variant"
 
         const val ID = "id"
         const val VARIANT_ID = "variant_id"
-        const val ITEM_ID = "item"
+        const val ITEM_ID = "item_id"
 
     }
 }

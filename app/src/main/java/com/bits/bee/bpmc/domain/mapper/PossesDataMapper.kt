@@ -6,9 +6,9 @@ import com.bits.bee.bpmc.domain.model.Posses
 /**
  * Created by aldi on 07/06/22.
  */
-object PossesDataMapper : BaseMapper<PossesEntity, Posses>() {
+object PossesDataMapper : BaseMapper<PossesEntity, Posses, Any>() {
 
-    override fun fromDataToDomain(model: PossesEntity): Posses {
+    override fun fromDbToDomain(model: PossesEntity): Posses {
         return Posses(
             model.possesId,
             model.trxDate,
@@ -30,7 +30,7 @@ object PossesDataMapper : BaseMapper<PossesEntity, Posses>() {
         )
     }
 
-    override fun fromDomainToData(model: Posses): PossesEntity {
+    override fun fromDomainToDb(model: Posses): PossesEntity {
         return PossesEntity(
             model.possesId,
             model.trxDate,
@@ -50,5 +50,9 @@ object PossesDataMapper : BaseMapper<PossesEntity, Posses>() {
             model.totalActualCash,
             model.totalDiffCash
         )
+    }
+
+    override fun fromNetworkToData(model: Any): PossesEntity {
+        TODO("Not yet implemented")
     }
 }

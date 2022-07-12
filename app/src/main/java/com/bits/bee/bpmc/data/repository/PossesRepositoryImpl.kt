@@ -28,7 +28,7 @@ class PossesRepositoryImpl @Inject constructor(
     override suspend fun getActivePosses(): Flow<Posses?> = flow<Posses?> {
         val posses = possesDao.getActivePosses()
         if(posses != null)
-            emit(PossesDataMapper.fromDataToDomain(posses))
+            emit(PossesDataMapper.fromDbToDomain(posses))
         else
             emit(null)
     }.flowOn(defaultDispatcher)
@@ -58,7 +58,7 @@ class PossesRepositoryImpl @Inject constructor(
 
     override suspend fun updatePosses(posses: Posses) {
         withContext(defaultDispatcher){
-            possesDao.update(PossesDataMapper.fromDomainToData(posses))
+            possesDao.update(PossesDataMapper.fromDomainToDb(posses))
         }
     }
 

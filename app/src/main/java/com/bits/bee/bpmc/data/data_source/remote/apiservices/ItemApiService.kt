@@ -13,7 +13,7 @@ import retrofit2.http.Query
  */
 interface ItemApiService {
 
-    @GET("v1/item/view/{id}")
+    @GET("v1/item/")
     fun getItem(@Path("id") id : Int = 317) : Flow<ApiResponse<ItemResponse>>
     
 }

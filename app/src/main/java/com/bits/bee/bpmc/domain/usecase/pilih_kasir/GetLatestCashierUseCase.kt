@@ -26,7 +26,7 @@ class GetLatestCashierUseCase @Inject constructor(
     suspend operator fun invoke(): Flow<Resource<List<Cashier>>> {
         var branch : Branch?
         withContext(dispatcher){
-            branch = BranchDataMapper.fromDataToDomain(branchDao.getActiveBranch()!!)
+            branch = BranchDataMapper.fromDbToDomain(branchDao.getActiveBranch()!!)
         }
         return cashierRepository.getCashierList(branch!!.id)
     }

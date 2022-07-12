@@ -26,6 +26,6 @@ class UserRepositoryImpl @Inject constructor(
     }.flowOn(defaultDispatcher)
 
     override fun getActiveUser(): Flow<User?> = flow {
-        emit(UserDataMapper.fromDataToDomain(userDao.geActiveUser()))
+        emit(UserDataMapper.fromDbToDomain(userDao.geActiveUser()))
     }. flowOn(defaultDispatcher)
 }

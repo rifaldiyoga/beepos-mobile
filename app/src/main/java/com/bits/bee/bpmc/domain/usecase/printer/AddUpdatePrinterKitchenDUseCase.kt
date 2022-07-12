@@ -10,6 +10,6 @@ class AddUpdatePrinterKitchenDUseCase @Inject constructor(
     private val printerKitchenDRepository: PrinterKitchenDRepository
 ) {
     suspend operator fun invoke(printerKitchenD: PrinterKitchenD){
-        printerKitchenDRepository.addUpdatePrinterKitchenD(PrinterKitchenDDataMapper.fromDomainToData(printerKitchenD))
+        printerKitchenDRepository.addUpdatePrinterKitchenD(PrinterKitchenDDataMapper.fromDomainToDb(printerKitchenD))
     }
 }

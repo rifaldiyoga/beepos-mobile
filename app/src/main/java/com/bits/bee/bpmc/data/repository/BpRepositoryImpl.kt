@@ -31,7 +31,7 @@ class BpRepositoryImpl @Inject constructor(
     override fun getLastesBpList(): Flow<Resource<List<Bp>>> {
         return object : NetworkDatabaseBoundResource<List<Bp>, BpResponse>(){
             override suspend fun loadFormDB(): List<Bp> {
-                return bpDao.getBpList().map { BpDataMapper.fromDataToDomain(it)!! }
+                return bpDao.getBpList().map { BpDataMapper.fromDbToDomain(it)!! }
             }
 
             override fun shouldFetch(data: List<Bp>?): Boolean {
@@ -43,9 +43,9 @@ class BpRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: BpResponse) {
-                bpDao.insertSingle(data.data.toBp())
+                bpDao.insertSingle(BpDataMapper.fromNetworkToData(data.data))
 //                data.data.data.{
-                    bpAddrDao.insertBulk(data.data.bpAddr.map { it.toBpAddr() })
+//                bpAddrDao.insertBulk(data.data.bpAddr.map { it.toBpAddr() })
 //                }
             }
         }.getAsFlow()
@@ -55,7 +55,7 @@ class BpRepositoryImpl @Inject constructor(
         return flow {
             val data : BpEntity? = bpDao.getBpById(1)
             data?.let {
-                emit(Resource.success(BpDataMapper.fromDataToDomain(data)))
+                emit(Resource.success(BpDataMapper.fromDbToDomain(data)))
             } ?: run {
                 emit(Resource.error(null, "Data Bp Kosong!", 1))
             }
@@ -65,7 +65,7 @@ class BpRepositoryImpl @Inject constructor(
     override fun getFavoritBpList() : Flow<Resource<List<Bp>>> {
         return flow {
             emit(Resource.loading())
-            val data: List<Bp> = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDataToDomain(it) }
+            val data: List<Bp> = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
         }.flowOn(ioDispatcher)
     }

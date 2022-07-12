@@ -26,7 +26,7 @@ class CrcRepositoryImpl @Inject constructor(
         return object : NetworkDatabaseBoundResource<List<Crc>, CrcResponse>() {
 
             override suspend fun loadFormDB(): List<Crc>? {
-                return crcDao.getCrcList().map { CrcDataMapper.fromDataToDomain(it) }
+                return crcDao.getCrcList().map { CrcDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Crc>?): Boolean {
@@ -38,7 +38,7 @@ class CrcRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CrcResponse) {
-                crcDao.insertBulk(data.data.map { CrcDataMapper.fromResponseToData(it) })
+                crcDao.insertBulk(data.data.map { CrcDataMapper.fromNetworkToData(it) })
             }
 
         }.getAsFlow()

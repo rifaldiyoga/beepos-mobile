@@ -3,6 +3,8 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
+
 //asd
 @Entity(tableName = GrpPrvEntity.TBL_NAME)
 data class GrpPrvEntity(
@@ -10,17 +12,17 @@ data class GrpPrvEntity(
     @ColumnInfo(name = ID)
     var id : Int,
     @ColumnInfo(name = UPDATE_AT)
-    var updatedAt : Long,
+    var updatedAt : Date,
     @ColumnInfo(name = OBJ_CODE)
     var objCode : String,
     @ColumnInfo(name = ACS_TYPE)
     var acsType : String,
     @ColumnInfo(name = IS_ENABLE)
-    var isEnable : String,
+    var isEnable : Boolean,
     @ColumnInfo(name = ACS_VAL)
     var acsVal : String,
     @ColumnInfo(name = GRP_ID)
-    var grpId : String,
+    var grpId : Int,
     @ColumnInfo(name = CODE_OBJ)
     var codeObj : String,
     @ColumnInfo(name =  UP_CODE)

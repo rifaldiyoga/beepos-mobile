@@ -61,4 +61,64 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
         return retrofitClient.getClientApi()!!.create(CmpApiService::class.java)
     }
 
+    fun getAddOnApiService() : AddOnApiService {
+        return retrofitClient.getClientApi()!!.create(AddOnApiService::class.java)
+    }
+
+    fun getAddOnDApiService() : AddOnDApiService {
+        return retrofitClient.getClientApi()!!.create(AddOnDApiService::class.java)
+    }
+
+    fun getItemAddOnApiService() : ItemAddOnApiService {
+        return retrofitClient.getClientApi()!!.create(ItemAddOnApiService::class.java)
+    }
+
+    fun getVariantApiService() : VariantApiService {
+        return retrofitClient.getClientApi()!!.create(VariantApiService::class.java)
+    }
+
+    fun getItemVariantApiService() : ItemVariantApiService {
+        return retrofitClient.getClientApi()!!.create(ItemVariantApiService::class.java)
+    }
+
+    fun getSelectionApiService() : SelectionApiService {
+        return retrofitClient.getClientApi()!!.create(SelectionApiService::class.java)
+    }
+
+    fun getSelectionDApiService() : SelectionDApiService {
+        return retrofitClient.getClientApi()!!.create(SelectionDApiService::class.java)
+    }
+
+    fun getRegApiService() : RegApiService {
+        return retrofitClient.getClientApi()!!.create(RegApiService::class.java)
+    }
+
+    fun getPromoApiService() : PromoApiService {
+        return retrofitClient.getClientApi()!!.create(PromoApiService::class.java)
+    }
+
+    fun getGrpPrvApiService() : GrpPrvApiService {
+        return retrofitClient.getClientApi()!!.create(GrpPrvApiService::class.java)
+    }
+
+    fun getUsrGrpApiService() : UsrGrpApiService {
+        return retrofitClient.getClientApi()!!.create(UsrGrpApiService::class.java)
+    }
+
+    fun getCcTypeApiService() : CcTypeApiService {
+        return retrofitClient.getClientApi()!!.create(CcTypeApiService::class.java)
+    }
+
+    fun getItemBranchApiService() : ItemBranchApiService {
+        return retrofitClient.getClientApi()!!.create(ItemBranchApiService::class.java)
+    }
+
+    fun getEdcApiService() : EdcApiService {
+        return retrofitClient.getClientApi()!!.create(EdcApiService::class.java)
+    }
+
+    fun getEdcSurcApiService() : EdcSurcApiService {
+        return retrofitClient.getClientApi()!!.create(EdcSurcApiService::class.java)
+    }
+
 }

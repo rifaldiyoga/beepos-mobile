@@ -23,7 +23,7 @@ data class Bp(
     var alamat : String = "",
     var createdAt : Date = Date(),
     var createdBy : Int = -1,
-    var updatedAt : Date = Date(),
-    var updatedBy : Int = -1,
+    var updatedAt : Date? = Date(),
+    var updatedBy : Int? = -1,
     var isFavorit : Boolean = false,
 ) : Parcelable

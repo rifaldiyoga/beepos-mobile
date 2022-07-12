@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface PriceLvlApiService {
 
-    @GET("master/pricelvl")
+    @GET("v1/pricelvl")
     fun getPriceLvl() : Flow<ApiResponse<PriceLvlResponse>>
 
 }

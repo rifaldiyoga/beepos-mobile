@@ -3,9 +3,10 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
-@Entity(tableName = UsrgrpEntity.TBL_NAME)
-data class UsrgrpEntity(
+@Entity(tableName = UsrGrpEntity.TBL_NAME)
+data class UsrGrpEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)  
     var id : Int,
@@ -18,7 +19,7 @@ data class UsrgrpEntity(
     @ColumnInfo(name = USR_ID)
     var bpName : String,
     @ColumnInfo(name = UPDATED_AT)
-    var updatedAt : Long
+    var updatedAt : Date
 ) {
     companion object {
         const val TBL_NAME = "usrgrp"

@@ -8,9 +8,9 @@ import com.bits.bee.bpmc.domain.model.Price
  * Created by aldi on 20/04/22.
  */
 
-object PriceDataMapper : BaseMapper<PriceEntity, Price>(){
+object PriceDataMapper : BaseMapper<PriceEntity, Price, ItemResponse.PriceModel>(){
 
-    override fun fromDataToDomain(model: PriceEntity): Price {
+    override fun fromDbToDomain(model: PriceEntity): Price {
         return Price(
             id = model.id!!,
             itemId = model.itemId,
@@ -21,7 +21,7 @@ object PriceDataMapper : BaseMapper<PriceEntity, Price>(){
         )
     }
 
-    override fun fromDomainToData(model: Price): PriceEntity {
+    override fun fromDomainToDb(model: Price): PriceEntity {
         return PriceEntity(
             id = model.id,
             itemId = model.itemId,
@@ -32,7 +32,7 @@ object PriceDataMapper : BaseMapper<PriceEntity, Price>(){
         )
     }
 
-    fun fromDataToResponse(model : ItemResponse.PriceModel) : PriceEntity {
+    override fun fromNetworkToData(model: ItemResponse.PriceModel): PriceEntity {
         return PriceEntity(
             itemId = model.itemId,
             priceLvlId = model.priceLvl.value,

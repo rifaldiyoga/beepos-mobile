@@ -27,7 +27,7 @@ class BranchRepositoryImpl @Inject constructor(
 
     override fun getBranchList(): Flow<Resource<List<Branch>>> {
         return object : NetworkDatabaseBoundResource<List<Branch>, BranchResponse>(){
-            override suspend fun loadFormDB(): List<Branch> = branchDao.getBranchList().map { it.toBranch() }
+            override suspend fun loadFormDB(): List<Branch> = branchDao.getBranchList().map { BranchDataMapper.fromDbToDomain(it)  }
 
             override fun shouldFetch(data: List<Branch>?): Boolean {
                 return true
@@ -38,7 +38,7 @@ class BranchRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: BranchResponse) {
-                    branchDao.insertBulk(data.data.data.map { BranchDataMapper.fromResponseToData(it) })
+                    branchDao.insertBulk(data.data.map { BranchDataMapper.fromNetworkToData(it) })
             }
         }.getAsFlow()
     }
@@ -46,14 +46,14 @@ class BranchRepositoryImpl @Inject constructor(
     override suspend fun updateActiveBranch(branch: Branch) {
         withContext(defaultDispatcher) {
             branchDao.resetActive()
-            branchDao.update(BranchDataMapper.fromDomainToData(branch))
+            branchDao.update(BranchDataMapper.fromDomainToDb(branch))
         }
     }
 
     override fun getActiveBranch(): Flow<Branch?> = flow {
         var branch : Branch? = null
         branchDao.getActiveBranch()?.let {
-            branch = BranchDataMapper.fromDataToDomain(it)
+            branch = BranchDataMapper.fromDbToDomain(it)
         }
         emit(branch)
     }.flowOn(defaultDispatcher)

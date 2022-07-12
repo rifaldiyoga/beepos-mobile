@@ -21,7 +21,7 @@ import androidx.room.*
 data class SelectionDEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = SELECTION_ID, index = true)
     var selectionId: Int,
     @ColumnInfo(name = DNO)

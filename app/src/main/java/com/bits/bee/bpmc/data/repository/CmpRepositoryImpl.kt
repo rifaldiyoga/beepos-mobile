@@ -37,7 +37,7 @@ class CmpRepositoryImpl @Inject constructor(
         return object : NetworkDatabaseBoundResource<Cmp, CmpResponse>() {
 
             override suspend fun loadFormDB(): Cmp? {
-                return CmpDataMapper.fromDataToDomain(cmpDao.getCmp())
+                return CmpDataMapper.fromDbToDomain(cmpDao.getCmp())
             }
 
             override fun shouldFetch(data: Cmp?): Boolean {
@@ -49,7 +49,7 @@ class CmpRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CmpResponse) {
-                cmpDao.insertSingle(CmpDataMapper.fromResponseToData(data.data))
+                cmpDao.insertSingle(CmpDataMapper.fromNetworkToData(data.data))
             }
         }.getAsFlow()
     }

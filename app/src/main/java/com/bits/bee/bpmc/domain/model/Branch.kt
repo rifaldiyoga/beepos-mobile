@@ -11,7 +11,7 @@ data class Branch (
     val id : Int,
     val code : String,
     val name: String,
-    val version: String,
+    val version: Int,
     val cmpName : String,
     val cmpPhone : String,
     val active : Boolean,

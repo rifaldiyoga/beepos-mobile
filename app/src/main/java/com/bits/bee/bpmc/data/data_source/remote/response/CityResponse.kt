@@ -26,18 +26,14 @@ data class CityResponse (
 
     @Parcelize
     data class CityModel (
+        @SerializedName("id")
+        val id: Int = -1,
         @SerializedName("code")
         val code: String = "",
         @SerializedName("name")
         val name : String = "",
-        @SerializedName("active")
-        val isActive : Boolean = false,
-    ) : Parcelable {
-
-        fun toCity() : CityEntity{
-            return CityEntity(code, name, isActive)
-        }
-
-    }
+//        @SerializedName("active")
+//        val isActive : Boolean = false,
+    ) : Parcelable
 
 }

@@ -121,7 +121,7 @@ class ItemRepositoryImpl @Inject constructor(
 
     override fun getActiveItemListByItemGrp(itemGrpId: Int): Flow<List<Item>> {
         return flow<List<Item>> {
-//            emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDataToDomain(it) })
+//            emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 
@@ -135,7 +135,7 @@ class ItemRepositoryImpl @Inject constructor(
             itemDao.getActiveItemList(query)
         }
     ).flow.mapLatest {
-        it.map { ItemDataMapper.fromDataToDomain(it) }
+        it.map { ItemDataMapper.fromDbToDomain(it) }
     }.flowOn(defaultDispatcher)
 
 }

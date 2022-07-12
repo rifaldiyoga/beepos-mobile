@@ -9,9 +9,9 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 /**
  * Created by aldi on 26/04/22.
  */
-object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl>() {
+object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl, PriceLvlResponse.PriceLvlModel>() {
 
-    override fun fromDataToDomain(model: PriceLvlEntity): PriceLvl {
+    override fun fromDbToDomain(model: PriceLvlEntity): PriceLvl {
         return PriceLvl(
             model.id,
             model.name,
@@ -21,7 +21,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl>() {
         )
     }
 
-    override fun fromDomainToData(model: PriceLvl): PriceLvlEntity {
+    override fun fromDomainToDb(model: PriceLvl): PriceLvlEntity {
         return PriceLvlEntity(
             model.id,
             model.name,
@@ -31,17 +31,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl>() {
         )
     }
 
-    fun fromResponseToDomain(model : PriceLvlResponse.PriceLvlModel) : PriceLvl {
-        return PriceLvl(
-            model.id,
-            model.name,
-            model.code,
-            model.active,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt)
-        )
-    }
-
-    fun fromResponseToData(model : PriceLvlResponse.PriceLvlModel) : PriceLvlEntity {
+    override fun fromNetworkToData(model: PriceLvlResponse.PriceLvlModel): PriceLvlEntity {
         return PriceLvlEntity(
             model.id,
             model.name,

@@ -7,9 +7,9 @@ import com.bits.bee.bpmc.domain.model.Cmp
 /**
  * Created by aldi on 30/06/22.
  */
-object CmpDataMapper : BaseMapper<CmpEntity, Cmp>() {
+object CmpDataMapper : BaseMapper<CmpEntity, Cmp, Any>() {
 
-    override fun fromDataToDomain(model: CmpEntity): Cmp {
+    override fun fromDbToDomain(model: CmpEntity): Cmp {
         return Cmp(
             id = model.id,
             cityCode = model.cityCode,
@@ -30,7 +30,7 @@ object CmpDataMapper : BaseMapper<CmpEntity, Cmp>() {
         )
     }
 
-    override fun fromDomainToData(model: Cmp): CmpEntity {
+    override fun fromDomainToDb(model: Cmp): CmpEntity {
         return CmpEntity(
             id = model.id,
             cityCode = model.cityCode,
@@ -51,7 +51,7 @@ object CmpDataMapper : BaseMapper<CmpEntity, Cmp>() {
         )
     }
 
-    fun fromResponseToData(model: CmpResponse.CmpModel): CmpEntity {
+    fun fromNetworkToData(model: CmpResponse.CmpModel): CmpEntity {
         return CmpEntity(
             id = model.id,
             cityCode = model.cityCode.value,
@@ -70,6 +70,10 @@ object CmpDataMapper : BaseMapper<CmpEntity, Cmp>() {
             vatRegNo = model.vatRegNo,
             cossType = model.cossType,
         )
+    }
+
+    override fun fromNetworkToData(model: Any): CmpEntity {
+        TODO("Not yet implemented")
     }
 
 }

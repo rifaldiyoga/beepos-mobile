@@ -7,9 +7,9 @@ import com.bits.bee.bpmc.domain.model.Item
 /**
  * Created by aldi on 12/05/22.
  */
-object ItemDataMapper : BaseMapper<ItemEntity, Item>() {
+object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
 
-    override fun fromDataToDomain(model: ItemEntity): Item {
+    override fun fromDbToDomain(model: ItemEntity): Item {
         return Item(
             id = model.id,
             code = model.code,
@@ -35,7 +35,7 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item>() {
         )
     }
 
-    override fun fromDomainToData(model: Item): ItemEntity {
+    override fun fromDomainToDb(model: Item): ItemEntity {
         return ItemEntity(
             id = model.id,
             code = model.code,
@@ -55,7 +55,27 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item>() {
         )
     }
 
-    fun fromDataToResponse(model : ItemResponse.ItemModel) : ItemEntity {
+    fun fromDbToResponse(model : ItemResponse.ItemModel) : ItemEntity {
+        return ItemEntity(
+            id = model.id,
+            code = model.code,
+            name1= model.name1,
+            brandId= model.brandId,
+            itemTypeCode = model.itemTypeCode,
+            usePid = model.usePid,
+            uniquePid = model.uniqueid,
+            itemGrpId = model.itemGrp1Id,
+            isStock = model.isStock,
+            isSale = model.isSale,
+            unitdesc = model.unitdesc,
+            note = model.note,
+            active = model.active,
+            saleUnit = model.saleUnit,
+            stockUnit = model.stockUnit,
+        )
+    }
+
+    override fun fromNetworkToData(model: ItemResponse.ItemModel): ItemEntity {
         return ItemEntity(
             id = model.id,
             code = model.code,

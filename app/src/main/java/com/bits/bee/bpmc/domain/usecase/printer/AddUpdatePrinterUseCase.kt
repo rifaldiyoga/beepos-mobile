@@ -10,10 +10,10 @@ class AddUpdatePrinterUseCase @Inject constructor(
     private val printerRespository: PrinterRespository
 ) {
     suspend operator fun invoke(printer : Printer?){
-        printerRespository.addUpdatePrinter(printer?.let { PrinterDataMapper.fromDomainToData(it) })
+        printerRespository.addUpdatePrinter(printer?.let { PrinterDataMapper.fromDomainToDb(it) })
     }
 
     suspend fun update(printer : Printer?){
-        printerRespository.updatePrinter(printer?.let { PrinterDataMapper.fromDomainToData(it) })
+        printerRespository.updatePrinter(printer?.let { PrinterDataMapper.fromDomainToDb(it) })
     }
 }

@@ -7,9 +7,9 @@ import com.bits.bee.bpmc.domain.model.Crc
 /**
  * Created by aldi on 30/06/22.
  */
-object CrcDataMapper : BaseMapper<CrcEntity, Crc>() {
+object CrcDataMapper : BaseMapper<CrcEntity, Crc, CrcResponse.CrcModel>() {
 
-    override fun fromDataToDomain(model: CrcEntity): Crc {
+    override fun fromDbToDomain(model: CrcEntity): Crc {
         return Crc(
             id = model.id,
             code = model.code,
@@ -23,7 +23,7 @@ object CrcDataMapper : BaseMapper<CrcEntity, Crc>() {
         )
     }
 
-    override fun fromDomainToData(model: Crc): CrcEntity {
+    override fun fromDomainToDb(model: Crc): CrcEntity {
         return CrcEntity(
             id = model.id,
             code = model.code,
@@ -37,7 +37,7 @@ object CrcDataMapper : BaseMapper<CrcEntity, Crc>() {
         )
     }
 
-    fun fromResponseToData(model: CrcResponse.CrcModel): CrcEntity {
+    override fun fromNetworkToData(model: CrcResponse.CrcModel): CrcEntity {
         return CrcEntity(
             id = model.id,
             code = model.code,

@@ -7,9 +7,9 @@ import com.bits.bee.bpmc.domain.model.City
 /**
  * Created by aldi on 18/05/22.
  */
-object CityDataMapper : BaseMapper<CityEntity, City>() {
+object CityDataMapper : BaseMapper<CityEntity, City, CityResponse.CityModel>() {
 
-    override fun fromDataToDomain(model: CityEntity): City {
+    override fun fromDbToDomain(model: CityEntity): City {
         return City(
             model.code,
             model.name,
@@ -17,7 +17,7 @@ object CityDataMapper : BaseMapper<CityEntity, City>() {
         )
     }
 
-    override fun fromDomainToData(model: City): CityEntity {
+    override fun fromDomainToDb(model: City): CityEntity {
         return CityEntity(
             model.code,
             model.name,
@@ -25,11 +25,11 @@ object CityDataMapper : BaseMapper<CityEntity, City>() {
         )
     }
 
-    fun fromRemoteToData(model : CityResponse.CityModel) : CityEntity {
+    override fun fromNetworkToData(model: CityResponse.CityModel): CityEntity {
         return CityEntity(
             model.code,
             model.name,
-            model.isActive
+            true
         )
     }
 }

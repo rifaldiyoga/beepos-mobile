@@ -15,7 +15,7 @@ data class BranchEntity(
     @ColumnInfo(name = NAME)
     var name: String,
     @ColumnInfo(name = VERSION)
-    var version: String,
+    var version: Int,
     @ColumnInfo(name = COMPANY_NAME)
     var cmpName : String,
     @ColumnInfo(name = COMPANY_PHONE)
@@ -55,11 +55,5 @@ data class BranchEntity(
         const val COMPANY_FAX = "cmp_fax"
         const val CUST_DEFAULT_ID = "custdeft_id"
 
-    }
-
-    fun toBranch() : Branch {
-        return Branch(
-            id, code, name, version, cmpName, cmpPhone, active, cmpAddress, cmpFax, custDeftId, createdAt, createdBy, updatedAt, updatedBy
-        )
     }
 }

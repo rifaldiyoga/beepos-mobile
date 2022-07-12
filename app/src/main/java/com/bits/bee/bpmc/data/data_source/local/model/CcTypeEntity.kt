@@ -4,11 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = CctypeEntity.TBL_NAME)
-data class CctypeEntity(
+@Entity(tableName = CcTypeEntity.TBL_NAME)
+data class CcTypeEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = CCTYPE)
     var cctype: String,
     @ColumnInfo(name = CCTYPEDESC)

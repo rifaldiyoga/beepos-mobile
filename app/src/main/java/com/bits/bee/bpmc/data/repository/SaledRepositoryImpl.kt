@@ -22,7 +22,7 @@ class SaledRepositoryImpl @Inject constructor(
     override suspend fun addSaled(saledList: List<Saled>) {
         withContext(defaultDispatcher){
             val saledNew = saledList.map {
-                SaledDataMapper.fromDomainToData(it)
+                SaledDataMapper.fromDomainToDb(it)
             }
             saledDao.insertBulk(saledNew)
         }
@@ -30,6 +30,6 @@ class SaledRepositoryImpl @Inject constructor(
 
     override fun getSaledList(saleId: Int): Flow<List<Saled>> = flow {
         val saledList = saledDao.getSaledList(saleId)
-        emit(saledList.map { SaledDataMapper.fromDataToDomain(it) })
+        emit(saledList.map { SaledDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 }

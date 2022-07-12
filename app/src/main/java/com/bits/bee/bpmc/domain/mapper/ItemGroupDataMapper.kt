@@ -8,9 +8,9 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
  * Created by aldi on 20/04/22.
  */
 
-object ItemGroupDataMapper : BaseMapper<ItemGroupEntity, ItemGroup>(){
+object ItemGroupDataMapper : BaseMapper<ItemGroupEntity, ItemGroup, ItemGroupResponse.ItemGroupModel>(){
 
-    override fun fromDataToDomain(model: ItemGroupEntity): ItemGroup {
+    override fun fromDbToDomain(model: ItemGroupEntity): ItemGroup {
         return ItemGroup(
             model.id,
             model.code,
@@ -21,7 +21,7 @@ object ItemGroupDataMapper : BaseMapper<ItemGroupEntity, ItemGroup>(){
         )
     }
 
-    override fun fromDomainToData(model: ItemGroup): ItemGroupEntity {
+    override fun fromDomainToDb(model: ItemGroup): ItemGroupEntity {
         return ItemGroupEntity(
             model.id,
             model.code,
@@ -32,7 +32,7 @@ object ItemGroupDataMapper : BaseMapper<ItemGroupEntity, ItemGroup>(){
         )
     }
 
-    fun fromDataToResponse(model : ItemGroupResponse.ItemGroupModel) : ItemGroupEntity {
+    override fun fromNetworkToData(model: ItemGroupResponse.ItemGroupModel): ItemGroupEntity {
         return ItemGroupEntity(
             model.id,
             model.code,

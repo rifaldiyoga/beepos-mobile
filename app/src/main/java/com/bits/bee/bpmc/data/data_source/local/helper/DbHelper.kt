@@ -10,7 +10,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
 @Database(entities = [
     AddOnEntity::class, AddOnDEntity::class,
     BpEntity::class, BranchEntity::class, CadjEntity::class, CashEntity::class,
-    CashAEntity::class, CashierEntity::class, CctypeEntity::class,
+    CashAEntity::class, CashierEntity::class, CcTypeEntity::class,
     ChannelEntity::class, RegencyEntity::class, CstrEntity::class, EdcEntity::class,
     EdcSurcEntity::class, GrpPrvEntity::class, ItemEntity::class, ItemAddOnEntity::class,
     ItemBranchEntity::class, ItemKitchenEntity::class, ItemOnBoardingEntity::class,
@@ -21,7 +21,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
     PromoEntity::class, PromoMultiEntity::class, RegEntity::class,
     SaleEntity::class, SalecrcvsEntity::class, SalePromoEntity::class, SelectionEntity::class,
     SelectionDEntity::class, SaledEntity::class, SyncEntity::class, TaxEntity::class,
-    UserEntity::class, UsrgrpEntity::class, VariantEntity::class, CityEntity::class, BpAddrEntity::class,
+    UserEntity::class, UsrGrpEntity::class, VariantEntity::class, CityEntity::class, BpAddrEntity::class,
     ProvinceEntity::class, DistrictEntity::class, PmtdEntity::class, UnitEntity::class, CmpEntity::class,
     CrcEntity::class], version = 1, exportSchema = false)
 @TypeConverters(com.bits.bee.bpmc.data.data_source.local.converter.Converters::class)
@@ -76,6 +76,34 @@ abstract class DbHelper : RoomDatabase() {
     abstract val cmpDao : CmpDao
 
     abstract val itemSaleTaxDao : ItemSaleTaxDao
+
+    abstract val itemBranchDao : ItemBranchDao
+
+    abstract val addOnDao : AddOnDao
+
+    abstract val addOnDDao : AddOnDDao
+
+    abstract val itemAddOnDao : ItemAddOnDao
+
+    abstract val selectionDao : SelectionDao
+
+    abstract val selectionDDao : SelectionDDao
+
+    abstract val itemVariantDao : ItemVariantDao
+
+    abstract val variantDao : VariantDao
+
+    abstract val regDao : RegDao
+
+    abstract val promoDao : PromoDao
+
+    abstract val edcDao : EdcDao
+
+    abstract val edcSurcDao : EdcSurcDao
+
+    abstract val grpPrvDao : GrpPrvDao
+
+    abstract val usrGrpDao : UsrGrpDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

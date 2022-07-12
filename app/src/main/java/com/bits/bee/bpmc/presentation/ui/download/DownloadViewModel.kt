@@ -47,7 +47,7 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     it.data?.let { data ->
                         itemGroupRepository.insertBulkItemGroup(
-                            data.data.data.map { ItemGroupDataMapper.fromDataToResponse(it) }
+                            data.data.data.map { ItemGroupDataMapper.fromNetworkToData(it) }
                         )
                         _state.update {
                             it.copy(status = "Finish Downloading Item Group")

@@ -23,7 +23,7 @@ class SaleRepositoryImpl @Inject constructor(
     override suspend fun addSale(sale: Sale) : Long{
         var id : Long = 1
         withContext(defaultDispatcher){
-            val saleNew = SaleDataMapper.fromDomainToData(sale)
+            val saleNew = SaleDataMapper.fromDomainToDb(sale)
 
             id = saleDao.insertSingle(saleNew)
         }
@@ -31,15 +31,15 @@ class SaleRepositoryImpl @Inject constructor(
     }
 
     override fun getLatestSaleList(): Flow<List<Sale>> = flow {
-        emit(saleDao.getLatestSaleList().map { SaleDataMapper.fromDataToDomain(it) })
+        emit(saleDao.getLatestSaleList().map { SaleDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
     override fun getLatestDraftList(): Flow<List<Sale>> = flow {
         val saleList = saleDao.getLatestDraftList()
         if(saleList.size <= 5)
-            emit(saleList.map { SaleDataMapper.fromDataToDomain(it) } )
+            emit(saleList.map { SaleDataMapper.fromDbToDomain(it) } )
         else
-            emit(saleList.slice(0..4).map { SaleDataMapper.fromDataToDomain(it) })
+            emit(saleList.slice(0..4).map { SaleDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
 }

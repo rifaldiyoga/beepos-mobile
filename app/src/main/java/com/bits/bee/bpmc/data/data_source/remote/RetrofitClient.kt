@@ -78,7 +78,7 @@ class RetrofitClient {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
             val builder: Request.Builder = chain.request().newBuilder()
-            builder.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGliYy5iZWUuaWRcL2RldiIsImp0aSI6IjgyNzBlYzQwZGU3Y2YyYzA2NGQ4ODM4YTJlYjAwOTY3IiwiZGJuYW1lIjoic2hhZmlyYSIsImRiaG9zdCI6IjEwLjEzMC4wLjc1IiwidXNlcl9pZCI6IjMifQ.eLOg-GPUOZL-1_UDsR-DNpvS5UvlfABR5WABz-EI5Tg")
+            builder.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM0NTJjYWZlYmVlIiwiZGJob3N0IjoiMTAuMTMwLjIyLjExMiIsInVzZXJfaWQiOiIxMiJ9.oh2Z-wRXLqmm9hBz8IxQVFRb72BCewHNTwWYMZJh9jM")
             builder.method(chain.request().method, chain.request().body)
             return chain.proceed(builder.build())
         }

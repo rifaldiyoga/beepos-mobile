@@ -3,8 +3,9 @@ package com.bits.bee.bpmc.domain.mapper
 import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import com.bits.bee.bpmc.domain.model.Printer
 
-object PrinterDataMapper: BaseMapper<PrinterEntity, Printer>() {
-    override fun fromDataToDomain(model: PrinterEntity): Printer {
+object PrinterDataMapper: BaseMapper<PrinterEntity, Printer, Any>() {
+
+    override fun fromDbToDomain(model: PrinterEntity): Printer {
         return Printer(
             model.id,
             model.printerName,
@@ -18,7 +19,7 @@ object PrinterDataMapper: BaseMapper<PrinterEntity, Printer>() {
         )
     }
 
-    override fun fromDomainToData(model: Printer): PrinterEntity {
+    override fun fromDomainToDb(model: Printer): PrinterEntity {
         return PrinterEntity(
             model.id,
             model.printerName,
@@ -30,5 +31,9 @@ object PrinterDataMapper: BaseMapper<PrinterEntity, Printer>() {
             model.isReport,
             model.isChecker
         )
+    }
+
+    override fun fromNetworkToData(model: Any): PrinterEntity {
+        TODO("Not yet implemented")
     }
 }

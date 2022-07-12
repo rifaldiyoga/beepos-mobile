@@ -9,9 +9,9 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 /**
  * Created by aldi on 07/06/22.
  */
-object BranchDataMapper : BaseMapper<BranchEntity, Branch>(){
+object BranchDataMapper : BaseMapper<BranchEntity, Branch, BranchResponse.BranchModel>(){
 
-    override fun fromDataToDomain(model: BranchEntity): Branch {
+    override fun fromDbToDomain(model: BranchEntity): Branch {
         return Branch(
             model.id,
             model.code,
@@ -30,7 +30,7 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch>(){
         )
     }
 
-    override fun fromDomainToData(model: Branch): BranchEntity {
+    override fun fromDomainToDb(model: Branch): BranchEntity {
         return BranchEntity(
             model.id,
             model.code,
@@ -49,18 +49,18 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch>(){
         )
     }
 
-    fun fromResponseToData(model : BranchResponse.BranchModel) : BranchEntity {
+    override fun fromNetworkToData(model: BranchResponse.BranchModel): BranchEntity {
         return BranchEntity(
             model.id,
             model.code,
             model.name,
             model.version,
             model.cmpName,
-            model.phone,
-            model.active,
+            model.cmpPhone,
+            true,
             model.cmpAddress,
-            model.cmpFax,
-            model.custDeftId?.value,
+            model.noFax,
+            model.branchDefaultCust,
             DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt).time,
             model.createdBy,
             DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt).time,

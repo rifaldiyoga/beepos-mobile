@@ -7,9 +7,9 @@ import com.bits.bee.bpmc.domain.model.Cashier
 /**
  * Created by aldi on 07/06/22.
  */
-object CashierDataMapper : BaseMapper<CashierEntity, Cashier>() {
+object CashierDataMapper : BaseMapper<CashierEntity, Cashier, CashierResponse.CashierModel>() {
 
-    override fun fromDataToDomain(model: CashierEntity): Cashier {
+    override fun fromDbToDomain(model: CashierEntity): Cashier {
         return Cashier(
             model.id,
             model.code,
@@ -23,7 +23,7 @@ object CashierDataMapper : BaseMapper<CashierEntity, Cashier>() {
         )
     }
 
-    override fun fromDomainToData(model: Cashier): CashierEntity {
+    override fun fromDomainToDb(model: Cashier): CashierEntity {
         return CashierEntity(
             model.id,
             model.code,
@@ -37,7 +37,7 @@ object CashierDataMapper : BaseMapper<CashierEntity, Cashier>() {
         )
     }
 
-    fun fromResponseToData(model : CashierResponse.CashierModel) : CashierEntity {
+    override fun fromNetworkToData(model: CashierResponse.CashierModel): CashierEntity {
         return CashierEntity(
             model.id,
             model.code,
@@ -47,7 +47,7 @@ object CashierDataMapper : BaseMapper<CashierEntity, Cashier>() {
             model.whId,
             model.cashId,
             model.isActive,
-            model.status
+            model.isActive
         )
     }
 

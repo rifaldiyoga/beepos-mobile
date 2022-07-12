@@ -28,7 +28,7 @@ class ChannelRepositoryImpl  @Inject constructor(
     override fun getChannelList(): Flow<Resource<List<Channel>>> {
         return object : NetworkDatabaseBoundResource<List<Channel>, ChannelResponse>(){
             override suspend fun loadFormDB(): List<Channel>? {
-                return channelDao.getChannelList().map { ChannelDataMapper.fromDataToDomain(it) }
+                return channelDao.getChannelList().map { ChannelDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Channel>?): Boolean {
@@ -50,7 +50,7 @@ class ChannelRepositoryImpl  @Inject constructor(
         return flow {
             emit(Resource.loading())
             var data : List<Channel> = mutableListOf()
-            data = channelDao.getActiveChannelList().map { ChannelDataMapper.fromDataToDomain(it) }
+            data = channelDao.getActiveChannelList().map { ChannelDataMapper.fromDbToDomain(it) }
             if(data.isNotEmpty()) {
                 emit(Resource.success(data))
             } else {

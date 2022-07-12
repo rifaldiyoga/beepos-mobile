@@ -23,7 +23,7 @@ interface BPMConstants {
         const val BPM_DEFAULT_TYPE_CASH_GOPAY = "GOPAY"
         const val SCREEN_POTRAIT = "Portrait"
         const val SCREEN_LANDSCAPE = "Landscape"
-        const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
+        const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSSSSS"
         const val MODE_FOOD_BEVERAGES = "MODE_FOOD_AND_BEVERAGES"
         const val MODE_RETAIL = "MODE_RETAIL"
         const val NOTASETTING_LOGOPATH = "NOTASETTING_LOGOPATH"

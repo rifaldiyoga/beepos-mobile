@@ -3,10 +3,12 @@ package com.bits.bee.bpmc.domain.mapper
 /**
  * Created by aldi on 20/04/22.
  */
-abstract class BaseMapper<Data, Domain> {
+abstract class BaseMapper<Db, Domain, Network> {
 
-    abstract fun fromDataToDomain(model : Data) : Domain
+    abstract fun fromDbToDomain(model : Db) : Domain
 
-    abstract fun fromDomainToData(model : Domain) : Data
+    abstract fun fromDomainToDb(model : Domain) : Db
+    
+    abstract fun fromNetworkToData(model : Network) : Db
 
 }

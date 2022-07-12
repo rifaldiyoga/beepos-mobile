@@ -34,21 +34,21 @@ data class BpEntity(
     @ColumnInfo(name = TAXINCONSALE)
     var isTaxIncOnSale : Boolean,
     @ColumnInfo(name = NOTE)
-    var note : String,
+    var note : String = "",
     @ColumnInfo(name = BPGRP1_ID)
-    var bpgrpId : Int?,
+    var bpgrpId : Int? = null,
     @ColumnInfo(name = PRICELVL_ID, index = true)
     var priceLvlId : Int,
     @ColumnInfo(name = ACTIVE)
-    var isActive : Boolean,
+    var isActive : Boolean = true,
     @ColumnInfo(name = CREATED_AT)
-    var createdAt : Date,
+    var createdAt : Date = Date(),
     @ColumnInfo(name = CREATED_BY)
-    var createdBy : Int,
+    var createdBy : Int = -1,
     @ColumnInfo(name = UPDATED_AT)
-    var updatedAt : Date,
+    var updatedAt : Date? = null,
     @ColumnInfo(name = UPDATED_BY)
-    var updatedBy : Int,
+    var updatedBy : Int? = null,
     @ColumnInfo(name = ISFAVORIT)
     var isFavorit : Boolean = false,
 ) {

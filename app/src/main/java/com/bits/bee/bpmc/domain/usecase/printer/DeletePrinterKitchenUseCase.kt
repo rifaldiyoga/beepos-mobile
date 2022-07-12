@@ -10,6 +10,6 @@ class DeletePrinterKitchenUseCase @Inject constructor(
     private val printerKitchenRepo: PrinterKitchenRepository
 ) {
     suspend operator fun invoke(printerKitchen: PrinterKitchen){
-        printerKitchenRepo.delete(PrinterKitchenDataMapper.fromDomainToData(printerKitchen))
+        printerKitchenRepo.delete(PrinterKitchenDataMapper.fromDomainToDb(printerKitchen))
     }
 }

@@ -45,7 +45,7 @@ class ItemGroupRepositoryImpl @Inject constructor(
             var data : MutableList<ItemGroup> = mutableListOf()
             data.add(ItemGroup(-1, "*", "All", 1, 1, true))
             withContext(ioDispatcher){
-                itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDataToDomain(it) }.onEach {
+                itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }.onEach {
                     data.add(it)
                 }
             }
@@ -60,7 +60,7 @@ class ItemGroupRepositoryImpl @Inject constructor(
     override fun getId(id: Int): Flow<Resource<ItemGroup>> {
         return flow {
             val data = itemGroupDao.getId(id)
-            emit((Resource.success(ItemGroupDataMapper.fromDataToDomain(data))))
+            emit((Resource.success(ItemGroupDataMapper.fromDbToDomain(data))))
         }.flowOn(ioDispatcher)
     }
 
@@ -68,7 +68,7 @@ class ItemGroupRepositoryImpl @Inject constructor(
         return flow {
             var data = mutableListOf<ItemGroup>()
             withContext(ioDispatcher){
-                itemGroupDao.getItemgrpKitchen().map { ItemGroupDataMapper.fromDataToDomain(it) }.onEach {
+                itemGroupDao.getItemgrpKitchen().map { ItemGroupDataMapper.fromDbToDomain(it) }.onEach {
                     data.add(it)
                 }
             }

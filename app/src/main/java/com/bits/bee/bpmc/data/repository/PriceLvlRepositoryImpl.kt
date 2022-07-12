@@ -29,7 +29,7 @@ class PriceLvlRepositoryImpl @Inject constructor(
     override fun getLatestPriceLvl() : Flow<Resource<List<PriceLvl>>> {
         return object : NetworkDatabaseBoundResource<List<PriceLvl>, PriceLvlResponse>(){
             override suspend fun loadFormDB(): List<PriceLvl>? {
-                return priceLvlDao.getActivePriceLvl().map { PriceLvlDataMapper.fromDataToDomain(it) }
+                return priceLvlDao.getActivePriceLvl().map { PriceLvlDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<PriceLvl>?): Boolean {
@@ -41,14 +41,14 @@ class PriceLvlRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: PriceLvlResponse) {
-                val data = data.data.data.map { PriceLvlDataMapper.fromResponseToData(it) }
+                val data = data.data.data.map { PriceLvlDataMapper.fromNetworkToData(it) }
                 priceLvlDao.insertBulk(data)
             }
         }.getAsFlow()
     }
 
     override fun getActivePriceLvl(): Flow<List<PriceLvl>> = flow {
-        emit(priceLvlDao.getActivePriceLvl().map { PriceLvlDataMapper.fromDataToDomain(it) })
+        emit(priceLvlDao.getActivePriceLvl().map { PriceLvlDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
 }

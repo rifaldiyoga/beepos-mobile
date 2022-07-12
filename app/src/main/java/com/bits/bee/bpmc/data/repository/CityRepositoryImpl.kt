@@ -29,7 +29,7 @@ class CityRepositoryImpl @Inject constructor(
      override fun getLatestCityList(): Flow<Resource<List<City>>> {
         return object : NetworkDatabaseBoundResource<List<City>, CityResponse>(){
             override suspend fun loadFormDB(): List<City>? {
-                return cityDao.getCityList().map { CityDataMapper.fromDataToDomain(it) }
+                return cityDao.getCityList().map { CityDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<City>?): Boolean {
@@ -41,20 +41,20 @@ class CityRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CityResponse) {
-                cityDao.insertBulk(data.data.map { CityDataMapper.fromRemoteToData(it) })
+                cityDao.insertBulk(data.data.map { CityDataMapper.fromNetworkToData(it) })
             }
         }.getAsFlow()
     }
 
     override fun getActiveCityList(): Flow<List<City>> {
         return flow {
-            emit(cityDao.getActiveCityList().map { CityDataMapper.fromDataToDomain(it) })
+            emit(cityDao.getActiveCityList().map { CityDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 
     override fun searchCityList(query: String): Flow<List<City>> {
         return flow<List<City>> {
-            emit(cityDao.searchCityList(query).map { CityDataMapper.fromDataToDomain(it) })
+            emit(cityDao.searchCityList(query).map { CityDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 
