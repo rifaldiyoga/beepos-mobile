@@ -49,7 +49,7 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch, BranchResponse.Branch
         )
     }
 
-    override fun fromNetworkToData(model: BranchResponse.BranchModel): BranchEntity {
+    override fun fromNetworkToDb(model: BranchResponse.BranchModel): BranchEntity {
         return BranchEntity(
             model.id,
             model.code,

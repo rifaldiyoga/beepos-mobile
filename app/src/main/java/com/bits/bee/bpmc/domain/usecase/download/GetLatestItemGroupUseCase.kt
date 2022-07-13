@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemGroupResponse
+import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.utils.Resource
@@ -12,6 +13,6 @@ import javax.inject.Inject
  */
 class GetLatestItemGroupUseCase @Inject constructor(private val itemGroupRepository: ItemGroupRepository) {
 
-    operator fun invoke(page : Int): Flow<Resource<ItemGroupResponse>> = itemGroupRepository.getLastesItemGroupList(page)
+    operator fun invoke(page : Int): Flow<Resource<List<ItemGroup>>> = itemGroupRepository.getLastesItemGroupList(page)
 
 }

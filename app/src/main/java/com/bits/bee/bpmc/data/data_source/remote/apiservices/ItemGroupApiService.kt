@@ -11,7 +11,7 @@ import retrofit2.http.Query
  */
 interface ItemGroupApiService {
 
-    @GET("v1/itemgrp1")
-    fun getItemGroupList(@Query("page") page : Int = 1) : Flow<ApiResponse<ItemGroupResponse>>
+    @GET("v2/itemgroup1")
+    fun getItemGroupList() : Flow<ApiResponse<ItemGroupResponse>>
     
 }

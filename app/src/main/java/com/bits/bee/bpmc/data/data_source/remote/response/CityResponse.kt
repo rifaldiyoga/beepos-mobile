@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
 import com.bits.bee.bpmc.data.data_source.local.model.CityEntity
+import com.bits.bee.bpmc.data.data_source.remote.model.CityModel
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -24,16 +25,6 @@ data class CityResponse (
         var data : MutableList<CityModel> = mutableListOf()
     ) : Parcelable
 
-    @Parcelize
-    data class CityModel (
-        @SerializedName("id")
-        val id: Int = -1,
-        @SerializedName("code")
-        val code: String = "",
-        @SerializedName("name")
-        val name : String = "",
-//        @SerializedName("active")
-//        val isActive : Boolean = false,
-    ) : Parcelable
+
 
 }

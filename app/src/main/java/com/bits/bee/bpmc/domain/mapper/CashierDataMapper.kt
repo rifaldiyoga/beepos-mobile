@@ -37,7 +37,7 @@ object CashierDataMapper : BaseMapper<CashierEntity, Cashier, CashierResponse.Ca
         )
     }
 
-    override fun fromNetworkToData(model: CashierResponse.CashierModel): CashierEntity {
+    override fun fromNetworkToDb(model: CashierResponse.CashierModel): CashierEntity {
         return CashierEntity(
             model.id,
             model.code,

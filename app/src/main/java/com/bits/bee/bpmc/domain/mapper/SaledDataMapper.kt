@@ -56,7 +56,7 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
         )
     }
 
-    override fun fromNetworkToData(model: Any): SaledEntity {
+    override fun fromNetworkToDb(model: Any): SaledEntity {
         TODO("Not yet implemented")
     }
 

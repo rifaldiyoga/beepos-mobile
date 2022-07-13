@@ -1,13 +1,14 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.CityEntity
+import com.bits.bee.bpmc.data.data_source.remote.model.CityModel
 import com.bits.bee.bpmc.data.data_source.remote.response.CityResponse
 import com.bits.bee.bpmc.domain.model.City
 
 /**
  * Created by aldi on 18/05/22.
  */
-object CityDataMapper : BaseMapper<CityEntity, City, CityResponse.CityModel>() {
+object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
 
     override fun fromDbToDomain(model: CityEntity): City {
         return City(
@@ -25,7 +26,7 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityResponse.CityModel>() {
         )
     }
 
-    override fun fromNetworkToData(model: CityResponse.CityModel): CityEntity {
+    override fun fromNetworkToDb(model: CityModel): CityEntity {
         return CityEntity(
             model.code,
             model.name,

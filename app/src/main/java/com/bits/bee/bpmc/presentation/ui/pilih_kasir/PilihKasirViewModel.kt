@@ -37,6 +37,7 @@ class PilihKasirViewModel @Inject constructor(
     }
 
     fun onItemClick(cashier: Cashier) = viewModelScope.launch {
+        cashier.isActive = true
         updateActiveCashierUseCase(cashier)
         eventChannel.send(UIEvent.NavigateToPin)
     }

@@ -37,7 +37,7 @@ class VariantRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: VariantResponse) {
-                variantDao.insertBulk(data.variantModels.map { VariantDataMapper.fromNetworkToData(it) })
+                variantDao.insertBulk(data.variantModels.map { VariantDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

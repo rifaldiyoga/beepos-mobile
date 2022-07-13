@@ -16,7 +16,7 @@ data class GrpPrv (
     var objCode : String,
     var acsType : String,
     var isEnable : Boolean,
-    var acsVal : String,
+    var acsVal : String?,
     var grpId : Int,
     var codeObj : String,
     var upCode : String,

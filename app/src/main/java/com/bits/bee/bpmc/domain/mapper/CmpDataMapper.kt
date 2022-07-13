@@ -1,13 +1,14 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.CmpEntity
+import com.bits.bee.bpmc.data.data_source.remote.model.CmpModel
 import com.bits.bee.bpmc.data.data_source.remote.response.CmpResponse
 import com.bits.bee.bpmc.domain.model.Cmp
 
 /**
  * Created by aldi on 30/06/22.
  */
-object CmpDataMapper : BaseMapper<CmpEntity, Cmp, Any>() {
+object CmpDataMapper : BaseMapper<CmpEntity, Cmp, CmpModel>() {
 
     override fun fromDbToDomain(model: CmpEntity): Cmp {
         return Cmp(
@@ -51,11 +52,12 @@ object CmpDataMapper : BaseMapper<CmpEntity, Cmp, Any>() {
         )
     }
 
-    fun fromNetworkToData(model: CmpResponse.CmpModel): CmpEntity {
+
+    override fun fromNetworkToDb(model: CmpModel): CmpEntity {
         return CmpEntity(
             id = model.id,
-            cityCode = model.cityCode.value,
-            crcId = model.crcId.value,
+            cityCode = model.cityCode,
+            crcId = model.crcId,
             name = model.name,
             address = model.address,
             phone = model.phone,
@@ -70,10 +72,6 @@ object CmpDataMapper : BaseMapper<CmpEntity, Cmp, Any>() {
             vatRegNo = model.vatRegNo,
             cossType = model.cossType,
         )
-    }
-
-    override fun fromNetworkToData(model: Any): CmpEntity {
-        TODO("Not yet implemented")
     }
 
 }

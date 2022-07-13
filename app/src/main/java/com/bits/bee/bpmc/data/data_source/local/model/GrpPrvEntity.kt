@@ -20,7 +20,7 @@ data class GrpPrvEntity(
     @ColumnInfo(name = IS_ENABLE)
     var isEnable : Boolean,
     @ColumnInfo(name = ACS_VAL)
-    var acsVal : String,
+    var acsVal : String?,
     @ColumnInfo(name = GRP_ID)
     var grpId : Int,
     @ColumnInfo(name = CODE_OBJ)

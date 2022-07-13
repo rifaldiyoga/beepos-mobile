@@ -9,6 +9,6 @@ abstract class BaseMapper<Db, Domain, Network> {
 
     abstract fun fromDomainToDb(model : Domain) : Db
     
-    abstract fun fromNetworkToData(model : Network) : Db
+    abstract fun fromNetworkToDb(model : Network) : Db
 
 }

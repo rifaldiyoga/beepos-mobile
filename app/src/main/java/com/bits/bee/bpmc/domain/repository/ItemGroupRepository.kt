@@ -13,7 +13,7 @@ interface ItemGroupRepository {
 
     suspend fun insertBulkItemGroup(list : List<ItemGroupEntity>)
 
-    fun getLastesItemGroupList(page : Int): Flow<Resource<ItemGroupResponse>>
+    fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>>
 
     fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>>
 

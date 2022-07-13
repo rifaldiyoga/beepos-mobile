@@ -32,7 +32,7 @@ object ProvinceDataMapper: BaseMapper<ProvinceEntity, Province, ProvinceResponse
         )
     }
 
-    override fun fromNetworkToData(model: ProvinceResponse.ProvinceModel): ProvinceEntity {
+    override fun fromNetworkToDb(model: ProvinceResponse.ProvinceModel): ProvinceEntity {
         return ProvinceEntity(
             model.code,
             model.name,

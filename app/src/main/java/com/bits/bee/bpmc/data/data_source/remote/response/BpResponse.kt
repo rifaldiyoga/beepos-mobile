@@ -18,7 +18,7 @@ data class BpResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : BpModel
+    var data : List<BpModel> = mutableListOf()
 ):Parcelable {
 
     @Parcelize
@@ -46,7 +46,7 @@ data class BpResponse (
         var  bpId:String,
         @SerializedName("address")
         @Expose
-        var address:String ,
+        var address:String? ,
         @SerializedName("taxedonsale")
         @Expose
         var saleistaxed:Boolean,
@@ -64,10 +64,13 @@ data class BpResponse (
         var email:String ,
         @SerializedName("bpgrp1_id")
         @Expose
-        var bpgrpid: Int,
+        var bpgrpid: Int?,
         @SerializedName("created_at")
         @Expose
         var created_at:String ,
+        @SerializedName("created_by")
+        @Expose
+        var createdBy:String ,
     ) : Parcelable {
 
     }

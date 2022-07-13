@@ -20,7 +20,7 @@ object PrinterKitchenDDataMapper: BaseMapper<PrinterKitchenDEntity, PrinterKitch
         )
     }
 
-    override fun fromNetworkToData(model: Any): PrinterKitchenDEntity {
+    override fun fromNetworkToDb(model: Any): PrinterKitchenDEntity {
         TODO("Not yet implemented")
     }
 }

@@ -48,7 +48,7 @@ object BpAddrDataMapper: BaseMapper<BpAddrEntity, BpAddr, Any>() {
         )
     }
 
-    override fun fromNetworkToData(model: Any): BpAddrEntity {
+    override fun fromNetworkToDb(model: Any): BpAddrEntity {
         TODO("Not yet implemented")
     }
 }

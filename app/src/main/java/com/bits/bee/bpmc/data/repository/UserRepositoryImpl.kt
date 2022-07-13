@@ -21,7 +21,7 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
 
     override suspend fun getUser(): Flow<Resource<List<User>>> = flow<Resource<List<User>>> {
-        userDao.deleteAll()
+//        userDao.deleteAll()
 
     }.flowOn(defaultDispatcher)
 

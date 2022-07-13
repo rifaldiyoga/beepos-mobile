@@ -25,7 +25,7 @@ object ItemVariantDataMapper : BaseMapper<ItemVariantEntity, ItemVariant, ItemVa
         )
     }
 
-    override fun fromNetworkToData(model: ItemVariantResponse.ItemVariantModel): ItemVariantEntity {
+    override fun fromNetworkToDb(model: ItemVariantResponse.ItemVariantModel): ItemVariantEntity {
         return ItemVariantEntity(
             model.id,
             model.variantId,

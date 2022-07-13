@@ -53,7 +53,7 @@ object BpDataMapper : BaseMapper<BpEntity, Bp, BpResponse.BpModel>(){
         )
     }
 
-    override fun fromNetworkToData(model: BpResponse.BpModel): BpEntity {
+    override fun fromNetworkToDb(model: BpResponse.BpModel): BpEntity {
         return BpEntity(
             id = model.id,
             code = model.code,

@@ -8,7 +8,7 @@ import com.bits.bee.bpmc.domain.mapper.ItemGroupDataMapper
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.utils.ApiResponse
-import com.bits.bee.bpmc.utils.NetworkBoundResource
+import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -31,11 +31,24 @@ class ItemGroupRepositoryImpl @Inject constructor(
         itemGroupDao.insertBulk(list)
     }
 
-    override fun getLastesItemGroupList(page : Int): Flow<Resource<ItemGroupResponse>> {
-        return object : NetworkBoundResource<ItemGroupResponse>() {
-            override fun createCall(): Flow<ApiResponse<ItemGroupResponse>> {
-                return apiUtils.getItemGroupApiService().getItemGroupList(page)
+    override fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>> {
+        return object : NetworkDatabaseBoundResource<List<ItemGroup>, ItemGroupResponse>() {
+            override suspend fun loadFormDB(): List<ItemGroup> {
+                return itemGroupDao.getItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }
             }
+
+            override fun shouldFetch(data: List<ItemGroup>?): Boolean {
+                return true
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<ItemGroupResponse>> {
+                return apiUtils.getItemGroupApiService().getItemGroupList()
+            }
+
+            override suspend fun saveCallResult(data: ItemGroupResponse) {
+                itemGroupDao.insertBulk(data.data.map { ItemGroupDataMapper.fromNetworkToDb(it) })
+            }
+
         }.getAsFlow()
     }
 

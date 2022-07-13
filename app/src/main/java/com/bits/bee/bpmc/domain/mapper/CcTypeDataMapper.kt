@@ -27,7 +27,7 @@ object CcTypeDataMapper : BaseMapper<CcTypeEntity, CcType, CcTypeResponse.CcType
         )
     }
 
-    override fun fromNetworkToData(model: CcTypeResponse.CcTypeModel): CcTypeEntity {
+    override fun fromNetworkToDb(model: CcTypeResponse.CcTypeModel): CcTypeEntity {
         return CcTypeEntity(
             null,
             model.ccType,

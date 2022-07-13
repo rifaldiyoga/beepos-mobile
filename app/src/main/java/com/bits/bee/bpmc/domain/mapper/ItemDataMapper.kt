@@ -75,7 +75,7 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
         )
     }
 
-    override fun fromNetworkToData(model: ItemResponse.ItemModel): ItemEntity {
+    override fun fromNetworkToDb(model: ItemResponse.ItemModel): ItemEntity {
         return ItemEntity(
             id = model.id,
             code = model.code,

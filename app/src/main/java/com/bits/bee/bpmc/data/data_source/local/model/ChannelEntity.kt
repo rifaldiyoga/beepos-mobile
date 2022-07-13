@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = ChannelEntity.TBL_NAME,
     foreignKeys = [
@@ -27,13 +28,13 @@ data class ChannelEntity(
     @ColumnInfo(name = IS_POS)
     var isPos : Boolean,
     @ColumnInfo(name = CREATED_BY)
-    var createdBy : Int,
+    var createdBy : Int?,
     @ColumnInfo(name = CREATED_AT)
-    var createdAt : Long,
+    var createdAt : Date?,
     @ColumnInfo(name = UPDATED_BY)
-    var updatedBy : Int,
+    var updatedBy : Int?,
     @ColumnInfo(name = UPDATED_AT)
-    var updatedAt : Long,
+    var updatedAt : Date?,
     @ColumnInfo(name = COLOR)
     var color : String,
     @ColumnInfo(name = PRICELVL_ID, index = true)

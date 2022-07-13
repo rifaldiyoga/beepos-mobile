@@ -192,4 +192,22 @@ object DatabaseModule {
     fun provideDistrictDao(dbHelper: DbHelper): DistrictDao{
         return dbHelper.districtDao
     }
+
+    @Provides
+    @Singleton
+    fun provideUsrGrpDao(dbHelper: DbHelper): UsrGrpDao{
+        return dbHelper.usrGrpDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideGrpPrvDao(dbHelper: DbHelper): GrpPrvDao{
+        return dbHelper.grpPrvDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegDao(dbHelper: DbHelper): RegDao{
+        return dbHelper.regDao
+    }
 }

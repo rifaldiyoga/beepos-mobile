@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -36,12 +35,12 @@ class PriceLvlRepositoryImpl @Inject constructor(
                 return true
             }
 
-            override suspend fun createCall(): kotlinx.coroutines.flow.Flow<ApiResponse<PriceLvlResponse>> {
+            override suspend fun createCall(): Flow<ApiResponse<PriceLvlResponse>> {
                 return apiUtils.getPriceLvlApiService().getPriceLvl()
             }
 
             override suspend fun saveCallResult(data: PriceLvlResponse) {
-                val data = data.data.data.map { PriceLvlDataMapper.fromNetworkToData(it) }
+                val data = data.data.map { PriceLvlDataMapper.fromNetworkToDb(it) }
                 priceLvlDao.insertBulk(data)
             }
         }.getAsFlow()

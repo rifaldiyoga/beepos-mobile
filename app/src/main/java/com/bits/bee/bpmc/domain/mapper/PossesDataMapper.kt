@@ -52,7 +52,7 @@ object PossesDataMapper : BaseMapper<PossesEntity, Posses, Any>() {
         )
     }
 
-    override fun fromNetworkToData(model: Any): PossesEntity {
+    override fun fromNetworkToDb(model: Any): PossesEntity {
         TODO("Not yet implemented")
     }
 }

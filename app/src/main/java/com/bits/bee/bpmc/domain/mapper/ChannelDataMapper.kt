@@ -43,7 +43,7 @@ object ChannelDataMapper : BaseMapper<ChannelEntity, Channel, ChannelResponse.Ch
         )
     }
 
-    override fun fromNetworkToData(model: ChannelResponse.ChannelModel): ChannelEntity {
+    override fun fromNetworkToDb(model: ChannelResponse.ChannelModel): ChannelEntity {
         return ChannelEntity(
             model.id,
             model.code,
@@ -51,9 +51,9 @@ object ChannelDataMapper : BaseMapper<ChannelEntity, Channel, ChannelResponse.Ch
             model.active,
             model.isPos,
             model.createdBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt).time,
+            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt),
             model.updatedBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt).time,
+            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt),
             model.color,
             model.priceLvlId
         )

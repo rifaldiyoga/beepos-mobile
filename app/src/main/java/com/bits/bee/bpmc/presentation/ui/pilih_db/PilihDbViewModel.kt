@@ -2,12 +2,15 @@ package com.bits.bee.bpmc.presentation.ui.pilih_db
 
 import androidx.lifecycle.*
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
+import com.bits.bee.bpmc.domain.usecase.common.InitialUseCase
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.ui.login.LoginViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -17,29 +20,24 @@ import javax.inject.Inject
 @HiltViewModel
 class PilihDbViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val state : SavedStateHandle
-) : ViewModel() {
+    private val initialUseCase: InitialUseCase
 
-    private val eventChannel = Channel<LoginViewModel.UIEvent>()
-    val event = eventChannel.receiveAsFlow()
+) : BaseViewModel<PilihDbState, PilihDbViewModel.UIEvent>() {
 
-    var inputEmail = state.get<String>("inputEmail") ?: "hafis@beeaccounting.com"
-        set(value) {
-            field = value
-            state.set("inputEmail", value)
-        }
+    init {
+        state = PilihDbState()
+    }
 
-    var inputPassword = state.get<String>("inputPassword") ?: "Nanda123"
-        set(value) {
-            field = value
-            state.set("inputPassword", value)
-        }
+    val initial = initialUseCase()
 
     private var loginResponse: MediatorLiveData<Resource<LoginResponse>> = MediatorLiveData()
     fun observeLoginResponse() = loginResponse as LiveData<Resource<LoginResponse>>
 
+    private var initialResponse: MediatorLiveData<Resource<Any>> = MediatorLiveData()
+    fun observeInitialResponse() = initialResponse as LiveData<Resource<Any>>
+
     fun login() {
-        val source = loginUseCase(inputEmail, inputPassword).asLiveData()
+        val source = loginUseCase(state.inputEmail, state.inputPassword).asLiveData()
         loginResponse.addSource(source){
             if (it != null) {
                 loginResponse.value = it
@@ -52,8 +50,31 @@ class PilihDbViewModel @Inject constructor(
         }
     }
 
+    fun initialData() {
+        val source = initialUseCase().asLiveData()
+        initialResponse.addSource(source){
+            if (it != null) {
+                initialResponse.value = it
+                if (it.status !== Resource.Status.LOADING) {
+                    initialResponse.removeSource(source)
+                }
+            } else {
+                initialResponse.removeSource(source)
+            }
+        }
+    }
+
+    fun onClickDb() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDb)
+    }
+
+    fun onSuccessDb() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToPilihMode)
+    }
+
     sealed class UIEvent {
-        object RequestDatabase : UIEvent()
+        object NavigateToPilihMode : UIEvent()
+        object RequestDb : UIEvent()
     }
 
 }

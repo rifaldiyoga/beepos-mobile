@@ -37,7 +37,7 @@ class AddOnRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: AddOnResponse) {
-                addOnDao.insertBulk(data.addOnModels.map { AddOnDataMapper.fromNetworkToData(it) })
+                addOnDao.insertBulk(data.addOnModels.map { AddOnDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

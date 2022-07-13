@@ -37,7 +37,7 @@ class ItemVariantRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: ItemVariantResponse) {
-                itemVariantDao.insertBulk(data.itemVariantModels.map { ItemVariantDataMapper.fromNetworkToData(it) })
+                itemVariantDao.insertBulk(data.itemVariantModels.map { ItemVariantDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

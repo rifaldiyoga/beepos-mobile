@@ -30,11 +30,11 @@ data class CmpEntity (
     @ColumnInfo(name = STARTDATE)
     var startDate : String,
     @ColumnInfo(name = FISCALYEAR)
-    var fiscalYear : Int,
+    var fiscalYear : String,
     @ColumnInfo(name = OWNERNAME)
-    var ownerName : String,
+    var ownerName : String?,
     @ColumnInfo(name = OWNERTAXREGNO)
-    var ownerTaxRegNo : String,
+    var ownerTaxRegNo : String?,
     @ColumnInfo(name = FORMSERNO)
     var formSerno : String,
     @ColumnInfo(name = TAXREGNO)

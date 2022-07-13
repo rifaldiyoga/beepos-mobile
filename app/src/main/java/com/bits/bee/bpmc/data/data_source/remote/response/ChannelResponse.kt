@@ -17,7 +17,7 @@ data class ChannelResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : MutableList<ChannelModel> = mutableListOf()
 ): Parcelable {
 
     @Parcelize
@@ -52,10 +52,6 @@ data class ChannelResponse (
         var priceLvlId : Int? = -1,
     ) : Parcelable {
 
-        fun toChannel() : ChannelEntity {
-            return ChannelEntity(id, code, name, active, isPos, createdBy,DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, createdAt).time, updatedBy, DateFormatUtils.formatStringToDate(
-                BPMConstants.DEFAULT_DATE_FORMAT, updatedAt).time, color, priceLvlId)
-        }
 
     }
 

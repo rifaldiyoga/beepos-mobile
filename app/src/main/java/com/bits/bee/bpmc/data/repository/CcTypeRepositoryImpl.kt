@@ -37,7 +37,7 @@ class CcTypeRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CcTypeResponse) {
-                ccTypeDao.insertBulk(data.data.map { CcTypeDataMapper.fromNetworkToData(it) })
+                ccTypeDao.insertBulk(data.data.map { CcTypeDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

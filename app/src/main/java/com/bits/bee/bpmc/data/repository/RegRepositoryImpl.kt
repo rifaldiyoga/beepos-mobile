@@ -37,7 +37,7 @@ class RegRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: RegResponse) {
-                regDao.insertSingle(RegDataMapper.fromNetworkToData(data.regModel))
+                regDao.insertSingle(RegDataMapper.fromNetworkToDb(data.regModel))
             }
         }.getAsFlow()
     }

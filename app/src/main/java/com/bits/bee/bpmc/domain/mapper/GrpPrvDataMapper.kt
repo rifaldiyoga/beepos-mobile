@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.GrpPrvEntity
-import com.bits.bee.bpmc.data.data_source.remote.response.GrpPrvResponse
+import com.bits.bee.bpmc.data.data_source.remote.model.GrpPrvModel
 import com.bits.bee.bpmc.domain.model.GrpPrv
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
@@ -9,7 +9,7 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 /**
  * Created by aldi on 22/04/22.
  */
-object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvResponse.GrpPrvModel>(){
+object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvModel>(){
 
     override fun fromDbToDomain(model: GrpPrvEntity): GrpPrv {
         return GrpPrv(
@@ -47,7 +47,7 @@ object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvResponse.GrpPrv
         )
     }
 
-    override fun fromNetworkToData(model: GrpPrvResponse.GrpPrvModel): GrpPrvEntity {
+    override fun fromNetworkToDb(model: GrpPrvModel): GrpPrvEntity {
         return GrpPrvEntity(
             model.id ,
             DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt),
@@ -55,13 +55,13 @@ object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvResponse.GrpPrv
             model.acsType ,
             model.enabled ,
             model.acsVal ,
-            model.grpId ,
+            model.grpId.toInt() ,
             model.objCode ,
-            model.upCode ,
-            model.modulCode ,
-            model.name ,
-            model.mnemonic ,
-            model.level ,
+           "" ,
+            "" ,
+            "" ,
+            "" ,
+            -1,
         )
     }
 }

@@ -19,7 +19,7 @@ object CityPopulerDataMapper: BaseMapper<CityPopulerEntity, CityPopuler, Any>() 
         )
     }
 
-    override fun fromNetworkToData(model: Any): CityPopulerEntity {
+    override fun fromNetworkToDb(model: Any): CityPopulerEntity {
         TODO("Not yet implemented")
     }
 }

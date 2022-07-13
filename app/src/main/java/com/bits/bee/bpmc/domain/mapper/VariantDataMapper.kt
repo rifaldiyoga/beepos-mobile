@@ -33,7 +33,7 @@ object VariantDataMapper : BaseMapper<VariantEntity, Variant, VariantResponse.Va
         )
     }
 
-    override fun fromNetworkToData(model: VariantResponse.VariantModel): VariantEntity {
+    override fun fromNetworkToDb(model: VariantResponse.VariantModel): VariantEntity {
         return VariantEntity(
             model.id,
             model.code,

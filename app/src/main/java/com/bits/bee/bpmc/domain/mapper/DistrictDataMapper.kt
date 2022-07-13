@@ -24,7 +24,7 @@ object DistrictDataMapper: BaseMapper<DistrictEntity, District, DistrictResponse
         )
     }
 
-    override fun fromNetworkToData(model: DistrictResponse.DistrictModel): DistrictEntity {
+    override fun fromNetworkToDb(model: DistrictResponse.DistrictModel): DistrictEntity {
         return DistrictEntity(
             model.code,
             model.name,

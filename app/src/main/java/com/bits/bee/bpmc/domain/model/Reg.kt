@@ -13,5 +13,5 @@ data class Reg (
     var value: String,
     var isVisible : Boolean,
     var modulCode : String,
-    var validator : String,
+    var validator : String?,
 ) : Parcelable

@@ -30,7 +30,7 @@ object UnitDataMapper : BaseMapper<UnitEntity, Unit, ItemResponse.UnitModel>(){
         )
     }
 
-    override fun fromNetworkToData(model: ItemResponse.UnitModel): UnitEntity {
+    override fun fromNetworkToDb(model: ItemResponse.UnitModel): UnitEntity {
         return UnitEntity(
             id = model.id,
             itemId = model.itemId,

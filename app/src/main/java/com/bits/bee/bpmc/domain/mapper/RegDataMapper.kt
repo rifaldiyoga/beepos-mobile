@@ -1,13 +1,13 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.RegEntity
-import com.bits.bee.bpmc.data.data_source.remote.response.RegResponse
+import com.bits.bee.bpmc.data.data_source.remote.model.RegModel
 import com.bits.bee.bpmc.domain.model.Reg
 
 /**
  * Created by aldi on 22/04/22.
  */
-object RegDataMapper : BaseMapper<RegEntity, Reg, RegResponse.RegModel>(){
+object RegDataMapper : BaseMapper<RegEntity, Reg, RegModel>(){
 
     override fun fromDbToDomain(model: RegEntity): Reg {
         return Reg(
@@ -31,7 +31,7 @@ object RegDataMapper : BaseMapper<RegEntity, Reg, RegResponse.RegModel>(){
         )
     }
 
-    override fun fromNetworkToData(model: RegResponse.RegModel): RegEntity {
+    override fun fromNetworkToDb(model: RegModel): RegEntity {
         return RegEntity(
             model.code,
             model.name,

@@ -37,7 +37,7 @@ object CrcDataMapper : BaseMapper<CrcEntity, Crc, CrcResponse.CrcModel>() {
         )
     }
 
-    override fun fromNetworkToData(model: CrcResponse.CrcModel): CrcEntity {
+    override fun fromNetworkToDb(model: CrcResponse.CrcModel): CrcEntity {
         return CrcEntity(
             id = model.id,
             code = model.code,

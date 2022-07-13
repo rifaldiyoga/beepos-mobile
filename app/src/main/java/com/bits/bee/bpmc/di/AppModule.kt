@@ -187,4 +187,24 @@ object AppModule {
         return DistrictRepositoryImpl(apiUtils, districtDao, defaultDispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun provideInitialRepository(
+        apiUtils: ApiUtils,
+        cmpDao: CmpDao,
+        regDao: RegDao,
+        userDao: UserDao,
+        usrGrpDao: UsrGrpDao,
+        grpPrvDao: GrpPrvDao
+    ): InitialRepository{
+        return InitialRepositoryImpl(
+            apiUtils,
+            cmpDao,
+            regDao,
+            userDao,
+            usrGrpDao,
+            grpPrvDao
+        )
+    }
+
 }

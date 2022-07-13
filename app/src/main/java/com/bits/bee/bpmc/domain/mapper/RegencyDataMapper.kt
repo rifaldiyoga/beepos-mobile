@@ -32,7 +32,7 @@ object RegencyDataMapper: BaseMapper<RegencyEntity, Regency, RegencyResponse.Reg
         )
     }
 
-    override fun fromNetworkToData(model: RegencyResponse.RegencyModel): RegencyEntity {
+    override fun fromNetworkToDb(model: RegencyResponse.RegencyModel): RegencyEntity {
         return RegencyEntity(
             model.code,
             model.name,

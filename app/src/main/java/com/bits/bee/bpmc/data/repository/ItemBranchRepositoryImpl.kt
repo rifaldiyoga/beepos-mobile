@@ -37,7 +37,7 @@ class ItemBranchRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: ItemBranchResponse) {
-                itemBranchDao.insertBulk(data.itemBranch.itemBranchModels.map { ItemBranchDataMapper.fromNetworkToData(it) } )
+                itemBranchDao.insertBulk(data.itemBranch.itemBranchModels.map { ItemBranchDataMapper.fromNetworkToDb(it) } )
             }
         }.getAsFlow()
     }

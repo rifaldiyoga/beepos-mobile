@@ -31,7 +31,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl, PriceLvlRespons
         )
     }
 
-    override fun fromNetworkToData(model: PriceLvlResponse.PriceLvlModel): PriceLvlEntity {
+    override fun fromNetworkToDb(model: PriceLvlResponse.PriceLvlModel): PriceLvlEntity {
         return PriceLvlEntity(
             model.id,
             model.name,

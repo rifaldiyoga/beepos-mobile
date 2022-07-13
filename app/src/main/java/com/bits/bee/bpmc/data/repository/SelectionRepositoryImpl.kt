@@ -37,7 +37,7 @@ class SelectionRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: SelectionResponse) {
-                addOnDDao.insertBulk(data.selectionModels.map { SelectionDataMapper.fromNetworkToData(it) })
+                addOnDDao.insertBulk(data.selectionModels.map { SelectionDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

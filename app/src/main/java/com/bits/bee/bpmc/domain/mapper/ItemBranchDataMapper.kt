@@ -25,7 +25,7 @@ object ItemBranchDataMapper : BaseMapper<ItemBranchEntity, ItemBranch, ItemBranc
         )
     }
 
-    override fun fromNetworkToData(model: ItemBranchResponse.ItemBranchModel): ItemBranchEntity {
+    override fun fromNetworkToDb(model: ItemBranchResponse.ItemBranchModel): ItemBranchEntity {
         return ItemBranchEntity(
             model.id,
             model.branchId,

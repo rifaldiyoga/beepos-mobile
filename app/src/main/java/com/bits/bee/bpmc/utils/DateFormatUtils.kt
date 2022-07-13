@@ -10,9 +10,9 @@ class DateFormatUtils  {
 
     companion object{
 
-        fun formatStringToDate(format : String, value : String) : Date {
+        fun formatStringToDate(format : String, value : String?) : Date {
             val sFormat = SimpleDateFormat(format, Locale.getDefault())
-            return sFormat.parse(value) ?: Date()
+            return value?.let { sFormat.parse(it) } ?: Date()
         }
 
     }

@@ -49,7 +49,7 @@ class CmpRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CmpResponse) {
-                cmpDao.insertSingle(CmpDataMapper.fromNetworkToData(data.data))
+                cmpDao.insertSingle(CmpDataMapper.fromNetworkToDb(data.data))
             }
         }.getAsFlow()
     }

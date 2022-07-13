@@ -33,7 +33,7 @@ object SelectionDataMapper : BaseMapper<SelectionEntity, Selection, SelectionRes
         )
     }
 
-    override fun fromNetworkToData(model: SelectionResponse.SelectionModel): SelectionEntity {
+    override fun fromNetworkToDb(model: SelectionResponse.SelectionModel): SelectionEntity {
         return SelectionEntity(
             model.id,
             model.code,

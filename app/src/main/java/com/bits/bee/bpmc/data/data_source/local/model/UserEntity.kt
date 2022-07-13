@@ -14,9 +14,9 @@ data class UserEntity(
     @ColumnInfo(name = USERNAME)
     var username : String,
     @ColumnInfo(name = AUTH_KEY)
-    var userApiKey: String,
+    var userApiKey: String?,
     @ColumnInfo(name = PIN)
-    var pin : String,
+    var pin : String?,
     @ColumnInfo(name = ACTIVE)
     var active : Boolean,
 ) {

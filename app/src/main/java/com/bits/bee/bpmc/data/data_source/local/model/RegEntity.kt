@@ -18,7 +18,7 @@ data class RegEntity(
     @ColumnInfo(name = MODUL_CODE)
     var modulCode : String,
     @ColumnInfo(name = VALIDATOR)
-    var validator : String,
+    var validator : String?,
 ) {
     companion object {
         const val TBL_NAME = "reg"

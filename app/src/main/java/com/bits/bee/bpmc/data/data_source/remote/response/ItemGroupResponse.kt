@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
 import com.bits.bee.bpmc.data.data_source.local.model.ItemGroupEntity
+import com.bits.bee.bpmc.data.data_source.remote.model.ItemGroupModel
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -12,12 +13,12 @@ import kotlinx.parcelize.Parcelize
 data class ItemGroupResponse (
     @SerializedName("status")
     var status:Boolean = false,
-    @SerializedName("message")
-    var msg : String = "",
+//    @SerializedName("message")
+//    var msg : String = "",
     @SerializedName("data")
-    var data : Data,
-    @SerializedName("total_page")
-    var totalPage : Int = 1,
+    var data : MutableList<ItemGroupModel> = mutableListOf(),
+//    @SerializedName("total_page")
+//    var totalPage : Int = 1,
 ): Parcelable {
 
     @Parcelize
@@ -28,22 +29,6 @@ data class ItemGroupResponse (
         var totalPage : Int = -1,
         ) : Parcelable
 
-    @Parcelize
-    data class ItemGroupModel(
-        @SerializedName("id")
-        val id : Int = -1,
-        @SerializedName("code")
-        val code : String = "",
-        @SerializedName("name")
-        val name: String = "",
-        @SerializedName("level")
-        val level : Int = -1,
-        @SerializedName("up_id")
-        val upId : Int = -1,
-        @SerializedName("ispos")
-        val isPos : Boolean,
-    ) : Parcelable {
 
-    }
 
 }

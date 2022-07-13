@@ -3,7 +3,6 @@ package com.bits.bee.bpmc.presentation.ui.download
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
-import com.bits.bee.bpmc.domain.mapper.ItemGroupDataMapper
 import com.bits.bee.bpmc.domain.mapper.ProvinceDataMapper
 import com.bits.bee.bpmc.domain.mapper.RegencyDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
@@ -56,18 +55,11 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     it.data?.let { data ->
-                        itemGroupRepository.insertBulkItemGroup(
-                            data.data.data.map { ItemGroupDataMapper.fromNetworkToData(it) }
-                        )
                         _state.update {
                             it.copy(status = "Finish Downloading Item Group")
                         }
 
-//                        if (data.totalPage > page){
-////                            runBlocking { downloadItemGroup(). }
-//                        } else {
-                            downloadChannel()
-//                        }
+                        downloadPriceLvl()
                     }
                 }
                 Resource.Status.ERROR -> {
@@ -84,12 +76,13 @@ class DownloadViewModel @Inject constructor (
                     _state.update {
                         it.copy(status = "Downloading Channel")
                     }
-                    downloadPriceLvl()
+
                 }
                 Resource.Status.SUCCESS -> {
                     _state.update {
                         it.copy(status = "Finish Downloading Channel")
                     }
+                    downloadBp()
                 }
                 Resource.Status.ERROR -> {
 
@@ -128,7 +121,8 @@ class DownloadViewModel @Inject constructor (
                     }
                 }
                 Resource.Status.SUCCESS -> {
-                    downloadBp()
+
+                    downloadChannel()
                     _state.update {
                         it.copy(status = "Finish Downloading Price Lvl")
                     }
@@ -324,7 +318,7 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS ->{
                     it.data?.let { data ->
                         districtRepository.insertBulkDistrict(
-                            data.data.data.map { DistrictDataMapper.fromNetworkToData(it) }
+                            data.data.data.map { DistrictDataMapper.fromNetworkToDb(it) }
                         )
                         page++
                         if (data.data.page <= data.data.total_page){

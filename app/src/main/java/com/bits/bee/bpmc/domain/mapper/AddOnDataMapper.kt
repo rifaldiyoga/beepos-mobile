@@ -31,7 +31,7 @@ object AddOnDataMapper : BaseMapper<AddOnEntity, AddOn, AddOnResponse.AddOnModel
         )
     }
 
-    override fun fromNetworkToData(model: AddOnResponse.AddOnModel): AddOnEntity {
+    override fun fromNetworkToDb(model: AddOnResponse.AddOnModel): AddOnEntity {
         return AddOnEntity(
             model.id,
             model.code,

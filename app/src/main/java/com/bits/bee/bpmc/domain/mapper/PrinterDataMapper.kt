@@ -33,7 +33,7 @@ object PrinterDataMapper: BaseMapper<PrinterEntity, Printer, Any>() {
         )
     }
 
-    override fun fromNetworkToData(model: Any): PrinterEntity {
+    override fun fromNetworkToDb(model: Any): PrinterEntity {
         TODO("Not yet implemented")
     }
 }

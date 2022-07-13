@@ -10,11 +10,9 @@ import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -41,7 +39,7 @@ class ChannelRepositoryImpl  @Inject constructor(
 
             override suspend fun saveCallResult(data: ChannelResponse) {
                 channelDao.deleteAll()
-                channelDao.insertBulk(data.data.data.map { it.toChannel() })
+                channelDao.insertBulk(data.data.map { ChannelDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

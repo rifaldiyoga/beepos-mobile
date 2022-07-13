@@ -38,7 +38,7 @@ class BranchRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: BranchResponse) {
-                    branchDao.insertBulk(data.data.map { BranchDataMapper.fromNetworkToData(it) })
+                    branchDao.insertBulk(data.data.map { BranchDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

@@ -29,7 +29,7 @@ class BpRepositoryImpl @Inject constructor(
 ) : BpRepository{
 
     override fun getLastesBpList(): Flow<Resource<List<Bp>>> {
-        return object : NetworkDatabaseBoundResource<List<Bp>, BpResponse>(){
+        return object : NetworkDatabaseBoundResource<List<Bp>, BpResponse>() {
             override suspend fun loadFormDB(): List<Bp> {
                 return bpDao.getBpList().map { BpDataMapper.fromDbToDomain(it) }
             }
@@ -43,11 +43,9 @@ class BpRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: BpResponse) {
-                bpDao.insertSingle(BpDataMapper.fromNetworkToData(data.data))
-//                data.data.data.{
-//                bpAddrDao.insertBulk(data.data.bpAddr.map { it.toBpAddr() })
-//                }
+                bpDao.insertBulk(data.data.map{BpDataMapper.fromNetworkToDb(it)})
             }
+
         }.getAsFlow()
     }
 

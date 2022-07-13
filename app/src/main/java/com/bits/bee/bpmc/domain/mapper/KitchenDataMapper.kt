@@ -36,7 +36,7 @@ object KitchenDataMapper: BaseMapper<KitchenEntity, Kitchen, KitchenResponse.Kit
         )
     }
 
-    override fun fromNetworkToData(model: KitchenResponse.KitchenModel): KitchenEntity {
+    override fun fromNetworkToDb(model: KitchenResponse.KitchenModel): KitchenEntity {
         return KitchenEntity(
             model.id,
             model.code,

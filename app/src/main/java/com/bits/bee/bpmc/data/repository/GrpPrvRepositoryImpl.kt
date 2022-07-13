@@ -37,7 +37,7 @@ class GrpPrvRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: GrpPrvResponse) {
-                grpPrvDao.insertBulk(data.data.map { GrpPrvDataMapper.fromNetworkToData(it) })
+                grpPrvDao.insertBulk(data.data.map { GrpPrvDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

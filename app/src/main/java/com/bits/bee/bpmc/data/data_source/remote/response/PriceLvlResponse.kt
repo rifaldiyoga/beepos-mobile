@@ -14,7 +14,7 @@ data class PriceLvlResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : MutableList<PriceLvlModel> = mutableListOf()
 ): Parcelable {
 
     @Parcelize
@@ -32,7 +32,7 @@ data class PriceLvlResponse (
         @SerializedName("name")
         val name: String = "",
         @SerializedName("active")
-        val active: Boolean = false,
+        val active: Boolean = true,
         @SerializedName("updated_at")
         val updatedAt : String = "",
     ) : Parcelable

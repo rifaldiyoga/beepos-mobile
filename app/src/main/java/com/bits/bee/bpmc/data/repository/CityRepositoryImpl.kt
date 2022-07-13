@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.CityDao
-import com.bits.bee.bpmc.data.data_source.local.model.CityEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.CityResponse
 import com.bits.bee.bpmc.domain.mapper.CityDataMapper
@@ -14,7 +13,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -41,7 +39,7 @@ class CityRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CityResponse) {
-                cityDao.insertBulk(data.data.map { CityDataMapper.fromNetworkToData(it) })
+                cityDao.insertBulk(data.data.map { CityDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

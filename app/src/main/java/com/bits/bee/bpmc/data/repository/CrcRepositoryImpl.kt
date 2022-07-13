@@ -38,7 +38,7 @@ class CrcRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CrcResponse) {
-                crcDao.insertBulk(data.data.map { CrcDataMapper.fromNetworkToData(it) })
+                crcDao.insertBulk(data.data.map { CrcDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()

@@ -3,9 +3,7 @@ package com.bits.bee.bpmc.data.repository
 import com.bits.bee.bpmc.data.data_source.local.dao.CashierDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierResponse
-import com.bits.bee.bpmc.domain.mapper.BranchDataMapper
 import com.bits.bee.bpmc.domain.mapper.CashierDataMapper
-import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.repository.CashierRepository
 import com.bits.bee.bpmc.utils.ApiResponse
@@ -43,7 +41,7 @@ class CashierRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CashierResponse) {
-                cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToData(it) })
+                cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()
