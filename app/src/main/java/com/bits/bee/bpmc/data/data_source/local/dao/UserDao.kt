@@ -15,7 +15,13 @@ interface UserDao : BaseDao<UserEntity>{
     @Query("SELECT * FROM user WHERE active = 1")
     fun geActiveUser() : UserEntity
 
+    @Query("SELECT * FROM user WHERE id = 3")
+    fun getDefaultUser() : UserEntity
+
     @Query("DELETE FROM user")
     fun deleteAll()
+
+    @Query("SELECT * FROM user WHERE id = :id")
+    fun getUserById(id: Int) : UserEntity
 
 }

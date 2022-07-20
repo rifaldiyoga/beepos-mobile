@@ -16,7 +16,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl, PriceLvlRespons
             model.id,
             model.name,
             model.code,
-            model.active,
+//            model.active,
             model.updatedAt
         )
     }
@@ -26,7 +26,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl, PriceLvlRespons
             model.id,
             model.name,
             model.code,
-            model.active,
+//            model.active,
             model.updatedAt
         )
     }
@@ -36,7 +36,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl, PriceLvlRespons
             model.id,
             model.name,
             model.code,
-            model.active,
+//            model.active,
             DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt)
         )
     }

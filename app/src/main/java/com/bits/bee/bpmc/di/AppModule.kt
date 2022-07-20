@@ -207,4 +207,22 @@ object AppModule {
         )
     }
 
+    @Provides
+    @Singleton
+    fun provideCashRepository(cashDao: CashDao, dispatcher: CoroutineDispatcher) : CashRepository {
+        return CashRepositoryImpl(cashDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCashARepository(cashADao: CashADao, dispatcher: CoroutineDispatcher) : CashARepository {
+        return CashARepositoryImpl(cashADao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCstrRepository(cstrDao: CstrDao, dispatcher: CoroutineDispatcher) : CstrRepository {
+        return CstrRepositoryImpl(cstrDao, dispatcher)
+    }
+
 }

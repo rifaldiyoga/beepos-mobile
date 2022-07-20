@@ -11,18 +11,17 @@ import kotlinx.parcelize.Parcelize
 data class PriceLvlResponse (
     @SerializedName("status")
     var status:Boolean = false,
-    @SerializedName("message")
-    var msg : String = "",
+//    @SerializedName("message")
+//    var msg : String = "",
     @SerializedName("data")
-    var data : MutableList<PriceLvlModel> = mutableListOf()
+    var data: MutableList<PriceLvlModel> = mutableListOf()
 ): Parcelable {
-
-    @Parcelize
-    data class Data(
-        @SerializedName("data")
-        var data: MutableList<PriceLvlModel> = mutableListOf()
-    ) : Parcelable
-
+//
+//    @Parcelize
+//    data class Data(
+//        @SerializedName("data")
+//        var data: MutableList<PriceLvlModel> = mutableListOf()
+//    ) : Parcelable
     @Parcelize
     data class PriceLvlModel(
         @SerializedName("id")
@@ -31,8 +30,8 @@ data class PriceLvlResponse (
         val code: String = "",
         @SerializedName("name")
         val name: String = "",
-        @SerializedName("active")
-        val active: Boolean = true,
+//        @SerializedName("active")
+//        val active: Boolean = false,
         @SerializedName("updated_at")
         val updatedAt : String = "",
     ) : Parcelable

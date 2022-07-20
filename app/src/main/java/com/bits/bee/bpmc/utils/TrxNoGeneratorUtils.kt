@@ -162,9 +162,9 @@ class TrxNoGeneratorUtils @Inject constructor(
 //        Toast.makeText(getContext(), ""+no_trx, Toast.LENGTH_SHORT).show();
         }
 
-        fun counterNoTrxCstr(id_cstr: Long, branch: Branch, cashier: Cashier): String? {
+        fun counterNoTrxCstr(id_cstr: Int, branch: Branch, cashier: Cashier): String? {
             var no_trx = ""
-            var mCounterNoTrxCstr = id_cstr.toInt()
+            var mCounterNoTrxCstr = id_cstr
 
             val timeNow = Calendar.getInstance().time
 

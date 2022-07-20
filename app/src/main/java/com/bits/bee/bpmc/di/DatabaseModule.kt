@@ -210,4 +210,17 @@ object DatabaseModule {
     fun provideRegDao(dbHelper: DbHelper): RegDao{
         return dbHelper.regDao
     }
+
+    @Provides
+    @Singleton
+    fun provideCashDao(dbHelper: DbHelper): CashDao{
+        return dbHelper.cashDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCashADao(dbHelper: DbHelper): CashADao{
+        return dbHelper.cashADao
+    }
+
 }

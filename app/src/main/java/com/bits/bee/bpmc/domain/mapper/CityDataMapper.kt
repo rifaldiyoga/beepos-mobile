@@ -4,6 +4,8 @@ import com.bits.bee.bpmc.data.data_source.local.model.CityEntity
 import com.bits.bee.bpmc.data.data_source.remote.model.CityModel
 import com.bits.bee.bpmc.data.data_source.remote.response.CityResponse
 import com.bits.bee.bpmc.domain.model.City
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.DateFormatUtils
 
 /**
  * Created by aldi on 18/05/22.
@@ -14,7 +16,8 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
         return City(
             model.code,
             model.name,
-            model.isActive
+//            model.isActive
+            model.updatedAt
         )
     }
 
@@ -22,7 +25,8 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
         return CityEntity(
             model.code,
             model.name,
-            model.isActive
+//            model.isActive
+            model.updatedAt
         )
     }
 
@@ -30,7 +34,8 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
         return CityEntity(
             model.code,
             model.name,
-            true
+//            true
+            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt)
         )
     }
 }

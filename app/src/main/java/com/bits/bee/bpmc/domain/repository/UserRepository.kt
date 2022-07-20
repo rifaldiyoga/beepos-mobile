@@ -12,4 +12,8 @@ interface UserRepository {
     suspend fun getUser() : Flow<Resource<List<User>>>
 
     fun getActiveUser() : Flow<User?>
+
+    fun getDefaultUser(): Flow<Resource<User>>
+
+    fun getUserById(id: Int): Flow<Resource<User>>
 }

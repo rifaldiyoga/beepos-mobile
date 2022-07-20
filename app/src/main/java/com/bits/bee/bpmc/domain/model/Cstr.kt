@@ -10,7 +10,7 @@ import java.util.*
  */
 @Parcelize
 data class Cstr (
-    var id : Int,
+    var id : Int? = null,
     var trxDate : Long,
     var amount1: BigDecimal,
     var amount2: BigDecimal,

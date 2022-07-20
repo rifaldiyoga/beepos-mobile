@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.tutup_kasir
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,6 +29,7 @@ class DetailTutupKasirFragment(
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
 
     override fun initComponents() {
+        setHasOptionsMenu(true)
         binding.apply {
 
         }
@@ -52,10 +52,14 @@ class DetailTutupKasirFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.event.collect {
-                    when(it){
+                viewModel.event.collect { event  ->
+                    when(event){
                         DetailTutupKasirViewModel.UIEvent.RequestSave -> {
                             sharedViewModel.doTutupKasir()
+                        }
+                        DetailTutupKasirViewModel.UIEvent.RequestRekapSesi ->{
+                            val action = DetailTutupKasirFragmentDirections.actionDetailTutupKasirFragmentToRekapSesiFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }
@@ -86,5 +90,16 @@ class DetailTutupKasirFragment(
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_tutup_kasir, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_list -> viewModel.onCLickMenu()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 }

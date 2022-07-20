@@ -12,6 +12,6 @@ data class PriceLvl(
     var id : Int,
     var name: String,
     var code : String,
-    var active : Boolean,
+//    var active : Boolean,
     var updatedAt : Date,
 ) : Parcelable

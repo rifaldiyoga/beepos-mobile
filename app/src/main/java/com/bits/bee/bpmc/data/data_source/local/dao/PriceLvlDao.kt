@@ -11,7 +11,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.PriceLvlEntity
 @Dao
 interface PriceLvlDao : BaseDao<PriceLvlEntity>{
 
-    @Query("SELECT * FROM price_lvl WHERE active = 1")
+    @Query("SELECT * FROM price_lvl")
     fun getActivePriceLvl() : List<PriceLvlEntity>
 
 }
