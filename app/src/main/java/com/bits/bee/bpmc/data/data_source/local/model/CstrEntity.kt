@@ -10,7 +10,7 @@ import java.util.*
 data class CstrEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = DATE_TRANS)
     var trxDate : Long,
     @ColumnInfo(name = AMOUNT_1)

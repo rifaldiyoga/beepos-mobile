@@ -9,7 +9,7 @@ import java.math.BigDecimal
 data class CashEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = CODE)
     var code: String,
     @ColumnInfo(name = NAME)

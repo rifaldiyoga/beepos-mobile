@@ -19,7 +19,7 @@ data class Posses (
     var total: BigDecimal,
     var credit : BigDecimal,
     var shift : Int,
-    var operatorId : Int,
+    var userId : Int,
     var cashierId: Int,
     var trxNo : String,
     var totIn : BigDecimal? = null,

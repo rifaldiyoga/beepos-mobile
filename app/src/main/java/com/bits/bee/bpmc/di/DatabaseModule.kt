@@ -219,8 +219,15 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideItemBranchDao(dbHelper: DbHelper): ItemBranchDao{
+    fun provideItemBranchDao(dbHelper: DbHelper): ItemBranchDao {
         return dbHelper.itemBranchDao
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideCashDao(dbHelper: DbHelper): CashDao{
+        return dbHelper.cashDao
     }
 
     @Provides
@@ -243,8 +250,14 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCcTypeDao(dbHelper: DbHelper): CcTypeDao{
+    fun provideCcTypeDao(dbHelper: DbHelper): CcTypeDao {
         return dbHelper.ccTypeDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCashADao(dbHelper: DbHelper): CashADao{
+        return dbHelper.cashADao
     }
 
 }

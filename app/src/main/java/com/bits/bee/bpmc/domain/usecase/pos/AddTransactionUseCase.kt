@@ -4,10 +4,8 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaleRepository
 import com.bits.bee.bpmc.domain.repository.SaledRepository
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveOperatorUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.*
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
@@ -18,13 +16,15 @@ import javax.inject.Inject
 /**
  * Created by aldi on 20/05/22.
  */
-class SubmitTransactionUseCase @Inject constructor(
+class AddTransactionUseCase @Inject constructor(
     private val saleRepository: SaleRepository,
     private val saledRepository: SaledRepository,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveOperatorUseCase: GetActiveOperatorUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
+    private val addCashAUseCase: AddCashAUseCase,
+    private val addTotalPossesUseCase: AddTotalPossesUseCase,
     private val defDispatcher: CoroutineDispatcher
 ) {
 
@@ -47,7 +47,7 @@ class SubmitTransactionUseCase @Inject constructor(
             posses?.let {
                 sale.possesId = it.possesId!!
                 sale.kodePosses = it.trxNo
-            }
+            } ?: throw Exception("")
 
             sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1, branch!!, cashier!!)
             sale.trxDate = Date()
@@ -57,6 +57,18 @@ class SubmitTransactionUseCase @Inject constructor(
                 it.saleId = id.toInt()
             }
             saledRepository.addSaled(saled)
+
+            addCashAUseCase(
+                refId = id,
+                refType = BPMConstants.SALE,
+                cashId = posses?.possesId ?: throw Exception(""),
+                cashierId = cashier.id,
+                userId = user?.id ?: throw Exception(""),
+                amt = sale.total
+            )
+            addTotalPossesUseCase(
+                amt = sale.total
+            )
         }
     }
 

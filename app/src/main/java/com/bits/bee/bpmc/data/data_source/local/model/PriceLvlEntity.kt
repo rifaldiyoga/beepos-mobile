@@ -14,8 +14,8 @@ data class PriceLvlEntity(
     var name: String,
     @ColumnInfo(name = CODE)
     var code : String,
-    @ColumnInfo(name = ACTIVE)
-    var active : Boolean,
+//    @ColumnInfo(name = ACTIVE)
+//    var active : Boolean,
     @ColumnInfo(name = UPDATED_AT)
     var updatedAt : Date,
 ) {
@@ -25,7 +25,7 @@ data class PriceLvlEntity(
         const val ID = "id"
         const val CODE = "code"
         const val NAME = "name"
-        const val ACTIVE = "active"
+//        const val ACTIVE = "active"
         const val UPDATED_AT = "updated_at"
     }
 }

@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.data.data_source.local.model
+    package com.bits.bee.bpmc.data.data_source.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -31,7 +31,7 @@ import java.math.BigDecimal
 data class CashAEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = DATE_TRANS)
     var trxDate : String,
     @ColumnInfo(name = AMOUNT)

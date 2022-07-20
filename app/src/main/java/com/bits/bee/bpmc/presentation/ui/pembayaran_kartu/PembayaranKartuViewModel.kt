@@ -5,7 +5,7 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.usecase.pembayaran.GetActiveEdc
 import com.bits.bee.bpmc.domain.usecase.pembayaran.GetActiveEdcSurc
-import com.bits.bee.bpmc.domain.usecase.pos.SubmitTransactionUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class PembayaranKartuViewModel @Inject constructor(
     private val getActiveEdc: GetActiveEdc,
     private val getActiveEdcSurc: GetActiveEdcSurc,
-    private val submitTransactionUseCase: SubmitTransactionUseCase
+    private val addTransactionUseCase: AddTransactionUseCase
 ) : BaseViewModel<PembayaranKartuState, PembayaranKartuViewModel.UIEvent>(){
 
     init {
@@ -46,7 +46,7 @@ class PembayaranKartuViewModel @Inject constructor(
     }
 
     fun onBayarClick(sale : Sale, saledList : List<Saled>) = viewModelScope.launch {
-        submitTransactionUseCase(sale, saledList)
+        addTransactionUseCase(sale, saledList)
         eventChannel.send(UIEvent.NavigateToTransaksiBerhasil)
     }
 

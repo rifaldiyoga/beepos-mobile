@@ -471,4 +471,18 @@ untuk memperbarui data dapur?</string>
     <string name="citylist_empty">Kota yang anda cari tidak ada, coba cek ejaan atau cari dengan kata kunci lain ya</string>
     <string name="pilih_edc">Pilih EDC</string>
     <string name="pilih_tipe_edc">Pilih Tipe EDC</string>
+
+
+    <!--Rekap Sesi-->
+    <string name="jam_rekap">12:12 WIB</string>
+    <string name="total_rekap">Rp 12.000</string>
+    <string name="cash">CASH</string>
+    <string name="hari_ini">Hari ini</string>
+    <string name="info_kasir">Informasi Kasir</string>
+    <string name="selesai_operasional">Selesai Operasional</string>
+    <string name="sesi">Sesi</string>
+    <string name="analisa_sesi">Analisa Sesi</string>
+    <string name="lihat_grafik">Lihat grafik, rata-rata penjualan, dll</string>
+    <string name="pendapatan_sesi">Pendapatan Sesi</string>
+    <string name="rekap_sesi_empty">Belum ada rekap sesi yang dicatat. Rekap sesi akan otomatis tersedia kasir aktif</string>
 </resources>

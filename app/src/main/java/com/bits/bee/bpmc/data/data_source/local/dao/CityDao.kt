@@ -19,10 +19,10 @@ interface CityDao : BaseDao<CityEntity>{
     @Query("DELETE FROM city")
     fun deleteAll()
 
-    @Query("SELECT * FROM city WHERE active = 1")
+    @Query("SELECT * FROM city")
     fun getActiveCityList() : List<CityEntity>
 
-    @Query("SELECT * FROM city WHERE active = 1 AND name LIKE '%'|| :query || '%'")
+    @Query("SELECT * FROM city WHERE name LIKE '%'|| :query || '%'")
     fun searchCityList(query : String) : List<CityEntity>
 
     @Query("SELECT name FROM city ")

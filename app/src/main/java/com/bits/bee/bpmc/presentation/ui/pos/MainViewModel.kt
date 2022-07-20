@@ -11,7 +11,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.SubmitDraftTransactionUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.SubmitTransactionUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
-    private val submitTransactionUseCase: SubmitTransactionUseCase,
+    private val addTransactionUseCase: AddTransactionUseCase,
     private val submitDraftTransactionUseCase: SubmitDraftTransactionUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
@@ -165,7 +165,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun submitTrans() = viewModelScope.launch {
-        submitTransactionUseCase(state.sale, state.saledList)
+        addTransactionUseCase(state.sale, state.saledList)
     }
 
     fun submitDraftTrans() = viewModelScope.launch {

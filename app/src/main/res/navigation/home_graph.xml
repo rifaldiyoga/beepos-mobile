@@ -119,6 +119,9 @@
             android:id="@+id/action_detailTutupKasirFragment_to_mainActivity"
             app:destination="@id/mainActivity"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_detailTutupKasirFragment_to_rekapSesiFragment"
+            app:destination="@id/rekapSesiFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_lainnya"
@@ -233,4 +236,30 @@
             android:name="sale"
             app:argType="com.bits.bee.bpmc.domain.model.Sale" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_rekap_sesi"
+        android:id="@+id/rekapSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_sesi_kasir.RekapSesiFragment"
+        android:label="RekapSesiFragment" >
+        <action
+            android:id="@+id/action_rekapSesiFragment_to_detailSesiKasirFragment"
+            app:destination="@id/detailSesiKasirFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_rekap_sesi"
+        android:id="@+id/detailSesiKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_sesi_kasir.DetailSesiKasirFragment"
+        android:label="DetailSesiKasirFragment" >
+        <argument
+            android:name="posses"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailSesiKasirFragment_to_detailPendapatanDialog"
+            app:destination="@id/detailPendapatanDialog" />
+    </fragment>
+    <dialog
+        tools:layout="@layout/dialog_detail_pendapatan"
+        android:id="@+id/detailPendapatanDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_pendapatan.DetailPendapatanDialog"
+        android:label="DetailPendapatanDialog" />
 </navigation>

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
 /**
  * Created by aldi on 13/07/22.
@@ -16,4 +17,6 @@ data class CityModel (
     val code: String = "",
     @SerializedName("name")
     val name : String = "",
+    @SerializedName("updated_at")
+    val updatedAt : String = ""
 ) : Parcelable

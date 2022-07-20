@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="@dimen/size16"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/cl_total_rekap"
+        android:weightSum="6"
+        android:layout_marginBottom="5dp"
+        android:background="@color/soft_red"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/pemasukan_total"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size8"
+                android:text="@string/hari_ini"
+                android:textSize="@dimen/font16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView85"
+                tools:layout_editor_absoluteX="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lL_detail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@string/transaksi" />
+
+            <ImageView
+                android:layout_marginLeft="@dimen/size10"
+                android:layout_width="@dimen/size10"
+                android:layout_height="@dimen/size10"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_chevron_up" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_rekap_sesi"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        android:layout_marginTop="@dimen/size75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lL_rekap_empty"
+        android:paddingTop="@dimen/size8"
+        android:visibility="gone"
+        android:paddingBottom="@dimen/size8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/size65"
+        android:paddingLeft="@dimen/size65"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="@dimen/size225"
+            android:layout_height="@dimen/size150"
+            android:layout_gravity="center"
+            android:background="@drawable/image_content_empty"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size30"/>
+
+        <TextView
+            style="@style/TextDetail"
+            android:textAlignment="center"
+            android:textSize="@dimen/font12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size16"
+            android:text="@string/rekap_sesi_empty"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,12 +63,13 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
     }
 
     fun doBukaKasir(modal : BigDecimal) = viewModelScope.launch {
-        bukaKasirUseCase(
-            modal = modal,
-            shift = 1,
-            cashier = state.activeCashier!!,
-            branch = state.activeBranch!!
-        )
+        bukaKasirUseCase.invoke(modal, 1, state.activeBranch!!, state.activeCashier!!)
+//        bukaKasirUseCase(
+//            modal = modal,
+//            shift = 1,
+//            cashier = state.activeCashier!!,
+//            branch = state.activeBranch!!
+//        )
         getActivePosses()
     }
 

@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.tutup_kasir
 
+import android.provider.Contacts
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
@@ -27,8 +28,12 @@ class DetailTutupKasirViewModel (
         eventChannel.send(UIEvent.RequestSave)
     }
 
+      fun onCLickMenu() = viewModelScope.launch{
+          eventChannel.send(UIEvent.RequestRekapSesi)
+      }
 
     sealed class UIEvent {
         object RequestSave : UIEvent()
+        object RequestRekapSesi : UIEvent()
     }
 }

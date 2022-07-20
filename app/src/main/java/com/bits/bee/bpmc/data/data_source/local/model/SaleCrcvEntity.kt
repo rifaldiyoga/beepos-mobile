@@ -2,29 +2,29 @@ package com.bits.bee.bpmc.data.data_source.local.model
 
 import androidx.room.*
 
-@Entity(tableName = SalecrcvsEntity.TBL_NAME,
+@Entity(tableName = SaleCrcvEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
             entity = SaleEntity::class,
             parentColumns = [SaleEntity.ID],
-            childColumns = [SalecrcvsEntity.SALE_ID],
+            childColumns = [SaleCrcvEntity.SALE_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = EdcEntity::class,
             parentColumns = [EdcEntity.ID],
-            childColumns = [SalecrcvsEntity.EDC_ID],
+            childColumns = [SaleCrcvEntity.EDC_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = CashEntity::class,
             parentColumns = [CashEntity.ID],
-            childColumns = [SalecrcvsEntity.CASH_ID],
+            childColumns = [SaleCrcvEntity.CASH_ID],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class SalecrcvsEntity(
+data class SaleCrcvEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     var id : Int,
