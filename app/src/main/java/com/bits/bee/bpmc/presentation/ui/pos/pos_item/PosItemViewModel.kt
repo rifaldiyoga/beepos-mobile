@@ -9,9 +9,7 @@ import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -28,10 +26,16 @@ class PosItemViewModel @Inject constructor(
         state = PosItemState()
     }
 
-    var itemList : Flow<PagingData<Item>> = MutableSharedFlow(1)
+    var itemFlow : Flow<PagingData<Item>> = MutableSharedFlow(1)
 
-    fun loadItem(bp : Bp) = viewModelScope.launch {
-        itemList = getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId, bp)
+    fun loadItem(bp : Bp, query : String) = viewModelScope.launch {
+        getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId, bp, query).collectLatest {
+            updateState(
+                state.copy(
+                    itemList = it
+                )
+            )
+        }
     }
 
     fun onReciveItemGroup(itemGroup: ItemGroup) = viewModelScope.launch {

@@ -22,8 +22,8 @@ data class  Item (
     var unitdesc : String,
     var note : String?,
     var active : Boolean,
-    var saleUnit : Int,
-    var stockUnit : Int,
+    var saleUnit : Int?,
+    var stockUnit : Int?,
     var qty : BigDecimal = BigDecimal.ZERO,
     var isPos : Boolean = true,
     var type : String = "",
@@ -33,5 +33,6 @@ data class  Item (
     var vColor : String? = null,
     var price : BigDecimal = BigDecimal.ZERO,
     var tax : String = "",
+    var crcId: Int = -1,
     var crcSymbol: String = "Rp."
 ) : Parcelable

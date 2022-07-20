@@ -40,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
+                android:hint="@string/pilih_edc"
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
                 android:clickable="true"
+                android:hint="@string/pilih_tipe_edc"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
                 android:inputType="none" />
@@ -90,7 +92,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tilTipeEdc" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilNoTelp"
+            android:id="@+id/tilTrackNo"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
@@ -99,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTrackNo">
 
             <EditText
-                android:id="@+id/etNoTelp"
+                android:id="@+id/etTrackNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
@@ -116,7 +118,7 @@
             android:layout_marginTop="@dimen/size16"
             android:text="@string/nomor_kartu"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilNoTelp" />
+            app:layout_constraintTop_toBottomOf="@+id/tilTrackNo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilNomorKartu"
@@ -173,7 +175,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="@dimen/size16"
-        android:background="@drawable/bg_rounded_top_background_color"
         app:layout_constraintBottom_toTopOf="@+id/llTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -190,6 +191,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_top_background_color"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 

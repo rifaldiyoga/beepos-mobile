@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemInvoiceBinding
-import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
@@ -40,9 +40,10 @@ class InvoiceAdapter(
 
         fun bind(model : Saled) {
             binding.apply {
+                val context = binding.root.context
                 tvNamaItem.text = model.name
                 tvQty.text = CurrencyUtils.formatCurrency(model.qty)
-                tvHarga.text = CurrencyUtils.formatCurrency(model.listPrice)
+                tvHarga.text =  context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(model.listPrice))
 
                 if(model.discAmt.compareTo(BigDecimal.ZERO) == 0){
                     tvLabelItem.gone()

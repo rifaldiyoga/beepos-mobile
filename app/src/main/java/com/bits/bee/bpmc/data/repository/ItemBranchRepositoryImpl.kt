@@ -33,11 +33,11 @@ class ItemBranchRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): Flow<ApiResponse<ItemBranchResponse>> {
-                return apiUtils.getItemBranchApiService().getItemBranch()
+                return apiUtils.getItemApiService().getItemBranch()
             }
 
             override suspend fun saveCallResult(data: ItemBranchResponse) {
-                itemBranchDao.insertBulk(data.itemBranch.itemBranchModels.map { ItemBranchDataMapper.fromNetworkToDb(it) } )
+                itemBranchDao.insertBulk(data.itemBranch.map { ItemBranchDataMapper.fromNetworkToDb(it) } )
             }
         }.getAsFlow()
     }

@@ -3,7 +3,6 @@ package com.bits.bee.bpmc.di
 import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.repository.*
-import com.bits.bee.bpmc.domain.model.Regency
 import com.bits.bee.bpmc.domain.repository.*
 import dagger.Module
 import dagger.Provides
@@ -32,7 +31,6 @@ object AppModule {
     fun proivdeBranchRepository(apiUtils: ApiUtils, dao: BranchDao, defaultDispatcher: CoroutineDispatcher) : BranchRepository {
         return BranchRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
-
 
     @Provides
     @Singleton
@@ -76,19 +74,14 @@ object AppModule {
         return ItemRepositoryImpl(
             apiUtils =  apiUtils,
             itemDao = itemDao,
-            itemGroupDao = itemGroupDao,
-            itemSaleTaxDao = itemSaleTaxDao,
-            priceLvlDao = priceLvlDao,
-            unitDao = unitDao,
             defaultDispatcher = defaultDispatcher,
-            priceDao = priceDao
         )
     }
 
     @Provides
     @Singleton
-    fun proivdePriceRepository(dao: PriceDao) : PriceRepository {
-        return PriceRepositoryImpl(dao)
+    fun proivdePriceRepository(dao: PriceDao, apiUtils: ApiUtils, defaultDispatcher: CoroutineDispatcher) : PriceRepository {
+        return PriceRepositoryImpl(dao, apiUtils, defaultDispatcher)
     }
 
     @Provides
@@ -195,7 +188,8 @@ object AppModule {
         regDao: RegDao,
         userDao: UserDao,
         usrGrpDao: UsrGrpDao,
-        grpPrvDao: GrpPrvDao
+        grpPrvDao: GrpPrvDao,
+        crcDao: CrcDao,
     ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
@@ -203,7 +197,68 @@ object AppModule {
             regDao,
             userDao,
             usrGrpDao,
-            grpPrvDao
+            grpPrvDao,
+            crcDao
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemKitchenRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemKitchenDao: ItemKitchenDao): ItemKitchenRepository{
+        return ItemKitchenRepositoryImpl(
+            defaultDispatcher,
+            itemKitchenDao,
+            apiUtils,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemBranchRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: ItemBranchDao): ItemBranchRepository{
+        return ItemBranchRepositoryImpl(
+            apiUtils,
+            itemBranchDao,
+            defaultDispatcher,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemSaleTaxRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: ItemSaleTaxDao): ItemSaleTaxRepository{
+        return ItemSaleTaxRepositoryImpl(
+            defaultDispatcher,
+            itemBranchDao,
+            apiUtils,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideEdcRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: EdcDao): EdcRepository{
+        return EdcRepositoryImpl(
+            apiUtils,
+            itemBranchDao,
+            defaultDispatcher,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideEdcSurcRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: EdcSurcDao): EdcSurcRepository{
+        return EdcSurcRepositoryImpl(
+            apiUtils,
+            itemBranchDao,
+            defaultDispatcher,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCcTypeRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: CcTypeDao): CcTypeRepository{
+        return CcTypeRepositoryImpl(
+            apiUtils,
+            itemBranchDao,
+            defaultDispatcher,
         )
     }
 

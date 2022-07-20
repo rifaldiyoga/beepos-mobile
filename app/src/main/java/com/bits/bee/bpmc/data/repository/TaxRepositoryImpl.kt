@@ -1,9 +1,10 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.TaxDao
-import com.bits.bee.bpmc.data.data_source.local.model.TaxEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.TaxResponse
+import com.bits.bee.bpmc.domain.mapper.TaxDataMapper
+import com.bits.bee.bpmc.domain.model.Tax
 import com.bits.bee.bpmc.domain.repository.TaxRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
@@ -19,13 +20,13 @@ class TaxRepositoryImpl @Inject constructor(
     private val taxDao: TaxDao
 ) : TaxRepository {
 
-     override fun getLatestTaxList(): Flow<Resource<List<TaxEntity>>> {
-        return object : NetworkDatabaseBoundResource<List<TaxEntity>, TaxResponse>(){
-            override suspend fun loadFormDB(): List<TaxEntity>? {
-                return taxDao.getTaxList()
+     override fun getLatestTaxList(): Flow<Resource<List<Tax>>> {
+        return object : NetworkDatabaseBoundResource<List<Tax>, TaxResponse>(){
+            override suspend fun loadFormDB(): List<Tax>? {
+                return taxDao.getTaxList().map { TaxDataMapper.fromDbToDomain(it) }
             }
 
-            override fun shouldFetch(data: List<TaxEntity>?): Boolean {
+            override fun shouldFetch(data: List<Tax>?): Boolean {
                 return true
             }
 
@@ -35,7 +36,7 @@ class TaxRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: TaxResponse) {
                 taxDao.deleteAll()
-                taxDao.insertBulk(data.data.data.map { it.toTax() })
+                taxDao.insertBulk(data.data.map { it.toTax() })
             }
         }.getAsFlow()
     }

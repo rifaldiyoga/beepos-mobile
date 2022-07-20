@@ -52,28 +52,15 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             active = model.active,
             saleUnit = model.saleUnit,
             stockUnit = model.stockUnit,
+            isPos = model.isPos,
+            type = model.type,
+            isAvailable = model.isAvailable,
+            isVariant = model.isVariant,
+            vCode = model.vCode,
+            vColor = model.vColor
         )
     }
 
-    fun fromDbToResponse(model : ItemResponse.ItemModel) : ItemEntity {
-        return ItemEntity(
-            id = model.id,
-            code = model.code,
-            name1= model.name1,
-            brandId= model.brandId,
-            itemTypeCode = model.itemTypeCode,
-            usePid = model.usePid,
-            uniquePid = model.uniqueid,
-            itemGrpId = model.itemGrp1Id,
-            isStock = model.isStock,
-            isSale = model.isSale,
-            unitdesc = model.unitdesc,
-            note = model.note,
-            active = model.active,
-            saleUnit = model.saleUnit,
-            stockUnit = model.stockUnit,
-        )
-    }
 
     override fun fromNetworkToDb(model: ItemResponse.ItemModel): ItemEntity {
         return ItemEntity(
@@ -81,17 +68,21 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             code = model.code,
             name1= model.name1,
             brandId= model.brandId,
-            itemTypeCode = model.itemTypeCode,
-            usePid = model.usePid,
-            uniquePid = model.uniqueid,
-            itemGrpId = model.itemGrp1Id,
-            isStock = model.isStock,
-            isSale = model.isSale,
+            itemTypeCode = model.itemtypeCode,
+            usePid = model.usepid,
+            uniquePid = model.uniquepid,
+            itemGrpId = model.itemgrp1Id?.toIntOrNull(),
+            isStock = model.isstock,
+            isSale = model.issale,
             unitdesc = model.unitdesc,
             note = model.note,
             active = model.active,
-            saleUnit = model.saleUnit,
-            stockUnit = model.stockUnit,
+            saleUnit = model.saleunit?.toIntOrNull(),
+            stockUnit = model.stockunit?.toIntOrNull(),
+            isPos = model.ispos,
+            isVariant = model.isvariant,
+            vColor = model.vcolor,
+            vCode = model.vcode
         )
     }
 

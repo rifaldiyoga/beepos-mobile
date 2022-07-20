@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.BSmartPay
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -34,10 +36,6 @@ class PembayaranFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     private lateinit var rekomBayarAdapter: RekomBayarAdapter
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun initComponents() {
         binding.apply {
@@ -61,6 +59,8 @@ class PembayaranFragment(
                 layoutManager = GridLayoutManager(requireContext(), 2)
             }
             numpad.setInputConnection(etNominalBayar.onCreateInputConnection(EditorInfo())!!)
+
+            etNominalBayar.addNumberFormatChange()
         }
     }
 
@@ -102,9 +102,18 @@ class PembayaranFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                mainViewModel.viewStates().collect {
+                    it?.let {
+                        binding.tvTotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "", CurrencyUtils.formatCurrency(viewModel.state.total))
+                        binding.tvCrcBayar.text = it.crc?.symbol ?: ""
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let {
-                        binding.tvTotal.text = CurrencyUtils.formatCurrency(viewModel.state.total)
                         rekomBayarAdapter.submitList(it.rekomBayarList.values.toList().sorted())
                     }
                 }

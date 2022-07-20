@@ -143,13 +143,17 @@
             app:destination="@id/transaksiBerhasilFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_pembayaran_debit_kredit"
+        tools:layout="@layout/fragment_pembayaran_kartu"
         android:id="@+id/pembayaranDebitKreditFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_debit_kredit.PembayaranDebitKreditFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_kartu.PembayaranKartuFragment"
         android:label="PembayaranDebitKreditFragment" >
         <action
             android:id="@+id/action_pembayaranDebitKreditFragment_to_transaksiBerhasilFragment"
             app:destination="@id/transaksiBerhasilFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="CC" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_transaksi_berhasil"

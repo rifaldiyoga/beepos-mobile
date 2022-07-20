@@ -12,6 +12,6 @@ import retrofit2.http.GET
 interface EdcApiService {
 
     @GET("v1/edc")
-    fun getTaxList() : Flow<ApiResponse<EdcResponse>>
+    fun getEdc() : Flow<ApiResponse<EdcResponse>>
     
 }

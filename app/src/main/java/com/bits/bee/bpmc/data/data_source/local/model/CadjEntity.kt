@@ -16,7 +16,7 @@ import java.util.*
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = [UserEntity.ID],
-            childColumns = [CadjEntity.OPERATOR_ID],
+            childColumns = [CadjEntity.USER_ID],
             onDelete = CASCADE
         ),
         ForeignKey(
@@ -44,7 +44,7 @@ data class CadjEntity(
     var autoGen : String,
     @ColumnInfo(name = CASH_ID, index = true)
     var cashAId: Int,
-    @ColumnInfo(name = OPERATOR_ID, index = true)
+    @ColumnInfo(name = USER_ID, index = true)
     var operatorId: Int,
     @ColumnInfo(name = CASHIER_ID, index = true)
     var cashierId: Int,
@@ -74,7 +74,7 @@ data class CadjEntity(
         const val REFTYPE = "reftype"
         const val AUTOGEN = "autogen"
         const val CASH_ID = "cash_id"
-        const val OPERATOR_ID = "op_id"
+        const val USER_ID = "user_id"
         const val CASHIER_ID = "cashier_id"
         const val ISUPLOADED = "isuploaded"
         const val KODE_CADJ = "kode_cadj"

@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,12 +22,16 @@ class PembayaranNonTunaiViewModel @Inject constructor(): BaseViewModel<Pembayara
         eventChannel.send(UIEvent.NavigateToGopay)
     }
 
-    fun onClickDebitKredit() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToDebitKredit)
+    fun onClickKredit() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDebitKredit(BPMConstants.CREDIT_CARD_CODE))
+    }
+
+    fun onClickDebit() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDebitKredit(BPMConstants.DEBIT_CARD_CODE))
     }
 
     sealed class UIEvent {
         object NavigateToGopay : UIEvent()
-        object NavigateToDebitKredit : UIEvent()
+        data class NavigateToDebitKredit(var type : String) : UIEvent()
     }
 }

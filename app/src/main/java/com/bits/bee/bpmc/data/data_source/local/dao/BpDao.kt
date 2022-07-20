@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Dao
-interface BpDao : BaseDao<BpEntity>{
+interface BpDao : BaseDao<BpEntity> {
 
     @Query("SELECT * FROM bp")
     fun getBpList() : List<BpEntity>
@@ -30,4 +30,5 @@ interface BpDao : BaseDao<BpEntity>{
 
     @Query("SELECT * FROM bp WHERE name LIKE '%'|| :query || '%'")
     fun searchCityList(query : String) : List<BpEntity>
+
 }

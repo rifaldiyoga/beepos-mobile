@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentInvoiceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
@@ -74,11 +75,11 @@ class InvoiceFragment(
                         binding.apply {
                             invoiceAdapter.submitList(it.saledList)
 
-                            tvDiskon.text = CurrencyUtils.formatCurrency(it.sale.discAmt)
-                            tvPajak.text = CurrencyUtils.formatCurrency(it.sale.taxAmt)
-                            tvSubtotal.text = CurrencyUtils.formatCurrency(it.sale.subtotal)
-                            tvRounding.text = CurrencyUtils.formatCurrency(it.sale.rounding)
-                            tvTotal.text = CurrencyUtils.formatCurrency(it.sale.total)
+                            tvDiskon.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.discAmt))
+                            tvPajak.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.taxAmt))
+                            tvSubtotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.subtotal))
+                            tvRounding.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.rounding))
+                            tvTotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.total))
                         }
                     }
                 }

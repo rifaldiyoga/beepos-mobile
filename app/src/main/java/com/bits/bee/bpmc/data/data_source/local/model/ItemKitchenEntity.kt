@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.data.data_source.local.model
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
+import java.util.*
 
 @Entity(tableName = ItemKitchenEntity.TBL_NAME,
     foreignKeys = [
@@ -28,13 +29,13 @@ data class ItemKitchenEntity(
     @ColumnInfo(name = KITCHEN_ID, index = true)
     var kitchenId: Int,
     @ColumnInfo(name = CREATED_BY)
-    var createdBy : Int,
+    var createdBy : Int?,
     @ColumnInfo(name = CREATED_AT)
-    var createdAt : Long,
+    var createdAt : Date?,
     @ColumnInfo(name = UPDATED_BY)
-    var updatedBy : Int,
+    var updatedBy : Int?,
     @ColumnInfo(name = UPDATED_AT)
-    var updatedAt : Long,
+    var updatedAt : Date?,
 ) {
     companion object {
         const val TBL_NAME = "item_kitchen"

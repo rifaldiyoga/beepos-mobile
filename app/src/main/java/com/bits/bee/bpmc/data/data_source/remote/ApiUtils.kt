@@ -109,10 +109,6 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
         return retrofitClient.getClientApi()!!.create(CcTypeApiService::class.java)
     }
 
-    fun getItemBranchApiService() : ItemBranchApiService {
-        return retrofitClient.getClientApi()!!.create(ItemBranchApiService::class.java)
-    }
-
     fun getEdcApiService() : EdcApiService {
         return retrofitClient.getClientApi()!!.create(EdcApiService::class.java)
     }
@@ -135,6 +131,10 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
 
     fun getInitialApiService(): InitialApiService{
         return retrofitClient.getClientApi()!!.create(InitialApiService::class.java)
+    }
+
+    fun getPriceApiService(): PriceApiService{
+        return retrofitClient.getClientApi()!!.create(PriceApiService::class.java)
     }
 
 }

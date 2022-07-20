@@ -55,7 +55,7 @@ class ItemPosAdapter constructor(
             binding.apply {
                 var qty = getSumQty(item)
                 tvNamaItem.text =  item.name1
-                tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,"Rp.", CurrencyUtils.formatCurrency(item.price))
+                tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,item.crcSymbol, CurrencyUtils.formatCurrency(item.price))
                 tvQty.text = CurrencyUtils.formatCurrency(qty)
                 val generatorCol = ColorGenerator.MATERIAL
                 val text = getInitial(item.name1)

@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -43,5 +45,9 @@ class CrcRepositoryImpl @Inject constructor(
 
         }.getAsFlow()
     }
+
+    override fun getDefaultCrc(): Flow<Crc?> = flow {
+        emit(crcDao.getDefaultCrc()?.let { CrcDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
 
 }

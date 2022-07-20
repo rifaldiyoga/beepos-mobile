@@ -19,14 +19,16 @@ data class EdcEntity(
     var id : Int,
     @ColumnInfo(name = CODE)
     var code : String,
+    @ColumnInfo(name = NAME)
+    var name : String,
     @ColumnInfo(name = CASH_ID)
     var cash: Int,
     @ColumnInfo(name = NOTE)
     var note : String,
     @ColumnInfo(name = SURCPAYTO)
-    var surcPayTo : String,
-    @ColumnInfo(name = BRANCH_ID, index = true)
-    var branchId: Int,
+    var surcPayTo : String?,
+    @ColumnInfo(name = BRANCH_ID)
+    var branchId: Int?,
     @ColumnInfo(name = ACTIVE)
     var active: Boolean,
 ) {

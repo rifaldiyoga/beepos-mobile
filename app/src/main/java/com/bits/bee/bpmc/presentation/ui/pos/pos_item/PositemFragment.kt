@@ -19,7 +19,6 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -94,11 +93,13 @@ class PositemFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mainViewModel.viewStates().collect {
+                mainViewModel.viewStates().collectLatest {
                     it?.let {
+                        if(it.querySearch.isNotEmpty())
+                            viewModel.loadItem(it.bp!!, it.querySearch)
                         it.bp?.let { bp ->
                             viewModel.state.priceLvlId = bp.priceLvlId
-                            viewModel.loadItem(bp)
+                            viewModel.loadItem(bp, it.querySearch)
                         }
                         posAdapter.submitSaledList(it.saledList)
 //                        it.channel?.let { channel ->
@@ -116,7 +117,10 @@ class PositemFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         it.itemGroup?.let {
-                            viewModel.loadItem(mainViewModel.state.bp!!)
+                            viewModel.loadItem(mainViewModel.state.bp!!, mainViewModel.state.querySearch)
+                        }
+                        it.itemList?.let { pagingData ->
+                            posAdapter.submitData(pagingData)
                         }
                     }
                 }
@@ -134,8 +138,9 @@ class PositemFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.itemList.collect {
-                    posAdapter.submitData(it)
+                viewModel.itemFlow.collectLatest {
+
+
 
 //                    when(it.status){
 //                        Resource.Status.LOADING -> {

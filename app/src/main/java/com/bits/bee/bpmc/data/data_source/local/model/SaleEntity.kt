@@ -26,7 +26,7 @@ import java.util.*
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = [UserEntity.ID],
-            childColumns = [CadjEntity.OPERATOR_ID],
+            childColumns = [SaleEntity.USER_ID],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -39,6 +39,12 @@ import java.util.*
             entity = ChannelEntity::class,
             parentColumns = [ChannelEntity.ID],
             childColumns = [SaleEntity.CHANNEL_ID],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = CrcEntity::class,
+            parentColumns = [CrcEntity.ID],
+            childColumns = [SaleEntity.CRC_ID],
             onDelete = ForeignKey.CASCADE
         )
     ]
@@ -111,6 +117,8 @@ data class SaleEntity(
     var updatedAt: Date = Date(),
     @ColumnInfo(name = UPDATED_BY)
     var updatedBy: Int = -1,
+    @ColumnInfo(name = CRC_ID)
+    var crcId: Int? = -1,
 ) {
     companion object {
         const val TBL_NAME = "sale"
@@ -131,7 +139,7 @@ data class SaleEntity(
         const val DISCEXP = "discexp"
         const val POSSES_ID = "posses_id"
         const val POS_KODE = "kode_posses"
-        const val USER_ID = "op_id"
+        const val USER_ID = "user_id"
         const val CASHIER_ID = "cashier_id"
         const val BP_ID = "bp_id"
         const val BP_NAME = "bp_name"
@@ -148,6 +156,7 @@ data class SaleEntity(
         const val CREATED_BY = "created_by"
         const val UPDATED_AT = "updated_at"
         const val UPDATED_BY = "updated_by"
+        const val CRC_ID = "crc_id"
 
     }
 }

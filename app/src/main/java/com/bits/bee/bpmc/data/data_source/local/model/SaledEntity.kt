@@ -61,6 +61,8 @@ data class SaledEntity(
     var totalTaxAmt : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = DNOTES)
     var dNotes: String = "",
+    @ColumnInfo(name = CRC_ID)
+    var crcId: Int? = -1,
     @Ignore var isBonus : Boolean = false,
     @Ignore var isBonusUsed : Boolean = false,
     @Ignore var isDeleted : Boolean = true,
@@ -89,5 +91,6 @@ data class SaledEntity(
         const val TOTAL_DISC_AMOUNT = "totaldiscamt"
         const val TOTAL_DISC2_AMOUNT = "totaldisc2amt"
         const val DNOTES = "dnote"
+        const val CRC_ID = "crc_id"
     }
 }

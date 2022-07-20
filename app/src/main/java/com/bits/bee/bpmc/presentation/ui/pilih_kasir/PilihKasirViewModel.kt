@@ -22,7 +22,7 @@ class PilihKasirViewModel @Inject constructor(
     private var cashierEntityResponse: MediatorLiveData<Resource<List<Cashier>>> = MediatorLiveData()
     fun observeCashierResponse() = cashierEntityResponse as LiveData<Resource<List<Cashier>>>
 
-    fun getCashierList() = viewModelScope.launch{
+    fun getCashierList() = viewModelScope.launch {
         val source = getLatestCashierUseCase().asLiveData()
         cashierEntityResponse.addSource(source){
             if (it != null) {

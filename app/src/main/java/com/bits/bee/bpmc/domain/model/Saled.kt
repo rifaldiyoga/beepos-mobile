@@ -35,4 +35,6 @@ data class Saled (
     var isBonus : Boolean = false,
     var isBonusUsed : Boolean = false,
     var isDeleted : Boolean = true,
+    var crcId : Int = -1,
+    var crcSymbol : String = "Rp"
 ) : Parcelable

@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.SubmitDraftTransactionUseCase
@@ -34,6 +35,7 @@ class MainViewModel @Inject constructor(
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
+    private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val submitTransactionUseCase: SubmitTransactionUseCase,
     private val submitDraftTransactionUseCase: SubmitDraftTransactionUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
@@ -47,7 +49,19 @@ class MainViewModel @Inject constructor(
         getActivePosses()
         getActiveBranch()
         getActiveCashier()
+        getActiveCrc()
     }
+
+    private fun getActiveCrc() = viewModelScope.launch {
+        getDefaultCrcUseCase().collect {
+            updateState(
+                state.copy(
+                    crc = it
+                )
+            )
+        }
+    }
+
 
     fun getActivePosses() = viewModelScope.launch {
         getActivePossesUseCase().collect {
@@ -181,7 +195,9 @@ class MainViewModel @Inject constructor(
                 disc2Amt = BigDecimal.ZERO,
                 isBonus = isBonus,
                 isBonusUsed = isBonus,
-                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax)
+                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
+                crcId = item.crcId,
+                crcSymbol = item.crcSymbol
             )
             addDetail(saledNew)
 //            currentSaled = saledNew
@@ -228,7 +244,9 @@ class MainViewModel @Inject constructor(
                 disc2Amt = BigDecimal.ZERO,
                 isBonus = isBonus,
                 isBonusUsed = isBonus,
-                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax)
+                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
+                crcId = item.crcId,
+                crcSymbol = item.crcSymbol
             )
             var saledList = mutableListOf<Saled>()
             saledList.addAll(state.saledList)

@@ -35,7 +35,12 @@ class ChannelListAdapter(
         fun bind(model : Channel){
             binding.apply {
                 tvChannel.text = model.name
-                ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(Color.parseColor(model.color)))
+                model.color?.let {
+                    if(it.isNotEmpty()){
+                        ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(Color.parseColor(model.color)))
+                    }
+                }
+
                 clContent.setOnClickListener {
                     onChannelClick(model)
                 }

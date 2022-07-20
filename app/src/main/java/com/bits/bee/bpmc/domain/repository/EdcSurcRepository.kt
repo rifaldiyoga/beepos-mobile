@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.domain.model.Cmp
 import com.bits.bee.bpmc.domain.model.EdcSurc
+import com.bits.bee.bpmc.domain.model.EdcSurcAndCcType
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
  */
 interface EdcSurcRepository {
 
-    fun getLatestEdcSurc() : Flow<Resource<EdcSurc>>
+    fun getLatestEdcSurc() : Flow<Resource<List<EdcSurc>>>
+
+    fun getEdcSurcActive(edcId : Int, type : String) : Flow<List<EdcSurcAndCcType>>
 
 }

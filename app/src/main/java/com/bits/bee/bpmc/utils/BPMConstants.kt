@@ -14,6 +14,8 @@ interface BPMConstants {
         const val BPM_LIMIT_PAGINATION = 10
         const val BPM_MAX_PAGINATION = 30
         const val BPM_DEFAULT_TYPE_CASH_POSSES = "POSSES"
+        const val CREDIT_CARD_CODE = "CC"
+        const val DEBIT_CARD_CODE = "DC"
         const val BPM_DEFAULT_TYPE_CASH_CADJ = "CADJ"
         const val BPM_DEFAULT_TYPE_CASH_CSTR = "CSTR"
         const val BPM_DEFAULT_TYPE_CASH_SALE = "sale"

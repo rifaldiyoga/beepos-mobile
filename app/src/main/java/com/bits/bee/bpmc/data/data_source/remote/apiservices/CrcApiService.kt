@@ -10,7 +10,7 @@ import retrofit2.http.GET
  */
 interface CrcApiService {
 
-    @GET("setting/crc")
+    @GET("v1/crc")
     fun getCrcList() : Flow<ApiResponse<CrcResponse>>
     
 }

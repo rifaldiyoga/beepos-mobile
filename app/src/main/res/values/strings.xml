@@ -341,7 +341,7 @@ untuk memperbarui data dapur?</string>
     <string name="belum_ada_printer">Belum ada printer yang terhubung</string>
     <string name="info_printer">Informasi Printer</string>
     <string name="nama_printer">Nama Printer</string>
-    <string name="mac_address">MAC Adress</string>
+    <string name="mac_address">MAC Address</string>
     <string name="tipe">Tipe</string>
     <string name="ukuran_kertas">Ukuran Kertas</string>
     <string name="pengaturan_printer">Pengaturan Printer</string>
@@ -469,4 +469,6 @@ untuk memperbarui data dapur?</string>
     <string name="kecamatan_opsional">Kecamatan bersifat opsional (tidak wajib dipilih)</string>
     <string name="city_kosong">Tidak boleh kosong</string>
     <string name="citylist_empty">Kota yang anda cari tidak ada, coba cek ejaan atau cari dengan kata kunci lain ya</string>
+    <string name="pilih_edc">Pilih EDC</string>
+    <string name="pilih_tipe_edc">Pilih Tipe EDC</string>
 </resources>

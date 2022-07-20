@@ -13,6 +13,6 @@ import retrofit2.http.GET
 interface EdcSurcApiService {
 
     @GET("v1/edcsurc")
-    fun getTaxList() : Flow<ApiResponse<EdcSurcResponse>>
+    fun getEdcSurcList() : Flow<ApiResponse<EdcSurcResponse>>
     
 }

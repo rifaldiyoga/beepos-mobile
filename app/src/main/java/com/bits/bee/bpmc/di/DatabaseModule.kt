@@ -189,6 +189,12 @@ object DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideItemKitchenDao(dbHelper: DbHelper): ItemKitchenDao{
+        return dbHelper.itemKitchenDao
+    }
+
+    @Provides
+    @Singleton
     fun provideDistrictDao(dbHelper: DbHelper): DistrictDao{
         return dbHelper.districtDao
     }
@@ -210,4 +216,35 @@ object DatabaseModule {
     fun provideRegDao(dbHelper: DbHelper): RegDao{
         return dbHelper.regDao
     }
+
+    @Provides
+    @Singleton
+    fun provideItemBranchDao(dbHelper: DbHelper): ItemBranchDao{
+        return dbHelper.itemBranchDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaxDao(dbHelper: DbHelper): TaxDao{
+        return dbHelper.taxDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideEdcDao(dbHelper: DbHelper): EdcDao{
+        return dbHelper.edcDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideEdcSurcDao(dbHelper: DbHelper): EdcSurcDao{
+        return dbHelper.edcSurcDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCcTypeDao(dbHelper: DbHelper): CcTypeDao{
+        return dbHelper.ccTypeDao
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.data_source.local.model.TaxEntity
+import com.bits.bee.bpmc.domain.model.Tax
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface TaxRepository {
 
-    fun getLatestTaxList() : Flow<Resource<List<TaxEntity>>>
+    fun getLatestTaxList() : Flow<Resource<List<Tax>>>
 
 }

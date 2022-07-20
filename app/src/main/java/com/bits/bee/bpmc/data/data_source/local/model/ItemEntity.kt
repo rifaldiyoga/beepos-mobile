@@ -45,9 +45,9 @@ data class ItemEntity(
     @ColumnInfo(name= ACTIVE)
     var active : Boolean,
     @ColumnInfo(name= SALEUNIT)
-    var saleUnit : Int,
+    var saleUnit : Int?,
     @ColumnInfo(name= STOCKUNIT)
-    var stockUnit : Int,
+    var stockUnit : Int?,
     @ColumnInfo(name = ITEMQTY)
     var qty : BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = ISPOS)
@@ -61,9 +61,9 @@ data class ItemEntity(
     @ColumnInfo(name = VARIANT)
     var isVariant : Boolean = false,
     @ColumnInfo(name = VCODE)
-    var vCode : String = "",
+    var vCode : String? = "",
     @ColumnInfo(name = VCOLOR)
-    var vColor : String = "",
+    var vColor : String? = "",
 ) {
     companion object {
         const val TBL_NAME = "item"

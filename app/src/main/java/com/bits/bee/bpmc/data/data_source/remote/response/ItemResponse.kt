@@ -2,9 +2,11 @@ package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
 import com.bits.bee.bpmc.data.data_source.remote.model.ValueLabelModel
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
+
 
 /**
  * Created by aldi on 22/04/22.
@@ -22,46 +24,251 @@ data class ItemResponse (
     @Parcelize
     data class Data (
         @SerializedName("item")
-        var item : ItemModel? = null,
-        @SerializedName("unit")
-        var unit : List<UnitModel> = mutableListOf(),
-        @SerializedName("price")
-        var price : List<PriceModel> = mutableListOf(),
+        var item :List<ItemModel> = mutableListOf(),
+//        @SerializedName("unit")
+//        var unit : List<UnitModel> = mutableListOf(),
+//        @SerializedName("price")
+//        var price : List<PriceModel> = mutableListOf(),
     ) : Parcelable
 
     @Parcelize
-    data class ItemModel(
+    data class ItemModel (
         @SerializedName("id")
-        var id : Int,
+        @Expose
+        var id: Int,
+
         @SerializedName("code")
-        var code : String,
+        @Expose
+        var code: String,
+
         @SerializedName("name1")
+        @Expose
         var name1: String,
+
+        @SerializedName("name2")
+        @Expose
+        var name2: String?,
+
+        @SerializedName("barcode")
+        @Expose
+        var barcode: String,
+
+        @SerializedName("version")
+        @Expose
+        var version: String,
+
         @SerializedName("brand_id")
+        @Expose
         var brandId: Int?,
+
         @SerializedName("itemtype_code")
-        var itemTypeCode : String,
+        @Expose
+        var itemtypeCode: String,
+
         @SerializedName("usepid")
-        var usePid : Boolean,
+        @Expose
+        var usepid: Boolean,
+
         @SerializedName("uniquepid")
-        var uniqueid: Boolean,
+        @Expose
+        var uniquepid: Boolean,
+
         @SerializedName("itemgrp1_id")
-        var itemGrp1Id : Int?,
+        @Expose
+        var itemgrp1Id: String?,
+
+        @SerializedName("itemgrp2_id")
+        @Expose
+        var itemgrp2Id: Int?,
+
+        @SerializedName("itemgrp3_id")
+        @Expose
+        var itemgrp3Id: Int?,
+
+        @SerializedName("accinv")
+        @Expose
+        var accinv: String,
+
+        @SerializedName("acccost")
+        @Expose
+        var acccost: String,
+
+        @SerializedName("accsale")
+        @Expose
+        var accsale: String,
+
+        @SerializedName("accsret")
+        @Expose
+        var accsret: String,
+
+        @SerializedName("ispurc")
+        @Expose
+        var ispurc: Boolean,
+
         @SerializedName("isstock")
-        var isStock : Boolean,
+        @Expose
+        var isstock: Boolean,
+
+        @SerializedName("ismfg")
+        @Expose
+        var ismfg: Boolean,
+
         @SerializedName("issale")
-        var isSale : Boolean,
+        @Expose
+        var issale: Boolean,
+
         @SerializedName("unitdesc")
-        var unitdesc : String,
+        @Expose
+        var unitdesc: String,
+
+        @SerializedName("purcqtymin")
+        @Expose
+        var purcqtymin: String,
+
+        @SerializedName("leadtime")
+        @Expose
+        var leadtime: String,
+
+        @SerializedName("qtymin")
+        @Expose
+        var qtymin: String,
+
+        @SerializedName("qtymax")
+        @Expose
+        var qtymax: String,
+
+        @SerializedName("qtyreorder")
+        @Expose
+        var qtyreorder: String,
+
+        @SerializedName("qtypo")
+        @Expose
+        var qtypo: String,
+
+        @SerializedName("qtyso")
+        @Expose
+        var qtyso: String,
+
+        @SerializedName("qtywip")
+        @Expose
+        var qtywip: String,
+
         @SerializedName("note")
-        var note : String?,
+        @Expose
+        var note: String,
+
         @SerializedName("active")
-        var active : Boolean,
+        @Expose
+        var active: Boolean,
+
+        @SerializedName("pousepid")
+        @Expose
+        var pousepid: Boolean,
+
+        @SerializedName("sousepid")
+        @Expose
+        var sousepid: Boolean,
+
+        @SerializedName("vendor_id")
+        @Expose
+        var vendorId: Int,
+
+        @SerializedName("vitemcode")
+        @Expose
+        var vitemcode: String,
+
+        @SerializedName("purcunit")
+        @Expose
+        var purcunit: String,
+
         @SerializedName("saleunit")
-        var saleUnit : Int,
+        @Expose
+        var saleunit: String?,
+
         @SerializedName("stockunit")
-        var stockUnit : Int,
+        @Expose
+        var stockunit: String?,
+
+        @SerializedName("created_at")
+        @Expose
+        var createdAt: String,
+
+        @SerializedName("created_by")
+        @Expose
+        var createdBy: String,
+
+        @SerializedName("updated_at")
+        @Expose
+        var updatedAt: String,
+
+        @SerializedName("updated_by")
+        @Expose
+        var updatedBy: String,
+
+        @SerializedName("costtype")
+        @Expose
+        var costtype: String,
+
+        @SerializedName("isimport")
+        @Expose
+        var isimport: Boolean,
+
+        @SerializedName("bucket")
+        @Expose
+        var bucket: String,
+
+        @SerializedName("objkey")
+        @Expose
+        var objkey: String,
+
+        @SerializedName("ispos")
+        @Expose
+        var ispos: Boolean,
+
+        @SerializedName("isvariant")
+        @Expose
+        var isvariant: Boolean,
+        @SerializedName("vcode")
+        @Expose
+        val vcode : String,
+        @SerializedName("vcolor")
+        @Expose
+        val vcolor : String,
     ) : Parcelable
+
+//    @Parcelize
+//    data class ItemModel(
+//        @SerializedName("id")
+//        var id : Int,
+//        @SerializedName("code")
+//        var code : String,
+//        @SerializedName("name1")
+//        var name1: String,
+//        @SerializedName("brand_id")
+//        var brandId: Int?,
+//        @SerializedName("itemtype_code")
+//        var itemTypeCode : String,
+//        @SerializedName("usepid")
+//        var usePid : Boolean,
+//        @SerializedName("uniquepid")
+//        var uniqueid: Boolean,
+//        @SerializedName("itemgrp1_id")
+//        var itemGrp1Id : Int?,
+//        @SerializedName("isstock")
+//        var isStock : Boolean,
+//        @SerializedName("issale")
+//        var isSale : Boolean,
+//        @SerializedName("unitdesc")
+//        var unitdesc : String,
+//        @SerializedName("note")
+//        var note : String?,
+//        @SerializedName("active")
+//        var active : Boolean,
+//        @SerializedName("saleunit")
+//        var saleUnit : Int,
+//        @SerializedName("stockunit")
+//        var stockUnit : Int,
+//    ) : Parcelable
 
     @Parcelize
     data class UnitModel(

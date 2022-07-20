@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import com.bits.bee.bpmc.data.data_source.local.model.EdcSurcEntity
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -8,18 +10,15 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class EdcSurc (
-    val id : Int,
-    val code : String,
-    val name: String,
-    val version: Int,
-    val cmpName : String,
-    val cmpPhone : String,
-    val active : Boolean,
-    val cmpAddress : String,
-    val cmpFax : String,
-    val custDeftId : Int?,
-    val createdAt : Long,
-    val createdBy : Int,
-    val updatedAt : Long,
-    val updatedBy : Int,
+    var id : Int,
+    var edcSurcNo : String,
+    var edcId: Int,
+    var ccType : String,
+    var ccTypeDesc : String,
+    var surcExp : String,
+    var mdrExp : String,
+    var surcAccId : Int,
+    var mdrAccId : Int,
+    var edcSurcType : String,
+    var active : Boolean,
 ) : Parcelable

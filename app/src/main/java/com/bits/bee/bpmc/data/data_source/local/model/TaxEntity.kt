@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class TaxEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = CODE)
     var code : String,
     @ColumnInfo(name = NAME)

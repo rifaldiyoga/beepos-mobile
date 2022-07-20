@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
  */
 interface EdcRepository {
 
-    fun getLatestEdc() : Flow<Resource<Edc>>
+    fun getLatestEdc() : Flow<Resource<List<Edc>>>
+
+    fun getActiveEdcList(branchId : Int) : Flow<List<Edc>>
 
 }

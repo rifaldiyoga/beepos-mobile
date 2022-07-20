@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos_item
 
+import androidx.paging.PagingData
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 
@@ -8,6 +9,6 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
  */
 data class PosItemState (
     var itemGroup: ItemGroup? = null,
-    var itemList : List<Item> = mutableListOf(),
+    var itemList : PagingData<Item>? = null,
     var priceLvlId : Int = 1
 )

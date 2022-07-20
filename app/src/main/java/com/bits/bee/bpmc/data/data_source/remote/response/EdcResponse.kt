@@ -16,11 +16,11 @@ data class EdcResponse (
 
     @SerializedName("data")
     @Expose
-    var data: List<DataEdc> = ArrayList()
+    var data: List<EdcModel> = ArrayList()
 ) : Parcelable{
 
     @Parcelize
-    data class DataEdc (
+    data class EdcModel (
         @SerializedName("id")
         @Expose
         var id: Int = 0,
@@ -38,10 +38,10 @@ data class EdcResponse (
         var note: String = "",
         @SerializedName("surcpayto")
         @Expose
-        var surcpayto: String = "",
+        var surcpayto: String? = "",
         @SerializedName("branch_id")
         @Expose
-        var branchId: String = "",
+        var branchId: Int? = -1,
         @SerializedName("active")
         @Expose
         var active: Boolean = false,

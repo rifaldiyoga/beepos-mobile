@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.pos
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,7 +31,7 @@ const val TAG = "PosFragment"
 @AndroidEntryPoint
 class PosFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPosBinding = FragmentPosBinding::inflate
-) : BaseFragment<FragmentPosBinding>() {
+) : BaseFragment<FragmentPosBinding>(), OnQueryTextListener {
 
     private lateinit var adapter: PosItemFragmentAdapter
 
@@ -63,7 +64,7 @@ class PosFragment(
             draftMenu.isVisible = false
             return@OnCloseListener false
         })
-
+        searchView.setOnQueryTextListener(this@PosFragment)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -100,7 +101,7 @@ class PosFragment(
                 mainViewModel.viewStates().collect {
                     it?.let {
                         binding.tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(getQtyDetail(it.saledList)))
-                        binding.tvSubtotal.text = CurrencyUtils.formatCurrency(it.sale.total)
+                        binding.tvSubtotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "", CurrencyUtils.formatCurrency(it.sale.total))
 
                         binding.llNext.visibility = if(it.saledList.isEmpty()) View.GONE else View.VISIBLE
 
@@ -158,13 +159,22 @@ class PosFragment(
         }
     }
 
-
     private fun getQtyDetail(saledList : List<Saled>) : BigDecimal {
         var qty = BigDecimal.ZERO
         saledList.forEach {
             qty = qty.add(it.qty)
         }
         return qty
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        mainViewModel.updateState(mainViewModel.state.copy(querySearch = query ?: ""))
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        mainViewModel.updateState(mainViewModel.state.copy(querySearch = newText ?: ""))
+        return false
     }
 
 

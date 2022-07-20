@@ -84,11 +84,15 @@ class MainActivity(
                 viewModel.viewStates().collect {
                     binding.apply {
                         it?.let {
-                            it.channel?.let {
-                                viewModel.state.sale.channelId = it.id
-                                tvChannel.text = it.name
-                                ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
-                                    Color.parseColor(it.color)))
+                            it.channel?.let { channel ->
+                                viewModel.state.sale.channelId = channel.id
+                                tvChannel.text = channel.name
+                                channel.color?.let { color ->
+                                    if(color.isNotEmpty())
+                                    ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
+                                        Color.parseColor(color)))
+                                }
+
                             }
                             it.bp?.let {
                                 viewModel.state.sale.bpId = it.id!!

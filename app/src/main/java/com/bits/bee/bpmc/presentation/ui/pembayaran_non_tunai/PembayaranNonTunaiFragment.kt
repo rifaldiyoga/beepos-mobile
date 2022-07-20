@@ -31,10 +31,10 @@ class PembayaranNonTunaiFragment(
                 viewModel.onClickGopay()
             }
             clDebit.setOnClickListener {
-                viewModel.onClickDebitKredit()
+                viewModel.onClickKredit()
             }
             clKartuKredit.setOnClickListener {
-                viewModel.onClickDebitKredit()
+                viewModel.onClickDebit()
             }
         }
     }
@@ -44,8 +44,8 @@ class PembayaranNonTunaiFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
                     when(it){
-                        PembayaranNonTunaiViewModel.UIEvent.NavigateToDebitKredit -> {
-                            val action = PembayaranNonTunaiFragmentDirections.actionPembayaranNonTunaiFragmentToPembayaranDebitKreditFragment()
+                        is PembayaranNonTunaiViewModel.UIEvent.NavigateToDebitKredit -> {
+                            val action = PembayaranNonTunaiFragmentDirections.actionPembayaranNonTunaiFragmentToPembayaranDebitKreditFragment(it.type)
                             findNavController().navigate(action)
                         }
                         PembayaranNonTunaiViewModel.UIEvent.NavigateToGopay -> {

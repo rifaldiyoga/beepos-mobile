@@ -13,5 +13,7 @@ data class MainState(
     var saledList : MutableList<Saled> = mutableListOf(),
     var activeCashier : Cashier? = null,
     var activeBranch : Branch? = null,
-    var activePosses : Posses? = null
+    var activePosses : Posses? = null,
+    var crc: Crc? = null,
+    var querySearch : String = ""
 )

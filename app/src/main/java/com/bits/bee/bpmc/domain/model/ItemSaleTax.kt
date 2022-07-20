@@ -11,7 +11,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ItemSaleTax(
     var id : Int? = null,
-    var code: String,
+    var itemCode: String?,
+    var code: String?,
     var calcMtd: String,
     var expr: String,
     var exprNoReg: String,

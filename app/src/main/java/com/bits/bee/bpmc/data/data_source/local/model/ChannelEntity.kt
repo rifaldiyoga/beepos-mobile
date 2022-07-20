@@ -36,7 +36,7 @@ data class ChannelEntity(
     @ColumnInfo(name = UPDATED_AT)
     var updatedAt : Date?,
     @ColumnInfo(name = COLOR)
-    var color : String,
+    var color : String?,
     @ColumnInfo(name = PRICELVL_ID, index = true)
     var priceLvlId : Int?,
 ) {

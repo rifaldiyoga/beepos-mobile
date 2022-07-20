@@ -16,7 +16,7 @@ data class ItemBranchResponse (
 
     @SerializedName("data")
     @Expose
-    var itemBranch: ItemBranch
+    var itemBranch: List<ItemBranchModel> = mutableListOf()
 ) : Parcelable {
 
     @Parcelize

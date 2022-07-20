@@ -18,6 +18,6 @@ data class Channel (
     var createdAt : Date?,
     var updatedBy : Int?,
     var updatedAt : Date?,
-    var color : String,
+    var color : String?,
     var priceLvlId : Int?,
 ) : Parcelable

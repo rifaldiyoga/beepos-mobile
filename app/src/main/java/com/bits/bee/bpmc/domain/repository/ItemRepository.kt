@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ItemRepository {
 
-    fun getLastesItemList(page : Int): Flow<Resource<ItemResponse>>
+    fun getLastesItemList(page : Int): Flow<Resource<List<Item>>>
 
-    fun getActiveItemListByItemGrp(itemGrpId : Int) : Flow<List<Item>>
+    suspend fun getActiveItemListByItemGrp(itemGrpId : Int, query: String) : Flow<PagingData<Item>>
 
-    fun getActiveItemList(query : String) : Flow<PagingData<Item>>
+    suspend fun getActiveItemList(query : String, ) : Flow<PagingData<Item>>
 
 }

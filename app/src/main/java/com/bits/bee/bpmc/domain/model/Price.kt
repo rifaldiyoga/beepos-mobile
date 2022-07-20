@@ -15,5 +15,6 @@ data class Price (
     var priceLvlId: Int,
     var crcId: Int,
     var price : BigDecimal,
-    var discExp : String = "",
+    var discExp : String?,
+    var crcSymbol : String,
 ) : Parcelable

@@ -1,13 +1,11 @@
 package com.bits.bee.bpmc.data.repository
 
-import com.bits.bee.bpmc.data.data_source.local.dao.BpAddrDao
-import com.bits.bee.bpmc.data.data_source.local.dao.BpDao
-import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
+import com.bits.bee.bpmc.data.data_source.local.dao.EdcDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
-import com.bits.bee.bpmc.data.data_source.remote.response.BpResponse
-import com.bits.bee.bpmc.domain.mapper.BpDataMapper
-import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.repository.BpRepository
+import com.bits.bee.bpmc.data.data_source.remote.response.EdcResponse
+import com.bits.bee.bpmc.domain.mapper.EdcDataMapper
+import com.bits.bee.bpmc.domain.model.Edc
+import com.bits.bee.bpmc.domain.repository.EdcRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -15,7 +13,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -23,9 +20,32 @@ import javax.inject.Inject
  */
 class EdcRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val bpDao: BpDao,
-    private val bpAddrDao : BpAddrDao,
-    private val ioDispatcher: CoroutineDispatcher
-) {
+    private val edcDao: EdcDao,
+    private val defDisp : CoroutineDispatcher
+) : EdcRepository {
+
+    override fun getLatestEdc(): Flow<Resource<List<Edc>>> {
+        return object : NetworkDatabaseBoundResource<List<Edc>, EdcResponse>(){
+            override suspend fun loadFormDB(): List<Edc>? {
+                return edcDao.getEdcList().map { EdcDataMapper.fromDbToDomain(it) }
+            }
+
+            override fun shouldFetch(data: List<Edc>?): Boolean {
+                return true
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<EdcResponse>> {
+                return apiUtils.getEdcApiService().getEdc()
+            }
+
+            override suspend fun saveCallResult(data: EdcResponse) {
+                edcDao.insertBulk(data.data.map { EdcDataMapper.fromNetworkToDb(it) })
+            }
+        }.getAsFlow()
+    }
+
+    override fun getActiveEdcList(branchId : Int): Flow<List<Edc>> = flow {
+        emit(edcDao.getActiveEdc(branchId).map { EdcDataMapper.fromDbToDomain(it) })
+    }.flowOn(defDisp)
 
 }

@@ -15,7 +15,7 @@ data class TaxResponse (
     @SerializedName("message")
     var msg : String = "",
     @SerializedName("data")
-    var data : Data
+    var data : MutableList<TaxModel> = mutableListOf()
 ): Parcelable {
 
     @Parcelize

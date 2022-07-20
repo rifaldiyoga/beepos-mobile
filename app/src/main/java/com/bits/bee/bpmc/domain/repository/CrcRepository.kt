@@ -8,5 +8,8 @@ import kotlinx.coroutines.flow.Flow
  * Created by aldi on 30/06/22.
  */
 interface CrcRepository {
+
     fun getLatestCrc() : Flow<Resource<List<Crc>>>
+
+    fun getDefaultCrc() : Flow<Crc?>
 }

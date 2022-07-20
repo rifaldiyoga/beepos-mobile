@@ -28,6 +28,8 @@ data class InitialResponse (
         var usrGrp : List<UsrGrpModel> = mutableListOf(),
         @SerializedName("grpprv")
         var grpPrv : List<GrpPrvModel> = mutableListOf(),
+        @SerializedName("crc")
+        var crc : List<CrcModel> = mutableListOf(),
     ) : Parcelable
 
 

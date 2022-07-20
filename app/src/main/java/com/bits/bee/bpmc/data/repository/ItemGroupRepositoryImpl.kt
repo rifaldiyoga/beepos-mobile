@@ -56,7 +56,6 @@ class ItemGroupRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.loading())
             var data : MutableList<ItemGroup> = mutableListOf()
-            data.add(ItemGroup(-1, "*", "All", 1, 1, true))
             withContext(ioDispatcher){
                 itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }.onEach {
                     data.add(it)

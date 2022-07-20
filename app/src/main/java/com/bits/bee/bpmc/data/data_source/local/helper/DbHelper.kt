@@ -77,6 +77,8 @@ abstract class DbHelper : RoomDatabase() {
 
     abstract val itemSaleTaxDao : ItemSaleTaxDao
 
+    abstract val itemKitchenDao : ItemKitchenDao
+
     abstract val itemBranchDao : ItemBranchDao
 
     abstract val addOnDao : AddOnDao
@@ -100,6 +102,8 @@ abstract class DbHelper : RoomDatabase() {
     abstract val edcDao : EdcDao
 
     abstract val edcSurcDao : EdcSurcDao
+
+    abstract val ccTypeDao : CcTypeDao
 
     abstract val grpPrvDao : GrpPrvDao
 

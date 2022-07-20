@@ -15,10 +15,18 @@ interface ItemDao : BaseDao<ItemEntity> {
     @Query("DELETE FROM item")
     fun deleteAll()
 
-    @Query("SELECT * FROM item WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%'")
-    fun getActiveItemList(query : String) : PagingSource<Int, ItemEntity>
+    @Query("SELECT * FROM item " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND usepid = :usePid " +
+            "AND id NOT IN (SELECT item_id FROM item_variant) "+
+            "AND id NOT IN (SELECT item_id FROM item_branch) "+
+            "ORDER BY name1")
+    fun getActiveItemList(query : String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
-    @Query("SELECT * FROM item WHERE ispos = 1 AND active = 1 AND itemgrp1_id = :itemGrpId LIMIT :limit OFFSET :offset")
-    fun getItemByItemGrpPagedList(itemGrpId : Int, limit: Int, offset: Int) : List<ItemEntity>
+    @Query("SELECT * FROM item " +
+            "WHERE ispos = 1 AND active = 1 AND itemgrp1_id = :itemGrpId AND name1 LIKE '%' || :query || '%' AND usepid = :usePid " +
+            "AND id NOT IN (SELECT item_id FROM item_variant) "+
+            "AND id NOT IN (SELECT item_id FROM item_branch) "+
+            "ORDER BY name1")
+    fun getItemByItemGrpPagedList(itemGrpId : Int, query: String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
 }

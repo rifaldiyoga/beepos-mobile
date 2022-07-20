@@ -3,12 +3,14 @@ package com.bits.bee.bpmc.utils.extension
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.widget.EditText
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.utils.NumberFormatWatcher
 
 /**
  * Created by aldi on 01/03/22.
@@ -66,5 +68,9 @@ fun CombinedLoadStates.decideOnState(
         ?: refresh as? LoadState.Error
 
     errorState?.let { showError(it.error.toString()) }
+}
+
+fun EditText.addNumberFormatChange(){
+    addTextChangedListener(NumberFormatWatcher(this))
 }
 
