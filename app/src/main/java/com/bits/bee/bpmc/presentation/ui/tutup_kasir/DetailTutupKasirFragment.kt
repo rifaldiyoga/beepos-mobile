@@ -12,10 +12,14 @@ import com.bits.bee.bpmc.databinding.FragmentDetailTutupKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.sql.Date
 
 /**
  * Created by aldi on 13/04/22.
@@ -27,9 +31,10 @@ class DetailTutupKasirFragment(
 
     private val viewModel : DetailTutupKasirViewModel by viewModels()
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
+    private var mCounter: Int = 0
 
     override fun initComponents() {
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
         binding.apply {
 
         }
@@ -55,6 +60,9 @@ class DetailTutupKasirFragment(
                 viewModel.event.collect { event  ->
                     when(event){
                         DetailTutupKasirViewModel.UIEvent.RequestSave -> {
+                            mCounter = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
+                            mCounter++
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), mCounter)
                             sharedViewModel.doTutupKasir()
                         }
                         DetailTutupKasirViewModel.UIEvent.RequestRekapSesi ->{
@@ -68,20 +76,28 @@ class DetailTutupKasirFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 sharedViewModel.viewStates().collect {
-                    it?.let {
-                        it.activeBranch?.let { branch ->
-                            binding.tvCabang.text = branch.name
-                        }
-                        it.activeCashier?.let { cashier ->
-                            binding.tvKasir.text = cashier.cashierName
-                        }
-                        binding.tvShift.text = it.shift.toString()
-                        it.activePosses?.let {
-                            binding.apply {
+                    binding.apply {
+                        it?.let {
+                            it.activeBranch?.let { branch ->
+                                tvCabang.text = branch.name
+                            }
+                            it.activeCashier?.let { cashier ->
+                                tvKasir.text = cashier.cashierName
+                            }
+                            it.activePosses?.let {
                                 tvModal.text = CurrencyUtils.formatCurrency(it.startBal)
                                 tvPemasukan.text = CurrencyUtils.formatCurrency(it.totIn)
                                 tvPengeluaran.text = CurrencyUtils.formatCurrency(it.totOut)
                                 tvSaldoAkhir.text = CurrencyUtils.formatCurrency(it.total)
+                                tvShift.text = it.shift.toString()
+
+                                val startTime = Date(it.startTime.time)
+                                tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
+                                    BPMConstants.DEFAULT_DATE_FORMAT, startTime)
+                                sharedViewModel.getUser()
+                            }
+                            it.user?.let {
+                                tvUserKasir.text = it.name
                             }
                         }
                     }
@@ -90,16 +106,16 @@ class DetailTutupKasirFragment(
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_tutup_kasir, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_list -> viewModel.onCLickMenu()
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        inflater.inflate(R.menu.menu_analisa_sesi, menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            R.id.menu_list -> viewModel.onCLickMenu()
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 }

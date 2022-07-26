@@ -13,10 +13,15 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailBukaKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by aldi on 13/04/22.
@@ -72,7 +77,7 @@ class DetailBukaKasirFragment(
                             findNavController().navigate(R.id.mainActivity)
                         }
                         DetailBukaKasirViewModel.UIEvent.RequestSave -> {
-                            sharedViewModel.doBukaKasir(viewModel.state.modal!!)
+                            sharedViewModel.doBukaKasir(viewModel.state.modal!!, BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int)
                         }
                     }
                 }
@@ -82,13 +87,30 @@ class DetailBukaKasirFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 sharedViewModel.viewStates().collect {
                     it?.let {
-                        it.activeBranch?.let { branch ->
-                            binding.tvCabang.text = branch.name
+                        binding.apply {
+                            it.activeBranch?.let { branch ->
+                                tvCabang.text = branch.name
+                            }
+                            it.activeCashier?.let { cashier ->
+                                tvKasir.text = cashier.cashierName
+                            }
+//                            it.shift?.let {
+//                                tvShift.text = it.toString()
+//                            }
+                            it.listCasha?.let {
+                                if (it.size > 0){
+                                    val trxDate = DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, it.get(0).trxDate)
+                                    if (SimpleDateFormat("MMdd").format(Date())compareTo(SimpleDateFormat("MMdd").format(trxDate)) > 0){
+                                        BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1)
+                                    }else{
+
+                                    }
+                                }else{
+                                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1)
+                                }
+                                tvShift.text = (BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int).toString()
+                            }
                         }
-                        it.activeCashier?.let { cashier ->
-                            binding.tvKasir.text = cashier.cashierName
-                        }
-                        binding.tvShift.text = it.shift.toString()
                     }
                 }
             }

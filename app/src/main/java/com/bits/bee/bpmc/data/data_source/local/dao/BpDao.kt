@@ -29,6 +29,6 @@ interface BpDao : BaseDao<BpEntity> {
     fun getLastId(): BpEntity
 
     @Query("SELECT * FROM bp WHERE name LIKE '%'|| :query || '%'")
-    fun searchCityList(query : String) : List<BpEntity>
+    fun searchBp(query : String) : List<BpEntity>
 
 }

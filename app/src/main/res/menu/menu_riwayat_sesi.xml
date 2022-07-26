@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/search"
+        android:id="@+id/search_riwayat_sesi"
+        android:icon="@drawable/ic_search_black"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item
+        android:title="@string/member"
+        android:id="@+id/sort__riwayat_sesi"
+        android:icon="@drawable/ic_sort_descending"
+        app:showAsAction="ifRoom"/>
+</menu>
