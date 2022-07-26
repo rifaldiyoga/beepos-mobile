@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
 import androidx.paging.PagingData
+import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.model.Posses
@@ -22,4 +23,14 @@ interface PossesRepository {
     suspend fun updatePosses(posses: Posses)
 
     fun getPossesById(id: Int): Flow<Resource<Posses>>
+
+    suspend fun getPossesHistory(): Flow<PagingData<Posses>>
+
+    suspend fun getNotActivePosses(): Flow<Resource<List<Posses>>>
+
+    fun searchSesi(search: String): Flow<PagingData<Posses>>
+
+    fun getSortDesc(): Flow<PagingData<Posses>>
+
+    fun getSortAsc(): Flow<PagingData<Posses>>
 }

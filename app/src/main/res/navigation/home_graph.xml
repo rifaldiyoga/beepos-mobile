@@ -99,8 +99,21 @@
     <fragment
         tools:layout="@layout/fragment_analisa_sesi"
         android:id="@+id/analasisiSesiFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalasisiSesiFragment"
-        android:label="AnalasisiSesiFragment" />
+        android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiFragment"
+        android:label="AnalasisiSesiFragment" >
+        <action
+            android:id="@+id/action_analasisiSesiFragment_to_riwayatSesiFragment"
+            app:destination="@id/riwayatSesiFragment" />
+        <action
+            android:id="@+id/action_analasisiSesiFragment_to_detailBukaKasirFragment"
+            app:destination="@id/detailBukaKasirFragment" />
+        <argument
+            android:name="posses"
+            app:argType="string" />
+        <argument
+            android:name="isRiwayat"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_transaksi_penjualan"
         android:id="@+id/transaksiPenjualanFragment"
@@ -262,4 +275,28 @@
         android:id="@+id/detailPendapatanDialog"
         android:name="com.bits.bee.bpmc.presentation.dialog.detail_pendapatan.DetailPendapatanDialog"
         android:label="DetailPendapatanDialog" />
+    <fragment
+        tools:layout="@layout/fragment_riwayat_sesi"
+        android:id="@+id/riwayatSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.riwayat_sesi.RiwayatSesiFragment"
+        android:label="RiwayatSesiFragment" >
+        <action
+            android:id="@+id/action_riwayatSesiFragment_to_detailRiwayatSesiFragment"
+            app:destination="@id/detailRiwayatSesiFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_riwayat_sesi"
+        android:id="@+id/detailRiwayatSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_riwayat_sesi.DetailRiwayatSesiFragment"
+        android:label="DetailRiwayatSesiFragment" >
+        <argument
+            android:name="posses"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailRiwayatSesiFragment_to_detailPendapatanDialog"
+            app:destination="@id/detailPendapatanDialog" />
+        <action
+            android:id="@+id/action_detailRiwayatSesiFragment_to_analasisiSesiFragment"
+            app:destination="@id/analasisiSesiFragment" />
+    </fragment>
 </navigation>

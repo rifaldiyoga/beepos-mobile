@@ -1,16 +1,24 @@
 package com.bits.bee.bpmc.presentation.ui.buka_kasir
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
+import com.bits.bee.bpmc.domain.usecase.buka_kasir.GetCounterShiftUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -22,7 +30,9 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val bukaKasirUseCase: BukaKasirUseCase,
-    private val tutupKasirUseCase: TutupKasirUseCase
+    private val tutupKasirUseCase: TutupKasirUseCase,
+    private val getCounterShiftUseCase: GetCounterShiftUseCase,
+    private val getUserByIdUseCase: GetUserByIdUseCase
 ) : BaseViewModel<BukaTutupKasirState, BukaTutupKasirSharedViewModel.UIEvent>() {
 
     init {
@@ -30,6 +40,7 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         getActivePosses()
         getActiveBranch()
         getActiveCashier()
+        setShift()
     }
 
     fun getActivePosses() = viewModelScope.launch {
@@ -37,6 +48,16 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
             updateState(
                 state.copy(
                     activePosses = it
+                )
+            )
+        }
+    }
+
+    fun getUser() = viewModelScope.launch {
+        getUserByIdUseCase.invoke(state.activePosses!!.userId).collect {
+            updateState(
+                state.copy(
+                    user = it.data
                 )
             )
         }
@@ -62,8 +83,39 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         }
     }
 
-    fun doBukaKasir(modal : BigDecimal) = viewModelScope.launch {
-        bukaKasirUseCase.invoke(modal, 1, state.activeBranch!!, state.activeCashier!!)
+    fun setShift() = viewModelScope.launch {
+        getCounterShiftUseCase.invoke().collect {
+            it.data?.let {
+                updateState(
+                    state.copy(
+                        listCasha = it
+                    )
+                )
+            }
+        }
+
+//        if (state.listCasha!!.size > 0){
+//            val trxDate = DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, state.listCasha!!.get(0).trxDate)
+//            if (SimpleDateFormat("MMdd").format(Date())compareTo(SimpleDateFormat("MMdd").format(trxDate)) > 0){
+//                updateState(
+//                    state.copy(
+//                        shift = 1
+//                    )
+//                )
+//            }else{
+//
+//            }
+//        }else{
+//            updateState(
+//                state.copy(
+//                    shift = 1
+//                )
+//            )
+//        }
+    }
+
+    fun doBukaKasir(modal : BigDecimal, sesi: Int) = viewModelScope.launch {
+        bukaKasirUseCase.invoke(modal, sesi, state.activeBranch!!, state.activeCashier!!)
 //        bukaKasirUseCase(
 //            modal = modal,
 //            shift = 1,

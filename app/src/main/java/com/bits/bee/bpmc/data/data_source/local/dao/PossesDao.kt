@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
+import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
 import com.bits.bee.bpmc.data.data_source.local.model.ItemEntity
 import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
 import com.bits.bee.bpmc.domain.model.Posses
@@ -22,5 +23,20 @@ interface PossesDao : BaseDao<PossesEntity> {
 
     @Query("SELECT * FROM posses WHERE id = :id")
     fun getPossesById(id: Int): PossesEntity
+
+    @Query("SELECT * FROM posses WHERE endbal is not null")
+    fun getPossesHistory(): PagingSource<Int, PossesEntity>
+
+    @Query("SELECT * FROM posses WHERE endbal is null")
+    fun getNotActivePosses(): List<PossesEntity>
+
+    @Query("SELECT * FROM posses WHERE shift LIKE '%'|| :query || '%'")
+    fun searchSesi(query : String) : PagingSource<Int, PossesEntity>
+
+    @Query("SELECT * FROM posses ORDER BY id DESC")
+    fun getSortDesc(): PagingSource<Int, PossesEntity>
+
+    @Query("SELECT * FROM posses ORDER BY id ASC")
+    fun getSortAsc(): PagingSource<Int, PossesEntity>
 
 }

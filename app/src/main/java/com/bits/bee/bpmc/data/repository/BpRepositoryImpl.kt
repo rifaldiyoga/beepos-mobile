@@ -82,7 +82,7 @@ class BpRepositoryImpl @Inject constructor(
 
     override fun searchBp(query: String): Flow<Resource<List<Bp>>> {
         return flow {
-            emit(Resource.success(bpDao.searchCityList(query).map { BpDataMapper.fromDbToDomain(it) }))
+            emit(Resource.success(bpDao.searchBp(query).map { BpDataMapper.fromDbToDomain(it) }))
         }.flowOn(ioDispatcher)
     }
 

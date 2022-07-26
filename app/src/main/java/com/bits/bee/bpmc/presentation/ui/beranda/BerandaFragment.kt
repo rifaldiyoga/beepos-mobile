@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.databinding.FragmentBerandaBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -34,6 +35,7 @@ class BerandaFragment(
 
     private val viewModel : BerandaViewModel by viewModels()
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
+    private var mCounter: Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,6 +65,9 @@ class BerandaFragment(
                     val dialog = DialogBuilderUtils.showDialogYesNo(requireContext(),
                         getString(R.string.tutup_kasir), getString(R.string.msg_validasi_tutup_kasir), {
                             it.dismiss()
+                            mCounter = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
+                            mCounter++
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), mCounter)
                             sharedViewModel.doTutupKasir()
                         })
                     dialog.show(parentFragmentManager, "DetailTutupKasirFragment")

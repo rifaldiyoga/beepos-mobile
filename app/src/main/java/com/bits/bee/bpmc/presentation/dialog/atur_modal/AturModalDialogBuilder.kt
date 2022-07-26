@@ -18,6 +18,7 @@ import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -93,7 +94,7 @@ class AturModalDialogBuilder(
                         }
                         AturModalViewModel.UIEvent.RequestSave -> {
                             sharedViewModel.doBukaKasir(
-                                viewModel.state.modal!!
+                                viewModel.state.modal!!, BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
                             )
                         }
                     }
