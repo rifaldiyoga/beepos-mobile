@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:title="@string/filter"
+        android:id="@+id/filter__riwayat_sesi"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:title="@string/member"
         android:id="@+id/sort__riwayat_sesi"
         android:icon="@drawable/ic_sort_descending"

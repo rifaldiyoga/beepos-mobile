@@ -20,7 +20,7 @@ class RiwayatSesiViewModel @Inject constructor(
     private val getPossesHistoryUseCase: GetPossesHistoryUseCase,
     private val getSortingUseCase: GetSortingUseCase,
     private val getFilterSesiUseCase: GetFilterSesiUseCase
-): BaseViewModel<RiwayatSesiState, RekapSesiViewModel.UIEvent>() {
+): BaseViewModel<RiwayatSesiState, RiwayatSesiViewModel.UIEvent>() {
 
     init {
         state = RiwayatSesiState()
@@ -44,7 +44,11 @@ class RiwayatSesiViewModel @Inject constructor(
         getFilterSesiUseCase.invoke(currwnt, yester)
     }
 
+    fun showDialog() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDialogFilter)
+    }
+
     sealed class UIEvent {
-        object RequestInfoTax : UIEvent()
+        object RequestDialogFilter : UIEvent()
     }
 }
