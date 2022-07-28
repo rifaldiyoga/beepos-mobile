@@ -12,7 +12,7 @@ data class CashA(
     var trxDate : String,
     var amount: BigDecimal,
     var note: String,
-    var inOut : Char,
+    var inOut : String,
     var refType : String,
     var refId : Long,
     var autoGen : Boolean,

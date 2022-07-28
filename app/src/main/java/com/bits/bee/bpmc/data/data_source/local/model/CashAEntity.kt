@@ -9,29 +9,12 @@ import java.math.BigDecimal
 
 @Entity(tableName = CashAEntity.TBL_NAME,
     foreignKeys = [
-        ForeignKey(
-            entity = CashEntity::class,
-            parentColumns = [CashEntity.ID],
-            childColumns = [CashAEntity.CASH_ID],
-            onDelete = CASCADE
-        ),
-        ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [CashAEntity.USER_ID],
-            onDelete = CASCADE
-        ),
-        ForeignKey(
-            entity = CashierEntity::class,
-            parentColumns = [CashierEntity.ID],
-            childColumns = [CashAEntity.CASHIER_ID]
-        )
     ]
 )
 data class CashAEntity(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int?,
+    var id : Int? = null,
     @ColumnInfo(name = DATE_TRANS)
     var trxDate : String,
     @ColumnInfo(name = AMOUNT)
@@ -39,18 +22,18 @@ data class CashAEntity(
     @ColumnInfo(name = NOTE)
     var note: String,
     @ColumnInfo(name = STATUS)
-    var inOut : Char,
+    var inOut : String,
     @ColumnInfo(name = REFTYPE)
     var refType : String,
     @ColumnInfo(name = REFID)
     var refId : Long,
     @ColumnInfo(name = AUTOGEN)
     var autoGen : Boolean,
-    @ColumnInfo(name = CASH_ID, index = true)
+    @ColumnInfo(name = CASH_ID,)
     var cashId: Int,
-    @ColumnInfo(name = USER_ID, index = true)
+    @ColumnInfo(name = USER_ID,)
     var userId: Int,
-    @ColumnInfo(name = CASHIER_ID, index = true)
+    @ColumnInfo(name = CASHIER_ID,)
     var cashierId: Int,
     @ColumnInfo(name = ISUPLOADED)
     var isUploaded: Boolean,

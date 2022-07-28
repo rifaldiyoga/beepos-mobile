@@ -22,7 +22,7 @@ class AddCashAUseCase @Inject constructor(
             trxDate = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
             amount = amt,
             note = "",
-            inOut = (if(amt >= BigDecimal.ZERO) "i" else "o")[0],
+            inOut = (if(amt >= BigDecimal.ZERO) "i" else "o"),
             refType = refType,
             refId = refId,
             autoGen = true,

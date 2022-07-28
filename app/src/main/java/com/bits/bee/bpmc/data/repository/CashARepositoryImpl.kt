@@ -14,12 +14,11 @@ class CashARepositoryImpl @Inject constructor(
 
     override suspend fun addCashA(cashAEntity: CashAEntity) {
         withContext(defaultDispatcher) {
-
-//            val cashA = cashADao.getCashAByRef(cashAEntity.refId, cashAEntity.refType)
-//            cashA?.let {
-//                cashAEntity.id = it.id
-//            }
-            cashADao.insertSingle(cashAEntity)
+            val cashA = cashADao.getCashAByRef(cashAEntity.refId, cashAEntity.refType)
+            cashA?.let {
+                cashAEntity.id = it.id
+            }
+            cashADao.insert(cashAEntity)
         }
     }
 
