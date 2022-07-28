@@ -28,9 +28,9 @@ interface PossesRepository {
 
     suspend fun getNotActivePosses(): Flow<Resource<List<Posses>>>
 
-    fun searchSesi(search: String): Flow<PagingData<Posses>>
-
     fun getSortDesc(): Flow<PagingData<Posses>>
 
     fun getSortAsc(): Flow<PagingData<Posses>>
+
+    fun getFilter(current: Long, yester: Long): Flow<PagingData<Posses>>
 }

@@ -39,4 +39,6 @@ interface PossesDao : BaseDao<PossesEntity> {
     @Query("SELECT * FROM posses ORDER BY id ASC")
     fun getSortAsc(): PagingSource<Int, PossesEntity>
 
+    @Query("SELECT * FROM posses WHERE trxdate BETWEEN :current AND :yester")
+    fun getFilter(current: Long, yester: Long): PagingSource<Int, PossesEntity>
 }
