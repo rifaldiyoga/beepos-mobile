@@ -5,76 +5,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="@dimen/size16"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/cl_total_rekap"
-        android:weightSum="6"
-        android:layout_marginBottom="5dp"
-        android:background="@color/soft_red"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:padding="@dimen/size16"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:id="@+id/cl_total_rekap"-->
+<!--        android:weightSum="6"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:background="@color/soft_red"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        tools:ignore="MissingConstraints">-->
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayout5"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintHorizontal_weight="0.8"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
 
-            <TextView
-                android:id="@+id/pemasukan_total"
-                style="@style/TextHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size8"
-                android:text="@string/hari_ini"
-                android:textSize="@dimen/font16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView85"
-                tools:layout_editor_absoluteX="16dp" />
+<!--            <TextView-->
+<!--                android:id="@+id/pemasukan_total"-->
+<!--                style="@style/TextHeader"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/size8"-->
+<!--                android:text="@string/hari_ini"-->
+<!--                android:textSize="@dimen/font16"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView85"-->
+<!--                tools:layout_editor_absoluteX="16dp" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/lL_detail"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.6"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="0.5"
-            app:layout_constraintTop_toTopOf="parent">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/lL_detail"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="0.6"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="horizontal"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintHorizontal_weight="0.5"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@string/sesi" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="start"-->
+<!--                android:text="@string/sesi" />-->
 
-            <ImageView
-                android:layout_marginLeft="@dimen/size10"
-                android:layout_width="@dimen/size10"
-                android:layout_height="@dimen/size10"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_chevron_up" />
+<!--            <ImageView-->
+<!--                android:layout_marginLeft="@dimen/size10"-->
+<!--                android:layout_width="@dimen/size10"-->
+<!--                android:layout_height="@dimen/size10"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/ic_chevron_up" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_riwayat_sesi"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
-        android:layout_marginTop="@dimen/size75"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.riwayat_sesi
 
 import android.view.*
-import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -29,6 +29,7 @@ class RiwayatSesiFragment(
     private val viewModel : RiwayatSesiViewModel by viewModels()
     private lateinit var riwayatSesiAdapter: RiwayatSesiAdapter
     private var desc = false
+    private var mMenu: Menu? = null
 
     override fun initComponents() {
         setHasOptionsMenu(true)
@@ -92,51 +93,26 @@ class RiwayatSesiFragment(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_riwayat_sesi, menu)
-
-        var searchItem = menu.findItem(R.id.search_riwayat_sesi)
-        var searchView = searchItem.actionView as SearchView
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.viewStates().collect {
-                            it?.let {
-                                if (newText?.length == 0){
-                                    viewModel.onSearch("")
-                                    it.listPosses?.let {
-                                        riwayatSesiAdapter.submitData(it)
-                                    }
-                                }else if (newText!!.length >= 3){
-                                    viewModel.onSearch(newText!!.toString().trim())
-                                    it.listPosses?.let {
-                                        riwayatSesiAdapter.submitData(it)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                return false
-            }
-
-        })
+        OnClickSort(desc)
+        if (!desc) {
+            menu.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
+            desc = false
+        }
+        this.mMenu = menu
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.search_riwayat_sesi ->{
-
-            }
             R.id.sort__riwayat_sesi ->{
-                if (desc)
+                if (desc){
+                    mMenu!!.getItem(0).icon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
                     desc = false
-                else
+                }else{
+                    mMenu!!.getItem(0).icon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_ascending)
                     desc = true
+                }
 
                 OnClickSort(desc)
             }
