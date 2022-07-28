@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/detail_member"
+            android:textSize="@dimen/font16"
             app:layout_constraintBottom_toBottomOf="@+id/imgView_close"
             app:layout_constraintEnd_toStartOf="@+id/imgView_close"
             app:layout_constraintStart_toStartOf="parent"

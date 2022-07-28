@@ -17,6 +17,7 @@
             android:text="@string/informasi"
             android:textAlignment="center"
             android:textColor="@color/black"
+            android:textSize="@dimen/font16"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

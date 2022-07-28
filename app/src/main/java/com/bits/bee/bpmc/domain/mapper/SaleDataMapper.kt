@@ -42,7 +42,8 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             createdAt = model.createdAt,
             createdBy = model.createdBy,
             updatedAt = model.updatedAt,
-            updatedBy = model.updatedBy
+            updatedBy = model.updatedBy,
+            crcId = model.crcId
         )
     }
 
@@ -66,7 +67,7 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             discExp = model.discExp,
             userId = model.operatorId,
             cashierId = model.cashierId,
-            bpId = model.cashierId,
+            bpId = model.bpId,
             bpName = model.custName,
             termType = model.termType,
             isUploaded = model.isUploaded,
@@ -80,7 +81,8 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             createdAt = model.createdAt,
             createdBy = model.createdBy,
             updatedAt = model.updatedAt,
-            updatedBy = model.updatedBy
+            updatedBy = model.updatedBy,
+            crcId = model.crcId
         )
     }
 

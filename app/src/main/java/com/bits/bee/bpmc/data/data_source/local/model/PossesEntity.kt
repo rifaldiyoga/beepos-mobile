@@ -35,7 +35,7 @@ data class PossesEntity(
     @ColumnInfo(name = START_BAL)
     var startBal : BigDecimal,
     @ColumnInfo(name = END_BAL)
-    var endBal : BigDecimal?,
+    var endBal : BigDecimal? = null,
     @ColumnInfo(name = TOTAL)
     var total: BigDecimal,
     @ColumnInfo(name = CREDIT)

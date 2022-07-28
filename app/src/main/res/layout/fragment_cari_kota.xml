@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:imeOptions="actionDone"
         android:hint="@string/min_3_huruf"
-        android:textSize="@dimen/size16"
+        android:layout_marginTop="@dimen/size8"
         tools:ignore="MissingConstraints"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView58"
@@ -71,8 +71,8 @@
     <LinearLayout
         android:id="@+id/lL_city_empty"
         android:paddingTop="@dimen/size8"
-        android:visibility="gone"
         android:paddingBottom="@dimen/size8"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="@dimen/size65"
@@ -90,8 +90,7 @@
             android:layout_gravity="center"
             android:background="@drawable/image_city_empty"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/size30"/>
+            android:textColor="@color/black"/>
 
         <TextView
             style="@style/TextDetail"

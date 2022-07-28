@@ -61,7 +61,6 @@
                 android:layout_marginTop="@dimen/size4"
                 android:text="DINE IN"
                 android:textColor="@color/white"
-                android:textSize="@dimen/size16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvTitleChannel"
@@ -70,6 +69,57 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:layout_width="@dimen/size1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/size16"
+            android:layout_marginBottom="@dimen/size16"
+            android:background="@color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSalesman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/size16">
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="@dimen/size20"
+                android:layout_height="@dimen/size20"
+                android:src="@drawable/ic_salesman"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size16"
+                android:text="@string/salesman"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font12"
+                app:layout_constraintBottom_toTopOf="@+id/tvSalesman"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <TextView
+                android:id="@+id/tvSalesman"
+                style="@style/TextHeader"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size4"
+                android:text="@string/budiman"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView50"
+                app:layout_constraintTop_toBottomOf="@+id/textView50" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <View
             android:layout_width="@dimen/size1"
             android:layout_height="match_parent"
@@ -114,7 +164,6 @@
                 android:layout_marginTop="@dimen/size4"
                 android:text="@string/budiman"
                 android:textColor="@color/white"
-                android:textSize="@dimen/size16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView39"

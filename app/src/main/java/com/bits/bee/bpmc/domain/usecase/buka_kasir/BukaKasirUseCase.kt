@@ -39,16 +39,16 @@ class BukaKasirUseCase @Inject constructor(
         mCash = cashRepository.getLastId().first()
 
         addCashAUseCase(
-            refId = mPosses?.possesId?.toLong() ?: throw NullPointerException(),
-            refType = BPMConstants.POSSES,
-            cashId = cash.id ?: throw NullPointerException(),
+            refId = mPosses?.possesId?.toLong() ?: throw Exception(),
+            refType = BPMConstants.BPM_DEFAULT_TYPE_POSSES,
+            cashId = mCash?.id ?: throw Exception(),
             cashierId = cashier.id,
-            userId = mPosses?.userId ?: throw NullPointerException(),
+            userId = mPosses?.userId ?: throw Exception(),
             amt = modal
         )
 
         addCstrUseCase(
-            refType = BPMConstants.POSSES,
+            refType = BPMConstants.BPM_DEFAULT_TYPE_POSSES,
             refNo = mPosses?.trxNo ?: throw Exception("adasd"),
             amt = modal,
             cashier = cashier,

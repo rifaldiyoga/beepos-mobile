@@ -14,12 +14,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranKartuBinding
+import com.bits.bee.bpmc.domain.model.Pmtd
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 31/05/22.
@@ -38,30 +40,20 @@ class PembayaranKartuFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
-            val type = it.getString("type")
-            viewModel.state.type = type ?: "CC"
+            val type = it.getParcelable<Pmtd>("pmtd")
+            viewModel.state.pmtd = type
         }
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun initComponents() {
-        viewModel.loadEdc()
-        adapterEdc = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1)
-        adapterEdcType = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1)
         binding.apply {
-
 
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
-            etEdc.setOnItemClickListener { _, _, i, _ ->
-                viewModel.onItemEdcClick(i)
-            }
-            etTipeEdc.setOnItemClickListener { _, _, i, _ ->
-                viewModel.onItemEdcTypeClick(i)
-            }
             etNomorKartu.addTextChangedListener {
                 viewModel.state.nomorkartu = etNomorKartu.text.toString().trim()
             }
@@ -83,17 +75,20 @@ class PembayaranKartuFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let { state ->
-                        adapterEdc.clear()
-                        adapterEdc.addAll(state.edcList.map { it.name })
-                        binding.etEdc.setAdapter(adapterEdc)
-
-                        adapterEdcType.clear()
-                        adapterEdcType.addAll(state.edcSurcList.map {it.ccType.cctypeDesc })
-                        binding.etTipeEdc.setAdapter(adapterEdcType)
-
-                        state.edcSurc?.let {
-                            binding.tvSurcharge.text = "${it.edcSurc.surcExp} %"
+                        requireActivity().actionBar?.let {
+                            it.title = state.pmtd?.name ?: "Pembayaran Kartu"
                         }
+                        binding.tvSurcharge.text = "${state.pmtd?.surExp ?: "0"}%"
+                        state.pmtd?.let {
+                            val mainState = mainViewModel.state
+                            val surcVal = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(mainState.sale.total)
+                            state.nominalSurc = surcVal
+                            val total = mainState.sale.total.add(surcVal)
+                            state.total = total
+                            binding.tvTotal.text = getString(R.string.mata_uang_nominal, mainState.crc?.symbol?: "", CurrencyUtils.formatCurrency(total))
+                            binding.tvNominalSurcharge.text = getString(R.string.mata_uang_nominal, mainState.crc?.symbol ?: "",CurrencyUtils.formatCurrency(surcVal))
+                        }
+
                     }
                 }
             }
@@ -102,7 +97,7 @@ class PembayaranKartuFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 mainViewModel.viewStates().collect {
                     it?.let {
-                        binding.tvTotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol?: "", CurrencyUtils.formatCurrency(it.sale.total))
+
                     }
                 }
             }

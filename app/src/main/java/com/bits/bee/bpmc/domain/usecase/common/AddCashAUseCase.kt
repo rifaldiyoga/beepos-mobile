@@ -18,12 +18,11 @@ class AddCashAUseCase @Inject constructor(
 ){
 
     suspend operator fun invoke(refId : Long, refType : String, cashId : Int, userId : Int, cashierId : Int, amt : BigDecimal){
-
-        var cashA = CashA(
+        val cashA = CashA(
             trxDate = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
             amount = amt,
             note = "",
-            inOut = (if(amt >= BigDecimal.ZERO) "i" else "o").first(),
+            inOut = (if(amt >= BigDecimal.ZERO) "i" else "o")[0],
             refType = refType,
             refId = refId,
             autoGen = true,
@@ -32,6 +31,7 @@ class AddCashAUseCase @Inject constructor(
             cashierId = cashierId,
             isUploaded = true
         )
+
         cashARepository.addCashA(CashADataMapper.fromDomainToDb(cashA))
     }
 }

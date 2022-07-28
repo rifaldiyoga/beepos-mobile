@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
         android:text="@string/transaksi_draft"
+        android:textSize="@dimen/font16"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"

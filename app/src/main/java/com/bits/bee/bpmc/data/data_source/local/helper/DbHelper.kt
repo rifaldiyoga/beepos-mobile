@@ -121,6 +121,8 @@ abstract class DbHelper : RoomDatabase() {
 
     abstract val cashADao: CashADao
 
+    abstract val saleCrcvDao : SaleCrcvDao
+
     companion object {
         const val DATABASE_NAME = "bpmData.db"
 

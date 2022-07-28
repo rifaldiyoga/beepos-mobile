@@ -18,5 +18,5 @@ interface CstrDao : BaseDao<CstrEntity>{
     fun updateCode(code: String, id: Int)
 
     @Query("SELECT * FROM cstr ORDER BY id DESC LIMIT 1")
-    fun getLastId(): CstrEntity
+    fun getLastId(): CstrEntity?
 }

@@ -480,6 +480,27 @@ class DownloadViewModel @Inject constructor (
                     _state.update {
                         it.copy(status = "Finish Downloading Cc Type")
                     }
+                    downloadPmtd()
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private fun downloadPmtd() = viewModelScope.launch {
+        di.getLatestPmtdUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    _state.update {
+                        it.copy(status = "Downloading Pmtd")
+                    }
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading Pmtd")
+                    }
                 }
                 Resource.Status.ERROR -> {
 

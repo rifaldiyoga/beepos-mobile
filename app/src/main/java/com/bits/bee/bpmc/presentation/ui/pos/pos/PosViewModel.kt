@@ -38,9 +38,14 @@ class PosViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToDiskonNota)
     }
 
+    fun onClickSearch() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToSearch)
+    }
+
     sealed class UIEvent {
         object RequestInvoice : UIEvent()
         object NavigateToDraft : UIEvent()
         object NavigateToDiskonNota : UIEvent()
+        object NavigateToSearch : UIEvent()
     }
 }

@@ -8,12 +8,12 @@ class Converters {
 
     @TypeConverter
     fun stringToBigDecimal(value : String?) : BigDecimal? {
-        return value?.let { BigDecimal(it) } ?: BigDecimal.ZERO
+        return value?.let { BigDecimal(it) }
     }
 
     @TypeConverter
     fun intToBigDecimal(value : Int?) : BigDecimal? {
-        return value?.let { BigDecimal(it) }?: BigDecimal.ZERO
+        return value?.let { BigDecimal(it) }
     }
 
     @TypeConverter

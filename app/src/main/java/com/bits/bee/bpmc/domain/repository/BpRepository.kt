@@ -15,6 +15,8 @@ interface BpRepository {
 
     fun getDefaultBp() : Flow<Resource<Bp>>
 
+    fun getBpById(id : Int) : Flow<Bp?>
+
     fun getFavoritBpList() : Flow<Resource<List<Bp>>>
 
     fun getlastId(): Flow<Resource<Bp>>

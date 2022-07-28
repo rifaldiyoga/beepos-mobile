@@ -36,10 +36,7 @@ class PossesRepositoryImpl @Inject constructor(
 
     override suspend fun getActivePosses(): Flow<Posses?> = flow<Posses?> {
         val posses = possesDao.getActivePosses()
-        if(posses != null)
-            emit(PossesDataMapper.fromDbToDomain(posses))
-        else
-            emit(null)
+        emit(posses?.let{PossesDataMapper.fromDbToDomain(posses)})
     }.flowOn(defaultDispatcher)
 
     override suspend fun getPosses(): Flow<PagingData<Posses>> = Pager(
@@ -70,8 +67,9 @@ class PossesRepositoryImpl @Inject constructor(
                 endCash = BigDecimal.ZERO,
                 credit = BigDecimal.ZERO,
                 userId = 3,
-                totalActualCash = BigDecimal.ZERO,
-                totalDiffCash = BigDecimal.ZERO
+                totalActualCash = startBal,
+                totalDiffCash = BigDecimal.ZERO,
+                totIn = startBal,
             )
             possesDao.insertSingle(posses)
         }

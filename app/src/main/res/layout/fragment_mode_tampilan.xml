@@ -24,6 +24,7 @@
         android:layout_marginTop="@dimen/size6"
         android:text="@string/pilih_tipe_bisinis"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/dark_gray"
         app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 

@@ -13,7 +13,7 @@ class BeePreferenceManager {
         private lateinit var sharedPreferences : SharedPreferences
         private lateinit var sharedPreferencesEditor : SharedPreferences.Editor
 
-        private fun initPreferences(context: Context){
+        private fun initPreferences(context: Context) {
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         }
 

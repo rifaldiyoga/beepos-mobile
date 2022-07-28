@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_posFragment_to_diskonNotaDialog"
             app:destination="@id/diskonNotaDialog" />
+        <action
+            android:id="@+id/action_posFragment_to_cariItemFragment"
+            app:destination="@id/cariItemFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -151,9 +154,8 @@
             android:id="@+id/action_pembayaranDebitKreditFragment_to_transaksiBerhasilFragment"
             app:destination="@id/transaksiBerhasilFragment" />
         <argument
-            android:name="type"
-            app:argType="string"
-            android:defaultValue="CC" />
+            android:name="pmtd"
+            app:argType="com.bits.bee.bpmc.domain.model.Pmtd" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_transaksi_berhasil"
@@ -198,5 +200,19 @@
             android:id="@+id/action_cariKecamatanFragment_to_tambahMemberFragment"
             app:destination="@id/tambahMemberFragment" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_cari_item"
+        android:id="@+id/cariItemFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.cari_item.CariItemFragment"
+        android:label="CariItemFragment" >
+        <action
+            android:id="@+id/action_cariItemFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_scanner"
+        android:id="@+id/scannerFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.scan.ScannerFragment"
+        android:label="ScannerFragment" />
 
 </navigation>

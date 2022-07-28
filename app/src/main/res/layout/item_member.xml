@@ -49,7 +49,7 @@
                     android:text="@string/budiman"
                     style="@style/TextHeader"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/size14"/>
+                    />
 
                 <TextView
                     android:id="@+id/tvNoTelp"
@@ -58,7 +58,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:text="@string/_100_000"
-                    android:textSize="@dimen/size12" />
+                    android:textSize="@dimen/font12" />
 
             </LinearLayout>
 
@@ -83,7 +83,6 @@
                 android:background="@drawable/ic_eye"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/size30"
                 tools:layout_editor_absoluteX="376dp"
                 tools:layout_editor_absoluteY="23dp" />
 

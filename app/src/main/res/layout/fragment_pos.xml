@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/clContent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.tabs.TabLayout
+
+     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="@dimen/size0"
         android:layout_height="?actionBarSize"
@@ -26,6 +27,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="@dimen/size225"
+        android:layout_height="@dimen/size100"
+        android:src="@drawable/image_cart_empty"
+        app:layout_constraintBottom_toTopOf="@+id/textView44"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size32"
+        android:layout_marginTop="@dimen/size16"
+        android:layout_marginEnd="@dimen/size32"
+        android:text="@string/note_retail"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/btnTambahBaru"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image1" />
+
+    <Button
+        android:id="@+id/btnTambahBaru"
+        android:layout_width="@dimen/size225"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size24"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/tambah_baru"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabTambahBaru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:src="@drawable/ic_plus"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="TODO" />
 
     <LinearLayout
         android:id="@+id/llNext"
@@ -76,5 +127,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group3"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="image1,textView44,btnTambahBaru" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

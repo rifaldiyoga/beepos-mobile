@@ -26,48 +26,11 @@ class PembayaranKartuViewModel @Inject constructor(
         state = PembayaranKartuState()
     }
 
-    fun onItemEdcClick(pos : Int) = viewModelScope.launch {
-        val edc = state.edcList[pos]
-        updateState(
-            state.copy(
-                edc = edc
-            )
-        )
-        loadTypeEdc(edc.id)
-    }
-
-    fun onItemEdcTypeClick(pos: Int) = viewModelScope.launch {
-        val edc = state.edcSurcList[pos]
-        updateState(
-            state.copy(
-                edcSurc = edc
-            )
-        )
-    }
 
     fun onBayarClick(sale : Sale, saledList : List<Saled>) = viewModelScope.launch {
-        addTransactionUseCase(sale, saledList)
+        sale.termType = state.type
+        addTransactionUseCase(sale, saledList, sale.total, state.pmtd, state.trackNo, state.nomorkartu, state.keterangan)
         eventChannel.send(UIEvent.NavigateToTransaksiBerhasil)
-    }
-
-    fun loadEdc() = viewModelScope.launch{
-        getActiveEdc().collect {
-            updateState(
-                state.copy(
-                    edcList = it
-                )
-            )
-        }
-    }
-
-    private fun loadTypeEdc(edcId : Int)= viewModelScope.launch {
-        getActiveEdcSurc(edcId, state.type).collect {
-            updateState(
-                state.copy(
-                    edcSurcList = it
-                )
-            )
-        }
     }
 
     sealed class UIEvent {

@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import com.bits.bee.bpmc.data.data_source.local.model.PmtdEntity
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -8,18 +10,19 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Pmtd (
-    val id : Int,
-    val code : String,
-    val name: String,
-    val version: Int,
-    val cmpName : String,
-    val cmpPhone : String,
-    val active : Boolean,
-    val cmpAddress : String,
-    val cmpFax : String,
-    val custDeftId : Int?,
-    val createdAt : Long,
-    val createdBy : Int,
-    val updatedAt : Long,
-    val updatedBy : Int,
+    var id : Int?,
+    var idx : Int?,
+    var code : String,
+    var name: String,
+    var cashId : Int?,
+    var mdrExp : String?,
+    var mdrAcc : Int,
+    var surExp : String?,
+    var surAcc : Int,
+    var branchId : Int?,
+    var settleDays : Int?,
+    var cashName : String?,
+    var branchName : String?,
+    var ccType : String,
+    var edcSurcType : String,
 ) : Parcelable

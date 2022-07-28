@@ -39,7 +39,6 @@ class PosFragment(
 
     private val mainViewModel : MainViewModel by activityViewModels()
 
-    private lateinit var searchView: SearchView
     private lateinit var draftMenu: MenuItem
 
     override fun onCreateView(
@@ -54,17 +53,8 @@ class PosFragment(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_pos, menu)
         val searchItem = menu.findItem(R.id.menu_search)
-        searchView = searchItem.actionView as SearchView
         draftMenu = menu.findItem(R.id.menu_draft)
 
-        searchView.setOnSearchClickListener {
-            draftMenu.isVisible = false
-        }
-        searchView.setOnCloseListener(SearchView.OnCloseListener {
-            draftMenu.isVisible = false
-            return@OnCloseListener false
-        })
-        searchView.setOnQueryTextListener(this@PosFragment)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -75,6 +65,9 @@ class PosFragment(
            }
             R.id.menu_diskon -> {
                 viewModel.onClickDiskonNota()
+            }
+            R.id.menu_search -> {
+                viewModel.onClickSearch()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -124,6 +117,10 @@ class PosFragment(
                         }
                         PosViewModel.UIEvent.NavigateToDiskonNota -> {
                             val action = PosFragmentDirections.actionPosFragmentToDiskonNotaDialog()
+                            findNavController().navigate(action)
+                        }
+                        PosViewModel.UIEvent.NavigateToSearch -> {
+                            val action = PosFragmentDirections.actionPosFragmentToCariItemFragment()
                             findNavController().navigate(action)
                         }
                     }

@@ -11,31 +11,35 @@ import androidx.room.PrimaryKey
 data class PmtdEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = IDX)
-    var idx : Int,
+    var idx : Int?,
     @ColumnInfo(name = CODE)
     var code : String,
     @ColumnInfo(name = NAME)
     var name: String,
     @ColumnInfo(name = CASH_ID)
-    var cashId : Int,
+    var cashId : Int?,
     @ColumnInfo(name = MDREXP)
-    var mdrExp : Int,
+    var mdrExp : String?,
     @ColumnInfo(name = MDRACC)
     var mdrAcc : Int,
     @ColumnInfo(name = SURCEXP)
-    var surExp : Int,
+    var surExp : String?,
     @ColumnInfo(name = SURCACC)
     var surAcc : Int,
     @ColumnInfo(name = BRANCH_ID)
-    var branchId : Int,
+    var branchId : Int?,
     @ColumnInfo(name = SETTLEDAYS)
-    var settleDays : Int,
+    var settleDays : Int?,
     @ColumnInfo(name = CASH_NAME)
-    var cashName : String,
+    var cashName : String?,
     @ColumnInfo(name = BRANCH_NAME)
-    var branchName : String,
+    var branchName : String?,
+    @ColumnInfo(name = CCTYPE)
+    var ccType : String,
+    @ColumnInfo(name = EDCSURCTYPE)
+    var edcSurcType : String
 ) {
     companion object {
         const val TBL_NAME = "pmtd"
@@ -54,5 +58,7 @@ data class PmtdEntity(
         const val ACTIVE = "active"
         const val CASH_NAME = "cash_name"
         const val BRANCH_NAME = "branch_name"
+        const val CCTYPE = "cctype"
+        const val EDCSURCTYPE = "edcsurctype"
     }
 }

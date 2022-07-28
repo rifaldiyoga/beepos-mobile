@@ -1,18 +1,17 @@
 package com.bits.bee.bpmc.presentation.ui.pembayaran_kartu
 
-import com.bits.bee.bpmc.domain.model.Edc
-import com.bits.bee.bpmc.domain.model.EdcSurcAndCcType
+import com.bits.bee.bpmc.domain.model.Pmtd
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 02/06/22.
  */
 data class PembayaranKartuState (
-    var edc : Edc? = null,
-    var edcSurc : EdcSurcAndCcType? = null,
-    var edcList: List<Edc> = mutableListOf(),
-    var edcSurcList : List<EdcSurcAndCcType> = mutableListOf(),
+    var pmtd : Pmtd? = null,
     var type : String = "",
     var trackNo : String = "",
     var nomorkartu : String = "",
-    var keterangan : String = ""
+    var keterangan : String = "",
+    var nominalSurc : BigDecimal = BigDecimal.ZERO,
+    var total : BigDecimal = BigDecimal.ZERO
 )

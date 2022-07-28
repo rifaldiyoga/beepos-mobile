@@ -8,10 +8,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.SubmitDraftTransactionUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
@@ -36,8 +33,7 @@ class MainViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
-    private val addTransactionUseCase: AddTransactionUseCase,
-    private val submitDraftTransactionUseCase: SubmitDraftTransactionUseCase
+    private val submitDraftTransactionUseCase: SubmitDraftTransactionUseCase,
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     private val roundVal = 0
@@ -54,6 +50,7 @@ class MainViewModel @Inject constructor(
 
     private fun getActiveCrc() = viewModelScope.launch {
         getDefaultCrcUseCase().collect {
+            state.sale.crcId = it?.id ?: throw Exception("")
             updateState(
                 state.copy(
                     crc = it
@@ -117,24 +114,12 @@ class MainViewModel @Inject constructor(
     }
 
     fun getDefaultBp() = viewModelScope.launch {
-        getDefaultBpUseCase.invoke().collect{
-            when(it.status){
-                Resource.Status.LOADING -> {
-
-                }
-                Resource.Status.SUCCESS -> {
-                    it.data?.let { data ->
-                        _state.update {
-                            it!!.copy(
-                                bp = data
-                            )
-                        }
-                    }
-                }
-                Resource.Status.ERROR -> {
-
-                }
-            }
+        getDefaultBpUseCase().collect{
+            updateState(
+                state.copy(
+                    bp = it
+                )
+            )
         }
     }
 
@@ -164,9 +149,9 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun submitTrans() = viewModelScope.launch {
-        addTransactionUseCase(state.sale, state.saledList)
-    }
+//    fun addTransaction() = viewModelScope.launch {
+//        addTransactionUseCase(state.sale, state.saledList)
+//    }
 
     fun submitDraftTrans() = viewModelScope.launch {
         submitDraftTransactionUseCase(state.sale, state.saledList)

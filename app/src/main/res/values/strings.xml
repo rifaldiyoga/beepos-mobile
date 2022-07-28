@@ -381,7 +381,7 @@ untuk memperbarui data dapur?</string>
     <string name="untuk_menerima_pembayaran_minta_pelanggan_untuk_scan_kode_qr_dibawah_ini_ya">Untuk menerima pembayaran, minta pelanggan untuk scan kode QR dibawah ini ya!</string>
     <string name="print_qr_code">Print QR Code</string>
     <string name="transaksi_berhasil">Transaksi Berhasil!</string>
-    <string name="kembali_4_500_dibayar_tunai">Kembali %1$d dibayar %2$d</string>
+    <string name="kembali_4_500_dibayar_tunai">Kembali %1$s dibayar %2$s</string>
     <string name="print_nota">Print Nota</string>
     <string name="beranda">Beranda</string>
     <string name="analisa">Analisa</string>
@@ -485,4 +485,7 @@ untuk memperbarui data dapur?</string>
     <string name="lihat_grafik">Lihat grafik, rata-rata penjualan, dll</string>
     <string name="pendapatan_sesi">Pendapatan Sesi</string>
     <string name="rekap_sesi_empty">Belum ada rekap sesi yang dicatat. Rekap sesi akan otomatis tersedia kasir aktif</string>
+    <string name="note_retail">Keranjangmu masih kosong. Tambah produk dulu ya untuk memulai transaksi</string>
+    <string name="salesman">Salesman :</string>
+    <string name="scan_barcode">Scan Barcode</string>
 </resources>

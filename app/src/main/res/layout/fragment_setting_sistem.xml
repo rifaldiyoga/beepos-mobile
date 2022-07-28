@@ -29,7 +29,7 @@
             <TextView
                 style="@style/TextDetail"
                 android:id="@+id/tvDetailPenyimpanan"
-                android:textSize="@dimen/font12"
+                android:textSize="@dimen/font10"
                 android:layout_marginTop="@dimen/size4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,18 +69,21 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                style="@style/TextDetail"
                 android:id="@+id/tvDetailBatch"
-                android:layout_width="wrap_content"
+                style="@style/TextDetail"
+                android:layout_width="@dimen/size0"
+                android:layout_marginEnd="@dimen/size16"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size4"
                 android:text="@string/auto"
-                android:textSize="@dimen/font12"
+                android:textSize="@dimen/font10"
+                app:layout_constraintEnd_toStartOf="@+id/imageView11"
                 app:layout_constraintStart_toStartOf="@+id/textView36"
                 app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
 
             <ImageView
+                android:id="@+id/imageView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_chevron_right_gray"
@@ -114,7 +117,7 @@
             <TextView
                 android:id="@+id/tvDetailPeriode"
                 style="@style/TextDetail"
-                android:textSize="@dimen/font12"
+                android:textSize="@dimen/font10"
                 android:layout_marginTop="@dimen/size4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +162,7 @@
             <TextView
                 android:id="@+id/help_icon"
                 android:layout_width="10dp"
-                android:layout_height="12dp"
+                android:layout_height="10dp"
                 android:layout_marginStart="140dp"
                 android:background="@drawable/help_circle"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -20,7 +20,7 @@
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:gravity="center"
-            android:textSize="@dimen/font18"
+            android:textSize="@dimen/font16"
             style="@style/TextHeader"
             android:layout_height="wrap_content"
             tools:text="Ovaltine Swiss Choco"/>

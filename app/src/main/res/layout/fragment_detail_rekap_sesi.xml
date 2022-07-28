@@ -149,6 +149,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cabang"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -168,6 +169,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/kasir"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -189,6 +191,7 @@
                     android:layout_marginTop="@dimen/size16"
                     android:text="@string/user_kasir"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView88" />
 
@@ -209,6 +212,7 @@
                     android:layout_marginTop="@dimen/size16"
                     android:text="@string/shift"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView95" />
 
@@ -229,6 +233,7 @@
                     android:layout_marginTop="@dimen/size16"
                     android:text="@string/mulai_operasional"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView96" />
 
@@ -249,8 +254,9 @@
                     android:layout_marginTop="@dimen/size16"
                     android:text="@string/selesai_operasional"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView97"/>
+                    app:layout_constraintTop_toBottomOf="@+id/textView97" />
 
                 <TextView
                     android:id="@+id/textView99"
@@ -269,6 +275,7 @@
                     android:layout_marginTop="@dimen/size16"
                     android:text="@string/sesi"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView98" />
 

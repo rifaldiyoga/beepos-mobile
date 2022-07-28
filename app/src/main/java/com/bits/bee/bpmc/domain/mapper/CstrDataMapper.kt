@@ -2,8 +2,6 @@ package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.CstrEntity
 import com.bits.bee.bpmc.domain.model.Cstr
-import java.math.BigDecimal
-import java.util.*
 
 object CstrDataMapper: BaseMapper<CstrEntity, Cstr, Any>() {
     override fun fromDbToDomain(model: CstrEntity): Cstr {

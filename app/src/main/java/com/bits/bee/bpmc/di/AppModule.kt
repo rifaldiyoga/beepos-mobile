@@ -282,8 +282,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSaleCrcvRepository() : SaleCrcvRepository {
-        return SaleCrcvRepositoryImpl()
+    fun provideSaleCrcvRepository(saleCrcvDao: SaleCrcvDao, dispatcher: CoroutineDispatcher) : SaleCrcvRepository {
+        return SaleCrcvRepositoryImpl(saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun providePmtdRepository(apiUtils: ApiUtils, saleCrcvDao: PmtdDao, edcDao : EdcDao, edcSurcDao: EdcSurcDao, branchDao: BranchDao, dispatcher: CoroutineDispatcher) : PmtdRepository {
+        return PmtdRepositoryImpl(apiUtils, saleCrcvDao, edcDao, edcSurcDao, branchDao, dispatcher)
     }
 
 }

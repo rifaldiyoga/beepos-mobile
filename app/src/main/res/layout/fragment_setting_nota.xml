@@ -60,7 +60,7 @@
             <TextView
                 android:id="@+id/tVPath"
                 style="@style/TextDetail"
-                android:textSize="@dimen/font12"
+                android:textSize="@dimen/font10"
                 android:layout_width="@dimen/size0"
                 android:layout_marginEnd="@dimen/size16"
                 android:layout_height="wrap_content"

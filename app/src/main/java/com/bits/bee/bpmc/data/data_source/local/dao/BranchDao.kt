@@ -24,4 +24,8 @@ interface BranchDao : BaseDao<BranchEntity>{
     @Query("SELECT * FROM branch WHERE active = 1 LIMIT 1")
     fun getActiveBranch() : BranchEntity?
 
+    @Query("SELECT * FROM branch WHERE id = :branchId")
+    fun getBranchById(branchId : Int) : BranchEntity?
+
+
 }

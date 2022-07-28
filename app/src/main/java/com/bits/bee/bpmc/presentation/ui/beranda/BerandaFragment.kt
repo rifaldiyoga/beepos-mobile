@@ -21,6 +21,7 @@ import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 13/04/22.
@@ -88,7 +89,7 @@ class BerandaFragment(
                                 groupPendapatan.visible()
                                 tvInfoKasir.text = getString(R.string.klik_tutup_kasir_untuk_mengakhiri_shift_3_ya, it.shift)
                                 btnBukaKasir.text = getString(R.string.tutup_kasir)
-                                tvTotalPendapatan.text = CurrencyUtils.formatCurrency(it.activePosses!!.total)
+                                tvTotalPendapatan.text = CurrencyUtils.formatCurrency(it.activePosses!!.totIn ?: BigDecimal.ZERO)
                             }
                         } else {
                             binding.apply {

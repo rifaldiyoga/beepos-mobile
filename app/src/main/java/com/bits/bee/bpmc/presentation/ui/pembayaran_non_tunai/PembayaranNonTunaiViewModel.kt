@@ -1,10 +1,12 @@
 package com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.model.Pmtd
+import com.bits.bee.bpmc.domain.usecase.pembayaran.GetActivePmtd
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,26 +14,36 @@ import javax.inject.Inject
  * Created by aldi on 02/06/22.
  */
 @HiltViewModel
-class PembayaranNonTunaiViewModel @Inject constructor(): BaseViewModel<PembayaranNonTunaiState, PembayaranNonTunaiViewModel.UIEvent>(){
+class PembayaranNonTunaiViewModel @Inject constructor(
+    private val getActivePmtd: GetActivePmtd
+): BaseViewModel<PembayaranNonTunaiState, PembayaranNonTunaiViewModel.UIEvent>(){
 
     init {
         state = PembayaranNonTunaiState()
     }
 
-    fun onClickGopay() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToGopay)
+    fun loadPmtd() = viewModelScope.launch {
+        getActivePmtd().collect {
+            updateState(
+                state.copy(
+                    pmtdList = it
+                )
+            )
+        }
     }
 
-    fun onClickKredit() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToDebitKredit(BPMConstants.CREDIT_CARD_CODE))
-    }
 
-    fun onClickDebit() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToDebitKredit(BPMConstants.DEBIT_CARD_CODE))
+
+    fun onClickItem(pmtd: Pmtd) = viewModelScope.launch {
+        if(pmtd.ccType != BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY) {
+            eventChannel.send(UIEvent.NavigateToDebitKredit(pmtd))
+        } else {
+            eventChannel.send(UIEvent.NavigateToGopay)
+        }
     }
 
     sealed class UIEvent {
         object NavigateToGopay : UIEvent()
-        data class NavigateToDebitKredit(var type : String) : UIEvent()
+        data class NavigateToDebitKredit(var pmtd : Pmtd) : UIEvent()
     }
 }

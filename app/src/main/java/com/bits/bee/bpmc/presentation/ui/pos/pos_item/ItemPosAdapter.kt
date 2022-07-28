@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -19,7 +18,6 @@ import com.bits.bee.bpmc.utils.ViewUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import java.math.BigDecimal
-
 
 /**
  * Created by aldi on 22/04/22.
@@ -53,10 +51,35 @@ class ItemPosAdapter constructor(
 
         fun bind(item : Item){
             binding.apply {
-                var qty = getSumQty(item)
+                val qty = getSumQty(item)
                 tvNamaItem.text =  item.name1
                 tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,item.crcSymbol, CurrencyUtils.formatCurrency(item.price))
-                tvQty.text = CurrencyUtils.formatCurrency(qty)
+
+                tvQty?.let {
+                    it.text = CurrencyUtils.formatCurrency(qty)
+
+                    if(qty > BigDecimal.ZERO){
+                        cdContent.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.red))
+                        cardView.gone()
+                        llMinus!!.visible()
+                        llQty!!.visible()
+                        tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.white))
+                        tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.white))
+                    } else {
+                        cdContent.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.white))
+                        cardView.visible()
+                        llMinus!!.gone()
+                        llQty!!.gone()
+                        tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+                        tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+                    }
+
+                    llMinus.setOnClickListener {
+//                    item.qty = item.qty.subtract(BigDecimal.ZERO)
+                        onMinusClick(item)
+                        notifyItemChanged(absoluteAdapterPosition)
+                    }
+                }
                 val generatorCol = ColorGenerator.MATERIAL
                 val text = getInitial(item.name1)
 
@@ -76,22 +99,6 @@ class ItemPosAdapter constructor(
                     .endConfig()
                     .buildRect(text.uppercase(), color)
 
-                if(qty > BigDecimal.ZERO){
-                    cdContent.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.red))
-                    cardView.gone()
-                    llMinus.visible()
-                    llQty.visible()
-                    tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.white))
-                    tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.white))
-                } else {
-                    cdContent.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.white))
-                    cardView.visible()
-                    llMinus.gone()
-                    llQty.gone()
-                    tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.black))
-                    tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.black))
-                }
-
                 imageItem.setImageDrawable(titleImg)
 
                 cdContent.setOnClickListener {
@@ -99,14 +106,8 @@ class ItemPosAdapter constructor(
                     onItemClicK(item)
                     notifyItemChanged(absoluteAdapterPosition)
                 }
-                llMinus.setOnClickListener {
-//                    item.qty = item.qty.subtract(BigDecimal.ZERO)
-                    onMinusClick(item)
-                    notifyItemChanged(absoluteAdapterPosition)
-                }
             }
         }
-
     }
 
     private fun getSumQty(item : Item) : BigDecimal {

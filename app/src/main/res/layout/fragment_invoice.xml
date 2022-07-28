@@ -251,7 +251,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/total"
                 style="@style/TextHeader"
-                android:textSize="@dimen/font18"
+                android:textSize="@dimen/font16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -266,7 +266,7 @@
                 android:gravity="end"
                 android:text="@string/_0"
                 style="@style/TextHeader"
-                android:textSize="@dimen/font18"
+                android:textSize="@dimen/font16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvTitleTotal"

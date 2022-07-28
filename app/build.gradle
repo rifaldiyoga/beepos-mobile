@@ -130,4 +130,7 @@ dependencies {
     //Material Text Drawable
     implementation "com.amulyakhare:com.amulyakhare.textdrawable:1.0.1"
 
+    //code-scanner
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+
 }

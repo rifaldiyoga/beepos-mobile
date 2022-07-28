@@ -30,11 +30,12 @@
         android:id="@+id/tvCabang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size16"
         android:text="@string/cabang"
         android:textColor="@color/black"
-        android:layout_marginEnd="@dimen/size16"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView65"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView66"
@@ -52,6 +53,7 @@
         android:layout_height="wrap_content"
         android:text="@string/kasir"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView66"
         app:layout_constraintEnd_toEndOf="@+id/tvCabang" />
 
@@ -70,6 +72,7 @@
         android:layout_height="wrap_content"
         android:text="@string/kasir"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView67"
         app:layout_constraintEnd_toEndOf="@+id/tvCabang" />
 
@@ -89,6 +92,7 @@
         android:layout_height="wrap_content"
         android:text="@string/shift"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView68"
         app:layout_constraintEnd_toEndOf="@+id/tvCabang" />
 
@@ -107,6 +111,7 @@
         android:layout_height="wrap_content"
         android:text="@string/shift"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView69"
         app:layout_constraintEnd_toEndOf="@+id/tvCabang" />
 

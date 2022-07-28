@@ -74,3 +74,6 @@ fun EditText.addNumberFormatChange(){
     addTextChangedListener(NumberFormatWatcher(this))
 }
 
+fun String.removeSymbol() : String{
+    return if(this.isNotEmpty()) this.replace("[Rp,]", "").trim() else throw Exception("String can't be empty!")
+}

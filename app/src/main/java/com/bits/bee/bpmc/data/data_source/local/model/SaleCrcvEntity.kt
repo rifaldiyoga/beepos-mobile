@@ -10,56 +10,44 @@ import androidx.room.*
             childColumns = [SaleCrcvEntity.SALE_ID],
             onDelete = ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = EdcEntity::class,
-            parentColumns = [EdcEntity.ID],
-            childColumns = [SaleCrcvEntity.EDC_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = CashEntity::class,
-            parentColumns = [CashEntity.ID],
-            childColumns = [SaleCrcvEntity.CASH_ID],
-            onDelete = ForeignKey.CASCADE
-        )
     ]
 )
 data class SaleCrcvEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = RCVTYPE_CODE)
     var rcvTypeCode : String,
     @ColumnInfo(name = SALE_ID, index = true)
     var saleInt: Int,
     @ColumnInfo(name = RCVAMT)
-    var rcvAmt : String,
+    var rcvAmt : String?,
     @ColumnInfo(name = NOTE)
     var note : String,
-    @ColumnInfo(name = EDC_ID, index = true)
-    var edcId: Int,
-    @ColumnInfo(name = CASH_ID, index = true)
-    var cashId: Int,
+    @ColumnInfo(name = EDC_ID)
+    var edcId: Int?,
+    @ColumnInfo(name = CASH_ID)
+    var cashId: Int?,
     @ColumnInfo(name = CARD_NO)
-    var cardNo : String,
+    var cardNo : String?,
     @ColumnInfo(name = CCTYPE_CODE)
-    var cctypeCode : String,
+    var cctypeCode : String?,
     @ColumnInfo(name = MDREXP)
-    var mdrExp : String,
+    var mdrExp : String?,
     @ColumnInfo(name = MDRAMT)
-    var mdrAmt : String,
+    var mdrAmt : String?,
     @ColumnInfo(name = SURCEXP)
-    var surcExp : String,
+    var surcExp : String?,
     @ColumnInfo(name = SURCAMT)
-    var surcAmt : String,
+    var surcAmt : String?,
     @ColumnInfo(name = MDRACC_ID)
-    var mdrAccId : String,
+    var mdrAccId : String?,
     @ColumnInfo(name = SURACC_ID)
-    var surAccId : String,
+    var surAccId : String?,
     @ColumnInfo(name = REF_ID)
-    var refId : String,
+    var refId : String?,
     @ColumnInfo(name = TRACK_NO)
-    var trackNo : String,
+    var trackNo : String?,
 ) {
     companion object {
         const val TBL_NAME = "salecrcvs"
@@ -81,7 +69,5 @@ data class SaleCrcvEntity(
         const val SURACC_ID = "surcacc_id"
         const val REF_ID = "ref_id"
         const val TRACK_NO = "track_no"
-
-
     }
 }

@@ -32,10 +32,10 @@ class CstrRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLastId(): Flow<Cstr> {
+    override fun getLastId(): Flow<Cstr?> {
         return flow {
             val data = cstrDao.getLastId()
-            emit(CstrDataMapper.fromDbToDomain(data))
+            emit(data?.let { CstrDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 

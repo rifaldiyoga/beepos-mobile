@@ -60,6 +60,11 @@ class BpRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getBpById(id: Int): Flow<Bp?> = flow<Bp?> {
+        val bp = bpDao.getBpById(id)
+        emit(bp?.let { BpDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
+
     override fun getFavoritBpList() : Flow<Resource<List<Bp>>> {
         return flow {
             emit(Resource.loading())

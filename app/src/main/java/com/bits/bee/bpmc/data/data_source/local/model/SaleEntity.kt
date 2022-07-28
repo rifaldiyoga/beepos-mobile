@@ -24,12 +24,6 @@ import java.util.*
             childColumns = [SaleEntity.CASHIER_ID]
         ),
         ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [SaleEntity.USER_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = BpEntity::class,
             parentColumns = [BpEntity.ID],
             childColumns = [SaleEntity.BP_ID],
@@ -117,7 +111,7 @@ data class SaleEntity(
     var updatedAt: Date = Date(),
     @ColumnInfo(name = UPDATED_BY)
     var updatedBy: Int = -1,
-    @ColumnInfo(name = CRC_ID)
+    @ColumnInfo(name = CRC_ID, index = true)
     var crcId: Int? = -1,
 ) {
     companion object {

@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
@@ -19,6 +20,8 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -80,7 +83,10 @@ class PositemFragment(
                 )
             }
             rvList.apply {
-                layoutManager = LinearLayoutManager(requireContext())
+                layoutManager = when(Utils.getScreenResolution(requireActivity())) {
+                    BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
+                    else -> GridLayoutManager(requireContext(), 3)
+                }
                 adapter = posAdapter
             }
         }
@@ -95,9 +101,9 @@ class PositemFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 mainViewModel.viewStates().collectLatest {
                     it?.let {
-                        if(it.querySearch.isNotEmpty())
-                            viewModel.loadItem(it.bp!!, it.querySearch)
                         it.bp?.let { bp ->
+                            if(it.querySearch.isNotEmpty())
+                                viewModel.loadItem(bp, it.querySearch)
                             viewModel.state.priceLvlId = bp.priceLvlId
                             viewModel.loadItem(bp, it.querySearch)
                         }
@@ -117,7 +123,11 @@ class PositemFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         it.itemGroup?.let {
-                            viewModel.loadItem(mainViewModel.state.bp!!, mainViewModel.state.querySearch)
+                            mainViewModel.state.let {
+                                it.bp?.let{ bp ->
+                                    viewModel.loadItem(bp, mainViewModel.state.querySearch)
+                                }
+                            }
                         }
                         it.itemList?.let { pagingData ->
                             posAdapter.submitData(pagingData)

@@ -16,6 +16,7 @@ class CashRepositoryImpl @Inject constructor(
     private val cashDao: CashDao,
     private val defaultDispatcher: CoroutineDispatcher
 ): CashRepository {
+
     override suspend fun addCash(cashEntity: CashEntity) {
         withContext(defaultDispatcher){
             cashDao.insertSingle(cashEntity)

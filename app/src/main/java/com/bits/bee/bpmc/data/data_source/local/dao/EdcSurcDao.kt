@@ -18,5 +18,8 @@ interface EdcSurcDao : BaseDao<EdcSurcEntity>{
     @Query("SELECT * FROM edcsurc WHERE edc_id = :edcId AND edcsurctype = :type")
     fun getActiveEdcSurc(edcId : Int, type : String) : List<EdcSurcWithCcTypeEntity>
 
+    @Query("SELECT * FROM edcsurc WHERE edc_id = :edcId ")
+    fun getEdcSurcByEdc(edcId : Int) : List<EdcSurcEntity>
+
 
 }

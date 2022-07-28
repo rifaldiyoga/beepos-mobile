@@ -36,7 +36,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/size16"
         android:text="@string/database"
-        android:textSize="@dimen/font16"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

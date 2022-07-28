@@ -11,7 +11,15 @@ import java.math.RoundingMode
  */
 interface BPMConstants {
     companion object {
-        const val POSSES = "POSSES"
+        const val BPM_DEFAULT_TYPE_POSSES = "POSSES"
+        const val BPM_DEFAULT_TYPE_SALE = "SALE"
+        const val BPM_DEFAULT_TYPE_CASH = "CASH"
+        const val BPM_DEFAULT_TYPE_CADJ = "CADJ"
+        const val BPM_DEFAULT_TYPE_CSTR = "CADJ"
+        const val BPM_DEFAULT_TYPE_TUNAI = "TUNAI"
+        const val BPM_DEFAULT_TYPE_CHG = "CHG"
+        const val BPM_DEFAULT_TYPE_DEBIT = "DC"
+        const val BPM_DEFAULT_TYPE_KREDIT = "CC"
         const val CADJ = "CADJ"
         const val SALE = "SALE"
         const val BPM_LIMIT_PAGINATION = 10
@@ -19,12 +27,6 @@ interface BPMConstants {
         const val BPM_DEFAULT_TYPE_CASH_POSSES = "POSSES"
         const val CREDIT_CARD_CODE = "CC"
         const val DEBIT_CARD_CODE = "DC"
-        const val BPM_DEFAULT_TYPE_CASH_CADJ = "CADJ"
-        const val BPM_DEFAULT_TYPE_CASH_CSTR = "CSTR"
-        const val BPM_DEFAULT_TYPE_CASH_SALE = "sale"
-        const val BPM_DEFAULT_TYPE_CASH_TUNAI = "tunai"
-        const val BPM_DEFAULT_TYPE_CASH = "CASH"
-        const val BPM_DEFAULT_TYPE_KREDIT = "KREDIT"
         const val BPM_DEFAULT_TYPE_CASH_GOPAY = "GOPAY"
         const val SCREEN_POTRAIT = "Portrait"
         const val SCREEN_LANDSCAPE = "Landscape"

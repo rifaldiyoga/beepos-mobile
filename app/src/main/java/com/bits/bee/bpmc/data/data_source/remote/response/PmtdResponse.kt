@@ -54,9 +54,6 @@ data class PmtdResponse (
         val branchName : String,
     ) : Parcelable {
 
-        fun toPmtd() : PmtdEntity {
-            return PmtdEntity(id, idx, code, name, cashId, mdrExp, mdrAcc, surExp, surAcc, branchId, settleDays, cashName, branchName)
-        }
 
     }
 

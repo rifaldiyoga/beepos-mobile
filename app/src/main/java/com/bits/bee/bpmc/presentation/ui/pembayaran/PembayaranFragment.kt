@@ -1,8 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pembayaran
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.activityViewModels
@@ -67,7 +65,8 @@ class PembayaranFragment(
     override fun subscribeListeners() {
         binding.apply {
             btnTunai.setOnClickListener {
-                viewModel.onTunaiClick()
+                val state = mainViewModel.state
+                viewModel.onTunaiClick(state.sale, state.saledList)
             }
             btnNonTunai.setOnClickListener {
                 viewModel.onNonTunaiClick()
@@ -94,7 +93,6 @@ class PembayaranFragment(
                             }
                         }
                         PembayaranViewModel.UIEvent.RequestBayar -> {
-                            mainViewModel.submitTrans()
                         }
                     }
                 }

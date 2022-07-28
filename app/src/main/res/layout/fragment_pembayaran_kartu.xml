@@ -17,79 +17,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView57"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilEdc"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView57"
-            app:layout_constraintTop_toBottomOf="@+id/textView57">
-
-            <AutoCompleteTextView
-                android:id="@+id/etEdc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:hint="@string/pilih_edc"
-                android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="false"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/tvTipeEdc"
-            style="@style/TextHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size16"
-            android:text="@string/tipe_edc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilEdc" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilTipeEdc"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="@dimen/size0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvTipeEdc"
-            app:layout_constraintTop_toBottomOf="@+id/tvTipeEdc">
-
-            <AutoCompleteTextView
-                android:id="@+id/etTipeEdc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:clickable="true"
-                android:hint="@string/pilih_tipe_edc"
-                android:focusable="true"
-                android:focusableInTouchMode="false"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
             android:id="@+id/tvTrackNo"
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size16"
             android:text="@string/track_no"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilTipeEdc" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilTrackNo"
@@ -237,7 +171,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/size16"
                             android:text="@string/surcharge"
-                            android:textSize="@dimen/font18"
                             android:visibility="visible" />
 
                         <TextView
@@ -246,7 +179,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/size16"
                             android:text="@string/nominal_surcharge"
-                            android:textSize="@dimen/font14"
                             android:visibility="visible" />
 
                     </LinearLayout>
@@ -263,10 +195,10 @@
                         <TextView
                             android:id="@+id/tvSurcharge"
                             android:layout_width="match_parent"
+                            android:gravity="end"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/size16"
-                            android:textSize="@dimen/font14"
-                            android:visibility="gone" />
+                             />
 
                         <TextView
                             android:id="@+id/tvNominalSurcharge"
@@ -274,9 +206,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/size16"
                             android:gravity="end"
-                            android:text="@string/_minus_0"
-                            android:textSize="@dimen/font14"
-                            android:visibility="gone" />
+                            android:textStyle="bold"
+                            android:text="@string/_minus_0"/>
 
                     </LinearLayout>
                 </LinearLayout>

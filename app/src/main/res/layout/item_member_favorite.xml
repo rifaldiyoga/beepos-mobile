@@ -82,7 +82,7 @@
                     android:text="@string/nama"
                     style="@style/TextHeader"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/size16"/>
+                    />
 
                 <TextView
                     android:id="@+id/item_list_rvContent_tvPid"
@@ -91,7 +91,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:text="@string/id_member"
-                    android:textSize="@dimen/size16" />
+                     />
 
             </LinearLayout>
 
