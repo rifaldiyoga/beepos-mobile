@@ -18,7 +18,7 @@ class CashARepositoryImpl @Inject constructor(
             cashA?.let {
                 cashAEntity.id = it.id
             }
-            cashADao.insert(cashAEntity)
+            cashADao.insertSingle(cashAEntity)
         }
     }
 
