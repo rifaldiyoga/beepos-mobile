@@ -5,5 +5,6 @@ import com.bits.bee.bpmc.domain.model.Posses
 
 data class RiwayatSesiState(
     var search: String = "",
-    var listPosses: PagingData<Posses>? = null
+    var listPosses: PagingData<Posses>? = null,
+    var selectFilter: String = "1 Minggu Terakhir"
 )

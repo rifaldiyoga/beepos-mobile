@@ -50,7 +50,7 @@
     <string name="pref_add_member_email">pref_add_member_email</string>
     <string name="pref_add_member_alamat">pref_add_member_alamat</string>
     <string name="pref_counter_sesi">pref_counter_sesi</string>
-
+    <string name="pref_pilih_tgl">pref_pilih_tgl</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -115,6 +115,13 @@
     <string-array name="list_ukuran_kertas">
         <item>58 mm</item>
         <item>60 mm</item>
+    </string-array>
+
+    <string-array name="list_pilih_tgl">
+        <item>1 Minggu Terakhir</item>
+        <item>1 Bulan Terakhir</item>
+        <item>90 Hari Terakhir</item>
+        <item>Custom</item>
     </string-array>
 
     <string name="desc_cloud_data_dapur">Fitur ini digunakan untuk memilih sumber data dapur.Aktifkan fitur ini jika anda ingin mengambil data dapur dari Beecloud. Jika tidak aktif, sistem akan mengambil data dari lokal</string>
@@ -493,4 +500,8 @@ untuk memperbarui data dapur?</string>
     <string name="total_pendapatan">Total Pendapatan</string>
     <string name="lihat_riwayat_sebelumnya">Lihat Riwayat Sebelumnya</string>
     <string name="no_sesi">No Sesi</string>
+    <string name="reset">Reset</string>
+    <string name="filter">Filter</string>
+    <string name="pilih_tanggal">Pilih Tanggal</string>
+
 </resources>

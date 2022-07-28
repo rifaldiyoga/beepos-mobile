@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 
 class RiwayatSesiAdapter constructor(
     private val mListener: PilihRiwayatSesiI
-): PagingDataAdapter<Posses, RecyclerView.ViewHolder>(DiffCallback()) {
+):  PagingDataAdapter<Posses, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -34,17 +34,17 @@ class RiwayatSesiAdapter constructor(
 
         fun bind(posses: Posses){
             binding.apply {
-//                tvSesi.text = "Sesi#${posses.shift}"
-//                tvtotalRekap.text = posses.endBal.toString()
+                tvSesi.text = "Sesi#${posses.shift}"
+                tvtotalRekap.text = posses.endBal.toString()
 
                 val backToDate = Date(posses.trxDate.time)
                 val format = SimpleDateFormat("yyyy.MM.dd")
 
-//                tvRekapWaktu.text = format.format(backToDate)
-//
-//                lLRiwayatSesi.setOnClickListener {
-//                    mListener.onclick(posses)
-//                }
+                tvRekapWaktu.text = format.format(backToDate)
+
+                lLRiwayatSesi.setOnClickListener {
+                    mListener.onclick(posses)
+                }
             }
         }
 
