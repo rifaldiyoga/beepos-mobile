@@ -503,5 +503,9 @@ untuk memperbarui data dapur?</string>
     <string name="reset">Reset</string>
     <string name="filter">Filter</string>
     <string name="pilih_tanggal">Pilih Tanggal</string>
+    <string name="last_1_week">1 Minggu Terakhir</string>
+    <string name="last_1_month">1 Bulan Terakhir</string>
+    <string name="last_90_days">90 Hari Terakhir</string>
+    <string name="custom">Custom</string>
 
 </resources>

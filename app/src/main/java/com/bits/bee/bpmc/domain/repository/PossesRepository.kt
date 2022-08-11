@@ -26,11 +26,19 @@ interface PossesRepository {
 
     suspend fun getPossesHistory(): Flow<PagingData<Posses>>
 
-    suspend fun getNotActivePosses(): Flow<Resource<List<Posses>>>
+    suspend fun getActivePossesList(): Flow<Resource<List<Posses>>>
 
-    fun getSortDesc(): Flow<PagingData<Posses>>
+    fun getSortDesc(): Flow<Resource<List<Posses>>>
 
-    fun getSortAsc(): Flow<PagingData<Posses>>
+    fun getSortAsc(): Flow<Resource<List<Posses>>>
 
-    fun getFilter(current: Long, yester: Long): Flow<PagingData<Posses>>
+    fun getFilter(current: Long, end: Long): Flow<Resource<List<Posses>>>
+
+    fun getListPossesHistory(): Flow<Resource<List<Posses>>>
+
+    fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<Resource<List<Posses>>>
+
+    fun getFilterAsc(current: Long, end: Long): Flow<Resource<List<Posses>>>
+
+    fun getFilterDesc(current: Long, end: Long): Flow<Resource<List<Posses>>>
 }

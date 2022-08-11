@@ -13,11 +13,12 @@
             android:weightSum="5"
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/size20"
+            android:padding="@dimen/size16"
             tools:ignore="MissingConstraints">
 
 
             <LinearLayout
+                android:paddingTop="@dimen/size2"
                 android:id="@+id/lL_content_tipeTrans"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     style="@style/TextHeader"
                     android:text="@string/cash"
                     android:textSize="@dimen/size12" />
@@ -44,6 +45,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:paddingRight="@dimen/size12"
                 android:id="@+id/lL_content_member"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -59,26 +61,26 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/size5"
+                    android:layout_height="wrap_content"
                     android:layout_weight="5.5"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/size10"
                     android:weightSum="3">
 
                     <TextView
                         android:id="@+id/tvRekap_waktu"
-                        android:layout_width="wrap_content"
+                        android:paddingRight="@dimen/size2"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="end"
                         android:text="@string/jam_rekap"
                         android:textSize="@dimen/size12" />
 
                     <TextView
+                        android:paddingRight="@dimen/size2"
                         android:id="@+id/tvtotal_rekap"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="end"
                         android:layout_marginTop="10dp"
                         android:singleLine="false"
                         android:text="@string/budiman"

@@ -31,4 +31,7 @@ interface BpDao : BaseDao<BpEntity> {
     @Query("SELECT * FROM bp WHERE name LIKE '%'|| :query || '%'")
     fun searchBp(query : String) : List<BpEntity>
 
+    @Query("SELECT * FROM bp WHERE created_at BETWEEN :startDate AND :endDate")
+    fun getBpByDate(startDate: Long, endDate: Long): List<BpEntity>
+
 }

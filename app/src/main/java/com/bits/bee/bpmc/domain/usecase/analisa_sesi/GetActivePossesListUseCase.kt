@@ -6,10 +6,10 @@ import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNotActivePossesUseCase @Inject constructor(
+class GetActivePossesListUseCase @Inject constructor(
     private val possesRepository: PossesRepository
 ) {
     suspend operator fun invoke(): Flow<Resource<List<Posses>>>{
-        return possesRepository.getNotActivePosses()
+        return possesRepository.getActivePossesList()
     }
 }

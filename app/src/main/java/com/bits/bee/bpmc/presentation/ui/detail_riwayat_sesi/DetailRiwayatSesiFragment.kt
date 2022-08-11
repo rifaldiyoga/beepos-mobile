@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailRekapSesiBinding
 import com.bits.bee.bpmc.databinding.FragmentDetailRiwayatSesiBinding
 import com.bits.bee.bpmc.domain.model.Posses
@@ -17,6 +18,7 @@ import com.bits.bee.bpmc.presentation.dialog.detail_pendapatan.DetailPendapatanD
 import com.bits.bee.bpmc.presentation.ui.detail_sesi_kasir.DetailSesiKasirViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -107,7 +109,9 @@ class DetailRiwayatSesiFragment(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
                                 tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(
                                     BPMConstants.DEFAULT_DATE_FORMAT, endTime)
-                                pemasukanTotal.text = mPosses!!.total.toString()
+                                pemasukanTotal.text = getString(
+                                    R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(mPosses!!.total))
                             }
                         }
                         it.user?.let {

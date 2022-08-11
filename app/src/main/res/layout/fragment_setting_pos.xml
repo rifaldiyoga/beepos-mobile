@@ -27,7 +27,7 @@
 
             <TextView
                 style="@style/TextDetail"
-                android:textSize="@dimen/font10"
+                android:textSize="@dimen/font12"
                 android:layout_marginTop="@dimen/size4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
 
             <TextView
                 style="@style/TextDetail"
-                android:textSize="@dimen/font10"
+                android:textSize="@dimen/font12"
                 android:layout_width="@dimen/size0"
                 android:layout_marginEnd="@dimen/size16"
                 android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size4"
                 android:text="@string/no_meja"
-                android:textSize="@dimen/font10"
+                android:textSize="@dimen/font12"
                 app:layout_constraintStart_toStartOf="@+id/textView36"
                 app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
@@ -185,7 +185,7 @@
             <TextView
                 android:id="@+id/tvDetailJumlahMeja"
                 style="@style/TextDetail"
-                android:textSize="@dimen/font10"
+                android:textSize="@dimen/font12"
                 android:layout_marginTop="@dimen/size4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
             <TextView
                 android:id="@+id/tvDetailPresetBukaKasir"
                 style="@style/TextDetail"
-                android:textSize="@dimen/font10"
+                android:textSize="@dimen/font12"
                 android:layout_marginTop="@dimen/size4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -437,7 +437,7 @@
             <TextView
                 android:id="@+id/tvDetailOrientasi"
                 style="@style/TextDetail"
-                android:textSize="@dimen/font10"
+                android:textSize="@dimen/font12"
                 android:layout_marginTop="@dimen/size4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

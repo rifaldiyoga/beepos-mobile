@@ -1,9 +1,12 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.SaledDao
+import com.bits.bee.bpmc.domain.mapper.RankItemDataMapper
 import com.bits.bee.bpmc.domain.mapper.SaledDataMapper
+import com.bits.bee.bpmc.domain.model.RankItem
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaledRepository
+import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -32,4 +35,11 @@ class SaledRepositoryImpl @Inject constructor(
         val saledList = saledDao.getSaledList(saleId)
         emit(saledList.map { SaledDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
+
+    override fun getRankItem(possesId: Int): Flow<List<RankItem>> {
+        return flow {
+            val rankItem = saledDao.getRankItem(possesId).map { RankItemDataMapper.fromDbToDomain(it) }
+            emit(rankItem)
+        }.flowOn(defaultDispatcher)
+    }
 }

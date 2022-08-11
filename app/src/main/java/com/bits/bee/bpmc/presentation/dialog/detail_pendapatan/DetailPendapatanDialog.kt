@@ -6,12 +6,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogDetailMemberBinding
 import com.bits.bee.bpmc.databinding.DialogDetailPendapatanBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberViewModel
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,9 +56,15 @@ class DetailPendapatanDialog(
                     binding.apply {
                         it?.let {
                             it.posses?.let {
-                                tvTotalIncome.text = it.total.toString()
-                                tvModal.text = it.startBal.toString()
-                                tvPemasukan.text = it.totIn.toString()
+                                tvTotalIncome.text = getString(
+                                    R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.total))
+                                tvModal.text = getString(
+                                    R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.startBal))
+                                tvPemasukan.text = getString(
+                                    R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.totIn))
                                 tvPengeluaran.text = it.totOut.toString()
                             }
                         }
