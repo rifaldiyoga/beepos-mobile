@@ -14,6 +14,7 @@ import java.math.BigDecimal
 data class Saled (
     var id : Int? = null,
     var itemId : Int = -1,
+    var itemCode : String = "",
     var name : String = "",
     var qty : BigDecimal = BigDecimal.ZERO,
     var listPrice : BigDecimal = BigDecimal.ZERO,
@@ -35,6 +36,10 @@ data class Saled (
     var isBonus : Boolean = false,
     var isBonusUsed : Boolean = false,
     var isDeleted : Boolean = true,
-    var crcId : Int = -1,
-    var crcSymbol : String = "Rp"
+    var crcId : Int? = -1,
+    var crcSymbol : String? = "Rp",
+    var unitId : Int? = -1,
+    var unit : String? = "",
+    var conv : BigDecimal? = BigDecimal.ZERO,
+    var pid : String? = ""
 ) : Parcelable

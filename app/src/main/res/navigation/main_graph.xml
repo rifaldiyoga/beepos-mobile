@@ -8,8 +8,9 @@
     <fragment
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
+        android:label=""
         android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment"
-        android:label="@string/pos" >
+         >
         <action
             android:id="@+id/action_posFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
@@ -25,12 +26,18 @@
         <action
             android:id="@+id/action_posFragment_to_cariItemFragment"
             app:destination="@id/cariItemFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_cariItemFragment2"
+            app:destination="@id/cariItemFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_editItemDialog2"
+            app:destination="@id/editItemDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
         android:id="@+id/memberFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.member.MemberFragment"
-        android:label="MemberFragment" >
+        android:label="@string/pilih_member" >
         <action
             android:id="@+id/action_memberFragment_to_tambahMemberFragment"
             app:destination="@id/tambahMemberFragment" />
@@ -45,7 +52,7 @@
         tools:layout="@layout/fragment_tambah_member"
         android:id="@+id/tambahMemberFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.tambah_member.TambahMemberFragment"
-        android:label="TambahMemberFragment" >
+        android:label="@string/tambah_member" >
         <argument
             android:name="district"
             app:argType="string" />
@@ -79,26 +86,26 @@
     <fragment
         tools:layout="@layout/fragment_invoice"
         android:id="@+id/invoiceFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragment"
-        android:label="InvoiceFragment" >
+        android:label=""
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragment">
         <action
             android:id="@+id/action_invoiceFragment_to_pembayaranFragment"
             app:destination="@id/pembayaranFragment" />
-        <action
-            android:id="@+id/action_invoiceFragment_to_editItemDialog"
-            app:destination="@id/editItemDialog" />
         <action
             android:id="@+id/action_invoiceFragment_to_draftListDialog"
             app:destination="@id/draftListDialog" />
         <action
             android:id="@+id/action_invoiceFragment_to_diskonNotaDialog"
             app:destination="@id/diskonNotaDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
         android:id="@+id/pembayaranFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran.PembayaranFragment"
-        android:label="PembayaranFragment" >
+        android:label="@string/pembayaran" >
         <action
             android:id="@+id/action_pembayaranFragment_to_pembayaranNonTunaiFragment"
             app:destination="@id/pembayaranNonTunaiFragment" />
@@ -115,20 +122,33 @@
             android:id="@+id/action_cariKotaFragment_to_cariKecamatanFragment"
             app:destination="@id/cariKecamatanFragment" />
     </fragment>
-    <dialog
-        tools:layout="@layout/dialog_edit_item"
+    <fragment
+        tools:layout="@layout/fragment_edit_item"
         android:id="@+id/editItemDialog"
-        android:name="com.bits.bee.bpmc.presentation.dialog.edit_item.EditItemDialog"
-        android:label="EditItemDialog" >
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.edit_item.EditItemFragment"
+        android:label="@string/detail_produk" >
         <argument
             android:name="saled"
+            app:nullable="true"
+            android:defaultValue="@null"
             app:argType="com.bits.bee.bpmc.domain.model.Saled" />
-    </dialog>
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="pid"
+            app:argType="com.bits.bee.bpmc.domain.model.Stock"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran_non_tunai"
         android:id="@+id/pembayaranNonTunaiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiFragment"
-        android:label="PembayaranNonTunaiFragment" >
+        android:label="@string/non_tunai" >
         <action
             android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranGopayFragment"
             app:destination="@id/pembayaranGopayFragment" />
@@ -161,7 +181,7 @@
         tools:layout="@layout/fragment_transaksi_berhasil"
         android:id="@+id/transaksiBerhasilFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.transaksi_berhasil.TransaksiBerhasilFragment"
-        android:label="TransaksiBerhasilFragment" >
+         >
         <action
             app:destination="@+id/posFragment"
             app:popUpTo="@id/posFragment"
@@ -173,7 +193,7 @@
         tools:layout="@layout/dialog_draft_list"
         android:id="@+id/draftListDialog"
         android:name="com.bits.bee.bpmc.presentation.dialog.draft_list.DraftListDialog"
-        android:label="DraftListDialog" >
+        android:label="@string/draft_penjualan" >
         <action
             android:id="@+id/action_draftListDialog_to_draftFragment"
             app:destination="@id/draftFragment" />
@@ -182,7 +202,7 @@
         tools:layout="@layout/fragment_draft_list"
         android:id="@+id/draftFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.draft.DraftFragment"
-        android:label="DraftFragment" />
+        android:label="@string/draft_penjualan" />
     <dialog
         tools:layout="@layout/dialog_diskon_nota"
         android:id="@+id/diskonNotaDialog"
@@ -208,11 +228,29 @@
         <action
             android:id="@+id/action_cariItemFragment_to_scannerFragment"
             app:destination="@id/scannerFragment" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_pilihPidFragment"
+            app:destination="@id/pilihPidFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_scanner"
         android:id="@+id/scannerFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.scan.ScannerFragment"
         android:label="ScannerFragment" />
+    <fragment
+        tools:layout="@layout/fragment_pid"
+        android:id="@+id/pilihPidFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pid.PilihPidFragment"
+        android:label="@string/pilih_pid_produk" >
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item" />
+        <action
+            android:id="@+id/action_pilihPidFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+    </fragment>
 
 </navigation>

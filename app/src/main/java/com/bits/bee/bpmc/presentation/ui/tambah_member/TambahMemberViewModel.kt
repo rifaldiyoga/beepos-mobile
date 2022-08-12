@@ -53,24 +53,22 @@ class TambahMemberViewModel @Inject constructor(
             isValid = false
         }
         if (state.priceLvl == -1){
-            _state.update {
+            updateState(
                 state.copy(
                     priceLvl = 1
                 )
-            }
-        }
-
-        _state.update {
-            state.copy(
-                errorNamaMember = errorNamaMember,
-                errorNoTelp = errorNoTelp,
-                errorAlamat = errorAlamat,
-                errorEmail = errorEmail
             )
         }
 
+        updateState(state.copy(
+            errorNamaMember = errorNamaMember,
+            errorNoTelp = errorNoTelp,
+            errorAlamat = errorAlamat,
+            errorEmail = errorEmail
+        ))
+
         if(isValid) {
-            var bp = Bp(
+            val bp = Bp(
                 code = "tes code",
                 name = state.namaMember,
                 alamat = state.alamat,
@@ -108,11 +106,11 @@ class TambahMemberViewModel @Inject constructor(
     }
 
     fun onClickInfoLainnya() = viewModelScope.launch {
-        _state.update {
+        updateState(
             state.copy(
                 isInfoLainnya = !state.isInfoLainnya
             )
-        }
+        )
     }
 
     fun onClickKota() = viewModelScope.launch {

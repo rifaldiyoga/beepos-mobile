@@ -10,7 +10,7 @@ import com.bits.bee.bpmc.presentation.ui.pos.pos_item.PositemFragment
 /**
  * Created by aldi on 13/04/22.
  */
-class PosItemFragmentAdapter(fragment : Fragment, private val itemGroupEntityList : List<ItemGroup> = mutableListOf()) : FragmentStateAdapter(fragment) {
+class PosTabFragmentAdapter(fragment : Fragment, private val itemGroupEntityList : List<ItemGroup> = mutableListOf()) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = itemGroupEntityList.size
 

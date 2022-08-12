@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by aldi on 25/04/22.
  */
+
 @AndroidEntryPoint
 class PembayaranFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPembayaranBinding = FragmentPembayaranBinding::inflate
@@ -112,7 +113,7 @@ class PembayaranFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let {
-                        rekomBayarAdapter.submitList(it.rekomBayarList.values.toList().sorted())
+                        rekomBayarAdapter.submitList(it.rekomBayarList.values.toList())
                     }
                 }
             }

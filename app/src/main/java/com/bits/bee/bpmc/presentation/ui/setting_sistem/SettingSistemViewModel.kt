@@ -50,12 +50,6 @@ class SettingSistemViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestSettingPritner)
     }
 
-    fun update(state: SettingSistemState){
-        _state.update {
-            state
-        }
-    }
-
     sealed class UIEvent{
         object RequestSistemPenyimpanan : UIEvent()
         object RequestSistemBatchUpload : UIEvent()

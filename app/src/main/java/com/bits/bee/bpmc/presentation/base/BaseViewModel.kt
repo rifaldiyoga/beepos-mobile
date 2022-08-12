@@ -18,7 +18,10 @@ abstract class BaseViewModel<State, UIEvent>(
     val eventChannel = Channel<UIEvent>()
     val event = eventChannel.receiveAsFlow()
 
-    val _state : MutableStateFlow<State?> = MutableStateFlow(null)
+    val errorChannel = Channel<String>()
+    val error = errorChannel.receiveAsFlow()
+
+    private val _state : MutableStateFlow<State?> = MutableStateFlow(null)
     fun viewStates(): StateFlow<State?> = _state
 
     var state : State

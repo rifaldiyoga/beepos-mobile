@@ -9,16 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.FragmentSettingPosBinding
 import com.bits.bee.bpmc.databinding.FragmentSettingSistemBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CloudDapurDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
-import com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.extension.collectLifecycleFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -140,7 +136,7 @@ class SettingSistemFragment(
                                             R.string.pref_sistem_penyimpanan
                                         ), data.toString()
                                     )
-                                    viewModel.update(
+                                    viewModel.updateState(
                                         viewModel.state.copy(
                                             sistemPenyimpanan = data.toString()
                                         )
@@ -161,7 +157,7 @@ class SettingSistemFragment(
                                             R.string.pref_batch_upload
                                         ), data.toString()
                                     )
-                                    viewModel.update(
+                                    viewModel.updateState(
                                         viewModel.state.copy(
                                             sistemBatchUpload = data.toString()
                                         )
@@ -182,7 +178,7 @@ class SettingSistemFragment(
                                             R.string.pref_periode_upload_otomatis
                                         ), data.toString()
                                     )
-                                    viewModel.update(
+                                    viewModel.updateState(
                                         viewModel.state.copy(
                                             periodeUploadOtomatis = data.toString()
                                         )

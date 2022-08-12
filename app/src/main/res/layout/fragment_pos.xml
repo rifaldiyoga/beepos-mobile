@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-     <com.google.android.material.tabs.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="@dimen/size0"
         android:layout_height="?actionBarSize"
@@ -17,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/white"
         app:tabMode="scrollable"
+        app:tabTextAppearance="@style/CustomTextAppearanceTab"
         app:tabTextColor="@color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -27,6 +27,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentInvoice"
+        android:layout_width="@dimen/size0"
+        android:layout_marginTop="@dimen/size16"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/llNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/image1"
@@ -61,11 +71,10 @@
         android:background="@drawable/btn_rect_primary"
         android:text="@string/tambah_baru"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintBottom_toTopOf="@+id/llNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView44" />
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTambahBaru"
@@ -74,14 +83,16 @@
         android:layout_margin="@dimen/size16"
         android:src="@drawable/ic_plus"
         app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="TODO" />
+        app:layout_constraintBottom_toTopOf="@+id/llNext"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/llNext"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_top_background_color"
+        android:clipToPadding="true"
+        android:elevation="@dimen/size16"
         android:padding="@dimen/size16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,10 +140,17 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/group3"
-        android:visibility="gone"
+        android:id="@+id/groupRetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="image1,textView44,btnTambahBaru" />
+        app:constraint_referenced_ids="image1,textView44,btnTambahBaru, fabTambahBaru, fragmentInvoice" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupFnB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tabLayout,viewPager" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

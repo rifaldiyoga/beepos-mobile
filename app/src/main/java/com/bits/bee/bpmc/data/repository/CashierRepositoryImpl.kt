@@ -62,4 +62,11 @@ class CashierRepositoryImpl @Inject constructor(
         emit(cashier)
     }.flowOn(defaultDispatcher)
 
+    override fun getCashierById(id: Int): Flow<Resource<Cashier>> {
+        return flow {
+            val data = cashierDao.getCashierById(id)
+            emit(Resource.success(CashierDataMapper.fromDbToDomain(data)))
+        }.flowOn(defaultDispatcher)
+    }
+
 }

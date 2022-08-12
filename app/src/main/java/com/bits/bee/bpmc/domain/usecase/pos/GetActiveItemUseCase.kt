@@ -8,6 +8,7 @@ import com.bits.bee.bpmc.domain.repository.ItemRepository
 import com.bits.bee.bpmc.domain.repository.ItemSaleTaxRepository
 import com.bits.bee.bpmc.domain.repository.PriceRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetUnitItemUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -21,13 +22,14 @@ class GetActiveItemUseCase @Inject constructor(
     private val itemRepository: ItemRepository,
     private val priceRepository: PriceRepository,
     private val itemSaleTaxRepository: ItemSaleTaxRepository,
-    private val getDefaultCrc : GetDefaultCrcUseCase
+    private val getDefaultCrc : GetDefaultCrcUseCase,
+    private val getUnitItemUse: GetUnitItemUseCase
 ) {
 
-    suspend operator fun invoke(itemGrpId : Int, priceLvlId : Int = 1, bp : Bp, query : String = "") : Flow<PagingData<Item>>  =
+    suspend operator fun invoke(itemGrpId : Int, priceLvlId : Int = 1, bp : Bp, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
         when(itemGrpId != 1){
-            true -> itemRepository.getActiveItemListByItemGrp(itemGrpId = itemGrpId, query = query)
-            false -> itemRepository.getActiveItemList(query)
+            true -> itemRepository.getActiveItemListByItemGrp(itemGrpId = itemGrpId, query = query, usePid)
+            false -> itemRepository.getActiveItemList(query, usePid)
         }.map { data ->
             data.map { item ->
                 val price = priceRepository.getPriceByPriceLvl(priceLvlId, item.id).first()

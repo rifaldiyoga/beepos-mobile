@@ -13,8 +13,8 @@ interface ItemRepository {
 
     fun getLastesItemList(page : Int): Flow<Resource<List<Item>>>
 
-    suspend fun getActiveItemListByItemGrp(itemGrpId : Int, query: String) : Flow<PagingData<Item>>
+    suspend fun getActiveItemListByItemGrp(itemGrpId : Int, query: String, usePid: Boolean) : Flow<PagingData<Item>>
 
-    suspend fun getActiveItemList(query : String, ) : Flow<PagingData<Item>>
+    suspend fun getActiveItemList(query : String, usePid : Boolean) : Flow<PagingData<Item>>
 
 }

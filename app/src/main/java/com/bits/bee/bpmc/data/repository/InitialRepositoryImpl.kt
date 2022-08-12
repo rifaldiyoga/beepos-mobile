@@ -22,6 +22,7 @@ class InitialRepositoryImpl @Inject constructor(
     private val usrGrpDao: UsrGrpDao,
     private val grpPrvDao: GrpPrvDao,
     private val crcDao: CrcDao,
+    private val whDao: WhDao
 ) : InitialRepository {
 
     override fun getInitialData(): Flow<Resource<Any>> {
@@ -42,6 +43,7 @@ class InitialRepositoryImpl @Inject constructor(
                 usrGrpDao.insertBulk(data.usrGrp.map { UsrGrpDataMapper.fromNetworkToDb(it) })
                 grpPrvDao.insertBulk(data.grpPrv.map { GrpPrvDataMapper.fromNetworkToDb(it) })
                 crcDao.insertBulk(data.crc.map { CrcDataMapper.fromNetworkToDb(it) })
+                whDao.insertBulk(data.wh.map { WhDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()

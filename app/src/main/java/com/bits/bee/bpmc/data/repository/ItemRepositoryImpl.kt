@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.bits.bee.bpmc.data.data_source.local.dao.*
+import com.bits.bee.bpmc.data.data_source.local.dao.ItemDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemResponse
 import com.bits.bee.bpmc.domain.mapper.ItemDataMapper
@@ -16,7 +16,6 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
@@ -32,7 +31,7 @@ class ItemRepositoryImpl @Inject constructor(
 
     override fun getLastesItemList(page: Int): Flow<Resource<List<Item>>> {
         return object : NetworkDatabaseBoundResource<List<Item>, ItemResponse>(){
-            override suspend fun loadFormDB(): List<Item>? {
+            override suspend fun loadFormDB(): List<Item> {
                 return itemDao.getItemList().map { ItemDataMapper.fromDbToDomain(it) }
             }
 
@@ -51,9 +50,9 @@ class ItemRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override suspend fun getActiveItemListByItemGrp(itemGrpId: Int, query: String): Flow<PagingData<Item>> {
+    override suspend fun getActiveItemListByItemGrp(itemGrpId: Int, query: String, usePid : Boolean): Flow<PagingData<Item>> {
 
-        val pagingSource = { itemDao.getItemByItemGrpPagedList(itemGrpId, query) }
+        val pagingSource = { if(usePid) itemDao.getItemByItemGrpPagedListPid(itemGrpId, query) else itemDao.getItemByItemGrpPagedList(itemGrpId, query, false) }
 
         return Pager(
             config = PagingConfig(
@@ -67,14 +66,17 @@ class ItemRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override suspend fun getActiveItemList(query : String): Flow<PagingData<Item>> = Pager(
+    override suspend fun getActiveItemList(query : String, usePid : Boolean): Flow<PagingData<Item>> = Pager(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
             enablePlaceholders = true
         ),
         pagingSourceFactory = {
-            itemDao.getActiveItemList(query)
+            if(!usePid)
+                itemDao.getActiveItemList(query, usePid)
+            else
+                itemDao.getActiveItemListPid(query)
         }
     ).flow.mapLatest {
         it.map { ItemDataMapper.fromDbToDomain(it) }

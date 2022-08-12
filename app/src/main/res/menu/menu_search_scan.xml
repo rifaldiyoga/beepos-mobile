@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:title="@string/search"
         android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search_black"
+        android:icon="@drawable/ic_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>
 
@@ -12,6 +13,6 @@
         android:title="@string/member"
         android:id="@+id/menu_scan"
         android:icon="@drawable/ic_scan"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
 </menu>

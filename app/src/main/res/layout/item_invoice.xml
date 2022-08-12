@@ -89,8 +89,8 @@
 
     <ImageView
         android:id="@+id/ivDelete"
-        android:layout_width="@dimen/size12"
-        android:layout_height="@dimen/size12"
+        android:layout_width="@dimen/size14"
+        android:layout_height="@dimen/size14"
         android:layout_marginEnd="@dimen/size16"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="@+id/tvHarga"

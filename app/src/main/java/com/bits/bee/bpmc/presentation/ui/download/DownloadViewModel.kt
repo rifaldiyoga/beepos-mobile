@@ -501,6 +501,7 @@ class DownloadViewModel @Inject constructor (
                     _state.update {
                         it.copy(status = "Finish Downloading Pmtd")
                     }
+                    downloadUnit()
                 }
                 Resource.Status.ERROR -> {
 
@@ -509,7 +510,25 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
+    private fun downloadUnit() = viewModelScope.launch {
+        di.getLatestUnitUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    _state.update {
+                        it.copy(status = "Downloading Unit")
+                    }
+                }
+                Resource.Status.SUCCESS -> {
+                    _state.update {
+                        it.copy(status = "Finish Downloading Unit")
+                    }
+                }
+                Resource.Status.ERROR -> {
 
+                }
+            }
+        }
+    }
 
     suspend fun awaitAll(vararg blocks: suspend () -> Unit) = viewModelScope.launch {
         blocks.forEach {

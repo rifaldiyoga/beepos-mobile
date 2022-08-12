@@ -34,5 +34,6 @@ data class  Item (
     var price : BigDecimal = BigDecimal.ZERO,
     var tax : String = "",
     var crcId: Int = -1,
-    var crcSymbol: String = "Rp."
+    var crcSymbol: String = "Rp.",
+    var unitList : List<Unit> = mutableListOf()
 ) : Parcelable

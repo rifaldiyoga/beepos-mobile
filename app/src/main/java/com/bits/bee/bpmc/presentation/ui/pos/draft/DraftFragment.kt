@@ -1,20 +1,26 @@
 package com.bits.bee.bpmc.presentation.ui.pos.draft
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -26,16 +32,43 @@ class DraftFragment(
 ) : BaseFragment<FragmentDraftListBinding>() {
 
     private val viewModel : DraftViewModel by viewModels()
+
+    private val mViewModel : MainViewModel by viewModels()
+
     private lateinit var draftAdapter : DraftAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
+        val searchItem = menu.findItem(R.id.menu_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
-        viewModel.loadDraft()
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null && newText.length >= 3) {
+                    viewModel.onSearch(newText)
+                } else {
+                    viewModel.onSearch("")
+                }
+                return true
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
+
     override fun initComponents() {
-        draftAdapter = DraftAdapter()
+        setHasOptionsMenu(true)
+        draftAdapter = DraftAdapter(
+            onClickItem = {
+                viewModel.onItemClick(it)
+            },
+            onDeleteItem = {
+                viewModel.onDeleteClick(it)
+            }
+        )
         binding.apply {
             rvList.apply {
                 adapter = draftAdapter
@@ -54,10 +87,30 @@ class DraftFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
-                    it?.let {
-                        draftAdapter.submitList(it.saleList)
-                        setVisibilityEmptyView(it.saleList.isEmpty())
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.event.collect {
+                when(it){
+                    is DraftViewModel.UIEvent.RequestDraft -> {
+                        findNavController().popBackStack(R.id.posFragment, false)
+                        mViewModel.loadDraft(it.sale)
                     }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            draftAdapter.loadStateFlow.collectLatest {
+                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                    setVisibilityEmptyView(draftAdapter.itemCount == 0)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.draftList.collectLatest {
+                    draftAdapter.submitData(it)
                 }
             }
         }

@@ -9,9 +9,12 @@ import com.bits.bee.bpmc.data.data_source.local.model.UnitEntity
 interface UnitDao : BaseDao<UnitEntity> {
 
     @Query("SELECT * FROM unit")
-    fun getItemList() : List<UnitEntity>
+    fun getUnitList() : List<UnitEntity>
 
     @Query("DELETE FROM unit")
     fun deleteAll()
+
+    @Query("SELECT * FROM unit WHERE item_id = :itemId")
+    fun getUnitByItem(itemId : Int) : List<UnitEntity>
 
 }

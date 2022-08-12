@@ -7,8 +7,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="@dimen/size0"
+        android:theme="@style/MySearchViewStyle"
         android:layout_height="?actionBarSize"
         app:titleTextColor="@color/white"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="?colorPrimary"
@@ -44,7 +46,7 @@
                 android:id="@+id/tvTitleChannel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
+                android:layout_marginStart="@dimen/size8"
                 android:text="@string/channel"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font12"
@@ -60,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size4"
                 android:text="DINE IN"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +73,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
-            android:layout_width="@dimen/size1"
+            android:layout_width="0.8dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/size16"
             android:layout_marginBottom="@dimen/size16"
@@ -78,6 +81,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSalesman"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -96,7 +100,7 @@
                 android:id="@+id/textView50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
+                android:layout_marginStart="@dimen/size8"
                 android:text="@string/salesman"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font12"
@@ -112,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size4"
                 android:text="@string/budiman"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +152,7 @@
                 android:id="@+id/textView39"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size16"
+                android:layout_marginStart="@dimen/size8"
                 android:text="@string/member"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font12"
@@ -163,6 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size4"
                 android:text="@string/budiman"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

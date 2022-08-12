@@ -3,19 +3,24 @@ package com.bits.bee.bpmc.presentation.ui.pos
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.data.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.ItemWithUnit
+import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.*
+import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
+import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.CalcUtils
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.mapButReplace
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -33,10 +38,17 @@ class MainViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
-    private val submitDraftTransactionUseCase: SubmitDraftTransactionUseCase,
+    private val getSaledListUseCase: GetSaledListUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     private val roundVal = 0
+
+    private val _posModeState: MutableStateFlow<PosModeState>
+            = MutableStateFlow(PosModeState.RetailState)
+
+    val posModeState : MutableStateFlow<PosModeState>
+        get() = _posModeState
+
 
     init {
         state = MainState()
@@ -98,12 +110,12 @@ class MainViewModel @Inject constructor(
                 }
                 Resource.Status.SUCCESS -> {
                     it.data?.let { data ->
-                        _state.update {
-                            it!!.copy(
+                        updateState(
+                            state.copy(
                                 channelList = data,
                                 channel = data[0]
                             )
-                        }
+                        )
                     }
                 }
                 Resource.Status.ERROR -> {
@@ -123,6 +135,31 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun loadDraft(sale : Sale) = viewModelScope.launch {
+        getSaledListUseCase(sale.id!!).collect {
+            updateState(
+                state.copy(
+                    sale = sale,
+                    saledList = it.toMutableList()
+                )
+            )
+            calculate()
+            deployData()
+        }
+    }
+
+    fun onClickDraft() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDraft)
+    }
+
+    fun onClickDiskonNota() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDiskonNota)
+    }
+
+    fun onClickSearch() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToSearch)
+    }
+
     fun onClickMember() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestMember)
     }
@@ -131,32 +168,47 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestChannel)
     }
 
-    fun onAddDetail(item : Item) = viewModelScope.launch {
-        addDetail(item)
+    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) = viewModelScope.launch {
+        addDetail(
+            itemWithUnit = item,
+            useItemqty = useItemqty,
+        )
         calculate()
         deployData()
+        diskonMaster(state.sale.discExp)
+    }
+
+    fun onMinusClick(item : Item) {
+        val saled = state.saledList.firstOrNull {
+            item.id == it.itemId
+        }
+        saled?.let {
+            if(it.qty > BigDecimal.ONE) {
+                onEditDetail(it.copy(qty = it.qty.subtract(BigDecimal.ONE)))
+            } else {
+                onDeleteDetail(saled)
+            }
+        }
     }
 
     fun onDeleteDetail(saled: Saled) = viewModelScope.launch {
         deleteDetail(saled)
         calculate()
         deployData()
+        diskonMaster(state.sale.discExp)
     }
 
     fun onEditDetail(saled: Saled) = viewModelScope.launch {
         editDetail(saled)
         calculate()
         deployData()
+        diskonMaster(state.sale.discExp)
     }
 
 //    fun addTransaction() = viewModelScope.launch {
 //        addTransactionUseCase(state.sale, state.saledList)
 //    }
 
-    fun submitDraftTrans() = viewModelScope.launch {
-        submitDraftTransactionUseCase(state.sale, state.saledList)
-        resetState()
-    }
 
     fun resetState(){
         updateState(
@@ -169,59 +221,72 @@ class MainViewModel @Inject constructor(
         getActiveCashier()
     }
 
-    private fun addDetail(item: Item, isBonus: Boolean = false, useItemqty: Boolean = false) {
+    private fun addDetail(itemWithUnit: ItemWithUnit, isBonus: Boolean = false, useItemqty: Boolean = false) {
+        val item = itemWithUnit.item
+        val discExp = itemWithUnit.discExp
+        val discAmt = itemWithUnit.discAmt
+        val unit = itemWithUnit.unit
+        val pid = itemWithUnit.pid
+
         if (state.saledList.isEmpty()) {
             val saledNew = Saled(
                 itemId = item.id,
+                itemCode = item.code,
                 listPrice = item.price,
                 qty = if(useItemqty) item.qty else BigDecimal.ONE,
                 name = item.name1,
-                discExp = "0",
+                discExp = discExp,
+                discAmt = discAmt,
                 disc2Amt = BigDecimal.ZERO,
                 isBonus = isBonus,
                 isBonusUsed = isBonus,
                 tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
                 crcId = item.crcId,
-                crcSymbol = item.crcSymbol
+                crcSymbol = item.crcSymbol,
+                unitId = unit?.id,
+                unit = unit?.unit,
+                conv = unit?.conv,
+                pid = pid
             )
             addDetail(saledNew)
 //            currentSaled = saledNew
         } else {
             var isNew = true
-//            for (saled in state.saledList) {
-//                if (saled.itemId == item.id
-////                    && !ItemAddOnDao.itemAddOnDao().checkAddon(item)
-////                    && (grpAddon == null || grpAddon != null && item.itemGrpId !== grpAddon.id())
-//                    && saled.isBonus == isBonus
-//                ) {
-//                    saled.listPrice = item.price
-//                    saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
-//                    if (saled.disc != BigDecimal.ZERO) {
-//                        if (!saled.discExp.contains("%")) {
-//                            saled.disc = saled.disc
-//                            saled.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
-//                            saled.discExp = saled.discExp
-//                        } else if (saled.discExp.contains("%")) {
-//                            saled.disc = saled.disc
-//                            saled.discAmt =
-//                                saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
-//                                    .divide(BigDecimal(100), BPMConstants.MC_FOUR)
-//                                    .setScale(roundVal, RoundingMode.HALF_UP)
-//
-//                            saled.discExp = saled.discExp
-//                        }
-//                    }
-////                    currentSaled = saled
-//                    isNew = false
-//                    //                    PromoCalc.instance().generatePromoItem(saled);
-////                    calculate()
-//                    break
-//                }
-//            }
+            for (saled in state.saledList) {
+                if (saled.itemId == item.id
+//                    && !ItemAddOnDao.itemAddOnDao().checkAddon(item)
+//                    && (grpAddon == null || grpAddon != null && item.itemGrpId !== grpAddon.id())
+                    && saled.isBonus == isBonus
+                ) {
+                    saled.listPrice = item.price
+                    saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
+                    if (saled.disc != BigDecimal.ZERO) {
+                        if (!saled.discExp.contains("%")) {
+                            saled.disc = saled.disc
+                            saled.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
+                            saled.discExp = saled.discExp
+                        } else if (saled.discExp.contains("%")) {
+                            saled.disc = saled.disc
+                            saled.discAmt =
+                                saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
+                                    .divide(BigDecimal(100), BPMConstants.MC_FOUR)
+                                    .setScale(roundVal, RoundingMode.HALF_UP)
+
+                            saled.discExp = saled.discExp
+                        }
+                    }
+//                    currentSaled = saled
+                    isNew = false
+                    //                    PromoCalc.instance().generatePromoItem(saled);
+//                    calculate()
+                    break
+                }
+            }
 
 
             val saledNew = Saled(
                 itemId = item.id,
+                itemCode = item.code,
                 listPrice = item.price,
                 qty = if(useItemqty) item.qty else BigDecimal.ONE,
                 name = item.name1,
@@ -231,7 +296,11 @@ class MainViewModel @Inject constructor(
                 isBonusUsed = isBonus,
                 tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
                 crcId = item.crcId,
-                crcSymbol = item.crcSymbol
+                crcSymbol = item.crcSymbol,
+                unitId = unit?.id,
+                unit = unit?.unit,
+                conv = unit?.conv,
+                pid = pid
             )
             var saledList = mutableListOf<Saled>()
             saledList.addAll(state.saledList)
@@ -329,6 +398,34 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
+    fun diskonMaster(diskon : String) = viewModelScope.launch{
+        if(diskon.isNotEmpty()) {
+            val sale = state.sale.copy()
+            sale.discExp = diskon
+            sale.discAmt = BigDecimal.ZERO
+            sale.discAmt = CalcUtils.getDiscAmt(diskon, sale.subtotal,)
+            updateState(
+                state.copy(
+                    sale = sale
+                )
+            )
+            calcDetailDiskon()
+            calculate()
+        }
+    }
+
+    private fun calcDetailDiskon() = viewModelScope.launch{
+        val sale = state.sale
+        for (saled in state.saledList){
+            var disc2Amt = BigDecimal.ZERO
+            if(sale.discAmt > BigDecimal.ZERO){
+                disc2Amt = sale.discAmt.multiply(saled.subtotal).divide(sale.subtotal, BPMConstants.MC_FOUR).divide(saled.qty, BPMConstants.MC_FOUR)
+            }
+            saled.disc2Amt = disc2Amt
+        }
+        calculate()
+    }
+
     private fun editSaled(saled: Saled, newSaled: Saled) = viewModelScope.launch {
         saled.listPrice =  newSaled.listPrice
         saled.qty = newSaled.qty
@@ -356,7 +453,6 @@ class MainViewModel @Inject constructor(
                 state.copy(saledList = saledList)
             )
         }
-
     }
 
     private fun calculate() = viewModelScope.launch{
@@ -377,6 +473,9 @@ class MainViewModel @Inject constructor(
     sealed class UIEvent {
         object RequestMember : UIEvent()
         object RequestChannel: UIEvent()
+        object NavigateToDraft : UIEvent()
+        object NavigateToDiskonNota : UIEvent()
+        object NavigateToSearch : UIEvent()
     }
 
 }

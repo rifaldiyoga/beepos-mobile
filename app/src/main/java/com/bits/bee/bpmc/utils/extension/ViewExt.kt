@@ -75,5 +75,6 @@ fun EditText.addNumberFormatChange(){
 }
 
 fun String.removeSymbol() : String{
-    return if(this.isNotEmpty()) this.replace("[Rp,]", "").trim() else throw Exception("String can't be empty!")
+    val re = Regex("[Rp, %]")
+    return if(this.isNotEmpty()) re.replace(this, "").trim() else ""
 }

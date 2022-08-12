@@ -49,6 +49,8 @@
     <string name="pref_add_member_notelp">pref_add_member_notelp</string>
     <string name="pref_add_member_email">pref_add_member_email</string>
     <string name="pref_add_member_alamat">pref_add_member_alamat</string>
+    <string name="pref_counter_sesi">pref_counter_sesi</string>
+    <string name="pref_pilih_tgl">pref_pilih_tgl</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -113,6 +115,13 @@
     <string-array name="list_ukuran_kertas">
         <item>58 mm</item>
         <item>60 mm</item>
+    </string-array>
+
+    <string-array name="list_pilih_tgl">
+        <item>1 Minggu Terakhir</item>
+        <item>1 Bulan Terakhir</item>
+        <item>90 Hari Terakhir</item>
+        <item>Custom</item>
     </string-array>
 
     <string name="desc_cloud_data_dapur">Fitur ini digunakan untuk memilih sumber data dapur.Aktifkan fitur ini jika anda ingin mengambil data dapur dari Beecloud. Jika tidak aktif, sistem akan mengambil data dari lokal</string>
@@ -215,8 +224,7 @@
     <string name="pid">PID</string>
     <string name="pid_avail">PID Produk kini sudah tersedia</string>
     <string name="gunakan_pid">Gunakan PID untuk varian, ukuran, dll</string>
-    <string name="apasih_pid">Apa sih PID itu? dan gunanya untuk
-apa?</string>
+    <string name="apasih_pid">Apa sih PID itu? dan gunanya untuk apa?</string>
     <string name="definisi">Definisi</string>
     <string name="fungsi">Fungsi</string>
     <string name="cocok_untuk">Cocok untuk siapa aja?</string>
@@ -275,11 +283,12 @@ untuk memperbarui data dapur?</string>
     <string name="member">Member :</string>
     <string name="search">Search</string>
     <string name="_1_produk">%1$s Produk</string>
+    <string name="_1_PCS">%1$s %2$s</string>
     <string name="anda_mendapatkan_promo">Anda mendapatkan promo</string>
     <string name="total">Total</string>
     <string name="subtotal">Subtotal</string>
-    <string name="batal">BATAL</string>
-    <string name="bayar">BAYAR</string>
+    <string name="batal">Batal</string>
+    <string name="bayar">Bayar</string>
     <string name="diskon">Diskon</string>
     <string name="pajak">Pajak</string>
     <string name="pembulatan">Pembulatan</string>
@@ -394,7 +403,7 @@ untuk memperbarui data dapur?</string>
     <string name="klik_buka_kasir_untuk_memulai_shift_3_ya">Klik buka kasir untuk memulai shift %1$d, ya~</string>
     <string name="klik_tutup_kasir_untuk_mengakhiri_shift_3_ya">Klik tutup kasir untuk mengakhiri shift %1$d, ya~</string>
     <string name="lihat_analisa_sebelumnya">Lihat Analisa Sebelumnya</string>
-    <string name="kasir_belum_aktif_belum_ada_data_yg_ditampilkan_mau_lihat_analisa_kasir_sebelumnya">Kasir belum aktif, belum ada data yg ditampilkan. Mau lihat analisa kasir sebelumnya?</string>
+    <string name="kasir_belum_aktif_belum_ada_data_yg_ditampilkan">Kasir belum aktif, belum ada data yg ditampilkan</string>
     <string name="belum_ada_penjualan_yang_dicatat_buat_transaksi_baru_di_menu_pos_dulu_ya">Belum ada penjualan yang dicatat. Buat transaksi baru di menu POS dulu, ya!</string>
     <string name="informasi_kasir">Informasi Kasir</string>
     <string name="cabang">Cabang</string>
@@ -473,7 +482,7 @@ untuk memperbarui data dapur?</string>
     <string name="pilih_tipe_edc">Pilih Tipe EDC</string>
 
 
-    <!--Rekap Sesi-->
+    <!--Anlisa sesi-->
     <string name="jam_rekap">12:12 WIB</string>
     <string name="total_rekap">Rp 12.000</string>
     <string name="cash">CASH</string>
@@ -482,10 +491,28 @@ untuk memperbarui data dapur?</string>
     <string name="selesai_operasional">Selesai Operasional</string>
     <string name="sesi">Sesi</string>
     <string name="analisa_sesi">Analisa Sesi</string>
-    <string name="lihat_grafik">Lihat grafik, rata-rata penjualan, dll</string>
+    <string name="lihat_grafik">Lihat grafik, rata-rata penjualan,   dll</string>
     <string name="pendapatan_sesi">Pendapatan Sesi</string>
     <string name="rekap_sesi_empty">Belum ada rekap sesi yang dicatat. Rekap sesi akan otomatis tersedia kasir aktif</string>
     <string name="note_retail">Keranjangmu masih kosong. Tambah produk dulu ya untuk memulai transaksi</string>
     <string name="salesman">Salesman :</string>
     <string name="scan_barcode">Scan Barcode</string>
+    <string name="total_pendapatan">Total Pendapatan</string>
+    <string name="lihat_riwayat_sebelumnya">Lihat Riwayat Sebelumnya</string>
+    <string name="no_sesi">No Sesi</string>
+    <string name="reset">Reset</string>
+    <string name="filter">Filter</string>
+    <string name="pilih_tanggal">Pilih Tanggal</string>
+    <string name="pembayaran">Pembayaran</string>
+    <string name="pilih_member">Pilih Member</string>
+    <string name="tambah_member">Tambah Member</string>
+    <string name="draft_penjualan">Draft Penjualan</string>
+    <string name="analisis_sesi">Analaisis Sesi</string>
+    <string name="riwayat_sesi">Riwayat Sesi</string>
+    <string name="detail_riwayat_sesi">Detail Riwayat Sesi</string>
+    <string name="satuan">Satuan</string>
+    <string name="detail_produk">Detail Produk</string>
+    <string name="pilih_pid_produk">Pilih Pid Produk</string>
+    <string name="void_penjualan">Void</string>
+
 </resources>

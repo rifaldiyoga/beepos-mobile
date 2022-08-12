@@ -10,8 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +29,7 @@ class DraftListDialog(
 ) : BaseBottomSheetDialogFragment<DialogDraftListBinding>() {
 
     private val viewModel : DraftListViewModel by viewModels()
+    private val mViewModel : MainViewModel by viewModels()
 
     private lateinit var draftAdapter : DraftDialogAdapter
 
@@ -38,7 +41,9 @@ class DraftListDialog(
     override fun initComponents() {
         binding.apply {
             draftAdapter = DraftDialogAdapter(
-                onItemClick = {}
+                onItemClick = {
+                    viewModel.onItemClick(it)
+                }
             )
             rvList.apply {
                 adapter = draftAdapter
@@ -63,6 +68,18 @@ class DraftListDialog(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.event.collect {
+                    when(it){
+                        is DraftListViewModel.UIEvent.RequestDraft -> {
+                            findNavController().popBackStack(R.id.posFragment, false)
+                            mViewModel.loadDraft(it.sale)
+                        }
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {

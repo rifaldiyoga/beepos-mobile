@@ -73,7 +73,7 @@ class SettingNotaFragment(
                     }else{
                         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), false)
                         BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, BPMConstants.INIT_DEFAULT_LOGO)
-                        viewModel.update(
+                        viewModel.updateState(
                             viewModel.state.copy(
                                 useLogoGalery = false,
                                 filePath = BeePreferenceManager.getDataFromPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, "") as String
@@ -228,7 +228,7 @@ class SettingNotaFragment(
                 val file = arrayOf(MediaStore.Images.Media.DATA)
                 getContentImg(uri, file, requireContext())
                 BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, mImagePath)
-                viewModel.update(
+                viewModel.updateState(
                     viewModel.state.copy(
                         filePath = mImagePath
                     )

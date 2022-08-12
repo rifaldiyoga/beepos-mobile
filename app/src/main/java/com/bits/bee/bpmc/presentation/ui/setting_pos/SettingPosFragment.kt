@@ -59,7 +59,6 @@ class SettingPosFragment(
             clOrientasi.setOnClickListener {
                 viewModel.onClickPosisiOrientasi()
             }
-
         }
     }
 

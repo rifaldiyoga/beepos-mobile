@@ -27,12 +27,6 @@ class SettingNotaViewModel @Inject constructor(
         state = SettingNotaState()
     }
 
-    fun update(state: SettingNotaState){
-        _state.update {
-            state
-        }
-    }
-
     fun onClickAturHeader() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestAturHeader)
     }

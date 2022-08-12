@@ -32,26 +32,26 @@ class DetailMemberViewModel @Inject constructor(
     }
 
     fun setOnClickInfo() = viewModelScope.launch {
-        _state.update {
-            it!!.copy(
+        updateState(
+            state.copy(
                 isInfoLainnya = !state.isInfoLainnya
             )
-        }
+        )
     }
 
     fun update(data: Bp) = viewModelScope.launch {
-        _state.update {
-            it!!.copy(
+        updateState(
+            state.copy(
                 bp = data
             )
-        }
+        )
     }
 
     fun getBpaddr() = viewModelScope.launch{
         getBpAddrByBpUseCase.invoke(state.bp!!.id!!).collect {
             when(it.status){
                 Resource.Status.LOADING ->{
-                    val str=""
+
                 }
                 Resource.Status.SUCCESS ->{
                     updateState(
@@ -61,7 +61,7 @@ class DetailMemberViewModel @Inject constructor(
                     )
                 }
                 Resource.Status.ERROR ->{
-                    val str=""
+
                 }
             }
         }
@@ -69,7 +69,7 @@ class DetailMemberViewModel @Inject constructor(
             getRegencyByCodeUseCase.invoke(state.bpAdddr!!.regencyCode).collect {
                 when(it.status){
                     Resource.Status.LOADING ->{
-                        val str=""
+
                     }
                     Resource.Status.SUCCESS ->{
                         updateState(
@@ -77,7 +77,7 @@ class DetailMemberViewModel @Inject constructor(
                         )
                     }
                     Resource.Status.ERROR ->{
-                        val str=""
+
                     }
                 }
             }
@@ -85,7 +85,7 @@ class DetailMemberViewModel @Inject constructor(
                 getDistrictByCodeUseCase.invoke(state.bpAdddr!!.districtCode).collect {
                     when(it.status){
                         Resource.Status.LOADING ->{
-                            val str=""
+
                         }
                         Resource.Status.SUCCESS ->{
                             updateState(
@@ -93,7 +93,7 @@ class DetailMemberViewModel @Inject constructor(
                             )
                         }
                         Resource.Status.ERROR ->{
-                            val str=""
+
                         }
                     }
                 }

@@ -1,31 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/toolbar"
-        android:layout_width="@dimen/size0"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <TextView
-            android:id="@+id/tvNamaItem"
-            android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:textSize="@dimen/font16"
-            style="@style/TextHeader"
-            android:layout_height="wrap_content"
-            tools:text="Ovaltine Swiss Choco"/>
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/textView45"
@@ -35,7 +12,7 @@
         android:text="@string/addon"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,8 +20,8 @@
         android:layout_margin="@dimen/size16"
         android:text="@string/ubah"
         android:textColor="?colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView45"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAddon"
@@ -64,6 +41,34 @@
         app:layout_constraintTop_toBottomOf="@+id/rvAddon" />
 
     <TextView
+        android:id="@+id/tvNamaItem"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/ovaltine_swiss"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view3"
+        android:layout_margin="@dimen/size16"/>
+
+    <TextView
+        android:id="@+id/textView101"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:text="@string/pid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNamaItem" />
+
+    <TextView
+        android:id="@+id/tvPid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size8"
+        android:text="@string/pid"
+        app:layout_constraintStart_toStartOf="@+id/textView101"
+        app:layout_constraintTop_toBottomOf="@+id/textView101" />
+
+    <TextView
         android:id="@+id/textView46"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +77,7 @@
         android:text="@string/harga_produk"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPid" />
 
     <TextView
         android:id="@+id/textView47"
@@ -90,6 +95,7 @@
         android:layout_marginStart="@dimen/size16"
         android:layout_marginTop="@dimen/size8"
         android:layout_marginEnd="@dimen/size16"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView47"
         app:layout_constraintTop_toBottomOf="@+id/textView46" />
@@ -110,8 +116,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
         android:layout_marginEnd="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
         android:hint="@string/hint_diskon_nota"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView46"
         app:layout_constraintTop_toBottomOf="@+id/textView48" />
 
@@ -123,6 +129,7 @@
         android:layout_marginTop="@dimen/size8"
         android:layout_marginEnd="@dimen/size16"
         android:text="@string/untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2"
+        android:textSize="@dimen/size12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDiskon" />
@@ -132,8 +139,8 @@
         android:id="@+id/textView49"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/catatan"
         android:layout_marginTop="@dimen/size16"
+        android:text="@string/catatan"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/textView46"
         app:layout_constraintTop_toBottomOf="@+id/textView99" />
@@ -148,6 +155,39 @@
         app:layout_constraintTop_toBottomOf="@+id/textView49" />
 
     <TextView
+        android:id="@+id/textView123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/satuan"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/textView46"
+        app:layout_constraintTop_toBottomOf="@+id/etCatatan" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSatuan"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size6"
+        android:layout_marginEnd="@dimen/size16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView123"
+        app:layout_constraintTop_toBottomOf="@id/textView123">
+
+        <AutoCompleteTextView
+            android:id="@+id/etSatuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
         android:id="@+id/textView50"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -156,16 +196,16 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCatatan" />
+        app:layout_constraintTop_toBottomOf="@+id/tilSatuan" />
 
     <ImageView
         android:id="@+id/ivMinus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size16"
         android:src="@drawable/ic_circle_minus"
         app:layout_constraintBottom_toBottomOf="@+id/etQty"
         app:layout_constraintEnd_toStartOf="@+id/etQty"
-        android:layout_marginEnd="@dimen/size16"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -173,9 +213,11 @@
 
     <EditText
         android:id="@+id/etQty"
-        android:layout_width="@dimen/size120"
+        android:layout_width="@dimen/size100"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
+        android:inputType="number"
+        android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/ivPlus"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ivMinus"
@@ -185,11 +227,11 @@
         android:id="@+id/ivPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size16"
         android:src="@drawable/ic_circle_plus"
         app:layout_constraintBottom_toBottomOf="@+id/etQty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginStart="@dimen/size16"
         app:layout_constraintStart_toEndOf="@+id/etQty"
         app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
@@ -244,11 +286,30 @@
 
     </LinearLayout>
 
-
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupAddon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="textView45,rvAddon,view3" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupSatuan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textView123,tilSatuan" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupPid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tvPid,textView101" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupCatatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textView49,etCatatan" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

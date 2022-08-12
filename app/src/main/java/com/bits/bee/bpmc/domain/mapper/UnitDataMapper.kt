@@ -1,14 +1,14 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.UnitEntity
-import com.bits.bee.bpmc.data.data_source.remote.response.ItemResponse
+import com.bits.bee.bpmc.data.data_source.remote.model.UnitModel
 import com.bits.bee.bpmc.domain.model.Unit
 
 /**
  * Created by aldi on 20/04/22.
  */
 
-object UnitDataMapper : BaseMapper<UnitEntity, Unit, ItemResponse.UnitModel>(){
+object UnitDataMapper : BaseMapper<UnitEntity, Unit, UnitModel>(){
 
     override fun fromDbToDomain(model: UnitEntity): Unit {
         return Unit(
@@ -30,7 +30,7 @@ object UnitDataMapper : BaseMapper<UnitEntity, Unit, ItemResponse.UnitModel>(){
         )
     }
 
-    override fun fromNetworkToDb(model: ItemResponse.UnitModel): UnitEntity {
+    override fun fromNetworkToDb(model: UnitModel): UnitEntity {
         return UnitEntity(
             id = model.id,
             itemId = model.itemId,

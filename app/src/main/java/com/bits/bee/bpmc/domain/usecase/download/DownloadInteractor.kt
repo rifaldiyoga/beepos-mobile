@@ -26,4 +26,5 @@ data class DownloadInteractor @Inject constructor(
     val getLatestEdcSurcUseCase: GetLatestEdcSurcUseCase,
     val getLatestCcTypeUseCase: GetLatestCcTypeUseCase,
     val getLatestPmtdUseCase: GetLatestPmtdUseCase,
+    val getLatestUnitUseCase: GetLatestUnitUseCase
 )

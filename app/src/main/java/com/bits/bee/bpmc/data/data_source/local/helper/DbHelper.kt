@@ -23,7 +23,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.*
     SelectionDEntity::class, SaledEntity::class, SyncEntity::class, TaxEntity::class,
     UserEntity::class, UsrGrpEntity::class, VariantEntity::class, CityEntity::class, BpAddrEntity::class,
     ProvinceEntity::class, DistrictEntity::class, PmtdEntity::class, UnitEntity::class, CmpEntity::class,
-    CrcEntity::class, CityPopulerEntity::class], version = 1, exportSchema = false)
+    CrcEntity::class, CityPopulerEntity::class, StockEntity::class, WhEntity::class], version = 1, exportSchema = false)
 @TypeConverters(com.bits.bee.bpmc.data.data_source.local.converter.Converters::class)
 abstract class DbHelper : RoomDatabase() {
 
@@ -122,6 +122,10 @@ abstract class DbHelper : RoomDatabase() {
     abstract val cashADao: CashADao
 
     abstract val saleCrcvDao : SaleCrcvDao
+
+    abstract val stockDao : StockDao
+
+    abstract val whDao : WhDao
 
     companion object {
         const val DATABASE_NAME = "bpmData.db"

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
         android:text="@string/data_item_kosong"
-        android:textSize="@dimen/font14"
+        android:textSize="@dimen/font12"
         app:layout_constraintBottom_toBottomOf="@+id/rvList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

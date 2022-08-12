@@ -37,6 +37,7 @@ class SaleTrans : BaseTrans<Sale, Saled>() {
         if (getListDetail().isEmpty()) {
             var saledNew = Saled()
             saledNew.itemId = item.id
+            saledNew.itemCode = item.code
 //            saledNew.itemId(item)
                 saledNew.listPrice = item.price
             if (useItemqty) {
@@ -58,7 +59,7 @@ class SaleTrans : BaseTrans<Sale, Saled>() {
         } else {
             var isNew = true
             for (saled in getListDetail()) {
-                if (saled.itemId.equals(item.id)
+                if (saled.itemId == item.id
 //                    && !ItemAddOnDao.itemAddOnDao().checkAddon(item)
 //                    && (grpAddon == null || grpAddon != null && item.itemGrpId !== grpAddon.id())
                     && saled.isBonus == isBonus
@@ -90,6 +91,7 @@ class SaleTrans : BaseTrans<Sale, Saled>() {
             if (isNew) {
                 val saledNew = Saled()
                 saledNew.itemId = item.id
+                saledNew.itemCode = item.code
 //                saledNew.setItem(item)
                 saledNew.listPrice = item.price
                 if (useItemqty

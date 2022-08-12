@@ -32,8 +32,22 @@ class AddTransactionUseCase @Inject constructor(
     private val defDispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(sale : Sale, saled : List<Saled>, paymentAmt : BigDecimal, pmtd : Pmtd? = null, trackNo : String = "", cardNo : String = "", note : String = "") {
+    suspend operator fun invoke(
+        sale : Sale,
+        saledList : List<Saled>,
+        paymentAmt : BigDecimal = BigDecimal.ZERO,
+        pmtd : Pmtd? = null,
+        trackNo : String = "",
+        cardNo : String = "",
+        note : String = ""
+    ) {
         withContext(defDispatcher){
+
+            for (i in (1 .. saledList.size)){
+                val saled = saledList[i - 1]
+                saled.dno = i
+            }
+
             val branch = getActiveBranchUseCase().first()
             val cashier = getActiveCashierUseCase().first()
             val user = getActiveOperatorUseCase().first()
@@ -62,7 +76,7 @@ class AddTransactionUseCase @Inject constructor(
             sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1, branch!!, cashier)
             sale.trxDate = Date()
             sale.totPaid = paymentAmt
-            sale.totChange = paymentAmt.subtract(sale.total)
+            sale.totChange = if(paymentAmt > BigDecimal.ZERO) paymentAmt.subtract(sale.total) else BigDecimal.ZERO
 
             pmtd?.let {
                 val surc = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total)
@@ -72,10 +86,10 @@ class AddTransactionUseCase @Inject constructor(
             val id = saleRepository.addSale(sale)
             sale.id = id.toInt()
 
-            saled.map {
+            saledList.map {
                 it.saleId = id.toInt()
             }
-            saledRepository.addSaled(saled)
+            saledRepository.addSaled(saledList)
 
             if(!sale.isDraft) {
                 /** For input transaction to table casha for history cash in or out in active session cashier */
@@ -92,7 +106,9 @@ class AddTransactionUseCase @Inject constructor(
                 addPaymentUseCase(
                     sale = sale,
                     pmtd,
-                    trackNo
+                    trackNo,
+                    cardNo,
+                    note
                 )
 
                 /** For update totin for active session cashier */

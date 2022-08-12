@@ -2,13 +2,18 @@ package com.bits.bee.bpmc.domain.usecase.buka_kasir
 
 import com.bits.bee.bpmc.domain.mapper.CashDataMapper
 import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.repository.CashARepository
 import com.bits.bee.bpmc.domain.repository.CashRepository
 import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.domain.usecase.common.AddCashAUseCase
 import com.bits.bee.bpmc.domain.usecase.common.AddCstrUseCase
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -18,13 +23,34 @@ class BukaKasirUseCase @Inject constructor(
     private val possesRepository: PossesRepository,
     private val cashRepository: CashRepository,
     private val addCashAUseCase: AddCashAUseCase,
-    private val addCstrUseCase: AddCstrUseCase
+    private val addCstrUseCase: AddCstrUseCase,
+    private val cashARepository: CashARepository
 ){
     private var mCash: Cash? = null
     private var mPosses: Posses? = null
     private var mCstr: Cstr? = null
+    private var mListCasha: List<CashA>? = null
+    private var mShift: Int = 0
 
     suspend operator fun invoke(modal : BigDecimal, shift : Int, branch: Branch, cashier: Cashier) {
+
+//        cashARepository.getLastCasha().collect {
+//            it.data.let {
+//                mListCasha = it
+//            }
+//        }
+
+//        mShift = shift
+//
+//        if (mListCasha!!.size > 0){
+//            if (SimpleDateFormat("MMdd").format(Date()).compareTo(SimpleDateFormat("MMdd").format(
+//                    mListCasha!!.get(0).trxDate)) > 0){
+//                mShift = 1
+//            }
+//        }else{
+//            mShift = 1
+//        }
+
         possesRepository.addPosses(modal, shift, branch, cashier)
 
         mPosses  = possesRepository.getActivePosses().first()
@@ -54,9 +80,6 @@ class BukaKasirUseCase @Inject constructor(
             cashier = cashier,
             branch = branch
         )
-
-//        select so_id, d.item_id, d.unit, d.conv as conv_sod, u.conv as conv_unit from sod d join unit u on d.unit=u.id
-    //        where d.conv<>u.conv
 
 //        val possesActive = possesRepository.getActivePosses()
 

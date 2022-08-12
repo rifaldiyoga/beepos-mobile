@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
-import com.bits.bee.bpmc.domain.model.ItemSaleTax
 import com.bits.bee.bpmc.domain.model.Tax
 import com.bits.bee.bpmc.domain.repository.TaxRepository
 import com.bits.bee.bpmc.utils.Resource

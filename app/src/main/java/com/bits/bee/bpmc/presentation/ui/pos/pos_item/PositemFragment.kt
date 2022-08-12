@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
+import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -61,10 +62,10 @@ class PositemFragment(
         binding.apply {
             posAdapter = ItemPosAdapter(
                 onItemClicK = {item ->
-                    mainViewModel.onAddDetail(item)
+                    mainViewModel.onAddDetail(ItemWithUnit(item))
                 },
                 onMinusClick = {item ->
-                    onMinusClick(item)
+                    mainViewModel.onMinusClick(item)
                 },
                 mainViewModel.state.saledList
             )
@@ -102,10 +103,8 @@ class PositemFragment(
                 mainViewModel.viewStates().collectLatest {
                     it?.let {
                         it.bp?.let { bp ->
-                            if(it.querySearch.isNotEmpty())
-                                viewModel.loadItem(bp, it.querySearch)
                             viewModel.state.priceLvlId = bp.priceLvlId
-                            viewModel.loadItem(bp, it.querySearch)
+                            viewModel.loadItem(bp)
                         }
                         posAdapter.submitSaledList(it.saledList)
 //                        it.channel?.let { channel ->
@@ -125,7 +124,7 @@ class PositemFragment(
                         it.itemGroup?.let {
                             mainViewModel.state.let {
                                 it.bp?.let{ bp ->
-                                    viewModel.loadItem(bp, mainViewModel.state.querySearch)
+                                    viewModel.loadItem(bp)
                                 }
                             }
                         }
@@ -188,16 +187,4 @@ class PositemFragment(
         }
     }
 
-    private fun onMinusClick(item : Item) {
-        val saled = mainViewModel.state.saledList.firstOrNull {
-            item.id == it.itemId
-        }
-        saled?.let {
-            if(it.qty > BigDecimal.ONE) {
-                mainViewModel.onEditDetail(it.copy(qty = it.qty.subtract(BigDecimal.ONE)))
-            } else {
-                mainViewModel.onDeleteDetail(saled)
-            }
-        }
-    }
 }

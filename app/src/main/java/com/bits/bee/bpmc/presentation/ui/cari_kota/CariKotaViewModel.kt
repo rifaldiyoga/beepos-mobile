@@ -41,11 +41,11 @@ class CariKotaViewModel @Inject constructor(
 //        }
 
         searchActiveRegencyUseCase(state.cari).collect { list ->
-            _state.update {
-                state.copy(
-                    regencyListCari = list
-                )
-            }
+           updateState(
+               state.copy(
+                   regencyListCari = list
+               )
+           )
         }
 
         val nameList:List<String> = state.regencyListCari.map { it.name }

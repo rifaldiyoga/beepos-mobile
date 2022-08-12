@@ -88,4 +88,63 @@ class PossesRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override suspend fun getPossesHistory(): Flow<PagingData<Posses>> = Pager(
+        config = PagingConfig(
+            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+            maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            possesDao.getPossesHistory()
+        }
+    ).flow.mapLatest {
+        it.map { PossesDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
+    override suspend fun getNotActivePosses(): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getNotActivePosses().map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSortDesc(): Flow<PagingData<Posses>> = Pager(
+        config = PagingConfig(
+            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+            maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            possesDao.getSortDesc()
+        }
+    ).flow.mapLatest {
+        it.map { PossesDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
+    override fun getSortAsc(): Flow<PagingData<Posses>> = Pager(
+        config = PagingConfig(
+            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+            maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            possesDao.getSortAsc()
+        }
+    ).flow.mapLatest {
+        it.map { PossesDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
+    override fun getFilter(current: Long, yester: Long): Flow<PagingData<Posses>> = Pager(
+        config = PagingConfig(
+            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+            maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            possesDao.getFilter(current, yester)
+        }
+    ).flow.mapLatest {
+        it.map { PossesDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
 }

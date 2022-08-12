@@ -9,7 +9,6 @@ import java.math.BigDecimal
             entity = ItemEntity::class,
             parentColumns = [ItemEntity.ID],
             childColumns = [SaledEntity.ITEM_ID],
-            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = SaleEntity::class,
@@ -25,6 +24,8 @@ data class SaledEntity(
     var id : Int? = null,
     @ColumnInfo(name = ITEM_ID, index = true)
     var itemId : Int = -1,
+    @ColumnInfo(name = ITEM_CODE)
+    var itemCode : String = "",
     @ColumnInfo(name = NAME)
     var name : String = "",
     @ColumnInfo(name = QTY)
@@ -63,6 +64,12 @@ data class SaledEntity(
     var dNotes: String = "",
     @ColumnInfo(name = CRC_ID)
     var crcId: Int? = -1,
+    @ColumnInfo(name = UNIT_ID)
+    var unitId: Int? = -1,
+    @ColumnInfo(name = CONV)
+    var conv: BigDecimal? = BigDecimal.ZERO,
+    @ColumnInfo(name = PID)
+    var pid: String? = "",
     @Ignore var isBonus : Boolean = false,
     @Ignore var isBonusUsed : Boolean = false,
     @Ignore var isDeleted : Boolean = true,
@@ -73,6 +80,7 @@ data class SaledEntity(
         const val ID = "id"
         const val ITEM = "item"
         const val ITEM_ID = "item_id"
+        const val ITEM_CODE = "item_code"
         const val NAME = "name"
         const val QTY = "qty"
         const val LISTPRICE = "listprice"
@@ -92,5 +100,8 @@ data class SaledEntity(
         const val TOTAL_DISC2_AMOUNT = "totaldisc2amt"
         const val DNOTES = "dnote"
         const val CRC_ID = "crc_id"
+        const val UNIT_ID = "unit_id"
+        const val CONV = "conv"
+        const val PID = "pid"
     }
 }

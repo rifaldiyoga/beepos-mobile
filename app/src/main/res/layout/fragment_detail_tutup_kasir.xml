@@ -203,37 +203,52 @@
         app:layout_constraintEnd_toEndOf="@+id/tvPemasukan"
         app:layout_constraintTop_toBottomOf="@+id/textView95" />
 
-    <TextView
-        android:id="@+id/textView96"
-        style="@style/TextHeader"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size16"
-        android:text="@string/saldo_akhir"
-        android:textSize="@dimen/font18"
-        app:layout_constraintBottom_toTopOf="@+id/btnTutupKasir"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvSaldoAkhir"
-        style="@style/TextHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size16"
-        android:text="@string/saldo_akhir"
-        android:textSize="@dimen/font18"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView96"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnTutupKasir"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size16"
-        android:background="@drawable/btn_rect_primary"
-        android:text="@string/tutup_kasir"
+        android:background="@drawable/bg_rounded_top_background_color"
+        android:clipToPadding="true"
+        android:elevation="@dimen/size16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/textView96"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size16"
+            android:text="@string/saldo_akhir"
+            android:textSize="@dimen/font18"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnTutupKasir"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSaldoAkhir"
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size16"
+            android:text="@string/saldo_akhir"
+            android:textSize="@dimen/font18"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView96"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnTutupKasir"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size16"
+            android:background="@drawable/btn_rect_primary"
+            android:text="@string/tutup_kasir"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

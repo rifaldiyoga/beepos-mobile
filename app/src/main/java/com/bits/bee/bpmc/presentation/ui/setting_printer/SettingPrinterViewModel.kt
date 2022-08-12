@@ -53,12 +53,6 @@ class SettingPrinterViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestAddPrinter)
     }
 
-    fun update(state: SettingPrinterState){
-        _state.update {
-            state
-        }
-    }
-
     sealed class UIEvent{
         object RequestAddPrinter: UIEvent()
     }

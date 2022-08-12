@@ -27,6 +27,26 @@ class DateFormatUtils  {
             return long
         }
 
+        fun convertStartDate(date: Long): Long{
+            val sdate = Date(date)
+            val calendar = Calendar.getInstance()
+            calendar.time = sdate
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            return calendar.timeInMillis
+        }
+
+        fun convertEndDate(date: Long): Long{
+            val edate = Date(date)
+            val calendar = Calendar.getInstance()
+            calendar.time = edate
+            calendar[Calendar.HOUR_OF_DAY] = 23
+            calendar[Calendar.MINUTE] = 59
+            calendar[Calendar.SECOND] = 59
+            return calendar.timeInMillis
+        }
+
     }
 
 }

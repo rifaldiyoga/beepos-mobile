@@ -15,4 +15,6 @@ interface CashierRepository {
     suspend fun updateActiveCashier(cashier : Cashier)
 
     fun getActiveCashier() : Flow<Cashier?>
+
+    fun getCashierById(id: Int): Flow<Resource<Cashier>>
 }

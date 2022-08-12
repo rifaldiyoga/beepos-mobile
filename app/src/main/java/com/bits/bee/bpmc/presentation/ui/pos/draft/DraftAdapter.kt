@@ -2,8 +2,8 @@ package com.bits.bee.bpmc.presentation.ui.pos.draft
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemDraftListBinding
 import com.bits.bee.bpmc.domain.model.Sale
@@ -14,7 +14,7 @@ import java.util.*
 /**
  * Created by aldi on 27/06/22.
  */
-class DraftAdapter : ListAdapter<Sale, RecyclerView.ViewHolder>(DiffCallback()) {
+class DraftAdapter(private val onClickItem : (Sale) -> Unit, private val onDeleteItem : (Sale) -> Unit) : PagingDataAdapter<Sale, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private val hourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -27,13 +27,21 @@ class DraftAdapter : ListAdapter<Sale, RecyclerView.ViewHolder>(DiffCallback()) 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as ViewHolder
-        viewHolder.bind(getItem(position))
+        getItem(position)?.let {
+            viewHolder.bind(it)
+        }
     }
 
     inner class ViewHolder(private val binding : ItemDraftListBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model : Sale) {
             binding.apply {
+                binding.root.setOnClickListener {
+                    onClickItem(model)
+                }
+                ivDelete.setOnClickListener {
+                    onDeleteItem(model)
+                }
                 tvCust.text = model.custName
                 tvOperator.text = model.userName
                 tvTotal.text = CurrencyUtils.formatCurrency(model.total)

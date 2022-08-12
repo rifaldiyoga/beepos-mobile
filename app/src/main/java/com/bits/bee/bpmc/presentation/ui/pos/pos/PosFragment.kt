@@ -2,9 +2,10 @@ package com.bits.bee.bpmc.presentation.ui.pos.pos
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,8 @@ import com.bits.bee.bpmc.databinding.FragmentPosBinding
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
+import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceListFragment
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.Resource
 import com.google.android.material.tabs.TabLayoutMediator
@@ -31,15 +34,34 @@ const val TAG = "PosFragment"
 @AndroidEntryPoint
 class PosFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPosBinding = FragmentPosBinding::inflate
-) : BaseFragment<FragmentPosBinding>(), OnQueryTextListener {
+) : BaseFragment<FragmentPosBinding>() {
 
-    private lateinit var adapter: PosItemFragmentAdapter
+    private lateinit var adapter: PosTabFragmentAdapter
 
     private val viewModel : PosViewModel by viewModels()
 
     private val mainViewModel : MainViewModel by activityViewModels()
 
-    private lateinit var draftMenu: MenuItem
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_pos, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_draft -> {
+                mainViewModel.onClickDraft()
+            }
+            R.id.menu_diskon -> {
+                mainViewModel.onClickDiskonNota()
+            }
+            R.id.menu_search -> {
+                mainViewModel.onClickSearch()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,29 +72,6 @@ class PosFragment(
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_pos, menu)
-        val searchItem = menu.findItem(R.id.menu_search)
-        draftMenu = menu.findItem(R.id.menu_draft)
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-           R.id.menu_draft -> {
-               viewModel.onClickDraft()
-           }
-            R.id.menu_diskon -> {
-                viewModel.onClickDiskonNota()
-            }
-            R.id.menu_search -> {
-                viewModel.onClickSearch()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun initComponents() {
         binding.apply {
 
@@ -81,7 +80,12 @@ class PosFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-
+            fabTambahBaru.setOnClickListener {
+                viewModel.onClickAdd()
+            }
+            btnTambahBaru.setOnClickListener {
+                viewModel.onClickAdd()
+            }
             llNext.setOnClickListener {
                 viewModel.onClickInvoice()
             }
@@ -89,6 +93,24 @@ class PosFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                mainViewModel.viewStates().collect { state ->
+                    state?.let {
+                        if (mainViewModel.posModeState.value == PosModeState.RetailState){
+                            binding.apply {
+                                fabTambahBaru.isVisible = state.saledList.size != 0
+                                (state.saledList.size == 0).also {
+                                    image1.isVisible = it
+                                    btnTambahBaru.isVisible = it
+                                    textView44.isVisible = it
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.viewStates().collect {
@@ -111,14 +133,6 @@ class PosFragment(
                             val action = PosFragmentDirections.actionPosFragmentToInvoiceFragment()
                             findNavController().navigate(action)
                         }
-                        PosViewModel.UIEvent.NavigateToDraft -> {
-                            val action = PosFragmentDirections.actionPosFragmentToDraftListDialog()
-                            findNavController().navigate(action)
-                        }
-                        PosViewModel.UIEvent.NavigateToDiskonNota -> {
-                            val action = PosFragmentDirections.actionPosFragmentToDiskonNotaDialog()
-                            findNavController().navigate(action)
-                        }
                         PosViewModel.UIEvent.NavigateToSearch -> {
                             val action = PosFragmentDirections.actionPosFragmentToCariItemFragment()
                             findNavController().navigate(action)
@@ -137,7 +151,7 @@ class PosFragment(
                         Resource.Status.SUCCESS -> {
                             it.data?.let { data ->
                                 binding.apply {
-                                    adapter = PosItemFragmentAdapter(this@PosFragment, data)
+                                    adapter = PosTabFragmentAdapter(this@PosFragment, data)
                                     viewPager.adapter = adapter
                                     TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
                                         tab.text = data[pos].name
@@ -154,6 +168,37 @@ class PosFragment(
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            mainViewModel.posModeState.collect {
+                when(it){
+                    PosModeState.FnBState -> {
+                        setupFnbMode()
+                    }
+                    PosModeState.RetailState -> {
+                        setupRetailMode()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupFnbMode() {
+        binding.apply {
+            groupFnB.isVisible = true
+            groupRetail.isVisible = false
+        }
+    }
+
+    private fun setupRetailMode() {
+        binding.apply {
+            groupFnB.isVisible = false
+            groupRetail.isVisible = true
+            parentFragmentManager.commit {
+                setReorderingAllowed(true)
+                var bundle : Bundle = Bundle().also { it.putString("page", "pos") }
+                add<InvoiceListFragment>(R.id.fragmentInvoice, args = bundle)
+            }
+        }
     }
 
     private fun getQtyDetail(saledList : List<Saled>) : BigDecimal {
@@ -162,16 +207,6 @@ class PosFragment(
             qty = qty.add(it.qty)
         }
         return qty
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        mainViewModel.updateState(mainViewModel.state.copy(querySearch = query ?: ""))
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        mainViewModel.updateState(mainViewModel.state.copy(querySearch = newText ?: ""))
-        return false
     }
 
 

@@ -12,6 +12,7 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
         return Saled(
             id = model.id,
             itemId = model.itemId,
+            itemCode = model.itemCode,
             name = model.name,
             qty = model.qty,
             listPrice = model.listPrice,
@@ -28,7 +29,11 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
             dno = model.dno,
             totalDiscAmt = model.totalDiscAmt,
             totalDisc2Amt = model.totalDisc2Amt,
-            totalTaxAmt = model.totalTaxAmt
+            totalTaxAmt = model.totalTaxAmt,
+            pid = model.pid,
+            conv = model.conv,
+            unitId = model.unitId,
+            crcId = model.crcId,
         )
     }
 
@@ -52,7 +57,13 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
             dno = model.dno,
             totalDiscAmt = model.totalDiscAmt,
             totalDisc2Amt = model.totalDisc2Amt,
-            totalTaxAmt = model.totalTaxAmt
+            totalTaxAmt = model.totalTaxAmt,
+            dNotes = model.dNotes,
+            itemCode = model.itemCode,
+            pid = model.pid,
+            conv = model.conv,
+            unitId = model.unitId,
+            crcId = model.crcId,
         )
     }
 

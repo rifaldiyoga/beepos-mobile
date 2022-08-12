@@ -10,37 +10,7 @@ import java.util.*
             entity = PossesEntity::class,
             parentColumns = [PossesEntity.ID],
             childColumns = [SaleEntity.POSSES_ID],
-            onDelete = ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [SaleEntity.USER_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = CashierEntity::class,
-            parentColumns = [CashierEntity.ID],
-            childColumns = [SaleEntity.CASHIER_ID]
-        ),
-        ForeignKey(
-            entity = BpEntity::class,
-            parentColumns = [BpEntity.ID],
-            childColumns = [SaleEntity.BP_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = ChannelEntity::class,
-            parentColumns = [ChannelEntity.ID],
-            childColumns = [SaleEntity.CHANNEL_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = CrcEntity::class,
-            parentColumns = [CrcEntity.ID],
-            childColumns = [SaleEntity.CRC_ID],
-            onDelete = ForeignKey.CASCADE
-        )
     ]
 )
 data class SaleEntity(

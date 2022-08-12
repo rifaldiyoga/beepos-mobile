@@ -30,6 +30,8 @@ data class InitialResponse (
         var grpPrv : List<GrpPrvModel> = mutableListOf(),
         @SerializedName("crc")
         var crc : List<CrcModel> = mutableListOf(),
+        @SerializedName("wh")
+        var wh : List<WhModel> = mutableListOf(),
     ) : Parcelable
 
 

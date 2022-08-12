@@ -2,8 +2,8 @@ package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemTransaksiPenjualanBinding
 import com.bits.bee.bpmc.domain.model.Sale
@@ -14,7 +14,7 @@ import java.util.*
 /**
  * Created by aldi on 23/06/22.
  */
-class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : ListAdapter<Sale, RecyclerView.ViewHolder>(DiffCallback()){
+class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : PagingDataAdapter<Sale, RecyclerView.ViewHolder>(DiffCallback()){
 
     private val hourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -27,7 +27,9 @@ class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : List
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as ViewHolder
-        viewHolder.bind(getItem(position))
+        getItem(position)?.let {
+            viewHolder.bind(it)
+        }
     }
 
     inner class ViewHolder(private val binding : ItemTransaksiPenjualanBinding) : RecyclerView.ViewHolder(binding.root){

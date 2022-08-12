@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.local.helper.DbHelper
-import com.bits.bee.bpmc.domain.model.SaleCrcv
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -267,5 +266,16 @@ object DatabaseModule {
         return dbHelper.saleCrcvDao
     }
 
+    @Provides
+    @Singleton
+    fun provideStockDao(dbHelper: DbHelper): StockDao{
+        return dbHelper.stockDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideWhDao(dbHelper: DbHelper): WhDao{
+        return dbHelper.whDao
+    }
 
 }

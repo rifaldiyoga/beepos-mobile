@@ -190,6 +190,7 @@ object AppModule {
         usrGrpDao: UsrGrpDao,
         grpPrvDao: GrpPrvDao,
         crcDao: CrcDao,
+        whDao: WhDao
     ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
@@ -198,7 +199,8 @@ object AppModule {
             userDao,
             usrGrpDao,
             grpPrvDao,
-            crcDao
+            crcDao,
+            whDao
         )
     }
 
@@ -290,6 +292,24 @@ object AppModule {
     @Singleton
     fun providePmtdRepository(apiUtils: ApiUtils, saleCrcvDao: PmtdDao, edcDao : EdcDao, edcSurcDao: EdcSurcDao, branchDao: BranchDao, dispatcher: CoroutineDispatcher) : PmtdRepository {
         return PmtdRepositoryImpl(apiUtils, saleCrcvDao, edcDao, edcSurcDao, branchDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStockRepository(apiUtils: ApiUtils,saleCrcvDao: StockDao) : StockRepository {
+        return StockRepositoryImpl(apiUtils, saleCrcvDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWhRepository(apiUtils: ApiUtils,saleCrcvDao: WhDao, dispatcher: CoroutineDispatcher) : WhRepository {
+        return WhRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUnitRepository(apiUtils: ApiUtils,saleCrcvDao: UnitDao, dispatcher: CoroutineDispatcher) : UnitRepository {
+        return UnitRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
 }

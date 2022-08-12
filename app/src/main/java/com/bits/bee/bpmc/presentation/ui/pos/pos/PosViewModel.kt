@@ -21,31 +21,19 @@ class PosViewModel @Inject constructor(
     private val getActiveItemGroupUseCase: GetActiveItemGroupUseCase,
 ): BaseViewModel<PosState, PosViewModel.UIEvent>() {
 
-    private val _stateSearch : MutableStateFlow<String?> = MutableStateFlow(null)
-    fun searchStates(): StateFlow<String?> = _stateSearch
-
-    var itemGroupList = getActiveItemGroupUseCase.invoke()
+    var itemGroupList = getActiveItemGroupUseCase()
 
     fun onClickInvoice() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestInvoice)
     }
 
-    fun onClickDraft() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToDraft)
-    }
-
-    fun onClickDiskonNota() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToDiskonNota)
-    }
-
-    fun onClickSearch() = viewModelScope.launch {
+    fun onClickAdd() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToSearch)
     }
 
+
     sealed class UIEvent {
         object RequestInvoice : UIEvent()
-        object NavigateToDraft : UIEvent()
-        object NavigateToDiskonNota : UIEvent()
         object NavigateToSearch : UIEvent()
     }
 }

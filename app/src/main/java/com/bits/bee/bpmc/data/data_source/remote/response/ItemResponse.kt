@@ -270,19 +270,6 @@ data class ItemResponse (
 //        var stockUnit : Int,
 //    ) : Parcelable
 
-    @Parcelize
-    data class UnitModel(
-        @SerializedName("id")
-        var id : Int,
-        @SerializedName("item_id")
-        var itemId : Int,
-        @SerializedName("idx")
-        var idx: Int,
-        @SerializedName("unit")
-        var unit: String,
-        @SerializedName("conv")
-        var conv : Int,
-    ) : Parcelable
 
     @Parcelize
     data class PriceModel(

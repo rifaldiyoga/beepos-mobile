@@ -28,8 +28,8 @@ class PosItemViewModel @Inject constructor(
 
     var itemFlow : Flow<PagingData<Item>> = MutableSharedFlow(1)
 
-    fun loadItem(bp : Bp, query : String) = viewModelScope.launch {
-        getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId, bp, query).collectLatest {
+    fun loadItem(bp : Bp) = viewModelScope.launch {
+        getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId, bp).collectLatest {
             updateState(
                 state.copy(
                     itemList = it
@@ -39,11 +39,11 @@ class PosItemViewModel @Inject constructor(
     }
 
     fun onReciveItemGroup(itemGroup: ItemGroup) = viewModelScope.launch {
-        _state.update {
-            it!!.copy(
+        updateState(
+            state.copy(
                 itemGroup = itemGroup
             )
-        }
+        )
     }
 
     sealed class UIEvent {

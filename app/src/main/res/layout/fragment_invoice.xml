@@ -49,12 +49,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/rvList"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
         android:layout_marginTop="@dimen/size16"
         android:paddingBottom="@dimen/size25"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceListFragment"
         app:layout_constraintBottom_toBottomOf="@+id/clDraggable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -77,6 +78,8 @@
             android:layout_height="wrap_content"
             app:behavior_hideable="false"
             app:behavior_peekHeight="@dimen/size25"
+            android:elevation="@dimen/size32"
+            android:clipToPadding="false"
             android:background="@drawable/bg_rounded_top_background_color"
             app:layout_behavior="@string/bottom_sheet_behavior">
 

@@ -23,10 +23,6 @@ class AddCstrUseCase @Inject constructor(
 
     suspend operator fun invoke(refNo : String, refType : String, amt : BigDecimal, branch : Branch, cashier : Cashier){
 
-        val lastCstr = cstrRepository.getLastId().first()
-
-        var code = TrxNoGeneratorUtils.counterNoTrxCstr(lastCstr?.id ?: 1, branch, cashier)
-
         var cstr = Cstr(
             trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
             amount1 = amt,
@@ -40,8 +36,14 @@ class AddCstrUseCase @Inject constructor(
             cashId1 = 1,
             cashId2 = 1,
             isUploaded = false,
-            kodeCstr = code ?: "",
+            kodeCstr = "",
         )
         cstrRepository.addCstr(CstrDataMapper.fromDomainToDb(cstr))
+
+        val lastCstr = cstrRepository.getLastId().first()
+
+        var code = TrxNoGeneratorUtils.counterNoTrxCstr(lastCstr?.id ?: 1, branch, cashier)
+
+        cstrRepository.updateCode(code!!, lastCstr?.id?:1)
     }
 }
