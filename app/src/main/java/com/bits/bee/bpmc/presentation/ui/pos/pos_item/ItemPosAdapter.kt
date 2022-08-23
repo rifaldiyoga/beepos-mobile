@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +55,8 @@ class ItemPosAdapter constructor(
                 val qty = getSumQty(item)
                 tvNamaItem.text =  item.name1
                 tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,item.crcSymbol, CurrencyUtils.formatCurrency(item.price))
+
+                tvHarga.isVisible = !item.isVariant
 
                 tvQty?.let {
                     it.text = CurrencyUtils.formatCurrency(qty)

@@ -17,6 +17,7 @@
 
         <LinearLayout
             android:orientation="vertical"
+            android:paddingBottom="@dimen/size45"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -180,6 +181,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/detail_pendapatan"
                     android:textStyle="bold"
+                    android:textColor="@color/gray"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -390,6 +392,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
                     android:text="@string/rata_rata_penjualan"
                     android:textStyle="bold"/>
 
@@ -407,6 +410,7 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/tv_avg_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
@@ -436,6 +440,7 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/tv_new_member"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
@@ -471,6 +476,7 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/tv_jml_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
@@ -500,6 +506,7 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/tv_total_qty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
@@ -534,6 +541,7 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/tv_trans_sukses"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
@@ -563,6 +571,7 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/tv_trans_void"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
@@ -595,6 +604,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="@color/gray"
                     android:id="@+id/textView93"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -638,6 +648,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="@color/gray"
                     android:id="@+id/textView94"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -646,24 +657,54 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/imageView15"
-                    android:layout_width="@dimen/size120"
-                    android:layout_height="@dimen/size120"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_empty_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/size16"
-                    android:src="@drawable/image_grafik"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView94" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView94">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageView15"
+                        android:layout_width="@dimen/size120"
+                        android:layout_height="@dimen/size120"
+                        android:src="@drawable/image_grafik"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size16"
+                        android:text="Rangking produk belum tersedia"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_ranking"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="Rangking produk belum tersedia"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+                    app:layout_constraintTop_toBottomOf="@+id/cl_empty_ranking">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_rank_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

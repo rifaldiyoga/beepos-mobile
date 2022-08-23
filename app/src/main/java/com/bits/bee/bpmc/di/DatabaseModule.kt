@@ -278,4 +278,52 @@ object DatabaseModule {
         return dbHelper.whDao
     }
 
+    @Provides
+    @Singleton
+    fun provideAddOnDao(dbHelper: DbHelper): AddOnDao{
+        return dbHelper.addOnDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddOnDDao(dbHelper: DbHelper): AddOnDDao{
+        return dbHelper.addOnDDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemAddOnDao(dbHelper: DbHelper): ItemAddOnDao{
+        return dbHelper.itemAddOnDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSelectionDao(dbHelper: DbHelper): SelectionDao{
+        return dbHelper.selectionDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSelectionDDao(dbHelper: DbHelper): SelectionDDao{
+        return dbHelper.selectionDDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideVariantDao(dbHelper: DbHelper): VariantDao{
+        return dbHelper.variantDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemVariantDao(dbHelper: DbHelper): ItemVariantDao{
+        return dbHelper.itemVariantDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePromoDao(dbHelper: DbHelper): PromoDao{
+        return dbHelper.promoDao
+    }
+
 }

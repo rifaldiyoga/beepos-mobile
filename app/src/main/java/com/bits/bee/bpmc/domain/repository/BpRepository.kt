@@ -25,4 +25,6 @@ interface BpRepository {
 
     suspend fun addUpdateBp(bpEntity: BpEntity)
 
+    fun getBpByDate(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>>
+
 }

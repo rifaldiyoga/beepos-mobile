@@ -312,4 +312,52 @@ object AppModule {
         return UnitRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun provideAddOnRepository(apiUtils: ApiUtils,saleCrcvDao: AddOnDao, dispatcher: CoroutineDispatcher) : AddOnRepository {
+        return AddOnRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddOnDRepository(apiUtils: ApiUtils,saleCrcvDao: AddOnDDao, dispatcher: CoroutineDispatcher) : AddOnDRepository {
+        return AddOnDRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemAddOnRepository(apiUtils: ApiUtils,saleCrcvDao: ItemAddOnDao, dispatcher: CoroutineDispatcher) : ItemAddOnRepository {
+        return ItemAddOnRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSelectionRepository(apiUtils: ApiUtils,saleCrcvDao: SelectionDao, dispatcher: CoroutineDispatcher) : SelectionRepository {
+        return SelectionRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSelectionDRepository(apiUtils: ApiUtils,saleCrcvDao: SelectionDDao, dispatcher: CoroutineDispatcher) : SelectionDRepository {
+        return SelectionDRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideVariantRepository(apiUtils: ApiUtils,saleCrcvDao: VariantDao, itemDao: ItemDao, dispatcher: CoroutineDispatcher) : VariantRepository {
+        return VariantRepositoryImpl(apiUtils, saleCrcvDao, itemDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemVariantRepository(apiUtils: ApiUtils,saleCrcvDao: ItemVariantDao, dispatcher: CoroutineDispatcher) : ItemVariantRepository {
+        return ItemVariantRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun providePromoRepository(apiUtils: ApiUtils,saleCrcvDao: PromoDao, dispatcher: CoroutineDispatcher) : PromoRepository {
+        return PromoRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
 }

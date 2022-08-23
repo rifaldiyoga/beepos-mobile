@@ -32,6 +32,12 @@
         <action
             android:id="@+id/action_posFragment_to_editItemDialog2"
             app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_posFragment_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_promoFragment"
+            app:destination="@id/promoFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -142,6 +148,9 @@
             app:argType="com.bits.bee.bpmc.domain.model.Stock"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_editItemDialog_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
 
     </fragment>
     <fragment
@@ -252,5 +261,32 @@
             android:id="@+id/action_pilihPidFragment_to_editItemDialog"
             app:destination="@id/editItemDialog" />
     </fragment>
+    <fragment
+        android:id="@+id/addOnFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.addon.AddOnFragment"
+        android:label="AddOnFragment" >
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item" />
+        <argument
+            android:name="bp"
+            app:argType="com.bits.bee.bpmc.domain.model.Bp" />
+        <argument
+            android:name="priceLvlId"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <fragment
+        android:id="@+id/positemFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos_item.PositemFragment"
+        android:label="PositemFragment" >
+        <action
+            android:id="@+id/action_positemFragment_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/promoFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.promo.PromoFragment"
+        android:label="PromoFragment" />
 
 </navigation>

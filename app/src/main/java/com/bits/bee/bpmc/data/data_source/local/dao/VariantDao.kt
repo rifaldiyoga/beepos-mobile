@@ -15,4 +15,7 @@ interface VariantDao : BaseDao<VariantEntity>{
     @Query("SELECT * FROM variant")
     fun getVariantList() : List<VariantEntity>
 
+    @Query("SELECT * FROM variant WHERE id = :id")
+    fun getVariantById(id : Int) : VariantEntity
+
 }

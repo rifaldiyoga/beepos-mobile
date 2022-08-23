@@ -26,5 +26,13 @@ data class DownloadInteractor @Inject constructor(
     val getLatestEdcSurcUseCase: GetLatestEdcSurcUseCase,
     val getLatestCcTypeUseCase: GetLatestCcTypeUseCase,
     val getLatestPmtdUseCase: GetLatestPmtdUseCase,
-    val getLatestUnitUseCase: GetLatestUnitUseCase
+    val getLatestUnitUseCase: GetLatestUnitUseCase,
+    val getLatestAddOnUseCase: GetLatestAddOnUseCase,
+    val getLatestAddOnDUseCase: GetLatestAddOnDUseCase,
+    val getLatestItemAddOnUseCase: GetLatestItemAddOnUseCase,
+    val getLatestSelectionUseCase: GetLatestSelectionUseCase,
+    val getLatestSelectionDUseCase: GetLatestSelectionDUseCase,
+    val getLatestVariantUseCase: GetLatestVariantUseCase,
+    val getLatestItemVariantUseCase: GetLatestItemVariantUseCase,
+    val getLatestPromoUseCase: GetLatestPromoUseCase
 )

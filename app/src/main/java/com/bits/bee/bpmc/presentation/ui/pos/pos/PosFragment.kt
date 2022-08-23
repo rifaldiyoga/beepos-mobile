@@ -59,6 +59,9 @@ class PosFragment(
             R.id.menu_search -> {
                 mainViewModel.onClickSearch()
             }
+            R.id.menu_promo -> {
+                mainViewModel.onClickPromo()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -14,11 +14,11 @@ data class ItemAddOnResponse (
 
     @SerializedName("data")
     @Expose
-    var data: List<Datum> = ArrayList()
+    var itemAddOnModels: List<ItemAddOnModel> = ArrayList()
 ) : Parcelable {
 
     @Parcelize
-    data class Datum (
+    data class ItemAddOnModel (
         @SerializedName("id")
         @Expose
         var id: Int = -1,

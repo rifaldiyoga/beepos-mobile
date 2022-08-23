@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
@@ -80,6 +81,14 @@ class ItemRepositoryImpl @Inject constructor(
         }
     ).flow.mapLatest {
         it.map { ItemDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
+    override fun getItemBySelection(selectionId: Int): Flow<List<Item>> = flow{
+        emit(itemDao.getItemBySelection(selectionId).map { ItemDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
+
+    override fun getItemByVariant(variantId: Int): Flow<List<Item>> = flow{
+        emit(itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
 }

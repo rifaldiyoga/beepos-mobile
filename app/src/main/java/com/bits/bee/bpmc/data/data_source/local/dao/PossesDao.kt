@@ -28,17 +28,29 @@ interface PossesDao : BaseDao<PossesEntity> {
     fun getPossesHistory(): PagingSource<Int, PossesEntity>
 
     @Query("SELECT * FROM posses WHERE endbal is null")
-    fun getNotActivePosses(): List<PossesEntity>
+    fun getActivePossesList(): List<PossesEntity>
 
     @Query("SELECT * FROM posses WHERE shift LIKE '%'|| :query || '%'")
     fun searchSesi(query : String) : PagingSource<Int, PossesEntity>
 
-    @Query("SELECT * FROM posses ORDER BY id DESC")
-    fun getSortDesc(): PagingSource<Int, PossesEntity>
+    @Query("SELECT * FROM posses WHERE endbal is not null ORDER BY id DESC")
+    fun getSortDesc(): List<PossesEntity>
 
-    @Query("SELECT * FROM posses ORDER BY id ASC")
-    fun getSortAsc(): PagingSource<Int, PossesEntity>
+    @Query("SELECT * FROM posses WHERE endbal is not null ORDER BY id ASC")
+    fun getSortAsc(): List<PossesEntity>
 
-    @Query("SELECT * FROM posses WHERE trxdate BETWEEN :current AND :yester")
-    fun getFilter(current: Long, yester: Long): PagingSource<Int, PossesEntity>
+    @Query("SELECT * FROM posses WHERE trxdate BETWEEN :current AND :end")
+    fun getFilter(current: Long, end: Long): List<PossesEntity>
+
+    @Query("SELECT * FROM posses WHERE endbal is not null and trxdate between :startDate and :endDate")
+    fun getJmlPossesByDate(startDate: Long, endDate: Long): List<PossesEntity>
+
+    @Query("SELECT * FROM posses WHERE endbal is not null")
+    fun getListPossesHistory(): List<PossesEntity>
+
+    @Query("SELECT * FROM posses WHERE endbal is not null and trxdate BETWEEN :current AND :end ORDER BY id asc")
+    fun getFilterAsc(current: Long, end: Long): List<PossesEntity>
+
+    @Query("SELECT * FROM posses WHERE endbal is not null and trxdate BETWEEN :current AND :end ORDER BY id desc")
+    fun getFilterDesc(current: Long, end: Long): List<PossesEntity>
 }

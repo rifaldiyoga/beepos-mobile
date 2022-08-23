@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.presentation.ui.download
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
@@ -8,13 +7,13 @@ import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.domain.repository.ProvinceRepository
 import com.bits.bee.bpmc.domain.repository.RegencyRepository
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,41 +23,56 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DownloadViewModel @Inject constructor (
-    private val itemGroupRepository: ItemGroupRepository,
-    private val provinceRepository: ProvinceRepository,
-    private val regencyRepository: RegencyRepository,
     private val districtRepository: DistrictRepository,
     private val di: DownloadInteractor,
-) : ViewModel() {
+) : BaseViewModel<DownloadState, DownloadViewModel.UIEvent>() {
 
     private var page : Int = 1
 
-    private val _state = MutableStateFlow(DownloadState())
-    var state = _state.asStateFlow()
-
     init {
+        state = DownloadState()
         downloadAll()
     }
 
-    private fun downloadAll() = viewModelScope.launch {
+    private fun downloadAll() = viewModelScope.launch(Dispatchers.Main) {
         downloadItemGroup()
+        downloadChannel()
+        downloadBp()
+        downloadPriceLvl()
+        downloadItem()
+        downloadCity()
+        downloadPrice()
+        downloadItemBranch()
+        downloadItemSaleTax()
+        downloadTax()
+        downloadEdc()
+        downloadEdcSurc()
+        downloadCcType()
+        downloadPmtd()
+        downloadUnit()
+        downloadAddOn()
+        downloadSelection()
+        downloadSelectionD()
+        downloadAddOnD()
+        downloadItemAddOn()
+        downloadVariant()
+        downloadItemVariant()
+        downloadPromo()
     }
 
-    private fun downloadItemGroup() = viewModelScope.launch {
+    private suspend fun downloadItemGroup()  {
         di.getLatestItemGroupUseCase(page).collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Item Group")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Item Group")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
                     it.data?.let { data ->
-                        _state.update {
-                            it.copy(status = "Finish Downloading Item Group")
-                        }
-
-                        downloadPriceLvl()
+                        updateState(
+                            state.copy(status = "Finish Downloading Item Group")
+                        )
                     }
                 }
                 Resource.Status.ERROR -> {
@@ -68,20 +82,19 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadChannel() = viewModelScope.launch {
+    private suspend fun downloadChannel()  {
         di.getLatestChannelUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Channel")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Channel")
+                    )
 
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Channel")
-                    }
-                    downloadBp()
+                    updateState(
+                        state.copy(status = "Finish Downloading Channel")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -90,21 +103,19 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadBp() = viewModelScope.launch {
+    private suspend fun downloadBp()  {
         di.getLatestBpUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
 
-                    _state.update {
-                        it.copy(status = "Downloading Bp")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Bp")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Bp")
-                    }
-
-                    downloadItem()
+                    updateState(
+                        state.copy(status = "Finish Downloading Bp")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -113,20 +124,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadPriceLvl() = viewModelScope.launch {
+    private suspend fun downloadPriceLvl()  {
         di.getLatestPriceLvlUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Price Lvl")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Price Lvl")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-
-                    downloadChannel()
-                    _state.update {
-                        it.copy(status = "Finish Downloading Price Lvl")
-                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Price Lvl")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -135,19 +144,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadItem() = viewModelScope.launch {
+    private suspend fun downloadItem()  {
         di.getLatestItemUseCase(page).collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Item")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Item")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Item")
-                    }
-                    downloadPrice()
+                    updateState(
+                        state.copy(status = "Finish Downloading Item")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -156,19 +164,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadCity() = viewModelScope.launch {
+    private suspend fun downloadCity()  {
         di.getLatestCityUseCase(page).collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading City")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading City")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading City")
-                    }
-                    downloadItemSaleTax()
+                    updateState(
+                        state.copy(status = "Finish Downloading City")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -177,16 +184,16 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadOperator() = viewModelScope.launch {
+    private suspend fun downloadOperator()  {
         di.getLatestOperatorUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
 
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Operator")
-                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Operator")
+                    )
                 }
                 Resource.Status.ERROR -> {
                 }
@@ -194,14 +201,14 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-//    private fun downloadProvince(): Job = viewModelScope.launch {
-//        downloadInteractor.getLatestProvinceUseCase.invoke(page).collect {
+    private suspend fun downloadProvince()  {
+//        di.getLatestProvinceUseCase.invoke(page).collect {
 //            when(it.status){
 //                Resource.Status.LOADING -> {
-//                    _state.update {
-//                        it.copy(
-//                            status = "Download Province"
-//                        )
+//                    updateState(
+//                       it.copy(
+//                         status { = "Download Province"
+//                       )
 //                    }
 //                }
 //                Resource.Status.SUCCESS ->{
@@ -213,13 +220,12 @@ class DownloadViewModel @Inject constructor (
 //                        if (data.data.page <= data.data.total_page){
 //                            downloadProvince()
 //                        }else{
-//                            _state.update {
-//                                it.copy(
-//                                    status = "Finish Download Province"
-//                                )
+//                            updateState(
+//                               it.copy(
+//                                status { = "Finish Download Province"
+//                               )
 //                            }
 //                            page = 1
-//                            downloadRegency()
 //                        }
 //                    }
 //                }
@@ -228,19 +234,18 @@ class DownloadViewModel @Inject constructor (
 //                }
 //            }
 //        }
-//    }
+    }
 
-    private fun downloadCrc() : Job = viewModelScope.launch {
+    private suspend fun downloadCrc()  {
         di.getLatestCrcUseCase().collect {
             when (it.status) {
                 Resource.Status.LOADING -> {
 
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Crc")
-                    }
-                    downloadPrice()
+                    updateState(
+                        state.copy(status = "Finish Downloading Crc")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -249,15 +254,14 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-
-//    private fun downloadRegency(): Job = viewModelScope.launch {
+    private suspend fun downloadRegency() {
 //        downloadInteractor.getLatestRegencyUseCase.invoke(page).collect {
 //            when(it.status){
 //                Resource.Status.LOADING ->{
-//                    _state.update {
-//                        it.copy(
-//                            status = "Download Regency"
-//                        )
+//                    updateState(
+//                       it.copy(
+//state                          status { = "Download Regency"
+//                       )
 //                    }
 //                }
 //                Resource.Status.SUCCESS ->{
@@ -269,10 +273,10 @@ class DownloadViewModel @Inject constructor (
 //                        if (data.data.page <= data.data.total_page){
 //                            downloadRegency()
 //                        }else{
-//                            _state.update {
-//                                it.copy(
-//                                    status = "Finish Download Regency"
-//                                )
+//                            updateState(
+//                               it.copy(
+//state                                  status { = "Finish Download Regency"
+//                               )
 //                            }
 //                            page = 1
 //                            downloadDistrict()
@@ -285,19 +289,18 @@ class DownloadViewModel @Inject constructor (
 //                }
 //            }
 //        }
-//    }
+    }
 
-    private fun downloadCmp() = viewModelScope.launch {
+    private suspend fun downloadCmp()  {
         di.getLatestCmpUseCase().collect {
             when (it.status) {
                 Resource.Status.LOADING -> {
 
                 }
                 Resource.Status.SUCCESS -> {
-//                    downloadProvince()
-                    _state.update {
-                        it.copy(status = "Finish Downloading Cmp")
-                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Cmp")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -306,15 +309,11 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadDistrict(): Job = viewModelScope.launch {
+    private suspend fun downloadDistrict() {
         di.getLatestDistrictUseCase.invoke(page).collect {
             when(it.status){
                 Resource.Status.LOADING ->{
-                    _state.update {
-                        it.copy(
-                            status = "Download District"
-                        )
-                    }
+                    updateState( state.copy(status  = "Download District"))
                 }
                 Resource.Status.SUCCESS ->{
                     it.data?.let { data ->
@@ -325,12 +324,7 @@ class DownloadViewModel @Inject constructor (
                         if (data.data.page <= data.data.total_page){
                             downloadDistrict()
                         }else{
-                            downloadPrice()
-                            _state.update {
-                                it.copy(
-                                    status = "Finish Download District"
-                                )
-                            }
+                            updateState( state.copy(status  = "Finish Download District"))
                         }
                     }
 
@@ -342,19 +336,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadPrice() = viewModelScope.launch {
+    private suspend fun downloadPrice()  {
         di.getLatestPriceUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Price")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Price")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    downloadItemBranch()
-                    _state.update {
-                        it.copy(status = "Finish Downloading Price")
-                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Price")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -363,19 +356,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadItemBranch() = viewModelScope.launch {
+    private suspend fun downloadItemBranch()  {
         di.getLatestItemBranchUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Item Branch")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Item Branch")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    downloadCity()
-                    _state.update {
-                        it.copy(status = "Finish Downloading Item Branch")
-                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Item Branch")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -384,19 +376,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadItemSaleTax() = viewModelScope.launch {
+    private suspend fun downloadItemSaleTax()  {
         di.getLatestItemSaleTaxUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Item Sale Tax")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Item Sale Tax")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Item Sale Tax")
-                    }
-                    downloadTax()
+                    updateState(
+                        state.copy(status = "Finish Downloading Item Sale Tax")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -405,19 +396,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadTax() = viewModelScope.launch {
+    private suspend fun downloadTax()  {
         di.getLatestTaxUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Tax")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Tax")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Tax")
-                    }
-                    downloadEdc()
+                    updateState(
+                        state.copy(status = "Finish Downloading Tax")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -426,19 +416,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadEdc() = viewModelScope.launch {
+    private suspend fun downloadEdc()  {
         di.getLatestEdcUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Edc")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Edc")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Edc")
-                    }
-                    downloadEdcSurc()
+                    updateState(
+                        state.copy(status = "Finish Downloading Edc")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -447,19 +436,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadEdcSurc() = viewModelScope.launch {
+    private suspend fun downloadEdcSurc()  {
         di.getLatestEdcSurcUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Edc Surc")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Edc Surc")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Edc Surc")
-                    }
-                    downloadCcType()
+                    updateState(
+                        state.copy(status = "Finish Downloading Edc Surc")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -468,19 +456,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadCcType() = viewModelScope.launch {
+    private suspend fun downloadCcType()  {
         di.getLatestCcTypeUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Cc Type")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Cc Type")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Cc Type")
-                    }
-                    downloadPmtd()
+                    updateState(
+                        state.copy(status = "Finish Downloading Cc Type")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -489,19 +476,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadPmtd() = viewModelScope.launch {
+    private suspend fun downloadPmtd()  {
         di.getLatestPmtdUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Pmtd")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Pmtd")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Pmtd")
-                    }
-                    downloadUnit()
+                    updateState(
+                        state.copy(status = "Finish Downloading Pmtd")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -510,18 +496,18 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    private fun downloadUnit() = viewModelScope.launch {
+    private suspend fun downloadUnit()  {
         di.getLatestUnitUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    _state.update {
-                        it.copy(status = "Downloading Unit")
-                    }
+                    updateState(
+                        state.copy(status = "Downloading Unit")
+                    )
                 }
                 Resource.Status.SUCCESS -> {
-                    _state.update {
-                        it.copy(status = "Finish Downloading Unit")
-                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Unit")
+                    )
                 }
                 Resource.Status.ERROR -> {
 
@@ -530,10 +516,176 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    suspend fun awaitAll(vararg blocks: suspend () -> Unit) = viewModelScope.launch {
-        blocks.forEach {
-            launch { it() }
+    private suspend fun downloadAddOn()  {
+        di.getLatestAddOnUseCase().catch {
+            it.printStackTrace()
+        }.collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading AddOn")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading AddOn")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
         }
+    }
+
+    private suspend fun downloadSelection()  {
+        di.getLatestSelectionUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Selection")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Selection")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadSelectionD()  {
+        di.getLatestSelectionDUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading SelectionD")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading SelectionD")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadAddOnD()  {
+        di.getLatestAddOnDUseCase().catch {
+            it.printStackTrace()
+        }.collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading AddOnD")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading AddOnD")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadItemAddOn()  {
+        di.getLatestItemAddOnUseCase().catch {
+            it.printStackTrace()
+        }.collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading ItemAddOn")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading ItemAddOn")
+                    )
+                    downloadVariant()
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadVariant()  {
+        di.getLatestVariantUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Variant")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Variant")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadItemVariant()  {
+        di.getLatestItemVariantUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading ItemVstateiant")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading ItemVariant")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadPromo()  {
+        di.getLatestPromoUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Promo")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Promo")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+
+    sealed class UIEvent {
+
     }
 
 }

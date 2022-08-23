@@ -168,6 +168,10 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestChannel)
     }
 
+    fun onClickPromo() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToPromo)
+    }
+
     fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) = viewModelScope.launch {
         addDetail(
             itemWithUnit = item,
@@ -475,6 +479,7 @@ class MainViewModel @Inject constructor(
         object RequestChannel: UIEvent()
         object NavigateToDraft : UIEvent()
         object NavigateToDiskonNota : UIEvent()
+        object NavigateToPromo : UIEvent()
         object NavigateToSearch : UIEvent()
     }
 

@@ -29,6 +29,7 @@ data class  Item (
     var type : String = "",
     var isAvailable : Boolean = true,
     var isVariant : Boolean = false,
+    var isAddOn : Boolean = false,
     var vCode : String? = null,
     var vColor : String? = null,
     var price : BigDecimal = BigDecimal.ZERO,

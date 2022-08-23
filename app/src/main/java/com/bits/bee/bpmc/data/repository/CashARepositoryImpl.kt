@@ -3,8 +3,6 @@ package com.bits.bee.bpmc.data.repository
 import com.bits.bee.bpmc.data.data_source.local.dao.CashADao
 import com.bits.bee.bpmc.data.data_source.local.model.CashAEntity
 import com.bits.bee.bpmc.domain.mapper.CashADataMapper
-import com.bits.bee.bpmc.domain.mapper.CashDataMapper
-import com.bits.bee.bpmc.domain.model.Cash
 import com.bits.bee.bpmc.domain.model.CashA
 import com.bits.bee.bpmc.domain.repository.CashARepository
 import com.bits.bee.bpmc.utils.Resource
@@ -41,6 +39,5 @@ class CashARepositoryImpl @Inject constructor(
         val data = cashADao.getCashAByCashId(cashId)
         emit(data.map { CashADataMapper.fromDbToDomain(it) } )
     }.flowOn(defaultDispatcher)
-
 
 }

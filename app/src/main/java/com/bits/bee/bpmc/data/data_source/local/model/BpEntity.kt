@@ -3,7 +3,6 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.util.*
 
@@ -13,7 +12,6 @@ import java.util.*
             entity = PriceLvlEntity::class,
             parentColumns = [PriceLvlEntity.ID],
             childColumns = [BpEntity.PRICELVL_ID],
-            onDelete = CASCADE
         )
     ]
 )

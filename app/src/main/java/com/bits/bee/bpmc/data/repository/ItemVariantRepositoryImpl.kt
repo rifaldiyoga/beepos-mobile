@@ -25,7 +25,11 @@ class ItemVariantRepositoryImpl @Inject constructor(
     override fun getLatestItemVariantList(): Flow<Resource<List<ItemVariant>>> {
         return object : NetworkDatabaseBoundResource<List<ItemVariant>, ItemVariantResponse>(){
             override suspend fun loadFormDB(): List<ItemVariant> {
-                return itemVariantDao.getItemVariantList().map { ItemVariantDataMapper.fromDbToDomain(it)!! }
+                return itemVariantDao.getItemVariantList().map {
+                    ItemVariantDataMapper.fromDbToDomain(
+                        it
+                    )
+                }
             }
 
             override fun shouldFetch(data: List<ItemVariant>?): Boolean {

@@ -9,12 +9,14 @@ import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.repository.SaleRepository
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -64,5 +66,55 @@ class SaleRepositoryImpl @Inject constructor(
         val saleList = saleDao.getLatestDraftList()
         emit(saleList.map { SaleDataMapper.fromDbToDomain(it) } )
     }.flowOn(defaultDispatcher)
+
+    override fun getSaleByPosses(id: Int): Flow<Resource<List<Sale>>> {
+        return flow {
+            val data = saleDao.getSaleByPosses(id).map { SaleDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getTotalNota(id: Int): Flow<BigDecimal> {
+        return flow {
+            val data = saleDao.getTotalNota(id)
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getTotalNotaVoid(id: Int): Flow<BigDecimal> {
+        return flow {
+            val data = saleDao.getTotalNotaVoid(id)
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getTotalPaidTunai(id: Int): Flow<BigDecimal> {
+        return flow {
+            val data = saleDao.getTotalPaidTunai(id)
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getTotalPaidDebit(id: Int): Flow<BigDecimal> {
+        return flow {
+            val data = saleDao.getTotalPaidDebit(id)
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getTotalPaidKredit(id: Int): Flow<BigDecimal> {
+        return flow {
+            val data = saleDao.getTotalPaidKredit(id)
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getTotalPaidGopay(id: Int): Flow<BigDecimal> {
+        return flow {
+            val data = saleDao.getTotalPaidGopay(id)
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
 
 }

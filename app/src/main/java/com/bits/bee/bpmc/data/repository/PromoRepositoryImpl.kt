@@ -1,16 +1,18 @@
 package com.bits.bee.bpmc.data.repository
 
-import com.bits.bee.bpmc.data.data_source.local.dao.AddOnDDao
+import com.bits.bee.bpmc.data.data_source.local.dao.PromoDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
-import com.bits.bee.bpmc.data.data_source.remote.response.AddOnDResponse
-import com.bits.bee.bpmc.domain.mapper.AddOnDDataMapper
-import com.bits.bee.bpmc.domain.model.AddOnD
-import com.bits.bee.bpmc.domain.repository.AddOnDRepository
+import com.bits.bee.bpmc.data.data_source.remote.response.PromoResponse
+import com.bits.bee.bpmc.domain.mapper.PromoDataMapper
+import com.bits.bee.bpmc.domain.model.Promo
+import com.bits.bee.bpmc.domain.repository.PromoRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -18,28 +20,32 @@ import javax.inject.Inject
  */
 class PromoRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val addOnDDao: AddOnDDao,
+    private val promoDao: PromoDao,
     private val ioDispatcher: CoroutineDispatcher
-) : AddOnDRepository{
+) : PromoRepository{
 
-    override fun getLatestAddOnDList(): Flow<Resource<List<AddOnD>>> {
-        return object : NetworkDatabaseBoundResource<List<AddOnD>, AddOnDResponse>(){
-            override suspend fun loadFormDB(): List<AddOnD> {
-                return addOnDDao.getAddOnDList().map { AddOnDDataMapper.fromDbToDomain(it)!! }
+    override fun getLatestPromo(): Flow<Resource<List<Promo>>> {
+        return object : NetworkDatabaseBoundResource<List<Promo>, PromoResponse>(){
+            override suspend fun loadFormDB(): List<Promo> {
+                return promoDao.getPromoList().map { PromoDataMapper.fromDbToDomain(it) }
             }
 
-            override fun shouldFetch(data: List<AddOnD>?): Boolean {
+            override fun shouldFetch(data: List<Promo>?): Boolean {
                 return true
             }
 
-            override suspend fun createCall(): Flow<ApiResponse<AddOnDResponse>> {
-                return apiUtils.getAddOnDApiService().getAddOnD()
+            override suspend fun createCall(): Flow<ApiResponse<PromoResponse>> {
+                return apiUtils.getPromoApiService().getPromo()
             }
 
-            override suspend fun saveCallResult(data: AddOnDResponse) {
-                addOnDDao.insertBulk(data.data.map { AddOnDDataMapper.fromNetworkToDb(it) })
+            override suspend fun saveCallResult(data: PromoResponse) {
+                promoDao.insertBulk(data.data.map { PromoDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }
+
+    override fun getActivePromoList(): Flow<List<Promo>> = flow {
+        emit(promoDao.getPromoList().map { PromoDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }

@@ -12,6 +12,6 @@ import retrofit2.http.GET
 interface ItemAddOnApiService {
 
     @GET("v1/itemaddon")
-    fun getPriceLvl() : Flow<ApiResponse<ItemAddOnResponse>>
+    fun getItemAddOn() : Flow<ApiResponse<ItemAddOnResponse>>
 
 }

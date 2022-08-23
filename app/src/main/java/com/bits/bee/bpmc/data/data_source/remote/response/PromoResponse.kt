@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.math.BigDecimal
 
 /**
  * Created by Med.
@@ -31,18 +32,18 @@ class PromoResponse (
         var isBranch: Boolean = false,
         @SerializedName("branch_id")
         @Expose
-        var branchId: String = "",
+        var branchId: String? = null,
         @SerializedName("isperiode")
         @Expose
         var isPeriode: Boolean = false,
 
         @SerializedName("startdate")
         @Expose
-        var startDate: String = "",
+        var startDate: String? = null,
 
         @SerializedName("enddate")
         @Expose
-        var endDate: String = "",
+        var endDate: String? = null,
 
         @SerializedName("istime")
         @Expose
@@ -50,11 +51,11 @@ class PromoResponse (
 
         @SerializedName("starttime")
         @Expose
-        var starttime: String = "",
+        var starttime: String? = null,
 
         @SerializedName("endtime")
         @Expose
-        var endTime: String = "",
+        var endTime: String? = null,
 
         @SerializedName("isdow")
         @Expose
@@ -62,7 +63,7 @@ class PromoResponse (
 
         @SerializedName("dowexp")
         @Expose
-        var dowExp: String = "",
+        var dowExp: String? = null,
 
         @SerializedName("isbpgrp1")
         @Expose
@@ -70,11 +71,15 @@ class PromoResponse (
 
         @SerializedName("bpgrp1_id")
         @Expose
-        var bpgrp1Id: String = "",
+        var bpgrp1Id: String? = null,
+
+        @SerializedName("isminamt")
+        @Expose
+        var isMinAmt: Boolean = false,
 
         @SerializedName("minamt")
         @Expose
-        private var minAmt: Int? = null,
+        var minAmt: BigDecimal = BigDecimal.ZERO,
 
         @SerializedName("istargetitem")
         @Expose
@@ -90,7 +95,7 @@ class PromoResponse (
 
         @SerializedName("itemgrp1_id")
         @Expose
-        var itemgrp1Id: String = "",
+        var itemgrp1Id: String? = null,
 
         @SerializedName("istargetbrand")
         @Expose
@@ -98,7 +103,7 @@ class PromoResponse (
 
         @SerializedName("brand_id")
         @Expose
-        var brandId: String = "",
+        var brandId: String? = null,
 
         @SerializedName("istargetvendor")
         @Expose
@@ -106,7 +111,7 @@ class PromoResponse (
 
         @SerializedName("vendor_id")
         @Expose
-        var vendorId: String = "",
+        var vendorId: String? = null,
 
         @SerializedName("isminqty")
         @Expose
@@ -114,11 +119,11 @@ class PromoResponse (
 
         @SerializedName("minqty")
         @Expose
-        private var minQty: Int? = null,
+        var minQty: BigDecimal? = null,
 
         @SerializedName("priority")
         @Expose
-        var priority: Int? = null,
+        var priority: Int,
 
         @SerializedName("offertype")
         @Expose
@@ -140,13 +145,10 @@ class PromoResponse (
         @Expose
         var note: String = "",
 
-        @SerializedName("isminamt")
-        @Expose
-        private var isMinAmt: Boolean = false,
 
         @SerializedName("item_discexp")
         @Expose
-        var itemDiscExp: String = "",
+        var itemDiscExp: String? = "",
 
         @SerializedName("promo_cat")
         @Expose
@@ -158,19 +160,35 @@ class PromoResponse (
 
         @SerializedName("item_price")
         @Expose
-        var itemPrice: Int? = null,
+        var itemPrice: BigDecimal? = null,
 
         @SerializedName("maxqty")
         @Expose
-        var maxQty: Int? = null,
+        var maxQty: BigDecimal? = null,
 
         @SerializedName("ismaxqty")
         @Expose
-        private var isMaxQty: Boolean = false,
+        var isMaxQty: Boolean = false,
 
         @SerializedName("isminqtymultiply")
         @Expose
         var isMinQtyMultiply: Boolean = false,
+
+        @SerializedName("ispriceoverride")
+        @Expose
+        var isPriceOverride: Boolean = false,
+
+        @SerializedName("ismulti")
+        @Expose
+        var isMulti: Boolean = false,
+
+        @SerializedName("deal_qty")
+        @Expose
+        var dealQty: BigDecimal? = null,
+
+        @SerializedName("isdealsameitem")
+        @Expose
+        var isDealSameItem: Boolean = false
     ): Parcelable
 
 }

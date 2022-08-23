@@ -16,33 +16,54 @@ interface ItemDao : BaseDao<ItemEntity> {
     fun deleteAll()
 
     @Query("SELECT * FROM item " +
-            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND usepid = :usePid " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND usepid = :usePid AND is_variant = 0 " +
             "AND id NOT IN (SELECT item_id FROM item_variant) "+
-            "AND id NOT IN (SELECT item_id FROM item_branch) "+
-            "ORDER BY name1")
+            "AND id NOT IN (SELECT item_id FROM item_branch) " +
+            "UNION SELECT id, code, name as name1, '' as brand_id, '' as itemtype_code, 0 as usepid, 0 as uniqepid, " +
+            "itgrp_id as itemgrp1_id, 0 as isstock, 1 as issale, '' as unitdesc, '' as note, 1 as active, 0 as saleunit, " +
+            "0 as stockunit, 0 as itemqty, 1 as ispos, '' as type, 0 as favorit, isavailable as is_available, '1' as is_variant, " +
+            "'' as vcode, '' as vcolor from variant WHERE name1 LIKE '%' || :query || '%' "+
+            "ORDER BY name1 ")
     fun getActiveItemList(query : String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
     @Query("SELECT * FROM item " +
-            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND is_variant = 0 " +
             "AND id NOT IN (SELECT item_id FROM item_variant) "+
-            "AND id NOT IN (SELECT item_id FROM item_branch) "+
-            "ORDER BY name1")
-    fun getActiveItemListPid(query : String ) : PagingSource<Int, ItemEntity>
+            "AND id NOT IN (SELECT item_id FROM item_branch) " +
+            "UNION SELECT id, code, name as name1, '' as brand_id, '' as itemtype_code, 0 as usepid, 0 as uniqepid, " +
+            "itgrp_id as itemgrp1_id, 0 as isstock, 1 as issale, '' as unitdesc, '' as note, 1 as active, 0 as saleunit, " +
+            "0 as stockunit, 0 as itemqty, 1 as ispos, '' as type, 0 as favorit, isavailable as is_available, '1' as is_variant, " +
+            "'' as vcode, '' as vcolor from variant WHERE name1 LIKE '%' || :query || '%' "+
+            "ORDER BY name1 ")
+    fun getActiveItemListPid(query : String) : PagingSource<Int, ItemEntity>
 
 
     @Query("SELECT * FROM item " +
-            "WHERE ispos = 1 AND active = 1 AND itemgrp1_id = :itemGrpId AND name1 LIKE '%' || :query || '%' AND usepid = :usePid " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND itemgrp1_id = :itemGrpId AND is_variant = 0 AND usepid = :usePid " +
             "AND id NOT IN (SELECT item_id FROM item_variant) "+
-            "AND id NOT IN (SELECT item_id FROM item_branch) "+
-            "ORDER BY name1")
+            "AND id NOT IN (SELECT item_id FROM item_branch) " +
+            "UNION SELECT id, code, name as name1, '' as brand_id, '' as itemtype_code, 0 as usepid, 0 as uniqepid, " +
+            "itgrp_id as itemgrp1_id, 0 as isstock, 1 as issale, '' as unitdesc, '' as note, 1 as active, 0 as saleunit, " +
+            "0 as stockunit, 0 as itemqty, 1 as ispos, '' as type, 0 as favorit, isavailable as is_available, '1' as is_variant, " +
+            "'' as vcode, '' as vcolor from variant WHERE name1 LIKE '%' || :query || '%' AND itemgrp1_id = :itemGrpId "+
+            "ORDER BY name1 ")
     fun getItemByItemGrpPagedList(itemGrpId : Int, query: String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
     @Query("SELECT * FROM item " +
-            "WHERE ispos = 1 AND active = 1 AND itemgrp1_id = :itemGrpId AND name1 LIKE '%' || :query || '%' " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND itemgrp1_id = :itemGrpId AND is_variant = 0 " +
             "AND id NOT IN (SELECT item_id FROM item_variant) "+
-            "AND id NOT IN (SELECT item_id FROM item_branch) "+
-            "ORDER BY name1")
+            "AND id NOT IN (SELECT item_id FROM item_branch) " +
+            "UNION SELECT id, code, name as name1, '' as brand_id, '' as itemtype_code, 0 as usepid, 0 as uniqepid, " +
+            "itgrp_id as itemgrp1_id, 0 as isstock, 1 as issale, '' as unitdesc, '' as note, 1 as active, 0 as saleunit, " +
+            "0 as stockunit, 0 as itemqty, 1 as ispos, '' as type, 0 as favorit, isavailable as is_available, '1' as is_variant, " +
+            "'' as vcode, '' as vcolor from variant WHERE name1 LIKE '%' || :query || '%' AND itemgrp1_id = :itemGrpId "+
+            "ORDER BY name1 ")
     fun getItemByItemGrpPagedListPid(itemGrpId : Int, query: String) : PagingSource<Int, ItemEntity>
 
+    @Query("SELECT a.* FROM item a JOIN selectiond b ON b.item_id = a.id WHERE b.selection_id = :selectionId")
+    fun getItemBySelection(selectionId : Int) : List<ItemEntity>
+
+    @Query("SELECT a.* FROM item a JOIN item_variant b ON b.item_id = a.id WHERE b.variant_id = :variantId")
+    fun getItemByVariant(variantId : Int) : List<ItemEntity>
 
 }

@@ -9,7 +9,7 @@
         android:id="@+id/menu_lainnya"
         android:title="@string/lainnya">
         <menu>
-            <item android:icon="@drawable/ic_diskon_nota"
+            <item android:icon="@drawable/ic_promo"
                 android:id="@+id/menu_void"
                 app:showAsAction="withText"
                 android:title="@string/void_penjualan" />

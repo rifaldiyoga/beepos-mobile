@@ -2,24 +2,24 @@ package com.bits.bee.bpmc.presentation.ui.analisis_sesi
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAnalisaSesiBinding
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.sql.Date
-import java.text.SimpleDateFormat
 
 /**
  * Created by aldi on 13/04/22.
@@ -32,6 +32,8 @@ class AnalisaSesiFragment(
     private val viewModel : AnalisaSesiViewModel by viewModels()
     private var mPosses: Posses? = null
     private var isRiwayat: Boolean = false
+
+    private lateinit var itemRankAdapter: ItemRankAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +54,13 @@ class AnalisaSesiFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
+        binding.apply {
+            itemRankAdapter = ItemRankAdapter()
+            rvRankItem.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = itemRankAdapter
+            }
+        }
     }
 
     override fun subscribeListeners() {
@@ -117,11 +126,53 @@ class AnalisaSesiFragment(
                                 }
                                 tvSesi.text = "#${it.shift}"
                                 tvModal.text = it.startBal.toString()
-                                tvTotalPendapatan.text = it.total.toString()
+                                tvTotalPendapatan.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.total))
                                 viewModel.getValueDetail()
                             }
                             it.user?.let {
                                 tvUserKasir.text = it.name
+                            }
+                            it.saleList?.let {
+                                tvAvgOrder.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
+                                tvJmlOrder.text = it.size.toString()
+                                tvTotalQty.text = viewModel.totalQty(it).toString()
+                            }
+                            it.bpDateList?.let {
+                                tvNewMember.text = it.size.toString()
+                            }
+                            it.notaSucces?.let {
+                                tvTransSukses.text = it.toString()
+                            }
+                            it.notaVoid?.let {
+                                tvTransVoid.text = it.toString()
+                            }
+                            it.totalTunai?.let {
+                                tvTotalTunai.text = it.toString()
+                            }
+                            it.totalDebit?.let {
+                                tvTotalDebit.text = it.toString()
+                            }
+                            it.totalKredit?.let {
+                                tvTotalKredit.text = it.toString()
+                            }
+                            it.totalGopay?.let {
+                                tvTotalGopay.text = it.toString()
+                                tvTotalNonTunai.text = viewModel.getTotalNonTunai().toString()
+                            }
+                            it.rankItem?.let {
+//                                clEmptyRanking.visibility = View.GONE
+//                                clRanking.visibility = View.VISIBLE
+//                                itemRankAdapter.submitList(it)
+                                if (it.size > 0){
+                                    clEmptyRanking.visibility = View.GONE
+                                    clRanking.visibility = View.VISIBLE
+                                    itemRankAdapter.submitList(it)
+                                }else{
+                                    clEmptyRanking.visibility = View.VISIBLE
+                                    clRanking.visibility = View.GONE
+                                }
                             }
                         }
                     }

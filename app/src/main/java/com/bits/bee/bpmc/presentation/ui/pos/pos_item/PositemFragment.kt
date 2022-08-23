@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +22,7 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.decideOnState
@@ -30,7 +32,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 /**
  * Created by aldi on 13/04/22.
@@ -62,7 +63,7 @@ class PositemFragment(
         binding.apply {
             posAdapter = ItemPosAdapter(
                 onItemClicK = {item ->
-                    mainViewModel.onAddDetail(ItemWithUnit(item))
+                    onItemClick(item)
                 },
                 onMinusClick = {item ->
                     mainViewModel.onMinusClick(item)
@@ -187,4 +188,12 @@ class PositemFragment(
         }
     }
 
+    private fun onItemClick(item : Item) {
+        if(item.isVariant || item.isAddOn) {
+            val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+            findNavController().navigate(action)
+        } else {
+            mainViewModel.onAddDetail(ItemWithUnit(item))
+        }
+    }
 }

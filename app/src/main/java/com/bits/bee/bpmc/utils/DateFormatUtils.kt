@@ -31,9 +31,11 @@ class DateFormatUtils  {
             val sdate = Date(date)
             val calendar = Calendar.getInstance()
             calendar.time = sdate
-            calendar[Calendar.HOUR_OF_DAY] = 0
-            calendar[Calendar.MINUTE] = 0
-            calendar[Calendar.SECOND] = 0
+
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
             return calendar.timeInMillis
         }
 
@@ -41,10 +43,19 @@ class DateFormatUtils  {
             val edate = Date(date)
             val calendar = Calendar.getInstance()
             calendar.time = edate
-            calendar[Calendar.HOUR_OF_DAY] = 23
-            calendar[Calendar.MINUTE] = 59
-            calendar[Calendar.SECOND] = 59
+
+            calendar.set(Calendar.HOUR_OF_DAY, 23)
+            calendar.set(Calendar.MINUTE, 59)
+            calendar.set(Calendar.SECOND, 59)
             return calendar.timeInMillis
+        }
+
+        fun convertLongToTime(formats: String, time: Long): String {
+            val date = Date(time)
+            val sformat = SimpleDateFormat(
+                formats,
+                Locale.getDefault())
+            return sformat.format(date)
         }
 
     }

@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -18,14 +20,14 @@ import javax.inject.Inject
  */
 class SelectionRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val addOnDDao: SelectionDao,
+    private val selectionDao: SelectionDao,
     private val ioDispatcher: CoroutineDispatcher
 ) : SelectionRepository{
 
     override fun getLatestSelectionList(): Flow<Resource<List<Selection>>> {
         return object : NetworkDatabaseBoundResource<List<Selection>, SelectionResponse>(){
             override suspend fun loadFormDB(): List<Selection> {
-                return addOnDDao.getSelectionList().map { SelectionDataMapper.fromDbToDomain(it) }
+                return selectionDao.getSelectionList().map { SelectionDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Selection>?): Boolean {
@@ -37,9 +39,13 @@ class SelectionRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: SelectionResponse) {
-                addOnDDao.insertBulk(data.selectionModels.map { SelectionDataMapper.fromNetworkToDb(it) })
+                selectionDao.insertBulk(data.selectionModels.map { SelectionDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }
+
+    override fun getSelectionByItem(itemId: Int): Flow<List<Selection>> = flow {
+        emit(selectionDao.getSelectionByItemid(itemId).map { SelectionDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }

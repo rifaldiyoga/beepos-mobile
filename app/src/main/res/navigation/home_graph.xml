@@ -102,6 +102,7 @@
         android:id="@+id/analasisiSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiFragment"
         android:label="@string/analisis_sesi" >
+
         <action
             android:id="@+id/action_analasisiSesiFragment_to_riwayatSesiFragment"
             app:destination="@id/riwayatSesiFragment" />
@@ -281,6 +282,7 @@
         android:id="@+id/riwayatSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.riwayat_sesi.RiwayatSesiFragment"
         android:label="@string/riwayat_sesi" >
+
         <action
             android:id="@+id/action_riwayatSesiFragment_to_detailRiwayatSesiFragment"
             app:destination="@id/detailRiwayatSesiFragment" />
@@ -290,6 +292,7 @@
         android:id="@+id/detailRiwayatSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_riwayat_sesi.DetailRiwayatSesiFragment"
         android:label="@string/detail_riwayat_sesi" >
+
         <argument
             android:name="posses"
             app:argType="string" />

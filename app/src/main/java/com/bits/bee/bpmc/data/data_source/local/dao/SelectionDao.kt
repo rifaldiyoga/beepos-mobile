@@ -15,4 +15,8 @@ interface SelectionDao : BaseDao<SelectionEntity>{
     @Query("SELECT * FROM selection")
     fun getSelectionList() : List<SelectionEntity>
 
+    @Query("SELECT DISTINCT(a.id), a.code, a.name, a.note, a.isactive, a.ismultiselect, a.ismultiqty FROM selection a" +
+            " JOIN addond b on b.selection_id = a.id JOIN itemaddon c ON c.addon = b.addon_id WHERE c.item_id = :itemId")
+    fun getSelectionByItemid(itemId : Int) : List<SelectionEntity>
+
 }

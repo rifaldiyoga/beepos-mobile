@@ -17,4 +17,8 @@ interface ItemRepository {
 
     suspend fun getActiveItemList(query : String, usePid : Boolean) : Flow<PagingData<Item>>
 
+    fun getItemBySelection(selectionId : Int) : Flow<List<Item>>
+
+    fun getItemByVariant(variantId : Int) : Flow<List<Item>>
+
 }

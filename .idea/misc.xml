@@ -3,138 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
-        <entry key="../../../../../../../layout/custom_preview.xml" value="0.25" />
-        <entry key="app/src/main/res/drawable/bg_circle_white.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/bg_rect_light_orange.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/bg_rect_light_teal.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/bg_rect_stroke_light_gray.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/bg_rounded_green.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/bg_rounded_red.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/bg_rounded_top_background_color.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/btn_rect_disable.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/ic_chev_down_background.xml" value="0.241" />
-        <entry key="app/src/main/res/drawable/ic_ket_prd_11_background.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/switch_thumb_price.xml" value="0.276" />
-        <entry key="app/src/main/res/drawable/track_selector_diskon.xml" value="0.276" />
-        <entry key="app/src/main/res/layout/activity_download.xml" value="0.18177083333333333" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.2526720820863617" />
-        <entry key="app/src/main/res/layout/activity_initial.xml" value="0.18177083333333333" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/dialog_channel.xml" value="0.19273504273504274" />
-        <entry key="app/src/main/res/layout/dialog_detail_member.xml" value="0.24491682070240295" />
-        <entry key="app/src/main/res/layout/dialog_edit_item.xml" value="0.2868421052631579" />
-        <entry key="app/src/main/res/layout/dialog_info_builder.xml" value="0.22846781504986402" />
-        <entry key="app/src/main/res/layout/dialog_loading_helper.xml" value="0.22846781504986402" />
-        <entry key="app/src/main/res/layout/dialog_radio_list.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/dialog_tax_info.xml" value="0.22846781504986402" />
-        <entry key="app/src/main/res/layout/fragment_atur_pin.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/fragment_atur_produk.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/fragment_beranda.xml" value="0.22708333333333333" />
-        <entry key="app/src/main/res/layout/fragment_daftar_produk.xml" value="0.22708333333333333" />
-        <entry key="app/src/main/res/layout/fragment_info_bisnis.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/fragment_info_kontak.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/fragment_insight_pid.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.3" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22846781504986402" />
-        <entry key="app/src/main/res/layout/fragment_member.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_nama_device.xml" value="0.19273504273504274" />
-        <entry key="app/src/main/res/layout/fragment_pembayaran.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_pilih_cabang.xml" value="0.1721311475409836" />
-        <entry key="app/src/main/res/layout/fragment_pos.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_pos_item.xml" value="0.1721311475409836" />
-        <entry key="app/src/main/res/layout/fragment_setting_list.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_setting_pos.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/fragment_tambah_member.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_tambah_prd.xml" value="0.22708333333333333" />
-        <entry key="app/src/main/res/layout/item_channel.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_invoice.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_member.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_pos_menu.xml" value="0.22826086956521738" />
-        <entry key="app/src/main/res/layout/item_radio_button.xml" value="0.340625" />
-        <entry key="app/src/main/res/layout/layout_header_bottom_sheet_dialog.xml" value="0.27960666951688756" />
-        <entry key="app/src/main/res/layout/layout_numpad_payment.xml" value="0.1530701754385965" />
-        <entry key="app/src/main/res/layout/layout_numpad_pin.xml" value="0.1530701754385965" />
-        <entry key="app/src/main/res/menu/menu_pos.xml" value="0.3" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_add_foto.xml" value="0.19" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_add_foto_baru.xml" value="0.241" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_chev_down.xml" value="0.241" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_chev_down_round.xml" value="0.19" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_ket_prd_1_new.xml" value="0.241" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_ket_prd_3_baru.xml" value="0.241" />
-=======
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/background_insight.xml" value="0.162" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_dialog_bottom.xml" value="0.199" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_light_gray.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_light_orange.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_light_teal.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rect_stroke_light_gray.xml" value="0.199" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rounded_green.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/bg_rounded_top_background_color.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_react_enable.xml" value="0.2" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_disable.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_primary.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/btn_rect_secondary.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/circle_progress.xml" value="0.2" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/fragment_atur_pin.xml" value="0.153" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/ic_baseline_chevron_right_gray.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/drawable/ic_baseline_refresh.xml" value="0.1585" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout-land/activity_initial.xml" value="0.10230263157894737" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/activity_home.xml" value="0.1" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/activity_initial.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/activity_main.xml" value="0.1171448087431694" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_atur.xml" value="0.1" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_atur_headerFooter.xml" value="0.15" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_atur_headerfooter.xml" value="0.11031420765027322" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_cloud_dapur.xml" value="0.14" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_info_builder.xml" value="0.12" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_loading_helper.xml" value="0.10758196721311475" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/dialog_radio_list.xml" value="0.10758196721311475" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_atur_pin.xml" value="0.14" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_atur_produk.xml" value="0.2" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_cek_wa.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_daftar_produk.xml" value="0.1766304347826087" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_info_bisnis.xml" value="0.14" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_info_kontak.xml" value="0.16" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_inisight_pid.xml" value="0.1634963768115942" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_insight_pid.xml" value="0.2" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_login.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_login_pin.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_mode_tampilan.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_nama_device.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_otp.xml" value="0.14" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pilih_cabang.xml" value="0.11577868852459017" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pilih_db.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_pos.xml" value="0.11577868852459017" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_fav_main.xml" value="0.11441256830601093" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_favorite.xml" value="0.11441256830601093" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_lisensi.xml" value="0.25" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_list.xml" value="0.1" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_member_fav.xml" value="0.10040983606557377" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_nota.xml" value="0.18" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_pilih_prd.xml" value="0.1" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_pos.xml" value="0.18" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_produk_fav.xml" value="0.11133879781420765" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_setting_sistem.xml" value="0.16" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_tambah_prd.xml" value="0.22" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_ubah_produk.xml" value="0.1766304347826087" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/fragment_ulangi_pin.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_invoice.xml" value="0.11" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_member_favorite.xml" value="0.14" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_pilih_db.xml" value="0.1503623188405797" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_produk_baru.xml" value="0.2" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_produk_favorite.xml" value="0.14" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/item_radio_button.xml" value="0.11031420765027322" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/layout/list_bidang_usaha.xml" value="0.11577868852459017" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/menu/menu_pos.xml" value="0.12138157894736842" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/menu/menu_reload.xml" value="0.12138157894736842" />
-        <entry key="..\:/KERJA/Bee id/beepos-mobile-kotlin/app/src/main/res/menu/menu_search_fav.xml" value="0.12138157894736842" />
->>>>>>> e7dc9edfa58e3d41a6d9035ad64a2e39fe9e37da
+        <entry key="app/src/main/res/drawable/bg_dialog_bottom.xml" value="0.2955" />
+        <entry key="app/src/main/res/drawable/ic_circle_minus.xml" value="0.2955" />
+        <entry key="app/src/main/res/drawable/ic_diskon_master.xml" value="0.2955" />
+        <entry key="app/src/main/res/drawable/ic_diskon_nota.xml" value="0.2955" />
+        <entry key="app/src/main/res/drawable/ic_group_90.xml" value="0.2955" />
+        <entry key="app/src/main/res/layout/fragment_addon.xml" value="0.3737957610789981" />
+        <entry key="app/src/main/res/layout/fragment_edit_item.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/fragment_promo.xml" value="0.2923076923076923" />
+        <entry key="app/src/main/res/layout/item_addon.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_promo.xml" value="0.2923076923076923" />
+        <entry key="app/src/main/res/layout/item_selection.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_variant.xml" value="0.2794871794871795" />
+        <entry key="app/src/main/res/menu/menu_pos.xml" value="0.1893162393162393" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

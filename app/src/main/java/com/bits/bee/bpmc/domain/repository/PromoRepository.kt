@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface PromoRepository {
 
-    fun getLatestPromo() : Flow<Resource<Promo>>
+    fun getLatestPromo() : Flow<Resource<List<Promo>>>
 
+    fun getActivePromoList() : Flow<List<Promo>>
 }

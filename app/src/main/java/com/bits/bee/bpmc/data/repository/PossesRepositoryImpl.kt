@@ -11,6 +11,7 @@ import com.bits.bee.bpmc.domain.mapper.ItemDataMapper
 import com.bits.bee.bpmc.domain.mapper.PossesDataMapper
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
+import com.bits.bee.bpmc.domain.model.Kitchen
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
+import retrofit2.http.POST
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
@@ -101,50 +103,61 @@ class PossesRepositoryImpl @Inject constructor(
         it.map { PossesDataMapper.fromDbToDomain(it) }
     }.flowOn(defaultDispatcher)
 
-    override suspend fun getNotActivePosses(): Flow<Resource<List<Posses>>> {
+
+    override suspend fun getActivePossesList(): Flow<Resource<List<Posses>>> {
         return flow {
-            val data = possesDao.getNotActivePosses().map { PossesDataMapper.fromDbToDomain(it) }
+            val data = possesDao.getActivePossesList().map { PossesDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getSortDesc(): Flow<PagingData<Posses>> = Pager(
-        config = PagingConfig(
-            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
-            maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = true
-        ),
-        pagingSourceFactory = {
-            possesDao.getSortDesc()
-        }
-    ).flow.mapLatest {
-        it.map { PossesDataMapper.fromDbToDomain(it) }
-    }.flowOn(defaultDispatcher)
+    override fun getSortDesc(): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getSortDesc().map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
 
-    override fun getSortAsc(): Flow<PagingData<Posses>> = Pager(
-        config = PagingConfig(
-            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
-            maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = true
-        ),
-        pagingSourceFactory = {
-            possesDao.getSortAsc()
-        }
-    ).flow.mapLatest {
-        it.map { PossesDataMapper.fromDbToDomain(it) }
-    }.flowOn(defaultDispatcher)
+    override fun getSortAsc(): Flow<Resource<List<Posses>>>{
+        return flow {
+            val data = possesDao.getSortAsc().map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
 
-    override fun getFilter(current: Long, yester: Long): Flow<PagingData<Posses>> = Pager(
-        config = PagingConfig(
-            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
-            maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = true
-        ),
-        pagingSourceFactory = {
-            possesDao.getFilter(current, yester)
-        }
-    ).flow.mapLatest {
-        it.map { PossesDataMapper.fromDbToDomain(it) }
-    }.flowOn(defaultDispatcher)
+    override fun getFilter(current: Long, end: Long): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getFilter(current, end).map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getListPossesHistory(): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getListPossesHistory().map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher) as Flow<Resource<MutableList<Posses>>>
+    }
+
+    override fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<Resource<List<Posses>>> {
+        return flow {
+           val data = possesDao.getJmlPossesByDate(startDate, endDate).map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getFilterAsc(current: Long, end: Long): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getFilterAsc(current, end).map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getFilterDesc(current: Long, end: Long): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getFilterDesc(current, end).map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
 
 }

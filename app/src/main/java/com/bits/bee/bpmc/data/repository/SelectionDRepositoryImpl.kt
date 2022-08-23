@@ -18,14 +18,14 @@ import javax.inject.Inject
  */
 class SelectionDRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val addOnDDao: SelectionDDao,
+    private val selectionDDao: SelectionDDao,
     private val ioDispatcher: CoroutineDispatcher
 ) : SelectionDRepository{
 
     override fun getLatestSelectionDList(): Flow<Resource<List<SelectionD>>> {
         return object : NetworkDatabaseBoundResource<List<SelectionD>, SelectionDResponse>(){
             override suspend fun loadFormDB(): List<SelectionD> {
-                return addOnDDao.getSelectionDList().map { SelectionDDataMapper.fromDbToDomain(it)!! }
+                return selectionDDao.getSelectionDList().map { SelectionDDataMapper.fromDbToDomain(it)!! }
             }
 
             override fun shouldFetch(data: List<SelectionD>?): Boolean {
@@ -37,7 +37,7 @@ class SelectionDRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: SelectionDResponse) {
-                addOnDDao.insertBulk(data.selectionDModels.map { SelectionDDataMapper.fromNetworkToDb(it) })
+                selectionDDao.insertBulk(data.selectionDModels.map { SelectionDDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

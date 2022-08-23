@@ -20,7 +20,7 @@
         android:id="@+id/menu_lainnya"
         android:title="@string/lainnya">
         <menu>
-            <item android:icon="@drawable/ic_diskon_nota"
+            <item android:icon="@drawable/ic_diskon_master"
                 android:id="@+id/menu_diskon"
                 app:showAsAction="withText"
                 android:title="@string/diskon_nota" />

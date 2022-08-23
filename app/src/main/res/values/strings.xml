@@ -290,6 +290,7 @@ untuk memperbarui data dapur?</string>
     <string name="batal">Batal</string>
     <string name="bayar">Bayar</string>
     <string name="diskon">Diskon</string>
+    <string name="diskon_nominal">Diskon %1$s</string>
     <string name="pajak">Pajak</string>
     <string name="pembulatan">Pembulatan</string>
     <string name="_minus_0">(0)</string>
@@ -514,5 +515,11 @@ untuk memperbarui data dapur?</string>
     <string name="detail_produk">Detail Produk</string>
     <string name="pilih_pid_produk">Pilih Pid Produk</string>
     <string name="void_penjualan">Void</string>
+    <string name="last_1_week">1 Minggu Terakhir</string>
+    <string name="last_1_month">1 Bulan Terakhir</string>
+    <string name="last_90_days">90 Hari Terakhir</string>
+    <string name="custom">Custom</string>
+    <string name="selection_name">Selection Name</string>
+    <string name="optional">Optional</string>
 
 </resources>

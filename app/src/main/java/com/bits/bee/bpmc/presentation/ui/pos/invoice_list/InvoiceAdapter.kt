@@ -71,7 +71,7 @@ class InvoiceAdapter(
                 } else {
                     tvLabelItem.visible()
                     tvHargaDiskon.visible()
-                    tvLabelItem.text = context.getString(R.string.diskon)
+                    tvLabelItem.text = context.getString(R.string.diskon_nominal, CurrencyUtils.formatCurrency(model.discAmt))
                 }
                 if(!isDelete){
                     ivDelete.gone()

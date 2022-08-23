@@ -15,23 +15,23 @@ data class PromoEntity(
     @ColumnInfo(name = IS_BRANCH)
     var isBranch : Boolean,
     @ColumnInfo(name = BRANCH_ID)
-    var branchId: Int,
+    var branchId: Int?,
     @ColumnInfo(name = IS_PERIODE)
     var isPeriod : Boolean,
     @ColumnInfo(name = START_DATE)
-    var startDate : String,
+    var startDate : String?,
     @ColumnInfo(name = END_DATE)
-    var endDate: String ,
+    var endDate: String?,
     @ColumnInfo(name = IS_TIME)
     var isTime : Boolean,
     @ColumnInfo(name = START_TIME)
-    var startTime : String,
+    var startTime : String?,
     @ColumnInfo(name = END_TIME)
-    var endTime : String,
+    var endTime : String?,
     @ColumnInfo(name = IS_DOW)
     var isDow: Boolean,
     @ColumnInfo(name = DOWEXP)
-    var dowExp : String,
+    var dowExp : String?,
     @ColumnInfo(name = IS_BPGRP)
     var isBpgrp : Boolean,
     @ColumnInfo(name = OFFER_TYPE)
@@ -41,27 +41,27 @@ data class PromoEntity(
     @ColumnInfo(name = IS_TARGET_ITEM)
     var isTargetItem : Boolean,
     @ColumnInfo(name = ITEM_ID)
-    var itemId : Int,
+    var itemId : Int?,
     @ColumnInfo(name = IS_TARGET_ITGRP)
     var isTargetItgrp : Boolean,
     @ColumnInfo(name = ITGRP_ID)
-    var itgrpId : Int,
+    var itgrpId : Int?,
     @ColumnInfo(name = IS_TARGETBRAND)
     var isTargetBrand : Boolean,
     @ColumnInfo(name = BRAND_ID)
-    var brandId : Int,
+    var brandId : Int?,
     @ColumnInfo(name = IS_TARGET_VENDOR)
     var isTargetVendor : Boolean,
     @ColumnInfo(name = VENDOR_ID)
-    var vendorId : Int,
+    var vendorId : Int?,
     @ColumnInfo(name = IS_MIN_QTY)
     var isMinQty : Boolean,
     @ColumnInfo(name = MIN_QTY)
-    var minQty : Int,
+    var minQty : BigDecimal?,
     @ColumnInfo(name = PRIORITY)
     var priority : Int,
     @ColumnInfo(name = IS_MIN_AMT)
-    var isMinAmt : Int,
+    var isMinAmt : Boolean,
     @ColumnInfo(name = NOTE)
     var note : String,
     @ColumnInfo(name = CODE)
@@ -71,29 +71,29 @@ data class PromoEntity(
     @ColumnInfo(name = PROMO_NAME)
     var promoName : String,
     @ColumnInfo(name = ITEM_DISC_EXP)
-    var itemDiscExp : String,
+    var itemDiscExp : String?,
     @ColumnInfo(name = PROMO_CAT)
     var promoCat : String,
     @ColumnInfo(name = IS_PRICE_OVERIDE)
     var isPriceOveride : Boolean,
     @ColumnInfo(name = DEAL_ITEM_ID)
-    var dealItemId : Int,
+    var dealItemId : Int?,
     @ColumnInfo(name = ITEM_PRICE)
-    var itemPrice : BigDecimal,
+    var itemPrice : BigDecimal?,
     @ColumnInfo(name = IS_MIN_QTY_MULTIPLY)
     var isMinQtyMultiply : Boolean,
     @ColumnInfo(name = IS_MAX_QTY)
     var isMaxQty : Boolean,
     @ColumnInfo(name = MAX_QTY)
-    var maxQty : Int,
+    var maxQty : BigDecimal?,
     @ColumnInfo(name = IS_USED)
-    var isUsed : Boolean,
+    var isUsed : Boolean = false,
     @ColumnInfo(name = IS_ON)
-    var isOn : Boolean,
+    var isOn : Boolean = false,
     @ColumnInfo(name = ISMULTI)
     var isMulti : Boolean,
     @ColumnInfo(name = DEAL_QTY)
-    var dealQty : Int,
+    var dealQty : BigDecimal?,
     @ColumnInfo(name = IS_DEAL_SAME_ITEM)
     var isDealSameItem : Boolean,
 ) {

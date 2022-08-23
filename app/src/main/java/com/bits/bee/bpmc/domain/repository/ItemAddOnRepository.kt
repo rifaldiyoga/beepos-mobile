@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ItemAddOnRepository {
 
-    fun getLatestItemAddOn() : Flow<Resource<ItemAddOn>>
+    fun getLatestItemAddOn() : Flow<Resource<List<ItemAddOn>>>
+
+    fun getItemAddOnByItem(itemId : Int) : Flow<ItemAddOn?>
 
 }

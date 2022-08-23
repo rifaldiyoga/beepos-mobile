@@ -5,17 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bits.bee.bpmc.databinding.ItemMemberBinding
 import com.bits.bee.bpmc.databinding.ItemNestedSesiBinding
-import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Posses
-import com.bits.bee.bpmc.presentation.ui.member.MemberAdapter
 import java.sql.Date
 import java.text.SimpleDateFormat
 
 class NestedSesiAdapter constructor(
-
+    private val mListener: PilihRiwayatSesiI
 ): ListAdapter<Posses, RecyclerView.ViewHolder>(Diffcallback()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
@@ -32,16 +30,16 @@ class NestedSesiAdapter constructor(
 
         fun bind(model : Posses) {
             binding.apply {
-                tvSesi.text = "model.name"
+                tvSesi.text = "Sesi#${model.shift}"
                 tvtotalRekap.text = model.endBal.toString()
 
                 val backToDate = Date(model.trxDate.time)
-                val format = SimpleDateFormat("yyyy.MM.dd")
+                val format = SimpleDateFormat("kk:mm")
 
                 tvRekapWaktu.text = format.format(backToDate)
 
                 clNestedSesi.setOnClickListener {
-
+                    mListener.onclick(model)
                 }
 //                lLContentMember.setOnClickListener {
 //                    onMemberClick(model)
@@ -61,6 +59,10 @@ class NestedSesiAdapter constructor(
             return oldItem.possesId == newItem.possesId
         }
 
+    }
+
+    interface PilihRiwayatSesiI{
+        fun onclick(posses: Posses)
     }
 
 }

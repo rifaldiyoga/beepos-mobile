@@ -12,4 +12,6 @@ interface SelectionRepository {
 
     fun getLatestSelectionList() : Flow<Resource<List<Selection>>>
 
+    fun getSelectionByItem(itemId : Int) : Flow<List<Selection>>
+
 }

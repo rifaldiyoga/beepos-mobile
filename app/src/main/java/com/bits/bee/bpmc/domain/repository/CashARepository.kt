@@ -12,4 +12,5 @@ interface CashARepository {
     fun getLastCasha(): Flow<Resource<List<CashA>>>
 
     fun getCashAByCash(cashId : Int) : Flow<List<CashA>>
+
 }

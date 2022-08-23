@@ -146,6 +146,9 @@ class MainActivity(
                         MainViewModel.UIEvent.NavigateToSearch -> {
                             navController.navigate(R.id.cariItemFragment)
                         }
+                        MainViewModel.UIEvent.NavigateToPromo -> {
+                            navController.navigate(R.id.promoFragment)
+                        }
                     }
                 }
             }
