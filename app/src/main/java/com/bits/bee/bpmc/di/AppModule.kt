@@ -302,6 +302,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun proivdeSyncRepository(apiUtils: ApiUtils, syncDao: SyncDao, defaultDispatcher: CoroutineDispatcher) : SyncRepository {
+        return SyncRepositoryImpl(apiUtils, syncDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
     fun provideWhRepository(apiUtils: ApiUtils,saleCrcvDao: WhDao, dispatcher: CoroutineDispatcher) : WhRepository {
         return WhRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
@@ -358,6 +364,12 @@ object AppModule {
     @Singleton
     fun providePromoRepository(apiUtils: ApiUtils,saleCrcvDao: PromoDao, dispatcher: CoroutineDispatcher) : PromoRepository {
         return PromoRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun proivdeCadjRepository(apiUtils: ApiUtils, cadjDao: CadjDao, defaultDispatcher: CoroutineDispatcher) : CadjRepository {
+        return CadjRepositoryImpl(apiUtils, cadjDao, defaultDispatcher)
     }
 
 }

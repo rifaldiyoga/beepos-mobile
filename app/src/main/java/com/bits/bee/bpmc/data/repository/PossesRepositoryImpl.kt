@@ -111,20 +111,6 @@ class PossesRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getSortDesc(): Flow<Resource<List<Posses>>> {
-        return flow {
-            val data = possesDao.getSortDesc().map { PossesDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
-        }.flowOn(defaultDispatcher)
-    }
-
-    override fun getSortAsc(): Flow<Resource<List<Posses>>>{
-        return flow {
-            val data = possesDao.getSortAsc().map { PossesDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
-        }.flowOn(defaultDispatcher)
-    }
-
     override fun getFilter(current: Long, end: Long): Flow<Resource<List<Posses>>> {
         return flow {
             val data = possesDao.getFilter(current, end).map { PossesDataMapper.fromDbToDomain(it) }
@@ -156,6 +142,13 @@ class PossesRepositoryImpl @Inject constructor(
     override fun getFilterDesc(current: Long, end: Long): Flow<Resource<List<Posses>>> {
         return flow {
             val data = possesDao.getFilterDesc(current, end).map { PossesDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getPossesByCashRefHaventUpload(): Flow<Resource<List<Posses>>> {
+        return flow {
+            val data = possesDao.getPossesByCashRefHaventUpload().map { PossesDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
         }.flowOn(defaultDispatcher)
     }

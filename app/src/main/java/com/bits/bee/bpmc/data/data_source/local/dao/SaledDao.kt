@@ -20,4 +20,8 @@ interface SaledDao : BaseDao<SaledEntity>{
             "group by item_id order by qty DESC LIMIT 10")
     fun getRankItem(possesId: Int): List<RankItemEntity>
 
+    @Query("SELECT a.* FROM saled a JOIN sale b ON b.id = a.sale_id JOIN item c ON c.id = a.item_id " +
+            "WHERE b.isuploaded = 0 AND substr(c.code, -4) = '-DEL'")
+    fun getSaledDeletedItem(): List<SaledEntity>
+
 }

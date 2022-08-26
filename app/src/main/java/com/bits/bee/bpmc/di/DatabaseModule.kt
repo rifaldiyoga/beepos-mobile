@@ -268,8 +268,14 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideStockDao(dbHelper: DbHelper): StockDao{
+    fun provideStockDao(dbHelper: DbHelper): StockDao {
         return dbHelper.stockDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSyncDao(dbHelper: DbHelper): SyncDao{
+        return dbHelper.syncDao
     }
 
     @Provides
@@ -300,6 +306,10 @@ object DatabaseModule {
     @Singleton
     fun provideSelectionDao(dbHelper: DbHelper): SelectionDao{
         return dbHelper.selectionDao
+    }
+
+    fun provideCadjDao(dbHelper: DbHelper): CadjDao{
+        return dbHelper.cadjDao
     }
 
     @Provides

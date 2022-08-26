@@ -91,4 +91,11 @@ class ItemRepositoryImpl @Inject constructor(
         emit(itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
+    override fun getItemById(id: Int): Flow<Resource<Item>> {
+        return flow {
+            val data = itemDao.getItemById(id)
+            emit(Resource.success(ItemDataMapper.fromDbToDomain(data)))
+        }.flowOn(defaultDispatcher)
+    }
+
 }

@@ -1,13 +1,10 @@
 package com.bits.bee.bpmc.data.repository
 
-import com.bits.bee.bpmc.data.data_source.local.dao.BpAddrDao
-import com.bits.bee.bpmc.data.data_source.local.dao.BpDao
-import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
+import com.bits.bee.bpmc.data.data_source.local.dao.CadjDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
-import com.bits.bee.bpmc.data.data_source.remote.response.BpResponse
-import com.bits.bee.bpmc.domain.mapper.BpDataMapper
-import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.repository.BpRepository
+import com.bits.bee.bpmc.domain.mapper.CadjDataMapper
+import com.bits.bee.bpmc.domain.model.Cadj
+import com.bits.bee.bpmc.domain.repository.CadjRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
@@ -24,9 +21,20 @@ import javax.inject.Inject
  */
 class CadjRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
-    private val bpDao: BpDao,
-    private val bpAddrDao : BpAddrDao,
+    private val cadjDao: CadjDao,
     private val ioDispatcher: CoroutineDispatcher
-) {
+): CadjRepository {
+    override fun getCadjByReftypeInOutHaventUpload(): Flow<Resource<List<Cadj>>> {
+        return flow {
+            val data = cadjDao.getCadjByReftypeInOutHaventUpload().map { CadjDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun updateCadj(cadj: Cadj) {
+        withContext(ioDispatcher){
+            cadjDao.update(CadjDataMapper.fromDomainToDb(cadj))
+        }
+    }
 
 }

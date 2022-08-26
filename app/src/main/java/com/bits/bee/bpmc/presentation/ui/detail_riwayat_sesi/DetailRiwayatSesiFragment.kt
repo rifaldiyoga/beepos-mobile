@@ -96,7 +96,7 @@ class DetailRiwayatSesiFragment(
                         }
                         if (mPosses != null){
                             binding.apply {
-                                tvPendapatanSesi.text = "Pendapatan Sesi#${mPosses!!.shift}"
+                                tvPendapatanSesi.text = "Pendapatan Sesi"
                                 tvShift.text = mPosses!!.shift.toString()
 
                                 val startTime = Date(mPosses!!.startTime.time)

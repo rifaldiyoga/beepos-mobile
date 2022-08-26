@@ -66,4 +66,7 @@ interface ItemDao : BaseDao<ItemEntity> {
     @Query("SELECT a.* FROM item a JOIN item_variant b ON b.item_id = a.id WHERE b.variant_id = :variantId")
     fun getItemByVariant(variantId : Int) : List<ItemEntity>
 
+    @Query("SELECT * FROM item where id = :id")
+    fun getItemById(id: Int): ItemEntity
+
 }

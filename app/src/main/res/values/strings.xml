@@ -522,4 +522,13 @@ untuk memperbarui data dapur?</string>
     <string name="selection_name">Selection Name</string>
     <string name="optional">Optional</string>
 
+    <!--Manual Upload-->
+    <string name="konfirmasi">Konfirmasi</string>
+    <string name="yakin_sync_manual">Apakah anda yakin untuk melakukan sync manual ?</string>
+    <string name="no_trans_havent_upload">Tidak Ditemukan Data Transaksi.\nAtau\nSemua Transaksi Telah Berhasil Tersinkronisasi.</string>
+    <string name="cek_koneksi_internet">Untuk Dapat Melanjutkan, Pastikan Koneksi Internet Pada Smartphone Anda Hidup dan Terkoneksi Dengan Baik</string>
+    <string name="coba_lagi">Coba Lagi</string>
+    <string name="cek_koneksi_wifi">Cek koneksi Wi-Fi atau paket data lalu silakan coba lagi, ya!</string>
+    <string name="cek_koneksi_internet_title">Tidak ada koneksi internet</string>
+
 </resources>

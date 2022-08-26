@@ -116,5 +116,36 @@ class SaleRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getSaleHaventUploaded(
+        limit_trx: Long,
+        saledlist: List<Int>
+    ): Flow<Resource<List<Sale>>> {
+        return flow {
+            val delimiter = ","
+            val result = saledlist.joinToString(delimiter)
+            val data = saleDao.getSaleHaventUploaded(limit_trx, result).map { SaleDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override suspend fun updateNewIdCust(oldIdCust: Int, idCust: Int) {
+        withContext(defaultDispatcher){
+            saleDao.updateNewIdCust(oldIdCust, idCust)
+        }
+    }
+
+    override fun getSaleById(id: Int): Flow<Resource<Sale>> {
+        return flow {
+            val data = saleDao.getSaleById(id)
+            emit(Resource.success(SaleDataMapper.fromDbToDomain(data)))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override suspend fun updateSale(sale: Sale) {
+        withContext(defaultDispatcher){
+            saleDao.update(SaleDataMapper.fromDomainToDb(sale))
+        }
+    }
+
 
 }

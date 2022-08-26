@@ -13,4 +13,7 @@ interface CashARepository {
 
     fun getCashAByCash(cashId : Int) : Flow<List<CashA>>
 
+    fun getCashAByRefId(refId : Long, refType : String): Flow<Resource<List<CashA>>>
+
+    suspend fun updateCasha(cashA: CashA)
 }

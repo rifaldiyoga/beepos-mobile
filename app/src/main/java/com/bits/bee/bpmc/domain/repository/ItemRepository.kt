@@ -21,4 +21,6 @@ interface ItemRepository {
 
     fun getItemByVariant(variantId : Int) : Flow<List<Item>>
 
+    fun getItemById(id: Int): Flow<Resource<Item>>
+
 }

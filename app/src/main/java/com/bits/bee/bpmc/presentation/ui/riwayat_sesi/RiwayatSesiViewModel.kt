@@ -17,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class RiwayatSesiViewModel @Inject constructor(
     private val getPossesHistoryUseCase: GetPossesHistoryUseCase,
-    private val getSortingUseCase: GetSortingUseCase,
     private val getFilterSesiUseCase: GetFilterSesiUseCase,
     private val getListPossesHistoryUseCase: GetListPossesHistoryUseCase,
     private val getPossesByDateUseCase: GetPossesByDateUseCase,
@@ -38,18 +37,6 @@ class RiwayatSesiViewModel @Inject constructor(
 
     fun getHistory() = viewModelScope.launch {
 //        possesList = getPossesHistoryUseCase.invoke()
-    }
-
-    fun getListHistory() = viewModelScope.launch {
-//        getListPossesHistoryUseCase.invoke().collect {
-//            it.data?.let {
-//                updateState(
-//                    state.copy(
-//                        listHistoryPosses = it
-//                    )
-//                )
-//            }
-//        }
     }
 
     fun getFilterSorting(desc: Boolean, filter: Int, selectFilter: String) = viewModelScope.launch {
@@ -90,56 +77,6 @@ class RiwayatSesiViewModel @Inject constructor(
 
     }
 
-    fun getSorting(desc: Boolean) = viewModelScope.launch {
-        updateState(
-            state.copy(
-                isDesc = desc
-            )
-        )
-        getSortingUseCase.invoke(desc).collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        listHistoryPosses = it
-                    )
-                )
-            }
-        }
-    }
-
-    fun getFilterDays(filter: Int, selectFilter: String) = viewModelScope.launch {
-        val startDate = Calendar.getInstance()
-        val endDate = Calendar.getInstance()
-        var startRangeTime: Long? = null
-        var endRangeTime: Long? = null
-        if (filter == 0){
-            startDate.add(Calendar.DAY_OF_MONTH, -6)
-        }else if (filter == 1){
-            startDate.add(Calendar.MONTH, -1)
-        }else if (filter == 2){
-            startDate.add(Calendar.MONTH, -3)
-        }else if (filter == 3){
-            val rangeDate = selectFilter.split(" - ").toTypedArray()
-            var startRange = rangeDate[0]
-            var endRange = rangeDate[1]
-            var startDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, startRange)
-            var endDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, endRange)
-            startRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, startDateRange)
-            endRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, endDateRange)
-        }
-        getFilterSesiUseCase.invoke(DateFormatUtils.convertStartDate((if (filter == 3) startRangeTime else startDate.timeInMillis)!!),
-            DateFormatUtils.convertEndDate((if (filter == 3) endRangeTime!! else endDate.timeInMillis))).collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        listHistoryPosses = it
-                    )
-                )
-            }
-        }
-
-    }
-
     fun setListSesi(list: List<Posses>, desc: Boolean) {
         var possesMap : HashMap<Long, MutableList<Posses>>
                 = HashMap()
@@ -174,14 +111,6 @@ class RiwayatSesiViewModel @Inject constructor(
             }
             sesiList.add(Sesi(newMap.key, newMap.value, jmlTrans))
         }
-//        val set: Set<Sesi> = HashSet(sesiList)
-//        sesiList.clear()
-//        sesiList.addAll(set)
-//        if (desc){
-//            sesiList.sortByDescending { it.date }
-//        }else{
-//            sesiList.sortBy { it.date }
-//        }
 
         updateState(
             state.copy(

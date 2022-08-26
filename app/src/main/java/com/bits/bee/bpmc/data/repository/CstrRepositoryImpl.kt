@@ -5,6 +5,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.CstrEntity
 import com.bits.bee.bpmc.domain.mapper.CstrDataMapper
 import com.bits.bee.bpmc.domain.model.Cstr
 import com.bits.bee.bpmc.domain.repository.CstrRepository
+import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -37,6 +38,19 @@ class CstrRepositoryImpl @Inject constructor(
             val data = cstrDao.getLastId()
             emit(data?.let { CstrDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
+    }
+
+    override fun getCstrByReftypeHaventUpload(): Flow<Resource<List<Cstr>>> {
+        return flow {
+            val data = cstrDao.getCstrByReftypeHaventUpload().map { CstrDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override suspend fun updateCstr(cstr: Cstr) {
+        withContext(defaultDispatcher){
+            cstrDao.update(CstrDataMapper.fromDomainToDb(cstr))
+        }
     }
 
 
