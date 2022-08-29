@@ -532,7 +532,12 @@ class UploadManualViewModel @Inject constructor(
 
     }
 
+    fun showDialogNoInternet() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequeatDialog)
+    }
+
     sealed class UIEvent {
         object RequestUpload : UIEvent()
+        object RequeatDialog : UIEvent()
     }
 }

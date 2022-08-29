@@ -83,7 +83,16 @@ class UploadManualFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
+                    when(event){
+                        UploadManualViewModel.UIEvent.RequeatDialog ->{
+                            val dialog = NoInternetDialogBuilder.Builder(requireContext())
+                                .setPositiveCallback {
 
+                                }.build()
+
+                            dialog.show(parentFragmentManager, TAG)
+                        }
+                    }
                 }
             }
         }
@@ -118,8 +127,8 @@ class UploadManualFragment(
         if (ConnectionUtils.checkInternet(requireContext())){
             mMenu!!.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_green)
         }else{
+            viewModel.showDialogNoInternet()
             mMenu!!.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_red)
-            showDialog()
         }
     }
 
@@ -130,15 +139,6 @@ class UploadManualFragment(
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showDialog(){
-        val dialog = NoInternetDialogBuilder.Builder(requireContext())
-            .setPositiveCallback {
-
-            }.build()
-
-        dialog.show(parentFragmentManager, TAG)
     }
 
 }
