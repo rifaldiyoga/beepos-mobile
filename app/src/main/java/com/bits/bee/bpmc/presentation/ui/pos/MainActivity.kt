@@ -48,6 +48,8 @@ class MainActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
+        viewModel.loadData()
+        viewModel.saleTrans.newTrans()
         val mode = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.pref_mode_tampilan), BPMConstants.MODE_FOOD_BEVERAGES)
         viewModel.posModeState.update {
             when(mode){
@@ -55,7 +57,6 @@ class MainActivity(
                else -> PosModeState.RetailState
             }
         }
-
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         initStetho()
@@ -67,11 +68,12 @@ class MainActivity(
         binding.apply {
             setSupportActionBar(toolbar)
 
-            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
-            navController.addOnDestinationChangedListener { _, _, _ ->
-            }
             NavigationUI.setupActionBarWithNavController(this@MainActivity, navController, appBarConfiguration)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
+
+            navController.addOnDestinationChangedListener { _, _, _ ->
+                toolbar.setNavigationIcon(R.drawable.ic_back_white)
+            }
         }
     }
 
@@ -218,5 +220,9 @@ class MainActivity(
         binding.apply {
             clSalesman.isVisible = isVisible
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

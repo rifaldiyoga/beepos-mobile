@@ -68,7 +68,7 @@ class PositemFragment(
                 onMinusClick = {item ->
                     mainViewModel.onMinusClick(item)
                 },
-                mainViewModel.state.saledList
+                mainViewModel.state.saledList,
             )
             posAdapter.addLoadStateListener { loadState ->
                 loadState.decideOnState(
@@ -146,34 +146,6 @@ class PositemFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.itemFlow.collectLatest {
-
-
-
-//                    when(it.status){
-//                        Resource.Status.LOADING -> {
-//                            setVisibilityComponent(true)
-//                        }
-//                        Resource.Status.SUCCESS -> {
-//                            setVisibilityComponent(false)
-//                            it.data?.let { data ->
-//                                viewModel.updateState(
-//                                    viewModel.state.copy(
-//                                        itemList = data
-//                                    )
-//                                )
-//                            }
-//                        }
-//                        Resource.Status.ERROR -> {
-//                            setVisibilityComponent(false)
-//
-//                        }
-//                    }
-                }
-            }
-        }
     }
 
     private fun setVisibilityComponent(isLoading : Boolean) {
@@ -189,7 +161,7 @@ class PositemFragment(
     }
 
     private fun onItemClick(item : Item) {
-        if(item.isVariant || item.isAddOn) {
+        if(item.isVariant || item.isHaveAddOn) {
             val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
             findNavController().navigate(action)
         } else {

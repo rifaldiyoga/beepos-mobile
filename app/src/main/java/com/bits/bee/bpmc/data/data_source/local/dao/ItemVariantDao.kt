@@ -14,4 +14,7 @@ interface ItemVariantDao : BaseDao<ItemVariantEntity>{
     @Query("SELECT * FROM item_variant")
     fun getItemVariantList() : List<ItemVariantEntity>
 
+    @Query("SELECT * FROM item_variant WHERE variant_id = :variantId")
+    fun getItemVariantByVariant(variantId : Int) : List<ItemVariantEntity>
+
 }

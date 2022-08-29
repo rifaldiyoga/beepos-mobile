@@ -27,8 +27,8 @@ class GetSelectionAddOnUseCase @Inject constructor(
         for (data in selection){
             val itemList = itemRepository.getItemBySelection(data.id).first()
             itemList.map {
+                it.isAddOn = true
                 getPriceItemUseCase(it, priceLvlId, bp)
-                it.isVariant = false
             }
             val selectionWithItem = SelectionWithItem(selection = data, itemList = itemList)
             selectionList.add(selectionWithItem)

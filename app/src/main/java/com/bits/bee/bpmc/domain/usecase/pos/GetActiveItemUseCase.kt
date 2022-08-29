@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.repository.ItemAddOnRepository
 import com.bits.bee.bpmc.domain.repository.ItemRepository
+import com.bits.bee.bpmc.domain.repository.ItemVariantRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class GetActiveItemUseCase @Inject constructor(
     private val itemRepository: ItemRepository,
     private val itemAddOnRepository: ItemAddOnRepository,
+    private val itemVariantRepository: ItemVariantRepository,
     private val getPriceItemUseCase: GetPriceItemUseCase
 ) {
 
@@ -27,7 +29,9 @@ class GetActiveItemUseCase @Inject constructor(
             false -> itemRepository.getActiveItemList(query, usePid)
         }.map { data ->
             data.map { item ->
-                item.isAddOn = itemAddOnRepository.getItemAddOnByItem(item.id).first() != null
+                if(item.isVariant)
+                    item.itemVariantList = itemVariantRepository.getItemVariantByVariant(item.id).first().map { it.itemId }
+                item.isHaveAddOn = itemAddOnRepository.getItemAddOnByItem(item.id).first() != null
                 getPriceItemUseCase(item, priceLvlId, bp)
             }
         }

@@ -44,16 +44,9 @@ class ChannelRepositoryImpl  @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getActiveChannelList() : Flow<Resource<List<Channel>>> {
+    override fun getActiveChannelList() : Flow<List<Channel>> {
         return flow {
-            emit(Resource.loading())
-            var data : List<Channel> = mutableListOf()
-            data = channelDao.getActiveChannelList().map { ChannelDataMapper.fromDbToDomain(it) }
-            if(data.isNotEmpty()) {
-                emit(Resource.success(data))
-            } else {
-                emit(Resource.error(null, "Data Kosong"))
-            }
+            emit(channelDao.getActiveChannelList().map { ChannelDataMapper.fromDbToDomain(it) })
         }.flowOn(ioDispatcher)
     }
 }

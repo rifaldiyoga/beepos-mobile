@@ -16,7 +16,7 @@
 
     <ImageView
         android:id="@+id/imageView19"
-        android:layout_width="@dimen/size0"
+        android:layout_width="@dimen/size225"
         android:layout_height="@dimen/size225"
         android:src="@drawable/image_upload_manual"
         android:layout_marginStart="@dimen/size40"
@@ -41,7 +41,6 @@
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupEmpty"
         android:layout_width="wrap_content"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="imageView19, textView97"/>
 

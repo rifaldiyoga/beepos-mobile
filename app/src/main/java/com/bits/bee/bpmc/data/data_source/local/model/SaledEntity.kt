@@ -70,6 +70,8 @@ data class SaledEntity(
     var conv: BigDecimal? = BigDecimal.ZERO,
     @ColumnInfo(name = PID)
     var pid: String? = "",
+    @ColumnInfo(name = TAX_CODE)
+    var taxCode: String? = "",
     @Ignore var isBonus : Boolean = false,
     @Ignore var isBonusUsed : Boolean = false,
     @Ignore var isDeleted : Boolean = true,
@@ -103,5 +105,6 @@ data class SaledEntity(
         const val UNIT_ID = "unit_id"
         const val CONV = "conv"
         const val PID = "pid"
+        const val TAX_CODE = "tax_code"
     }
 }

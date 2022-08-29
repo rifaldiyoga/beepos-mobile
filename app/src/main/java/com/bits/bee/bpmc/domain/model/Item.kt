@@ -30,11 +30,14 @@ data class  Item (
     var isAvailable : Boolean = true,
     var isVariant : Boolean = false,
     var isAddOn : Boolean = false,
+    var isHaveAddOn : Boolean = false,
     var vCode : String? = null,
     var vColor : String? = null,
     var price : BigDecimal = BigDecimal.ZERO,
     var tax : String = "",
+    var taxCode : String = "",
     var crcId: Int = -1,
     var crcSymbol: String = "Rp.",
-    var unitList : List<Unit> = mutableListOf()
+    var unitList : List<Unit> = mutableListOf(),
+    var itemVariantList: List<Int> = mutableListOf()
 ) : Parcelable

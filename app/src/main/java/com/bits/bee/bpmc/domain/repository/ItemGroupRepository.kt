@@ -21,4 +21,6 @@ interface ItemGroupRepository {
 
     fun getItemgrpKitchen(): Flow<Resource<List<ItemGroup>>>
 
+    fun getItemgrpAddOn() : Flow<ItemGroup?>
+
 }

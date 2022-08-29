@@ -11,4 +11,5 @@ interface ItemVariantRepository {
 
     fun getLatestItemVariantList() : Flow<Resource<List<ItemVariant>>>
 
+    fun getItemVariantByVariant(variantId : Int) : Flow<List<ItemVariant>>
 }

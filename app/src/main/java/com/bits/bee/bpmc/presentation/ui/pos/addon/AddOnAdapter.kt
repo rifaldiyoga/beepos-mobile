@@ -25,7 +25,6 @@ class AddOnAdapter(
     private var selectedPosition : Int = -1,
     private var selectionPosition : Int = 0,
     private val isMultiSelect : Boolean = false,
-    private val isVariant : Boolean = false,
     private val isMultiQty : Boolean = false,
     private val addOnI : AddOnI,
     private val selectionAdapter: SelectionAdapter? = null,
@@ -83,16 +82,14 @@ class AddOnAdapter(
 
                 addOnSelected.observe(lifecycleScope) { items ->
                     if(items.isNotEmpty()){
-                        if(items.contains(model)){
-                            val item = items.findLast {
-                                it.id == model.id
-                            }
-                            item?.let {
+                        val itemIdList = items.map { it.id }
+                        if(itemIdList.contains(model.id)){
+                            items.lastOrNull{ it.id == model.id }?.let {
                                 cbItem.isChecked = it.qty > BigDecimal.ZERO
                                 rbItem.isSelected = it.qty > BigDecimal.ZERO
                                 model.qty = it.qty
                                 tvQty.text = CurrencyUtils.formatCurrency(it.qty)
-
+                                selectedPosition = itemIdList.indexOf(it.id)
                                 bindView(model.qty)
                             }
                         } else {

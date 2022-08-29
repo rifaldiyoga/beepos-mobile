@@ -207,7 +207,8 @@ class PosFragment(
     private fun getQtyDetail(saledList : List<Saled>) : BigDecimal {
         var qty = BigDecimal.ZERO
         saledList.forEach {
-            qty = qty.add(it.qty)
+            if(!it.isAddOn)
+                qty = qty.add(it.qty)
         }
         return qty
     }

@@ -22,8 +22,8 @@
 
             <include
                 android:id="@+id/layoutVariant"
-                android:layout_width="match_parent"
                 layout="@layout/item_selection"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
 

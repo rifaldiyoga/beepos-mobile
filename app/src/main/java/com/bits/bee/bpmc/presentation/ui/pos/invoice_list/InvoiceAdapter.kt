@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemInvoiceBinding
 import com.bits.bee.bpmc.databinding.ItemInvoiceRetailBinding
 import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
@@ -23,7 +25,8 @@ class InvoiceAdapter(
     private val onItemClicK : (Saled) -> Unit,
     private val onDeleteClick : (Saled) -> Unit,
     private val isDelete : Boolean = true,
-    private val modePos : PosModeState = PosModeState.FnBState
+    private val modePos : PosModeState = PosModeState.FnBState,
+    private val saleTrans: SaleTrans
 ) : ListAdapter<Saled, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -60,9 +63,9 @@ class InvoiceAdapter(
         override fun bind(model : Saled) {
             binding.apply {
                 val context = binding.root.context
+                var subtotal = model.subtotal
                 tvNamaItem.text = model.name
                 tvQty.text = CurrencyUtils.formatCurrency(model.qty)
-                tvHarga.text =  context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(model.subtotal))
                 tvHargaDiskon.text = context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(model.listPrice * model.qty))
 
                 if(model.discAmt.compareTo(BigDecimal.ZERO) == 0){
@@ -77,7 +80,7 @@ class InvoiceAdapter(
                     ivDelete.gone()
                 }
 
-                tvAddon.gone()
+                rvAddon.isVisible = saleTrans.addOnTrans != null && saleTrans.addOnTrans!!.getListDetail().find { it.upSaledId == model } != null
 
                 clContent.setOnClickListener {
                     onItemClicK(model)
@@ -85,6 +88,24 @@ class InvoiceAdapter(
                 ivDelete.setOnClickListener {
                     onDeleteClick(model)
                 }
+
+                saleTrans.addOnTrans?.let { addOnTrans ->
+                    val addOnAdapter = InvoiceAddOnAdapter(model.qty)
+
+                    rvAddon.apply {
+                        adapter = addOnAdapter
+                        layoutManager = LinearLayoutManager(context)
+                    }
+
+                    val saledAddonList = saleTrans.getSaledByUpSaledList(model)
+                    addOnAdapter.submitList(saledAddonList)
+
+                    saledAddonList.forEach {
+                        subtotal += it?.subtotal ?: BigDecimal.ZERO
+                    }
+                }
+
+                tvHarga.text =  context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(subtotal))
             }
         }
     }

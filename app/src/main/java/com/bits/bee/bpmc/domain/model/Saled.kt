@@ -41,5 +41,8 @@ data class Saled (
     var unitId : Int? = -1,
     var unit : String? = "",
     var conv : BigDecimal? = BigDecimal.ZERO,
-    var pid : String? = ""
+    var pid : String? = "",
+    var isAddOn : Boolean = false,
+    var taxCode : String? = "",
+    var item : Item? = null
 ) : Parcelable

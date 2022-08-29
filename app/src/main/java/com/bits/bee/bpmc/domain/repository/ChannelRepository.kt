@@ -11,6 +11,6 @@ interface ChannelRepository {
 
     fun getChannelList() : Flow<Resource<List<Channel>>>
 
-    fun getActiveChannelList() : Flow<Resource<List<Channel>>>
+    fun getActiveChannelList() : Flow<List<Channel>>
 
 }

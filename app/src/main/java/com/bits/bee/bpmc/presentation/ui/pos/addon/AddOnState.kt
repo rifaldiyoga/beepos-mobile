@@ -1,9 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.addon
 
-import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.model.Item
-import com.bits.bee.bpmc.domain.model.SelectionWithItem
-import com.bits.bee.bpmc.domain.model.VariantWithItem
+import com.bits.bee.bpmc.domain.model.*
 import java.math.BigDecimal
 
 /**
@@ -16,6 +13,7 @@ data class AddOnState(
     val selectionList : List<SelectionWithItem> = mutableListOf(),
     val variantWithItem: VariantWithItem? = null,
     val qty : BigDecimal = BigDecimal.ONE,
-    val selectedAddOnList : List<Item> = mutableListOf(),
-    var subtotal : BigDecimal = BigDecimal.ZERO
+    val selectedAddOnList : List<Saled?> = mutableListOf(),
+    var subtotal : BigDecimal = BigDecimal.ZERO,
+    val saled : Saled? = null
 )

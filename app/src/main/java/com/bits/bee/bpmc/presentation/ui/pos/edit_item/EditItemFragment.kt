@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -13,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentEditItemBinding
 import com.bits.bee.bpmc.domain.model.Item
@@ -25,6 +27,7 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.removeSymbol
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -86,6 +89,20 @@ class EditItemFragment(
             etDiskon.setText(state.diskon)
             etCatatan.setText(state.note)
 
+            mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
+                groupAddon.visible()
+                state.saled?.let { saled ->
+                    val addOnAdapter = EditItemAddOnAdapter(saled.qty)
+                    rvAddon.apply {
+                        layoutManager = LinearLayoutManager(requireActivity())
+                        adapter = addOnAdapter
+                    }
+                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaledId }.map { it.saledId }
+                    state.addOnList = saledList
+                    addOnAdapter.submitList(saledList)
+                }
+            }
+
             etHarga.addNumberFormatChange()
             etQty.addNumberFormatChange()
         }
@@ -118,6 +135,9 @@ class EditItemFragment(
             }
             llNext.setOnClickListener {
                 viewModel.onClickSubmit()
+            }
+            tvUbah.setOnClickListener {
+                viewModel.onClickAddOn()
             }
         }
     }
@@ -154,6 +174,10 @@ class EditItemFragment(
                         is EditItemViewModel.UIEvent.RequestAdd -> {
                             mViewModel.onAddDetail(it.itemWithUnit, true)
                             findNavController().popBackStack(R.id.posFragment, false)
+                        }
+                        is EditItemViewModel.UIEvent.NavigateToAddOn -> {
+                            val action = EditItemFragmentDirections.actionEditItemDialogToAddOnFragment(it.item, mViewModel.state.bp!!, saled = it.saled)
+                            findNavController().navigate(action)
                         }
                     }
                 }

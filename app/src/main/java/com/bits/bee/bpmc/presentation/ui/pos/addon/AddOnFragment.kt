@@ -3,13 +3,17 @@ package com.bits.bee.bpmc.presentation.ui.pos.addon
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAddonBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.ItemWithUnit
+import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -30,7 +34,7 @@ class AddOnFragment(
 
     private val viewModel : AddOnViewModel by viewModels()
 
-    private val mainViewModel : MainViewModel by viewModels()
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     private lateinit var selectionAdapter : SelectionAdapter
 
@@ -50,12 +54,19 @@ class AddOnFragment(
                     rvListAddOn.isVisible = !it.isVariant
                 }
                 val bp = it.getParcelable<Bp>("bp")
+                val saled = it.getParcelable<Saled>("saled")
+                saled?.let {
+                    layoutVariant.root.gone()
+                    rvListAddOn.visible()
+                }
                 val priceLvlId = it.getInt("priceLvlId")
                 viewModel.updateState(
                     viewModel.state.copy(
                         item = item,
                         bp = bp,
-                        priceLvlId = priceLvlId
+                        priceLvlId = priceLvlId,
+                        saled = saled,
+                        qty = saled?.qty ?: BigDecimal.ONE
                     )
                 )
             }
@@ -67,7 +78,6 @@ class AddOnFragment(
                 this@AddOnFragment
             )
             variantAdapter = AddOnAdapter(
-                isVariant = true,
                 addOnSelected = viewModel.selectedAddOn,
                 lifecycleScope = viewLifecycleOwner,
                 addOnI = this@AddOnFragment
@@ -84,6 +94,13 @@ class AddOnFragment(
         }
 
         viewModel.loadData()
+        viewModel.state.saled?.let {
+            mainViewModel.saleTrans.getSaledByUpSaledList(it).map { it?.item }.forEach {
+                it?.let {
+                    viewModel.addItemSelectedList(it)
+                }
+            }
+        }
     }
 
     override fun subscribeListeners() {
@@ -103,8 +120,13 @@ class AddOnFragment(
                 )
             }
             llNext.setOnClickListener {
-                val a = viewModel.getSelectedAddOn()
-                print(a)
+                val selectedList = viewModel.getSelectedAddOn()
+                val variant = selectedList.firstOrNull{ it.isVariant && !it.isAddOn }
+                val addOnList = selectedList.filter { it.isAddOn }
+                for (i in 1..viewModel.state.qty.toInt()){
+                    mainViewModel.onAddAddOn(if(variant!= null) ItemWithUnit(variant) else null , addOnList.map { ItemWithUnit(it) })
+                }
+                findNavController().popBackStack()
             }
         }
     }
@@ -147,8 +169,7 @@ class AddOnFragment(
     }
 
     override fun onItemClick(item: Item) {
-        if(item.isVariant){
-            val state = mainViewModel.state
+        if(item.isVariant && !item.isAddOn){
             binding.rvListAddOn.visible()
             viewModel.clearSelectedAddOn()
             selectionAdapter.notifyDataSetChanged()
@@ -157,7 +178,7 @@ class AddOnFragment(
     }
 
     override fun onDeselect(item: Item) {
-        if(item.isVariant){
+        if(item.isVariant && !item.isAddOn){
             binding.rvListAddOn.gone()
             viewModel.clearSelectedAddOn()
         }

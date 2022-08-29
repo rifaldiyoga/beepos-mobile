@@ -36,9 +36,9 @@ class DownloadViewModel @Inject constructor (
 
     private fun downloadAll() = viewModelScope.launch(Dispatchers.Main) {
         downloadItemGroup()
+        downloadPriceLvl()
         downloadChannel()
         downloadBp()
-        downloadPriceLvl()
         downloadItem()
         downloadCity()
         downloadPrice()

@@ -26,7 +26,7 @@ import java.math.BigDecimal
 class ItemPosAdapter constructor(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
-    private var saledList : List<Saled>
+    private var saledList : List<Saled>,
 ) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()){
 
     fun submitSaledList(list : List<Saled>) {
@@ -116,7 +116,7 @@ class ItemPosAdapter constructor(
     private fun getSumQty(item : Item) : BigDecimal {
         var qty = BigDecimal.ZERO
         saledList.forEach {
-            if(item.id == it.itemId)
+            if(item.id == it.itemId || (item.isVariant && item.itemVariantList.contains(it.itemId)))
                 qty = qty.add(it.qty)
         }
         return qty

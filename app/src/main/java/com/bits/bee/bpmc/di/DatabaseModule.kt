@@ -326,4 +326,15 @@ object DatabaseModule {
         return dbHelper.promoDao
     }
 
+    @Provides
+    @Singleton
+    fun provideSaleAddOnDao(dbHelper: DbHelper): SaleAddOnDao{
+        return dbHelper.saleAddOnDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaleAddOnDDao(dbHelper: DbHelper): SaleAddOnDDao{
+        return dbHelper.saleAddOnDDao
+    }
 }

@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -45,5 +47,9 @@ class ItemVariantRepositoryImpl @Inject constructor(
             }
         }.getAsFlow()
     }
+
+    override fun getItemVariantByVariant(variantId: Int): Flow<List<ItemVariant>>  = flow {
+        emit(itemVariantDao.getItemVariantByVariant(variantId).map { ItemVariantDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }

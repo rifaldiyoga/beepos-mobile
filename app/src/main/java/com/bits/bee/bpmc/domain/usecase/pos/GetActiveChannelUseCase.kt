@@ -14,7 +14,7 @@ class GetActiveChannelUseCase @Inject constructor(
     private val channelRepository: ChannelRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<List<Channel>>> {
+    operator fun invoke(): Flow<List<Channel>> {
         return channelRepository.getActiveChannelList()
     }
 

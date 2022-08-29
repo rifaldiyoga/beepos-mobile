@@ -47,7 +47,7 @@
                     android:layout_height="@dimen/size36"
                     android:layout_margin="@dimen/size10"
                     android:padding="@dimen/size8"
-                    android:src="@drawable/ic_close_gray"
+                    android:src="@drawable/ic_close"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

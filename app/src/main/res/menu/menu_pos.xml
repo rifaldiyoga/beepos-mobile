@@ -11,7 +11,7 @@
     <item
         android:title="@string/member"
         android:id="@+id/menu_draft"
-        android:icon="@drawable/ic_people"
+        android:icon="@drawable/ic_draft"
         app:showAsAction="always"/>
 
     <item

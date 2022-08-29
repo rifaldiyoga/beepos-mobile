@@ -116,9 +116,16 @@ class EditItemViewModel @Inject constructor(
         }
     }
 
+    fun onClickAddOn() = viewModelScope.launch {
+        state.saled?.let {
+            eventChannel.send(UIEvent.NavigateToAddOn(it.item!!, it))
+        }
+    }
+
     sealed class UIEvent {
         data class RequestSubmit(val saled: Saled) : UIEvent()
         data class RequestAdd(val itemWithUnit: ItemWithUnit) : UIEvent()
+        data class NavigateToAddOn(val item: Item, val saled : Saled) : UIEvent()
     }
 
 }

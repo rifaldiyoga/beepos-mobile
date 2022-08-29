@@ -24,7 +24,7 @@
         android:id="@+id/imag_close"
         android:layout_width="@dimen/size36"
         android:layout_height="@dimen/size36"
-        android:src="@drawable/ic_close_gray"
+        android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

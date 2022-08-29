@@ -21,13 +21,14 @@ class GetPriceItemUseCase @Inject constructor(
     suspend operator fun invoke(item : Item, priceLvlId : Int, bp: Bp) : Item {
 //        if (!item.isVariant) {
             val price = priceRepository.getPriceByPriceLvl(priceLvlId, item.id).first()
-            val tax = itemSaleTaxRepository.getItemTaxByCodeItem(item.code).first()?.expr ?: ""
+            val tax = itemSaleTaxRepository.getItemTaxByCodeItem(item.code).first()
             val crc = getDefaultCrc().first()
 
             val saleistaxed = bp.isTaxedOnSale
             val saletaxinc = bp.isTaxIncOnSale
 
-            item.tax = tax.replace("%", "")
+            item.tax = tax?.expr?.replace("%", "") ?: ""
+            item.taxCode = tax?.calcMtd ?: ""
             item.price = price?.price ?: BigDecimal.ZERO
             item.crcSymbol = crc?.symbol ?: ""
             item.crcId = crc?.id!!

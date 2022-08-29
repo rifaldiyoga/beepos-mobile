@@ -275,6 +275,12 @@
             android:name="priceLvlId"
             app:argType="integer"
             android:defaultValue="1" />
+        <argument
+            android:name="saled"
+            app:argType="com.bits.bee.bpmc.domain.model.Saled"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
     </fragment>
     <fragment
         android:id="@+id/positemFragment"

@@ -53,7 +53,6 @@ class DiskonNotaDialog(
                 viewModel.event.collect {
                     when(it){
                         is DiskonNotaViewModel.UIEvent.RequestDiskonNota -> {
-                            mViewModel.diskonMaster(it.diskon)
                             dismiss()
                         }
                     }

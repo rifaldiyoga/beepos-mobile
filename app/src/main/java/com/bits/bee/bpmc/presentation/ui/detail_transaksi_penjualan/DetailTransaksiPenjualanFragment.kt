@@ -61,11 +61,11 @@ class DetailTransaksiPenjualanFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
-        detailAdapter = InvoiceAdapter(
-            onItemClicK = {},
-            onDeleteClick = {},
-            isDelete = false
-        )
+//        detailAdapter = InvoiceAdapter(
+//            onItemClicK = {},
+//            onDeleteClick = {},
+//            isDelete = false
+//        )
         binding.apply {
             rvList.apply {
                 adapter = detailAdapter

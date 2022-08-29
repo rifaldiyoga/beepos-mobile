@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.data.trans
+package com.bits.bee.bpmc.domain.trans
 
 /**
  * Created by aldi on 18/05/22.
@@ -16,11 +16,12 @@ abstract class BaseTrans<M , D> {
 
     abstract fun loadTrans(var1 : M)
 
-    fun getMaster() : M{
+
+    open fun getMaster() : M{
         return this.mTblMaster!!
     }
 
-    fun getListDetail() : List<D> {
+    fun getListDetail() : MutableList<D> {
         return this.mTblDetail
     }
 

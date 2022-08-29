@@ -55,8 +55,8 @@ class InvoiceListFragment(
                 onDeleteClick = {saled ->
                     mainViewModel.onDeleteDetail(saled)
                 },
-                modePos = mainViewModel.posModeState.value
-            )
+                modePos = mainViewModel.posModeState.value,
+                saleTrans = mainViewModel.saleTrans)
             rvList.apply {
                 adapter = invoiceAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -73,7 +73,7 @@ class InvoiceListFragment(
                 mainViewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
-                            invoiceAdapter.submitList(it.saledList)
+                            invoiceAdapter.submitList(it.saledList.filter { !it.isAddOn })
                         }
                     }
                 }

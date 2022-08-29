@@ -58,7 +58,7 @@ class AddOnViewModel @Inject constructor(
 
     fun loadData() = viewModelScope.launch {
         state.item?.let{ item ->
-            if(item.isVariant)
+            if(item.isVariant && state.saled == null)
                 getVariant(item.id)
             else
                 getSelection(item)

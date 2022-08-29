@@ -91,4 +91,9 @@ class ItemGroupRepositoryImpl @Inject constructor(
             }            }
         }
 
+    override fun getItemgrpAddOn(): Flow<ItemGroup?> = flow<ItemGroup?> {
+        val data = itemGroupDao.getItgrpAddOn()
+        emit(data?.let { ItemGroupDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
+
 }

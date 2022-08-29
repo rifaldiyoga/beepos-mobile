@@ -1,29 +1,24 @@
 package com.bits.bee.bpmc.presentation.ui.pos
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.data.calc.SaleCalc
-import com.bits.bee.bpmc.domain.model.Item
-import com.bits.bee.bpmc.domain.model.ItemWithUnit
-import com.bits.bee.bpmc.domain.model.Sale
-import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.GetItemGroupAddOnUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.CalcUtils
-import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.extension.mapButReplace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.math.RoundingMode
 import javax.inject.Inject
 
 
@@ -38,10 +33,9 @@ class MainViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
-    private val getSaledListUseCase: GetSaledListUseCase
+    private val getSaledListUseCase: GetSaledListUseCase,
+    private val getItemGroupAddOnUseCase: GetItemGroupAddOnUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
-
-    private val roundVal = 0
 
     private val _posModeState: MutableStateFlow<PosModeState>
             = MutableStateFlow(PosModeState.RetailState)
@@ -49,89 +43,46 @@ class MainViewModel @Inject constructor(
     val posModeState : MutableStateFlow<PosModeState>
         get() = _posModeState
 
+    private val _saleTrans: SaleTrans = SaleTrans()
+
+    val saleTrans : SaleTrans = SaleTrans()
 
     init {
         state = MainState()
-        getDefaultBp()
-        getChannelList()
-        getActivePosses()
-        getActiveBranch()
-        getActiveCashier()
-        getActiveCrc()
     }
 
-    private fun getActiveCrc() = viewModelScope.launch {
-        getDefaultCrcUseCase().collect {
-            state.sale.crcId = it?.id ?: throw Exception("")
-            updateState(
-                state.copy(
-                    crc = it
-                )
+    fun loadData() = viewModelScope.launch {
+        combine(
+            getDefaultCrcUseCase(),
+            getActivePossesUseCase(),
+            getActiveBranchUseCase(),
+            getActiveCashierUseCase(),
+            getActiveChannelUseCase(),
+            getDefaultBpUseCase(),
+            getItemGroupAddOnUseCase()
+        ) { array ->
+            val crc = array[0] as Crc?
+            val posses = array[1] as Posses?
+            val branch = array[2] as Branch
+            val cashier = array[3] as Cashier
+            val channelList = array[4] as List<Channel>
+            val bp = array[5] as Bp
+            val itgrpAddOn = array[6] as ItemGroup?
+
+            state.copy(
+                crc = crc,
+                activePosses = posses,
+                activeBranch = branch,
+                activeCashier = cashier,
+                channelList = channelList,
+                bp = bp,
+                itgrpAddOn = itgrpAddOn
             )
-        }
-    }
-
-
-    fun getActivePosses() = viewModelScope.launch {
-        getActivePossesUseCase().collect {
-            updateState(
-                state.copy(
-                    activePosses = it
-                )
-            )
-        }
-    }
-
-    fun getActiveBranch() = viewModelScope.launch {
-        getActiveBranchUseCase().collect {
-            updateState(
-                state.copy(
-                    activeBranch = it
-                )
-            )
-        }
-    }
-
-    fun getActiveCashier() = viewModelScope.launch {
-        getActiveCashierUseCase().collect {
-            updateState(
-                state.copy(
-                    activeCashier = it
-                )
-            )
-        }
-    }
-
-    fun getChannelList() = viewModelScope.launch {
-        getActiveChannelUseCase().collect {
-            when(it.status){
-                Resource.Status.LOADING -> {
-
-                }
-                Resource.Status.SUCCESS -> {
-                    it.data?.let { data ->
-                        updateState(
-                            state.copy(
-                                channelList = data,
-                                channel = data[0]
-                            )
-                        )
-                    }
-                }
-                Resource.Status.ERROR -> {
-
-                }
-            }
-        }
-    }
-
-    fun getDefaultBp() = viewModelScope.launch {
-        getDefaultBpUseCase().collect{
-            updateState(
-                state.copy(
-                    bp = it
-                )
-            )
+        }.collect {
+//            saleTrans.newTrans()
+            saleTrans.setBp(it.bp!!)
+            saleTrans.setGrpAddOn(it.itgrpAddOn)
+            updateState(it)
         }
     }
 
@@ -143,7 +94,6 @@ class MainViewModel @Inject constructor(
                     saledList = it.toMutableList()
                 )
             )
-            calculate()
             deployData()
         }
     }
@@ -172,18 +122,39 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToPromo)
     }
 
-    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) = viewModelScope.launch {
-        addDetail(
+    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) {
+        saleTrans.addDetail(
             itemWithUnit = item,
             useItemqty = useItemqty,
         )
-        calculate()
+        saleTrans.mergeAddon()
+        saleTrans.mergeItemAddon()
         deployData()
-        diskonMaster(state.sale.discExp)
+    }
+
+    fun onAddAddOn(variant: ItemWithUnit?, addOnList : List<ItemWithUnit>) {
+        variant?.let {
+            onAddDetail(it)
+        }
+        for(addOn in addOnList){
+            saleTrans.addDetail(
+                itemWithUnit = addOn
+            )
+        }
+        saleTrans.mergeAddon()
+        saleTrans.mergeItemAddon()
+        deployData()
+    }
+
+    fun addAddOn(item : ItemWithUnit) {
+        saleTrans.addDetail(
+            itemWithUnit = item,
+        )
+        deployData()
     }
 
     fun onMinusClick(item : Item) {
-        val saled = state.saledList.firstOrNull {
+        val saled = saleTrans.getListDetail().firstOrNull {
             item.id == it.itemId
         }
         saled?.let {
@@ -196,279 +167,45 @@ class MainViewModel @Inject constructor(
     }
 
     fun onDeleteDetail(saled: Saled) = viewModelScope.launch {
-        deleteDetail(saled)
-        calculate()
+        if(saled.item?.isVariant == true) {
+            saleTrans.addOnTrans?.let {
+                var saledRemoveList = mutableListOf<Saled>()
+                val saledAddOnList = it.getListDetail().filter { it.upSaledId == saled }.map { it.saledId }
+                saledAddOnList.forEach { saled1 ->
+                    saleTrans.getListDetail().forEach { saled ->
+                        if(saled1 == saled)
+                            saledRemoveList.add(saled)
+                    }
+                }
+                for (saled in saledRemoveList){
+                    saleTrans.deleteDetail(saled)
+                }
+            }
+        }
+        saleTrans.deleteDetail(saled)
+        saleTrans.mergeAddon()
+        saleTrans.mergeItemAddon()
         deployData()
-        diskonMaster(state.sale.discExp)
     }
 
     fun onEditDetail(saled: Saled) = viewModelScope.launch {
-        editDetail(saled)
-        calculate()
+        saleTrans.editDetail(saled)
         deployData()
-        diskonMaster(state.sale.discExp)
     }
-
-//    fun addTransaction() = viewModelScope.launch {
-//        addTransactionUseCase(state.sale, state.saledList)
-//    }
-
 
     fun resetState(){
         updateState(
             MainState()
         )
-        getDefaultBp()
-        getChannelList()
-        getActivePosses()
-        getActiveBranch()
-        getActiveCashier()
+        loadData()
     }
 
-    private fun addDetail(itemWithUnit: ItemWithUnit, isBonus: Boolean = false, useItemqty: Boolean = false) {
-        val item = itemWithUnit.item
-        val discExp = itemWithUnit.discExp
-        val discAmt = itemWithUnit.discAmt
-        val unit = itemWithUnit.unit
-        val pid = itemWithUnit.pid
-
-        if (state.saledList.isEmpty()) {
-            val saledNew = Saled(
-                itemId = item.id,
-                itemCode = item.code,
-                listPrice = item.price,
-                qty = if(useItemqty) item.qty else BigDecimal.ONE,
-                name = item.name1,
-                discExp = discExp,
-                discAmt = discAmt,
-                disc2Amt = BigDecimal.ZERO,
-                isBonus = isBonus,
-                isBonusUsed = isBonus,
-                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
-                crcId = item.crcId,
-                crcSymbol = item.crcSymbol,
-                unitId = unit?.id,
-                unit = unit?.unit,
-                conv = unit?.conv,
-                pid = pid
-            )
-            addDetail(saledNew)
-//            currentSaled = saledNew
-        } else {
-            var isNew = true
-            for (saled in state.saledList) {
-                if (saled.itemId == item.id
-//                    && !ItemAddOnDao.itemAddOnDao().checkAddon(item)
-//                    && (grpAddon == null || grpAddon != null && item.itemGrpId !== grpAddon.id())
-                    && saled.isBonus == isBonus
-                ) {
-                    saled.listPrice = item.price
-                    saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
-                    if (saled.disc != BigDecimal.ZERO) {
-                        if (!saled.discExp.contains("%")) {
-                            saled.disc = saled.disc
-                            saled.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
-                            saled.discExp = saled.discExp
-                        } else if (saled.discExp.contains("%")) {
-                            saled.disc = saled.disc
-                            saled.discAmt =
-                                saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
-                                    .divide(BigDecimal(100), BPMConstants.MC_FOUR)
-                                    .setScale(roundVal, RoundingMode.HALF_UP)
-
-                            saled.discExp = saled.discExp
-                        }
-                    }
-//                    currentSaled = saled
-                    isNew = false
-                    //                    PromoCalc.instance().generatePromoItem(saled);
-//                    calculate()
-                    break
-                }
-            }
-
-
-            val saledNew = Saled(
-                itemId = item.id,
-                itemCode = item.code,
-                listPrice = item.price,
-                qty = if(useItemqty) item.qty else BigDecimal.ONE,
-                name = item.name1,
-                discExp = "0",
-                disc2Amt = BigDecimal.ZERO,
-                isBonus = isBonus,
-                isBonusUsed = isBonus,
-                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
-                crcId = item.crcId,
-                crcSymbol = item.crcSymbol,
-                unitId = unit?.id,
-                unit = unit?.unit,
-                conv = unit?.conv,
-                pid = pid
-            )
-            var saledList = mutableListOf<Saled>()
-            saledList.addAll(state.saledList)
-            var saled  = saledList.filter { it.itemId == item.id }.firstOrNull()
-            saled?.let {
-                saledNew.listPrice = item.price
-                saledNew.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
-                if (saledNew.disc != BigDecimal.ZERO) {
-                    if (!saledNew.discExp.contains("%")) {
-                        saledNew.disc = saled.disc
-                        saledNew.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
-                        saledNew.discExp = saled.discExp
-                    } else if (saledNew.discExp.contains("%")) {
-                        saledNew.disc = saled.disc
-                        saledNew.discAmt =
-                            saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
-                                .divide(BigDecimal(100), BPMConstants.MC_FOUR)
-                                .setScale(roundVal, RoundingMode.HALF_UP)
-
-                        saledNew.discExp = saled.discExp
-                    }
-                }
-                val list = saledList.mapButReplace(
-                    saled,
-                    saledNew
-                )
-                updateState(
-                    state.copy(
-                        saledList = list.toMutableList()
-                    )
-                )
-            } ?: run {
-                addDetail(saledNew)
-            }
-
-//                currentSaled = saledNew
-
-        }
-//        if (grpAddon != null && item.itemGrpId === grpAddon.id()) {
-//            if (addOnTrans == null) {
-//                addOnTrans = AddOnTrans()
-//                addOnTrans.New()
-//                addOnTrans.getMaster().setSale(mTblMaster)
-//            }
-//            val saleAddOnD = SaleAddOnD()
-//            saleAddOnD.setSaleAddOn(addOnTrans.getMaster())
-//            saleAddOnD.setSaled(currentSaled)
-//            saleAddOnD.setUp_saled(saledParent)
-//            addOnTrans.addDetail(saleAddOnD)
-//        } else {
-//            saledParent = currentSaled
-//        }
-//        if (isBonus) {
-        //Tambah salebonus apabila item bonus
-//            PromoCalc.instance()
-//                .addSalePromoItem(promoBonus.getPromo(), promoBonus.getSaled(), currentSaled)
-//        }
-    }
-
-    private fun addDetail(saled : Saled) {
-        var saledList = mutableListOf<Saled>()
-        saledList.addAll(state.saledList)
-        saledList.add(saled)
+     fun deployData() = viewModelScope.launch {
+        val saledList = mutableListOf<Saled>()
+        saledList.addAll(saleTrans.getListDetail())
         updateState(
             state.copy(
-                saledList = saledList
-            )
-        )
-    }
-
-    private fun editDetail(saledEdit: Saled) {
-        val saledList = mutableListOf<Saled>()
-        saledList.addAll(state.saledList)
-        val saled  = saledList.filter { it.itemId == saledEdit.itemId }.firstOrNull()
-        saled?.let {
-            val list = saledList.map {
-                if(it.itemId == saled.itemId) {
-                    saledEdit
-                } else {
-                    it
-                }
-            }
-            updateState(
-                state.copy(
-                    saledList = list.toMutableList()
-                )
-            )
-        }
-//        for (saled in state.saledList){
-//            if(saled == saledEdit){
-//                editSaled(saled, saledEdit)
-//                calculate()
-//                break
-//            }
-//        }
-    }
-
-    fun diskonMaster(diskon : String) = viewModelScope.launch{
-        if(diskon.isNotEmpty()) {
-            val sale = state.sale.copy()
-            sale.discExp = diskon
-            sale.discAmt = BigDecimal.ZERO
-            sale.discAmt = CalcUtils.getDiscAmt(diskon, sale.subtotal,)
-            updateState(
-                state.copy(
-                    sale = sale
-                )
-            )
-            calcDetailDiskon()
-            calculate()
-        }
-    }
-
-    private fun calcDetailDiskon() = viewModelScope.launch{
-        val sale = state.sale
-        for (saled in state.saledList){
-            var disc2Amt = BigDecimal.ZERO
-            if(sale.discAmt > BigDecimal.ZERO){
-                disc2Amt = sale.discAmt.multiply(saled.subtotal).divide(sale.subtotal, BPMConstants.MC_FOUR).divide(saled.qty, BPMConstants.MC_FOUR)
-            }
-            saled.disc2Amt = disc2Amt
-        }
-        calculate()
-    }
-
-    private fun editSaled(saled: Saled, newSaled: Saled) = viewModelScope.launch {
-        saled.listPrice =  newSaled.listPrice
-        saled.qty = newSaled.qty
-        saled.disc = newSaled.disc
-        saled.discAmt = newSaled.discAmt
-        saled.tax = newSaled.tax
-        saled.taxAmt = newSaled.taxAmt
-        saled.disc2Amt = newSaled.disc2Amt
-    }
-
-    private fun deleteDetail(saledDel: Saled) {
-        var indexDelete = -1
-        val saledList = mutableListOf<Saled>()
-        saledList.addAll(state.saledList)
-        for (i in 0 until saledList.size){
-            val saled = saledList[i]
-            if(saledDel == saled){
-                indexDelete = i
-                break
-            }
-        }
-        if(indexDelete > -1) {
-            saledList.removeAt(indexDelete)
-            updateState(
-                state.copy(saledList = saledList)
-            )
-        }
-    }
-
-    private fun calculate() = viewModelScope.launch{
-        SaleCalc.calculate(state.sale, state.saledList, state.bp!!)
-    }
-
-    private fun deployData() = viewModelScope.launch {
-        val saledList = mutableListOf<Saled>()
-        saledList.addAll(state.saledList)
-        updateState(
-            state.copy(
-                sale = state.sale,
+                sale = saleTrans.getMaster().copy(),
                 saledList = saledList
             )
         )
