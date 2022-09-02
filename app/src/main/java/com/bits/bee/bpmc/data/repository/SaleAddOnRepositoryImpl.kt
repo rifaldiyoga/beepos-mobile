@@ -4,7 +4,11 @@ import com.bits.bee.bpmc.data.data_source.local.dao.SaleAddOnDao
 import com.bits.bee.bpmc.domain.mapper.SaleAddOnDataMapper
 import com.bits.bee.bpmc.domain.model.SaleAddOn
 import com.bits.bee.bpmc.domain.repository.SaleAddOnRepository
+import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -20,6 +24,15 @@ class SaleAddOnRepositoryImpl @Inject constructor(
         withContext(defaultDispatcher){
             saleAddOnDao.insertSingle(SaleAddOnDataMapper.fromDomainToDb(saleAddOn))
         }
+    }
+
+    override fun getSaleAddonBySale(id: Int): Flow<Resource<SaleAddOn?>> {
+        return flow {
+            val data = saleAddOnDao.getSaleAddonBySale(id)
+            data?.let {
+                emit(Resource.success(SaleAddOnDataMapper.fromDbToDomain(data)))
+            }
+        }.flowOn(defaultDispatcher)
     }
 
 }

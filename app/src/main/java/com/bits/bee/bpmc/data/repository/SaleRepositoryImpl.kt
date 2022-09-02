@@ -141,11 +141,5 @@ class SaleRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override suspend fun updateSale(sale: Sale) {
-        withContext(defaultDispatcher){
-            saleDao.update(SaleDataMapper.fromDomainToDb(sale))
-        }
-    }
-
 
 }

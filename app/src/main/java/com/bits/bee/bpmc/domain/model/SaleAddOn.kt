@@ -8,6 +8,6 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class SaleAddOn(
-    var id : Int = -1,
+    var id : Int? = null,
     var saleId: Sale? = null,
 ) : Parcelable

@@ -308,6 +308,8 @@ object DatabaseModule {
         return dbHelper.selectionDao
     }
 
+    @Provides
+    @Singleton
     fun provideCadjDao(dbHelper: DbHelper): CadjDao{
         return dbHelper.cadjDao
     }
@@ -346,5 +348,11 @@ object DatabaseModule {
     @Singleton
     fun provideSaleAddOnDDao(dbHelper: DbHelper): SaleAddOnDDao{
         return dbHelper.saleAddOnDDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSalePromoDao(dbHelper: DbHelper): SalePromoDao{
+        return dbHelper.salePromoDao
     }
 }

@@ -28,8 +28,7 @@ class AddCashAUseCase @Inject constructor(
             autoGen = true,
             cashId = cashId,
             userId = userId,
-            cashierId = cashierId,
-            isUploaded = true
+            cashierId = cashierId
         )
 
         cashARepository.addCashA(CashADataMapper.fromDomainToDb(cashA))

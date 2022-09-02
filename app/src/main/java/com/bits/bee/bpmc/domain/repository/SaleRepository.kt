@@ -41,6 +41,5 @@ interface SaleRepository {
 
     fun getSaleById(id: Int): Flow<Resource<Sale>>
 
-    suspend fun updateSale(sale: Sale)
 
 }

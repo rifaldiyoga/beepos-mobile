@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.upload_manual
 
 import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -47,39 +48,12 @@ class UploadManualFragment(
     override fun subscribeListeners() {
         binding.apply {
             btnUploadManual.setOnClickListener {
-                CustomDialogBuilder.Builder(requireContext())
-                    .setTitle(getString(R.string.konfirmasi))
-                    .setMessage(getString(R.string.yakin_sync_manual))
-                    .setPositiveCallback {
-                        viewModel.manualUpload()
-                    }
-                    .setNegativeCallback {
-
-                    }
+                viewModel.confirmDialogUpload()
             }
         }
     }
 
     override fun subscribeObservers() {
-//        viewModel.observeBpReturn().removeObserver(viewLifecycleOwner)
-        viewModel.observeBpReturn().observe(viewLifecycleOwner){
-            it?.let {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-
-                    }
-                    Resource.Status.SUCCESS -> {
-                        it.data?.let {
-                            viewModel.checkBpCode(it)
-                        }
-                    }
-                    Resource.Status.ERROR -> {
-
-                    }
-                }
-            }
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
@@ -90,6 +64,16 @@ class UploadManualFragment(
 
                                 }.build()
 
+                            dialog.show(parentFragmentManager, TAG)
+                        }
+
+                        UploadManualViewModel.UIEvent.RequestUpload ->{
+                            val dialog = CustomDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.konfirmasi))
+                                .setMessage(getString(R.string.yakin_sync_manual))
+                                .setPositiveCallback {
+                                    viewModel.manualUpload()
+                                }.build()
                             dialog.show(parentFragmentManager, TAG)
                         }
                     }
@@ -114,6 +98,49 @@ class UploadManualFragment(
                                 syncAdapter.submitList(it)
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        viewModel.observeBpReturn().removeObservers(viewLifecycleOwner)
+        viewModel.observeBpReturn().observe(viewLifecycleOwner){
+            it?.let {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+
+                    }
+                    Resource.Status.SUCCESS -> {
+                        it.data?.let {
+                            viewModel.checkBpCode(it)
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+
+                    }
+                }
+            }
+        }
+
+        viewModel.observePostallReturn().removeObservers(viewLifecycleOwner)
+        viewModel.observePostallReturn().observe(viewLifecycleOwner){
+            it?.let {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+
+                    }
+                    Resource.Status.SUCCESS -> {
+                        it.data?.let {
+                            if (it.status){
+                                viewModel.prosesResponse()
+                                Toast.makeText(requireContext(), "Sync Data...Berhasil Upload", Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+
                     }
                 }
             }

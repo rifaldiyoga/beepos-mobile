@@ -20,7 +20,6 @@ import com.bits.bee.bpmc.domain.usecase.upload_manual.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -50,7 +49,7 @@ class UploadManualViewModel @Inject constructor(
     private val deleteBpUseCase: DeleteBpUseCase,
     private val getSaledDeletedItemUseCase: GetSaledDeletedItemUseCase,
     private val getSaleHaventUploadedUseCase: GetSaleHaventUploadedUseCase,
-    private val getPossesByCashRefHaventUploadUseCase: GetPossesByCashRefHaventUploadUseCase,
+    private val getPossesHaventUploadUseCase: GetPossesHaventUploadUseCase,
     private val updatePossesUseCase: UpdatePossesUseCase,
     private val getCadjByReftypeInOutHaventUploadUseCase: GetCadjByReftypeInOutHaventUploadUseCase,
     private val getCstrByReftypeHaventUpload: GetCstrByReftypeHaventUpload,
@@ -63,7 +62,11 @@ class UploadManualViewModel @Inject constructor(
     private val getCashAByRefidUseCase: GetCashAByRefidUseCase,
     private val updateCashAUseCase: UpdateCashAUseCase,
     private val updateCadjUseCase: UpdateCadjUseCase,
-    private val updateCstrUseCase: UpdateCstrUseCase
+    private val updateCstrUseCase: UpdateCstrUseCase,
+    private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
+    private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
+    private val getSalePromoBySaleUseCase: GetSalePromoBySaleUseCase,
+    private val getPromoByIdUseCase: GetPromoByIdUseCase
 
 ): BaseViewModel<UploadManualState, UploadManualViewModel.UIEvent>() {
 
@@ -72,7 +75,7 @@ class UploadManualViewModel @Inject constructor(
     private var cashId: Long = 0
     private var cashierId: Int = 0
     private var branchId = 0
-    private var bpPost = BpPost()
+//    private var bpPost = BpPost()
     private var mBp: Bp? = null
     private var saledlist: List<Saled>? = null
     private var listSaleHaventUpload: List<Sale>? = null
@@ -80,7 +83,7 @@ class UploadManualViewModel @Inject constructor(
     private var listCadj: List<Cadj>? = null
     private var listCstr: List<Cstr>? = null
     private var listBp: List<Bp>? = null
-    private lateinit var postBody: PostAll
+//    private var postBody: PostAll? = null
     private var errorMsg = ""
 
     init {
@@ -91,7 +94,7 @@ class UploadManualViewModel @Inject constructor(
     fun observeBpReturn() = bpReturn as LiveData<Resource<BpReturn>>
 
     private var postAllReturn: MediatorLiveData<Resource<PostAllReturn>> = MediatorLiveData()
-    fun observePostallReurn() = postAllReturn as LiveData<Resource<PostAllReturn>>
+    fun observePostallReturn() = postAllReturn as LiveData<Resource<PostAllReturn>>
 
     fun checkData() = viewModelScope.launch {
         getLatestItemUseCase.invoke(1).collect {
@@ -105,7 +108,10 @@ class UploadManualViewModel @Inject constructor(
         }
     }
 
-    fun initUpload() = viewModelScope.launch {
+    private fun initUpload() = viewModelScope.launch {
+        var bpList: List<Bp>? = null
+        var bpPost = BpPost()
+
         getActiveOperatorUseCase.invoke().collect {
             it?.let {
                 if (it != null){
@@ -122,10 +128,44 @@ class UploadManualViewModel @Inject constructor(
                 }
             }
         }
+
+        getBpNotUploadedUseCase.invoke().collect {
+            it.data?.let {
+                bpList = it
+            }
+        }
+        if (bpList!!.isNotEmpty()){
+            for (bp in bpList!!){
+                val bparray = BpPost.BpArray(
+                    code = bp.code,
+                    businessname = bp.name,
+                    ownname = bp.name,
+                    hp = "123",
+                    address = "",
+                    cityCode = "",
+                    coordinate = "",
+                    pricelvl_id = "",
+                    email = "",
+                    saleistaxed = bp.isTaxedOnSale,
+                    saletaxinc = bp.isTaxIncOnSale
+                )
+                bpPost.bpArray.add(bparray)
+            }
+        }
+
+        if (bpPost.bpArray.isNotEmpty()){
+            uploadBp(bpPost)
+        }else{
+            collectData()
+//            saleUploaded()
+        }
+
     }
 
     fun collectData() = viewModelScope.launch {
         var saleIdList: MutableList<Int> = mutableListOf()
+        var postBody: PostAll? = null
+
         getSaledDeletedItemUseCase.invoke().collect {
             saledlist = it
         }
@@ -137,14 +177,14 @@ class UploadManualViewModel @Inject constructor(
                 listSaleHaventUpload = it
             }
         }
-        getPossesByCashRefHaventUploadUseCase.invoke().collect {
+        getPossesHaventUploadUseCase.invoke().collect {
             it.data?.let {
                 listPosses = it
             }
         }
 
         var newPosses = ""
-        var possesList: MutableList<Posses>? = null
+        var possesList: MutableList<Posses> = mutableListOf()
         for (checkPosses in listPosses!!){
             if (checkPosses.trxNo.equals(newPosses)){
                 val newTrxnoPosses = newPosses.substring(0, newPosses.length - 1)
@@ -152,7 +192,7 @@ class UploadManualViewModel @Inject constructor(
                 val trxno = Integer.valueOf(newLastTrxno) + 1
                 checkPosses.trxNo = newTrxnoPosses + trxno
             }
-            possesList!!.add(checkPosses)
+            possesList.add(checkPosses)
             updatePossesUseCase.invoke(checkPosses)
             newPosses = checkPosses.trxNo
         }
@@ -180,8 +220,15 @@ class UploadManualViewModel @Inject constructor(
                     var saledListsale: List<Saled>? = null
                     var salecrcvListSale: List<SaleCrcv>? = null
                     var itemSale: Item? = null
+                    var saleAddOn: SaleAddOn? = null
+                    var promo: Promo? = null
+                    var saleAddOnDList: List<SaleAddOnD>? = null
+                    var salePromoList: List<SalePromo>? = null
                     var saledPostList: MutableList<PostAll.SaledPost> = mutableListOf()
                     var salecrcvPostList: MutableList<PostAll.SalecrcvsPost> = mutableListOf()
+                    var saleAddonPostList: MutableList<PostAll.SaleAddOnPost> = mutableListOf()
+                    var salePromoPostList: MutableList<PostAll.SalePromoPost> = mutableListOf()
+                    var saleBnsPostList: MutableList<PostAll.SaleBns> = mutableListOf()
 
 
                     var salePostList: MutableList<PostAll.SalePost> = mutableListOf()
@@ -191,8 +238,9 @@ class UploadManualViewModel @Inject constructor(
 
                     for (sale in listSaleHaventUpload!!){
                         getBpByIdUseCase.invoke(sale.bpId).collect {
-                            if (it != null)
+                            it?.let {
                                 bpSale = it
+                            }
                         }
                         getSaledListUseCase.invoke(sale.id!!).collect {
                             saledListsale = it
@@ -262,7 +310,70 @@ class UploadManualViewModel @Inject constructor(
                             }
                         }
 
+                        getSaleAddOnBySaleUseCase.invoke(sale.id!!).collect {
+                            when(it.status){
+                                Resource.Status.LOADING ->{
+                                    val str=""
+                                }
+                                Resource.Status.SUCCESS ->{
+                                    saleAddOn = it.data
+                                }
+                                Resource.Status.ERROR ->{
+                                    val str=""
+                                }
+                            }
+                        }
+                        if (saleAddOn != null){
+                            getSaleAddonDByAddonUseCase.invoke(saleAddOn!!.id!!).collect {
+                                it.data?.let {
+                                    saleAddOnDList = it
+                                }
+                            }
+                            for ((index, value) in saleAddOnDList!!.withIndex()) {
+                                val saleAddonD = saleAddOnDList!!.get(index)
+                                val saleAddon = PostAll.SaleAddOnPost(
+                                    up_saled_dno = saleAddonD.upSaledId!!.dno,
+                                    saled_dno = saleAddonD.saledId!!.dno
+                                )
+                                saleAddonPostList.add(saleAddon)
 
+                            }
+                        }
+
+                        getSalePromoBySaleUseCase.invoke(sale.id!!).collect {
+                            it.data?.let {
+                                salePromoList = it
+                            }
+
+                        }
+                        if (salePostList != null && salePromoList!!.size > 0){
+                            for (salepromo in salePromoList!!){
+                                val salePromoPost = PostAll.SalePromoPost(
+                                    promo_id = salepromo.promoId,
+                                    promo_qty = salepromo.promoQty,
+                                    promo_role = salepromo.promoRule,
+                                    saledno = -1,
+                                    bp_id = -1
+                                )
+                                salePromoPostList.add(salePromoPost)
+                                getPromoByIdUseCase.invoke(salepromo.promoId).collect {
+                                    it.data?.let {
+                                        promo = it
+                                    }
+                                }
+                                if (promo!!.promoCat.equals("BONUS", ignoreCase = true) && salepromo.promoRule.equals("D", ignoreCase = true)){
+                                    val saleBns = PostAll.SaleBns(
+                                        dno = -1,
+                                        promoId = salepromo.promoId,
+                                        whId = whId,
+                                        itemId = -1,
+                                        unit = "",
+                                        qty = BigDecimal.ZERO
+                                    )
+                                    saleBnsPostList.add(saleBns)
+                                }
+                            }
+                        }
 
                         val salepost = PostAll.SalePost(
                             trxno = sale.trxNo,
@@ -301,12 +412,15 @@ class UploadManualViewModel @Inject constructor(
                             taxed = if (bpSale!!.isTaxedOnSale) true else if (bpSale!!.isTaxIncOnSale) true else if (bpSale!!.isTaxedOnSale && bpSale!!.isTaxIncOnSale) true else false,
                             taxinc = if (bpSale!!.isTaxedOnSale) false else if (bpSale!!.isTaxIncOnSale) true else if (bpSale!!.isTaxedOnSale && bpSale!!.isTaxIncOnSale) true else false,
                             saleds = saledPostList,
-                            salecrcvs = salecrcvPostList
+                            salecrcvs = salecrcvPostList,
+                            saleaddonList = saleAddonPostList,
+                            salePromoList = salePromoPostList,
+                            saleBnsList = saleBnsPostList
                         )
                         salePostList.add(salepost)
                     }
 
-                    for (posses in possesList!!){
+                    for (posses in possesList){
                         val possesPost = PostAll.PossesPost(
                             trxno = posses.trxNo,
                             trxdate = DateFormat.format("yyyyMMdd", posses.trxDate).toString(),
@@ -318,7 +432,7 @@ class UploadManualViewModel @Inject constructor(
                             startbal = posses.startBal.toDouble(),
                             totin = if (posses.totIn == null) 0.toDouble() else posses.totIn!!.toDouble(),
                             totout = if (posses.totOut == null) 0.toDouble() else posses.totOut!!.toDouble(),
-                            endbal = posses.endBal!!.toDouble(),
+                            endbal = posses.endBal?.toDouble(),
                             iscollected = if (posses.endTime == null) false else true,
                             usrId = userId,
                             totalActualCash = posses.totalActualCash,
@@ -373,22 +487,33 @@ class UploadManualViewModel @Inject constructor(
             }
         }
 
-    }
-
-    fun saleUploaded() = viewModelScope.launch {
-        collectData()
-        val source = postAllUseCase.invoke(postBody).asLiveData()
+        val source = postAllUseCase.invoke(postBody!!).asLiveData()
         postAllReturn.addSource(source){
-            if (it != null){
-                it.data?.let {
-                    if (it.status){
-
-                    }else{
-                        errorMsg = it.data!!
-                    }
+            if (it != null) {
+                postAllReturn.value = it
+                if (it.status !== Resource.Status.LOADING) {
+                    postAllReturn.removeSource(source)
                 }
+            } else {
+                postAllReturn.removeSource(source)
             }
         }
+
+    }
+
+    fun saleUploaded(){
+//        collectData()
+//        val source = postAllUseCase.invoke(postBody!!).asLiveData()
+//        postAllReturn.addSource(source){
+//            if (it != null) {
+//                postAllReturn.value = it
+//                if (it.status !== Resource.Status.LOADING) {
+//                    postAllReturn.removeSource(source)
+//                }
+//            } else {
+//                postAllReturn.removeSource(source)
+//            }
+//        }
     }
 
     fun prosesResponse() = viewModelScope.launch{
@@ -406,17 +531,19 @@ class UploadManualViewModel @Inject constructor(
             sales!!.isUploaded = true
             updateSaleUseCase.invoke(sales!!)
         }
-        for (posses in listPosses!!){
-            getCashAByRefidUseCase.invoke(posses.possesId!!.toLong(), BPMConstants.BPM_DEFAULT_TYPE_POSSES).collect {
-                it.data?.let {
-                    cashaPossesList = it
-                }
-            }
-            for (casha in cashaPossesList){
-                casha.isUploaded = true
-                updateCashAUseCase.invoke(casha)
-            }
-        }
+
+//        for (posses in listPosses!!){
+//            getCashAByRefidUseCase.invoke(posses.possesId!!.toLong(), BPMConstants.BPM_DEFAULT_TYPE_POSSES).collect {
+//                it.data?.let {
+//                    cashaPossesList = it
+//                }
+//            }
+//            for (casha in cashaPossesList){
+//                casha.isUploaded = true
+//                updateCashAUseCase.invoke(casha)
+//            }
+//        }
+
         getCadjByReftypeInOutHaventUploadUseCase.invoke().collect {
             it.data?.let {
                 cadjList = it
@@ -426,43 +553,48 @@ class UploadManualViewModel @Inject constructor(
             cadj.isUploaded = true
             updateCadjUseCase.invoke(cadj)
         }
+
         getCstrByReftypeHaventUpload.invoke().collect {
             it.data?.let {
                 cstrList = it
             }
+        }
+        for (cstr in cstrList){
+            cstr.isUploaded = true
+            updateCstrUseCase.invoke(cstr)
         }
 
 
     }
 
     fun collectBp() = viewModelScope.launch {
-        var bpList: List<Bp>? = null
-        getBpNotUploadedUseCase.invoke().collect {
-            it.data?.let {
-                bpList = it
-            }
-        }
-        if (bpList!!.isNotEmpty()){
-            for (bp in bpList!!){
-                val bparray = BpPost.BpArray(
-                    code = bp.code,
-                    businessname = bp.name,
-                    ownname = bp.name,
-                    hp = "123",
-                    address = "",
-                    cityCode = "",
-                    coordinate = "",
-                    pricelvl_id = "",
-                    email = "",
-                    saleistaxed = bp.isTaxedOnSale,
-                    saletaxinc = bp.isTaxIncOnSale
-                )
-                bpPost.bpArray.add(bparray)
-            }
-        }
+//        var bpList: List<Bp>? = null
+//        getBpNotUploadedUseCase.invoke().collect {
+//            it.data?.let {
+//                bpList = it
+//            }
+//        }
+//        if (bpList!!.isNotEmpty()){
+//            for (bp in bpList!!){
+//                val bparray = BpPost.BpArray(
+//                    code = bp.code,
+//                    businessname = bp.name,
+//                    ownname = bp.name,
+//                    hp = "123",
+//                    address = "",
+//                    cityCode = "",
+//                    coordinate = "",
+//                    pricelvl_id = "",
+//                    email = "",
+//                    saleistaxed = bp.isTaxedOnSale,
+//                    saletaxinc = bp.isTaxIncOnSale
+//                )
+//                bpPost.bpArray.add(bparray)
+//            }
+//        }
     }
 
-    fun uploadBp() = viewModelScope.launch {
+    fun uploadBp(bpPost: BpPost) = viewModelScope.launch {
        val source = postBpClientUseCase.invoke(bpPost).asLiveData()
         bpReturn.addSource(source){
             if (it != null) {
@@ -513,7 +645,8 @@ class UploadManualViewModel @Inject constructor(
                 deleteBpUseCase.invoke(mBp!!)
             }
         }
-
+        collectData()
+//        saleUploaded()
     }
 
     fun loadDataSync(limit: Long, offer: Long) = viewModelScope.launch{
@@ -529,11 +662,25 @@ class UploadManualViewModel @Inject constructor(
     }
 
     fun manualUpload(){
+        initUpload()
+//        collectBp()
+//        if (bpPost.bpArray.isNotEmpty()){
+//            uploadBp()
+//        }else{
+//            saleUploaded()
+//        }
+    }
+
+    fun aftePostAll(){
 
     }
 
     fun showDialogNoInternet() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequeatDialog)
+    }
+
+    fun confirmDialogUpload() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestUpload)
     }
 
     sealed class UIEvent {

@@ -18,8 +18,7 @@ object CashADataMapper: BaseMapper<CashAEntity, CashA, Any>() {
             model.autoGen,
             model.cashId,
             model.userId,
-            model.cashierId,
-            model.isUploaded,
+            model.cashierId
         )
     }
 
@@ -35,8 +34,7 @@ object CashADataMapper: BaseMapper<CashAEntity, CashA, Any>() {
             model.autoGen,
             model.cashId,
             model.userId,
-            model.cashierId,
-            model.isUploaded,
+            model.cashierId
         )
     }
 

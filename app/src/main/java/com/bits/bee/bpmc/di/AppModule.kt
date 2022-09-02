@@ -372,4 +372,22 @@ object AppModule {
         return CadjRepositoryImpl(apiUtils, cadjDao, defaultDispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun provideSaleAddOnRepository(dispatcher: CoroutineDispatcher, saleAddOnDao: SaleAddOnDao) : SaleAddOnRepository {
+        return SaleAddOnRepositoryImpl(dispatcher, saleAddOnDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaleAddOnDRepository(dispatcher: CoroutineDispatcher, saleAddOnDDao: SaleAddOnDDao) : SaleAddOnDRepository {
+        return SaleAddOnDRepositoryImpl(dispatcher, saleAddOnDDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSalePromoRepository(salePromoDao: SalePromoDao, dispatcher: CoroutineDispatcher) : SalePromoRepository {
+        return SalePromoRepositoryImpl(salePromoDao, dispatcher)
+    }
+
 }

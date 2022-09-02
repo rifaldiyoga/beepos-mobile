@@ -49,7 +49,6 @@ interface PossesDao : BaseDao<PossesEntity> {
     fun getFilterDesc(current: Long, end: Long): List<PossesEntity>
 
     @Query("SELECT posses.id, posses.user_id, posses.cashier_id, posses.shift, posses.startbal, posses.starttime, posses.endbal, posses.endtime, posses.credit, " +
-            "posses.total, posses.trxdate, posses.trxno, posses.totin, posses.totout, posses.endcash, posses.totactualcash, posses.totdiffcash FROM casha " +
-            "JOIN posses on refid = posses.id where reftype = 'POSSES' AND isuploaded = 0")
-    fun getPossesByCashRefHaventUpload(): List<PossesEntity>
+            "posses.total, posses.trxdate, posses.trxno, posses.totin, posses.totout, posses.endcash, posses.totactualcash, posses.totdiffcash, posses.isuploaded FROM posses where isuploaded = 0")
+    fun getPossesHaventUpload(): List<PossesEntity>
 }

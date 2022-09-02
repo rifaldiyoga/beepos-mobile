@@ -72,6 +72,7 @@ class PossesRepositoryImpl @Inject constructor(
                 totalActualCash = startBal,
                 totalDiffCash = BigDecimal.ZERO,
                 totIn = startBal,
+                isUploaded = false
             )
             possesDao.insertSingle(posses)
         }
@@ -146,9 +147,9 @@ class PossesRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getPossesByCashRefHaventUpload(): Flow<Resource<List<Posses>>> {
+    override fun getPossesHaventUpload(): Flow<Resource<List<Posses>>> {
         return flow {
-            val data = possesDao.getPossesByCashRefHaventUpload().map { PossesDataMapper.fromDbToDomain(it) }
+            val data = possesDao.getPossesHaventUpload().map { PossesDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
         }.flowOn(defaultDispatcher)
     }

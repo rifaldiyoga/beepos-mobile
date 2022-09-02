@@ -28,7 +28,7 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             discExp = model.discExp,
             operatorId = model.userId,
             cashierId = model.cashierId,
-            bpId = model.cashierId,
+            bpId = model.bpId,
             custName = model.bpName,
             termType = model.termType,
             isUploaded = model.isUploaded,

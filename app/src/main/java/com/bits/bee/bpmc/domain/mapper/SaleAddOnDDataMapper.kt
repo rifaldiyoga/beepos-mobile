@@ -20,7 +20,7 @@ object SaleAddOnDDataMapper : BaseMapper<SaleAddOnDEntity, SaleAddOnD, Any>(){
     override fun fromDomainToDb(model: SaleAddOnD): SaleAddOnDEntity {
         return SaleAddOnDEntity(
             model.id ,
-            model.saleAddOnId!!.id,
+            model.saleAddOnId!!.id!!,
             model.upSaledId!!.id!!,
             model.saledId!!.id!!,
         )

@@ -26,7 +26,8 @@ object PossesDataMapper : BaseMapper<PossesEntity, Posses, Any>() {
             model.totOut,
             model.endCash,
             model.totalActualCash,
-            model.totalDiffCash
+            model.totalDiffCash,
+            model.isUploaded,
         )
     }
 
@@ -48,7 +49,8 @@ object PossesDataMapper : BaseMapper<PossesEntity, Posses, Any>() {
             model.totOut,
             model.endCash,
             model.totalActualCash,
-            model.totalDiffCash
+            model.totalDiffCash,
+            model.isUploaded,
         )
     }
 

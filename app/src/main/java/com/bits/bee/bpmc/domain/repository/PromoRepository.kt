@@ -12,4 +12,6 @@ interface PromoRepository {
     fun getLatestPromo() : Flow<Resource<List<Promo>>>
 
     fun getActivePromoList() : Flow<List<Promo>>
+
+    fun getPromoById(id: Int): Flow<Resource<Promo>>
 }

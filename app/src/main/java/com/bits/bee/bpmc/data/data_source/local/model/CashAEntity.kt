@@ -34,9 +34,7 @@ data class CashAEntity(
     @ColumnInfo(name = USER_ID,)
     var userId: Int,
     @ColumnInfo(name = CASHIER_ID,)
-    var cashierId: Int,
-    @ColumnInfo(name = ISUPLOADED)
-    var isUploaded: Boolean,
+    var cashierId: Int
 ) {
     companion object {
         const val TBL_NAME = "casha"
@@ -52,7 +50,6 @@ data class CashAEntity(
         const val CASH_ID = "cash_id"
         const val USER_ID = "user_id"
         const val CASHIER_ID = "cashier_id"
-        const val ISUPLOADED = "isuploaded"
 
     }
 }
