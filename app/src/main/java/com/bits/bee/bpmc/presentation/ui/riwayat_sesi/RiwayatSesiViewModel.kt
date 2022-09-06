@@ -70,10 +70,10 @@ class RiwayatSesiViewModel @Inject constructor(
             startDate.add(Calendar.MONTH, -3)
         }else if (filter == 3){
             val rangeDate = selectFilter.split(" - ").toTypedArray()
-            var startRange = rangeDate[0]
-            var endRange = rangeDate[1]
-            var startDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, startRange)
-            var endDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, endRange)
+            val startRange = rangeDate[0]
+            val endRange = rangeDate[1]
+            val startDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, startRange)
+            val endDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, endRange)
             startRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, startDateRange)
             endRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, endDateRange)
         }
@@ -120,10 +120,10 @@ class RiwayatSesiViewModel @Inject constructor(
             startDate.add(Calendar.MONTH, -3)
         }else if (filter == 3){
             val rangeDate = selectFilter.split(" - ").toTypedArray()
-            var startRange = rangeDate[0]
-            var endRange = rangeDate[1]
-            var startDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, startRange)
-            var endDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, endRange)
+            val startRange = rangeDate[0]
+            val endRange = rangeDate[1]
+            val startDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, startRange)
+            val endDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, endRange)
             startRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, startDateRange)
             endRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, endDateRange)
         }
@@ -141,14 +141,14 @@ class RiwayatSesiViewModel @Inject constructor(
     }
 
     fun setListSesi(list: List<Posses>, desc: Boolean) {
-        var possesMap : HashMap<Long, MutableList<Posses>>
+        val possesMap : HashMap<Long, MutableList<Posses>>
                 = HashMap()
         possesMap.clear()
-        var resultSorted: SortedMap<Long, MutableList<Posses>>
+        val resultSorted: SortedMap<Long, MutableList<Posses>>
         for (posses in list){
-            var key = DateFormatUtils.convertStartDate(posses.trxDate.time)
+            val key = DateFormatUtils.convertStartDate(posses.trxDate.time)
             if (!possesMap.containsKey(key)){
-                var mutable: MutableList<Posses> = mutableListOf()
+                val mutable: MutableList<Posses> = mutableListOf()
                 mutable.add(posses)
                 possesMap.put(key, mutable)
             }else{
@@ -165,7 +165,7 @@ class RiwayatSesiViewModel @Inject constructor(
 
     private fun parseMapPosses(possesMap: SortedMap<Long, MutableList<Posses>>, desc: Boolean) = viewModelScope.launch{
         var jmlTrans = 0
-        var sesiList = mutableListOf<Sesi>()
+        val sesiList = mutableListOf<Sesi>()
         for (newMap in possesMap.entries){
             getPossesByDateUseCase.invoke(DateFormatUtils.convertStartDate(newMap.key), DateFormatUtils.convertEndDate(newMap.key)).collect {
                 it.data?.let {

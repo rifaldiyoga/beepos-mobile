@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel<State, UIEvent>(
 ) : ViewModel() {
 
-    val eventChannel = Channel<UIEvent>()
+    val eventChannel = Channel<UIEvent>(Channel.BUFFERED)
     val event = eventChannel.receiveAsFlow()
 
     val errorChannel = Channel<String>()

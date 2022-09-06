@@ -20,10 +20,7 @@ class PrinterKitchenDRepositoryImpl @Inject constructor(
     override fun getPrinterKitchen(id: Int): Flow<Resource<List<PrinterKitchenD>>> {
         return flow{
             val data = printerKitchenDDao.getPrinterKitchen(id).map { PrinterKitchenDDataMapper.fromDbToDomain(it) }
-            if (data != null)
-                emit(Resource.success(data))
-            else
-                emit(Resource.error(null, "Data Kosong"))
+            emit(Resource.success(data))
 
         }.flowOn(ioDispatcher)
     }

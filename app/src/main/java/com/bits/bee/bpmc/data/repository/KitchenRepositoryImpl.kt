@@ -20,29 +20,21 @@ class KitchenRepositoryImpl @Inject constructor(
     override fun getKitchenId(id: Int): Flow<Resource<Kitchen>> {
         return flow {
             val data = kitchenDao.getByKitchenId(id)
-            if (data != null)
-                emit(Resource.success(KitchenDataMapper.fromDbToDomain(data)))
-            else
-                emit(Resource.error(null, "data kosong"))
+            emit(Resource.success(KitchenDataMapper.fromDbToDomain(data)))
         }.flowOn(ioDispatcher)
     }
 
     override fun getLastKitchen(): Flow<Resource<Kitchen>> {
         return flow {
             val data = kitchenDao.getLastKitchen()
-            if (data != null)
-                emit(Resource.success(KitchenDataMapper.fromDbToDomain(data)))
+            emit(Resource.success(KitchenDataMapper.fromDbToDomain(data)))
         }.flowOn(ioDispatcher)
     }
 
     override fun readKitchen(): Flow<Resource<MutableList<Kitchen>>> {
         return flow {
             val data = kitchenDao.read().map { KitchenDataMapper.fromDbToDomain(it) }
-            if (data != null){
-                emit(Resource.success(data))
-            }else{
-                emit(Resource.error(null,"data kosong"))
-            }
-        }.flowOn(ioDispatcher) as Flow<Resource<MutableList<Kitchen>>>
+            emit(Resource.success(data.toMutableList()))
+        }.flowOn(ioDispatcher)
     }
 }

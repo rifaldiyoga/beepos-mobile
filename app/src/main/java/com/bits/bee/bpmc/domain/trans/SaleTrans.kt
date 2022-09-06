@@ -34,7 +34,7 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
     }
 
     override fun newTrans() {
-        mTblMaster = Sale();
+        mTblMaster = Sale()
     }
 
     override fun saveTrans() {
@@ -153,8 +153,8 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
     }
 
     override fun addDetail(d: Saled) {
-        dnoCounter++;
-        d.dno = dnoCounter;
+        dnoCounter++
+        d.dno = dnoCounter
         super.addDetail(d)
         calculate()
     }
@@ -246,22 +246,22 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
                 if (mapSaled.isNotEmpty()) {
                     var exist = false
                     //matching saled dan addon, apabila reorder qty dipecah menjadi per satuan
-                    for ((saledKey, value) in mapSaled) {
+                    for ((saledKey, value1) in mapSaled) {
                         if (addOnKey.itemId == saledKey.itemId && addOnKey.listPrice.compareTo(saledKey.listPrice) == 0) {
                             val addonItem: MutableList<String> = ArrayList()
                             val saledItem: MutableList<String> = ArrayList()
-                            for (saled in value) {
+                            for (saled in value1) {
                                 addonItem.add(saled.name + saled.qty.divide(addOnKey.qty))
                             }
-                            for (saled in value) {
+                            for (saled in value1) {
                                 saledItem.add(saled.name + saled.qty.divide(saledKey.qty))
                             }
                             addonItem.sort()
                             saledItem.sort()
                             if (addonItem == saledItem) {
                                 mergeSaled(saledKey, addOnKey)
-                                for (saled in value) {
-                                    for (saled1 in value) {
+                                for (saled in value1) {
+                                    for (saled1 in value1) {
                                         if (saled.itemId == saled1.itemId) {
                                             mergeSaled(saled, saled1)
                                             deleteOldSaleAddonD(addOnKey)

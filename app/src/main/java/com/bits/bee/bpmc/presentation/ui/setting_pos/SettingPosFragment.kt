@@ -67,43 +67,63 @@ class SettingPosFragment(
             viewModel.event.collect { event ->
                 when(event){
                     SettingPosViewModel.UIEvent.RequestCustomer -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.customer), customerList,0, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_customer), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.customer))
+                            .setList(customerList)
+                            .setOnSaveListener {
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(
+                                    R.string.pref_customer), it.toString())
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestJumlahMeja -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.jumlah_meja), jumlahMejaList,0, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_jumlah_meja), data.toString().toInt())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.jumlah_meja))
+                            .setList(jumlahMejaList)
+                            .setOnSaveListener {
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(
+                                    R.string.pref_jumlah_meja), it.toString().toInt())
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestPosisiOrientasi -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.posisi_orientasi), posisiOrientasiList,0, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_screen_orientation), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.posisi_orientasi))
+                            .setList(posisiOrientasiList)
+                            .setOnSaveListener {
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(
+                                    R.string.pref_screen_orientation), it.toString())
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestPresetBukaKasir -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.preset_buka_kasir), presetBukaKasirList,0, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_preset_buka_kasir), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.preset_buka_kasir))
+                            .setList(presetBukaKasirList)
+                            .setOnSaveListener {
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(
+                                    R.string.pref_preset_buka_kasir), it.toString())
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestUkuranFont -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.ukuran_font), ukuranFontList, 0,{ data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_ukuran_font), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.ukuran_font))
+                            .setList(ukuranFontList)
+                            .setOnSaveListener {
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(
+                                    R.string.pref_ukuran_font), it.toString())
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                 }

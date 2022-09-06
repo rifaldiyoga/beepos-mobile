@@ -72,7 +72,7 @@ class DetailBukaKasirFragment(
                             dialog.show(parentFragmentManager, "")
                         }
                         DetailBukaKasirViewModel.UIEvent.NavigateToPos -> {
-                            val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToMainActivity()
+//                            val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToMainActivity()
                             findNavController().popBackStack()
                             findNavController().navigate(R.id.mainActivity)
                         }

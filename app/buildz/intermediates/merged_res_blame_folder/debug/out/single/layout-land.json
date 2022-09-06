@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/activity_main.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/activity_main.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/fragment_pembayaran.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/fragment_pembayaran.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/fragment_login.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/fragment_login.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/activity_splash_screen.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/activity_splash_screen.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/activity_initial.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/activity_initial.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/fragment_debit_kredit.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/fragment_debit_kredit.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/item_pos_menu.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/item_pos_menu.xml"
+    },
+    {
+        "merged": "com.bits.bee.bpmc.app-mergeDebugResources-64:/layout-land/fragment_transaksi_berhasil.xml",
+        "source": "com.bits.bee.bpmc.app-main-67:/layout-land/fragment_transaksi_berhasil.xml"
+    }
+]

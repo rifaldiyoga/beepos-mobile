@@ -25,7 +25,7 @@ class RegRepositoryImpl @Inject constructor(
     override fun getLatestRegList(): Flow<Resource<List<Reg>>> {
         return object : NetworkDatabaseBoundResource<List<Reg>, RegResponse>(){
             override suspend fun loadFormDB(): List<Reg> {
-                return regDao.getRegList().map { RegDataMapper.fromDbToDomain(it)!! }
+                return regDao.getRegList().map { RegDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Reg>?): Boolean {

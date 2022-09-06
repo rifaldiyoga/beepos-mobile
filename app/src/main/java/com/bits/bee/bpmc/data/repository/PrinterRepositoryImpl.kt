@@ -21,11 +21,7 @@ class PrinterRepositoryImpl @Inject constructor(
     override fun getAddressPrinterList(address: String): Flow<Resource<List<Printer>>> {
         return flow {
             val data: List<Printer> = printerDao.readByAddress(address).map { PrinterDataMapper.fromDbToDomain(it) }
-            if (data != null){
-                emit(Resource.success(data))
-            }else{
-                emit(Resource.error(null,"data kosong" ))
-            }
+            emit(Resource.success(data))
         }.flowOn(ioDispatcher)
     }
 
@@ -52,23 +48,14 @@ class PrinterRepositoryImpl @Inject constructor(
     override fun getLastId(): Flow<Resource<Printer>> {
         return flow {
             val data = printerDao.getLastId()
-            if (data != null){
-                emit(Resource.success(PrinterDataMapper.fromDbToDomain(data)))
-            }else{
-                emit(Resource.error(null, "data kosong"))
-            }
+            emit(Resource.success(PrinterDataMapper.fromDbToDomain(data)))
         }.flowOn(ioDispatcher)
     }
 
     override fun readPrinter(): Flow<Resource<List<Printer>>> {
         return flow {
             val data = printerDao.readPrinter().map { PrinterDataMapper.fromDbToDomain(it) }
-            val str =""
-            if (data != null){
-                emit(Resource.success(data))
-            }else{
-                emit(Resource.error(null, "data kosong"))
-            }
+            emit(Resource.success(data))
         }.flowOn(ioDispatcher)
     }
 

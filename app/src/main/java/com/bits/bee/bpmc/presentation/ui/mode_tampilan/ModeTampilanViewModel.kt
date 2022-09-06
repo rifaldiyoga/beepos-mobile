@@ -17,6 +17,8 @@ class ModeTampilanViewModel : ViewModel() {
     private val eventChannel = Channel<UIEvent>()
     val event = eventChannel.receiveAsFlow()
 
+    var type = "signin"
+
     fun onClickItem(context : Context, string: String) = viewModelScope.launch {
         BeePreferenceManager.saveToPreferences(context, context.getString(R.string.pref_mode_tampilan), string)
         eventChannel.send(UIEvent.RequestClickItem(string))

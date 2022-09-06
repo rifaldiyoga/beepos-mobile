@@ -187,7 +187,7 @@
         android:label="CekStokFragment" />
     <fragment
         android:id="@+id/kelolaProdukFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.kelola_produk.KelolaProdukFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukFragment"
         android:label="KelolaProdukFragment" />
     <dialog
         tools:layout="@layout/dialog_atur_modal_kasir"

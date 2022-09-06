@@ -106,7 +106,7 @@ class SettingSistemFragment(
             helpIcon.setOnClickListener {
                 viewModel.onClickAboutCloudDapur()
             }
-            swcloudDapur.setOnCheckedChangeListener { compoundButton, b ->
+            swcloudDapur.setOnCheckedChangeListener { _, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_switch_dapur), true)
                 }else{
@@ -124,78 +124,78 @@ class SettingSistemFragment(
                 viewModel.event.collect { event ->
                     when (event) {
                         SettingSistemViewModel.UIEvent.RequestSistemPenyimpanan -> {
-                            val dialog = RadioListDialogBuilder(
-                                getString(R.string.sistem_penyimpanan),
-                                sistemPenyimpananList,
-                                iniliazePenyimpanan(),
-                                { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
+                            val dialog = RadioListDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.sistem_penyimpanan))
+                                .setList(sistemPenyimpananList)
+                                .setOnSaveListener {
+                                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
                                     BeePreferenceManager.saveToPreferences(
                                         requireActivity(), getString(
                                             R.string.pref_sistem_penyimpanan
-                                        ), data.toString()
+                                        ), it.toString()
                                     )
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            sistemPenyimpanan = data.toString()
+                                            sistemPenyimpanan = it.toString()
                                         )
                                     )
-                                })
+                                }.build()
+
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingSistemViewModel.UIEvent.RequestSistemBatchUpload -> {
-                            val dialog = RadioListDialogBuilder(
-                                getString(R.string.sistem_batch),
-                                sistemBatchUploadList,
-                                iniliazeBatch(),
-                                { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
+                            val dialog = RadioListDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.sistem_batch))
+                                .setList(sistemBatchUploadList)
+                                .setOnSaveListener {
+                                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
                                     BeePreferenceManager.saveToPreferences(
                                         requireActivity(), getString(
                                             R.string.pref_batch_upload
-                                        ), data.toString()
+                                        ), it.toString()
                                     )
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            sistemBatchUpload = data.toString()
+                                            sistemBatchUpload = it.toString()
                                         )
                                     )
-                                })
+                                }.build()
+
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingSistemViewModel.UIEvent.RequestPeriodeUploadOtomatis -> {
-                            val dialog = RadioListDialogBuilder(
-                                getString(R.string.periode_upload),
-                                periodeUploadList,
-                                iniliazePeriodeUpload(),
-                                { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
+                            val dialog = RadioListDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.periode_upload))
+                                .setList(periodeUploadList)
+                                .setOnSaveListener {
+                                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
                                     BeePreferenceManager.saveToPreferences(
                                         requireActivity(), getString(
                                             R.string.pref_periode_upload_otomatis
-                                        ), data.toString()
+                                        ), it.toString()
                                     )
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            periodeUploadOtomatis = data.toString()
+                                            periodeUploadOtomatis = it.toString()
                                         )
                                     )
-                                })
+                                }.build()
+
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingSistemViewModel.UIEvent.RequestAboutCloudDapur -> {
                             val dialog = CloudDapurDialogBuilder(getString(R.string.tentang_cloud), { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
-                                        .show()
-                                    BeePreferenceManager.saveToPreferences(
-                                        requireActivity(), getString(
-                                            R.string.pref_cloud_data_dapur
-                                        ), data.toString()
-                                    )
-                                })
+                                Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
+                                    .show()
+                                BeePreferenceManager.saveToPreferences(
+                                    requireActivity(), getString(
+                                        R.string.pref_cloud_data_dapur
+                                    ), data.toString()
+                                )
+                            })
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingSistemViewModel.UIEvent.RequestSettingPritner -> {

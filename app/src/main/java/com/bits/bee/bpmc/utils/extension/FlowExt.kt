@@ -1,9 +1,10 @@
 package com.bits.bee.bpmc.utils.extension
 
-import androidx.activity.ComponentActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -15,10 +16,22 @@ import kotlinx.coroutines.launch
 fun LifecycleOwner.collectLifecycleFlow(collect : suspend () -> Unit) {
     lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED){
-            collect
+//            collect
         }
     }
 }
+
+//fun <T> Flow<T>.launchWhenStarted(lifecycleOwner: LifecycleOwner)= with(lifecycleOwner) {
+//    lifecycleScope.launch {
+//        repeatOnLifecycle(Lifecycle.State.STARTED){
+//            try {
+//                this@launchWhenStarted.collect()
+//            }catch (t: Throwable){
+//                loge(t)
+//            }
+//        }
+//    }
+//}
 
 fun <T, R> zips(
     vararg flows: Flow<T>,

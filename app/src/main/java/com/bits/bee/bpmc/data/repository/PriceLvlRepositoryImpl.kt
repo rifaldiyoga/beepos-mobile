@@ -40,8 +40,8 @@ class PriceLvlRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: PriceLvlResponse) {
-                val data = data.data.map { PriceLvlDataMapper.fromNetworkToDb(it) }
-                priceLvlDao.insertBulk(data)
+                val datas = data.data.map { PriceLvlDataMapper.fromNetworkToDb(it) }
+                priceLvlDao.insertBulk(datas)
             }
         }.getAsFlow()
     }

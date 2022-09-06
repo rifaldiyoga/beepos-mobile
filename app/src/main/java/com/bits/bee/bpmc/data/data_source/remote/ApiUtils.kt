@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.remote
 
 import com.bits.bee.bpmc.data.data_source.remote.apiservices.*
+import com.bits.bee.bpmc.utils.BPMConstants
 import javax.inject.Inject
 
 /**
@@ -144,4 +145,13 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
     fun getUnitApiService(): UnitApiService{
         return retrofitClient.getClientApi()!!.create(UnitApiService::class.java)
     }
+
+    fun getSignUpApiService() : SignUpApiService {
+        return retrofitClient.getClientProvision(BPMConstants.API_MY)!!.create(SignUpApiService::class.java)
+    }
+
+    fun getItemDummyApiService() : ItemDummyApiService {
+        return retrofitClient.getClientApi()!!.create(ItemDummyApiService::class.java)
+    }
+
 }

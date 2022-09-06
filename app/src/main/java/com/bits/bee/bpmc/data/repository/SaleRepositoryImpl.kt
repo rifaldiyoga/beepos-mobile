@@ -28,10 +28,9 @@ class SaleRepositoryImpl @Inject constructor(
 ) : SaleRepository {
 
     override suspend fun addSale(sale: Sale) : Long{
-        var id : Long = 1
+        var id: Long
         withContext(defaultDispatcher){
             val saleNew = SaleDataMapper.fromDomainToDb(sale)
-
             id = saleDao.insertSingle(saleNew)
         }
         return id

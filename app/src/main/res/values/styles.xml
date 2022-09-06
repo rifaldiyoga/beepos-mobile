@@ -5,6 +5,7 @@
         <item name="backgroundTint">@null</item>
         <item name="android:textSize">@dimen/size14</item>
         <item name="textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ButtonPrimary" parent="ParentButton">
@@ -78,6 +79,12 @@
     <style name="CustomTextAppearanceTab" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CustomTextInputLayout" >
+        <item name="hintEnabled">false</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
     </style>
 
 </resources>

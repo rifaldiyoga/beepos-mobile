@@ -54,7 +54,7 @@ class TransaksiBerhasilFragment(
                 viewModel.event.collect {
                     when(it){
                         TransaksiBerhasilViewModel.UIEvent.NavigateToPos -> {
-                            val action = TransaksiBerhasilFragmentDirections.actionTransaksiBerhasilFragmentToPosFragment()
+//                            val action = TransaksiBerhasilFragmentDirections.actionTransaksiBerhasilFragmentToPosFragment()
                             findNavController().popBackStack(R.id.posFragment, false)
                             mainViewModel.resetState()
                         }

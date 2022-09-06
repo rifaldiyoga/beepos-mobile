@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.presentation.dialog
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +38,6 @@ class CustomDialogBuilder private constructor (
         super.onViewCreated(view, savedInstanceState)
         initComponents()
     }
-
 
     private fun initComponents(){
         binding.apply {
@@ -94,12 +92,16 @@ class CustomDialogBuilder private constructor (
         }
 
         fun setPositiveText(positive: String?): Builder {
-            this.positive = positive!!
+            positive?.let {
+                this.positive = positive
+            }
             return this
         }
 
         fun setNegativeText(negative: String?): Builder {
-            this.negative = negative!!
+            negative?.let {
+                this.negative = negative
+            }
             return this
         }
 

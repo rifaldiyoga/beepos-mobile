@@ -35,15 +35,15 @@ class InitialRepositoryImpl @Inject constructor(
                 return apiUtils.getInitialApiService().getInitial()
             }
 
-            override suspend fun saveCallResult(response: InitialResponse) {
-                val data = response.data
-                cmpDao.insertBulk(data.cmp.map { CmpDataMapper.fromNetworkToDb(it) })
-                regDao.insertBulk(data.reg.map { RegDataMapper.fromNetworkToDb(it) })
-                userDao.insertBulk(data.usr.map { UserDataMapper.fromNetworkToDb(it) })
-                usrGrpDao.insertBulk(data.usrGrp.map { UsrGrpDataMapper.fromNetworkToDb(it) })
-                grpPrvDao.insertBulk(data.grpPrv.map { GrpPrvDataMapper.fromNetworkToDb(it) })
-                crcDao.insertBulk(data.crc.map { CrcDataMapper.fromNetworkToDb(it) })
-                whDao.insertBulk(data.wh.map { WhDataMapper.fromNetworkToDb(it) })
+            override suspend fun saveCallResult(data: InitialResponse) {
+                val datas = data.data
+                cmpDao.insertBulk(datas.cmp.map { CmpDataMapper.fromNetworkToDb(it) })
+                regDao.insertBulk(datas.reg.map { RegDataMapper.fromNetworkToDb(it) })
+                userDao.insertBulk(datas.usr.map { UserDataMapper.fromNetworkToDb(it) })
+                usrGrpDao.insertBulk(datas.usrGrp.map { UsrGrpDataMapper.fromNetworkToDb(it) })
+                grpPrvDao.insertBulk(datas.grpPrv.map { GrpPrvDataMapper.fromNetworkToDb(it) })
+                crcDao.insertBulk(datas.crc.map { CrcDataMapper.fromNetworkToDb(it) })
+                whDao.insertBulk(datas.wh.map { WhDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()

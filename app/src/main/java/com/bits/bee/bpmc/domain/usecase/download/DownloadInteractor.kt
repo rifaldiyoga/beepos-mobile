@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
+import com.bits.bee.bpmc.domain.usecase.common.GetLatestCityUseCase
 import javax.inject.Inject
 
 /**

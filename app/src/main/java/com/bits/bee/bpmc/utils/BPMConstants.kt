@@ -36,6 +36,7 @@ interface BPMConstants {
         const val MODE_RETAIL = "MODE_RETAIL"
         const val NOTASETTING_LOGOPATH = "NOTASETTING_LOGOPATH"
         const val INIT_DEFAULT_LOGO = "bpm_logo1"
+        const val API_MY = "http://my.beecloud.id"
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CityRepository {
 
-    fun getLatestCityList() : Flow<Resource<List<City>>>
+    fun getLatestCityList(isSignUp : Boolean = false) : Flow<Resource<List<City>>>
 
     fun getActiveCityList() : Flow<List<City>>
 

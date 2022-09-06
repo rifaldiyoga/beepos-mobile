@@ -36,7 +36,7 @@ class SavePrinterUseCase @Inject constructor(
             }
         }
         if (mlistPrinter!!.isEmpty()){
-            printerRepo.addUpdatePrinter(printer?.let { PrinterDataMapper.fromDomainToDb(it) })
+            printerRepo.addUpdatePrinter(printer.let { PrinterDataMapper.fromDomainToDb(it) })
 
             if (printerKitchenList.isNotEmpty()){
                 for ((index, value) in printerKitchenList.withIndex()){
@@ -46,7 +46,7 @@ class SavePrinterUseCase @Inject constructor(
                             mprinter = data
                         }
                     }
-                    var printerKitchen = printerKitchenList.get(index)
+                    val printerKitchen = printerKitchenList.get(index)
                     printerKitchen.kitchenName = printerKitchen.kitchenName
                     printerKitchen.printerId = mprinter!!.id
 
@@ -59,19 +59,19 @@ class SavePrinterUseCase @Inject constructor(
                     }
 
                     for (kit in mListKitchen){
-                        var printerKitchenD = PrinterKitchenD(printerKitchenId = mprinterKitchen!!.id, kitchenId = kit.id)
+                        val printerKitchenD = PrinterKitchenD(printerKitchenId = mprinterKitchen!!.id, kitchenId = kit.id)
                         printerKitchenDRepo.addUpdatePrinterKitchenD(PrinterKitchenDDataMapper.fromDomainToDb(printerKitchenD))
                     }
                 }
             }
         }else{
-            printer?.id = mlistPrinter!!.get(0).id
-            printerRepo.updatePrinter(printer?.let { PrinterDataMapper.fromDomainToDb(it) })
-            clearPrinterKitchen(printer!!.id)
+            printer.id = mlistPrinter!!.get(0).id
+            printerRepo.updatePrinter(printer.let { PrinterDataMapper.fromDomainToDb(it) })
+            clearPrinterKitchen(printer.id)
 
             for ((index, value) in printerKitchenList.withIndex()){
-                var printerKitchen = printerKitchenList.get(index)
-                val id = printer!!.id
+                val printerKitchen = printerKitchenList[index]
+                val id = printer.id
                 printerKitchen.copy(printerId = id, kitchenName = printerKitchen.kitchenName)
                 printerKitchenRepo.addUpdatePrinterK(PrinterKitchenDataMapper.fromDomainToDb(printerKitchen))
 //                val idPrinterKit = state.mPrinterKitchen!!.id

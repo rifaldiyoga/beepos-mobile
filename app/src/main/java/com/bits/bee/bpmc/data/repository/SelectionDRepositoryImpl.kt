@@ -25,7 +25,7 @@ class SelectionDRepositoryImpl @Inject constructor(
     override fun getLatestSelectionDList(): Flow<Resource<List<SelectionD>>> {
         return object : NetworkDatabaseBoundResource<List<SelectionD>, SelectionDResponse>(){
             override suspend fun loadFormDB(): List<SelectionD> {
-                return selectionDDao.getSelectionDList().map { SelectionDDataMapper.fromDbToDomain(it)!! }
+                return selectionDDao.getSelectionDList().map { SelectionDDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<SelectionD>?): Boolean {

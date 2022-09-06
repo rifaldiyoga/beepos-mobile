@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.remote.apiservices
 
 import com.bits.bee.bpmc.data.data_source.remote.post.LoginPost
-import com.bits.bee.bpmc.data.data_source.remote.post.RegisterPost
+import com.bits.bee.bpmc.data.data_source.remote.post.SignUpPost
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.RegisterResponse
 import com.bits.bee.bpmc.utils.ApiResponse
@@ -19,5 +19,5 @@ interface AuthApiService {
     fun login(@Body lognPost: LoginPost) : Flow<ApiResponse<LoginResponse>>
 
     @POST("/rest/trial/signup")
-    fun signup(@Body registerPost: RegisterPost): Flow<ApiResponse<RegisterResponse>>
+    fun signup(@Body signUpPost: SignUpPost): Flow<ApiResponse<RegisterResponse>>
 }

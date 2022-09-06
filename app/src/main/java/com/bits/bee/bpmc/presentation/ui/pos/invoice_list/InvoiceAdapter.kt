@@ -89,7 +89,7 @@ class InvoiceAdapter(
                     onDeleteClick(model)
                 }
 
-                saleTrans.addOnTrans?.let { addOnTrans ->
+                saleTrans.addOnTrans?.let {
                     val addOnAdapter = InvoiceAddOnAdapter(model.qty)
 
                     rvAddon.apply {

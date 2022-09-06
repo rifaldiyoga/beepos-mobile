@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
-import android.content.Context
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
@@ -108,9 +107,7 @@ class MemberFragment(
                             setVisibilityLoading(true)
                         }
                         Resource.Status.SUCCESS -> {
-                            val data = it.data?.let {
-                                it
-                            } ?: mutableListOf()
+                            val data = it.data ?: mutableListOf()
 
                             setVisibilityLoading(false,  data)
                             memberAdapter.submitList(data)
@@ -128,10 +125,10 @@ class MemberFragment(
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search_member, menu)
 
-        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE)
+//        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE)
 
-        var searchItem = menu.findItem(R.id.search_member)
-        var searchView = searchItem.actionView as SearchView
+        val searchItem = menu.findItem(R.id.search_member)
+        val searchView = searchItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -149,7 +146,7 @@ class MemberFragment(
                                         memberAdapter.submitList(it)
                                     }
                                 }else if (newText!!.length >= 3){
-                                    viewModel.onSearch(newText!!.toString().trim())
+                                    viewModel.onSearch(newText.toString().trim())
                                     it.listBp?.let {
                                         memberAdapter.submitList(it)
                                     }
@@ -200,7 +197,7 @@ class MemberFragment(
     }
 
     private fun clearPref(){
-        var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
         sharedPreferences.remove(getString(R.string.pref_city))
         sharedPreferences.remove(getString(R.string.pref_add_member_name))
         sharedPreferences.remove(getString(R.string.pref_add_member_notelp))

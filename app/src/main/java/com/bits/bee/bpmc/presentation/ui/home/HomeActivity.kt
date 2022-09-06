@@ -55,13 +55,13 @@ class HomeActivity(
         binding.apply {
             setSupportActionBar(toolbar)
             bottomAppBar.setBackgroundResource(R.color.white)
-            navController.addOnDestinationChangedListener { _, _, _ ->
-                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
-            }
             NavigationUI.setupActionBarWithNavController(this@HomeActivity, navController, appBarConfiguration)
             val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             NavigationUI.setupWithNavController(bottomNav, navController)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
+            navController.addOnDestinationChangedListener { _, _, _ ->
+                toolbar.setNavigationIcon(R.drawable.ic_back_black)
+            }
         }
     }
 

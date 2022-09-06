@@ -93,7 +93,7 @@ class AddPrinterFragment(
             btnLanjut.setOnClickListener {
                 doSave()
             }
-            swcPrinterKitchen.setOnCheckedChangeListener { compoundButton, b ->
+            swcPrinterKitchen.setOnCheckedChangeListener { _, b ->
                 if (b){
                     viewKitchen(swcPrinterKitchen.isChecked)
                 }else{
@@ -115,10 +115,7 @@ class AddPrinterFragment(
 
     private fun doIsKitchen(){
         binding.apply {
-            if (swcPrinterKitchen.isChecked)
-                swcPrinterKitchen.isChecked = false
-            else
-                swcPrinterKitchen.isChecked = true
+            swcPrinterKitchen.isChecked = !swcPrinterKitchen.isChecked
             viewKitchen(swcPrinterKitchen.isChecked)
         }
 
@@ -343,11 +340,9 @@ class AddPrinterFragment(
         if (validateInput()){
             var printerKitchenList: List<PrinterKitchen> = mutableListOf()
             var listKitchen: MutableList<Kitchen> = mutableListOf()
-            if (sectionKitchenAdapter != null){
-//                viewModel.getDataList()
-                printerKitchenList = sectionKitchenAdapter.getPrinterKitchenList()
-                listKitchen = sectionKitchenAdapter.getPrinterKitchenListmap()
-            }
+            //                viewModel.getDataList()
+            printerKitchenList = sectionKitchenAdapter.getPrinterKitchenList()
+            listKitchen = sectionKitchenAdapter.getPrinterKitchenListmap()
             viewModel.save(mPrinter, printerKitchenList, listKitchen)
             Toast.makeText(requireContext(), "Berhasil simpan print", Toast.LENGTH_LONG)
         }else{

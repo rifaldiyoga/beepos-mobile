@@ -18,20 +18,21 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient {
     private var retrofit: Retrofit? = null
 
-    fun getClientProvision(): Retrofit? {
+    fun getClientProvision(url : String = API_PROVISION): Retrofit? {
         val interceptor = HttpLoggingInterceptor()
         if (DEBUG) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {
             interceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
         }
-        val baseUrl: String = API_PROVISION
+        val baseUrl: String = url
         try {
             val timeout = 7
             val client = OkHttpClient.Builder()
                 .connectTimeout(timeout.toLong(), TimeUnit.MINUTES)
                 .readTimeout(timeout.toLong(), TimeUnit.MINUTES)
                 .writeTimeout(timeout.toLong(), TimeUnit.MINUTES)
+                .addNetworkInterceptor(AddHeaderInterceptor(""))
                 .addInterceptor(interceptor).build()
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -61,7 +62,9 @@ class RetrofitClient {
                 .readTimeout(timeout.toLong(), TimeUnit.MINUTES)
                 .writeTimeout(timeout.toLong(), TimeUnit.MINUTES)
                 .addInterceptor(interceptor)
-                .addNetworkInterceptor(AddHeaderInterceptor()).build()
+                .addNetworkInterceptor(AddHeaderInterceptor(
+                    "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM0NTJjYWZlYmVlIiwiZGJob3N0IjoiMTAuMTMwLjIyLjExMiIsInVzZXJfaWQiOiIxMiJ9.oh2Z-wRXLqmm9hBz8IxQVFRb72BCewHNTwWYMZJh9jM"
+                )).build()
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(FlowCallAdapterFactory.create())
@@ -74,11 +77,12 @@ class RetrofitClient {
         return retrofit
     }
 
-    private class AddHeaderInterceptor : Interceptor {
+    private class AddHeaderInterceptor(val apiKey : String) : Interceptor {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
             val builder: Request.Builder = chain.request().newBuilder()
-            builder.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM0NTJjYWZlYmVlIiwiZGJob3N0IjoiMTAuMTMwLjIyLjExMiIsInVzZXJfaWQiOiIxMiJ9.oh2Z-wRXLqmm9hBz8IxQVFRb72BCewHNTwWYMZJh9jM")
+            builder.addHeader("Content-Type", "application/json")
+            builder.addHeader("Authorization", apiKey)
             builder.method(chain.request().method, chain.request().body)
             return chain.proceed(builder.build())
         }

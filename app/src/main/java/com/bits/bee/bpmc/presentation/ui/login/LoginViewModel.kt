@@ -1,16 +1,16 @@
 package com.bits.bee.bpmc.presentation.ui.login
 
 import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,64 +22,51 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor (
     private val loginUseCase: LoginUseCase,
     @ApplicationContext val context: Context
-) : ViewModel() {
+) : BaseViewModel<LoginViewState, LoginViewModel.UIEvent>() {
 
-    private val eventChannel = Channel<UIEvent>()
-    val event = eventChannel.receiveAsFlow()
+    init {
+        state = LoginViewState()
+    }
 
-    private val _state = MutableStateFlow(LoginViewState())
-    var state = _state.asStateFlow()
 
-    private var loginResponse: MediatorLiveData<Resource<LoginResponse>> = MediatorLiveData()
-    fun observeLoginResponse() = loginResponse as LiveData<Resource<LoginResponse>>
-
-    fun login() {
-        val source = loginUseCase(_state.value.email, state.value.password).asLiveData()
-        loginResponse.addSource(source){
-            if (it != null) {
-                loginResponse.value = it
-                if (it.status !== Resource.Status.LOADING) {
-                    loginResponse.removeSource(source)
-                }
-            } else {
-                loginResponse.removeSource(source)
-            }
-        }
+    fun login() : Flow<Resource<LoginResponse>> {
+       return loginUseCase(state.email, state.password)
     }
 
     fun validateEmail() = viewModelScope.launch{
-        val email = state.value.email
+        val email = state.email
         var msg = ""
         if(email.isEmpty())
             msg = context.getString(R.string.email_tidak_boleh_kosong)
         if(!Utils.isValidEmail(email))
             msg = "Email tidak valid!"
-        _state.update {
-            it.copy(
+        updateState(
+            state.copy(
                 messageEmail = msg
             )
-        }
+        )
+
         validateInput()
     }
 
     fun validatePassword() = viewModelScope.launch{
-        val email = state.value.password
+        val email = state.password
         var msg = ""
         if(email.isEmpty())
             msg = context.getString(R.string.email_tidak_boleh_kosong)
 
-        _state.update {
-            it.copy(
+        updateState(
+            state.copy(
                 messagePassword = msg
             )
-        }
+        )
         validateInput()
     }
 
     private fun validateInput() = viewModelScope.launch {
-        _state.update {
-            it.copy(isValid = it.messagePassword.isEmpty() && it.messageEmail.isEmpty())
-        }
+        updateState(
+            state.copy(isValid = state.messagePassword.isEmpty() && state.messageEmail.isEmpty())
+        )
     }
 
     fun onClickLogin() = viewModelScope.launch {

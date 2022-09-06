@@ -68,7 +68,7 @@ class PilihCabangFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.getLatestBranch.collect {
-                    it?.let {
+                    it.let {
                         when(it.status){
                             Resource.Status.LOADING -> {
                                 setVisibilityComponent(true)

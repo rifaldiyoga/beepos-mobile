@@ -26,15 +26,20 @@ class ModeTampilanFragment(
 
     private val viewModel : ModeTampilanViewModel by viewModels()
 
+
     override fun initComponents() {
         binding.apply {
+            arguments?.let{
+                val type = it.getString("type")
+                viewModel.type = type ?: ""
 
+            }
         }
     }
 
     override fun subscribeListeners() {
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-                    R.string.page_mode_tampilan))
+            R.string.page_mode_tampilan))
         binding.apply {
             clRetailDist.setOnClickListener {
                 viewModel.onClickItem(requireContext(), BPMConstants.MODE_RETAIL)
@@ -51,7 +56,14 @@ class ModeTampilanFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         is ModeTampilanViewModel.UIEvent.RequestClickItem -> {
-                            val action = ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
+                            val action = when (viewModel.type) {
+                                "signup" -> {
+                                    ModeTampilanFragmentDirections.actionModeTampilanFragmentToAturProdukFragment()
+                                }
+                                else -> {
+                                    ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
+                                }
+                            }
                             findNavController().navigate(action)
                         }
                     }

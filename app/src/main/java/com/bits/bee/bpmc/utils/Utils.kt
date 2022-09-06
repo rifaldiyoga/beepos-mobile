@@ -13,8 +13,8 @@ class Utils {
 
     companion object {
 
-        fun getScreenResolution(activity: Activity): String? {
-            var screenDevice = ""
+        fun getScreenResolution(activity: Activity): String {
+            var screenDevice : String
             val metrics = DisplayMetrics()
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 val display = activity.display
@@ -32,7 +32,7 @@ class Utils {
             val widthInches = widthPixels / widthDpi
             val heightInches = heightPixels / heightDpi
             val diagonalInches = Math.sqrt((widthInches * widthInches + heightInches * heightInches).toDouble())
-            val inc = diagonalInches.toString().substring(0, 3)
+//            val inc = diagonalInches.toString().substring(0, 3)
 
             //inci layar
             val orientation: String = PreferenceManager.getDefaultSharedPreferences(activity)

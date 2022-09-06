@@ -65,7 +65,7 @@ class ParentSesiAdapter constructor(
             }
 
         }
-        val expand: Boolean = sesiModel.expand
+//        val expand: Boolean = sesiModel.expand
 
 
     }

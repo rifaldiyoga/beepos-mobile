@@ -24,18 +24,18 @@ class CityRepositoryImpl @Inject constructor(
     private val defaultDispatcher : CoroutineDispatcher
 ) : CityRepository {
 
-     override fun getLatestCityList(): Flow<Resource<List<City>>> {
+     override fun getLatestCityList(isSignUp : Boolean): Flow<Resource<List<City>>> {
         return object : NetworkDatabaseBoundResource<List<City>, CityResponse>(){
             override suspend fun loadFormDB(): List<City>? {
                 return cityDao.getCityList().map { CityDataMapper.fromDbToDomain(it) }
             }
 
             override fun shouldFetch(data: List<City>?): Boolean {
-                return true
+                return cityDao.getCityList().isEmpty()
             }
 
             override suspend fun createCall(): Flow<ApiResponse<CityResponse>> {
-                return apiUtils.getCityApiService().getCityList()
+                return if(isSignUp) apiUtils.getSignUpApiService().getCity() else apiUtils.getCityApiService().getCityList()
             }
 
             override suspend fun saveCallResult(data: CityResponse) {
@@ -59,11 +59,7 @@ class CityRepositoryImpl @Inject constructor(
     override fun getCodeByName(str: String): Flow<Resource<City>> {
         return flow {
             val data = cityDao.getCodeByName(str)
-            if (data != null){
-                emit(Resource.success(CityDataMapper.fromDbToDomain(data)))
-            }else{
-                emit(Resource.error(null, "data kosng"))
-            }
+            emit(Resource.success(CityDataMapper.fromDbToDomain(data)))
         }.flowOn(defaultDispatcher)
     }
 

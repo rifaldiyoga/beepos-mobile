@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size16">
+
+        <TextView
+            android:id="@+id/tvCust"
+            android:layout_width="@dimen/size0"
+            android:layout_marginEnd="@dimen/size16"
+            android:layout_height="wrap_content"
+            android:text="@string/budiman"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/tvJam"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvJam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/_08_03_2022_12_12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvCust"
+            app:layout_constraintEnd_toStartOf="@+id/ivDelete" />
+
+        <TextView
+            android:id="@+id/tvOperator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size8"
+            android:text="@string/kasir"
+            app:layout_constraintStart_toStartOf="@+id/tvCust"
+            app:layout_constraintTop_toBottomOf="@+id/tvCust" />
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mata_uang_nominal"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvOperator"
+            app:layout_constraintEnd_toEndOf="@+id/tvJam" />
+
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="@dimen/size24"
+            android:layout_height="@dimen/size24"
+            android:src="@drawable/ic_delete_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size1"
+        android:background="@color/light_gray"/>
+
+</LinearLayout>

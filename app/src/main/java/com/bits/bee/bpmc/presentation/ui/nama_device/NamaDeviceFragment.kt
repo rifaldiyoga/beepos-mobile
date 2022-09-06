@@ -1,11 +1,11 @@
 package com.bits.bee.bpmc.presentation.ui.nama_device
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,9 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentNamaDeviceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -33,6 +32,14 @@ class NamaDeviceFragment constructor(
 
     private val viewModel : NamaDeviceViewModel by viewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,18 +51,11 @@ class NamaDeviceFragment constructor(
     override fun initComponents() {
         binding.apply {
 
-            requireActivity().onBackPressedDispatcher.addCallback(this@NamaDeviceFragment, object : OnBackPressedCallback(true){
-                override fun handleOnBackPressed() {
-                    val dialog = CustomDialogBuilder.Builder(requireContext())
-                        .setTitle(getString(R.string.yakin_akan_keluar))
-                        .setPositiveCallback {
-
-                        }
-                        .setMessage(getString(R.string.konfirmasi_keluar)).build()
-
-                    dialog.show(parentFragmentManager, TAG)
-                }
-            })
+//            requireActivity().onBackPressedDispatcher.addCallback(this@NamaDeviceFragment, object : OnBackPressedCallback(true){
+//                override fun handleOnBackPressed() {
+//                    handleBack()
+//                }
+//            })
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.event.collect { event ->

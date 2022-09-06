@@ -70,7 +70,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao, unitDao: UnitDao, priceDao: PriceDao, defaultDispatcher: CoroutineDispatcher, itemGroupDao: ItemGroupDao, priceLvlDao: PriceLvlDao, itemSaleTaxDao: ItemSaleTaxDao) : ItemRepository {
+    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao,  defaultDispatcher: CoroutineDispatcher ) : ItemRepository {
         return ItemRepositoryImpl(
             apiUtils =  apiUtils,
             itemDao = itemDao,
@@ -110,13 +110,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeSaleRepository(apiUtils: ApiUtils,dao: SaleDao, defaultDispatcher: CoroutineDispatcher) : SaleRepository {
+    fun proivdeSaleRepository(dao: SaleDao, defaultDispatcher: CoroutineDispatcher) : SaleRepository {
         return SaleRepositoryImpl(defaultDispatcher, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeSaledRepository(apiUtils: ApiUtils,dao: SaledDao, defaultDispatcher: CoroutineDispatcher) : SaledRepository {
+    fun proivdeSaledRepository(dao: SaledDao, defaultDispatcher: CoroutineDispatcher) : SaledRepository {
         return SaledRepositoryImpl(saledDao = dao, defaultDispatcher = defaultDispatcher)
     }
 
@@ -358,6 +358,25 @@ object AppModule {
     @Singleton
     fun providePromoRepository(apiUtils: ApiUtils,saleCrcvDao: PromoDao, dispatcher: CoroutineDispatcher) : PromoRepository {
         return PromoRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSignUpRepository(apiUtils: ApiUtils,) : SignUpRepository {
+        return SignUpRepositoryImpl(apiUtils,)
+    }
+
+    @Provides
+    @Singleton
+    fun provideItemDummyRepository(saleCrcvDao: ItemDummyDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : ItemDummyRepository {
+        return ItemDummyRepositoryImpl(saleCrcvDao, dispatcher, apiUtils)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideUnitDummyRepository(saleCrcvDao: UnitDummyDao, dispatcher: CoroutineDispatcher) : UnitDummyRepository {
+        return UnitDummyRepositoryImpl(saleCrcvDao, dispatcher, )
     }
 
 }

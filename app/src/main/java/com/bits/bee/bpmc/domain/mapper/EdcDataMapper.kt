@@ -36,7 +36,7 @@ object EdcDataMapper : BaseMapper<EdcEntity, Edc, EdcResponse.EdcModel>() {
     }
 
     override fun fromNetworkToDb(model: EdcResponse.EdcModel): EdcEntity {
-        return return EdcEntity(
+        return EdcEntity(
             model.id ,
             model.code ,
             model.name,

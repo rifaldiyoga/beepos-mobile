@@ -114,7 +114,7 @@ class AnalisaSesiFragment(
                                 }
                             }
                             it.posses?.let {
-                                val startTime = Date(it!!.startTime.time)
+                                val startTime = Date(it.startTime.time)
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
                                 if (it.endTime != null){

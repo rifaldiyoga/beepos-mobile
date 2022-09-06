@@ -164,7 +164,7 @@ class TambahMemberFragment(
                             etEmail.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_member_email), "") as String)
                             etAlamat.setText(BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_member_alamat), "") as String)
                             var str = ""
-                            if (regencyStr.equals("")){
+                            if (regencyStr == ""){
                                 it.regency?.let {
                                     str = it.name+(", ")+mDistrict!!.name
                                 }

@@ -20,34 +20,21 @@ class PrinterKitchenRepositoryImpl @Inject constructor(
     override fun getByIdPrinter(id: Int): Flow<Resource<List<PrinterKitchen>>>  {
         return flow {
             val data = printerKitchenDao.getByPrinter(id).map { PrinterKitchenDataMapper.fromDbToDomain(it) }
-            val str =""
-            if (data != null){
-                emit(Resource.success(data))
-            }else{
-                emit(Resource.error(null, "Data Kosong"))
-            }
+            emit(Resource.success(data))
         }.flowOn(ioDispatcher)
     }
 
     override fun getId(id: Int): Flow<Resource<PrinterKitchen>> {
         return flow{
            val data =  printerKitchenDao.getById(id)
-            if (data != null){
-                emit(Resource.success(PrinterKitchenDataMapper.fromDbToDomain(data)))
-            }else{
-                emit(Resource.error(null, "Data Kosong"))
-            }
+            emit(Resource.success(PrinterKitchenDataMapper.fromDbToDomain(data)))
         }.flowOn(ioDispatcher)
     }
 
     override fun getLastId(): Flow<Resource<PrinterKitchen>> {
         return flow {
            val data = printerKitchenDao.getLastId()
-            if (data != null){
-                emit(Resource.success(PrinterKitchenDataMapper.fromDbToDomain(data)))
-            }else{
-                emit(Resource.error(null, "Data Kosong"))
-            }
+            emit(Resource.success(PrinterKitchenDataMapper.fromDbToDomain(data)))
         }.flowOn(ioDispatcher)
     }
 

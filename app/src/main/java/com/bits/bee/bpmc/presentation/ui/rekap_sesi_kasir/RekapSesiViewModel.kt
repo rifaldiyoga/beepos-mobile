@@ -36,7 +36,6 @@ class RekapSesiViewModel @Inject constructor(
         getDefaultUserUseCase.invoke().collect {
             when(it.status){
                 Resource.Status.LOADING ->{
-                    val str=""
                 }
                 Resource.Status.SUCCESS ->{
                     updateState(

@@ -48,7 +48,7 @@ class MemberViewModel @Inject constructor(
         searchMemberUseCase.invoke(state.search).collect {
             when(it.status){
                 Resource.Status.LOADING ->{
-                    val str=""
+//                    val str=""
                 }
                 Resource.Status.SUCCESS ->{
                     updateState(

@@ -2,12 +2,10 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer
 
 import android.os.Build
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.domain.usecase.printer.PrinterInteractor
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 import javax.inject.Inject

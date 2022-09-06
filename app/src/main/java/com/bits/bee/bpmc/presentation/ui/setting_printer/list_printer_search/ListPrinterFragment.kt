@@ -41,24 +41,19 @@ class ListPrinterFragment(
 
     fun init(){
         mBluetoothAdapter= BluetoothAdapter.getDefaultAdapter()
-        if(mBluetoothAdapter == null) {
-            Toast.makeText(requireContext(), "this device doesn't support bluetooth", Toast.LENGTH_LONG)
-                .show()
-            return
-        }
-        if(!mBluetoothAdapter!!.isEnabled) {
+        if(!mBluetoothAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }
-        m_pairedDevices = mBluetoothAdapter!!.bondedDevices
-        if (!m_pairedDevices.isEmpty()) {
+        m_pairedDevices = mBluetoothAdapter.bondedDevices
+        if (m_pairedDevices.isNotEmpty()) {
             for (device: BluetoothDevice in m_pairedDevices) {
-                if (deviceName.equals(device.name)){
+                if (deviceName == device.name){
                     mDevice = device
                     break
                 }
                 mListPrinter.add(ListPrinter(device.name, device.address))
-                Log.d(ContentValues.TAG, "paired device: {${device!!.name} ${device.address}} ")
+                Log.d(ContentValues.TAG, "paired device: {${device.name} ${device.address}} ")
             }
         } else {
             Toast.makeText(requireContext(), "bluetooth device not found", Toast.LENGTH_LONG)
@@ -115,8 +110,8 @@ class ListPrinterFragment(
     fun checkBTPermission(){
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             var permissionCheck =
-                requireContext()!!.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION")
-            permissionCheck += requireContext()!!.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION")
+                requireContext().checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION")
+            permissionCheck += requireContext().checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION")
             if (permissionCheck != 0) {
                 requestPermissions(
                     arrayOf(
@@ -171,16 +166,16 @@ class ListPrinterFragment(
             if (BluetoothDevice.ACTION_FOUND.equals(action)){
                 val device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
                 //                mNewDevicesArrayAdapter.add(device.getName());
-                if (device?.getBondState() != BluetoothDevice.BOND_BONDED){
+                if (device?.bondState != BluetoothDevice.BOND_BONDED){
                     if (device?.name != null){
-                        mListPrinter.add(ListPrinter(device.name, device!!.address))
+                        mListPrinter.add(ListPrinter(device.name, device.address))
                         initBinding()
                     }
 //                    findPrinterAdapter.generate(mListPrinter)
                     Log.d(ContentValues.TAG,"onReceive device: " + device?.name + ": "
                             + device!!.address+" "+device+"List find: "+mListPrinter)
                 }
-            }else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
+            }else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action){
                 Log.d(ContentValues.TAG,"onReceive device: discovery is finish")
                 stopDiscovery()
             }

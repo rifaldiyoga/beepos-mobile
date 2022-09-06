@@ -1,17 +1,12 @@
 package com.bits.bee.bpmc.presentation.ui.setting_nota
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
-import android.provider.CalendarContract.Instances.query
-import android.provider.CalendarContract.Reminders.query
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentResolverCompat.query
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -40,14 +35,9 @@ class SettingNotaFragment(
     private var mPilihLogo: Boolean = false
 
     override fun initComponents() {
-        val string=""
         mPilihLogo = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
             R.string.pref_logo_galeri), false) as Boolean
-        if (mPilihLogo){
-            binding.swcLogoGaleri.isChecked = true
-        }else{
-            binding.swcLogoGaleri.isChecked = false
-        }
+        binding.swcLogoGaleri.isChecked = mPilihLogo
     }
 
     override fun subscribeListeners() {
@@ -58,7 +48,7 @@ class SettingNotaFragment(
             clAturFooter.setOnClickListener {
                 viewModel.onClickAturFooter()
             }
-            swcLogo.setOnCheckedChangeListener { compoundButton, b ->
+            swcLogo.setOnCheckedChangeListener { _, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo), true)
                 }else{
@@ -82,7 +72,7 @@ class SettingNotaFragment(
                     }
                 }
             }
-            swcHeader.setOnCheckedChangeListener { compoundButton, b ->
+            swcHeader.setOnCheckedChangeListener { _, b ->
                 if (b){
                     clAturHeader.visible()
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_header), true)
@@ -91,7 +81,7 @@ class SettingNotaFragment(
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_header), false)
                 }
             }
-            swcFooter.setOnCheckedChangeListener { compoundButton, b ->
+            swcFooter.setOnCheckedChangeListener { _, b ->
                 if (b){
                     clAturFooter.visible()
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_footer), true)
@@ -100,28 +90,28 @@ class SettingNotaFragment(
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_footer), false)
                 }
             }
-            swcRkpCustomer.setOnCheckedChangeListener { compoundButton, b ->
+            swcRkpCustomer.setOnCheckedChangeListener { _, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_customer), true)
                 }else{
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_customer), false)
                 }
             }
-            swcRkpProdukChannel.setOnCheckedChangeListener { compoundButton, b ->
+            swcRkpProdukChannel.setOnCheckedChangeListener { _, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_produk_channel), true)
                 }else{
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_produk_channel), false)
                 }
             }
-            swcRkpFaktur.setOnCheckedChangeListener { compoundButton, b ->
+            swcRkpFaktur.setOnCheckedChangeListener { _, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_faktur), true)
                 }else{
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_faktur), false)
                 }
             }
-            swcRkpChannel.setOnCheckedChangeListener { compoundButton, b ->
+            swcRkpChannel.setOnCheckedChangeListener { _, b ->
                 if (b){
                     BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_rkp_channel), true)
                 }else{
@@ -135,7 +125,7 @@ class SettingNotaFragment(
         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pilih_logo), true)
         Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
             type = "image/*"
-            startActivityForResult(this, IMG_RESULT)
+//            startActivityForResult(this, IMG_RESULT)
         }
     }
 
@@ -220,26 +210,27 @@ class SettingNotaFragment(
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMG_RESULT){
-            if (data != null && data.data != null){
-                val uri: Uri = data.data!!
-                val file = arrayOf(MediaStore.Images.Media.DATA)
-                getContentImg(uri, file, requireContext())
-                BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, mImagePath)
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        filePath = mImagePath
-                    )
-                )
-            }
-        }else{
-            BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, BPMConstants.INIT_DEFAULT_LOGO)
-            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), false)
-            binding.swcLogoGaleri.isChecked = false
-        }
-    }
+//    @Deprecated("Deprecated in Java")
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == IMG_RESULT){
+//            if (data != null && data.data != null){
+//                val uri: Uri = data.data!!
+//                val file = arrayOf(MediaStore.Images.Media.DATA)
+//                getContentImg(uri, file, requireContext())
+//                BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, mImagePath)
+//                viewModel.updateState(
+//                    viewModel.state.copy(
+//                        filePath = mImagePath
+//                    )
+//                )
+//            }
+//        }else{
+//            BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, BPMConstants.INIT_DEFAULT_LOGO)
+//            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), false)
+//            binding.swcLogoGaleri.isChecked = false
+//        }
+//    }
 
     fun getContentImg(uri: Uri, file: Array<String>, context: Context){
         val cursor = context.contentResolver.query(uri, file, null, null, null)

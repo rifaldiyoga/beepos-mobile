@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.initial
 
-import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -13,6 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityInitialBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -23,13 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class InitialActivity (
     override val bindingInflater: (LayoutInflater) -> ActivityInitialBinding = ActivityInitialBinding::inflate
 ) : BaseActivity<ActivityInitialBinding>() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    //View Model
-//    private val viewModel : InitialViewModel by viewModels()
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -42,18 +37,48 @@ class InitialActivity (
 
         binding.apply {
             setSupportActionBar(toolbar)
-            navController.addOnDestinationChangedListener { _, _, _ ->
-                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
-            }
-            NavigationUI.setupActionBarWithNavController(this@InitialActivity, navController, appBarConfiguration)
 
+
+            NavigationUI.setupActionBarWithNavController(this@InitialActivity, navController, appBarConfiguration)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
+            navController.addOnDestinationChangedListener { _, _, _ ->
+                toolbar.setNavigationIcon(R.drawable.ic_back_black)
+
+            }
+            toolbar.setNavigationOnClickListener {
+                onBackPressed()
+            }
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.initialHostFragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return true
+    }
+
+    override fun onBackPressed() {
+        if(navController.currentDestination?.id == R.id.namaDeviceFragment || navController.currentDestination?.id == R.id.pilihDbFragment){
+            val dialog = DialogBuilderUtils.showDialogChoice(
+                this,
+                getString(R.string.yakin_akan_keluar), getString(R.string.konfirmasi_keluar),
+                positiveListener = {
+                    it.dismiss()
+                    super.onBackPressed()
+                }
+            )
+            dialog.show(supportFragmentManager, TAG)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun subscribeListeners() {
@@ -63,6 +88,5 @@ class InitialActivity (
     override fun subscribeObservers() {
 
     }
-
 
 }

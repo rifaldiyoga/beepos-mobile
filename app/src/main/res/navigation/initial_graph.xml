@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/initialFragment">
     <fragment
         tools:layout="@layout/fragment_login"
         android:id="@+id/loginFragment"
@@ -12,24 +12,7 @@
         <action
             android:id="@+id/action_loginFragment_to_namaDeviceFragment"
             app:destination="@id/namaDeviceFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_modeTampilanFragment"
-            app:destination="@id/modeTampilanFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_pilihCabangFragment"
-            app:destination="@id/pilihCabangFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_pilihKasirFragment"
-            app:destination="@id/pilihKasirFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_loginOperatorFragment"
-            app:destination="@id/loginOperatorFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_modeInfoKontak"
-            app:destination="@id/infoKontakFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
+
     </fragment>
 
     <fragment
@@ -98,51 +81,58 @@
         <action
             android:id="@+id/action_modeTampilanFragment_to_pilihCabangFragment"
             app:destination="@id/pilihCabangFragment" />
+        <action
+            android:id="@+id/action_modeTampilanFragment_to_aturProdukFragment"
+            app:destination="@id/aturProdukFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="signin" />
     </fragment>
     <fragment
         android:id="@+id/infoKontakFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.info_kontak.InfoKontakFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.info_kontak.InfoKontakFragment"
         tools:layout="@layout/fragment_info_kontak">
         <action
             android:id="@+id/action_infoKontakFragment_to_otpFragment"
             app:destination="@id/otpFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/otpFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.otp.OtpFragment"
-        android:label="OtpFragment"
-        tools:layout="@layout/fragment_otp">
-        <argument
-            android:name="nama"
-            app:argType="string" />
-        <argument
-            android:name="no_wa"
-            app:argType="string" />
-        <argument
-            android:name="akun_email"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
-        <argument
-            android:name="password_conf"
-            app:argType="string" />
         <action
-            android:id="@+id/action_otpFragment_to_infoBisnisFragment"
+            android:id="@+id/action_infoKontakFragment_to_infoBisnisFragment"
             app:destination="@id/infoBisnisFragment" />
     </fragment>
     <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.otp.OtpFragment"
+        android:label="OtpFragment"
+        tools:layout="@layout/fragment_otp">
+        <action
+            android:id="@+id/action_otpFragment_to_infoBisnisFragment"
+            app:destination="@id/infoBisnisFragment" />
+        <argument
+            android:name="signUp"
+            app:argType="com.bits.bee.bpmc.domain.model.SignUp" />
+        <action
+            android:id="@+id/action_otpFragment_to_aturPinFragment"
+            app:destination="@id/aturPinFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/infoBisnisFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.info_bisnis.InfoBisnisFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.info_bisnis.InfoBisnisFragment"
         android:label="InfoBisnisFragment"
         tools:layout="@layout/fragment_info_bisnis">
         <action
             android:id="@+id/action_infoBisnisFragment_to_aturPinFragment"
             app:destination="@id/aturPinFragment" />
+        <argument
+            android:name="signUp"
+            app:argType="com.bits.bee.bpmc.domain.model.SignUp" />
+        <action
+            android:id="@+id/action_infoBisnisFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
     </fragment>
     <fragment
         android:id="@+id/aturPinFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.atur_pin.AturPinFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.atur_pin.AturPinFragment"
         android:label="AturPinFragment"
         tools:layout="@layout/fragment_atur_pin">
         <action
@@ -151,12 +141,75 @@
     </fragment>
     <fragment
         android:id="@+id/ulangiPinFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.ulangi_pin.UlangiPinFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.ulangi_pin.UlangiPinFragment"
         android:label="UlangiPinFragment"
-        tools:layout="@layout/fragment_ulangi_pin"/>
+        tools:layout="@layout/fragment_ulangi_pin">
+        <argument
+            android:name="pin"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_ulangiPinFragment_to_modeTampilanFragment"
+            app:destination="@id/modeTampilanFragment" />
+    </fragment>
     <activity
         android:id="@+id/homeActivity"
         android:name="com.bits.bee.bpmc.presentation.ui.home.HomeActivity"
         android:label="HomeActivity" />
+    <fragment
+        android:id="@+id/aturProdukFragment"
+        tools:layout="@layout/fragment_atur_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.atur_produk.AturProdukFragment"
+        android:label="AturProdukFragment" >
+        <action
+            android:id="@+id/action_aturProdukFragment_to_tambahProdukFragment"
+            app:destination="@id/tambahProdukFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tambahProdukFragment"
+        tools:layout="@layout/fragment_tambah_prd"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukFragment"
+        android:label="TambahProdukFragment" >
+        <argument
+            android:name="itemDummy"
+            app:argType="com.bits.bee.bpmc.domain.model.ItemDummy"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_inital"
+        android:id="@+id/initialFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialFragment"
+        android:label="InitialFragment" >
+        <action
+            android:id="@+id/action_initialFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_initialFragment_to_infoKontakFragment"
+            app:destination="@id/infoKontakFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_otpFragment"-->
+<!--            app:destination="@id/otpFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_aturPinFragment"-->
+<!--            app:destination="@id/aturPinFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_modeTampilanFragment"-->
+<!--            app:destination="@id/modeTampilanFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_pilihCabangFragment"-->
+<!--            app:destination="@id/pilihCabangFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_homeActivity"-->
+<!--            app:destination="@id/homeActivity" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_aturProdukFragment"-->
+<!--            app:destination="@id/aturProdukFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_pilihKasirFragment"-->
+<!--            app:destination="@id/pilihKasirFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_initialFragment_to_loginOperatorFragment"-->
+<!--            app:destination="@id/loginOperatorFragment" />-->
+    </fragment>
 
 </navigation>

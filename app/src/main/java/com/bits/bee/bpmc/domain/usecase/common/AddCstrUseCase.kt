@@ -8,7 +8,6 @@ import com.bits.bee.bpmc.domain.repository.CstrRepository
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import java.math.BigDecimal
 import java.util.*
@@ -23,7 +22,7 @@ class AddCstrUseCase @Inject constructor(
 
     suspend operator fun invoke(refNo : String, refType : String, amt : BigDecimal, branch : Branch, cashier : Cashier){
 
-        var cstr = Cstr(
+        val cstr = Cstr(
             trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
             amount1 = amt,
             amount2 = amt,
@@ -42,8 +41,8 @@ class AddCstrUseCase @Inject constructor(
 
         val lastCstr = cstrRepository.getLastId().first()
 
-        var code = TrxNoGeneratorUtils.counterNoTrxCstr(lastCstr?.id ?: 1, branch, cashier)
+        val code = TrxNoGeneratorUtils.counterNoTrxCstr(lastCstr?.id ?: 1, branch, cashier)
 
-        cstrRepository.updateCode(code!!, lastCstr?.id?:1)
+        cstrRepository.updateCode(code, lastCstr?.id?:1)
     }
 }

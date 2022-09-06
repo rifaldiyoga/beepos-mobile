@@ -337,4 +337,16 @@ object DatabaseModule {
     fun provideSaleAddOnDDao(dbHelper: DbHelper): SaleAddOnDDao{
         return dbHelper.saleAddOnDDao
     }
+
+    @Provides
+    @Singleton
+    fun provideItemDummyDao(dbHelper: DbHelper): ItemDummyDao{
+        return dbHelper.itemDummyDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideUnitDummyDao(dbHelper: DbHelper): UnitDummyDao{
+        return dbHelper.unitDummyDao
+    }
 }

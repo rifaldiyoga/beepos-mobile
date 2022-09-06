@@ -3,12 +3,9 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen
 import android.R
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemSectionKitchenBinding
 import com.bits.bee.bpmc.domain.model.Kitchen
@@ -37,7 +34,6 @@ class SectionKitchenAdapter constructor(
 
     fun setKitchenList(mutable: MutableList<Kitchen>) {
         this.mListKitchen = mutable
-        val str= ""
     }
 
     fun getPrinterKitchenList(): List<PrinterKitchen>{
@@ -77,23 +73,22 @@ class SectionKitchenAdapter constructor(
             etKitchenDapur.setText(printerKitchen.kitchenName)
         }
         val spinner = holder.binding.spinnerKategori
-        if (spinner != null){
 
-            var listStr = mutableListOf<String>()
-            listStr.add("Pilih Kategori")
+        val listStr = mutableListOf<String>()
+        listStr.add("Pilih Kategori")
 //            var valuesList: List<MutableList<Kitchen>> = mMap.values.toList()
 //            for (kitList in valuesList){
 //                for (kit in kitList){
 //                    listStr.add(kit.name)
 //                }
 //            }
-            for (kit in mListKitchen){
-                listStr.add(kit.name)
-            }
-            val adapterKitchen = ArrayAdapter(ctx, R.layout.simple_list_item_1, listStr )
-            spinner.adapter = adapterKitchen
+        for (kit in mListKitchen){
+            listStr.add(kit.name)
+        }
+        val adapterKitchen = ArrayAdapter(ctx, R.layout.simple_list_item_1, listStr )
+        spinner.adapter = adapterKitchen
 
-            loadSelectedKategori(spinner, adapterKitchen, mMap.get(position))
+        loadSelectedKategori(spinner, adapterKitchen, mMap.get(position))
 
 //            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 //                override fun onItemSelected(parent: AdapterView<*>,
@@ -107,7 +102,6 @@ class SectionKitchenAdapter constructor(
 //                }
 //
 //            }
-        }
     }
 
     private fun loadSelectedKategori(
@@ -116,10 +110,7 @@ class SectionKitchenAdapter constructor(
     ) {
         var kitchenName: String? = null
         for ((index, value) in valueList!!.withIndex()){
-            if (value != null){
-//                var coma = if (valueList.size != index + 1) ", " else ""
-                kitchenName = value.name
-            }
+            kitchenName = value.name
         }
         if (kitchenName != null){
             val i: Int = adapterKitchen.getPosition(kitchenName)

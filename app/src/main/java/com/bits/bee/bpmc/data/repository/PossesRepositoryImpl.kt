@@ -6,12 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.PossesDao
 import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
-import com.bits.bee.bpmc.domain.mapper.BpDataMapper
-import com.bits.bee.bpmc.domain.mapper.ItemDataMapper
 import com.bits.bee.bpmc.domain.mapper.PossesDataMapper
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
-import com.bits.bee.bpmc.domain.model.Kitchen
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -23,7 +20,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
-import retrofit2.http.POST
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
@@ -57,7 +53,7 @@ class PossesRepositoryImpl @Inject constructor(
     override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier) {
         val date = Date()
         withContext(defaultDispatcher) {
-            var posses = PossesEntity(
+            val posses = PossesEntity(
                 startBal = startBal,
                 trxDate = date,
                 cashierId = cashier.id,
@@ -136,7 +132,7 @@ class PossesRepositoryImpl @Inject constructor(
         return flow {
             val data = possesDao.getListPossesHistory().map { PossesDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
-        }.flowOn(defaultDispatcher) as Flow<Resource<MutableList<Posses>>>
+        }.flowOn(defaultDispatcher)
     }
 
     override fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<Resource<List<Posses>>> {

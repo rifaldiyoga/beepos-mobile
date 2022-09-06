@@ -1,9 +1,6 @@
 package com.bits.bee.bpmc.utils
 
-import android.R
 import android.content.Context
-import com.bits.bee.bpmc.data.data_source.local.dao.BranchDao
-import com.bits.bee.bpmc.data.data_source.local.dao.CashierDao
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
@@ -34,7 +31,7 @@ class TrxNoGeneratorUtils @Inject constructor(
         fun generatePossesTrxNo(mCounterShift : Int, mBranch: Branch, mCashier: Cashier) : String {
             var trxNo = ""
             val branch = mBranch
-            var cashier = mCashier
+            val cashier = mCashier
 
             val dateNow = Date()
             val timeNow = Calendar.getInstance().time
@@ -98,19 +95,19 @@ class TrxNoGeneratorUtils @Inject constructor(
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "00" + mCounterNoTrx)
             } else if (cashier.id < 10 && mCounterNoTrx < 10) {
-                no_trx = ("JL/" + branch.code.toString() + "0"
+                no_trx = ("JL/" + branch.code + "0"
                         + cashier.id + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "00" + mCounterNoTrx)
             } else if (cashier.id < 10 && mCounterNoTrx >= 10) {
-                no_trx = ("JL/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("JL/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "0" + mCounterNoTrx)
             } else if (cashier.id < 10 && mCounterNoTrx >= 100) {
-                no_trx = ("JL/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("JL/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "" + mCounterNoTrx)
             } else if (cashier.id < 10 && mCounterNoTrx >= 1000) {
-                no_trx = ("JL/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("JL/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + mCounterNoTrx)
             }
@@ -121,7 +118,7 @@ class TrxNoGeneratorUtils @Inject constructor(
 
         fun counterNoTrxCadj(id_cashA: Long, branch: Branch, cashier: Cashier): String? {
             var no_trx = ""
-            var mCounterNoTrxCadj = id_cashA.toInt()
+            val mCounterNoTrxCadj = id_cashA.toInt()
 
             val timeNow = Calendar.getInstance().time
 
@@ -142,19 +139,19 @@ class TrxNoGeneratorUtils @Inject constructor(
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "00" + mCounterNoTrxCadj)
             } else if (cashier.id < 10 && mCounterNoTrxCadj < 10) {
-                no_trx = ("CD/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CD/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "00" + mCounterNoTrxCadj)
             } else if (cashier.id < 10 && mCounterNoTrxCadj >= 10) {
-                no_trx = ("CD/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CD/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "0" + mCounterNoTrxCadj)
             } else if (cashier.id < 10 && mCounterNoTrxCadj >= 100) {
-                no_trx = ("CD/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CD/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "" + mCounterNoTrxCadj)
             } else if (cashier.id < 10 && mCounterNoTrxCadj >= 1000) {
-                no_trx = ("CD/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CD/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + mCounterNoTrxCadj)
             }
@@ -162,9 +159,9 @@ class TrxNoGeneratorUtils @Inject constructor(
 //        Toast.makeText(getContext(), ""+no_trx, Toast.LENGTH_SHORT).show();
         }
 
-        fun counterNoTrxCstr(id_cstr: Int, branch: Branch, cashier: Cashier): String? {
+        fun counterNoTrxCstr(id_cstr: Int, branch: Branch, cashier: Cashier): String {
             var no_trx = ""
-            var mCounterNoTrxCstr = id_cstr
+            val mCounterNoTrxCstr = id_cstr
 
             val timeNow = Calendar.getInstance().time
 
@@ -185,19 +182,19 @@ class TrxNoGeneratorUtils @Inject constructor(
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "00" + mCounterNoTrxCstr)
             } else if (cashier.id < 10 && mCounterNoTrxCstr < 10) {
-                no_trx = ("CT/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CT/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "00" + mCounterNoTrxCstr)
             } else if (cashier.id < 10 && mCounterNoTrxCstr >= 10) {
-                no_trx = ("CT/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CT/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "0" + mCounterNoTrxCstr)
             } else if (cashier.id < 10 && mCounterNoTrxCstr >= 100) {
-                no_trx = ("CT/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CT/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + "" + mCounterNoTrxCstr)
             } else if (cashier.id < 10 && mCounterNoTrxCstr >= 1000) {
-                no_trx = ("CT/" + branch.code.toString() + "0" + cashier.id
+                no_trx = ("CT/" + branch.code + "0" + cashier.id
                         + dateFormat.format(Date()) + hourFormat.format(timeNow) + minuteFormat.format(timeNow).toString()
                         + "/" + mCounterNoTrxCstr)
             }

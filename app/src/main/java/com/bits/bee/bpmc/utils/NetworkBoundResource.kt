@@ -41,6 +41,9 @@ abstract class NetworkDatabaseBoundResource<ResultType, RequestType> @MainThread
             is ApiUnAuthorizedResponse -> {
                 send(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
             }
+            is ApiEmptyResponse -> {
+
+            }
         }
     }
 
@@ -85,6 +88,7 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
             is ApiUnAuthorizedResponse -> {
                 emit(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
             }
+            is ApiEmptyResponse -> {}
         }
     }
 

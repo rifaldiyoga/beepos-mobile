@@ -22,8 +22,8 @@ class DialogBuilderUtils {
                 .build()
         }
 
-        fun showDialogChoice(context: Context, title : String, msg : String, positiveTxt : String,
-                             positiveListener : (Dialog) -> Unit, negativeTxt : String, negativeListener : ((Dialog) -> Unit)? = null) : CustomDialogBuilder {
+        fun showDialogChoice(context: Context, title : String, msg : String, positiveTxt : String? = null,
+                             positiveListener : (Dialog) -> Unit, negativeTxt : String? = null, negativeListener : ((Dialog) -> Unit)? = null) : CustomDialogBuilder {
             return CustomDialogBuilder.Builder(context)
                 .setTitle(title)
                 .setMessage(msg)

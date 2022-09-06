@@ -3,15 +3,11 @@ package com.bits.bee.bpmc.presentation.ui.download
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
-import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
-import com.bits.bee.bpmc.domain.repository.ProvinceRepository
-import com.bits.bee.bpmc.domain.repository.RegencyRepository
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -69,7 +65,7 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.SUCCESS -> {
-                    it.data?.let { data ->
+                    it.data?.let { _ ->
                         updateState(
                             state.copy(status = "Finish Downloading Item Group")
                         )
@@ -165,7 +161,7 @@ class DownloadViewModel @Inject constructor (
     }
 
     private suspend fun downloadCity()  {
-        di.getLatestCityUseCase(page).collect {
+        di.getLatestCityUseCase().collect {
             when(it.status){
                 Resource.Status.LOADING -> {
                     updateState(

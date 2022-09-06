@@ -3,50 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/bg_dialog_bottom.xml" value="0.2955" />
-        <entry key="app/src/main/res/drawable/ic_analisa_sesi.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_analisa_unselected.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.21" />
-        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_white.xml" value="0.19" />
-        <entry key="app/src/main/res/drawable/ic_box.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_circle_minus.xml" value="0.2955" />
-        <entry key="app/src/main/res/drawable/ic_close_gray.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_diskon_master.xml" value="0.2955" />
-        <entry key="app/src/main/res/drawable/ic_diskon_nota.xml" value="0.2955" />
-        <entry key="app/src/main/res/drawable/ic_group_90.xml" value="0.2955" />
-        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_home_selected.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_kelola_produk.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_pengaturan.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_perbarui_data.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_person.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_rekap_produk.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_save.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_setting.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_tranasksi.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_transaksi.xml" value="0.2955" />
-        <entry key="app/src/main/res/drawable/ic_transaksi_selected.xml" value="0.274" />
-        <entry key="app/src/main/res/drawable/ic_transaksi_unselected.xml" value="0.274" />
-        <entry key="app/src/main/res/layout/fragment_addon.xml" value="0.3737957610789981" />
-        <entry key="app/src/main/res/layout/fragment_draft_list.xml" value="0.14957264957264957" />
-        <entry key="app/src/main/res/layout/fragment_edit_item.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_lainnya.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/fragment_pos_item.xml" value="0.14957264957264957" />
-        <entry key="app/src/main/res/layout/fragment_promo.xml" value="0.2923076923076923" />
-        <entry key="app/src/main/res/layout/item_addon.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_edit_item_addon.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_invoice.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_invoice_addon.xml" value="0.25598290598290596" />
-        <entry key="app/src/main/res/layout/item_promo.xml" value="0.2923076923076923" />
-        <entry key="app/src/main/res/layout/item_selection.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/layout_variant.xml" value="0.2794871794871795" />
-        <entry key="app/src/main/res/menu/menu_pos.xml" value="0.1893162393162393" />
+        <entry key="app/src/main/res/drawable/ic_back_black.xml" value="0.2845" />
+        <entry key="app/src/main/res/drawable/ic_back_white.xml" value="0.2845" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_white.xml" value="0.2845" />
+        <entry key="app/src/main/res/drawable/image_logo_beepos.xml" value="0.2845" />
+        <entry key="app/src/main/res/layout/fragment_atur_produk.xml" value="0.340625" />
+        <entry key="app/src/main/res/layout/fragment_info_bisnis.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_info_kontak.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_inital.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.23596014492753623" />
+        <entry key="app/src/main/res/layout/item_produk_dummy.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_produk_tambah.xml" value="0.25" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

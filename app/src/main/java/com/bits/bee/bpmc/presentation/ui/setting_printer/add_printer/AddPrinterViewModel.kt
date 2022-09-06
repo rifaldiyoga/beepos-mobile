@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.model.Kitchen
+import com.bits.bee.bpmc.domain.model.Printer
+import com.bits.bee.bpmc.domain.model.PrinterKitchen
 import com.bits.bee.bpmc.domain.usecase.printer.GetKategoriPrinterKitchenUseCase
 import com.bits.bee.bpmc.domain.usecase.printer.GetListKitchenUseCase
 import com.bits.bee.bpmc.domain.usecase.printer.PrinterInteractor
@@ -10,10 +12,7 @@ import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.SectionKitchenAdapter
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,7 +51,7 @@ class AddPrinterViewModel @Inject constructor(
         }
         val printerKitchenL = state.listPrinterKitchen
         for (printK in printerKitchenL!!){
-            printK.id?.let { deletePrinterKitD(it) }
+            printK.id.let { deletePrinterKitD(it) }
             deletePrinterKit(printK)
         }
     }
@@ -75,7 +74,7 @@ class AddPrinterViewModel @Inject constructor(
         getListKitchenUseCase(state.listPrinterKitchen, state.data_kitchen).collect {
             when(it.status){
                 Resource.Status.LOADING ->{
-                    val str=""
+
                 }
                 Resource.Status.SUCCESS ->{
                     updateState(
@@ -83,7 +82,7 @@ class AddPrinterViewModel @Inject constructor(
                     )
                 }
                 Resource.Status.ERROR ->{
-                    val str=""
+
                 }
             }
         }
