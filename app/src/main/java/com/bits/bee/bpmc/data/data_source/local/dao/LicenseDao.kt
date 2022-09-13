@@ -9,6 +9,9 @@ import javax.inject.Singleton
 @Singleton
 @Dao
 interface LicenseDao: BaseDao<LicenseEntity> {
+
     @Query("SELECT * FROM license")
     fun getLicense() : List<LicenseEntity>
+
+
 }

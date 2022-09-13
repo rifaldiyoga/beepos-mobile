@@ -28,10 +28,6 @@ interface PossesRepository {
 
     suspend fun getActivePossesList(): Flow<Resource<List<Posses>>>
 
-    fun getSortDesc(): Flow<Resource<List<Posses>>>
-
-    fun getSortAsc(): Flow<Resource<List<Posses>>>
-
     fun getFilter(current: Long, end: Long): Flow<Resource<List<Posses>>>
 
     fun getListPossesHistory(): Flow<Resource<List<Posses>>>
@@ -42,4 +38,5 @@ interface PossesRepository {
 
     fun getFilterDesc(current: Long, end: Long): Flow<Resource<List<Posses>>>
 
+    fun getPossesHaventUpload(): Flow<Resource<List<Posses>>>
 }

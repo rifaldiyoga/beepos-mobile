@@ -41,7 +41,7 @@
             android:layout_height="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvName"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@mipmap/ic_chev_down"
+            android:src="@drawable/ic_checked_red"
             app:layout_constraintTop_toTopOf="@+id/tvName" />
 
         <androidx.recyclerview.widget.RecyclerView

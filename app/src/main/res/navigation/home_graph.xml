@@ -49,16 +49,14 @@
         <action
             android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
             app:destination="@id/detailBukaKasirFragment" />
+        <action
+            android:id="@+id/action_berandaFragment_to_downloadDialogBuilder"
+            app:destination="@id/downloadDialogBuilder" />
     </fragment>
     <activity
         tools:layout="@layout/activity_main"
         android:id="@+id/mainActivity"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.MainActivity"/>
-    <activity
-        android:id="@+id/downloadActivity"
-        android:name="com.bits.bee.bpmc.presentation.ui.download.DownloadActivity"
-        android:label="DownloadActivity" />
-
     <fragment
         android:id="@+id/settingSistemFragment"
         tools:layout="@layout/fragment_setting_sistem"
@@ -162,8 +160,8 @@
             android:id="@+id/action_lainnyaFragment_to_kelolaProdukFragment"
             app:destination="@id/kelolaProdukFragment" />
         <action
-            android:id="@+id/action_lainnyaFragment_to_downloadActivity"
-            app:destination="@id/downloadActivity" />
+            android:id="@+id/action_lainnyaFragment_to_downloadDialogBuilder"
+            app:destination="@id/downloadDialogBuilder" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_upload_manual"
@@ -303,4 +301,9 @@
             android:id="@+id/action_detailRiwayatSesiFragment_to_analasisiSesiFragment"
             app:destination="@id/analasisiSesiFragment" />
     </fragment>
+    <dialog
+        tools:layout="@layout/dialog_download"
+        android:id="@+id/downloadDialogBuilder"
+        android:name="com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder"
+        android:label="DownloadDialogBuilder" />
 </navigation>

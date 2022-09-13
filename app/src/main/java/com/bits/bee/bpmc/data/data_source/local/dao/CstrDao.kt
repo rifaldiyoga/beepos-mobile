@@ -19,4 +19,7 @@ interface CstrDao : BaseDao<CstrEntity>{
 
     @Query("SELECT * FROM cstr ORDER BY id DESC LIMIT 1")
     fun getLastId(): CstrEntity?
+
+    @Query("SELECT * FROM cstr where isuploaded = 0")
+    fun getCstrByReftypeHaventUpload(): List<CstrEntity>
 }

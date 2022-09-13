@@ -14,4 +14,6 @@ interface TaxDao : BaseDao<TaxEntity> {
     @Query("DELETE FROM tax")
     fun deleteAll()
 
+
+
 }

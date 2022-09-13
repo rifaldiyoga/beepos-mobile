@@ -1,8 +1,6 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
-import com.bits.bee.bpmc.data.data_source.local.model.RegencyEntity
 import com.bits.bee.bpmc.data.data_source.remote.response.RegencyResponse
-import com.bits.bee.bpmc.domain.model.Regency
 import com.bits.bee.bpmc.domain.repository.RegencyRepository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow

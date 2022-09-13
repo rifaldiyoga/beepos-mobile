@@ -31,4 +31,11 @@ class SaleAddOnDRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getSaleAddonDbyAddon(id: Int): Flow<Resource<List<SaleAddOnD>>> {
+        return flow {
+            val data = saleAddOnDDao.getSaleAddonDbyAddon(id).map { SaleAddOnDDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
 }

@@ -15,4 +15,7 @@ interface PromoDao : BaseDao<PromoEntity>{
     @Query("SELECT * FROM promo WH")
     fun getPromoList() : List<PromoEntity>
 
+    @Query("SELECT * FROM promo where id = :id")
+    fun getPromoById(id: Int): PromoEntity
+
 }

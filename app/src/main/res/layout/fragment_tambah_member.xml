@@ -36,11 +36,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
                 android:layout_marginEnd="@dimen/size16"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView7">
 
                 <EditText
+                    android:paddingTop="@dimen/size16"
                     android:id="@+id/etNamaMember"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,11 +69,13 @@
                 android:layout_marginTop="@dimen/size6"
                 android:layout_marginEnd="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView53">
 
                 <EditText
                     android:id="@+id/etNoTelp"
+                    android:paddingTop="@dimen/size16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
@@ -108,10 +112,12 @@
                 android:layout_marginTop="@dimen/size6"
                 android:layout_marginEnd="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textView55"
                 app:layout_constraintTop_toBottomOf="@+id/textView56">
 
                 <EditText
+                    android:paddingTop="@dimen/size16"
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,6 +154,7 @@
                 android:layout_marginTop="@dimen/size6"
                 android:layout_marginEnd="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textView55"
                 app:layout_constraintTop_toBottomOf="@+id/textView55">
 
@@ -156,6 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
+                    android:paddingTop="@dimen/size16"
                     android:hint="@string/cth_smartphone_1"
                     android:clickable="true"
                     android:focusable="true"
@@ -191,10 +199,12 @@
                 android:layout_marginTop="@dimen/size6"
                 android:layout_marginEnd="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView54">
 
                 <EditText
+                    android:paddingTop="@dimen/size16"
                     android:id="@+id/etAlamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -247,7 +257,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPriceLvl"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"

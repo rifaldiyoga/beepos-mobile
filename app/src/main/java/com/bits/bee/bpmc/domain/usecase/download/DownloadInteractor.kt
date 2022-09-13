@@ -35,5 +35,6 @@ data class DownloadInteractor @Inject constructor(
     val getLatestSelectionDUseCase: GetLatestSelectionDUseCase,
     val getLatestVariantUseCase: GetLatestVariantUseCase,
     val getLatestItemVariantUseCase: GetLatestItemVariantUseCase,
-    val getLatestPromoUseCase: GetLatestPromoUseCase
+    val getLatestPromoUseCase: GetLatestPromoUseCase,
+    val getLatestPromoMultiUseCase: GetLatestPromoMultiUseCase
 )

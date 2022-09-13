@@ -42,4 +42,11 @@ class SaledRepositoryImpl @Inject constructor(
             emit(rankItem)
         }.flowOn(defaultDispatcher)
     }
+
+    override fun getSaledDeletedItem(): Flow<List<Saled>> {
+        return flow {
+            val data = saledDao.getSaledDeletedItem().map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
 }

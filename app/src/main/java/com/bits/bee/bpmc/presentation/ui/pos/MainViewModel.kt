@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pos
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
@@ -14,9 +15,7 @@ import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -34,7 +33,8 @@ class MainViewModel @Inject constructor(
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val getSaledListUseCase: GetSaledListUseCase,
-    private val getItemGroupAddOnUseCase: GetItemGroupAddOnUseCase
+    private val getItemGroupAddOnUseCase: GetItemGroupAddOnUseCase,
+    private val promoCalc: PromoCalc
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     private val _posModeState: MutableStateFlow<PosModeState>
@@ -45,7 +45,10 @@ class MainViewModel @Inject constructor(
 
     private val _saleTrans: SaleTrans = SaleTrans()
 
-    val saleTrans : SaleTrans = SaleTrans()
+    val saleTrans : SaleTrans
+        get() = _saleTrans
+
+    val listPromoBonus = promoCalc.listPromoBonus
 
     init {
         state = MainState()
@@ -84,6 +87,8 @@ class MainViewModel @Inject constructor(
             saleTrans.setGrpAddOn(it.itgrpAddOn)
             updateState(it)
         }
+
+        promoCalc.initPromo(saleTrans)
     }
 
     fun loadDraft(sale : Sale) = viewModelScope.launch {
@@ -122,13 +127,14 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToPromo)
     }
 
-    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) {
+    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) = viewModelScope.launch {
         saleTrans.addDetail(
             itemWithUnit = item,
             useItemqty = useItemqty,
         )
         saleTrans.mergeAddon()
         saleTrans.mergeItemAddon()
+        promoCalc.generatePromo()
         deployData()
     }
 
@@ -170,7 +176,7 @@ class MainViewModel @Inject constructor(
         if(saled.item?.isVariant == true) {
             saleTrans.addOnTrans?.let {
                 var saledRemoveList = mutableListOf<Saled>()
-                val saledAddOnList = it.getListDetail().filter { it.upSaledId == saled }.map { it.saledId }
+                val saledAddOnList = it.getListDetail().filter { it.upSaled == saled }.map { it.saled }
                 saledAddOnList.forEach { saled1 ->
                     saleTrans.getListDetail().forEach { saled ->
                         if(saled1 == saled)

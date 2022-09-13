@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.utils
 
 import android.app.Activity
+import android.content.Context
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import androidx.preference.PreferenceManager
@@ -76,6 +77,10 @@ class Utils {
 
         fun isValidEmail(target : CharSequence) : Boolean {
             return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
+        }
+
+        fun getVersionName(context: Context): String {
+            return context.packageManager.getPackageInfo(context.packageName, 0).versionName
         }
 
     }

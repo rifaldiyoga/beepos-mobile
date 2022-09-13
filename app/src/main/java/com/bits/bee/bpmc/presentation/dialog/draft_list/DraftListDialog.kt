@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,10 +15,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -94,13 +92,9 @@ class DraftListDialog(
 
     private fun setVisibilityEmpty(isVisible : Boolean) {
         binding.apply {
-            if(isVisible){
-                rvList.gone()
-                group2.visible()
-            } else {
-                rvList.visible()
-                group2.gone()
-            }
+            rvList.isVisible = !isVisible
+            btnLihatSelengkapnya.isVisible = !isVisible
+            group2.isVisible = isVisible
         }
     }
 

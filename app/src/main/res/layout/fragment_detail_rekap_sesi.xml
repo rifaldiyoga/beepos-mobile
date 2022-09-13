@@ -97,7 +97,7 @@
                             android:layout_width="@dimen/size10"
                             android:layout_height="@dimen/size10"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_chev_right_foreground" />
+                            android:src="@drawable/ic_chev_right_foreground" />
 
                     </LinearLayout>
 
@@ -415,7 +415,7 @@
                                 android:layout_width="@dimen/size20"
                                 android:layout_height="@dimen/size16"
                                 android:layout_gravity="right"
-                                android:background="@mipmap/ic_chev_right_foreground"
+                                android:background="@drawable/ic_chev_right_foreground"
                                 android:gravity="center"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/size30"

@@ -3,9 +3,6 @@ package com.bits.bee.bpmc.utils
 import java.math.MathContext
 import java.math.RoundingMode
 
-
-
-
 /**
  * Created by aldi on 01/03/22.
  */
@@ -37,6 +34,10 @@ interface BPMConstants {
         const val NOTASETTING_LOGOPATH = "NOTASETTING_LOGOPATH"
         const val INIT_DEFAULT_LOGO = "bpm_logo1"
         const val API_MY = "http://my.beecloud.id"
+        const val DEFAULT_DB_OFFSET: Long = 0
+        const val DEFAULT_DB_LIMIT: Long = 17
+        const val DEFAULT_DB_UPLOAD: Long = 40
+        const val BPM_DEFAULT_LICENSE_TYPE = "MOBILE"
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

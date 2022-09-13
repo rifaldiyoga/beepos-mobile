@@ -56,9 +56,11 @@
 
         </activity>
 
-        <activity android:name=".presentation.ui.pos.MainActivity" android:exported="true"/>
+        <activity android:name=".presentation.ui.pos.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            />
 
-        <activity android:name=".presentation.ui.download.DownloadActivity"/>
 
     </application>
 

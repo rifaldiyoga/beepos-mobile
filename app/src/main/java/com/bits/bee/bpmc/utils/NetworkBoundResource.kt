@@ -80,7 +80,9 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
             }
             is ApiSuccessResponse -> {
                 val a = processResponse(apiResponse)
+                saveCallResult(a)
                 emit(Resource.success(a))
+
             }
             is ApiTimeoutResponse -> {
                 emit(Resource.timeout(null, apiResponse.errorMessage))
@@ -103,4 +105,8 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
 
     @MainThread
     protected abstract fun createCall(): Flow<ApiResponse<RequestObject>>
+
+    open suspend fun saveCallResult(data : RequestObject){
+
+    }
 }

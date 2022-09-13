@@ -20,7 +20,7 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
     private var saledParent: Saled? = null
     private var currentSaled: Saled? = null
     private var grpAddon : ItemGroup? = null
-    //    var salePromoList: List<SalePromo>? = null
+    var salePromoList: MutableList<SalePromo> = mutableListOf()
     private var dnoCounter = 0
     private var roundVal = 0
     var addOnTrans: AddOnTrans? = null
@@ -138,9 +138,9 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
                 addOnTrans!!.getMaster().saleId = getMaster()
             }
             val saleAddOnD = SaleAddOnD()
-            saleAddOnD.saleAddOnId = addOnTrans?.getMaster()
-            saleAddOnD.saledId = currentSaled
-            saleAddOnD.upSaledId = saledParent
+            saleAddOnD.saleAddOn = addOnTrans?.getMaster()
+            saleAddOnD.saled = currentSaled
+            saleAddOnD.upSaled = saledParent
             addOnTrans?.addDetail(saleAddOnD)
         } else {
             saledParent = currentSaled
@@ -172,19 +172,20 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
         calculate()
     }
 
-    fun diskonMaster(diskon : String) {
+    fun updateDiskonMaster(diskon : String) {
+        val sale = getMaster()
         if(diskon.isNotEmpty()) {
-            val sale = getMaster()
             sale.discExp = diskon
-            sale.discAmt = BigDecimal.ZERO
             sale.discAmt = CalcUtils.getDiscAmt(diskon, sale.subtotal)
-
-            calcDetailDiskon()
-            calculate()
+        } else {
+            sale.discExp = ""
+            sale.discAmt = BigDecimal.ZERO
         }
+        calcDetailDiskon()
+        calculate()
     }
 
-    fun calcDetailDiskon() {
+    private fun calcDetailDiskon() {
         val sale = getMaster()
         for (saled in getListDetail()){
             var disc2Amt = BigDecimal.ZERO
@@ -223,7 +224,7 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
         calculate()
     }
 
-    private fun calculate(){
+    fun calculate(){
         SaleCalc.calculate(getMaster(), getListDetail(), bp!!)
     }
 
@@ -234,8 +235,8 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
         val mapSaled: MutableMap<Saled, List<Saled>> = HashMap()
         if (addOnTrans != null) {
             for (saleAddOnD in addOnTrans!!.getListDetail()) {
-                val up_saled: Saled = saleAddOnD.upSaledId!!
-                val saled: Saled = saleAddOnD.saledId!!
+                val up_saled: Saled = saleAddOnD.upSaled!!
+                val saled: Saled = saleAddOnD.saled!!
                 if (mapAddOn.containsKey(up_saled)) {
                     mapAddOn[up_saled]!!.add(saled)
                 } else {
@@ -292,7 +293,7 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
                     var isMerge = true
                     if (addOnTrans != null) {
                         for (saleAddOnD in addOnTrans!!.getListDetail()) {
-                            if (saled == saleAddOnD.upSaledId) {
+                            if (saled == saleAddOnD.upSaled) {
                                 isMerge = false
                                 break
                             }
@@ -357,7 +358,7 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
     private fun deleteOldSaleAddonD(saled: Saled) {
         val duplicateSaled: MutableList<SaleAddOnD> = ArrayList()
         for (saleAddOnD in addOnTrans!!.getListDetail()) {
-            if (saled == saleAddOnD.upSaledId) {
+            if (saled == saleAddOnD.upSaled) {
                 duplicateSaled.add(saleAddOnD)
             }
         }
@@ -365,7 +366,24 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
     }
 
     fun getSaledByUpSaledList(model : Saled)
-            = addOnTrans?.let { it.getListDetail().filter { model == it.upSaledId }.map { it.saledId } } ?: mutableListOf()
+            = addOnTrans?.let { it.getListDetail().filter { model == it.upSaled }.map { it.saled } } ?: mutableListOf()
+
+    fun removeSalePromo(salePromo: SalePromo) {
+        val salePromoRemoveList: MutableList<SalePromo> = ArrayList()
+        for (salePromo1 in salePromoList) {
+            if (salePromo1.promo!!.id == salePromo.promo!!.id) {
+                salePromoRemoveList.add(salePromo1)
+            }
+            if (salePromoRemoveList.size == 2) {
+                break
+            }
+        }
+        salePromoList.removeAll(salePromoRemoveList)
+    }
+
+    fun findSalePromo(itemid: Int): SalePromo? = salePromoList.firstOrNull{ it.saled != null && it.saled!!.itemId == itemid}
+
+    fun findSalePromo(promoType: String): SalePromo? = salePromoList.firstOrNull { it.promo!!.promoCat == promoType }
 
     override fun getMaster() : Sale = mTblMaster ?: Sale()
 

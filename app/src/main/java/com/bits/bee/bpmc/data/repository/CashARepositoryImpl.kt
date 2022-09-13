@@ -40,4 +40,18 @@ class CashARepositoryImpl @Inject constructor(
         emit(data.map { CashADataMapper.fromDbToDomain(it) } )
     }.flowOn(defaultDispatcher)
 
+    override fun getCashAByRefId(refId: Long, refType: String): Flow<Resource<List<CashA>>> {
+        return flow {
+            val data = cashADao.getCashAByRefId(refId, refType).map { CashADataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override suspend fun updateCasha(cashA: CashA) {
+        withContext(defaultDispatcher){
+            cashADao.update(CashADataMapper.fromDomainToDb(cashA))
+        }
+    }
+
+
 }

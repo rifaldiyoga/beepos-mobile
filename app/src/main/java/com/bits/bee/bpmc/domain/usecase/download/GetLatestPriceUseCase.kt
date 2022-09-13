@@ -1,8 +1,6 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
-import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.Price
-import com.bits.bee.bpmc.domain.repository.ChannelRepository
 import com.bits.bee.bpmc.domain.repository.PriceRepository
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow

@@ -34,6 +34,8 @@ data class PromoEntity(
     var dowExp : String?,
     @ColumnInfo(name = IS_BPGRP)
     var isBpgrp : Boolean,
+    @ColumnInfo(name = BPGRP_ID)
+    var bpgrpId : String?,
     @ColumnInfo(name = OFFER_TYPE)
     var offerType : String,
     @ColumnInfo(name = MIN_AMT)

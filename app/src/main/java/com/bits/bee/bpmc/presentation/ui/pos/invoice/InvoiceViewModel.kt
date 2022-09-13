@@ -29,10 +29,13 @@ class InvoiceViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestBatal)
     }
 
-    fun onClickDraft(sale : Sale, saledList : List<Saled>) = viewModelScope.launch {
+    fun onClickDraft() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDraft)
+    }
+
+    fun saveDraft(sale : Sale, saledList : List<Saled>)= viewModelScope.launch {
         sale.isDraft = true
         addTransactionUseCase(sale, saledList)
-        eventChannel.send(UIEvent.RequestDraft)
     }
 
     fun onDetailEmpty() = viewModelScope.launch {

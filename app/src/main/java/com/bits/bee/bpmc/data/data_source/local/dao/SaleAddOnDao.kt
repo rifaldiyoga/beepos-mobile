@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.data.data_source.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
+import com.bits.bee.bpmc.data.data_source.local.model.CadjEntity
 import com.bits.bee.bpmc.data.data_source.local.model.SaleAddOnEntity
 import com.bits.bee.bpmc.data.data_source.local.model.SaleCrcvEntity
 
@@ -11,5 +12,6 @@ import com.bits.bee.bpmc.data.data_source.local.model.SaleCrcvEntity
  */
 @Dao
 interface SaleAddOnDao : BaseDao<SaleAddOnEntity>{
-
+    @Query("SELECT * from saleaddon where sale_id = :id")
+    fun getSaleAddonBySale(id: Int): SaleAddOnEntity?
 }

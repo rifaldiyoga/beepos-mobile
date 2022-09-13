@@ -18,6 +18,10 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient {
     private var retrofit: Retrofit? = null
 
+    companion object{
+        var API_KEY : String = ""
+    }
+
     fun getClientProvision(url : String = API_PROVISION): Retrofit? {
         val interceptor = HttpLoggingInterceptor()
         if (DEBUG) {
@@ -63,7 +67,8 @@ class RetrofitClient {
                 .writeTimeout(timeout.toLong(), TimeUnit.MINUTES)
                 .addInterceptor(interceptor)
                 .addNetworkInterceptor(AddHeaderInterceptor(
-                    "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM0NTJjYWZlYmVlIiwiZGJob3N0IjoiMTAuMTMwLjIyLjExMiIsInVzZXJfaWQiOiIxMiJ9.oh2Z-wRXLqmm9hBz8IxQVFRb72BCewHNTwWYMZJh9jM"
+                    "Bearer $API_KEY"
+//                    "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM0NTJjYWZlYmVlIiwiZGJob3N0IjoiMTAuMTMwLjIyLjExMiIsInVzZXJfaWQiOiIxMiJ9.oh2Z-wRXLqmm9hBz8IxQVFRb72BCewHNTwWYMZJh9jM"
                 )).build()
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)

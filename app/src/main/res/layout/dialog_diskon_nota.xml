@@ -25,7 +25,7 @@
         android:id="@+id/imageView2"
         android:layout_width="@dimen/size36"
         android:layout_height="@dimen/size36"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +81,7 @@
         android:id="@+id/btnTambah"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:text="@string/tambah"
+        android:text="@string/terapkan"
         android:background="@drawable/btn_rect_primary"
         android:layout_marginStart="@dimen/size8"
         app:layout_constraintBottom_toBottomOf="@+id/btnBatal"

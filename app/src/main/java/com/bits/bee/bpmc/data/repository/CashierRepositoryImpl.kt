@@ -2,11 +2,14 @@ package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.CashierDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.domain.mapper.CashierDataMapper
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.repository.CashierRepository
 import com.bits.bee.bpmc.utils.ApiResponse
+import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -52,6 +55,24 @@ class CashierRepositoryImpl @Inject constructor(
             cashierDao.resetActive()
             cashierDao.update(CashierDataMapper.fromDomainToDb(cashier))
         }
+    }
+
+    override fun postActivateCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>> {
+        return object : NetworkBoundResource<CashierStatusResponse>(){
+            override fun createCall(): Flow<ApiResponse<CashierStatusResponse>> {
+                return apiUtils.getCashierApiService().postActivateCashier(cashierPost)
+            }
+
+        }.getAsFlow()
+    }
+
+    override fun detachActivateCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>> {
+        return object : NetworkBoundResource<CashierStatusResponse>(){
+            override fun createCall(): Flow<ApiResponse<CashierStatusResponse>> {
+                return apiUtils.getCashierApiService().postActivateCashier(cashierPost)
+            }
+
+        }.getAsFlow()
     }
 
     override fun getActiveCashier(): Flow<Cashier?> = flow{

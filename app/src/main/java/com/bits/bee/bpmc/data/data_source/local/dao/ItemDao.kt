@@ -24,7 +24,7 @@ interface ItemDao : BaseDao<ItemEntity> {
             "0 as stockunit, 0 as itemqty, 1 as ispos, '' as type, 0 as favorit, isavailable as is_available, '1' as is_variant, " +
             "'' as vcode, '' as vcolor from variant WHERE name1 LIKE '%' || :query || '%' "+
             "ORDER BY name1 ")
-    fun getActiveItemList(query : String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
+    fun getActiveItemPagedList(query : String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
     @Query("SELECT * FROM item " +
             "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND is_variant = 0 " +
@@ -35,7 +35,7 @@ interface ItemDao : BaseDao<ItemEntity> {
             "0 as stockunit, 0 as itemqty, 1 as ispos, '' as type, 0 as favorit, isavailable as is_available, '1' as is_variant, " +
             "'' as vcode, '' as vcolor from variant WHERE name1 LIKE '%' || :query || '%' "+
             "ORDER BY name1 ")
-    fun getActiveItemListPid(query : String) : PagingSource<Int, ItemEntity>
+    fun getActiveItemPagedListPid(query : String) : PagingSource<Int, ItemEntity>
 
 
     @Query("SELECT * FROM item " +
@@ -65,5 +65,14 @@ interface ItemDao : BaseDao<ItemEntity> {
 
     @Query("SELECT a.* FROM item a JOIN item_variant b ON b.item_id = a.id WHERE b.variant_id = :variantId")
     fun getItemByVariant(variantId : Int) : List<ItemEntity>
+
+    @Query("SELECT * FROM item where id = :id")
+    fun getItemById(id: Int): ItemEntity?
+
+    @Query("SELECT * FROM item WHERE active = 1 AND ispos = 1")
+    fun getActiveItemList() : List<ItemEntity>
+
+    @Query("SELECT * FROM item WHERE active = 1 AND ispos = 1 AND itemgrp1_id = :itemGrpId")
+    fun getActiveItemListByItemGrp(itemGrpId: Int) : List<ItemEntity>
 
 }

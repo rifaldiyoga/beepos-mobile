@@ -27,4 +27,5 @@ data class Posses (
     var endCash : BigDecimal,
     var totalActualCash : BigDecimal,
     var totalDiffCash : BigDecimal,
+    var isUploaded: Boolean,
 ) : Parcelable

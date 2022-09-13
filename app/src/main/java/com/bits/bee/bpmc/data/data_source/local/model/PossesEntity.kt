@@ -58,6 +58,8 @@ data class PossesEntity(
     var totalActualCash : BigDecimal,
     @ColumnInfo(name = TOTAL_DIFF_CASH)
     var totalDiffCash : BigDecimal,
+    @ColumnInfo(name = ISUPLOADED)
+    var isUploaded: Boolean,
 ) {
     companion object {
         const val TBL_NAME = "posses"
@@ -80,7 +82,7 @@ data class PossesEntity(
         const val ENDCASH = "endcash"
         const val TOTAL_ACTUAL_CASH = "totactualcash"
         const val TOTAL_DIFF_CASH = "totdiffcash"
-
+        const val ISUPLOADED = "isuploaded"
 
     }
 }

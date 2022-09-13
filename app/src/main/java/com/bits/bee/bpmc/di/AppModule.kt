@@ -3,7 +3,10 @@ package com.bits.bee.bpmc.di
 import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.repository.*
+import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.repository.*
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +22,19 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Singleton
+    fun providePromoCalc(getActiveCashierUseCase: GetActiveCashierUseCase, promoMultiRepository: PromoMultiRepository,
+                         promoRepository: PromoRepository, getPriceItemUseCase: GetPriceItemUseCase, itemRepository: ItemRepository) : PromoCalc {
+        return PromoCalc(
+            getActiveCashierUseCase = getActiveCashierUseCase,
+            promoMultiRepository = promoMultiRepository,
+            promoRepository = promoRepository,
+            getPriceItemUseCase = getPriceItemUseCase,
+            itemRepository = itemRepository
+        )
+    }
 
     @Provides
     @Singleton
@@ -302,6 +318,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun proivdeSyncRepository(apiUtils: ApiUtils, syncDao: SyncDao, defaultDispatcher: CoroutineDispatcher) : SyncRepository {
+        return SyncRepositoryImpl(apiUtils, syncDao, defaultDispatcher)
+    }
+
+    @Provides
+    @Singleton
     fun provideWhRepository(apiUtils: ApiUtils,saleCrcvDao: WhDao, dispatcher: CoroutineDispatcher) : WhRepository {
         return WhRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
@@ -365,6 +387,11 @@ object AppModule {
     fun provideSignUpRepository(apiUtils: ApiUtils,) : SignUpRepository {
         return SignUpRepositoryImpl(apiUtils,)
     }
+    @Provides
+    @Singleton
+    fun proivdeCadjRepository(apiUtils: ApiUtils, cadjDao: CadjDao, defaultDispatcher: CoroutineDispatcher) : CadjRepository {
+        return CadjRepositoryImpl(apiUtils, cadjDao, defaultDispatcher)
+    }
 
     @Provides
     @Singleton
@@ -376,7 +403,37 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUnitDummyRepository(saleCrcvDao: UnitDummyDao, dispatcher: CoroutineDispatcher) : UnitDummyRepository {
-        return UnitDummyRepositoryImpl(saleCrcvDao, dispatcher, )
+        return UnitDummyRepositoryImpl(saleCrcvDao, dispatcher,)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaleAddOnRepository(dispatcher: CoroutineDispatcher, saleAddOnDao: SaleAddOnDao) : SaleAddOnRepository {
+        return SaleAddOnRepositoryImpl(dispatcher, saleAddOnDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaleAddOnDRepository(dispatcher: CoroutineDispatcher, saleAddOnDDao: SaleAddOnDDao) : SaleAddOnDRepository {
+        return SaleAddOnDRepositoryImpl(dispatcher, saleAddOnDDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSalePromoRepository(salePromoDao: SalePromoDao, dispatcher: CoroutineDispatcher) : SalePromoRepository {
+        return SalePromoRepositoryImpl(salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLicenseRepository(salePromoDao: LicenseDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : LicenseRepository {
+        return LicenseRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun providePromoMultiRepository(salePromoDao: PromoMultiDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : PromoMultiRepository {
+        return PromoMultiRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
     }
 
 }

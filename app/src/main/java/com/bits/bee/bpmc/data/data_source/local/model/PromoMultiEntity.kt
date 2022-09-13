@@ -15,7 +15,7 @@ import androidx.room.*
 data class PromoMultiEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = PROMO_ID, index = true)
     var promoId : Int,
     @ColumnInfo(name = TYPE)

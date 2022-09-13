@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -27,9 +26,7 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.removeSymbol
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -90,15 +87,16 @@ class EditItemFragment(
             etCatatan.setText(state.note)
 
             mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
-                groupAddon.visible()
                 state.saled?.let { saled ->
+
                     val addOnAdapter = EditItemAddOnAdapter(saled.qty)
                     rvAddon.apply {
                         layoutManager = LinearLayoutManager(requireActivity())
                         adapter = addOnAdapter
                     }
-                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaledId }.map { it.saledId }
+                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaled }.map { it.saled }
                     state.addOnList = saledList
+                    groupAddon.isVisible = saledList.isNotEmpty()
                     addOnAdapter.submitList(saledList)
                 }
             }
@@ -190,7 +188,7 @@ class EditItemFragment(
                         binding.apply {
                             etQty.setText(CurrencyUtils.formatCurrency(state.qty))
                             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, state.unitList.map { it.unit })
-                            etSatuan.setAdapter(adapter)
+                            spSatuan.adapter = adapter
                             when(state.modePos){
                                 PosModeState.FnBState -> {
                                     tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(state.qty))
@@ -198,7 +196,7 @@ class EditItemFragment(
                                 PosModeState.RetailState -> {
                                     state.unit?.let {
                                         tvQty.text = getString(R.string._1_PCS, CurrencyUtils.formatCurrency(state.qty), it.unit)
-                                        etSatuan.setText(it.unit)
+//                                        spSatuan.setText(it.unit)
                                     } ?: run {
                                         tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(state.qty))
                                     }

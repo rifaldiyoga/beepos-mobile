@@ -101,11 +101,6 @@ class RiwayatSesiFragment(
                                 { data ->
                                     Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
                                         .show()
-//                                    BeePreferenceManager.saveToPreferences(
-//                                        requireActivity(), getString(
-//                                            R.string.pref_pilih_tgl
-//                                        ), data.toString()
-//                                    )
                                     viewModel.updateState(
                                         viewModel.state.copy(
                                             selectFilter = data.toString()
@@ -197,7 +192,6 @@ class RiwayatSesiFragment(
             )
         )
         viewModel.getFilterSorting(desc, inilizeTgl(), viewModel.state.selectFilter)
-//        viewModel.getSorting(desc)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
@@ -225,7 +219,6 @@ class RiwayatSesiFragment(
 
     private fun inilizeTgl(): Int{
         pilihTgl = viewModel.state.selectFilter
-//        pilihTgl = getString(R.string.last_1_week)
         if (pilihTgl.equals(getString(R.string.last_1_week)))
             posFilter = 0
         else if(pilihTgl.equals(getString(R.string.last_1_month)))

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pos.invoice
 
 import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -10,11 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentInvoiceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -70,7 +71,7 @@ class InvoiceFragment(
                 viewModel.onClickBatal()
             }
             btnDraft.setOnClickListener {
-                viewModel.onClickDraft(mainViewModel.state.sale, mainViewModel.state.saledList)
+                viewModel.onClickDraft()
             }
         }
     }
@@ -81,6 +82,10 @@ class InvoiceFragment(
                 mainViewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
+
+                            clPromo.isVisible = mainViewModel.listPromoBonus.size > 0
+                            tvPromo.text = getString(R.string.anda_mendapatkan_promo, mainViewModel.listPromoBonus.size)
+
                             tvDiskon.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.discAmt))
                             tvPajak.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.taxAmt))
                             tvSubtotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.subtotal))
@@ -106,15 +111,45 @@ class InvoiceFragment(
                 viewModel.event.collect {
                     when(it){
                         InvoiceViewModel.UIEvent.RequestBatal -> {
-                            findNavController().popBackStack()
-                            mainViewModel.resetState()
+                            val dialog = DialogBuilderUtils.showDialogChoice (
+                                requireContext(),
+                                title = getString(R.string.batalkan_transaksi),
+                                msg = getString(R.string.msg_batalkan_transaksi),
+                                positiveTxt = getString(R.string.lanjut_bayar),
+                                positiveListener = {
+                                    it.dismiss()
+                                },
+                                negativeTxt = getString(R.string.batalkan),
+                                negativeListener = {
+                                    it.dismiss()
+                                    findNavController().popBackStack()
+                                    mainViewModel.resetState()
+                                }
+                            )
+                            dialog.show(parentFragmentManager, "")
                         }
                         InvoiceViewModel.UIEvent.RequestPembayaran -> {
                             val action = InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()
                             findNavController().navigate(action)
                         }
                         InvoiceViewModel.UIEvent.RequestDraft -> {
-                            findNavController().popBackStack()
+                            val dialog = DialogBuilderUtils.showDialogChoice(
+                                requireContext(),
+                                title = getString(R.string.simpan_sebagai_draft),
+                                msg = getString(R.string.msg_draft),
+                                positiveTxt = getString(R.string.simpan),
+                                positiveListener = {
+                                    it.dismiss()
+                                    viewModel.saveDraft(mainViewModel.state.sale, mainViewModel.state.saledList)
+                                    findNavController().popBackStack()
+                                    mainViewModel.resetState()
+                                },
+                                negativeTxt = getString(R.string.batal),
+                                negativeListener = {
+                                    it.dismiss()
+                                }
+                            )
+                            dialog.show(parentFragmentManager, "")
                         }
                         InvoiceViewModel.UIEvent.NavigatePos -> {
                             findNavController().popBackStack()

@@ -24,4 +24,6 @@ interface CashADao: BaseDao<CashAEntity> {
     @Query("SELECT * FROM casha WHERE cash_id = :cashId")
     fun getCashAByCashId(cashId : Int) : List<CashAEntity>
 
+    @Query("SELECT * FROM casha WHERE refid = :refId AND reftype = :refType")
+    fun getCashAByRefId(refId : Long, refType : String): List<CashAEntity>
 }

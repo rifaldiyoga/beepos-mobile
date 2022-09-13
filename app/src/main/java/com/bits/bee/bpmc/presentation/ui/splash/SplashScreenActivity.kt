@@ -1,14 +1,16 @@
 package com.bits.bee.bpmc.presentation.ui.splash
 
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
 import com.bits.bee.bpmc.databinding.ActivitySplashScreenBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,10 +19,6 @@ class SplashScreenActivity(
 ) : BaseActivity<ActivitySplashScreenBinding>() {
 
     private val viewModel :SplashScreenViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -33,7 +31,13 @@ class SplashScreenActivity(
     }
 
     override fun initComponents() {
+        val apiKey = BeePreferenceManager.getDataFromPreferences(
+            this,
+            getString(R.string.api_key),
+            ""
+        ) as String
 
+        RetrofitClient.API_KEY = apiKey
     }
 
     override fun subscribeListeners() {

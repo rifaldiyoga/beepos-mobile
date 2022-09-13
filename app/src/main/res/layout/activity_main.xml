@@ -11,6 +11,7 @@
         android:layout_height="?actionBarSize"
         app:titleTextColor="@color/white"
         android:textAlignment="center"
+        app:collapseIcon="@drawable/ic_back_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="?colorPrimary"

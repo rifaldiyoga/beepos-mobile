@@ -16,6 +16,7 @@
         tools:layout_editor_absoluteX="16dp">
 
         <TextView
+            android:id="@+id/tvPromo"
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
             android:id="@+id/imageView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_chevron_right_gray"
+            android:src="@drawable/ic_chevron_right_red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

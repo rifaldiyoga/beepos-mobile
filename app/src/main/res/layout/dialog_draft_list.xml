@@ -23,7 +23,7 @@
         android:layout_height="@dimen/size36"
         android:layout_margin="@dimen/size16"
         android:padding="@dimen/size8"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,50 +62,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView17" />
 
-    <LinearLayout
+    <Button
         android:id="@+id/btnTutup"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size16"
         android:background="@drawable/btn_rect_secondary"
         android:gravity="center"
-        android:padding="@dimen/size16"
+        android:layout_marginBottom="@dimen/size16"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnLihatSelengkapnya"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnLihatSelengkapnya">
+        app:layout_goneMarginEnd="@dimen/size16"
+        android:text="@string/tutup"
+        android:textColor="?colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tutup"
-            android:textColor="?colorPrimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <Button
         android:id="@+id/btnLihatSelengkapnya"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size16"
-        android:layout_marginTop="@dimen/size16"
         android:layout_marginEnd="@dimen/size16"
         android:layout_marginBottom="@dimen/size16"
         android:background="@drawable/btn_rect_primary"
         android:gravity="center"
-        android:padding="@dimen/size16"
+        android:text="@string/selengkapnya"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnTutup">
+        app:layout_constraintStart_toEndOf="@+id/btnTutup"
+        app:layout_constraintTop_toTopOf="@+id/btnTutup">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/selengkapnya"
-            android:textColor="@color/white" />
 
-    </LinearLayout>
+    </Button>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group2"

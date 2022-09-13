@@ -136,6 +136,16 @@ abstract class DbHelper : RoomDatabase() {
 
     abstract val unitDummyDao : UnitDummyDao
 
+    abstract val syncDao : SyncDao
+
+    abstract val cadjDao: CadjDao
+
+    abstract val salePromoDao: SalePromoDao
+
+    abstract val licenseDao : LicenseDao
+
+    abstract val promoMultiDao : PromoMultiDao
+
     companion object {
         const val DATABASE_NAME = "bpmData.db"
 

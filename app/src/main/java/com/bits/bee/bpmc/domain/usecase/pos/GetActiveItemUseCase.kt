@@ -25,8 +25,8 @@ class GetActiveItemUseCase @Inject constructor(
 
     suspend operator fun invoke(itemGrpId : Int, priceLvlId : Int = 1, bp : Bp, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
         when(itemGrpId != 1){
-            true -> itemRepository.getActiveItemListByItemGrp(itemGrpId = itemGrpId, query = query, usePid)
-            false -> itemRepository.getActiveItemList(query, usePid)
+            true -> itemRepository.getActiveItemListPagedByItemGrp(itemGrpId = itemGrpId, query = query, usePid)
+            false -> itemRepository.getActiveItemListPaged(query, usePid)
         }.map { data ->
             data.map { item ->
                 if(item.isVariant)

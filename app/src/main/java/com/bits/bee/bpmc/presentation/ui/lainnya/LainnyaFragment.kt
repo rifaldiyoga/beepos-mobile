@@ -83,7 +83,7 @@ class LainnyaFragment(
                             findNavController().navigate(action)
                         }
                         LainnyaViewModel.UIEvent.NavigateToDownload -> {
-                            val action = LainnyaFragmentDirections.actionLainnyaFragmentToDownloadActivity()
+                            val action = LainnyaFragmentDirections.actionLainnyaFragmentToDownloadDialogBuilder()
                             findNavController().navigate(action)
                         }
                     }

@@ -17,7 +17,6 @@ import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -53,7 +52,7 @@ class PilihDbFragment constructor(
             setHasOptionsMenu(true)
             adapter = PilihDbAdapter(mListener = object :  PilihDbAdapter.PilihDbAdapterI{
                 override fun onItemClick(db: LoginResponse.Db) {
-                    viewModel.onClickDb()
+                    viewModel.postDb(db.dbName)
                 }
             })
             rvList.layoutManager = LinearLayoutManager(requireContext())
@@ -85,26 +84,6 @@ class PilihDbFragment constructor(
                 }
             }
         }
-        viewModel.observeInitialResponse().removeObservers(viewLifecycleOwner)
-        viewModel.observeInitialResponse().observe(viewLifecycleOwner) {
-            it?.let {
-                when(it.status){
-                    Resource.Status.LOADING -> {
-                        dialog.show(
-                            message = "Inisialisasi Data"
-                        )
-                    }
-                    Resource.Status.SUCCESS -> {
-                        dialog.hide()
-                        viewModel.onSuccessDb()
-                    }
-                    Resource.Status.ERROR -> {
-                        dialog.hide()
-                    }
-                }
-            }
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
@@ -114,7 +93,14 @@ class PilihDbFragment constructor(
                             findNavController().navigate(action)
                         }
                         PilihDbViewModel.UIEvent.RequestDb -> {
-                            viewModel.initialData()
+
+                        }
+                        is PilihDbViewModel.UIEvent.ShowLoading -> {
+                            val isShow = it.isShow
+                            if(isShow)
+                                dialog.show(message = it.msg)
+                            else
+                                dialog.hide()
                         }
                     }
                 }

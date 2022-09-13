@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import com.bits.bee.bpmc.databinding.DialogInfoBuilderBinding
+import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 /**
@@ -15,36 +15,26 @@ import dagger.hilt.android.qualifiers.ApplicationContext
  */
 
 class CustomDialogBuilder private constructor (
-    private val builder : Builder
-) : DialogFragment() {
-
-    private lateinit var binding : DialogInfoBuilderBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, android.R.style.ThemeOverlay_Material_Dialog_Alert)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogInfoBuilderBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val builder : Builder,
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogInfoBuilderBinding = DialogInfoBuilderBinding::inflate
+) : BaseDialogFragment<DialogInfoBuilderBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponents()
     }
 
-    private fun initComponents(){
+    override fun initComponents() {
         binding.apply {
             tvTitle.text = builder.title
             tvMessage.text = builder.message
             btnSecondary.text = builder.negative
             btnPrimary.text = builder.positive
+        }
+    }
+
+    override fun subscribeListeners() {
+        binding.apply {
             btnSecondary.setOnClickListener{
                 builder.negativeCallback
                 dismiss()
@@ -54,6 +44,11 @@ class CustomDialogBuilder private constructor (
             }
         }
     }
+
+    override fun subscribeObservers() {
+
+    }
+
 
     data class Builder (
         @ApplicationContext val context: Context,

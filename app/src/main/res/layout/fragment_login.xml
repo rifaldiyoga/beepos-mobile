@@ -42,11 +42,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/CustomTextInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <EditText
+            android:paddingTop="@dimen/size16"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:id="@+id/etEmail"
@@ -73,10 +74,12 @@
         android:layout_marginTop="@dimen/size16"
         app:layout_constraintEnd_toEndOf="parent"
         app:passwordToggleEnabled="true"
+        style="@style/CustomTextInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <EditText
+            android:paddingTop="@dimen/size16"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:id="@+id/etPassword"

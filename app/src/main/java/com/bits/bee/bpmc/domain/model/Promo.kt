@@ -22,6 +22,7 @@ data class Promo (
     var isDow: Boolean,
     var dowExp : String?,
     var isBpgrp : Boolean,
+    var bpgrpId : String?,
     var offerType : String,
     var minAmt : BigDecimal,
     var isTargetItem : Boolean,

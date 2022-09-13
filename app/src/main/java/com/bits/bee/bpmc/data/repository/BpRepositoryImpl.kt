@@ -4,11 +4,15 @@ import com.bits.bee.bpmc.data.data_source.local.dao.BpAddrDao
 import com.bits.bee.bpmc.data.data_source.local.dao.BpDao
 import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.post.BpPost
 import com.bits.bee.bpmc.data.data_source.remote.response.BpResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.BpReturn
+import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.domain.mapper.BpDataMapper
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.repository.BpRepository
 import com.bits.bee.bpmc.utils.ApiResponse
+import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -97,6 +101,44 @@ class BpRepositoryImpl @Inject constructor(
             val data = bpDao.getBpByDate(startDate, endDate).map { BpDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
         }.flowOn(ioDispatcher)
+    }
+
+    override fun getBpHaventUploaded(): Flow<Resource<List<Bp>>> {
+        return flow {
+            val data = bpDao.getBpHaventUploaded().map { BpDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun uploadBpClient(bpPost: BpPost): Flow<Resource<BpReturn>> {
+        return object : NetworkBoundResource<BpReturn>(){
+            override fun createCall(): Flow<ApiResponse<BpReturn>> {
+                return apiUtils.getBpApiService().postBpClient(bpPost)
+            }
+        }.getAsFlow()
+    }
+
+    override fun getBpByCode(code: String): Flow<Resource<Bp>> {
+        return flow {
+            val data : BpEntity? = bpDao.getBpByCode(code)
+            data?.let {
+                emit(Resource.success(BpDataMapper.fromDbToDomain(data)))
+            } ?: run {
+                emit(Resource.error(null, "Data Bp Kosong!", 1))
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun updateBp(bpEntity: BpEntity) {
+        withContext(ioDispatcher){
+            bpDao.update(bpEntity)
+        }
+    }
+
+    override suspend fun deleteBp(bpEntity: BpEntity) {
+        withContext(ioDispatcher){
+            bpDao.delete(bpEntity)
+        }
     }
 
 }

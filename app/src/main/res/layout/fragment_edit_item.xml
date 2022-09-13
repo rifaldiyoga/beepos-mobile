@@ -165,28 +165,21 @@
         app:layout_constraintStart_toStartOf="@+id/textView46"
         app:layout_constraintTop_toBottomOf="@+id/etCatatan" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilSatuan"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size6"
-        android:layout_marginEnd="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView123"
-        app:layout_constraintTop_toBottomOf="@id/textView123">
-
-        <AutoCompleteTextView
-            android:id="@+id/etSatuan"
-            android:layout_width="match_parent"
+        <Spinner
+            android:id="@+id/spSatuan"
+            android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:clickable="true"
             android:focusable="true"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:focusableInTouchMode="false"
+            android:layout_marginEnd="@dimen/size16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView123"
+            app:layout_constraintTop_toBottomOf="@id/textView123"
             android:inputType="none" />
 
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView50"
@@ -197,7 +190,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilSatuan" />
+        app:layout_constraintTop_toBottomOf="@+id/spSatuan" />
 
     <ImageView
         android:id="@+id/ivMinus"
@@ -289,6 +282,7 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupAddon"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="textView45,rvAddon,view3" />
@@ -297,7 +291,7 @@
         android:id="@+id/groupSatuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="textView123,tilSatuan" />
+        app:constraint_referenced_ids="textView123,spSatuan" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupPid"

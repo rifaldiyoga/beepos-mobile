@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -65,8 +66,22 @@ class DraftFragment(
             onClickItem = {
                 viewModel.onItemClick(it)
             },
-            onDeleteItem = {
-                viewModel.onDeleteClick(it)
+            onDeleteItem = { sale ->
+                val dialog = DialogBuilderUtils.showDialogChoice(
+                    requireContext(),
+                    title = "Hapus Draft",
+                    msg = "Apakah anda yakin ingin menghapus draft? Transaksi yang dihapus tidak dapat dikembalikan lagi",
+                    positiveTxt = getString(R.string.batal),
+                    positiveListener = {
+                        it.dismiss()
+                    },
+                    negativeTxt = getString(R.string.hapus),
+                    negativeListener = {
+                        it.dismiss()
+                        viewModel.onDeleteClick(sale)
+                    }
+                )
+                dialog.show(parentFragmentManager, "")
             }
         )
         binding.apply {

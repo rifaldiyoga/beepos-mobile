@@ -97,7 +97,7 @@
                             android:layout_width="@dimen/size10"
                             android:layout_height="@dimen/size10"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_chev_right_foreground" />
+                            android:src="@drawable/ic_chevron_right_red" />
 
                     </LinearLayout>
 
@@ -405,15 +405,13 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:layout_width="@dimen/size20"
+                                android:layout_width="@dimen/size10"
                                 android:layout_height="@dimen/size16"
                                 android:layout_gravity="right"
-                                android:background="@mipmap/ic_chev_right_foreground"
+                                android:background="@drawable/ic_chev_right_foreground"
                                 android:gravity="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/size30"
-                                tools:layout_editor_absoluteX="320dp"
-                                tools:layout_editor_absoluteY="12dp" />
+                                android:textSize="@dimen/size30"/>
 
                         </LinearLayout>
 

@@ -18,6 +18,5 @@ data class CashA(
     var autoGen : Boolean,
     var cashId: Int,
     var userId: Int,
-    var cashierId: Int,
-    var isUploaded: Boolean,
+    var cashierId: Int
 ): Parcelable

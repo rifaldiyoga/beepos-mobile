@@ -3,12 +3,11 @@ package com.bits.bee.bpmc.data.data_source.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = LicenseEntity.TBL_NAME)
 data class LicenseEntity(
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = ID)
-    var id : Int,
+    @PrimaryKey
     @ColumnInfo(name = NAME)
     var name: String,
     @ColumnInfo(name = SERIAL)
@@ -16,7 +15,7 @@ data class LicenseEntity(
     @ColumnInfo(name = ITEM)
     var item : String,
     @ColumnInfo(name = EXPDATE)
-    var licExp : Long,
+    var licExp : Date,
 ) {
     companion object {
         const val TBL_NAME = "license"

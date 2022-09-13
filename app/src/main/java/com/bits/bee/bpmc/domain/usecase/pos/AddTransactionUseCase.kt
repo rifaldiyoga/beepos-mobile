@@ -23,7 +23,7 @@ class AddTransactionUseCase @Inject constructor(
     private val saledRepository: SaledRepository,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val getActiveOperatorUseCase: GetActiveOperatorUseCase,
+    private val getActiveUserUseCase: GetActiveUserUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val addCashAUseCase: AddCashAUseCase,
@@ -50,7 +50,7 @@ class AddTransactionUseCase @Inject constructor(
 
             val branch = getActiveBranchUseCase().first()
             val cashier = getActiveCashierUseCase().first()
-            val user = getActiveOperatorUseCase().first()
+            val user = getActiveUserUseCase().first()
             val posses = getActivePossesUseCase().first()
             val crc = getDefaultCrcUseCase().first()
 

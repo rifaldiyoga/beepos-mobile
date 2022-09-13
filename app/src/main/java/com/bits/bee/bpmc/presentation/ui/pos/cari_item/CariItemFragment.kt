@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.cari_item
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -20,7 +21,6 @@ import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosAdapter
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -40,6 +40,7 @@ class CariItemFragment(
 
     private lateinit var itemRetailPosAdapter: ItemPosRetailAdapter
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.state.usePid = mViewModel.posModeState.value is PosModeState.RetailState
         super.onViewCreated(view, savedInstanceState)
@@ -48,6 +49,8 @@ class CariItemFragment(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_search_scan, menu)
         val searchItem = menu.findItem(R.id.menu_search)
+        menu.findItem(R.id.menu_scan).isVisible = mViewModel.posModeState.value == PosModeState.RetailState
+
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -75,6 +78,7 @@ class CariItemFragment(
         })
 
         searchItem.expandActionView()
+
         searchView.setIconifiedByDefault(false)
         searchView.requestFocus()
         super.onCreateOptionsMenu(menu, inflater)

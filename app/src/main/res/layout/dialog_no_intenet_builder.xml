@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="@dimen/size16"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/lL_done_sync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/size10"
+        android:paddingRight="@dimen/size10"
+        android:paddingBottom="@dimen/size8"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.201">
+
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="@dimen/size225"
+            android:layout_height="@dimen/size225"
+            android:layout_marginStart="@dimen/size32"
+            android:layout_marginEnd="@dimen/size32"
+            android:src="@drawable/image_no_internet"
+            app:layout_constraintBottom_toTopOf="@+id/textView90"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/textView91"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextHeader"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/cek_koneksi_internet_title"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView16"
+            app:layout_constraintStart_toStartOf="@+id/imageView16"
+            app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+        <TextView
+            android:id="@+id/textView90"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font12"
+            android:layout_marginTop="@dimen/size16"
+            android:text="@string/cek_koneksi_wifi"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView16"
+            app:layout_constraintStart_toStartOf="@+id/imageView16"
+            app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_coba_lagi"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:background="@drawable/btn_rect_primary"
+        android:inputType="textCapWords"
+        android:text="@string/coba_lagi"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lL_done_sync"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_close"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:background="@drawable/btn_rect_secondary"
+        android:inputType="textCapWords"
+        android:text="@string/tutup"
+        android:textColor="@color/red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_coba_lagi"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

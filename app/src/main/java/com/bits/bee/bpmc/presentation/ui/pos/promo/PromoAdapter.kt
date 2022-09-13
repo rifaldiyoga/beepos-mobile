@@ -31,8 +31,17 @@ class PromoAdapter : ListAdapter<Promo, RecyclerView.ViewHolder>(DiffCallback())
         fun bind(promo : Promo){
             binding.apply {
                 tvTitle.text = promo.promoName
-                tvDesc.isVisible = promo.note.isNotEmpty()
-                tvDesc.text = promo.note
+
+                var desc = ""
+
+                if(!promo.startDate.isNullOrEmpty())
+                    desc += "Berlaku mulai ${promo.startDate}"
+                if(!promo.endDate.isNullOrEmpty())
+                    desc += " s/d ${promo.endDate}"
+
+
+                tvDesc.isVisible = desc.isNotEmpty()
+                tvDesc.text = desc
             }
         }
 

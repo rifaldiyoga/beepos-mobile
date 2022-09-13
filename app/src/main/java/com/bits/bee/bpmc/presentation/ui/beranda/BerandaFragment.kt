@@ -37,9 +37,6 @@ class BerandaFragment(
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
     private var mCounter: Int = 0
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -47,6 +44,13 @@ class BerandaFragment(
     }
 
     override fun initComponents() {
+        val isFirstRun = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.is_first_run), true) as Boolean
+
+        if(isFirstRun){
+            val action = BerandaFragmentDirections.actionBerandaFragmentToDownloadDialogBuilder()
+            findNavController().navigate(action)
+            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.is_first_run), false)
+        }
     }
 
     override fun subscribeListeners() {

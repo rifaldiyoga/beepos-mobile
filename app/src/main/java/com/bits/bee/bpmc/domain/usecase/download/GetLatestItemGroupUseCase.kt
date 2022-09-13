@@ -1,7 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
-import com.bits.bee.bpmc.data.data_source.remote.response.ItemGroupResponse
-import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.utils.Resource

@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SaleAddOnD (
     var id : Int = -1,
-    var saleAddOnId: SaleAddOn? = null,
-    var upSaledId: Saled? = null,
-    var saledId: Saled? = null,
+    var saleAddOn: SaleAddOn? = null,
+    var upSaled: Saled? = null,
+    var saled: Saled? = null,
 ) : Parcelable

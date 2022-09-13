@@ -25,12 +25,9 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
     protected val binding: T
         get() = _binding as T
 
-//    override fun getTheme(): Int = R.style.CustomBottomSheetDialog
-//
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_Demo_BottomSheetDialog)
     }
 
     override fun onCreateView(

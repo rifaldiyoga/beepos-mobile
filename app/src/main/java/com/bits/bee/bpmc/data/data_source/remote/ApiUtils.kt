@@ -154,4 +154,12 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
         return retrofitClient.getClientApi()!!.create(ItemDummyApiService::class.java)
     }
 
+    fun getSyncApiService() : SyncApiService {
+        return retrofitClient.getClientApi()!!.create(SyncApiService::class.java)
+    }
+
+    fun getLicenseApiService() : LicenseApiService {
+        return retrofitClient.getClientApi()!!.create(LicenseApiService::class.java)
+    }
+
 }

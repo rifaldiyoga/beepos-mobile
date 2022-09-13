@@ -2,6 +2,9 @@
     <string name="app_name">Beepos Mobile</string>
     <string name="version">version</string>
 
+    <string name="api_key">api_key</string>
+    <string name="is_first_run">is_first_run</string>
+
     <!--    Peferances-->
     <string name="pref_screen_orientation" translatable="false">Screen Orientation</string>
     <string name="pref_is_change_screen_orientation" translatable="false">Is Change Orientation</string>
@@ -308,7 +311,7 @@ untuk memperbarui data dapur?</string>
     <string name="search">Search</string>
     <string name="_1_produk">%1$s Produk</string>
     <string name="_1_PCS">%1$s %2$s</string>
-    <string name="anda_mendapatkan_promo">Anda mendapatkan promo</string>
+    <string name="anda_mendapatkan_promo">Anda mendapatkan %1$d promo</string>
     <string name="total">Total</string>
     <string name="subtotal">Subtotal</string>
     <string name="batal">Batal</string>
@@ -548,5 +551,26 @@ untuk memperbarui data dapur?</string>
     <string name="masukkan_satuan_produk">Masukkan satuan produk</string>
     <string name="kategori_produk">Kategori Produk</string>
     <string name="buat_akun">Buat Akun</string>
+
+    <!--Manual Upload-->
+    <string name="konfirmasi">Konfirmasi</string>
+    <string name="yakin_sync_manual">Apakah anda yakin untuk melakukan sync manual ?</string>
+    <string name="no_trans_havent_upload">Tidak Ditemukan Data Transaksi.\nAtau\nSemua Transaksi Telah Berhasil Tersinkronisasi.</string>
+    <string name="cek_koneksi_internet">Untuk Dapat Melanjutkan, Pastikan Koneksi Internet Pada Smartphone Anda Hidup dan Terkoneksi Dengan Baik</string>
+    <string name="coba_lagi">Coba Lagi</string>
+    <string name="cek_koneksi_wifi">Cek koneksi Wi-Fi atau paket data lalu silakan coba lagi, ya!</string>
+    <string name="cek_koneksi_internet_title">Tidak ada koneksi internet</string>
+    <string name="sedang_memperbarui_data">Sedang memperbarui data...</string>
+    <string name="downloading_data_produk">Downloading data produk</string>
+    <string name="bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini">Bagaimana caranya agar saya bisa mengubah modal kasir? Pelajari selengkapnya disini</string>
+    <string name="msg_batalkan_transaksi">\"Apakah anda yakin ingin membatalkan transaksi? Seluruh produk yang telah dipilih tidak akan diproses \"</string>
+    <string name="batalkan_transaksi">Batalkan Transaksi</string>
+    <string name="batalkan">Batalkan</string>
+    <string name="lanjut_bayar">Lanjut Bayar</string>
+    <string name="simpan_sebagai_draft">Simpan Sebagai Draft</string>
+    <string name="msg_draft">Apakah anda yakin ingin menyimpan transaksi sebagai draft? Transaksi masih bisa dibuka dan diedit lagi</string>
+    <string name="hapus_produk">Hapus Produk</string>
+    <string name="msg_hapus_produk">Apakah anda yakin ingin menghapus produk ini?</string>
+    <string name="terapkan">Terapkan</string>
 
 </resources>

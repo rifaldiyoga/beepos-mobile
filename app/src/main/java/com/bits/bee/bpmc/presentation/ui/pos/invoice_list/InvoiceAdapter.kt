@@ -80,7 +80,7 @@ class InvoiceAdapter(
                     ivDelete.gone()
                 }
 
-                rvAddon.isVisible = saleTrans.addOnTrans != null && saleTrans.addOnTrans!!.getListDetail().find { it.upSaledId == model } != null
+                rvAddon.isVisible = saleTrans.addOnTrans != null && saleTrans.addOnTrans!!.getListDetail().find { it.upSaled == model } != null
 
                 clContent.setOnClickListener {
                     onItemClicK(model)

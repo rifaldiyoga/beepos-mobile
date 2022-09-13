@@ -51,7 +51,7 @@ class ItemRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override suspend fun getActiveItemListByItemGrp(itemGrpId: Int, query: String, usePid : Boolean): Flow<PagingData<Item>> {
+    override suspend fun getActiveItemListPagedByItemGrp(itemGrpId: Int, query: String, usePid : Boolean): Flow<PagingData<Item>> {
 
         val pagingSource = { if(usePid) itemDao.getItemByItemGrpPagedListPid(itemGrpId, query) else itemDao.getItemByItemGrpPagedList(itemGrpId, query, false) }
 
@@ -67,7 +67,7 @@ class ItemRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override suspend fun getActiveItemList(query : String, usePid : Boolean): Flow<PagingData<Item>> = Pager(
+    override suspend fun getActiveItemListPaged(query : String, usePid : Boolean): Flow<PagingData<Item>> = Pager(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
@@ -75,9 +75,9 @@ class ItemRepositoryImpl @Inject constructor(
         ),
         pagingSourceFactory = {
             if(!usePid)
-                itemDao.getActiveItemList(query, usePid)
+                itemDao.getActiveItemPagedList(query, usePid)
             else
-                itemDao.getActiveItemListPid(query)
+                itemDao.getActiveItemPagedListPid(query)
         }
     ).flow.mapLatest {
         it.map { ItemDataMapper.fromDbToDomain(it) }
@@ -89,6 +89,21 @@ class ItemRepositoryImpl @Inject constructor(
 
     override fun getItemByVariant(variantId: Int): Flow<List<Item>> = flow{
         emit(itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
+
+    override fun getItemById(id: Int): Flow<Item?> {
+        return flow {
+            val data = itemDao.getItemById(id)
+            emit(data?.let { ItemDataMapper.fromDbToDomain(data) })
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getActiveItemList(): Flow<List<Item>> = flow {
+        emit(itemDao.getActiveItemList().map { ItemDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
+
+    override fun getActiveItemListByItemGrp(itemGrpId: Int): Flow<List<Item>> = flow {
+        emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
 }

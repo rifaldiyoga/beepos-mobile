@@ -40,4 +40,13 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'GOPAY' and isvoid = 0")
     fun getTotalPaidGopay(id: Int): BigDecimal
 
+    @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0 and id not in (:saledlist) limit :limit_trx")
+    fun getSaleHaventUploaded(limit_trx: Long, saledlist: String): List<SaleEntity>
+
+    @Query("UPDATE sale SET bp_id = :idCust WHERE bp_id = :oldIdCust")
+    fun updateNewIdCust(oldIdCust: Int, idCust: Int)
+
+    @Query("SELECT * FROM sale where id = :id")
+    fun getSaleById(id: Int): SaleEntity
+
 }

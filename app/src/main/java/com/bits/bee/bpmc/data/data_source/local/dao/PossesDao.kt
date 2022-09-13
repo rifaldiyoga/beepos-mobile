@@ -33,12 +33,6 @@ interface PossesDao : BaseDao<PossesEntity> {
     @Query("SELECT * FROM posses WHERE shift LIKE '%'|| :query || '%'")
     fun searchSesi(query : String) : PagingSource<Int, PossesEntity>
 
-    @Query("SELECT * FROM posses WHERE endbal is not null ORDER BY id DESC")
-    fun getSortDesc(): List<PossesEntity>
-
-    @Query("SELECT * FROM posses WHERE endbal is not null ORDER BY id ASC")
-    fun getSortAsc(): List<PossesEntity>
-
     @Query("SELECT * FROM posses WHERE trxdate BETWEEN :current AND :end")
     fun getFilter(current: Long, end: Long): List<PossesEntity>
 
@@ -53,4 +47,8 @@ interface PossesDao : BaseDao<PossesEntity> {
 
     @Query("SELECT * FROM posses WHERE endbal is not null and trxdate BETWEEN :current AND :end ORDER BY id desc")
     fun getFilterDesc(current: Long, end: Long): List<PossesEntity>
+
+    @Query("SELECT posses.id, posses.user_id, posses.cashier_id, posses.shift, posses.startbal, posses.starttime, posses.endbal, posses.endtime, posses.credit, " +
+            "posses.total, posses.trxdate, posses.trxno, posses.totin, posses.totout, posses.endcash, posses.totactualcash, posses.totdiffcash, posses.isuploaded FROM posses where isuploaded = 0")
+    fun getPossesHaventUpload(): List<PossesEntity>
 }

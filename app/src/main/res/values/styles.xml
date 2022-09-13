@@ -32,7 +32,7 @@
         <item name="android:textColor">@color/gray</item>\
     </style>
     
-    <style name="ShapeAppearanceOverlay.Demo">
+    <style name="ShapeBottomSheetAppearanceOverlay">
         <item name="cornerSizeTopLeft">@dimen/size18</item>
         <item name="cornerSizeTopRight">@dimen/size18</item>
         <item name="cornerFamily">rounded</item>
@@ -42,10 +42,11 @@
         name="ThemeOverlay.Demo.BottomSheetDialog"
         parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Widget.Demo.BottomSheet</item>
+        <item name="materialButtonStyle">@style/ParentButton</item>
     </style>
 
     <style name="Widget.Demo.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Demo</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeBottomSheetAppearanceOverlay</item>
     </style>
 
     <style name="SpinnerIcon" parent="android:Widget.Spinner">
@@ -74,6 +75,7 @@
         <item name="hintTextColor">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
+        <item name="closeIcon">@drawable/ic_close</item>
     </style>
 
     <style name="CustomTextAppearanceTab" parent="TextAppearance.Design.Tab">
@@ -85,6 +87,17 @@
         <item name="hintEnabled">false</item>
         <item name="hintAnimationEnabled">false</item>
         <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="ShapeDialogAppearanceOverlay">
+        <item name="cornerRadius">@dimen/size18</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style
+        name="ThemeOverlay.Demo.Dialog"
+        parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="dialogTheme">@style/Widget.Demo.BottomSheet</item>
     </style>
 
 </resources>

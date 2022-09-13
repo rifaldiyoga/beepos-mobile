@@ -13,12 +13,18 @@ interface ItemRepository {
 
     fun getLastesItemList(page : Int): Flow<Resource<List<Item>>>
 
-    suspend fun getActiveItemListByItemGrp(itemGrpId : Int, query: String, usePid: Boolean) : Flow<PagingData<Item>>
+    suspend fun getActiveItemListPagedByItemGrp(itemGrpId : Int, query: String, usePid: Boolean) : Flow<PagingData<Item>>
 
-    suspend fun getActiveItemList(query : String, usePid : Boolean) : Flow<PagingData<Item>>
+    suspend fun getActiveItemListPaged(query : String, usePid : Boolean) : Flow<PagingData<Item>>
 
     fun getItemBySelection(selectionId : Int) : Flow<List<Item>>
 
     fun getItemByVariant(variantId : Int) : Flow<List<Item>>
+
+    fun getItemById(id: Int): Flow<Item?>
+
+    fun getActiveItemList() : Flow<List<Item>>
+
+    fun getActiveItemListByItemGrp(itemGrpId: Int) : Flow<List<Item>>
 
 }
