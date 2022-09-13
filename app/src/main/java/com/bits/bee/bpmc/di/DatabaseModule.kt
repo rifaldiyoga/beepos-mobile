@@ -379,5 +379,4 @@ object DatabaseModule {
     fun providePromoMultiDao(dbHelper: DbHelper): PromoMultiDao{
         return dbHelper.promoMultiDao
     }
-
 }

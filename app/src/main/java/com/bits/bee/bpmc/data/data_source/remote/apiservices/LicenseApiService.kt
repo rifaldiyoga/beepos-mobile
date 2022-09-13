@@ -17,5 +17,4 @@ interface LicenseApiService {
 
     @POST("/api/v1/activatedevice")
     fun postLic(@Body licpost: LicensePost) : Flow<ApiResponse<LicenseResponse>>
-
 }

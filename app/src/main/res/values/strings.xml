@@ -55,6 +55,7 @@
     <string name="pref_add_member_alamat">pref_add_member_alamat</string>
     <string name="pref_counter_sesi">pref_counter_sesi</string>
     <string name="pref_pilih_tgl">pref_pilih_tgl</string>
+    <string name="pref_login_user">login_user</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -273,6 +274,11 @@
     <string name="apakah_anda_ingin_memberbarui_printer">Apakah anda ingin mengatur printer lagi
 untuk memperbarui data dapur?</string>
     <string name="atur_printer">Atur Printer</string>
+    <string name="masukan_email_melanjutkan">Masukkan email untuk melanjutkan</string>
+    <string name="yakin_ganti_kasir">Yakin ingin ganti Kasir ?</string>
+    <string name="login_pin">Login Pin</string>
+    <string name="login_email">Login Email</string>
+    <string name="informasi_akun">Informasi Akun</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>

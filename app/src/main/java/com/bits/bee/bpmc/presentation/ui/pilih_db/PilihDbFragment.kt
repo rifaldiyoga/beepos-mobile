@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_db
 
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,10 +15,12 @@ import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.databinding.FragmentPilihDbBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -52,7 +56,11 @@ class PilihDbFragment constructor(
             setHasOptionsMenu(true)
             adapter = PilihDbAdapter(mListener = object :  PilihDbAdapter.PilihDbAdapterI{
                 override fun onItemClick(db: LoginResponse.Db) {
+//<<<<<<< HEAD
                     viewModel.postDb(db.dbName)
+//=======
+//                    viewModel.onClickDb(db)
+//>>>>>>> 1ddb2a9... ^ login operator
                 }
             })
             rvList.layoutManager = LinearLayoutManager(requireContext())
@@ -84,6 +92,73 @@ class PilihDbFragment constructor(
                 }
             }
         }
+//<<<<<<< HEAD
+//=======
+//        viewModel.observeInitialResponse().removeObservers(viewLifecycleOwner)
+//        viewModel.observeInitialResponse().observe(viewLifecycleOwner) {
+//            it?.let {
+//                when(it.status){
+//                    Resource.Status.LOADING -> {
+//                        dialog.show(
+//                            message = "Inisialisasi Data"
+//                        )
+//                    }
+//                    Resource.Status.SUCCESS -> {
+//                        dialog.hide()
+//                        viewModel.onSuccessDb()
+//                    }
+//                    Resource.Status.ERROR -> {
+//                        dialog.hide()
+//                    }
+//                }
+//            }
+//        }
+        viewModel.observeDbResponse().removeObservers(viewLifecycleOwner)
+        viewModel.observeDbResponse().observe(viewLifecycleOwner){
+            it?.let {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+//                        setVisibilityComponent(true)
+                    }
+                    Resource.Status.SUCCESS -> {
+                        setVisibilityComponent(false)
+                        it.data?.let {
+                            val listData = it.dataDb
+                            if (it.status.equals("success")){
+                                val deviceName = Build.MANUFACTURER + Build.DEVICE + Build.ID + "-" + BeePreferenceManager.getDataFromPreferences(requireContext(),getString(R.string.pref_nama_device), "")
+                                viewModel.doLincensing(listData.get(0).auth_key, deviceName)
+                            }else{
+                                Toast.makeText(requireContext(), "Error Response Db: ${it.status}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+//                        setVisibilityComponent(false)
+                    }
+                }
+            }
+        }
+        viewModel.observeLicResponse().removeObservers(viewLifecycleOwner)
+        viewModel.observeLicResponse().observe(viewLifecycleOwner){
+            it?.let {
+                when(it.status){
+                    Resource.Status.LOADING -> {
+                        dialog.show(
+                            message = "Validasi Lisensi"
+                        )
+                    }
+                    Resource.Status.SUCCESS -> {
+                        dialog.hide()
+                        Toast.makeText(requireContext(), "Licensi Berhasil", Toast.LENGTH_SHORT).show()
+                        viewModel.requestDb()
+                    }
+                    Resource.Status.ERROR -> {
+                        dialog.hide()
+                    }
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {

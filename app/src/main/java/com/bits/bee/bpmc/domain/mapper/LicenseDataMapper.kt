@@ -13,7 +13,7 @@ object LicenseDataMapper : BaseMapper<LicenseEntity, License, LicenseResponse.Da
     override fun fromDbToDomain(model: LicenseEntity): License {
         return License(
             model.name,
-            model.licNumber ,
+            model.licNumber,
             model.item ,
             model.licExp,
         )
@@ -21,6 +21,7 @@ object LicenseDataMapper : BaseMapper<LicenseEntity, License, LicenseResponse.Da
 
     override fun fromDomainToDb(model: License): LicenseEntity {
         return LicenseEntity(
+            null,
             model.name,
             model.licNumber ,
             model.item ,

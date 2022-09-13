@@ -43,4 +43,11 @@ class CmpRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
+    override fun getCmp(): Flow<Resource<Cmp>> {
+        return flow {
+            val data = cmpDao.getCmp()
+            emit(Resource.success(CmpDataMapper.fromDbToDomain(data)))
+        }.flowOn(defaultDispatcher)
+    }
+
 }

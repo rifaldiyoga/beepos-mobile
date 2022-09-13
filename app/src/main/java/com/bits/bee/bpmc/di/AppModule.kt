@@ -150,8 +150,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(operatorDao: UserDao, defaultDispatcher: CoroutineDispatcher): UserRepository {
-        return UserRepositoryImpl(operatorDao, defaultDispatcher)
+    fun provideUserRepository(operatorDao: UserDao, defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils): UserRepository {
+        return UserRepositoryImpl(operatorDao, defaultDispatcher, apiUtils)
     }
 
     @Provides

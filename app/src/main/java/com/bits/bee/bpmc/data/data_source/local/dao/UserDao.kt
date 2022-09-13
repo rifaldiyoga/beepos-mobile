@@ -24,4 +24,10 @@ interface UserDao : BaseDao<UserEntity>{
     @Query("SELECT * FROM user WHERE id = :id")
     fun getUserById(id: Int) : UserEntity
 
+    @Query("SELECT * FROM user WHERE pin = :user")
+    fun getUserPin(user: String): List<UserEntity>
+
+    @Query("SELECT * FROM user where username = :username AND auth_key LIKE '%'|| :userapi || '%'")
+    fun getUserBySecretSauce(username: String, userapi: String): List<UserEntity>
+
 }

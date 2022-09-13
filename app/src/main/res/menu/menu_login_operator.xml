@@ -1,0 +1,40 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_baseline_more_black"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_login"
+                android:orderInCategory="100"
+                android:title="Login Email"
+                android:icon="@drawable/ic_tag_email"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_sinkron"
+                android:orderInCategory="100"
+                android:title="Sinkron Data"
+                android:icon="@drawable/ic_reload"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_reset"
+                android:orderInCategory="100"
+                android:title="Ganti Kasir"
+                android:icon="@drawable/ic_cashier_black"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_info"
+                android:orderInCategory="100"
+                android:title="Info"
+                android:icon="@drawable/ic_info"
+                app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
+
+
+</menu>
