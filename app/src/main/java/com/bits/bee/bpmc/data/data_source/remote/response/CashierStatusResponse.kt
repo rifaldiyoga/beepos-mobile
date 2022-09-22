@@ -14,11 +14,11 @@ import kotlinx.parcelize.Parcelize
 data class CashierStatusResponse (
     @SerializedName("status")
     @Expose
-    private var status: Boolean,
+    var status: Boolean,
 
     @SerializedName("data")
     @Expose
-    private var data: Data,
+    var data: Data,
 ) : Parcelable{
 
     @Parcelize

@@ -2,12 +2,16 @@ package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.LicenseDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.model.DetachPost
 import com.bits.bee.bpmc.data.data_source.remote.model.LicensePost
+import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.DetachResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.LicenseResponse
 import com.bits.bee.bpmc.domain.mapper.LicenseDataMapper
 import com.bits.bee.bpmc.domain.model.License
 import com.bits.bee.bpmc.domain.repository.LicenseRepository
 import com.bits.bee.bpmc.utils.ApiResponse
+import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -44,5 +48,14 @@ class LicenseRepositoryImpl @Inject constructor(
     override fun getActiveLicense(): Flow<License?> = flow {
         emit(licDao.getLicense().map { LicenseDataMapper.fromDbToDomain(it) }.firstOrNull())
     }.flowOn(dispatcher)
+
+    override fun detachLic(detachPost: DetachPost): Flow<Resource<DetachResponse>> {
+        return object : NetworkBoundResource<DetachResponse>(){
+            override fun createCall(): Flow<ApiResponse<DetachResponse>> {
+                return apiUtils.getLicenseApiService().detachLic(detachPost)
+            }
+
+        }.getAsFlow()
+    }
 
 }

@@ -8,6 +8,8 @@ import java.util.*
 @Entity(tableName = LicenseEntity.TBL_NAME)
 data class LicenseEntity(
     @PrimaryKey
+    @ColumnInfo(name = ID)
+    var id : Int? = null,
     @ColumnInfo(name = NAME)
     var name: String,
     @ColumnInfo(name = SERIAL)

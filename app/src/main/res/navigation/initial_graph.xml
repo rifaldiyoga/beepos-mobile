@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_loginOperatorFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_loginOperatorFragment_to_pilihKasirFragment"
+            app:destination="@id/pilihKasirFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_mode_tampilan"

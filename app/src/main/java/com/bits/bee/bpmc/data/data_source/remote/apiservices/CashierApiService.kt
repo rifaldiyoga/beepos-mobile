@@ -24,5 +24,4 @@ interface CashierApiService {
 
     @POST("/api/v1/detachcashier")
     fun postDetachCashier(@Body cashierPost: CashierPost): Flow<ApiResponse<CashierStatusResponse>>
-
 }

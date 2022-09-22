@@ -6,7 +6,6 @@ import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.LicenseEntity
 import javax.inject.Singleton
 
-@Singleton
 @Dao
 interface LicenseDao: BaseDao<LicenseEntity> {
 

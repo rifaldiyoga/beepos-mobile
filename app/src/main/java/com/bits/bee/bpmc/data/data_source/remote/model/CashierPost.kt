@@ -20,5 +20,5 @@ class CashierPost (
     private var serial_number: String,
     @SerializedName("device_info")
     @Expose
-    private var device_info: String,
+    private var device_info: String?= null,
 ): Parcelable

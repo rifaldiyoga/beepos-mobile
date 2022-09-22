@@ -62,6 +62,8 @@
 
     <style name="SpinnerTheme" parent="Widget.AppCompat.Spinner.Underlined">
         <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
     </style>
 
     <style name="ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar">

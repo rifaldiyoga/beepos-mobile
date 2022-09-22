@@ -41,5 +41,7 @@ interface SaleRepository {
 
     fun getSaleById(id: Int): Flow<Resource<Sale>>
 
+    fun getSaleNotUploaded(): Flow<Resource<List<Sale>>>
+
 
 }

@@ -15,4 +15,6 @@ interface StockRepository {
                        wh: Wh
     ) : Flow<Resource<List<Stock>>>
 
+    fun getItemStock(wh_id: Int): Flow<Resource<List<Stock>>>
+
 }

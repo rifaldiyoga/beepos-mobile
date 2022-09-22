@@ -49,4 +49,7 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT * FROM sale where id = :id")
     fun getSaleById(id: Int): SaleEntity
 
+    @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0")
+    fun getSaleNotUploaded(): List<SaleEntity>
+
 }

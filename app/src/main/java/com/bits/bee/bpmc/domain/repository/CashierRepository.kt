@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
+import com.bits.bee.bpmc.data.data_source.remote.response.CashierReturn
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.utils.Resource
@@ -23,4 +24,8 @@ interface CashierRepository {
     fun getActiveCashier() : Flow<Cashier?>
 
     fun getCashierById(id: Int): Flow<Resource<Cashier>>
+
+    fun detachCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>>
+
+
 }

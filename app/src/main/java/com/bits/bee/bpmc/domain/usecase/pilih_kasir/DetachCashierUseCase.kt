@@ -26,7 +26,6 @@ class DetachCashierUseCase @Inject constructor(
         val cashierPost = CashierPost(
             cashierid = cashier.id,
             serial_number = license.licNumber,
-            device_info = deviceName
         )
 
         return cashierRepository.detachActivateCashier(cashierPost)

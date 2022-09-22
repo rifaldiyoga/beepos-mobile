@@ -7,8 +7,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -41,11 +43,14 @@ class SettingListFragment(
             clNota.setOnClickListener {
                 viewModel.onClickSettingNota()
             }
-            clLisensi.setOnClickListener {
-                viewModel.onClickSettingLisensi()
+            clHelp.setOnClickListener {
+                viewModel.onClickHelp()
             }
             clPrint.setOnClickListener {
                 viewModel.onClickSettingPrint()
+            }
+            clKeluar.setOnClickListener {
+                viewModel.onClickKeluar()
             }
         }
     }
@@ -63,10 +68,6 @@ class SettingListFragment(
                             val action = SettingListFragmentDirections.actionSettingListFragmentToSettingFavoriteFragmentMain()
                             findNavController().navigate(action)
                         }
-                        SettingListViewModel.UIEvent.NavigateToSettingLisensi -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToHelpLicenseFragment()
-                            findNavController().navigate(action)
-                        }
                         SettingListViewModel.UIEvent.NavigateToSettingNota -> {
                             val action = SettingListFragmentDirections.actionSettingListFragmentToSettingNotaFragment()
                             findNavController().navigate(action)
@@ -79,6 +80,17 @@ class SettingListFragment(
                             val action = SettingListFragmentDirections.actionSettingListFragmentToSettingSistemFragment()
                             findNavController().navigate(action)
                         }
+                        SettingListViewModel.UIEvent.NavigateToLoginOperator ->{
+                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
+                                R.string.page_pilih_operator))
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToInitialActivity()
+                            findNavController().navigate(action)
+                        }
+                        SettingListViewModel.UIEvent.NavigateToDetailHelp ->{
+                            val action = SettingListFragmentDirections.actionSettingListFragmentToDetailMenuHelpFragment()
+                            findNavController().navigate(action)
+                        }
+                        else -> {}
                     }
                 }
             }

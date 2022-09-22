@@ -45,8 +45,8 @@ class DetailMemberDialog(
                 viewModel.update(it)
             }
         }
-        if (!viewModel.state.bp!!.code.equals("CASH"))
-            viewModel.getBpaddr()
+//        if (!viewModel.state.bp!!.code.equals("CASH"))
+//            viewModel.getBpaddr()
     }
 
     override fun initComponents() {
@@ -108,20 +108,20 @@ class DetailMemberDialog(
                                 cbTax.isChecked = bp.isTaxedOnSale
                                 cbTaxInc.isChecked = bp.isTaxIncOnSale
                             }
-                            it.bpAdddr?.let {
-                                txtNoTelp.text = it.phone
-                                txtAlamat.text = it.address
-                                txtEmail.text = it.email
-                            }
-                            if (it.district != null){
-                                it.regency?.let { data ->
-                                    txtKota.text = data.name+", "+it.district.name
-                                }
-                            }else{
-                                it.regency?.let {
-                                    txtKota.text = it.name
-                                }
-                            }
+//                            it.bpAdddr?.let {
+//                                txtNoTelp.text = it.phone
+//                                txtAlamat.text = it.address
+//                                txtEmail.text = it.email
+//                            }
+//                            if (it.district != null){
+//                                it.regency?.let { data ->
+//                                    txtKota.text = data.name+", "+it.district.name
+//                                }
+//                            }else{
+//                                it.regency?.let {
+//                                    txtKota.text = it.name
+//                                }
+//                            }
                         }
                     }
                 }

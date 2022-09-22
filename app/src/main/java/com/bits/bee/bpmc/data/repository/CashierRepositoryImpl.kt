@@ -5,6 +5,7 @@ import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.CashierReturn
 import com.bits.bee.bpmc.domain.mapper.CashierDataMapper
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.repository.CashierRepository
@@ -44,7 +45,12 @@ class CashierRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CashierResponse) {
-                cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToDb(it) })
+                var dataList : MutableList<CashierResponse.CashierModel> = mutableListOf()
+                for (datanew in data.data){
+                    datanew.isActive = false
+                    dataList.add(datanew)
+                }
+                cashierDao.insertBulk(dataList.map { CashierDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()
@@ -69,7 +75,7 @@ class CashierRepositoryImpl @Inject constructor(
     override fun detachActivateCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>> {
         return object : NetworkBoundResource<CashierStatusResponse>(){
             override fun createCall(): Flow<ApiResponse<CashierStatusResponse>> {
-                return apiUtils.getCashierApiService().postActivateCashier(cashierPost)
+                return apiUtils.getCashierApiService().postDetachCashier(cashierPost)
             }
 
         }.getAsFlow()
@@ -88,6 +94,14 @@ class CashierRepositoryImpl @Inject constructor(
             val data = cashierDao.getCashierById(id)
             emit(Resource.success(CashierDataMapper.fromDbToDomain(data)))
         }.flowOn(defaultDispatcher)
+    }
+
+    override fun detachCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>> {
+        return object : NetworkBoundResource<CashierStatusResponse>() {
+            override fun createCall(): Flow<ApiResponse<CashierStatusResponse>> {
+                return apiUtils.getCashierApiService().postDetachCashier(cashierPost)
+            }
+        }.getAsFlow()
     }
 
 }

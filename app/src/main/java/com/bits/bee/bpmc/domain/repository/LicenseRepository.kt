@@ -1,6 +1,9 @@
 package com.bits.bee.bpmc.domain.repository
 
+import com.bits.bee.bpmc.data.data_source.remote.model.DetachPost
 import com.bits.bee.bpmc.data.data_source.remote.model.LicensePost
+import com.bits.bee.bpmc.data.data_source.remote.post.LicPost
+import com.bits.bee.bpmc.data.data_source.remote.response.DetachResponse
 import com.bits.bee.bpmc.domain.model.License
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -14,4 +17,12 @@ interface LicenseRepository {
 
     fun getActiveLicense() : Flow<License?>
 
+    fun detachLic(detachPost: DetachPost): Flow<Resource<DetachResponse>>
+
+//=======
+//interface LicenseRepository {
+//    fun getLicense(): Flow<Resource<List<License>>>
+//
+//    fun postLicense(licPost: LicPost): Flow<Resource<Any>>
+//>>>>>>> 1ddb2a9... ^ login operator
 }

@@ -9,4 +9,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CmpRepository {
     fun getLatestCmp() : Flow<Resource<Cmp>>
+
+    fun getCmp(): Flow<Resource<Cmp>>
 }

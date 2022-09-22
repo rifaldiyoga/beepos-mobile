@@ -71,6 +71,9 @@ class InitialFragment(
             getString(R.string.page_otp) -> {
                 findNavController().navigate(R.id.otpFragment)
             }
+            getString(R.string.page_login) ->{
+                findNavController().navigate(R.id.loginFragment)
+            }
             else -> {
 
             }

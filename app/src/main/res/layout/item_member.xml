@@ -78,7 +78,7 @@
 
             <TextView
                 android:layout_width="@dimen/size22"
-                android:layout_height="@dimen/size20"
+                android:layout_height="@dimen/size16"
                 android:layout_gravity="right"
                 android:background="@drawable/ic_eye"
                 android:gravity="center"

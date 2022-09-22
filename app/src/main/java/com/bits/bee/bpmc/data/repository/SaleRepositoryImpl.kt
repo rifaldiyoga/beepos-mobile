@@ -140,5 +140,12 @@ class SaleRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getSaleNotUploaded(): Flow<Resource<List<Sale>>> {
+        return flow {
+            val data = saleDao.getSaleNotUploaded().map { SaleDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(defaultDispatcher)
+    }
+
 
 }
