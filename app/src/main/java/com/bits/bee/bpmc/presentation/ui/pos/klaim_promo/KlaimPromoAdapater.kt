@@ -1,10 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.pos.klaim_promo
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.databinding.ItemNestedSesiBinding
 import com.bits.bee.bpmc.databinding.ItemPosMenuBinding
+import com.bits.bee.bpmc.databinding.ItemPromoBinding
 import com.bits.bee.bpmc.domain.model.Item
 
 /**
@@ -13,7 +16,10 @@ import com.bits.bee.bpmc.domain.model.Item
 class KlaimPromoAdapater : ListAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
+        val inflater = LayoutInflater.from(parent.context)
+        return ViewHolder(
+            ItemPosMenuBinding.inflate(inflater, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

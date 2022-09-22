@@ -5,5 +5,6 @@ data class LoginOperatorState (
     var password : String = "",
     var messageEmail : String = "",
     var messagePassword : String = "",
-    var isValid : Boolean = false
+    var isValid : Boolean = false,
+    var mTimesWrong: Int = 0
 )

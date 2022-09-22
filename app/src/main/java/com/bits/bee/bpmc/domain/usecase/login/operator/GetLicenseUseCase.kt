@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetLicenseUseCase @Inject constructor(
     private val licenseRepository: LicenseRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<License>>>{
-        return licenseRepository.getLicense()
-    }
+//    operator fun invoke(): Flow<Resource<List<License>>>{
+////        return licenseRepository.getLicense()
+//    }
 }

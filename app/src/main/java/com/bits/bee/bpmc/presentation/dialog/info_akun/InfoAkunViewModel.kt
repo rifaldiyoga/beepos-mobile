@@ -1,7 +1,7 @@
 package com.bits.bee.bpmc.presentation.dialog.info_akun
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveOperatorUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveUserUseCase
 import com.bits.bee.bpmc.domain.usecase.download.GetLatestCmpUseCase
 import com.bits.bee.bpmc.domain.usecase.login.operator.GetCmpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InfoAkunViewModel @Inject constructor(
     private val getCmpUseCase: GetCmpUseCase,
-    private val getActiveOperatorUseCase: GetActiveOperatorUseCase
+    private val getActiveUserUseCase: GetActiveUserUseCase
 ): BaseViewModel<InfoAkunState, InfoAkunViewModel.UIEvent>() {
 
     init {
@@ -32,14 +32,23 @@ class InfoAkunViewModel @Inject constructor(
             }
         }
 
-        val data = getActiveOperatorUseCase.invoke().first()
-        data?.let {
+        val user = getActiveUserUseCase().first()
+        user.let {
             updateState(
                 state.copy(
-                    email = it.username
+                    email = it!!.username
                 )
             )
         }
+
+//        val data = getActiveOperatorUseCase.invoke().first()
+//        data?.let {
+//            updateState(
+//                state.copy(
+//                    email = it.username
+//                )
+//            )
+//        }
     }
 
     sealed class UIEvent {

@@ -1,25 +1,29 @@
 package com.bits.bee.bpmc.presentation.ui.login_operator
 
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
-import com.bits.bee.bpmc.data.data_source.remote.response.CashierReturn
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveLicenseUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
 import com.bits.bee.bpmc.domain.usecase.login.operator.*
+import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.UpdateActiveCashierUseCase
+import com.bits.bee.bpmc.domain.usecase.setting.UpdateUserUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,9 +38,11 @@ class LoginOperatorViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val getBranchUserUseCase: GetBranchUserUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val detachCashierUseCase: DetachCashierUseCase,
     private val updateActiveCashierUseCase: UpdateActiveCashierUseCase,
     private val getUserPinUseCase: GetUserPinUseCase,
+    private val getActiveLicenseUseCase: GetActiveLicenseUseCase,
+    private val detachCashierUseCase: DetachCashierUseCase,
+    private val updateUserUseCase: UpdateUserUseCase,
     @ApplicationContext val context: Context
 ): BaseViewModel<LoginOperatorState, LoginOperatorViewModel.UIEvent>() {
 
@@ -54,8 +60,8 @@ class LoginOperatorViewModel @Inject constructor(
     private var branchUserResponse: MediatorLiveData<Resource<Any>> = MediatorLiveData()
     fun observebranchUserResponse() = branchUserResponse as LiveData<Resource<Any>>
 
-    private var cashierReturn: MediatorLiveData<Resource<CashierStatusResponse>> = MediatorLiveData()
-    fun observeCashierReturn() = cashierReturn as LiveData<Resource<CashierStatusResponse>>
+    private var cashierStatusResponse: MediatorLiveData<Resource<CashierStatusResponse>> = MediatorLiveData()
+    fun observeCashierStatusResponse() = cashierStatusResponse as LiveData<Resource<CashierStatusResponse>>
 
     fun validateEmail() = viewModelScope.launch{
         val email = state.email
@@ -160,27 +166,31 @@ class LoginOperatorViewModel @Inject constructor(
                 mCashier = it
             }
         }
-        getLicenseUseCase.invoke().collect {
-            it.data?.let {
-                mLicense = it.get(0)
-            }
-        }
 
-        val cashierPost = CashierPost(
-            cashierid = mCashier!!.id,
-            serial_number = mLicense!!.licNumber,
-            device_info = ""
-        )
+        val license : License = getActiveLicenseUseCase().first() ?: throw Exception("No Active License!")
+//        getLicenseUseCase.invoke().collect {
+//            it.data?.let {
+//                mLicense = it.get(0)
+//            }
+//        }
 
-        val source = detachCashierUseCase.invoke(cashierPost).asLiveData()
-        cashierReturn.addSource(source){
+//        val cashierPost = CashierPost(
+//            cashierid = mCashier!!.id,
+//            serial_number = mLicense!!.licNumber,
+//            device_info = ""
+//        )
+//        val kode_device = Build.MANUFACTURER + Build.DEVICE + Build.ID + "-"
+        val deviceName = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_nama_device), "") as String
+
+        val source = detachCashierUseCase.invoke(mCashier!!, deviceName).asLiveData()
+        cashierStatusResponse.addSource(source){
             if (it != null) {
-                cashierReturn.value = it
+                cashierStatusResponse.value = it
                 if (it.status !== Resource.Status.LOADING) {
-                    cashierReturn.removeSource(source)
+                    cashierStatusResponse.removeSource(source)
                 }
             } else {
-                cashierReturn.removeSource(source)
+                cashierStatusResponse.removeSource(source)
             }
         }
 
@@ -196,11 +206,18 @@ class LoginOperatorViewModel @Inject constructor(
         }
         if (userList.size == 0){
             // tidak valid
+            state.mTimesWrong = state.mTimesWrong + 1
             Toast.makeText(context, "user tidak valid", Toast.LENGTH_SHORT).show()
+            if (state.mTimesWrong == 2){
+                eventChannel.send(UIEvent.RequetWarningPass)
+            }
+
         }else{
             userPin = userList.get(0)
-            if (pin.equals(userPin)){
+            if (pin.equals(userPin.pin)){
                 //login Sukses
+                userPin.active = true
+                updateUserUseCase.invoke(userPin)
                 onSuccessLogin()
             }
         }
@@ -244,5 +261,6 @@ class LoginOperatorViewModel @Inject constructor(
         object RequestDialogInfo : UIEvent()
         object RequestDoSync : UIEvent()
         object RequestPilihKasir : UIEvent()
+        object RequetWarningPass : UIEvent()
     }
 }

@@ -14,4 +14,6 @@ interface SyncRepository {
     fun getSyncHaventUploaded(): Flow<Resource<List<Sync>>>
 
     fun postSyncAll(postAll: PostAll): Flow<Resource<PostAllReturn>>
+
+    fun getManualSyncLandscape(limit: Long, offset: Long): Flow<Resource<List<Sync>>>
 }

@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -82,5 +83,11 @@ class UserRepositoryImpl @Inject constructor(
             val data = userDao.getUserBySecretSauce(username, userapi).map { UserDataMapper.fromDbToDomain(it) }
             emit(Resource.success(data))
         }.flowOn(defaultDispatcher)
+    }
+
+    override suspend fun updateUser(user: User) {
+        withContext(defaultDispatcher){
+            userDao.update(UserDataMapper.fromDomainToDb(user))
+        }
     }
 }

@@ -8,27 +8,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:padding="@dimen/size16"
         tools:ignore="MissingConstraints">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lL_top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/cl_add_printer_bottom">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_above="@+id/cl_add_printer_bottom"
+                android:id="@+id/nested_scroll"
                 tools:ignore="MissingConstraints">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/size16"
-                    android:paddingRight="@dimen/size16"
-                    android:paddingBottom="@dimen/size10"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -42,6 +35,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/info_printer"
                             android:textStyle="bold"
+                            android:textColor="@color/gray"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -189,6 +183,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/pengaturan_printer"
                             android:textStyle="bold"
+                            android:textColor="@color/gray"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -411,24 +406,21 @@
 
             </androidx.core.widget.NestedScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_add_printer_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:padding="@dimen/size8"
-            android:id="@+id/cl_add_printer_bottom"
-            android:layout_alignParentBottom="true"
             tools:ignore="MissingConstraints">
 
             <Button
                 android:id="@+id/btnLanjut"
-                android:background="@drawable/btn_rect_disable"
                 android:layout_width="@dimen/size0"
-                android:layout_margin="@dimen/size16"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size16"
+                android:background="@drawable/btn_rect_disable"
                 android:text="@string/btn_simpan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -436,15 +428,15 @@
 
 
             <Button
-                android:layout_marginTop="@dimen/size28"
-                android:layout_marginEnd="@dimen/size8"
                 android:id="@+id/btn_tes_print"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size28"
+                android:layout_marginEnd="@dimen/size8"
+                android:background="@drawable/btn_rect_secondary"
                 android:text="@string/tes_print"
                 android:textColor="?colorPrimary"
                 app:backgroundTint="@null"
-                android:background="@drawable/btn_rect_secondary"
                 app:layout_constraintEnd_toStartOf="@+id/btn_simpan_edit"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -453,9 +445,9 @@
                 android:id="@+id/btn_simpan_edit"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_simpan"
-                android:background="@drawable/btn_rect_primary"
                 android:layout_marginStart="@dimen/size8"
+                android:background="@drawable/btn_rect_primary"
+                android:text="@string/btn_simpan"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_tes_print"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -465,13 +457,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_edit_printer_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:padding="@dimen/size8"
-            android:id="@+id/cl_edit_printer_bottom"
             android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/size8"
+            android:weightSum="1"
             tools:ignore="MissingConstraints">
 
         </androidx.constraintlayout.widget.ConstraintLayout>

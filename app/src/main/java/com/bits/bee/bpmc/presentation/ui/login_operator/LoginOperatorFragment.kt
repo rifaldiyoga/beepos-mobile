@@ -1,15 +1,19 @@
 package com.bits.bee.bpmc.presentation.ui.login_operator
 
+import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginPinBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
@@ -40,8 +44,65 @@ class LoginOperatorFragment(
 
     private lateinit var dialog : LoadingDialogHelper
 
-    override fun initComponents() {
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_login_operator, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_login -> {
+                when(mLoginUserStatus){
+                    1 -> {
+                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), true)
+                        mLoginUserStatus = 2
+                        binding.apply {
+                            llModePin.visibility = View.GONE
+                            llModeEmail.visibility = View.VISIBLE
+                            btnMasuk.visibility = View.VISIBLE
+                        }
+                        item.title = getString(R.string.login_pin)
+                        item.icon = requireContext().getResources().getDrawable(R.drawable.ic_tag_pin);
+                    }
+                    2 -> {
+                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), false)
+                        mLoginUserStatus = 1
+                        binding.apply {
+                            llModePin.visibility = View.VISIBLE
+                            llModeEmail.visibility = View.GONE
+                            btnMasuk.visibility = View.GONE
+                        }
+                        item.title = getString(R.string.login_email)
+                        item.icon = requireContext().getResources().getDrawable(R.drawable.ic_tag_email);
+                    }
+                }
+            }
+            R.id.menu_sinkron ->{
+                if (ConnectionUtils.checkInternet(requireContext())){
+                    viewModel.onClickSync()
+                }
+            }
+            R.id.menu_reset ->{
+                viewModel.menuReset()
+            }
+            R.id.menu_info ->{
+                viewModel.menuInfo()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun initComponents() {
         mLoginUserStatus = 1
         dialog = LoadingDialogHelper(requireContext())
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
@@ -51,7 +112,7 @@ class LoginOperatorFragment(
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.event.collect { event ->
-                        when (event) {
+                        when(event) {
                             LoginOperatorViewModel.UIEvent.RequestLoginEmail ->{
                                 viewModel.loginEmail()
                             }
@@ -82,6 +143,21 @@ class LoginOperatorFragment(
                                 val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToPilihKasirFragment()
                                 findNavController().navigate(action)
                             }
+                            LoginOperatorViewModel.UIEvent.RequetWarningPass ->{
+                                val dialog = CustomDialogBuilder.Builder(requireContext())
+                                    .setTitle(getString(R.string.gagal_login))
+                                    .setMessage(getString(R.string.silahkan_login_email_sinkron))
+                                    .setPositiveCallback {
+                                        requireActivity().actionBar?.displayOptions
+                                        viewModel.updateState(
+                                            viewModel.state.copy(
+                                                mTimesWrong = 0
+                                            )
+                                        )
+                                    }.build()
+                                dialog.show(parentFragmentManager, TAG)
+                            }
+                            else -> {}
                         }
                     }
                 }
@@ -121,38 +197,6 @@ class LoginOperatorFragment(
     }
 
     override fun subscribeObservers() {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.event.collect { event ->
-//                    when (event) {
-//                        LoginOperatorViewModel.UIEvent.RequestConfirmKasir ->{
-//                            val dialog = CustomDialogBuilder.Builder(requireContext())
-//                                .setTitle(getString(R.string.konfirmasi))
-//                                .setMessage(getString(R.string.yakin_ganti_kasir))
-//                                .setPositiveCallback {
-//                                    if (ConnectionUtils.checkInternet(requireContext())){
-//                                        viewModel.deActiveStatusKasir()
-//                                    }
-//                                }.build()
-//                            dialog.show(parentFragmentManager, TAG)
-//                        }
-//                        LoginOperatorViewModel.UIEvent.NavigateToHome ->{
-//                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToHomeActivity()
-//                            findNavController().navigate(action)
-//                            (activity as InitialActivity).finish()
-//                        }
-//                        LoginOperatorViewModel.UIEvent.RequestDialogInfo ->{
-//                            val dialog = InfoAkunDialogBuilder()
-//                            dialog.show(parentFragmentManager, TAG)
-//                        }
-//                        LoginOperatorViewModel.UIEvent.RequestPilihKasir ->{
-//                            val action = ""
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {
@@ -175,6 +219,46 @@ class LoginOperatorFragment(
                 }
             }
         }
+
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel.event.collect { event ->
+//                    when(event) {
+//                        LoginOperatorViewModel.UIEvent.RequestLoginEmail ->{
+//                            viewModel.loginEmail()
+//                        }
+//                        LoginOperatorViewModel.UIEvent.RequestDoSync ->{
+//                            viewModel.menuSinkron()
+//                        }
+//                        LoginOperatorViewModel.UIEvent.RequestConfirmKasir ->{
+//                            val dialog = CustomDialogBuilder.Builder(requireContext())
+//                                .setTitle(getString(R.string.konfirmasi))
+//                                .setMessage(getString(R.string.yakin_ganti_kasir))
+//                                .setPositiveCallback {
+//                                    if (ConnectionUtils.checkInternet(requireContext())){
+//                                        viewModel.deActiveStatusKasir()
+//                                    }
+//                                }.build()
+//                            dialog.show(parentFragmentManager, TAG)
+//                        }
+//                        LoginOperatorViewModel.UIEvent.NavigateToHome ->{
+//                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToHomeActivity()
+//                            findNavController().navigate(action)
+//                            (activity as InitialActivity).finish()
+//                        }
+//                        LoginOperatorViewModel.UIEvent.RequestDialogInfo ->{
+//                            val dialog = InfoAkunDialogBuilder()
+//                            dialog.show(parentFragmentManager, TAG)
+//                        }
+//                        LoginOperatorViewModel.UIEvent.RequestPilihKasir ->{
+//                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToPilihKasirFragment()
+//                            findNavController().navigate(action)
+//                        }
+//                        else -> {}
+//                    }
+//                }
+//            }
+//        }
 
         viewModel.observeLoginResponse().removeObservers(viewLifecycleOwner)
         viewModel.observeLoginResponse().observe(viewLifecycleOwner) {
@@ -220,15 +304,15 @@ class LoginOperatorFragment(
             }
         }
 
-        viewModel.observeCashierReturn().removeObservers(viewLifecycleOwner)
-        viewModel.observeCashierReturn().observe(viewLifecycleOwner){
+        viewModel.observeCashierStatusResponse().removeObservers(viewLifecycleOwner)
+        viewModel.observeCashierStatusResponse().observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.LOADING -> {
 
                 }
                 Resource.Status.SUCCESS -> {
                     it.data?.let {
-                        if (it.data!!.status_cashier){
+                        if (it.data.status_cashier){
                             viewModel.updateCashier()
                         }else{
                             Toast.makeText(requireContext(), "Gagal Proses Detach", Toast.LENGTH_SHORT).show()
@@ -240,54 +324,6 @@ class LoginOperatorFragment(
                 }
             }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_login_operator, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_login -> {
-                when(mLoginUserStatus){
-                    1 -> {
-                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), true)
-                        mLoginUserStatus = 2
-                        binding.apply {
-                            llModePin.visibility = View.GONE
-                            llModeEmail.visibility = View.VISIBLE
-                            btnMasuk.visibility = View.VISIBLE
-                        }
-                        item.title = getString(R.string.login_pin)
-                        item.icon = requireContext().getResources().getDrawable(R.drawable.ic_tag_pin);
-                    }
-                    2 -> {
-                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), false)
-                        mLoginUserStatus = 1
-                        binding.apply {
-                            llModePin.visibility = View.VISIBLE
-                            llModeEmail.visibility = View.GONE
-                            btnMasuk.visibility = View.GONE
-                        }
-                        item.title = getString(R.string.login_email)
-                        item.icon = requireContext().getResources().getDrawable(R.drawable.ic_tag_email);
-                    }
-                }
-            }
-            R.id.menu_sinkron ->{
-                if (ConnectionUtils.checkInternet(requireContext())){
-                    viewModel.onClickSync()
-                }
-            }
-            R.id.menu_reset ->{
-                viewModel.menuReset()
-            }
-            R.id.menu_info ->{
-                viewModel.menuInfo()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
 }

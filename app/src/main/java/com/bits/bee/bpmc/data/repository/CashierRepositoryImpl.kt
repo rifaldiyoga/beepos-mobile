@@ -45,7 +45,12 @@ class CashierRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CashierResponse) {
-                cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToDb(it) })
+                var dataList : MutableList<CashierResponse.CashierModel> = mutableListOf()
+                for (datanew in data.data){
+                    datanew.isActive = false
+                    dataList.add(datanew)
+                }
+                cashierDao.insertBulk(dataList.map { CashierDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()
@@ -70,7 +75,7 @@ class CashierRepositoryImpl @Inject constructor(
     override fun detachActivateCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>> {
         return object : NetworkBoundResource<CashierStatusResponse>(){
             override fun createCall(): Flow<ApiResponse<CashierStatusResponse>> {
-                return apiUtils.getCashierApiService().postActivateCashier(cashierPost)
+                return apiUtils.getCashierApiService().postDetachCashier(cashierPost)
             }
 
         }.getAsFlow()

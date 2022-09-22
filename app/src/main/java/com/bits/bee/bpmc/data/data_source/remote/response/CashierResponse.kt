@@ -41,7 +41,7 @@ data class CashierResponse (
         @SerializedName("cash_id")
         val cashId : Long = -1,
         @SerializedName("active")
-        val isActive : Boolean = false,
+        var isActive : Boolean = false,
     ) : Parcelable {
 
     }

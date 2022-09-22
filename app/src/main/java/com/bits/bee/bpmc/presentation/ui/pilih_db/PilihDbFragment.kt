@@ -113,31 +113,32 @@ class PilihDbFragment constructor(
 //                }
 //            }
 //        }
-        viewModel.observeDbResponse().removeObservers(viewLifecycleOwner)
-        viewModel.observeDbResponse().observe(viewLifecycleOwner){
-            it?.let {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-//                        setVisibilityComponent(true)
-                    }
-                    Resource.Status.SUCCESS -> {
-                        setVisibilityComponent(false)
-                        it.data?.let {
-                            val listData = it.dataDb
-                            if (it.status.equals("success")){
-                                val deviceName = Build.MANUFACTURER + Build.DEVICE + Build.ID + "-" + BeePreferenceManager.getDataFromPreferences(requireContext(),getString(R.string.pref_nama_device), "")
-                                viewModel.doLincensing(listData.get(0).auth_key, deviceName)
-                            }else{
-                                Toast.makeText(requireContext(), "Error Response Db: ${it.status}", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                    Resource.Status.ERROR -> {
+//        viewModel.observeDbResponse().removeObservers(viewLifecycleOwner)
+//        viewModel.observeDbResponse().observe(viewLifecycleOwner){
+//            it?.let {
+//                when (it.status) {
+//                    Resource.Status.LOADING -> {
+////                        setVisibilityComponent(true)
+//                    }
+//                    Resource.Status.SUCCESS -> {
 //                        setVisibilityComponent(false)
-                    }
-                }
-            }
-        }
+//                        it.data?.let {
+//                            val listData = it.dataDb
+//                            if (it.status.equals("success")){
+//                                val deviceName = Build.MANUFACTURER + Build.DEVICE + Build.ID + "-" + BeePreferenceManager.getDataFromPreferences(requireContext(),getString(R.string.pref_nama_device), "")
+//                                viewModel.doLincensing(listData.get(0).auth_key, deviceName)
+//                            }else{
+//                                Toast.makeText(requireContext(), "Error Response Db: ${it.status}", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//                    Resource.Status.ERROR -> {
+////                        setVisibilityComponent(false)
+//                    }
+//                }
+//            }
+//        }
+
         viewModel.observeLicResponse().removeObservers(viewLifecycleOwner)
         viewModel.observeLicResponse().observe(viewLifecycleOwner){
             it?.let {

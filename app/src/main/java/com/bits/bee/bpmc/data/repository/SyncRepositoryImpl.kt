@@ -52,5 +52,12 @@ class SyncRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
+    override fun getManualSyncLandscape(limit: Long, offset: Long): Flow<Resource<List<Sync>>> {
+        return flow {
+            val data = syncDao.getManualSyncLandscape(limit, offset).map { SyncDataMapper.fromDbToDomain(it) }
+            emit(Resource.success(data))
+        }.flowOn(ioDispatcher)
+    }
+
 
 }

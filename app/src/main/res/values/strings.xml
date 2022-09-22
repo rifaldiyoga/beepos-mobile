@@ -65,6 +65,7 @@
     <string name="page_atur_produk">page_atur_produk</string>
     <string name="page_pilih_operator">page_login_operator</string>
     <string name="page_home">page_home</string>
+    <string name="page_login">page_login</string>
 
     <!-- Array Setting -->
     <string-array name="list_ukuran_font">
@@ -279,6 +280,8 @@ untuk memperbarui data dapur?</string>
     <string name="login_pin">Login Pin</string>
     <string name="login_email">Login Email</string>
     <string name="informasi_akun">Informasi Akun</string>
+    <string name="gagal_login">Gagal Login</string>
+    <string name="silahkan_login_email_sinkron">Silahkan login menggunakan Email atau Sinkron data ulang!</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>
@@ -507,6 +510,14 @@ untuk memperbarui data dapur?</string>
     <string name="tambah">Tambah</string>
     <string name="hint_diskon_nota">Cth. 10% atau 10,000 atau 10% + 10,000</string>
     <string name="untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2">Untuk diskon kombinasi, gunakan tanda + diantara diskon 1 dan diskon 2</string>
+    <string name="bantuan">Bantuan</string>
+    <string name="fitur_beepos">Fitur Beepos Mobile</string>
+    <string name="kontak_bee">Kontak Bee</string>
+    <string name="privacy_keamanan">Privasi dan Keamanan</string>
+    <string name="perhatian">Perhatian</string>
+    <string name="anda_tidak_dapat_detach_belum_sync">Anda tidak dapat melakukan proses detach, pastikan seluruh data transkasi telah ter-sync, Upload data sekarang?</string>
+    <string name="proses_detach_akan_menghapus_seluruh_data">Proses Detach Lisensi Akan Menghapus KESELURUHAN Data Pada Device Ini Pastikan Seluruh Transaksi Telah Ter-Sinkronisasi, Apakah Anda Yakin Akan Melakukan Ini ??</string>
+    <string name="anda_tidak_dapat_detach_belum_tutup_kasir">Anda tidak dapat melakukan proses detach, pastikan tutup kasir terlebih dahulu !</string>
 
 <!--    Member-->
     <string name="kecamatan_opsional">Kecamatan bersifat opsional (tidak wajib dipilih)</string>

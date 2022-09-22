@@ -54,8 +54,8 @@ class PilihDbViewModel @Inject constructor(
 
 
 
-    private var dbResponse: MediatorLiveData<Resource<DbResponse>> = MediatorLiveData()
-    fun observeDbResponse() = dbResponse as LiveData<Resource<DbResponse>>
+//    private var dbResponse: MediatorLiveData<Resource<DbResponse>> = MediatorLiveData()
+//    fun observeDbResponse() = dbResponse as LiveData<Resource<DbResponse>>
 
     private var licResponse: MediatorLiveData<Resource<Any>> = MediatorLiveData()
     fun observeLicResponse() = licResponse as LiveData<Resource<Any>>
@@ -187,21 +187,21 @@ class PilihDbViewModel @Inject constructor(
 
     }
 
-    fun onClickDb(dbName: LoginResponse.Db) = viewModelScope.launch {
-        val source = postDbUseCase(state.inputEmail, dbName.dbName).asLiveData()
-        dbResponse.addSource(source){
-            if (it != null) {
-                dbResponse.value = it
-                if (it.status !== Resource.Status.LOADING) {
-                    dbResponse.removeSource(source)
-                }
-            } else {
-                dbResponse.removeSource(source)
-            }
-        }
-
-//        eventChannel.send(UIEvent.RequestDb)
-    }
+//    fun onClickDb(dbName: LoginResponse.Db) = viewModelScope.launch {
+//        val source = postDbUseCase(state.inputEmail, dbName.dbName).asLiveData()
+//        dbResponse.addSource(source){
+//            if (it != null) {
+//                dbResponse.value = it
+//                if (it.status !== Resource.Status.LOADING) {
+//                    dbResponse.removeSource(source)
+//                }
+//            } else {
+//                dbResponse.removeSource(source)
+//            }
+//        }
+//
+////        eventChannel.send(UIEvent.RequestDb)
+//    }
 
     fun requestDb() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestDb)

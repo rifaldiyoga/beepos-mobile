@@ -22,4 +22,6 @@ interface UserRepository {
     fun getUserPin(user: String): Flow<Resource<List<User>>>
 
     fun getUserBySecretSauce(username: String, userapi: String): Flow<Resource<List<User>>>
+
+    suspend fun updateUser(user: User)
 }
