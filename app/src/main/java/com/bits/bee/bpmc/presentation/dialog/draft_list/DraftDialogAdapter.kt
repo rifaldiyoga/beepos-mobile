@@ -28,7 +28,7 @@ class DraftDialogAdapter(private val onItemClick : (Sale) -> Unit) : ListAdapter
     inner class ViewHolder(private val binding : ItemDraftDialogBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(model : Sale){
             binding.apply {
-                tvCust.text = model.custName
+                tvCust.text = model.bpName
                 llContent.setOnClickListener {
                     onItemClick(model)
                 }

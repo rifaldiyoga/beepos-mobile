@@ -15,7 +15,6 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -85,10 +84,10 @@ class DetailTransaksiPenjualanFragment(
                     it?.let {
                         it.sale?.let { sale ->
                             binding.apply {
-                                setTitle(sale.trxNo)
+                                setToolbarTitle(sale.trxNo)
                                 tvTotal.text = CurrencyUtils.formatCurrency(sale.total)
                                 tvKasir.text = sale.cashiername
-                                tvMember.text = sale.custName
+                                tvMember.text = sale.bpName
                                 tvPajak.text = CurrencyUtils.formatCurrency(sale.taxAmt)
                                 tvDiskon.text = CurrencyUtils.formatCurrency(sale.discAmt)
                                 tvPembulatan.text = CurrencyUtils.formatCurrency(sale.rounding)

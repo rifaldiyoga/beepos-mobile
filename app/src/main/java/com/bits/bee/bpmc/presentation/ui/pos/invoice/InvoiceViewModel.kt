@@ -1,8 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pos.invoice
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.Sale
-import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,9 +32,20 @@ class InvoiceViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestDraft)
     }
 
-    fun saveDraft(sale : Sale, saledList : List<Saled>)= viewModelScope.launch {
+    fun onClickPromo() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateKlaimPromo)
+    }
+
+    fun saveDraft(saleTrans: SaleTrans, counter : Int)= viewModelScope.launch {
+
+        val sale = saleTrans.getMaster()
         sale.isDraft = true
-        addTransactionUseCase(sale, saledList)
+        val saledList = saleTrans.getListDetail()
+        val saleAddOn = saleTrans.addOnTrans?.getMaster()
+        val saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf()
+        val salePromoList = saleTrans.salePromoList
+
+        addTransactionUseCase(sale, saledList, saleAddOn, saleAddOnDList, salePromoList, counter = counter)
     }
 
     fun onDetailEmpty() = viewModelScope.launch {
@@ -45,6 +55,7 @@ class InvoiceViewModel @Inject constructor(
 
     sealed class UIEvent {
         object NavigatePos : UIEvent()
+        object NavigateKlaimPromo : UIEvent()
         object RequestPembayaran : UIEvent()
         object RequestBatal : UIEvent()
         object RequestDraft : UIEvent()

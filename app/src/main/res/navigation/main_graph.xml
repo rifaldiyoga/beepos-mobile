@@ -106,6 +106,9 @@
         <action
             android:id="@+id/action_invoiceFragment_to_editItemDialog"
             app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_klaimPromoFragment"
+            app:destination="@id/klaimPromoFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
@@ -189,7 +192,7 @@
     <fragment
         tools:layout="@layout/fragment_transaksi_berhasil"
         android:id="@+id/transaksiBerhasilFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.transaksi_berhasil.TransaksiBerhasilFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil.TransaksiBerhasilFragment"
          >
         <action
             app:destination="@+id/posFragment"
@@ -294,5 +297,9 @@
         android:id="@+id/promoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.promo.PromoFragment"
         android:label="PromoFragment" />
+    <fragment
+        android:id="@+id/klaimPromoFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.klaim_promo.KlaimPromoFragment"
+        android:label="KlaimPromoFragment" />
 
 </navigation>

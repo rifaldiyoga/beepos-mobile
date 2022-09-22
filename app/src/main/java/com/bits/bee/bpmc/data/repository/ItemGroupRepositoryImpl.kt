@@ -28,7 +28,7 @@ class ItemGroupRepositoryImpl @Inject constructor(
 ) : ItemGroupRepository {
 
     override suspend fun insertBulkItemGroup(list: List<ItemGroupEntity>) = withContext(ioDispatcher){
-        itemGroupDao.insertBulk(list)
+        val list = itemGroupDao.insertBulk(list)
     }
 
     override fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>> {

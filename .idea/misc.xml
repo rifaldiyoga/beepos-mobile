@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bg_rect_primary.xml" value="0.2345" />
+        <entry key="app/src/main/res/drawable/bg_rect_stroke_primary.xml" value="0.2345" />
+        <entry key="app/src/main/res/drawable/bg_rounded_stroke_primary.xml" value="0.2345" />
         <entry key="app/src/main/res/drawable/bg_rounded_top_background_color.xml" value="0.241" />
         <entry key="app/src/main/res/drawable/bg_rounded_transparent.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/bg_spinner.xml" value="0.241" />
+        <entry key="app/src/main/res/drawable/btn_rect_primary.xml" value="0.3325" />
         <entry key="app/src/main/res/drawable/ic_back_black.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/ic_back_white.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_white.xml" value="0.2845" />
@@ -15,8 +19,11 @@
         <entry key="app/src/main/res/drawable/ic_home_selected.xml" value="0.241" />
         <entry key="app/src/main/res/drawable/ic_home_unselected.xml" value="0.241" />
         <entry key="app/src/main/res/drawable/image_logo_beepos.xml" value="0.2845" />
+        <entry key="app/src/main/res/layout-land/activity_initial.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout-land/fragment_beranda.xml" value="0.1" />
         <entry key="app/src/main/res/layout-land/item_pos_menu.xml" value="0.30158730158730157" />
         <entry key="app/src/main/res/layout/activity_download.xml" value="0.2994791666666667" />
+        <entry key="app/src/main/res/layout/activity_initial.xml" value="0.26197916666666665" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/dialog_atur_headerfooter.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/dialog_atur_modal_kasir.xml" value="0.4912854030501089" />
@@ -35,6 +42,7 @@
         <entry key="app/src/main/res/layout/dialog_tax_info.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/dialog_tipe_printer.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_atur_produk.xml" value="0.340625" />
+        <entry key="app/src/main/res/layout/fragment_beranda.xml" value="0.17325227963525835" />
         <entry key="app/src/main/res/layout/fragment_detail_rekap_sesi.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_detail_riwayat_sesi.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_edit_item.xml" value="0.23596014492753623" />
@@ -44,10 +52,14 @@
         <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_klaim_promo.xml" value="0.341324200913242" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.23596014492753623" />
+        <entry key="app/src/main/res/layout/fragment_setting_nota.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_setting_pos.xml" value="0.29565929565929566" />
         <entry key="app/src/main/res/layout/fragment_tambah_member.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_transaksi_penjualan.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_upload_manual.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/item_addon.xml" value="0.302536231884058" />
+        <entry key="app/src/main/res/layout/item_non_tunai.xml" value="0.19114583333333332" />
+        <entry key="app/src/main/res/layout/item_orientation.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_pos_menu.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_pos_menu_promo.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_pos_retail.xml" value="0.302536231884058" />
@@ -55,10 +67,12 @@
         <entry key="app/src/main/res/layout/item_produk_favorite.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_produk_tambah.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_selection.xml" value="0.67" />
+        <entry key="app/src/main/res/menu/menu_pos.xml" value="0.340625" />
+        <entry key="app/src/main/res/menu/menu_reload.xml" value="0.17447916666666666" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

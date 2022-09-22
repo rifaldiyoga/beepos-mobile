@@ -108,9 +108,11 @@ class PilihKasirFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_refresh -> viewModel.getCashierList()
+            R.id.menu_refresh -> {
+                viewModel.getCashierList()
+            }
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
 

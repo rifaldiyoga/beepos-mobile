@@ -29,10 +29,11 @@ class GetActiveItemUseCase @Inject constructor(
             false -> itemRepository.getActiveItemListPaged(query, usePid)
         }.map { data ->
             data.map { item ->
+                getPriceItemUseCase(item, priceLvlId, bp)
                 if(item.isVariant)
                     item.itemVariantList = itemVariantRepository.getItemVariantByVariant(item.id).first().map { it.itemId }
                 item.isHaveAddOn = itemAddOnRepository.getItemAddOnByItem(item.id).first() != null
-                getPriceItemUseCase(item, priceLvlId, bp)
+                item
             }
         }
 

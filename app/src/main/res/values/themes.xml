@@ -25,7 +25,6 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Demo.BottomSheetDialog</item>
         <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
         <item name="searchViewStyle">@style/ActionBar</item>
-        <item name="android:editTextColor">@color/white</item>
         <item name="pinViewStyle">@style/PinWidget.PinView</item>
     </style>
 

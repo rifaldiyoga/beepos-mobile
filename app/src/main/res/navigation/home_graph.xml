@@ -306,4 +306,6 @@
         android:id="@+id/downloadDialogBuilder"
         android:name="com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder"
         android:label="DownloadDialogBuilder" />
+
+    <include app:graph="@navigation/initial_graph" />
 </navigation>

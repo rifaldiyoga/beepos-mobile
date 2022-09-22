@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface SaledRepository {
 
-    suspend fun addSaled(saledList : List<Saled>)
+    suspend fun addSaled(saledList : List<Saled>) : List<Long>
 
     fun getSaledList(saleId : Int) : Flow<List<Saled>>
 

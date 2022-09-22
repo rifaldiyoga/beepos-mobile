@@ -3,6 +3,7 @@
     <string name="version">version</string>
 
     <string name="api_key">api_key</string>
+    <string name="trx_ordernum">trx_ordernum</string>
     <string name="is_first_run">is_first_run</string>
 
     <!--    Peferances-->
@@ -284,7 +285,7 @@ untuk memperbarui data dapur?</string>
     <string name="ukuran_font">Ukuran Font</string>
     <string name="medium">Medium</string>
     <string name="multi_line">Multi Line</string>
-    <string name="tampilkan_nama_item_menjadi_beberapa_baris">Tampilkan nama item menjadi beberapa baris Tampilkan nama item menjadi beberapa baris</string>
+    <string name="tampilkan_nama_item_menjadi_beberapa_baris">Tampilkan nama item menjadi beberapa baris</string>
     <string name="konfirmasi_customer">Konfirmasi Customer</string>
     <string name="preset_buka_kasir">Preset Buka Kasir</string>
     <string name="_100_000">100.000</string>
@@ -563,7 +564,7 @@ untuk memperbarui data dapur?</string>
     <string name="sedang_memperbarui_data">Sedang memperbarui data...</string>
     <string name="downloading_data_produk">Downloading data produk</string>
     <string name="bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini">Bagaimana caranya agar saya bisa mengubah modal kasir? Pelajari selengkapnya disini</string>
-    <string name="msg_batalkan_transaksi">\"Apakah anda yakin ingin membatalkan transaksi? Seluruh produk yang telah dipilih tidak akan diproses \"</string>
+    <string name="msg_batalkan_transaksi">Apakah anda yakin ingin membatalkan transaksi? Seluruh produk yang telah dipilih tidak akan diproses </string>
     <string name="batalkan_transaksi">Batalkan Transaksi</string>
     <string name="batalkan">Batalkan</string>
     <string name="lanjut_bayar">Lanjut Bayar</string>
@@ -572,5 +573,12 @@ untuk memperbarui data dapur?</string>
     <string name="hapus_produk">Hapus Produk</string>
     <string name="msg_hapus_produk">Apakah anda yakin ingin menghapus produk ini?</string>
     <string name="terapkan">Terapkan</string>
+    <string name="produk_dipilih">Produk Dipilih</string>
+    <string name="kamu_mendapatkan_item_gratis">Kamu Mendapatkan %1$s Item Gratis</string>
+    <string name="tebus_murah_item">Tebus Murah %1$s Item %2$s</string>
+    <string name="ambil_promos">Ambil Promo</string>
+    <string name="ambil_promo">AMBIL PROMO</string>
+    <string name="next">NEXT</string>
+    <string name="abaikan">Abaikan</string>
 
 </resources>

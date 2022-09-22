@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pos.invoice_list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -85,6 +86,7 @@ class InvoiceAdapter(
                 clContent.setOnClickListener {
                     onItemClicK(model)
                 }
+
                 ivDelete.setOnClickListener {
                     onDeleteClick(model)
                 }
@@ -106,6 +108,12 @@ class InvoiceAdapter(
                 }
 
                 tvHarga.text =  context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(subtotal))
+
+                if (model.isBonus && model.isBonusUsed) {
+                    tvLabelItem.visibility = View.VISIBLE
+                    tvLabelItem.text = "Free"
+
+                }
             }
         }
     }

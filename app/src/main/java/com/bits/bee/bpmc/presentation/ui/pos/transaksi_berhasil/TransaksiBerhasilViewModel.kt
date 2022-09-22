@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.transaksi_berhasil
+package com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.presentation.base.BaseViewModel

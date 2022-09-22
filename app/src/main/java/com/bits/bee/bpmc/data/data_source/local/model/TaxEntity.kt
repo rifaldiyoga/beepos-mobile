@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = TaxEntity.TBL_NAME)
 data class TaxEntity(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     var id : Int?,
     @ColumnInfo(name = CODE)

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface SaleAddOnRepository {
 
-    suspend fun addSaleAddOn(saleAddOn: SaleAddOn)
+    suspend fun addSaleAddOn(saleAddOn: SaleAddOn) : Long
 
     fun getSaleAddonBySale(id: Int): Flow<Resource<SaleAddOn?>>
 }

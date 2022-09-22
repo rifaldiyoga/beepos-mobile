@@ -49,15 +49,18 @@
         </activity>
 
         <activity
+            android:screenOrientation="behind"
             android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
             android:exported="true"/>
 
-        <activity android:name=".presentation.ui.home.HomeActivity" android:exported="true">
+        <activity android:name=".presentation.ui.home.HomeActivity" android:exported="true"
+            android:screenOrientation="behind">
 
         </activity>
 
         <activity android:name=".presentation.ui.pos.MainActivity"
             android:exported="true"
+            android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize"
             />
 

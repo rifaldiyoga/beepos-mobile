@@ -1,12 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.setting_pos
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,19 +13,15 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SettingPosViewModel @Inject constructor(
+    private val beePreferenceManager: BeePreferenceManager
+) : BaseViewModel<SettingPosViewState, SettingPosViewModel.UIEvent>() {
 
-) : ViewModel() {
+    val posPreferences = beePreferenceManager.posPreferences
 
-    private val eventChannel = Channel<UIEvent>()
-    val event = eventChannel.receiveAsFlow()
+    init {
+        state = SettingPosViewState()
 
-    private var _state = MutableStateFlow(SettingPosViewState())
-    var state = _state.asStateFlow()
-
-//    private lateinit var _state : MutableStateFlow<SettingPosState> = MutableStateFlow(
-//        SettingPosState()
-//    )
-//    var state = _state.asStateFlow()
+    }
 
     fun onClickUkuranFont() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestUkuranFont)
@@ -47,6 +41,58 @@ class SettingPosViewModel @Inject constructor(
 
     fun onClickPosisiOrientasi() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestPosisiOrientasi)
+    }
+
+    fun onClickMultiLine(value: Boolean) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            isMultiLine = value
+        ))
+    }
+
+    fun onClickKonfirmasiCust(value : Boolean) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            isKonfirmasiCust = value
+        ))
+    }
+
+    fun onClickMuatGambar(value: Boolean) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            isKonfirmasiCust = value
+        ))
+    }
+
+    fun onSuccessUkuranFont(value : String) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            ukuranFont = value
+        ))
+    }
+
+    fun onSuccessCustomer(value : String) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            customer = value
+        ))
+    }
+
+    fun onSuccessJumlahMeja(value : String) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            jumlahMeja = value
+        ))
+    }
+
+    fun onSuccessOrientasi(value : String) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            orientasi = value
+        ))
+    }
+
+    fun onSuccessPresetBukaKasir(value : String) = viewModelScope.launch {
+        onUpdatePosPreferences(posPreferences.first().copy(
+            presetBukaKasir = value
+        ))
+    }
+
+    fun onUpdatePosPreferences(posPreferences: BeePreferenceManager.PosPreferences) = viewModelScope.launch {
+        beePreferenceManager.updatePosPreferences(posPreferences)
     }
 
     sealed class UIEvent{

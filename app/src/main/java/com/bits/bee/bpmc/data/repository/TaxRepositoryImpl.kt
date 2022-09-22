@@ -36,7 +36,7 @@ class TaxRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: TaxResponse) {
                 taxDao.deleteAll()
-                taxDao.insertBulk(data.data.map { it.toTax() })
+                taxDao.insertBulk(data.data.map { TaxDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

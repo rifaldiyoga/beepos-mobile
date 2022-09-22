@@ -1,6 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.pos
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.trans.SaleTrans
@@ -8,11 +11,14 @@ import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetItemGroupAddOnUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -34,6 +40,7 @@ class MainViewModel @Inject constructor(
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val getSaledListUseCase: GetSaledListUseCase,
     private val getItemGroupAddOnUseCase: GetItemGroupAddOnUseCase,
+    private val addTransactionUseCase: AddTransactionUseCase,
     private val promoCalc: PromoCalc
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
@@ -43,7 +50,7 @@ class MainViewModel @Inject constructor(
     val posModeState : MutableStateFlow<PosModeState>
         get() = _posModeState
 
-    private val _saleTrans: SaleTrans = SaleTrans()
+    private val _saleTrans: SaleTrans = SaleTrans(promoCalc)
 
     val saleTrans : SaleTrans
         get() = _saleTrans
@@ -78,12 +85,19 @@ class MainViewModel @Inject constructor(
                 activeBranch = branch,
                 activeCashier = cashier,
                 channelList = channelList,
+                channel = if(channelList.isNotEmpty()) channelList[0] else null,
                 bp = bp,
                 itgrpAddOn = itgrpAddOn
             )
         }.collect {
 //            saleTrans.newTrans()
             saleTrans.setBp(it.bp!!)
+            it.bp?.let { bp ->
+                saleTrans.getMaster().bpId = bp.id!!
+                saleTrans.getMaster().bp = bp
+                saleTrans.getMaster().bpName = bp.name
+            }
+            saleTrans.getMaster().channelId = it.channel?.id ?: -1
             saleTrans.setGrpAddOn(it.itgrpAddOn)
             updateState(it)
         }
@@ -127,10 +141,12 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToPromo)
     }
 
-    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false) = viewModelScope.launch {
+    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false, promoBonus: ListPromoBonus.PromoBonus? = null, isBonus : Boolean = false) = viewModelScope.launch {
         saleTrans.addDetail(
             itemWithUnit = item,
             useItemqty = useItemqty,
+            promoBonus = promoBonus,
+            isBonus = isBonus
         )
         saleTrans.mergeAddon()
         saleTrans.mergeItemAddon()
@@ -138,9 +154,14 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun onAddAddOn(variant: ItemWithUnit?, addOnList : List<ItemWithUnit>) {
+    fun onAddAddOn(variant: ItemWithUnit?, addOnList : List<ItemWithUnit>) = viewModelScope.launch {
         variant?.let {
-            onAddDetail(it)
+            saleTrans.addDetail(
+                itemWithUnit = variant,
+            )
+            saleTrans.mergeAddon()
+            saleTrans.mergeItemAddon()
+            promoCalc.generatePromo()
         }
         for(addOn in addOnList){
             saleTrans.addDetail(
@@ -152,14 +173,21 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun addAddOn(item : ItemWithUnit) {
-        saleTrans.addDetail(
-            itemWithUnit = item,
-        )
+    fun onItemAddOn(itemList : List<Item?>, upSaled: Saled?) = viewModelScope.launch {
+        for (item in itemList){
+            item?.let {
+                if(upSaled == null){
+                    saleTrans.addDetail(ItemWithUnit(item))
+                } else {
+                    saleTrans.addDetail(ItemWithUnit(item), saledParent = upSaled)
+                }
+            }
+        }
+        promoCalc.generatePromo()
         deployData()
     }
 
-    fun onMinusClick(item : Item) {
+    fun onMinusClick(item : Item) = viewModelScope.launch {
         val saled = saleTrans.getListDetail().firstOrNull {
             item.id == it.itemId
         }
@@ -170,6 +198,7 @@ class MainViewModel @Inject constructor(
                 onDeleteDetail(saled)
             }
         }
+
     }
 
     fun onDeleteDetail(saled: Saled) = viewModelScope.launch {
@@ -191,31 +220,107 @@ class MainViewModel @Inject constructor(
         saleTrans.deleteDetail(saled)
         saleTrans.mergeAddon()
         saleTrans.mergeItemAddon()
+        promoCalc.generatePromo()
         deployData()
     }
 
     fun onEditDetail(saled: Saled) = viewModelScope.launch {
         saleTrans.editDetail(saled)
+
+        promoCalc.generatePromo()
         deployData()
+    }
+
+    fun onDeleteAddOnData(upSaled : Saled, saled : Saled) = viewModelScope.launch {
+        saleTrans.deleteAddon(upSaled, saled)
+
+        saleTrans.mergeAddon()
+        saleTrans.mergeItemAddon()
+
+        promoCalc.generatePromo()
+
+        deployData()
+    }
+
+    fun updateTrxOrderNo(context : Context) = viewModelScope.launch {
+        val trxOrderNum = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 0) as Int + 1
+        BeePreferenceManager.saveToPreferences(context, context.getString(R.string.trx_ordernum), trxOrderNum)
+        saleTrans.getMaster().trxOrderNum = trxOrderNum
     }
 
     fun resetState(){
         updateState(
             MainState()
         )
+        saleTrans.newTrans()
         loadData()
     }
 
-     fun deployData() = viewModelScope.launch {
+    suspend fun submitSale(
+        context: Context,
+        termType : String,
+        paymentAmt : BigDecimal = BigDecimal.ZERO,
+        pmtd : Pmtd? = null,
+        trackNo : String = "",
+        cardNo : String = "",
+        note : String = "",
+    )  {
+
+        updateTrxOrderNo(context)
+
+        val sale = saleTrans.getMaster()
+        val saledList = saleTrans.getListDetail()
+        val saleAddOn = saleTrans.addOnTrans?.getMaster()
+        val saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf()
+        val salePromoList = saleTrans.salePromoList
+
+        sale.termType = termType
+        val saleNew = addTransactionUseCase(
+            sale = sale,
+            saledList = saledList,
+            saleAddOn = saleAddOn,
+            saleAddOnDList = saleAddOnDList,
+            salePromoList = salePromoList,
+            paymentAmt = paymentAmt,
+            pmtd = pmtd,
+            trackNo = trackNo,
+            cardNo = cardNo,
+            note = note,
+            counter = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 1) as Int)
+
+        state.sale = saleNew
+    }
+
+    fun submitDraft(context: Context) = viewModelScope.launch {
+        updateTrxOrderNo(context)
+
+        val sale = saleTrans.getMaster()
+        val saledList = saleTrans.getListDetail()
+        val saleAddOn = saleTrans.addOnTrans?.getMaster()
+        val saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf()
+        val salePromoList = saleTrans.salePromoList
+        sale.isDraft = true
+
+        addTransactionUseCase(
+            sale = sale,
+            saledList = saledList,
+            saleAddOn = saleAddOn,
+            saleAddOnDList = saleAddOnDList,
+            salePromoList = salePromoList,
+            counter = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 1) as Int)
+    }
+
+    fun deployData() = viewModelScope.launch {
         val saledList = mutableListOf<Saled>()
         saledList.addAll(saleTrans.getListDetail())
         updateState(
             state.copy(
                 sale = saleTrans.getMaster().copy(),
-                saledList = saledList
+                saledList = saledList,
             )
         )
     }
+
 
     sealed class UIEvent {
         object RequestMember : UIEvent()

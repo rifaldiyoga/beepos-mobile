@@ -22,13 +22,15 @@ class SaledRepositoryImpl @Inject constructor(
     private val saledDao: SaledDao
 ) : SaledRepository {
 
-    override suspend fun addSaled(saledList: List<Saled>) {
-        withContext(defaultDispatcher){
+    override suspend fun addSaled(saledList: List<Saled>) : List<Long> {
+        var list : List<Long> = mutableListOf()
+        withContext(defaultDispatcher) {
             val saledNew = saledList.map {
                 SaledDataMapper.fromDomainToDb(it)
             }
-            saledDao.insertBulk(saledNew)
+            list = saledDao.insertBulk(saledNew)
         }
+        return list
     }
 
     override fun getSaledList(saleId: Int): Flow<List<Saled>> = flow {

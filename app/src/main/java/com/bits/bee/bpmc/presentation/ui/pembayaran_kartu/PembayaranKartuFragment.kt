@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.databinding.FragmentPembayaranKartuBinding
 import com.bits.bee.bpmc.domain.model.Pmtd
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -64,8 +65,7 @@ class PembayaranKartuFragment(
                 viewModel.state.keterangan = etKeterangan.text.toString().trim()
             }
             btnBayar.setOnClickListener {
-                val state = mainViewModel.state
-                viewModel.onBayarClick(state.sale, state.saledList)
+                viewModel.onBayarClick()
             }
         }
     }
@@ -106,9 +106,21 @@ class PembayaranKartuFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
                     when(event){
-                        PembayaranKartuViewModel.UIEvent.NavigateToTransaksiBerhasil -> {
+                        is PembayaranKartuViewModel.UIEvent.NavigateToTransaksiBerhasil -> {
                             val action = PembayaranKartuFragmentDirections.actionPembayaranDebitKreditFragmentToTransaksiBerhasilFragment()
                             findNavController().navigate(action)
+                        }
+                        PembayaranKartuViewModel.UIEvent.RequsetBayar -> {
+                            val state = viewModel.state
+                            mainViewModel.submitSale(
+                                context = requireContext(),
+                                termType = state.type,
+                                paymentAmt = state.total,
+                                pmtd = state.pmtd,
+                                trackNo = state.trackNo,
+                                cardNo = state.nomorkartu,
+                                note = state.keterangan
+                            )
                         }
                     }
                 }

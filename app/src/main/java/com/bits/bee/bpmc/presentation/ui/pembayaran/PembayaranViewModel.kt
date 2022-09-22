@@ -1,8 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.pembayaran
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.Sale
-import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -24,12 +24,8 @@ class PembayaranViewModel @Inject constructor(
         state = PembayaranState()
     }
 
-    fun onTunaiClick(sale : Sale, saledList : List<Saled>) = viewModelScope.launch {
-        val paymentAmt = state.rekomBayar.removeSymbol()
-        sale.termType = BPMConstants.BPM_DEFAULT_TYPE_TUNAI
-        addTransactionUseCase(sale, saledList, BigDecimal(paymentAmt))
+    fun onTunaiClick() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestBayar)
-        eventChannel.send(UIEvent.NavigateTransaksiBerhasil)
     }
 
     fun onNonTunaiClick() = viewModelScope.launch {
@@ -43,6 +39,10 @@ class PembayaranViewModel @Inject constructor(
             )
         )
         eventChannel.send(UIEvent.RequestRekomBayar)
+    }
+
+    fun onSuccess() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateTransaksiBerhasil)
     }
 
 

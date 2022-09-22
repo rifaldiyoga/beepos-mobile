@@ -31,7 +31,7 @@ data class Sale (
     var operatorId: Int = -1,
     var cashierId: Int = -1,
     var bpId: Int = -1,
-    var custName : String = "",
+    var bpName : String = "",
     var termType: String = "",
     var isUploaded: Boolean = false,
     var isVoid: Boolean = false,

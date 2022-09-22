@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.domain.trans
 
 import com.bits.bee.bpmc.data.calc.SaleCalc
+import com.bits.bee.bpmc.data.list.ListPromoBonus
+import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
@@ -14,7 +16,9 @@ import javax.inject.Singleton
  * Created by aldi on 19/05/22.
  */
 @Singleton
-class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
+class SaleTrans @Inject constructor(
+    private val promoCalc: PromoCalc
+) : BaseTrans<Sale, Saled>() {
 
     private var bp: Bp? = null
     private var saledParent: Saled? = null
@@ -35,6 +39,9 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
 
     override fun newTrans() {
         mTblMaster = Sale()
+        mTblDetail.clear()
+        salePromoList.clear()
+        addOnTrans = null
     }
 
     override fun saveTrans() {
@@ -45,9 +52,11 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
     }
 
     override fun loadTrans(var1: Sale) {
+
     }
 
-    fun addDetail(itemWithUnit: ItemWithUnit, isBonus: Boolean = false, useItemqty: Boolean = false) {
+
+    fun addDetail(itemWithUnit: ItemWithUnit, isBonus: Boolean = false, useItemqty: Boolean = false, promoBonus: ListPromoBonus.PromoBonus? = null) {
         val item = itemWithUnit.item
         val discExp = itemWithUnit.discExp
         val discAmt = itemWithUnit.discAmt
@@ -82,7 +91,7 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
         } else {
             var isNew = true
             for (saled in getListDetail()) {
-                if (saled.itemId == item.id && !item.isVariant &&!item.isAddOn && saled.isBonus == isBonus) {
+                if (saled.itemId == item.id && !item.isVariant && !item.isHaveAddOn && (grpAddon == null || (grpAddon != null && item.itemGrpId == grpAddon!!.id))) {
                     saled.listPrice = item.price
                     saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
                     if (saled.disc != BigDecimal.ZERO) {
@@ -143,13 +152,111 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
             saleAddOnD.upSaled = saledParent
             addOnTrans?.addDetail(saleAddOnD)
         } else {
-            saledParent = currentSaled
+            this.saledParent = currentSaled
         }
-//        if (isBonus) {
+        if (isBonus) {
 //        Tambah salebonus apabila item bonus
-//            PromoCalc.instance()
-//                .addSalePromoItem(promoBonus.getPromo(), promoBonus.getSaled(), currentSaled)
-//        }
+            promoBonus?.let {
+                promoCalc.addSalePromoItem(promoBonus.getPromo(), promoBonus.saled, currentSaled)
+            }
+        }
+    }
+
+
+    fun addDetail(itemWithUnit: ItemWithUnit, saledParent : Saled){
+        val item = itemWithUnit.item
+        val discExp = itemWithUnit.discExp
+        val discAmt = itemWithUnit.discAmt
+        val unit = itemWithUnit.unit
+        val pid = itemWithUnit.pid
+
+        if (getListDetail().isEmpty()) {
+            /** when list empty add new detail to list and set current saled*/
+            val saledNew = Saled(
+                itemId = item.id,
+                itemCode = item.code,
+                listPrice = item.price,
+                qty = if(grpAddon != null && item.itemGrpId == grpAddon!!.id) item.qty else BigDecimal.ONE,
+                name = item.name1,
+                discExp = discExp,
+                discAmt = discAmt,
+                disc2Amt = BigDecimal.ZERO,
+                tax = if(item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
+                crcId = item.crcId,
+                crcSymbol = item.crcSymbol,
+                unitId = unit?.id,
+                unit = unit?.unit,
+                conv = unit?.conv,
+                pid = pid,
+                isAddOn = item.isAddOn,
+                item = item
+            )
+            addDetail(saledNew)
+            currentSaled = saledNew
+        } else {
+            var isNew = true
+            for (saled in getListDetail()) {
+                if (saled.itemId == item.id && !item.isVariant && !item.isHaveAddOn && (grpAddon == null || (grpAddon != null && item.itemGrpId == grpAddon!!.id))) {
+                    saled.listPrice = item.price
+                    saled.qty = saled.qty.add(BigDecimal.ONE)
+                    if (saled.disc != BigDecimal.ZERO) {
+                        if (!saled.discExp.contains("%")) {
+                            saled.disc = saled.disc
+                            saled.discAmt = saled.disc.setScale(roundVal, RoundingMode.HALF_UP)
+                            saled.discExp = saled.discExp
+                        } else if (saled.discExp.contains("%")) {
+                            saled.disc = saled.disc
+                            saled.discAmt =
+                                saled.listPrice.multiply(saled.disc, BPMConstants.MC_FOUR)
+                                    .divide(BigDecimal(100), BPMConstants.MC_FOUR)
+                                    .setScale(roundVal, RoundingMode.HALF_UP)
+
+                            saled.discExp = saled.discExp
+                        }
+                    }
+                    currentSaled = saled
+                    isNew = false
+                    calculate()
+                    break
+                }
+            }
+            if(isNew) {
+                val saledNew = Saled(
+                    itemId = item.id,
+                    itemCode = item.code,
+                    listPrice = item.price,
+                    qty = if(grpAddon != null && item.itemGrpId == grpAddon!!.id) item.qty else BigDecimal.ONE,
+                    name = item.name1,
+                    discExp = "0",
+                    disc2Amt = BigDecimal.ZERO,
+                    tax = if (item.tax.isEmpty()) BigDecimal.ZERO else BigDecimal(item.tax),
+                    crcId = item.crcId,
+                    crcSymbol = item.crcSymbol,
+                    unitId = unit?.id,
+                    unit = unit?.unit,
+                    conv = unit?.conv,
+                    pid = pid,
+                    isAddOn = item.isAddOn,
+                    item = item
+                )
+                addDetail(saledNew)
+                currentSaled = saledNew
+            }
+        }
+        if (grpAddon != null && item.itemGrpId == grpAddon!!.id) {
+            if (addOnTrans == null) {
+                addOnTrans = AddOnTrans()
+                addOnTrans!!.newTrans()
+                addOnTrans!!.getMaster().saleId = getMaster()
+            }
+            val saleAddOnD = SaleAddOnD()
+            saleAddOnD.saleAddOn = addOnTrans?.getMaster()
+            saleAddOnD.saled = currentSaled
+            saleAddOnD.upSaled = saledParent
+            addOnTrans?.addDetail(saleAddOnD)
+        } else {
+            this.saledParent = currentSaled
+        }
     }
 
     override fun addDetail(d: Saled) {
@@ -235,34 +342,36 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
         val mapSaled: MutableMap<Saled, List<Saled>> = HashMap()
         if (addOnTrans != null) {
             for (saleAddOnD in addOnTrans!!.getListDetail()) {
-                val up_saled: Saled = saleAddOnD.upSaled!!
-                val saled: Saled = saleAddOnD.saled!!
+                val up_saled: Saled? = saleAddOnD.upSaled
+                val saled: Saled? = saleAddOnD.saled
                 if (mapAddOn.containsKey(up_saled)) {
-                    mapAddOn[up_saled]!!.add(saled)
+                    if(saled != null)
+                        mapAddOn[up_saled]!!.add(saled)
                 } else {
-                    mapAddOn[up_saled] = ArrayList(listOf(saled))
+                    if(up_saled != null && saled != null)
+                        mapAddOn[up_saled] = ArrayList(listOf(saled))
                 }
             }
-            for ((addOnKey, value) in mapAddOn) {
+            for ((addOnKey, valueAddOn) in mapAddOn) {
                 if (mapSaled.isNotEmpty()) {
                     var exist = false
                     //matching saled dan addon, apabila reorder qty dipecah menjadi per satuan
-                    for ((saledKey, value1) in mapSaled) {
+                    for ((saledKey, valueSaled) in mapSaled) {
                         if (addOnKey.itemId == saledKey.itemId && addOnKey.listPrice.compareTo(saledKey.listPrice) == 0) {
                             val addonItem: MutableList<String> = ArrayList()
                             val saledItem: MutableList<String> = ArrayList()
-                            for (saled in value1) {
+                            for (saled in valueAddOn) {
                                 addonItem.add(saled.name + saled.qty.divide(addOnKey.qty))
                             }
-                            for (saled in value1) {
+                            for (saled in valueSaled) {
                                 saledItem.add(saled.name + saled.qty.divide(saledKey.qty))
                             }
                             addonItem.sort()
                             saledItem.sort()
                             if (addonItem == saledItem) {
                                 mergeSaled(saledKey, addOnKey)
-                                for (saled in value1) {
-                                    for (saled1 in value1) {
+                                for (saled in valueSaled) {
+                                    for (saled1 in valueAddOn) {
                                         if (saled.itemId == saled1.itemId) {
                                             mergeSaled(saled, saled1)
                                             deleteOldSaleAddonD(addOnKey)
@@ -274,10 +383,10 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
                         }
                     }
                     if (!exist) {
-                        mapSaled[addOnKey] = value
+                        mapSaled[addOnKey] = valueAddOn
                     }
                 } else {
-                    mapSaled[addOnKey] = value
+                    mapSaled[addOnKey] = valueAddOn
                 }
             }
         }
@@ -289,16 +398,15 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
             val saledList: MutableList<Saled> = ArrayList()
             val saledListResult: MutableList<Saled> = ArrayList()
             for (saled in getListDetail()) {
-                if (saled.isAddOn) {
+                if (saled.item!!.isHaveAddOn) {
                     var isMerge = true
-                    if (addOnTrans != null) {
-                        for (saleAddOnD in addOnTrans!!.getListDetail()) {
-                            if (saled == saleAddOnD.upSaled) {
-                                isMerge = false
-                                break
-                            }
+                    for (saleAddOnD in addOnTrans!!.getListDetail()) {
+                        if (saled == saleAddOnD.upSaled) {
+                            isMerge = false
+                            break
                         }
                     }
+
                     if (isMerge) {
                         saledList.add(saled)
                     }
@@ -347,12 +455,53 @@ class SaleTrans @Inject constructor() : BaseTrans<Sale, Saled>() {
         }
         for (saled in getListDetail()) {
             //hapus data saled yg ingin dimerge ke item tujuan
-            if (saled === saled2) {
+            if (saled == saled2) {
                 getListDetail().remove(saled)
                 break
             }
         }
         calculate()
+    }
+
+    fun deleteAddon(up_saled: Saled?, saled: Saled) {
+        val saledList = mutableListOf<Saled>()
+        getListDetail().forEachIndexed { i, saled1 ->
+            if (saled1 == saled) {
+                saledList.add(saled1)
+            }
+        }
+        if(saledList.size > 0){
+            getListDetail().removeAll(saledList)
+            calculate()
+        }
+        val saleAddOnDList: MutableList<SaleAddOnD> = ArrayList()
+        for (saleAddOnD in addOnTrans!!.getListDetail()) {
+            if (saleAddOnD.upSaled!! == up_saled) {
+                if (saleAddOnD.saled == saled) saleAddOnDList.add(saleAddOnD)
+            }
+        }
+        if (saleAddOnDList.size > 0) {
+            deleteSaleAddonD(saleAddOnDList)
+            addOnTrans!!.getListDetail().removeAll(saleAddOnDList)
+        }
+    }
+
+    private fun deleteSaleAddonD(saleAddOnDList: List<SaleAddOnD>) {
+//        try {
+//            val saleAddOn: SaleAddOn = SaleAddOnDao.getSaleAddOnDao().readById(addOnTrans!!.getMaster())
+//            val saleAddOnDS: List<SaleAddOnD> = SaleAddOnDDao.getSaleAddOnDDao().getSaleAddOnD(saleAddOn)
+//            val iterator = saleAddOnDS.iterator()
+//            while (iterator.hasNext()) {
+//                val (id) = iterator.next()
+//                for (saleAddOnd in saleAddOnDList) {
+//                    if (id == saleAddOnd.id) {
+////                        SaleAddOnDDao.getSaleAddOnDDao().delete(saleAddOnD);
+//                    }
+//                }
+//            }
+//        } catch (e: SQLException) {
+//            e.printStackTrace()
+//        }
     }
 
     private fun deleteOldSaleAddonD(saled: Saled) {

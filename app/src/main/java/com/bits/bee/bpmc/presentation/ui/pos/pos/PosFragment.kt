@@ -213,5 +213,4 @@ class PosFragment(
         return qty
     }
 
-
 }

@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.transaksi_berhasil
+package com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil
 
 /**
  * Created by aldi on 02/06/22.

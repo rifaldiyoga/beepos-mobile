@@ -323,7 +323,7 @@ class PromoCalc @Inject constructor(
                                 .setScale(2, 0)
                             saled.discExp = promoActive.itemDiscExp ?: ""
                         } else {
-                            discAmt = BigDecimal(promoActive.itemDiscExp)
+                            discAmt = BigDecimal(promoActive.itemDiscExp ?: "0")
                             disc = discAmt
                             saled.discExp = "0"
                         }
@@ -1365,7 +1365,7 @@ class PromoCalc @Inject constructor(
         addSalePromo(promo, null, "S")
     }
 
-    private fun addSalePromoItem(promo: Promo, saledSyarat: Saled?, saledPromo: Saled?) {
+    fun addSalePromoItem(promo: Promo, saledSyarat: Saled?, saledPromo: Saled?) {
         addSalePromo(promo, saledSyarat, "S")
         addSalePromo(promo, saledPromo, "D")
     }

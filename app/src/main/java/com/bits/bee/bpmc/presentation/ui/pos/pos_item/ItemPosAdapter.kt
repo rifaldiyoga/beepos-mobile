@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos_item
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -8,15 +7,12 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.amulyakhare.textdrawable.TextDrawable
-import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemPosMenuBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.ImageUtils
-import com.bits.bee.bpmc.utils.ViewUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import java.math.BigDecimal
@@ -28,7 +24,7 @@ class ItemPosAdapter constructor(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
     private var saledList : List<Saled>,
-) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()){
+) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
 
     fun submitSaledList(list : List<Saled>) {
         this.saledList = list
@@ -99,10 +95,12 @@ class ItemPosAdapter constructor(
 
     private fun getSumQty(item : Item) : BigDecimal {
         var qty = BigDecimal.ZERO
-        saledList.forEach {
-            if(item.id == it.itemId || (item.isVariant && item.itemVariantList.contains(it.itemId)))
-                qty = qty.add(it.qty)
-        }
+        saledList
+            .filter { !it.isBonus }
+            .forEach {
+                if(item.id == it.itemId || (item.isVariant && item.itemVariantList.contains(it.itemId)))
+                    qty = qty.add(it.qty)
+            }
         return qty
     }
 

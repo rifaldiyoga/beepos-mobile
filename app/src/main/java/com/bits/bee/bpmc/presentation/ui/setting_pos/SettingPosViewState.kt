@@ -5,15 +5,11 @@ package com.bits.bee.bpmc.presentation.ui.setting_pos
  */
 data class SettingPosViewState(
     var ukuranFont : String = "",
-    var isMultiFont : Boolean = false,
+    var isMultiLine : Boolean = false,
     var isKonfirmasiCustomer : Boolean = false,
     var customer : String? = null,
-    var jumlahMeja : Int? = null,
-    var presetBukaKasir : Double = 0.0,
-    var isMuatGambarProduk : Boolean = false,
-    var isRekapPerCustomer : Boolean = false,
-    var isRekapPerProdukChannel : Boolean = false,
-    var isRekapPerFaktur : Boolean = false,
-    var isRekapPerChannel : Boolean = false,
+    var jumlahMeja : String? = null,
+    var presetBukaKasir : String? = null,
+    var isMuatGambar : Boolean = false,
     var orientation : String = ""
 )

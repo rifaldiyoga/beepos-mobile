@@ -29,7 +29,6 @@ import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -111,7 +110,7 @@ class MainActivity(
                             }
                             it.bp?.let {
                                 viewModel.state.sale.bpId = it.id!!
-                                viewModel.state.sale.custName = it.name
+                                viewModel.state.sale.bpName = it.name
                                 tvMember.text = it.name
                             }
                         }
@@ -194,7 +193,7 @@ class MainActivity(
     }
 
     private fun setBackgroundToolbar(destinationId : Int){
-        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment) {
+        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment || destinationId == R.id.klaimPromoFragment) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(

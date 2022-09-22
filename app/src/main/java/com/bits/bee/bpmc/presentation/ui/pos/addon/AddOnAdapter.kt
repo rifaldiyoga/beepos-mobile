@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemAddonBinding
-import com.bits.bee.bpmc.domain.model.Crc
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import java.math.BigDecimal
@@ -27,10 +26,21 @@ class AddOnAdapter(
     private val isMultiSelect : Boolean = false,
     private val isMultiQty : Boolean = false,
     private val addOnI : AddOnI,
-    private val selectionAdapter: SelectionAdapter? = null,
     private val lifecycleScope : LifecycleOwner,
     private val addOnSelected : LiveData<ArrayList<Item>>,
 ) : ListAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
+
+    override fun submitList(list: MutableList<Item>?) {
+        if(!isMultiSelect){
+            list!!.forEachIndexed{ index, item ->
+                if(item.qty > BigDecimal.ZERO) {
+                    selectedPosition = index
+                    lastPosition = -1
+                }
+            }
+        }
+        super.submitList(list)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -89,7 +99,6 @@ class AddOnAdapter(
                                 rbItem.isSelected = it.qty > BigDecimal.ZERO
                                 model.qty = it.qty
                                 tvQty.text = CurrencyUtils.formatCurrency(it.qty)
-                                selectedPosition = itemIdList.indexOf(it.id)
                                 bindView(model.qty)
                             }
                         } else {
@@ -110,6 +119,9 @@ class AddOnAdapter(
 
         private fun bindView(qty : BigDecimal){
             binding.apply {
+                cbItem.isChecked = qty > BigDecimal.ZERO
+                rbItem.isSelected = qty > BigDecimal.ZERO
+
                 if(isMultiQty){
                     llQty.isVisible = qty > BigDecimal.ZERO
                 } else {
@@ -136,8 +148,8 @@ class AddOnAdapter(
             binding.apply {
                 if (rbItem.isVisible) {
                     selectedPosition = absoluteAdapterPosition
-                    notifyDataSetChanged()
                     addOnI.onItemClick(item)
+                    notifyDataSetChanged()
                 } else if (cbItem.isVisible) {
                     cbItem.isChecked = !cbItem.isChecked
                     if (cbItem.isChecked) {
@@ -165,8 +177,9 @@ class AddOnAdapter(
                 } else {
                     item.qty = BigDecimal.ZERO
                     rbItem.isChecked = false
+                    if(!isMultiSelect)
+                        addOnI.onMin(item)
                 }
-                addOnI.addOrRemoveItem(item)
             }
         }
 
@@ -204,6 +217,7 @@ class AddOnAdapter(
 
     interface AddOnI {
         fun onItemClick(item: Item)
+        fun onMin(item : Item)
         fun onDeselect(item: Item)
         fun addOrRemoveItem(item : Item)
     }

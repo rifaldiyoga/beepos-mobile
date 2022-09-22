@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.transaksi_berhasil
+package com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

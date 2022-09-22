@@ -24,16 +24,19 @@ class RadioListDialogBuilder(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = builder.title
-            radioAdapter = RadioListAdapter(builder.list, builder.posSelected!!)
+            radioAdapter = RadioListAdapter(builder.list, builder.list.indexOf(builder.value))
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = radioAdapter
             }
             builder.onCustomButton?.let { onCust ->
-                groupCustomButton.gone()
                 groupCustomButton.setOnClickListener {
-                    onCust(radioAdapter.getSelectedPosition())
+                    radioAdapter.getSelectedPosition()?.let { selectedPos ->
+                        onCust(selectedPos)
+                    }
                 }
+            } ?: run {
+                groupCustomButton.gone()
             }
         }
     }
@@ -42,7 +45,9 @@ class RadioListDialogBuilder(
         binding.apply {
             btnSimpan.setOnClickListener {
                 builder.onSaveClick?.let {
-                    it(builder.list[radioAdapter.getSelectedPosition()])
+                    radioAdapter.getSelectedPosition()?.let { selectedPos ->
+                        it(builder.list[selectedPos])
+                    }
                 }
                 dismiss()
             }
@@ -60,7 +65,7 @@ class RadioListDialogBuilder(
         @ApplicationContext val context: Context,
          var title: String? = null,
          var list: List<String> = mutableListOf(),
-         var posSelected: Int? = null,
+         var value: String? = null,
          var onSaveClick: ((Any) -> Unit)? = null,
          var onCustomButton: ((Any) -> Unit)? = null,
     ){
@@ -75,8 +80,8 @@ class RadioListDialogBuilder(
             return this
         }
 
-        fun setSelectedPos(pos: Int?): Builder {
-            this.posSelected = pos
+        fun setValue(value: String?): Builder {
+            this.value = value
             return this
         }
 

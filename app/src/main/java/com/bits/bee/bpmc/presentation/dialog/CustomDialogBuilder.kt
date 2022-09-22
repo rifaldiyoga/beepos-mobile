@@ -36,7 +36,7 @@ class CustomDialogBuilder private constructor (
     override fun subscribeListeners() {
         binding.apply {
             btnSecondary.setOnClickListener{
-                builder.negativeCallback
+                builder.negativeCallback?.let { it(dialog!!) }
                 dismiss()
             }
             btnPrimary.setOnClickListener{

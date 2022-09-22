@@ -22,7 +22,7 @@ data class  Item (
     var unitdesc : String,
     var note : String?,
     var active : Boolean,
-    var     saleUnit : Int?,
+    var saleUnit : Int?,
     var stockUnit : Int?,
     var qty : BigDecimal = BigDecimal.ZERO,
     var isPos : Boolean = true,

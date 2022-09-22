@@ -39,8 +39,8 @@ class PilihDbFragment constructor(
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            viewModel.state.inputEmail = it.getString("username", "hafis@beeaccounting.com")
-            viewModel.state.inputPassword = it.getString("password", "Nanda123")
+            viewModel.state.inputEmail = it.getString("username", "")
+            viewModel.state.inputPassword = it.getString("password", "")
 
             viewModel.login()
         }

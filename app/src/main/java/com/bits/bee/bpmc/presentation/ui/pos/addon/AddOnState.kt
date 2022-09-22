@@ -15,5 +15,6 @@ data class AddOnState(
     val qty : BigDecimal = BigDecimal.ONE,
     val selectedAddOnList : List<Saled?> = mutableListOf(),
     var subtotal : BigDecimal = BigDecimal.ZERO,
-    val saled : Saled? = null
+    val saled : Saled? = null,
+    val itemList : List<Item> = mutableListOf()
 )

@@ -22,5 +22,5 @@ data class EditItemState (
     var unit : Unit? = null,
     var pid : Stock? = null,
     var modePos : PosModeState = PosModeState.FnBState,
-    var addOnList : List<Saled?> = mutableListOf()
+    var addOnList : List<Item?> = mutableListOf()
 )

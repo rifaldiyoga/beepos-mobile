@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 interface BaseDao<T> {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertBulk(listEntity: List<T>?)
+    suspend fun insertBulk(listEntity: List<T>?) : List<Long>
 
     @Insert(onConflict = REPLACE)
     suspend fun insertSingle(entity: T): Long

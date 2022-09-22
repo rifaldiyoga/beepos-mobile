@@ -35,7 +35,7 @@ class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : Pagi
     inner class ViewHolder(private val binding : ItemTransaksiPenjualanBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(model : Sale){
             binding.apply {
-                tvNamaCust.text = model.custName
+                tvNamaCust.text = model.bpName
 
                 tvTotal.text = CurrencyUtils.formatCurrency(model.total)
 

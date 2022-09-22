@@ -1,10 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.pos
 
-import com.bits.bee.bpmc.domain.model.Pmtd
-import com.bits.bee.bpmc.domain.model.Sale
-import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.repository.SaleRepository
-import com.bits.bee.bpmc.domain.repository.SaledRepository
+import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
@@ -21,6 +18,9 @@ import javax.inject.Inject
 class AddTransactionUseCase @Inject constructor(
     private val saleRepository: SaleRepository,
     private val saledRepository: SaledRepository,
+    private val saleAddOnRepository: SaleAddOnRepository,
+    private val saleAddOnDRepository: SaleAddOnDRepository,
+    private val salePromoRepository: SalePromoRepository,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveUserUseCase: GetActiveUserUseCase,
@@ -35,15 +35,19 @@ class AddTransactionUseCase @Inject constructor(
     suspend operator fun invoke(
         sale : Sale,
         saledList : List<Saled>,
+        saleAddOn : SaleAddOn? = null,
+        saleAddOnDList : List<SaleAddOnD> = mutableListOf(),
+        salePromoList : List<SalePromo> = mutableListOf(),
         paymentAmt : BigDecimal = BigDecimal.ZERO,
         pmtd : Pmtd? = null,
         trackNo : String = "",
         cardNo : String = "",
-        note : String = ""
-    ) {
+        note : String = "",
+        counter : Int
+    ) : Sale {
         withContext(defDispatcher){
 
-            for (i in (1 .. saledList.size)){
+            for (i in (1 .. saledList.size)) {
                 val saled = saledList[i - 1]
                 saled.dno = i
             }
@@ -73,7 +77,7 @@ class AddTransactionUseCase @Inject constructor(
                 sale.kodePosses = it.trxNo
             } ?: throw Exception("There is no active posses!")
 
-            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1, branch!!, cashier)
+            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, branch!!, cashier)
             sale.trxDate = Date()
             sale.totPaid = paymentAmt
             sale.totChange = if(paymentAmt > BigDecimal.ZERO) paymentAmt.subtract(sale.total) else BigDecimal.ZERO
@@ -89,8 +93,40 @@ class AddTransactionUseCase @Inject constructor(
             saledList.map {
                 it.saleId = id.toInt()
             }
-            saledRepository.addSaled(saledList)
+            val list = saledRepository.addSaled(saledList)
 
+            saledList.forEachIndexed { index, saled ->
+                saled.id = list[index].toInt()
+            }
+
+            saleAddOn?.let {
+                saleAddOn.saleId = sale
+                val saleAddOnId = saleAddOnRepository.addSaleAddOn(saleAddOn)
+
+                saleAddOnDList.forEach { saleAddOnD ->
+                    saleAddOnD.saleAddOn?.let { saleAddOn ->
+                        saleAddOn.id = saleAddOnId.toInt()
+                    }
+                    saleAddOnD.saled?.let { saled ->
+                        saled.id = saledList.firstOrNull { saled == it }?.id
+                    }
+                    saleAddOnD.upSaled?.let { saled ->
+                        saled.id = saledList.firstOrNull { saled == it }?.id
+                    }
+                }
+
+                saleAddOnDRepository.addSaleAddOnD(saleAddOnDList)
+            }
+
+            if(salePromoList.isNotEmpty()) {
+                salePromoList.forEach { salePromo ->
+                    salePromo.sale = sale
+                    salePromo.saleNo = sale.trxNo
+                    salePromo.bp = sale.bp
+                }
+
+                salePromoRepository.addSalePromo(salePromoList)
+            }
             if(!sale.isDraft) {
                 /** For input transaction to table casha for history cash in or out in active session cashier */
                 addCashAUseCase(
@@ -118,6 +154,7 @@ class AddTransactionUseCase @Inject constructor(
             }
 
         }
+        return sale
     }
 
 }

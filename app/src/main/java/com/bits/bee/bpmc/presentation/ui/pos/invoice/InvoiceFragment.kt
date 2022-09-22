@@ -73,6 +73,9 @@ class InvoiceFragment(
             btnDraft.setOnClickListener {
                 viewModel.onClickDraft()
             }
+            clPromo.setOnClickListener {
+                viewModel.onClickPromo()
+            }
         }
     }
 
@@ -140,7 +143,7 @@ class InvoiceFragment(
                                 positiveTxt = getString(R.string.simpan),
                                 positiveListener = {
                                     it.dismiss()
-                                    viewModel.saveDraft(mainViewModel.state.sale, mainViewModel.state.saledList)
+                                    mainViewModel.submitDraft(requireActivity())
                                     findNavController().popBackStack()
                                     mainViewModel.resetState()
                                 },
@@ -153,6 +156,10 @@ class InvoiceFragment(
                         }
                         InvoiceViewModel.UIEvent.NavigatePos -> {
                             findNavController().popBackStack()
+                        }
+                        InvoiceViewModel.UIEvent.NavigateKlaimPromo -> {
+                            val action = InvoiceFragmentDirections.actionInvoiceFragmentToKlaimPromoFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }

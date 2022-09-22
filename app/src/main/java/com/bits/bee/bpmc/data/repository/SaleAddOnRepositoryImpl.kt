@@ -20,10 +20,12 @@ class SaleAddOnRepositoryImpl @Inject constructor(
     private val saleAddOnDao :SaleAddOnDao
 ) : SaleAddOnRepository {
 
-    override suspend fun addSaleAddOn(saleAddOn: SaleAddOn) {
+    override suspend fun addSaleAddOn(saleAddOn: SaleAddOn) : Long {
+        var id : Long
         withContext(defaultDispatcher){
-            saleAddOnDao.insertSingle(SaleAddOnDataMapper.fromDomainToDb(saleAddOn))
+            id = saleAddOnDao.insertSingle(SaleAddOnDataMapper.fromDomainToDb(saleAddOn))
         }
+        return id
     }
 
     override fun getSaleAddonBySale(id: Int): Flow<Resource<SaleAddOn?>> {

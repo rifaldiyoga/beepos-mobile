@@ -10,11 +10,11 @@ import com.bits.bee.bpmc.databinding.ItemRadioButtonBinding
  */
 class RadioListAdapter(
     stringList: List<String>,
-    selected: Int
+    selected: Int?
 ) : RecyclerView.Adapter<RadioListAdapter.ViewHolder>() {
 
     private var stringList : List<String> = mutableListOf()
-    private var selectedPosition : Int = 0
+    private var selectedPosition : Int? = -1
 //    private var posStr: String
 
     init {
@@ -23,7 +23,7 @@ class RadioListAdapter(
 //        posStr = selectedStr
     }
 
-    fun getSelectedPosition() : Int = selectedPosition
+    fun getSelectedPosition() : Int? = selectedPosition
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

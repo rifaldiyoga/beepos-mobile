@@ -22,27 +22,22 @@ import java.math.BigDecimal
             parentColumns = [PromoEntity.ID],
             childColumns = [SalePromoEntity.PROMO_ID],
         ),
-        ForeignKey(
-            entity = BpEntity::class,
-            parentColumns = [BpEntity.ID],
-            childColumns = [SalePromoEntity.BP_ID],
-        )
     ]
 )
 data class SalePromoEntity(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = SALE_ID, index = true)
-    var saleId: Int,
+    var saleId: Int?,
     @ColumnInfo(name = SALENO)
-    var saleNo: String,
+    var saleNo: String?,
     @ColumnInfo(name = SALED_ID, index = true)
-    var saledId: Int,
+    var saledId: Int?,
     @ColumnInfo(name = PROMO_ID, index = true)
     var promoId: Int,
-    @ColumnInfo(name = BP_ID, index = true)
-    var bpId: Int,
+    @ColumnInfo(name = BP_ID,)
+    var bpId: Int?,
     @ColumnInfo(name = PROMOQTY)
     var promoQty: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo(name = PROMOROLE)

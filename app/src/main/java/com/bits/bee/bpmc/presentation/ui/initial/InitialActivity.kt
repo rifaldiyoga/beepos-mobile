@@ -56,14 +56,14 @@ class InitialActivity (
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home -> {
-                onBackPressed()
-            }
-        }
-        return true
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            android.R.id.home -> {
+//                onBackPressed()
+//            }
+//        }
+//        return true
+//    }
 
     override fun onBackPressed() {
         if(navController.currentDestination?.id == R.id.namaDeviceFragment || navController.currentDestination?.id == R.id.pilihDbFragment){
