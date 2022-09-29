@@ -28,12 +28,10 @@ class SaleAddOnRepositoryImpl @Inject constructor(
         return id
     }
 
-    override fun getSaleAddonBySale(id: Int): Flow<Resource<SaleAddOn?>> {
+    override fun getSaleAddonBySale(id: Int): Flow<SaleAddOn?> {
         return flow {
             val data = saleAddOnDao.getSaleAddonBySale(id)
-            data?.let {
-                emit(Resource.success(SaleAddOnDataMapper.fromDbToDomain(data)))
-            }
+            emit(data?.let { SaleAddOnDataMapper.fromDbToDomain(data) })
         }.flowOn(defaultDispatcher)
     }
 

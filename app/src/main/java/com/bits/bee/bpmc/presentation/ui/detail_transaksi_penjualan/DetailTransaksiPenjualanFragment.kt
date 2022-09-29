@@ -1,8 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 
-import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,9 +11,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailTransaksiPenjualanBinding
-import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
+import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,20 +30,10 @@ class DetailTransaksiPenjualanFragment(
 
     private val viewModel : DetailTransaksiPenjualanViewModel by viewModels()
 
+    private val parentViewModel : TransaksiPenjualanViewModel by viewModels({requireParentFragment()})
+
     private lateinit var detailAdapter : InvoiceAdapter
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        arguments?.let {
-            val sale = it.getParcelable<Sale>("sale")
-            viewModel.updateState(
-                viewModel.state.copy(sale = sale)
-            )
-        }
-        viewModel.getSaledList()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -60,11 +51,11 @@ class DetailTransaksiPenjualanFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
-//        detailAdapter = InvoiceAdapter(
-//            onItemClicK = {},
-//            onDeleteClick = {},
-//            isDelete = false
-//        )
+        detailAdapter = InvoiceAdapter(
+            onItemClicK = {},
+            onDeleteClick = {},
+            isDelete = false
+        )
         binding.apply {
             rvList.apply {
                 adapter = detailAdapter
@@ -108,6 +99,17 @@ class DetailTransaksiPenjualanFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
 
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                parentViewModel.activeSale.collect{
+                    binding.group.isVisible = it != null
+                    viewModel.updateState(
+                        viewModel.state.copy(sale = it)
+                    )
+                    viewModel.getSaledList()
+                }
             }
         }
     }

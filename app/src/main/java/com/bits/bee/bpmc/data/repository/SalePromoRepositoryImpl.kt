@@ -23,10 +23,10 @@ class SalePromoRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSalePromoBySale(id: Int): Flow<Resource<List<SalePromo>>> {
+    override fun getSalePromoBySale(id: Int): Flow<List<SalePromo>> {
         return flow {
             val data = salePromoDao.getSalePromoBySale(id).map { SalePromoDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
 

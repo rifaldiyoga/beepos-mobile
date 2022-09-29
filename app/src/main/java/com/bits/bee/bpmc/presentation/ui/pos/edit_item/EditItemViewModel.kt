@@ -51,13 +51,24 @@ class EditItemViewModel @Inject constructor(
     }
 
     fun onDiscChange(disc :String) = viewModelScope.launch {
-        val discAmt = CalcUtils.getDiscAmt(disc, state.listPrice)
-        updateState(
-            state.copy(
-                diskon = disc,
-                discAmt = discAmt
+        try {
+            val discAmt = CalcUtils.getDiscAmt(disc, state.listPrice)
+            updateState(
+                state.copy(
+                    diskon = disc,
+                    discAmt = discAmt,
+                    diskonMsg = ""
+                )
             )
-        )
+        } catch (e : Exception){
+            errorChannel.send(e.message ?: "")
+            updateState(
+                state.copy(
+                    diskonMsg = e.message ?: ""
+                )
+            )
+        }
+
     }
 
     fun onQtyChange(qty : String) = viewModelScope.launch {
@@ -95,24 +106,38 @@ class EditItemViewModel @Inject constructor(
     }
 
     fun onClickSubmit() = viewModelScope.launch {
-        state.saled?.let { saled ->
-            saled.qty = state.qty
-            saled.discExp = state.diskon
-            saled.listPrice = state.listPrice
-            saled.discExp = state.diskon
-            saled.discAmt = state.discAmt
-            eventChannel.send(UIEvent.RequestSubmit(saled))
-        } ?: state.item?.let{
-            it.qty = state.qty
-            val item = ItemWithUnit(
-                item = it,
-                unit = state.unit!!,
-                pid = state.pid?.pid,
-                discAmt = state.discAmt,
-                discExp = state.diskon,
-                note = state.note
-            )
-            eventChannel.send(UIEvent.RequestAdd(item))
+        var isValid = true
+
+        if(state.discAmt > state.listPrice) {
+            isValid = false
+            errorChannel.send("Diskon tidak boleh melebihi harga produk!")
+        }
+        if(state.diskonMsg.isNotEmpty()) {
+            isValid = false
+            errorChannel.send("Format diskon yang anda masukkan salah!")
+        }
+
+        if(isValid) {
+            state.saled?.let { saled ->
+                saled.qty = state.qty
+                saled.discExp = state.diskon
+                saled.listPrice = state.listPrice
+                saled.discExp = state.diskon
+                saled.discAmt = state.discAmt
+                saled.dNotes = state.note
+                eventChannel.send(UIEvent.RequestSubmit(saled))
+            } ?: state.item?.let {
+                it.qty = state.qty
+                val item = ItemWithUnit(
+                    item = it,
+                    unit = state.unit!!,
+                    pid = state.pid?.pid,
+                    discAmt = state.discAmt,
+                    discExp = state.diskon,
+                    note = state.note
+                )
+                eventChannel.send(UIEvent.RequestAdd(item))
+            }
         }
     }
 

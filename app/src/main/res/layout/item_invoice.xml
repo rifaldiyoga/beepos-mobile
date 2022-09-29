@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/clContent"
         android:padding="@dimen/size16"
         android:layout_width="match_parent"
@@ -54,14 +54,27 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAddon"
             android:layout_width="@dimen/size0"
-            android:layout_marginTop="@dimen/size6"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvNote"
             app:layout_constraintEnd_toStartOf="@+id/tvHargaDiskon"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/tvNamaItem"
             app:layout_constraintTop_toBottomOf="@+id/tvLabelItem" />
+
+        <TextView
+            android:id="@+id/tvNote"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:text="tes"
+            android:layout_marginTop="@dimen/size6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvLabelItem"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tvNamaItem"
+            app:layout_constraintTop_toBottomOf="@+id/rvAddon" />
+
 
         <TextView
             android:id="@+id/tvHarga"
@@ -87,8 +100,8 @@
 
         <ImageView
             android:id="@+id/ivDelete"
-            android:layout_width="@dimen/size14"
-            android:layout_height="@dimen/size14"
+            android:layout_width="@dimen/size12"
+            android:layout_height="@dimen/size12"
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="@+id/tvHarga"
             app:layout_constraintEnd_toEndOf="parent"

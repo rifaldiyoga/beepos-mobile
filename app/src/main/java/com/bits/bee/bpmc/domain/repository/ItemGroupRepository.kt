@@ -15,7 +15,7 @@ interface ItemGroupRepository {
 
     fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>>
 
-    fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>>
+    fun getActiveItemGroupList() : Flow<List<ItemGroup>>
 
     fun getId(id: Int) : Flow<Resource<ItemGroup>>
 

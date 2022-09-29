@@ -21,11 +21,13 @@
     <LinearLayout
         android:id="@+id/ll_mode_pin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
+        android:layout_height="@dimen/size0"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:visibility="visible"
-        android:orientation="vertical">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="24dp">
 
         <TextView
             android:id="@+id/textView6"
@@ -40,18 +42,18 @@
 
 
         <com.chaos.view.PinView
-            android:layout_marginRight="@dimen/size20"
-            android:layout_marginLeft="@dimen/size20"
             android:id="@+id/pinView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/size45"
+            android:layout_marginLeft="@dimen/size20"
             android:layout_marginTop="@dimen/size56"
-            android:itemBackground="@drawable/bg_rect_light_gray"
-            app:itemCount="6"
-            android:textSize="@dimen/font8"
-            app:itemWidth="@dimen/size45"
+            android:layout_marginRight="@dimen/size20"
             android:inputType="numberPassword"
+            android:itemBackground="@drawable/bg_rect_light_gray"
+            android:textSize="@dimen/font8"
+            app:itemCount="6"
             app:itemSpacing="@dimen/size10"
+            app:itemWidth="@dimen/size45"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
@@ -72,9 +74,9 @@
     <LinearLayout
         android:id="@+id/ll_mode_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
+        android:layout_height="@dimen/size0"
         android:visibility="gone"
+        tools:ignore="MissingConstraints"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:orientation="vertical">
 
@@ -161,4 +163,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,6 @@ import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -40,7 +39,7 @@ import kotlinx.coroutines.launch
 const val ITGRP = "itgrp"
 
 @AndroidEntryPoint
-class PositemFragment(
+class PositemFragment (
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPosItemBinding = FragmentPosItemBinding::inflate
 ) : BaseFragment<FragmentPosItemBinding>() {
 
@@ -85,11 +84,12 @@ class PositemFragment(
                 )
             }
             rvList.apply {
-                layoutManager = when(Utils.getScreenResolution(requireActivity())) {
+                layoutManager = when(mainViewModel.orientation.value) {
                     BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
                     else -> GridLayoutManager(requireContext(), 3)
                 }
                 adapter = posAdapter
+                itemAnimator = null
             }
         }
     }
@@ -101,42 +101,22 @@ class PositemFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mainViewModel.viewStates().collectLatest {
-                    it?.let {
-                        it.bp?.let { bp ->
-                            viewModel.state.priceLvlId = bp.priceLvlId
-                            viewModel.loadItem(bp)
-                        }
-                        posAdapter.submitSaledList(it.saledList)
-//                        it.channel?.let { channel ->
-//                            channel.priceLvlId?.let { pricelvl ->
-//                                viewModel.state.priceLvlId = channel.priceLvlId!!
-//                                viewModel.loadItem()
-//                            }
-//                        }
-                    }
+                mainViewModel.itemList.collectLatest { pagingData ->
+                    posAdapter.submitData(pagingData)
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
+                mainViewModel.viewStates().collectLatest {
                     it?.let {
-                        it.itemGroup?.let {
-                            mainViewModel.state.let {
-                                it.bp?.let{ bp ->
-                                    viewModel.loadItem(bp)
-                                }
-                            }
-                        }
-                        it.itemList?.let { pagingData ->
-                            posAdapter.submitData(pagingData)
-                        }
+                        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
+                            posAdapter.submitSaledList(it.saledList)
                     }
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             posAdapter.loadStateFlow.collectLatest {
                 if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
                     if (posAdapter.itemCount == 0)
@@ -146,6 +126,7 @@ class PositemFragment(
                 }
             }
         }
+        
     }
 
     private fun setVisibilityComponent(isLoading : Boolean) {

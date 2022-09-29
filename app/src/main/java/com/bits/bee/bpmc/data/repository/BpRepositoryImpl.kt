@@ -2,12 +2,12 @@ package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.BpAddrDao
 import com.bits.bee.bpmc.data.data_source.local.dao.BpDao
+import com.bits.bee.bpmc.data.data_source.local.model.BpAddrEntity
 import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.post.BpPost
 import com.bits.bee.bpmc.data.data_source.remote.response.BpResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.BpReturn
-import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.domain.mapper.BpDataMapper
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.repository.BpRepository
@@ -48,6 +48,15 @@ class BpRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: BpResponse) {
                 bpDao.insertBulk(data.data.map{BpDataMapper.fromNetworkToDb(it)})
+                val bpAddrList = data.data.map {
+                    BpAddrEntity(
+                        cityCode = it.city_code ?: "",
+                        bpId = it.id,
+                        address = it.address ?: "",
+                        phone = it.phone ?: "",
+                    )
+                }
+                bpAddrDao.insertBulk(bpAddrList)
             }
 
         }.getAsFlow()
@@ -69,11 +78,10 @@ class BpRepositoryImpl @Inject constructor(
         emit(bp?.let { BpDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
-    override fun getFavoritBpList() : Flow<Resource<List<Bp>>> {
+    override fun getFavoritBpList() : Flow<List<Bp>> {
         return flow {
-            emit(Resource.loading())
             val data: List<Bp> = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
 
@@ -90,10 +98,12 @@ class BpRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun addUpdateBp(bpEntity: BpEntity){
+    override suspend fun addUpdateBp(bpEntity: BpEntity) : Long {
+        var id : Long
         withContext(ioDispatcher){
-            bpDao.insertSingle(bpEntity)
+            id = bpDao.insertSingle(bpEntity)
         }
+        return id
     }
 
     override fun getBpByDate(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>> {

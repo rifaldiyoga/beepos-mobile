@@ -1,24 +1,19 @@
 package com.bits.bee.bpmc.presentation.ui.buka_kasir
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.GetCounterShiftUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -29,17 +24,22 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
     private val getActivePossesUseCase: GetActivePossesUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
+    private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val bukaKasirUseCase: BukaKasirUseCase,
     private val tutupKasirUseCase: TutupKasirUseCase,
     private val getCounterShiftUseCase: GetCounterShiftUseCase,
-    private val getUserByIdUseCase: GetUserByIdUseCase
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val beePreferenceManager: BeePreferenceManager
 ) : BaseViewModel<BukaTutupKasirState, BukaTutupKasirSharedViewModel.UIEvent>() {
+
+    val posPreferences = beePreferenceManager.posPreferences
 
     init {
         state = BukaTutupKasirState()
         getActivePosses()
         getActiveBranch()
         getActiveCashier()
+        getDefaultCrc()
         setShift()
     }
 
@@ -48,6 +48,16 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
             updateState(
                 state.copy(
                     activePosses = it
+                )
+            )
+        }
+    }
+
+    fun getDefaultCrc() = viewModelScope.launch {
+        getDefaultCrcUseCase().collect {
+            updateState(
+                state.copy(
+                    crc = it
                 )
             )
         }
@@ -85,13 +95,13 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
 
     fun setShift() = viewModelScope.launch {
         getCounterShiftUseCase.invoke().collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        listCasha = it
-                    )
+
+            updateState(
+                state.copy(
+                    listCasha = it
                 )
-            }
+            )
+
         }
 
 //        if (state.listCasha!!.size > 0){
@@ -114,15 +124,14 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
 //        }
     }
 
-    fun doBukaKasir(modal : BigDecimal, sesi: Int) = viewModelScope.launch {
-        bukaKasirUseCase.invoke(modal, sesi, state.activeBranch!!, state.activeCashier!!)
-//        bukaKasirUseCase(
-//            modal = modal,
-//            shift = 1,
-//            cashier = state.activeCashier!!,
-//            branch = state.activeBranch!!
-//        )
-        getActivePosses()
+    suspend fun doBukaKasir(modal : String, sesi: Int) = viewModelScope.launch {
+        if (modal.isEmpty() || modal.contains(Regex("[A-Za-z]")))
+            errorChannel.send("Modal yang anda masukkan salah!")
+        else {
+            val modalC = BigDecimal(modal)
+            bukaKasirUseCase(modalC, sesi, state.activeBranch!!, state.activeCashier!!)
+            getActivePosses()
+        }
     }
 
     fun doTutupKasir() = viewModelScope.launch {

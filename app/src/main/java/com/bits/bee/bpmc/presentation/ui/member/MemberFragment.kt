@@ -17,12 +17,10 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
-import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -83,11 +81,8 @@ class MemberFragment(
                         }
                         is MemberViewModel.UIEvent.RequestPos -> {
                             val action = MemberFragmentDirections.actionMemberFragmentToPosFragment()
-                            mainViewModel.updateState(
-                                mainViewModel.state.copy(
-                                    bp = it.model
-                                )
-                            )
+
+                            mainViewModel.updateActiveBp(it.model)
                             findNavController().navigate(action)
                         }
 
@@ -102,20 +97,7 @@ class MemberFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.memberList.collect {
-                    when(it.status){
-                        Resource.Status.LOADING -> {
-                            setVisibilityLoading(true)
-                        }
-                        Resource.Status.SUCCESS -> {
-                            val data = it.data ?: mutableListOf()
-
-                            setVisibilityLoading(false,  data)
-                            memberAdapter.submitList(data)
-                        }
-                        Resource.Status.ERROR -> {
-                            setVisibilityLoading(false)
-                        }
-                    }
+                    memberAdapter.submitList(it)
                 }
             }
         }

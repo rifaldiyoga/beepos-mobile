@@ -52,22 +52,9 @@ class ItemGroupRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>> {
-        return flow {
-            emit(Resource.loading())
-            var data : MutableList<ItemGroup> = mutableListOf()
-            withContext(ioDispatcher){
-                itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }.onEach {
-                    data.add(it)
-                }
-            }
-            if(data.isNotEmpty()) {
-                emit(Resource.success(data))
-            } else {
-                emit(Resource.error(null, "Data Kosong"))
-            }
-        }
-    }
+    override fun getActiveItemGroupList() : Flow<List<ItemGroup>> = flow {
+        emit(itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
     override fun getId(id: Int): Flow<Resource<ItemGroup>> {
         return flow {
@@ -89,7 +76,7 @@ class ItemGroupRepositoryImpl @Inject constructor(
             }else{
                 emit(Resource.error(null, "data kosong"))
             }            }
-        }
+    }
 
     override fun getItemgrpAddOn(): Flow<ItemGroup?> = flow<ItemGroup?> {
         val data = itemGroupDao.getItgrpAddOn()

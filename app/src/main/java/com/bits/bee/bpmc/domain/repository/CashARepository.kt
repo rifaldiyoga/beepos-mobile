@@ -9,7 +9,7 @@ interface CashARepository {
 
     suspend fun addCashA(cashAEntity: CashAEntity)
 
-    fun getLastCasha(): Flow<Resource<List<CashA>>>
+    fun getLastCasha(): Flow<List<CashA>>
 
     fun getCashAByCash(cashId : Int) : Flow<List<CashA>>
 

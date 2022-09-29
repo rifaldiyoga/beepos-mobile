@@ -31,6 +31,10 @@ class SaleTrans @Inject constructor(
 
     fun setBp(bp: Bp){
         this.bp = bp
+        getMaster().bpId = bp.id!!
+        getMaster().bp = bp
+        getMaster().bpName = bp.name
+        calculate()
     }
 
     fun setGrpAddOn(itemGroup: ItemGroup?){
@@ -53,6 +57,19 @@ class SaleTrans @Inject constructor(
 
     override fun loadTrans(var1: Sale) {
 
+    }
+
+    fun loadTrans(sale : Sale, saledList : MutableList<Saled>, saleAddOn: SaleAddOn? = null,
+                  saleAddOnDList : MutableList<SaleAddOnD> = mutableListOf(),
+                  salePromoList: MutableList<SalePromo> = mutableListOf()){
+        mTblMaster = sale
+        mTblDetail = saledList
+        if(saleAddOn != null){
+            if(addOnTrans == null)
+                addOnTrans = AddOnTrans()
+            addOnTrans!!.loadTrans(saleAddOn, saleAddOnDList)
+        }
+        this.salePromoList = salePromoList
     }
 
 
@@ -91,7 +108,7 @@ class SaleTrans @Inject constructor(
         } else {
             var isNew = true
             for (saled in getListDetail()) {
-                if (saled.itemId == item.id && !item.isVariant && !item.isHaveAddOn && (grpAddon == null || (grpAddon != null && item.itemGrpId == grpAddon!!.id))) {
+                if (saled.itemId == item.id && !item.isVariant && !item.isHaveAddOn && (grpAddon == null || (grpAddon != null && item.itemGrpId != grpAddon!!.id))) {
                     saled.listPrice = item.price
                     saled.qty = saled.qty.add(if (useItemqty) item.qty else BigDecimal.ONE)
                     if (saled.disc != BigDecimal.ZERO) {
@@ -534,6 +551,10 @@ class SaleTrans @Inject constructor(
 
     fun findSalePromo(promoType: String): SalePromo? = salePromoList.firstOrNull { it.promo!!.promoCat == promoType }
 
-    override fun getMaster() : Sale = mTblMaster ?: Sale()
+    override fun getMaster() : Sale {
+        if(mTblMaster == null)
+            mTblMaster = Sale()
+        return mTblMaster!!
+    }
 
 }

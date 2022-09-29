@@ -1,11 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.VoidTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,7 +13,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DetailTransaksiPenjualanViewModel @Inject constructor(
-    private val getSaledListUseCase: GetSaledListUseCase,
+    private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val voidTransactionUseCase: VoidTransactionUseCase
 ): BaseViewModel<DetailTransaksiPenjualanState, DetailTransaksiPenjualanViewModel.UIEvent>(){
 
@@ -29,7 +28,7 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
 
     fun getSaledList() = viewModelScope.launch {
         state.sale?.let {
-            getSaledListUseCase(it.id!!).collect {
+            getSaledBySaleUseCase(it.id!!).collect {
                 updateState(
                     state.copy(
                         saledList = it

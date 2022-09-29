@@ -144,18 +144,46 @@
         app:layout_constraintStart_toStartOf="@+id/textView70"
         app:layout_constraintTop_toBottomOf="@+id/textView70" />
 
+    <TextView
+        android:id="@+id/tvMataUang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rp"
+        app:layout_constraintBottom_toBottomOf="@+id/etModal"
+        app:layout_constraintStart_toStartOf="@+id/textView60"
+        app:layout_constraintTop_toTopOf="@+id/etModal" />
+
     <EditText
         android:id="@+id/etModal"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/size8"
+        android:layout_marginEnd="@dimen/size16"
         android:inputType="number"
         android:maxLines="1"
-
-        android:layout_marginEnd="@dimen/size16"
-        app:layout_constraintStart_toStartOf="@+id/textView60"
+        android:layout_marginStart="@dimen/size16"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvMataUang"
         app:layout_constraintTop_toBottomOf="@+id/textView60" />
+
+    <LinearLayout
+        android:id="@+id/llInfo"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:background="@drawable/bg_rect_light_gray"
+        android:padding="@dimen/size12"
+        app:layout_constraintEnd_toEndOf="@+id/etModal"
+        app:layout_constraintStart_toStartOf="@+id/tvMataUang"
+        app:layout_constraintTop_toBottomOf="@+id/etModal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnBukaKasir"

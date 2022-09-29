@@ -16,9 +16,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PembayaranKartuViewModel @Inject constructor(
-    private val getActiveEdc: GetActiveEdc,
-    private val getActiveEdcSurc: GetActiveEdcSurc,
-    private val addTransactionUseCase: AddTransactionUseCase
 ) : BaseViewModel<PembayaranKartuState, PembayaranKartuViewModel.UIEvent>(){
 
     init {

@@ -44,37 +44,37 @@ import java.util.*
 data class BpAddrEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int?,
+    var id : Int? = null,
     @ColumnInfo(name = BP_ID, index = true)
-    var bpId : Int?,
+    var bpId : Int? = null,
     @ColumnInfo(name = NAME)
-    var name: String,
+    var name: String = "",
     @ColumnInfo(name = GREETING)
-    var greeting: String,
+    var greeting: String = "",
     @ColumnInfo(name = ADDRESS)
-    var address : String,
+    var address : String = "",
     @ColumnInfo(name = PHONE)
-    var phone : String,
+    var phone : String ="",
     @ColumnInfo(name = ZIPCODE)
-    var zipCode : String,
+    var zipCode : String ="",
     @ColumnInfo(name = EMAIL)
-    var email : String,
+    var email : String ="",
     @ColumnInfo(name = NOTE)
-    var note : String,
+    var note : String ="",
     @ColumnInfo(name = ISBILLADDR)
-    var isBillAddr : Boolean,
+    var isBillAddr : Boolean = false,
     @ColumnInfo(name = ISSHIPADDR)
-    var isShipAddr : Boolean,
+    var isShipAddr : Boolean = false,
     @ColumnInfo(name = ISMAINADDR)
-    var isMainAddr : Boolean,
-    @ColumnInfo(name = PROVINCE_CODE, index = true)
-    var provinceCode : String,
-    @ColumnInfo(name = REGENCY_CODE, index = true)
-    var regencyCode : String,
-    @ColumnInfo(name = CITY_CODE, index = true)
-    var cityId : Int,
-    @ColumnInfo(name = DISTRICT_CODE, index = true)
-    var districtCode : String,
+    var isMainAddr : Boolean = false,
+    @ColumnInfo(name = PROVINCE_CODE)
+    var provinceCode : String = "",
+    @ColumnInfo(name = REGENCY_CODE)
+    var regencyCode : String = "",
+    @ColumnInfo(name = CITY_CODE)
+    var cityCode : String = "",
+    @ColumnInfo(name = DISTRICT_CODE)
+    var districtCode : String = "",
     @ColumnInfo(name = CREATED_AT)
     var createdAt : Date? = null,
     @ColumnInfo(name = CREATED_BY)

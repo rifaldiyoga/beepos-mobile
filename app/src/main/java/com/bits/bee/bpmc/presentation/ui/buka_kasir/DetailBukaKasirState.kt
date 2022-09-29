@@ -1,8 +1,5 @@
 package com.bits.bee.bpmc.presentation.ui.buka_kasir
 
-import com.bits.bee.bpmc.domain.model.Branch
-import com.bits.bee.bpmc.domain.model.Cashier
-import com.bits.bee.bpmc.domain.model.Posses
 import java.math.BigDecimal
 
 /**
@@ -10,6 +7,6 @@ import java.math.BigDecimal
  */
 
 data class DetailBukaKasirState (
-    var modal : BigDecimal? = null,
-    var defaultModal : BigDecimal = BigDecimal.ZERO
+    var modal : String = "",
+    var defaultModal : String = "",
 )

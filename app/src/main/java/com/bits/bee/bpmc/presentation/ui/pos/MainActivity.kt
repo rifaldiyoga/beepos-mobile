@@ -47,13 +47,14 @@ class MainActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
-        viewModel.loadData()
         viewModel.saleTrans.newTrans()
+        viewModel.loadData()
+        viewModel.initPromo()
         val mode = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.pref_mode_tampilan), BPMConstants.MODE_FOOD_BEVERAGES)
         viewModel.posModeState.update {
             when(mode){
-               BPMConstants.MODE_FOOD_BEVERAGES ->PosModeState.FnBState
-               else -> PosModeState.RetailState
+                BPMConstants.MODE_FOOD_BEVERAGES ->PosModeState.FnBState
+                else -> PosModeState.RetailState
             }
         }
 
@@ -95,29 +96,40 @@ class MainActivity(
     override fun subscribeObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
+
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.activeBp.collect {
                     binding.apply {
                         it?.let {
-                            it.channel?.let { channel ->
-                                viewModel.state.sale.channelId = channel.id
-                                tvChannel.text = channel.name
-                                channel.color?.let { color ->
-                                    if(color.isNotEmpty())
-                                        ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
-                                            Color.parseColor(color)))
-                                }
-
-                            }
-                            it.bp?.let {
-                                viewModel.state.sale.bpId = it.id!!
-                                viewModel.state.sale.bpName = it.name
-                                tvMember.text = it.name
+                            viewModel.state.sale.bpId = it.id!!
+                            viewModel.state.sale.bpName = it.name
+                            tvMember.text = it.name
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.activeChannel.collect {
+                    binding.apply {
+                        it?.let { channel ->
+                            viewModel.state.sale.channelId = channel.id
+                            tvChannel.text = channel.name
+                            channel.color?.let { color ->
+                                if(color.isNotEmpty())
+                                    ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
+                                        Color.parseColor(color)))
                             }
                         }
                     }
                 }
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect {
@@ -129,11 +141,7 @@ class MainActivity(
                             val dialog = ChannelListDialogBuilder(
                                 viewModel.state.channelList,
                                 onChannelClick = { channel ->
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            channel = channel,
-                                        )
-                                    )
+                                    viewModel.updateActiveChannel(channel)
                                 }
                             )
                             dialog.show(supportFragmentManager, TAG)
@@ -204,6 +212,7 @@ class MainActivity(
             )
             binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
             binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.black))
+            binding.toolbar.context.setTheme(R.style.MySearchViewStyleBlack)
         } else {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
@@ -212,6 +221,7 @@ class MainActivity(
             )
             binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
             binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+            binding.toolbar.context.setTheme(R.style.MySearchViewStyleWhite)
         }
     }
 

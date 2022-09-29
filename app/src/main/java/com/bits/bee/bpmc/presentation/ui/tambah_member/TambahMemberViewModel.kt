@@ -7,11 +7,8 @@ import com.bits.bee.bpmc.domain.usecase.member.GetActivePriceLvlUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
 import com.bits.bee.bpmc.domain.usecase.member.SaveBpAddrUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -87,22 +84,14 @@ class TambahMemberViewModel @Inject constructor(
 
     fun getRegency() = viewModelScope.launch{
         getRegencyByCodeUseCase.invoke(state.district!!.regencyCode).collect {
-            when(it.status){
-                Resource.Status.LOADING ->{
 
-                }
-                Resource.Status.SUCCESS ->{
-                    updateState(
-                        state.copy(
-                            regency = it.data
-                        )
-                    )
-                }
-                Resource.Status.ERROR ->{
-
-                }
-            }
+            updateState(
+                state.copy(
+                    regency = it
+                )
+            )
         }
+
     }
 
     fun onClickInfoLainnya() = viewModelScope.launch {

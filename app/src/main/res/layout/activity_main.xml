@@ -7,9 +7,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="@dimen/size0"
-        android:theme="@style/MySearchViewStyle"
+        android:theme="@style/MySearchViewStyleWhite"
         android:layout_height="?actionBarSize"
-        app:titleTextColor="@color/white"
         android:textAlignment="center"
         app:collapseIcon="@drawable/ic_back_white"
         app:layout_constraintEnd_toEndOf="parent"

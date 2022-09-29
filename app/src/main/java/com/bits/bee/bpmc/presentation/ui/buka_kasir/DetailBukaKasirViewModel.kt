@@ -24,7 +24,7 @@ class DetailBukaKasirViewModel @Inject constructor(
     }
 
     fun onBukaKasirClick() = viewModelScope.launch {
-        if (state.modal != null) {
+        if (state.modal.isNotEmpty()) {
             eventChannel.send(UIEvent.RequestSave)
         } else {
             eventChannel.send(UIEvent.NavigateToDefaultModal)
@@ -33,16 +33,20 @@ class DetailBukaKasirViewModel @Inject constructor(
 
     fun saveBukaKasir() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestSave)
-        onDoneSave()
     }
 
     fun onDoneSave() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToPos)
     }
 
+    fun onInsight() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToInsight)
+    }
+
     sealed class UIEvent {
         object NavigateToDefaultModal : UIEvent()
         object NavigateToPos : UIEvent()
+        object NavigateToInsight : UIEvent()
         object RequestSave : UIEvent()
     }
 }

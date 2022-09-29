@@ -23,23 +23,12 @@ object AppModule {
     @Singleton
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @Provides
-    @Singleton
-    fun providePromoCalc(getActiveCashierUseCase: GetActiveCashierUseCase, promoMultiRepository: PromoMultiRepository,
-                         promoRepository: PromoRepository, getPriceItemUseCase: GetPriceItemUseCase, itemRepository: ItemRepository) : PromoCalc {
-        return PromoCalc(
-            getActiveCashierUseCase = getActiveCashierUseCase,
-            promoMultiRepository = promoMultiRepository,
-            promoRepository = promoRepository,
-            getPriceItemUseCase = getPriceItemUseCase,
-            itemRepository = itemRepository
-        )
-    }
+
 
     @Provides
     @Singleton
-    fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddrDao: BpAddrDao, defaultDispatcher: CoroutineDispatcher) : BpRepository {
-        return BpRepositoryImpl(apiUtils, dao, bpAddrDao, defaultDispatcher)
+    fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddr : BpAddrDao, defaultDispatcher: CoroutineDispatcher) : BpRepository {
+        return BpRepositoryImpl(apiUtils, dao, bpAddr, defaultDispatcher)
     }
 
     @Provides
@@ -436,4 +425,16 @@ object AppModule {
         return PromoMultiRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun providePromoCalc(getActiveCashierUseCase: GetActiveCashierUseCase, promoMultiRepository: PromoMultiRepository,
+                         promoRepository: PromoRepository, getPriceItemUseCase: GetPriceItemUseCase, itemRepository: ItemRepository) : PromoCalc {
+        return PromoCalc(
+            getActiveCashierUseCase = getActiveCashierUseCase,
+            promoMultiRepository = promoMultiRepository,
+            promoRepository = promoRepository,
+            getPriceItemUseCase = getPriceItemUseCase,
+            itemRepository = itemRepository
+        )
+    }
 }

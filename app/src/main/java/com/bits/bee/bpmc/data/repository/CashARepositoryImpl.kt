@@ -28,10 +28,10 @@ class CashARepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLastCasha(): Flow<Resource<List<CashA>>> {
+    override fun getLastCasha(): Flow<List<CashA>> {
         return flow{
             val data = cashADao.getLastCasha().map { CashADataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 

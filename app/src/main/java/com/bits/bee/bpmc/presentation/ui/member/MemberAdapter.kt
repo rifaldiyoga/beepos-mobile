@@ -33,6 +33,7 @@ class MemberAdapter constructor(
         fun bind(model : Bp) {
             binding.apply {
                 tvNamaMember.text = model.name
+                tvNoTelp.text = model.bpAddr?.phone ?: ""
                 lLContentMember.setOnClickListener {
                     onMemberClick(model)
                 }

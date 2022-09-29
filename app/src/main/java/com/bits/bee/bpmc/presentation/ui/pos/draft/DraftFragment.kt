@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -34,7 +35,7 @@ class DraftFragment(
 
     private val viewModel : DraftViewModel by viewModels()
 
-    private val mViewModel : MainViewModel by viewModels()
+    private val mViewModel : MainViewModel by activityViewModels()
 
     private lateinit var draftAdapter : DraftAdapter
 
@@ -109,8 +110,9 @@ class DraftFragment(
             viewModel.event.collect {
                 when(it){
                     is DraftViewModel.UIEvent.RequestDraft -> {
-                        findNavController().popBackStack(R.id.posFragment, false)
                         mViewModel.loadDraft(it.sale)
+                        findNavController().popBackStack()
+//                        findNavController().previousBackStackEntry?.savedStateHandle?.set("sale", it.sale)
                     }
                 }
             }
@@ -135,6 +137,7 @@ class DraftFragment(
         binding.apply {
             if(isVisible){
                 groupEmpty.visible()
+                tvDesc.text = if (viewModel.currentQuery.length > 3) getString(R.string.draft_tidak_ditemukan) else getString(R.string.tidak_ada_draft_yang_disimpan)
                 rvList.gone()
             } else {
                 groupEmpty.gone()

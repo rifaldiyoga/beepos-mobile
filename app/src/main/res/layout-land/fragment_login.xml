@@ -8,12 +8,12 @@
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/TextHeader"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:text="@string/login"
-        style="@style/TextHeader"
         android:textSize="@dimen/font24"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -41,21 +41,21 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <EditText
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/cth_budi_email_com"/>
+            android:hint="@string/cth_budi_email_com"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,18 +75,18 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:passwordToggleEnabled="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:passwordToggleEnabled="true">
 
         <EditText
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,11 +94,11 @@
         android:id="@+id/tvLupaKataSandi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/lupa_kata_sandi"
         android:textColor="@color/black"
         android:textSize="@dimen/font16"
-        android:text="@string/lupa_kata_sandi"
-        android:layout_marginTop="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
 
     <TextView
@@ -113,12 +113,26 @@
 
     <Button
         android:id="@+id/btnMasuk"
-        android:background="@drawable/btn_rect_primary"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_rect_primary"
         android:text="@string/masuk"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/tilPassword" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

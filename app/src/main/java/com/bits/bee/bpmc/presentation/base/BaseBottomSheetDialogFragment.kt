@@ -1,16 +1,24 @@
 package com.bits.bee.bpmc.presentation.base
 
+import android.app.Activity
+import android.app.Dialog
+import android.graphics.Point
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+
 
 /**
  * Created by aldi on 28/03/22.
@@ -25,9 +33,41 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
     protected val binding: T
         get() = _binding as T
 
+
+    override fun onResume() {
+        super.onResume()
+        if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) {
+            val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
+            val lp = WindowManager.LayoutParams()
+            try {
+                val display: Display = (activity as Activity?)!!.windowManager.defaultDisplay
+                val size = Point()
+                display.getSize(size)
+                val width: Int = size.x
+                val widthDialog: Double = width / BPMConstants.DIVIDE_DIALOG_SIZE
+                params.width = (width - widthDialog).toInt()
+                params.height = WindowManager.LayoutParams.WRAP_CONTENT
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            dialog!!.window!!.attributes = params as WindowManager.LayoutParams
+        }
+    }
+
+    override fun onCreateDialog(@Nullable savedInstanceState: Bundle?): Dialog {
+        val dialog: Dialog = super.onCreateDialog(savedInstanceState)
+        if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+            dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.bg_rounded_transparent))
+        return dialog
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_Demo_BottomSheetDialog)
+        if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
+            setStyle(STYLE_NORMAL, R.style.ThemeOverlay_Demo_BottomSheetDialog)
+        } else {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
+        }
     }
 
     override fun onCreateView(
@@ -41,7 +81,7 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (dialog as? BottomSheetDialog)?.behavior?.state = STATE_EXPANDED
         initComponents()
         subscribeListeners()
         subscribeObservers()

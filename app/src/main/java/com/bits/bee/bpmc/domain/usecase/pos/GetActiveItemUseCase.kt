@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.domain.usecase.pos
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.bits.bee.bpmc.domain.model.Bp
+import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.repository.ItemAddOnRepository
 import com.bits.bee.bpmc.domain.repository.ItemRepository
@@ -23,13 +24,14 @@ class GetActiveItemUseCase @Inject constructor(
     private val getPriceItemUseCase: GetPriceItemUseCase
 ) {
 
-    suspend operator fun invoke(itemGrpId : Int, priceLvlId : Int = 1, bp : Bp, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
+    suspend operator fun invoke(itemGrpId : Int, channel : Channel?, bp : Bp?, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
         when(itemGrpId != 1){
             true -> itemRepository.getActiveItemListPagedByItemGrp(itemGrpId = itemGrpId, query = query, usePid)
             false -> itemRepository.getActiveItemListPaged(query, usePid)
         }.map { data ->
             data.map { item ->
-                getPriceItemUseCase(item, priceLvlId, bp)
+                if(bp != null)
+                    getPriceItemUseCase(item, bp.priceLvlId, bp)
                 if(item.isVariant)
                     item.itemVariantList = itemVariantRepository.getItemVariantByVariant(item.id).first().map { it.itemId }
                 item.isHaveAddOn = itemAddOnRepository.getItemAddOnByItem(item.id).first() != null

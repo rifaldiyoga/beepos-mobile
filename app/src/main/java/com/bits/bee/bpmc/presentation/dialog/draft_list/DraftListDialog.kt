@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,7 @@ class DraftListDialog(
 ) : BaseBottomSheetDialogFragment<DialogDraftListBinding>() {
 
     private val viewModel : DraftListViewModel by viewModels()
-    private val mViewModel : MainViewModel by viewModels()
+    private val mViewModel : MainViewModel by activityViewModels()
 
     private lateinit var draftAdapter : DraftDialogAdapter
 
@@ -67,16 +68,15 @@ class DraftListDialog(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
                     when(it){
                         is DraftListViewModel.UIEvent.RequestDraft -> {
-                            findNavController().popBackStack(R.id.posFragment, false)
                             mViewModel.loadDraft(it.sale)
+                            findNavController().popBackStack(R.id.posFragment, false)
                         }
                     }
                 }
-            }
+
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){

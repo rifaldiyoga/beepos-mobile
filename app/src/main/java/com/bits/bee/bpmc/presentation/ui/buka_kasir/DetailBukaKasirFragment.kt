@@ -15,9 +15,10 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -32,26 +33,42 @@ class DetailBukaKasirFragment(
 ) : BaseFragment<FragmentDetailBukaKasirBinding>() {
 
     private val viewModel : DetailBukaKasirViewModel by viewModels()
+
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
 
     override fun initComponents() {
         binding.apply {
-            viewModel.state.defaultModal = BigDecimal(100000)
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
             etModal.addTextChangedListener {
-                viewModel.state.modal = BigDecimal(etModal.text.toString().trim())
+                viewModel.state.modal = etModal.text.toString().trim().removeSymbol()
             }
             btnBukaKasir.setOnClickListener {
                 viewModel.onBukaKasirClick()
+            }
+            llInfo.setOnClickListener {
+                viewModel.onInsight()
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            sharedViewModel.error.collect{
+                showSnackbar(it)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                sharedViewModel.posPreferences.collect{
+                    binding.etModal.hint = CurrencyUtils.formatCurrency(BigDecimal(it.presetBukaKasir))
+                    viewModel.state.defaultModal = it.presetBukaKasir
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
@@ -77,7 +94,14 @@ class DetailBukaKasirFragment(
                             findNavController().navigate(R.id.mainActivity)
                         }
                         DetailBukaKasirViewModel.UIEvent.RequestSave -> {
-                            sharedViewModel.doBukaKasir(viewModel.state.modal!!, BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int)
+                            sharedViewModel.doBukaKasir(viewModel.state.modal,
+                                BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
+                            )
+                            viewModel.onDoneSave()
+                        }
+                        DetailBukaKasirViewModel.UIEvent.NavigateToInsight -> {
+                            val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToInsightPresetKasirFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }
@@ -98,7 +122,7 @@ class DetailBukaKasirFragment(
 //                                tvShift.text = it.toString()
 //                            }
                             it.listCasha?.let {
-                                if (it.size > 0){
+                                if (it.isNotEmpty()){
                                     val trxDate = DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, it.get(0).trxDate)
                                     if (SimpleDateFormat("MMdd").format(Date())compareTo(SimpleDateFormat("MMdd").format(trxDate)) > 0){
                                         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1)

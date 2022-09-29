@@ -47,21 +47,30 @@
         app:layout_constraintStart_toStartOf="@+id/textView71"
         app:layout_constraintTop_toBottomOf="@+id/textView71" />
 
+    <TextView
+        android:id="@+id/tvMataUang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rp"
+        app:layout_constraintBottom_toBottomOf="@+id/etModal"
+        app:layout_constraintStart_toStartOf="@+id/textView72"
+        app:layout_constraintTop_toTopOf="@+id/etModal" />
+
     <EditText
         android:id="@+id/etModal"
         android:layout_width="@dimen/size0"
-        android:inputType="phone"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size16"
-        android:text="@string/_0"
+        android:layout_marginTop="@dimen/size8"
+        android:inputType="phone"
+        android:layout_marginStart="@dimen/size16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvMataUang"
         app:layout_constraintTop_toBottomOf="@+id/textView72" />
 
     <LinearLayout
         android:background="@drawable/bg_rect_light_gray"
         android:padding="@dimen/size12"
-        android:id="@+id/linearLayout17"
+        android:id="@+id/llInfo"
         android:layout_marginTop="@dimen/size16"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
@@ -87,6 +96,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
+        app:layout_constraintTop_toBottomOf="@+id/llInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

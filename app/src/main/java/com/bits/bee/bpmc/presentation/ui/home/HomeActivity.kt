@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.home
 
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
@@ -115,9 +116,16 @@ class HomeActivity(
     private fun setVisibilityBottom(isShow : Boolean){
         binding.apply {
             if(isShow) {
+                val param = mainHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+                param.bottomMargin = bottomAppBar.height
+                mainHostFragment.layoutParams = param
                 bottomAppBar.visible()
                 fab.visible()
+
             } else {
+                val param = mainHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+                param.bottomMargin = 0
+                mainHostFragment.layoutParams = param
                 bottomAppBar.gone()
                 fab.gone()
             }

@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.pos_item
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
@@ -19,26 +20,13 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PosItemViewModel @Inject constructor(
-    private val getActiveItemUseCase: GetActiveItemUseCase
 ): BaseViewModel<PosItemState, PosItemViewModel.UIEvent>() {
 
     init {
         state = PosItemState()
     }
 
-    var itemFlow : Flow<PagingData<Item>> = MutableSharedFlow(1)
-
-    fun loadItem(bp : Bp) = viewModelScope.launch {
-        getActiveItemUseCase(state.itemGroup?.id ?: -1, state.priceLvlId, bp).collectLatest {
-            updateState(
-                state.copy(
-                    itemList = it
-                )
-            )
-        }
-    }
-
-    fun onReciveItemGroup(itemGroup: ItemGroup) = viewModelScope.launch {
+    fun onReciveItemGroup(itemGroup: ItemGroup?) = viewModelScope.launch {
         updateState(
             state.copy(
                 itemGroup = itemGroup

@@ -10,6 +10,9 @@ import javax.inject.Inject
 @HiltViewModel
 class PembayaranGopayViewModel @Inject constructor() : BaseViewModel<PembayaranGopayState, PembayaranGopayViewModel.UIEvent>(){
 
+    init {
+        state = PembayaranGopayState()
+    }
 
     sealed class UIEvent {
 

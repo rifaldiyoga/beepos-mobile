@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/size8"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintDimensionRatio="1:1"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
@@ -59,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size16"
                 android:layout_marginEnd="@dimen/size16"
-                android:layout_marginBottom="@dimen/size8"
+                android:layout_marginBottom="@dimen/size4"
+                android:textSize="@dimen/font12"
                 android:text="@string/jus_mangga"
                 app:layout_constraintBottom_toTopOf="@id/tvHarga"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/size16"
                 android:text="@string/mata_uang_nominal"
+                android:textSize="@dimen/font12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tvNamaItem"
                 app:layout_constraintStart_toStartOf="@+id/tvNamaItem" />

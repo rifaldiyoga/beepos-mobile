@@ -11,7 +11,6 @@ import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.Utils
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterface {
@@ -31,14 +30,19 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
         setContentView(requireNotNull(_binding).root)
 
         //set orientation
-        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        requestedOrientation = orientation
+
 
         initComponents()
         subscribeListeners()
         subscribeObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = orientation
     }
 
     override fun onDestroy() {

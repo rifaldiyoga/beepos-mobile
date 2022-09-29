@@ -20,10 +20,15 @@ class AddOnTrans : BaseTrans<SaleAddOn, SaleAddOnD>() {
     override fun voidTrans() {
     }
 
-    override fun loadTrans(var1: SaleAddOn) {
-
+    fun loadTrans(var1: SaleAddOn, saleAddOnDList : MutableList<SaleAddOnD>) {
+        mTblMaster = var1
+        mTblDetail = saleAddOnDList
     }
 
     fun isExistUpSaled(saled: Saled): Boolean = getListDetail().firstOrNull{ it.upSaled == saled } != null
+
+    override fun loadTrans(var1: SaleAddOn) {
+        TODO("Not yet implemented")
+    }
 
 }

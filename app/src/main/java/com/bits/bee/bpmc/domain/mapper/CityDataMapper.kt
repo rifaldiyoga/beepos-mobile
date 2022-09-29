@@ -14,7 +14,6 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
 
     override fun fromDbToDomain(model: CityEntity): City {
         return City(
-            model.id,
             model.code,
             model.name,
 //            model.isActive
@@ -24,7 +23,6 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
 
     override fun fromDomainToDb(model: City): CityEntity {
         return CityEntity(
-            model.id,
             model.code,
             model.name,
 //            model.isActive
@@ -34,7 +32,6 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
 
     override fun fromNetworkToDb(model: CityModel): CityEntity {
         return CityEntity(
-            model.id,
             model.code,
             model.name,
 //            true

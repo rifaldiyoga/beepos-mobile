@@ -82,7 +82,7 @@ class ItemPosAdapter constructor(
                 }
 
 
-                imageItem.setImageDrawable(ImageUtils.generateFromInitial(item.name1))
+                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, item.name1))
 
                 cdContent.setOnClickListener {
 //                    qty = item.qty.add(BigDecimal.ZERO)

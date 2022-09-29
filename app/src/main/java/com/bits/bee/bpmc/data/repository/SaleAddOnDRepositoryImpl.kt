@@ -4,7 +4,6 @@ import com.bits.bee.bpmc.data.data_source.local.dao.SaleAddOnDDao
 import com.bits.bee.bpmc.domain.mapper.SaleAddOnDDataMapper
 import com.bits.bee.bpmc.domain.model.SaleAddOnD
 import com.bits.bee.bpmc.domain.repository.SaleAddOnDRepository
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,10 +25,10 @@ class SaleAddOnDRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSaleAddonDbyAddon(id: Int): Flow<Resource<List<SaleAddOnD>>> {
+    override fun getSaleAddonDbyAddon(id: Int): Flow<List<SaleAddOnD>> {
         return flow {
             val data = saleAddOnDDao.getSaleAddonDbyAddon(id).map { SaleAddOnDDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 

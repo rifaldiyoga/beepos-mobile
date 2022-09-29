@@ -13,6 +13,10 @@ import com.bits.bee.bpmc.databinding.FragmentInvoiceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment
+import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,8 +35,9 @@ class InvoiceFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_pos, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.menu_pos, menu)
     }
 
 
@@ -85,7 +90,6 @@ class InvoiceFragment(
                 mainViewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
-
                             clPromo.isVisible = mainViewModel.listPromoBonus.size > 0
                             tvPromo.text = getString(R.string.anda_mendapatkan_promo, mainViewModel.listPromoBonus.size)
 
@@ -95,8 +99,8 @@ class InvoiceFragment(
                             tvRounding.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.rounding))
                             tvTotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.total))
                         }
-                        if(it.saledList.size == 0){
-                            viewModel.onDetailEmpty()
+                        if(it.saledList.size == 0 && BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT){
+//                            viewModel.onDetailEmpty()
                         }
                     }
                 }
@@ -125,14 +129,17 @@ class InvoiceFragment(
                                 negativeTxt = getString(R.string.batalkan),
                                 negativeListener = {
                                     it.dismiss()
-                                    findNavController().popBackStack()
                                     mainViewModel.resetState()
+                                    findNavController().popBackStack()
                                 }
                             )
                             dialog.show(parentFragmentManager, "")
                         }
                         InvoiceViewModel.UIEvent.RequestPembayaran -> {
-                            val action = InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()
+                            val action = when(BeePreferenceManager.ORIENTATION) {
+                                BPMConstants.SCREEN_POTRAIT ->  InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()
+                                else -> PosFragmentDirections.actionPosFragmentToPembayaranFragment()
+                            }
                             findNavController().navigate(action)
                         }
                         InvoiceViewModel.UIEvent.RequestDraft -> {
@@ -145,7 +152,7 @@ class InvoiceFragment(
                                     it.dismiss()
                                     mainViewModel.submitDraft(requireActivity())
                                     findNavController().popBackStack()
-                                    mainViewModel.resetState()
+
                                 },
                                 negativeTxt = getString(R.string.batal),
                                 negativeListener = {
@@ -158,7 +165,10 @@ class InvoiceFragment(
                             findNavController().popBackStack()
                         }
                         InvoiceViewModel.UIEvent.NavigateKlaimPromo -> {
-                            val action = InvoiceFragmentDirections.actionInvoiceFragmentToKlaimPromoFragment()
+                            val action = when(BeePreferenceManager.ORIENTATION) {
+                                BPMConstants.SCREEN_POTRAIT ->InvoiceFragmentDirections.actionInvoiceFragmentToKlaimPromoFragment()
+                                else -> PosFragmentDirections.actionPosFragmentToKlaimPromoFragment()
+                            }
                             findNavController().navigate(action)
                         }
                     }

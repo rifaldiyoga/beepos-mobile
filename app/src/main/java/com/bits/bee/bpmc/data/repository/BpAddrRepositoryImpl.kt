@@ -20,16 +20,17 @@ class BpAddrRepositoryImpl @Inject constructor(
     private val bpAddrDao: BpAddrDao,
     private val ioDispatcher: CoroutineDispatcher
 ): BpAddrRepository {
+
     override suspend fun addUpdateBpAddr(bpaddr: BpAddrEntity) {
         withContext(ioDispatcher){
             bpAddrDao.insertSingle(bpaddr)
         }
     }
 
-    override fun getBpAddrByBp(id: Int): Flow<Resource<BpAddr>> {
+    override fun getBpAddrByBp(id: Int): Flow<BpAddr?> {
         return flow {
             val data = bpAddrDao.getBpAddrByBp(id)
-            emit(Resource.success(BpAddrDataMapper.fromDbToDomain(data)))
+            emit(data?.let { (BpAddrDataMapper.fromDbToDomain(data)) })
         }.flowOn(ioDispatcher)
     }
 

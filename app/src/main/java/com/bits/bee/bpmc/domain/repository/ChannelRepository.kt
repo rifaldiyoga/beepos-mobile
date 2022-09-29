@@ -13,4 +13,6 @@ interface ChannelRepository {
 
     fun getActiveChannelList() : Flow<List<Channel>>
 
+    fun getChannelById(id : Int) : Flow<Channel?>
+
 }

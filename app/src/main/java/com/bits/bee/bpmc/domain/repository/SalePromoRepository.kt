@@ -8,6 +8,6 @@ interface SalePromoRepository {
 
     suspend fun addSalePromo(salePromoList : List<SalePromo>)
 
-    fun getSalePromoBySale(id: Int):Flow<Resource<List<SalePromo>>>
+    fun getSalePromoBySale(id: Int):Flow<List<SalePromo>>
 
 }

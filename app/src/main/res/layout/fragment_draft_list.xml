@@ -21,14 +21,14 @@
         android:src="@drawable/image_upload_manual"
         android:layout_marginStart="@dimen/size40"
         android:layout_marginEnd="@dimen/size40"
-        app:layout_constraintBottom_toTopOf="@+id/textView97"
+        app:layout_constraintBottom_toTopOf="@+id/tvDesc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/textView97"
+        android:id="@+id/tvDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
@@ -42,6 +42,6 @@
         android:id="@+id/groupEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="imageView19, textView97"/>
+        app:constraint_referenced_ids="imageView19, tvDesc"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

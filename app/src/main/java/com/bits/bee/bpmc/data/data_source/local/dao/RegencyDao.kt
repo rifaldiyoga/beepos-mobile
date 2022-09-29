@@ -17,8 +17,8 @@ interface RegencyDao: BaseDao<RegencyEntity> {
     fun searchRegencyList(query : String) : List<RegencyEntity>
 
     @Query("SELECT * FROM regency WHERE name = :name")
-    fun getCodeByName(name: String): RegencyEntity
+    fun getCodeByName(name: String): RegencyEntity?
 
     @Query("SELECT * FROM regency WHERE code = :code")
-    fun getNameByCode(code: String): RegencyEntity
+    fun getNameByCode(code: String): RegencyEntity?
 }

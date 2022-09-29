@@ -2,27 +2,26 @@ package com.bits.bee.bpmc.presentation.ui.pos
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.repository.ChannelRepository
 import com.bits.bee.bpmc.domain.trans.SaleTrans
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.GetDefaultBpUseCase
-import com.bits.bee.bpmc.domain.usecase.pos.GetItemGroupAddOnUseCase
-import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
+import com.bits.bee.bpmc.domain.usecase.common.*
+import com.bits.bee.bpmc.domain.usecase.pos.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -38,30 +37,77 @@ class MainViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultBpUseCase: GetDefaultBpUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
-    private val getSaledListUseCase: GetSaledListUseCase,
+    private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getItemGroupAddOnUseCase: GetItemGroupAddOnUseCase,
     private val addTransactionUseCase: AddTransactionUseCase,
-    private val promoCalc: PromoCalc
+    private val getActiveItemUseCase: GetActiveItemUseCase,
+    private val getSalePromoBySaleUseCase: GetSalePromoBySaleUseCase,
+    private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
+    private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
+    private val promoCalc: PromoCalc,
+    private val beePreferenceManager: BeePreferenceManager,
+    private val channelRepository: ChannelRepository
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
-    private val _posModeState: MutableStateFlow<PosModeState>
-            = MutableStateFlow(PosModeState.RetailState)
+    private val _posModeState: MutableStateFlow<PosModeState> = MutableStateFlow(PosModeState.RetailState)
 
     val posModeState : MutableStateFlow<PosModeState>
         get() = _posModeState
 
     private val _saleTrans: SaleTrans = SaleTrans(promoCalc)
-
     val saleTrans : SaleTrans
         get() = _saleTrans
 
     val listPromoBonus = promoCalc.listPromoBonus
 
+    val posPreferences = beePreferenceManager.posPreferences
+
+    val orientation : MutableStateFlow<String> = MutableStateFlow(BPMConstants.SCREEN_LANDSCAPE)
+
+    private val _activeItemGroup : MutableStateFlow<Int> = MutableStateFlow(1)
+    val activeItemGroup : MutableStateFlow<Int>
+        get() = _activeItemGroup
+
+    private val _activeBp : MutableStateFlow<Bp?> = MutableStateFlow(null)
+    val activeBp : MutableStateFlow<Bp?>
+        get() = _activeBp
+
+    private val _activeChannel : MutableStateFlow<Channel?> = MutableStateFlow(null)
+    val activeChannel : MutableStateFlow<Channel?>
+        get() = _activeChannel
+
+
     init {
         state = MainState()
+        viewModelScope.launch {
+            posPreferences.collect {
+                orientation.value = it.orientasi
+            }
+        }
     }
 
-    fun loadData() = viewModelScope.launch {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val itemList = combine(
+        _activeItemGroup,
+        _activeBp,
+        _activeChannel
+    ) { (itemGroup, bp, channel) ->
+        ItemParameter(
+            itemGroup = itemGroup as Int,
+            bp = bp as Bp?,
+            channel = channel as Channel?
+        )
+    }.flatMapLatest {
+        getActiveItemUseCase (
+            bp = it.bp,
+            itemGrpId = it.itemGroup,
+            channel = it.channel,
+            usePid = false
+        ).cachedIn(viewModelScope)
+    }
+
+
+    fun loadData() = runBlocking {
         combine(
             getDefaultCrcUseCase(),
             getActivePossesUseCase(),
@@ -90,31 +136,39 @@ class MainViewModel @Inject constructor(
                 itgrpAddOn = itgrpAddOn
             )
         }.collect {
-//            saleTrans.newTrans()
+            activeBp.emit(it.bp)
+            activeChannel.emit(it.channel)
             saleTrans.setBp(it.bp!!)
-            it.bp?.let { bp ->
-                saleTrans.getMaster().bpId = bp.id!!
-                saleTrans.getMaster().bp = bp
-                saleTrans.getMaster().bpName = bp.name
-            }
             saleTrans.getMaster().channelId = it.channel?.id ?: -1
+//            saleTrans.getMaster().channel = it.channel
             saleTrans.setGrpAddOn(it.itgrpAddOn)
             updateState(it)
         }
+    }
 
+    fun initPromo() = viewModelScope.launch {
         promoCalc.initPromo(saleTrans)
     }
 
-    fun loadDraft(sale : Sale) = viewModelScope.launch {
-        getSaledListUseCase(sale.id!!).collect {
-            updateState(
-                state.copy(
-                    sale = sale,
-                    saledList = it.toMutableList()
-                )
-            )
-            deployData()
+    suspend fun loadDraft(sale : Sale) {
+        val saledList = getSaledBySaleUseCase(sale.id!!).first()
+        val saleAddOn = getSaleAddOnBySaleUseCase(sale.id!!).first()
+        var saleAddOnDList : List<SaleAddOnD> = mutableListOf()
+        saleAddOn?.let {
+            saleAddOnDList = getSaleAddonDByAddonUseCase(it.id!!).first()
         }
+        val salePromoList = getSalePromoBySaleUseCase(sale.id!!).first()
+
+        saleTrans.loadTrans(sale, saledList.toMutableList(), saleAddOn, saleAddOnDList.toMutableList(), salePromoList.toMutableList())
+        sale.bp?.let {
+            updateActiveBp(it)
+        }
+        channelRepository.getChannelById(sale.channelId).first().let {
+            it?.let {
+                updateActiveChannel(it)
+            }
+        }
+        deployData()
     }
 
     fun onClickDraft() = viewModelScope.launch {
@@ -204,7 +258,7 @@ class MainViewModel @Inject constructor(
     fun onDeleteDetail(saled: Saled) = viewModelScope.launch {
         if(saled.item?.isVariant == true) {
             saleTrans.addOnTrans?.let {
-                var saledRemoveList = mutableListOf<Saled>()
+                val saledRemoveList = mutableListOf<Saled>()
                 val saledAddOnList = it.getListDetail().filter { it.upSaled == saled }.map { it.saled }
                 saledAddOnList.forEach { saled1 ->
                     saleTrans.getListDetail().forEach { saled ->
@@ -212,8 +266,8 @@ class MainViewModel @Inject constructor(
                             saledRemoveList.add(saled)
                     }
                 }
-                for (saled in saledRemoveList){
-                    saleTrans.deleteDetail(saled)
+                for (saled1 in saledRemoveList){
+                    saleTrans.deleteDetail(saled1)
                 }
             }
         }
@@ -242,18 +296,52 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun updateTrxOrderNo(context : Context) = viewModelScope.launch {
+    private fun updateTrxOrderNo(context : Context)  {
         val trxOrderNum = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 0) as Int + 1
-        BeePreferenceManager.saveToPreferences(context, context.getString(R.string.trx_ordernum), trxOrderNum)
         saleTrans.getMaster().trxOrderNum = trxOrderNum
+        BeePreferenceManager.saveToPreferences(context, context.getString(R.string.trx_ordernum), trxOrderNum)
     }
 
-    fun resetState(){
-        updateState(
-            MainState()
-        )
+    fun resetState() {
         saleTrans.newTrans()
-        loadData()
+        resetTransaction()
+    }
+
+    private fun resetTransaction() = viewModelScope.launch {
+        combine(
+            getDefaultCrcUseCase(),
+            getActivePossesUseCase(),
+            getActiveBranchUseCase(),
+            getActiveCashierUseCase(),
+            getDefaultBpUseCase(),
+        ) { array ->
+            val crc = array[0] as Crc?
+            val posses = array[1] as Posses?
+            val branch = array[2] as Branch
+            val cashier = array[3] as Cashier
+            val bp = array[4] as Bp
+
+            state.copy(
+                crc = crc,
+                activePosses = posses,
+                activeBranch = branch,
+                activeCashier = cashier,
+                channel = state.channelList[0],
+                bp = bp,
+                sale = Sale(),
+                saledList = mutableListOf(),
+                saleAddOn = SaleAddOn(),
+                saleAddOnDList = mutableListOf(),
+                salePromoList = mutableListOf(),
+            )
+        }.collect {
+            activeBp.emit(it.bp)
+            activeChannel.emit(it.channel)
+            saleTrans.setBp(it.bp!!)
+            saleTrans.getMaster().channelId = it.channel?.id ?: -1
+//            saleTrans.getMaster().channel = it.channel
+            updateState(it)
+        }
     }
 
     suspend fun submitSale(
@@ -273,8 +361,9 @@ class MainViewModel @Inject constructor(
         val saleAddOn = saleTrans.addOnTrans?.getMaster()
         val saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf()
         val salePromoList = saleTrans.salePromoList
-
         sale.termType = termType
+        sale.isDraft = false
+
         val saleNew = addTransactionUseCase(
             sale = sale,
             saledList = saledList,
@@ -307,20 +396,42 @@ class MainViewModel @Inject constructor(
             saleAddOn = saleAddOn,
             saleAddOnDList = saleAddOnDList,
             salePromoList = salePromoList,
-            counter = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 1) as Int)
+            counter = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 1) as Int
+        )
+        resetState()
     }
 
-    fun deployData() = viewModelScope.launch {
+    private fun deployData() = viewModelScope.launch {
         val saledList = mutableListOf<Saled>()
         saledList.addAll(saleTrans.getListDetail())
         updateState(
             state.copy(
                 sale = saleTrans.getMaster().copy(),
                 saledList = saledList,
+                saleAddOn = saleTrans.addOnTrans?.getMaster() ?: SaleAddOn(),
+                saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf(),
+                salePromoList = saleTrans.salePromoList
             )
         )
     }
 
+    fun updateActiveItemGroup(itemGroup: ItemGroup?) = viewModelScope.launch {
+        _activeItemGroup.emit(itemGroup?.id ?: -1)
+    }
+
+    fun updateActiveBp(bp : Bp) = viewModelScope.launch {
+        _activeBp.emit(bp)
+        saleTrans.setBp(bp)
+        deployData()
+    }
+
+    fun updateActiveChannel(channel : Channel) = viewModelScope.launch {
+        _activeChannel.emit(channel)
+        saleTrans.getMaster().channelId = channel.id
+//        saleTrans.getMaster().channel = channel
+        saleTrans.calculate()
+        deployData()
+    }
 
     sealed class UIEvent {
         object RequestMember : UIEvent()
@@ -331,4 +442,10 @@ class MainViewModel @Inject constructor(
         object NavigateToSearch : UIEvent()
     }
 
+    data class ItemParameter(
+        val bp : Bp?,
+        val itemGroup : Int = -1,
+        val channel : Channel?,
+        val usePid : Boolean = false
+    )
 }

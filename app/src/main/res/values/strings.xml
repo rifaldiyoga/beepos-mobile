@@ -174,7 +174,7 @@
     <string name="sebagai_identitas_device_yang_digunakan">Sebagai identitas device yang digunakan</string>
     <string name="nama_device">Nama Device</string>
     <string name="cth_smartphone_1">Cth. Smartphone 1</string>
-    <string name="lanjutkan">LANJUTKAN</string>
+    <string name="lanjutkan">Lanjutkan</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu felis nec orci tincidunt lobortis ut non mi. Suspendisse dolor orci, viverra a odio sed, mollis finibus dolor. Nunc in augue fringilla, consectetur dolor a, feugiat arcu. Sed vel leo sem. In et imperdiet quam, ut mollis libero. Etiam faucibus felis urna, ut porta purus auctor ac.</string>
     <string name="informasi">Informasi ?</string>
     <string name="konfirmasi_keluar">Anda belum menyelesaikan proses login dan perubahan belum disimpan</string>
@@ -509,7 +509,7 @@ untuk memperbarui data dapur?</string>
     <string name="tidak_ada_draft_yang_disimpan">Tidak ada draft yang disimpan</string>
     <string name="transaksi_draft">Transaksi Draft</string>
     <string name="tambah">Tambah</string>
-    <string name="hint_diskon_nota">Cth. 10% atau 10,000 atau 10% + 10,000</string>
+    <string name="hint_diskon_nota">Cth. 10% atau 10000 atau 10% + 10000</string>
     <string name="untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2">Untuk diskon kombinasi, gunakan tanda + diantara diskon 1 dan diskon 2</string>
     <string name="bantuan">Bantuan</string>
     <string name="fitur_beepos">Fitur Beepos Mobile</string>
@@ -597,5 +597,25 @@ untuk memperbarui data dapur?</string>
     <string name="ambil_promo">AMBIL PROMO</string>
     <string name="next">NEXT</string>
     <string name="abaikan">Abaikan</string>
+    <string name="transaksi_penjualan">Transaksi Penjualan</string>
+    <string name="gimana_caranya">Gimana Caranya?</string>
+    <string name="agar_bisa_mengubah_nilai_kasir_anda_bisa_mengikuti_langkah_dibawah_ini">Agar bisa mengubah nilai kasir, anda bisa mengikuti langkah dibawah ini:</string>
+    <string name="login_ke_app_beecloud_id">Login ke app.beecloud.id</string>
+    <string name="buka_menu_sistem_pilih_submenu_pegaturan_sistem">Buka menu Sistem, pilih submenu Pegaturan Sistem</string>
+    <string name="cari_keyword_pos_automodal_di_kolom_cari_cepat_lalu_aktifkan">Cari keyword POS_AUTOMODAL di kolom cari cepat, lalu aktifkan</string>
+    <string name="perbarui_data_beepos_mobile">Perbarui data Beepos Mobile</string>
+    <string name="cara_mudah_dan_cepat_isi_sendiri_nilai_buka_kasir">Cara mudah dan cepat isi sendiri nilai buka kasir</string>
+    <string name="atur_sekarang">Atur Sekarang</string>
+    <string name="apa_sih_pid_itu_dan_gunanya_untuk_apa">Apa sih PID itu? dan gunanya untuk apa?</string>
+    <string name="product_id_atau_pid_adalah_fitur_yang_bisa_anda_manfaatkan_untuk_kebutuhan_khusus_seperti_varian_ukuran_bahkan_warna_produk">Product ID atau PID adalah fitur yang bisa anda manfaatkan untuk kebutuhan khusus seperti varian, ukuran, bahkan warna produk</string>
+    <string name="pid_dapat_memangkas_jumlah_stock_keeping_unit_sku_yang_ada_namun_tetap_dapat_memanfaatkan_kebutuhan_khusus_sebagai_bagian_dari_perhitungan_jumlah_stok">PID dapat memangkas jumlah Stock Keeping Unit (SKU) yang ada, namun tetap dapat memanfaatkan kebutuhan khusus sebagai bagian dari perhitungan jumlah stok</string>
+    <string name="pid_cocok_digunakan_untuk_bisnis_toko_sepatu_toko_pakaian_dll_khusus_untuk_bisnis_jual_hp_dan_toko_elektronik_kami_menyediakan_pid_unik_yang_dapat_digunakan_untuk_sn_imei">PID cocok digunakan untuk bisnis toko sepatu, toko pakaian, dll. Khusus untuk bisnis jual HP, dan toko elektronik kami menyediakan PID Unik yang dapat digunakan untuk SN / IMEI</string>
+    <string name="baca_artikel_pid_selengkapnya_disini">Baca artikel PID selengkapnya disini</string>
+    <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
+    <string name="cari_produk_min_3_karakter">Cari produk, min 3 karakter</string>
+    <string name="draft_tidak_ditemukan">Draft yang anda cari tidak ada!</string>
+    <string name="cth_budi">Cth. Budi</string>
+    <string name="cth_081234567890">Cth. 081234567890</string>
+    <string name="jl_dharmawangsa_no_1">Jl. Dharmawangsa No. 1</string>
 
 </resources>

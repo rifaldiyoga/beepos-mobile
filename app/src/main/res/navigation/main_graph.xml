@@ -9,8 +9,7 @@
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
         android:label=""
-        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment"
-         >
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment">
         <action
             android:id="@+id/action_posFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
@@ -38,6 +37,12 @@
         <action
             android:id="@+id/action_posFragment_to_promoFragment"
             app:destination="@id/promoFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_pembayaranFragment"
+            app:destination="@id/pembayaranFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_klaimPromoFragment"
+            app:destination="@id/klaimPromoFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"

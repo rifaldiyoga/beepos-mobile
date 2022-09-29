@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size180"
+        android:layout_height="@dimen/size160"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         tools:ignore="MissingConstraints"
@@ -28,10 +28,9 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Apa sih PID itu? dan gunanya untuk
-apa?"
+            android:text="@string/apa_sih_pid_itu_dan_gunanya_untuk_apa"
             style="@style/TextHeader"
-            android:textSize="@dimen/default_text_header_size"
+            android:textSize="@dimen/font20"
             android:textColor="@color/white"/>
 
     </LinearLayout>
@@ -51,33 +50,31 @@ apa?"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/size20">
+            app:cardCornerRadius="@dimen/size10">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:weightSum="2"
-                android:padding="@dimen/size10">
+                android:padding="@dimen/size16">
 
                 <TextView
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/size0"
                     android:text="@string/definisi"
                     style="@style/TextHeader"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
 
                 <TextView
                     android:id="@+id/txtDefine"
+                    android:layout_marginTop="@dimen/size8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Product ID atau PID adalah fitur yang bisa anda
-manfaatkan untuk kebutuhan khusus seperti
-varian, ukuran, bahkan warna produk"
+                    android:text="@string/product_id_atau_pid_adalah_fitur_yang_bisa_anda_manfaatkan_untuk_kebutuhan_khusus_seperti_varian_ukuran_bahkan_warna_produk"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -102,14 +99,14 @@ varian, ukuran, bahkan warna produk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/size20">
+            app:cardCornerRadius="@dimen/size10">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:weightSum="2"
-                android:padding="@dimen/size10">
+                android:padding="@dimen/size16">
 
                 <TextView
                     android:id="@+id/txtTitle2"
@@ -117,18 +114,17 @@ varian, ukuran, bahkan warna produk"
                     android:layout_height="wrap_content"
                     android:text="@string/fungsi"
                     style="@style/TextHeader"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
 
                 <TextView
                     android:id="@+id/txtFungsi"
+                    android:layout_marginTop="@dimen/size8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Product ID atau PID adalah fitur yang bisa anda
-manfaatkan untuk kebutuhan khusus seperti
-varian, ukuran, bahkan warna produk"
+                    android:text="@string/pid_dapat_memangkas_jumlah_stock_keeping_unit_sku_yang_ada_namun_tetap_dapat_memanfaatkan_kebutuhan_khusus_sebagai_bagian_dari_perhitungan_jumlah_stok"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -153,14 +149,14 @@ varian, ukuran, bahkan warna produk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/size20">
+            app:cardCornerRadius="@dimen/size10">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:weightSum="2"
-                android:padding="@dimen/size10">
+                android:padding="@dimen/size16">
 
                 <TextView
                     android:id="@+id/txtTitle3"
@@ -168,7 +164,7 @@ varian, ukuran, bahkan warna produk"
                     android:layout_height="wrap_content"
                     android:text="@string/cocok_untuk"
                     style="@style/TextHeader"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -177,11 +173,9 @@ varian, ukuran, bahkan warna produk"
                     android:id="@+id/txtCocok"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="PID cocok digunakan untuk bisnis toko sepatu, toko
-pakaian, dll. Khusus untuk bisnis jual HP, dan toko
-elektronik kami menyesiakan PID Unik yang dapat
-digunakan untuk SN/IMEI"
+                    android:text="@string/pid_cocok_digunakan_untuk_bisnis_toko_sepatu_toko_pakaian_dll_khusus_untuk_bisnis_jual_hp_dan_toko_elektronik_kami_menyediakan_pid_unik_yang_dapat_digunakan_untuk_sn_imei"
                     android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/size8"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
             </LinearLayout>
@@ -205,14 +199,14 @@ digunakan untuk SN/IMEI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/size20">
+            app:cardCornerRadius="@dimen/size10">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:weightSum="3"
-                android:padding="@dimen/size10">
+                android:padding="@dimen/size16">
 
                 <TextView
                     android:id="@+id/txtTitle4"
@@ -220,7 +214,7 @@ digunakan untuk SN/IMEI"
                     android:layout_height="wrap_content"
                     android:text="@string/apakah_anda"
                     style="@style/TextHeader"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -229,7 +223,8 @@ digunakan untuk SN/IMEI"
                     android:id="@+id/txtTertarik"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Baca artikel PID selengkapnya disini"
+                    android:layout_marginTop="@dimen/size8"
+                    android:text="@string/baca_artikel_pid_selengkapnya_disini"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -246,56 +241,37 @@ digunakan untuk SN/IMEI"
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/rL_btn_bottom"
-        android:layout_width="match_parent"
+    <Button
+        android:layout_marginTop="@dimen/size28"
+        android:layout_marginEnd="@dimen/size8"
+        android:id="@+id/btnSecondary"
+        android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/rL_anda_tertarik"
-        android:paddingLeft="@dimen/size16"
-        android:paddingRight="@dimen/size16"
-        android:layout_marginTop="@dimen/size16">
+        android:text="@string/nanti_saja"
+        android:textColor="?colorPrimary"
+        app:backgroundTint="@null"
+        android:layout_marginStart="@dimen/size16"
+        android:layout_marginBottom="@dimen/size16"
+        android:background="@drawable/btn_rect_secondary"
+        app:layout_constraintEnd_toStartOf="@+id/btnPrimary"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/size16"
-            android:layout_weight="1.5"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+    <Button
+        android:id="@+id/btnPrimary"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="@string/atur_sekarang"
+        android:background="@drawable/btn_rect_disable"
+        android:layout_marginStart="@dimen/size8"
+        android:layout_marginEnd="@dimen/size16"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSecondary"
+        app:layout_constraintTop_toTopOf="@+id/btnSecondary" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_rect_secondary"
-                android:textColor="@color/red"
-                android:id="@+id/fragment_invoice_btnBatal"
-                android:gravity="center"
-                android:text="@string/nanti_saja"
-                android:textSize="12sp" />
-
-            <TextView
-                android:gravity="center"
-                android:id="@+id/fragment_invoice_btnDraft"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="@dimen/size16"
-                android:layout_weight="1"
-                android:text="@string/aktif_pid"
-                android:background="@drawable/btn_rect_disable" />
-        </LinearLayout>
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,7 +42,11 @@ class DetailMemberDialog(
         arguments?.let {
             val bp = it.getParcelable<Bp>("member")
             bp?.let {
-                viewModel.update(it)
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        bp = it
+                    )
+                )
             }
         }
 //        if (!viewModel.state.bp!!.code.equals("CASH"))
@@ -83,8 +87,6 @@ class DetailMemberDialog(
                 viewModel.event.collect {
                     when(it){
                         DetailMemberViewModel.UIEvent.RequestInfoTax -> {
-//                            val action = DetailMemberDialogDirections.actionDetailMemberDialogToTaxInfoDialog()
-//                            findNavController().navigate(action)
                             val dialog = TaxInfoDialog()
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -103,23 +105,28 @@ class DetailMemberDialog(
                                 groupLainnya.gone()
 
                             it.bp?.let { bp ->
-                                txtMember.text = bp.name
-                                txtLevelHarga.text = bp.priceLvlId.toString()
+                                tvMember.text = bp.name
+                                tvLevelHarga.text = bp.priceLvlId.toString()
                                 cbTax.isChecked = bp.isTaxedOnSale
                                 cbTaxInc.isChecked = bp.isTaxIncOnSale
+                                bp.bpAddr?.let {
+                                    tvNoTelp.text = if(it.phone.isNullOrEmpty()) "-" else it.phone
+                                    tvAlamat.text = if(it.address.isEmpty()) "-" else it.address
+                                    tvKota.text = if(it.cityCode.isNullOrEmpty()) "-" else it.cityCode
+                                }
                             }
 //                            it.bpAdddr?.let {
-//                                txtNoTelp.text = it.phone
-//                                txtAlamat.text = it.address
-//                                txtEmail.text = it.email
+//                                tvNoTelp.text = it.phone
+//                                tvAlamat.text = it.address
+//                                tvEmail.text = it.email
 //                            }
 //                            if (it.district != null){
 //                                it.regency?.let { data ->
-//                                    txtKota.text = data.name+", "+it.district.name
+//                                    tvKota.text = data.name+", "+it.district.name
 //                                }
 //                            }else{
 //                                it.regency?.let {
-//                                    txtKota.text = it.name
+//                                    tvKota.text = it.name
 //                                }
 //                            }
                         }

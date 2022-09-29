@@ -5,11 +5,10 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
-import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -22,7 +21,7 @@ class AnalisaSesiViewModel @Inject constructor(
     private val getActivePossesListUseCase: GetActivePossesListUseCase,
     private val getSaleByPossesUseCase: GetSaleByPossesUseCase,
     private val getBpByDateUseCase: GetBpByDateUseCase,
-    private val getSaledListUseCase: GetSaledListUseCase,
+    private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getCountNotaUseCase: GetCountNotaUseCase,
     private val getCountNotaVoidUseCase: GetCountNotaVoidUseCase,
     private val getTotalPaidTunaiUseCase: GetTotalPaidTunaiUseCase,
@@ -174,17 +173,20 @@ class AnalisaSesiViewModel @Inject constructor(
         var total = BigDecimal.ZERO
         for (sale in saleList) {
             if (!sale.isVoid)
-                getSaledListUseCase.invoke(sale.id!!).collect {
+                getSaledBySaleUseCase.invoke(sale.id!!).collect {
                     updateState(
                         state.copy(
                             saledList = it
                         )
                     )
                 }
+            state.saledList?.let {
                 for (saled in state.saledList!!) {
 //                    if (!ItemDao.getInstance().checkItemAddon(saled.getItem()))
-                        total = total.add(saled.qty)
+                    total = total.add(saled.qty)
+                }
             }
+
         }
         return total
     }

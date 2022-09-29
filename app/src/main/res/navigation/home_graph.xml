@@ -127,10 +127,6 @@
         android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
         android:label="@string/kasir" >
         <action
-            android:id="@+id/action_detailTutupKasirFragment_to_mainActivity"
-            app:destination="@id/mainActivity"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_detailTutupKasirFragment_to_rekapSesiFragment"
             app:destination="@id/rekapSesiFragment" />
     </fragment>
@@ -199,6 +195,9 @@
         <argument
             android:name="shift"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_aturModalDialogBuilder_to_insightPresetKasirFragment"
+            app:destination="@id/insightPresetKasirFragment" />
     </dialog>
 
     <fragment
@@ -237,6 +236,9 @@
         <action
             android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_detailBukaKasirFragment_to_insightPresetKasirFragment"
+            app:destination="@id/insightPresetKasirFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_detail_transaksi_penjualan"
@@ -329,5 +331,10 @@
             android:id="@+id/action_settingLisensiFragment_to_initialActivity"
             app:destination="@id/initialActivity" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_insight_preset_kasir"
+        android:id="@+id/insightPresetKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.insight_preset_kasir.InsightPresetKasirFragment"
+        android:label="InsightPresetKasirFragment" />
 
 </navigation>

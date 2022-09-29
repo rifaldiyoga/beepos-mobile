@@ -1,9 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.ViewGroup
+import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiPenjualanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
@@ -57,14 +56,23 @@ class TransaksiPenjualanFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
+        val slidingPaneLayout = binding.slidingPaneLayout
+        slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            TransaksiPenjualanOnBackPressedCallback(slidingPaneLayout)
+        )
     }
 
     override fun subscribeListeners() {
         binding.apply {
             transAdapter = TransaksiPenjualanAdapter(
                 onItemClick = {
-                    val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToDetailTransaksiPenjualanFragment(it)
-                    findNavController().navigate(action)
+                    viewModel.updateActiveSale(it)
+                    binding.slidingPaneLayout.openPane()
+//                    val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToDetailTransaksiPenjualanFragment(it)
+//                    findNavController().navigate(action)
                 }
             )
             rvList.apply {
@@ -111,4 +119,34 @@ class TransaksiPenjualanFragment(
             }
         }
     }
+
+    inner class TransaksiPenjualanOnBackPressedCallback(
+        private val slidingPaneLayout: SlidingPaneLayout
+    ) : OnBackPressedCallback (
+        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
+    ), SlidingPaneLayout.PanelSlideListener {
+
+        init {
+            slidingPaneLayout.addPanelSlideListener(this)
+        }
+
+        override fun handleOnBackPressed() {
+            slidingPaneLayout.closePane()
+            setToolbarTitle(getString(R.string.transaksi_penjualan))
+        }
+
+        override fun onPanelSlide(panel: View, slideOffset: Float) {
+
+        }
+
+        override fun onPanelOpened(panel: View) {
+            isEnabled = true
+        }
+
+        override fun onPanelClosed(panel: View) {
+            isEnabled = false
+        }
+
+    }
+
 }

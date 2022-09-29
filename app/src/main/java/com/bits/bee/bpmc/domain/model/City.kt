@@ -12,7 +12,6 @@ import java.util.*
  */
 @Parcelize
 data class City (
-    var id : Int?,
     var code: String,
     var name : String,
 //    var isActive : Boolean,

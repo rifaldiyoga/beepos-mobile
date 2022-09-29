@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetLatestSaleUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,10 @@ class TransaksiPenjualanViewModel @Inject constructor(
 
     private var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
 
+    private var _activeSale : MutableStateFlow<Sale?> = MutableStateFlow(null)
+    val activeSale : MutableStateFlow<Sale?>
+        get() = _activeSale
+
     init {
         state = TransaksiPenjualanState()
     }
@@ -37,6 +42,10 @@ class TransaksiPenjualanViewModel @Inject constructor(
 
     fun onSearch(query : String) = viewModelScope.launch {
         currentQuery.value = query
+    }
+
+    fun updateActiveSale(sale: Sale) = viewModelScope.launch {
+        _activeSale.emit(sale)
     }
 
     sealed class UIEvent{

@@ -153,6 +153,13 @@ class EditItemFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.error.collect{
+                    showSnackbar(it)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
             mViewModel.posModeState.collect {
                 viewModel.state.modePos = it
                 when(it){
@@ -195,7 +202,7 @@ class EditItemFragment(
                             }
 
                             mViewModel.onEditDetail(it.saled)
-                            findNavController().popBackStack(R.id.posFragment, false)
+                            findNavController().popBackStack(R.id.invoiceFragment, false)
                         }
                         is EditItemViewModel.UIEvent.RequestAdd -> {
                             mViewModel.onAddDetail(it.itemWithUnit, true)

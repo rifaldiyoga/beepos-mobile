@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranKartuBinding
 import com.bits.bee.bpmc.domain.model.Pmtd
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -35,6 +36,8 @@ class PembayaranKartuFragment(
     private val viewModel : PembayaranKartuViewModel by viewModels()
 
     private val mainViewModel : MainViewModel by activityViewModels()
+
+    private val parentViewModel : PembayaranNonTunaiViewModel by viewModels({requireParentFragment()})
 
     private lateinit var adapterEdc : ArrayAdapter<String>
     private lateinit var adapterEdcType : ArrayAdapter<String>
@@ -71,6 +74,17 @@ class PembayaranKartuFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                parentViewModel.activePmtd.collect {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            pmtd = it
+                        )
+                    )
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {

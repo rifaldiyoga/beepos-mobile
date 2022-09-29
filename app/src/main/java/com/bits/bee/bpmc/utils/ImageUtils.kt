@@ -1,9 +1,13 @@
 package com.bits.bee.bpmc.utils
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.bits.bee.bpmc.R
 
 /**
  * Created by aldi on 02/09/22.
@@ -12,13 +16,14 @@ class ImageUtils {
 
     companion object {
 
-        fun generateFromInitial(name1: String): Drawable {
+        fun generateFromInitial(context : Context, name1: String): Drawable {
             val generatorCol = ColorGenerator.MATERIAL
             val text = getInitial(name1)
 
             val color = generatorCol.getColor(name1)
 
             var font = 92
+            if (text.length == 3) font = 74
             if (text.length == 4) font = 64
             if (text.length == 5) font = 54
 
@@ -28,6 +33,7 @@ class ImageUtils {
             return TextDrawable.builder()
                 .beginConfig()
                 .fontSize(font)
+                .useFont(ResourcesCompat.getFont(context, R.font.nunito_sans))
                 .textColor(Color.parseColor(txtColor))
                 .endConfig()
                 .buildRect(text.uppercase(), color)

@@ -19,8 +19,9 @@ import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -60,15 +61,26 @@ class AturModalDialogBuilder(
     override fun subscribeListeners() {
         binding.apply {
             etModal.addTextChangedListener {
-                viewModel.state.modal = BigDecimal( etModal.text.toString().trim())
+                viewModel.state.modal = etModal.text.toString().removeSymbol()
             }
             btnBukaKasir.setOnClickListener {
                 viewModel.onBukaKasirClick()
+            }
+            llInfo.setOnClickListener {
+                viewModel.onInsight()
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                sharedViewModel.posPreferences.collect {
+                    binding.etModal.hint = CurrencyUtils.formatCurrency(BigDecimal(it.presetBukaKasir))
+                    viewModel.state.defaultModal = it.presetBukaKasir
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
@@ -94,8 +106,13 @@ class AturModalDialogBuilder(
                         }
                         AturModalViewModel.UIEvent.RequestSave -> {
                             sharedViewModel.doBukaKasir(
-                                viewModel.state.modal!!, BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
+                                viewModel.state.modal, BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
                             )
+                            viewModel.onDoneSave()
+                        }
+                        AturModalViewModel.UIEvent.NavigateToInsight -> {
+                            val action = AturModalDialogBuilderDirections.actionAturModalDialogBuilderToInsightPresetKasirFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }

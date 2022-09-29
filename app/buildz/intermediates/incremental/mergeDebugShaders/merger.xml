@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/media/aldi/0db39b08-51f5-43be-9d29-cea8e4036c1e/hanif/Project/KotlinProject/BeeposMobile/app/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/media/aldi/0db39b08-51f5-43be-9d29-cea8e4036c1e/hanif/Project/KotlinProject/BeeposMobile/app/src/debug/shaders"/></dataSet></merger>

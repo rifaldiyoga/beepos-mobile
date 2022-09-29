@@ -19,13 +19,13 @@ interface BpRepository {
 
     fun getBpById(id : Int) : Flow<Bp?>
 
-    fun getFavoritBpList() : Flow<Resource<List<Bp>>>
+    fun getFavoritBpList() : Flow<List<Bp>>
 
     fun getlastId(): Flow<Resource<Bp>>
 
     fun searchBp(query: String): Flow<Resource<List<Bp>>>
 
-    suspend fun addUpdateBp(bpEntity: BpEntity)
+    suspend fun addUpdateBp(bpEntity: BpEntity) : Long
 
     fun getBpByDate(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>>
 

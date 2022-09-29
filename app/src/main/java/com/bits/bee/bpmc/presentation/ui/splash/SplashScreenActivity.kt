@@ -51,7 +51,7 @@ class SplashScreenActivity(
     }
 
     override fun subscribeObservers() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.posPreferences.collect {
                 if(it.orientasi.isEmpty()){
                     viewModel.onUpdateOrientation(Utils.getScreenResolution(this@SplashScreenActivity))

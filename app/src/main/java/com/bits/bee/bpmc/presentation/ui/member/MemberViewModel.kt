@@ -2,12 +2,11 @@ package com.bits.bee.bpmc.presentation.ui.member
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.usecase.member.MemberInteractor
+import com.bits.bee.bpmc.domain.usecase.member.GetFavoritMemberUseCase
 import com.bits.bee.bpmc.domain.usecase.member.SearchMemberUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +15,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MemberViewModel @Inject constructor(
-    memberInteractor: MemberInteractor,
+    private val getFavoritMemberUseCase: GetFavoritMemberUseCase,
     private val searchMemberUseCase: SearchMemberUseCase
 ): BaseViewModel<MemberState, MemberViewModel.UIEvent>() {
 
@@ -24,7 +23,7 @@ class MemberViewModel @Inject constructor(
         state = MemberState()
     }
 
-    val memberList = memberInteractor.getFavoritMemberUseCase()
+    val memberList = getFavoritMemberUseCase()
 
     fun onClickDetailMember(model : Bp) = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestPos(model))

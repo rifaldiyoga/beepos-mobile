@@ -40,7 +40,7 @@ data class BpResponse (
         var name : String ,
         @SerializedName("mobile")
         @Expose
-        var phone : String,
+        var phone : String?,
         @SerializedName("bp_id")
         @Expose
         var  bpId:String,
@@ -58,7 +58,7 @@ data class BpResponse (
         var pricelvl_id:Int,
         @SerializedName("city_code")
         @Expose
-        var city_code:String ,
+        var city_code:String? ,
         @SerializedName("email")
         @Expose
         var email:String ,

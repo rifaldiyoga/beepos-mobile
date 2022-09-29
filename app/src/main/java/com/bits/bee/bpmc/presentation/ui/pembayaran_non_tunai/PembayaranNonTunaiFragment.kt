@@ -4,16 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranNonTunaiBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pembayaran_kartu.PembayaranKartuFragment
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -35,6 +41,10 @@ class PembayaranNonTunaiFragment(
 
     override fun initComponents() {
         binding.apply {
+            requireActivity().onBackPressedDispatcher.addCallback(
+                viewLifecycleOwner,
+                PembayaranaOnBackPressedCallback(slidingPaneLayout)
+            )
             pembayaranAdapter = PembayaranAdapter(
                 onItemClick = {
                     viewModel.onClickItem(it)
@@ -67,17 +77,45 @@ class PembayaranNonTunaiFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
                     when(it){
-                        is PembayaranNonTunaiViewModel.UIEvent.NavigateToDebitKredit -> {
-                            val action = PembayaranNonTunaiFragmentDirections.actionPembayaranNonTunaiFragmentToPembayaranDebitKreditFragment(it.pmtd)
-                            findNavController().navigate(action)
-                        }
-                        PembayaranNonTunaiViewModel.UIEvent.NavigateToGopay -> {
-                            val action = PembayaranNonTunaiFragmentDirections.actionPembayaranNonTunaiFragmentToPembayaranGopayFragment()
-                            findNavController().navigate(action)
+                        is PembayaranNonTunaiViewModel.UIEvent.RequestClick -> {
+                            binding.fragmentGopay.isVisible = it.pmtd.ccType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY
+                            binding.fragmentKartu.isVisible = it.pmtd.ccType != BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY
+
+                            viewModel.updateActivePmtd(it.pmtd)
+                            binding.slidingPaneLayout.openPane()
                         }
                     }
                 }
             }
         }
+    }
+
+    inner class PembayaranaOnBackPressedCallback(
+        private val slidingPaneLayout: SlidingPaneLayout
+    ) : OnBackPressedCallback(
+        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
+    ), SlidingPaneLayout.PanelSlideListener {
+
+        init {
+            slidingPaneLayout.addPanelSlideListener(this)
+        }
+
+        override fun handleOnBackPressed() {
+            slidingPaneLayout.closePane()
+            setToolbarTitle(getString(R.string.transaksi_penjualan))
+        }
+
+        override fun onPanelSlide(panel: View, slideOffset: Float) {
+
+        }
+
+        override fun onPanelOpened(panel: View) {
+            isEnabled = true
+        }
+
+        override fun onPanelClosed(panel: View) {
+            isEnabled = false
+        }
+
     }
 }

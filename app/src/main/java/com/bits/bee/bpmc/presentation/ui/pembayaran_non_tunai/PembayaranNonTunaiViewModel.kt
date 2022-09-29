@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.domain.usecase.pembayaran.GetActivePmtd
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,6 +18,10 @@ import javax.inject.Inject
 class PembayaranNonTunaiViewModel @Inject constructor(
     private val getActivePmtd: GetActivePmtd
 ): BaseViewModel<PembayaranNonTunaiState, PembayaranNonTunaiViewModel.UIEvent>(){
+
+    private var _activePmtd : MutableStateFlow<Pmtd?> = MutableStateFlow(null)
+    val activePmtd : MutableStateFlow<Pmtd?>
+        get() = _activePmtd
 
     init {
         state = PembayaranNonTunaiState()
@@ -32,18 +37,15 @@ class PembayaranNonTunaiViewModel @Inject constructor(
         }
     }
 
-
-
     fun onClickItem(pmtd: Pmtd) = viewModelScope.launch {
-        if(pmtd.ccType != BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY) {
-            eventChannel.send(UIEvent.NavigateToDebitKredit(pmtd))
-        } else {
-            eventChannel.send(UIEvent.NavigateToGopay)
-        }
+        eventChannel.send(UIEvent.RequestClick(pmtd))
+    }
+
+    fun updateActivePmtd(pmtd: Pmtd) = viewModelScope.launch {
+        _activePmtd.emit(pmtd)
     }
 
     sealed class UIEvent {
-        object NavigateToGopay : UIEvent()
-        data class NavigateToDebitKredit(var pmtd : Pmtd) : UIEvent()
+        data class RequestClick(var pmtd : Pmtd) : UIEvent()
     }
 }

@@ -63,7 +63,7 @@ class ItemDummyAdapter(private val onItemClick : (ItemDummy) -> Unit) : ListAdap
                 tvHarga.isVisible = model.id != null
 
                 model.id?.let {
-                    imageItem.setImageDrawable(ImageUtils.generateFromInitial(model.name))
+                    imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, model.name))
                     tvNamaItem.text = model.name
                     tvPid.isVisible = model.pid.isNotEmpty()
                     tvHarga.text = context.getString(R.string.mata_uang_nominal, "Rp.", CurrencyUtils.formatCurrency(
@@ -71,7 +71,7 @@ class ItemDummyAdapter(private val onItemClick : (ItemDummy) -> Unit) : ListAdap
                     ))
                 } ?: run {
                     tvNamaItem.text = context.getString(R.string.tambah_baru)
-                    imageItem.setImageDrawable(ImageUtils.generateFromInitial("+"))
+                    imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, "+"))
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.pembayaran
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -68,6 +69,9 @@ class PembayaranFragment(
 
     override fun subscribeListeners() {
         binding.apply {
+            etNominalBayar.addTextChangedListener {
+                viewModel.state.rekomBayar = etNominalBayar.text.toString().trim()
+            }
             btnTunai.setOnClickListener {
                 viewModel.onTunaiClick()
             }
@@ -78,6 +82,13 @@ class PembayaranFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.error.collect {
+                    showSnackbar(it)
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {

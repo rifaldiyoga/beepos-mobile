@@ -11,7 +11,7 @@ data class MainState(
     var channelList : List<Channel> = mutableListOf(),
     var sale : Sale = Sale(),
     var saledList : MutableList<Saled> = mutableListOf(),
-    var saleAddOnList : MutableList<SaleAddOn> = mutableListOf(),
+    var saleAddOn : SaleAddOn = SaleAddOn(),
     var saleAddOnDList : MutableList<SaleAddOnD> = mutableListOf(),
     var salePromoList : MutableList<SalePromo> = mutableListOf(),
     var activeCashier : Cashier? = null,

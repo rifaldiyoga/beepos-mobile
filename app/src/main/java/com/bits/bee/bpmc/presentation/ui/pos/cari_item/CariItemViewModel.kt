@@ -23,7 +23,7 @@ class CariItemViewModel @Inject constructor(
     private val getActiveItemUseCase: GetActiveItemUseCase
 ) : BaseViewModel<CariItemState, CariItemViewModel.UIEvent>() {
 
-    private var currentQuery: MutableStateFlow<String> = MutableStateFlow("")
+    var currentQuery: MutableStateFlow<String> = MutableStateFlow("")
 
     init {
         state = CariItemState()
@@ -32,10 +32,10 @@ class CariItemViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val searchItemFlow = combine(
         currentQuery
-    ){ (query) ->
+    ) { (query) ->
         QueryWithSort(query)
     }.flatMapLatest {
-        getActiveItemUseCase(itemGrpId = 1, bp = state.bp!!, query = it.query, usePid = state.usePid).cachedIn(viewModelScope)
+        getActiveItemUseCase(itemGrpId = 1, bp = state.bp!!, query = it.query, usePid = state.usePid, channel = state.channel).cachedIn(viewModelScope)
     }
 
     fun onSearch(query: String) {
@@ -44,18 +44,6 @@ class CariItemViewModel @Inject constructor(
 
     fun onClickRetail(item : Item) = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestItem(item))
-    }
-
-    fun loadItem(bp : Bp, query : String) = viewModelScope.launch {
-        getActiveItemUseCase(itemGrpId = 1, bp = bp, query = query)
-            .cachedIn(viewModelScope)
-            .collectLatest {
-                updateState(
-                    state.copy(
-                        itemList = it
-                    )
-                )
-            }
     }
 
     sealed class UIEvent {
