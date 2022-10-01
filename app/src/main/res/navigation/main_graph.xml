@@ -294,5 +294,15 @@
         android:id="@+id/promoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.promo.PromoFragment"
         android:label="PromoFragment" />
+    <fragment
+        android:id="@+id/kasMasukFragment"
+        tools:layout="@layout/fragment_kas_masuk"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasMasukFragment"
+        android:label="KasMasukFragment" />
+    <fragment
+        android:id="@+id/kasKeluarFragment"
+        tools:layout="@layout/fragment_kas_keluar"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarFragment"
+        android:label="KasKeluarFragment" />
 
 </navigation>

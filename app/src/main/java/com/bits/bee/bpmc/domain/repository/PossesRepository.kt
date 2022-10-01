@@ -38,5 +38,5 @@ interface PossesRepository {
 
     fun getFilterDesc(current: Long, end: Long): Flow<Resource<List<Posses>>>
 
-    fun getPossesHaventUpload(): Flow<Resource<List<Posses>>>
+    fun getPossesHaventUpload(): Flow<List<Posses>>
 }

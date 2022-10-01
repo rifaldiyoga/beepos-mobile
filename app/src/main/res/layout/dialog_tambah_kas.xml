@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/nScroll"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/buttonClosed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size16"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size16"
+                android:text="@string/tambah_kas_masuk"
+                android:textSize="@dimen/font16"
+                app:layout_constraintBottom_toBottomOf="@+id/imgView_close"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgView_close"
+                android:layout_width="@dimen/size36"
+                android:layout_height="@dimen/size36"
+                android:padding="@dimen/size8"
+                android:src="@drawable/ic_close_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView8"
+                style="@style/TextHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/pastikan_data_kas_benar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgView_close" />
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/user_kasir"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <EditText
+                android:id="@+id/etUser"
+                android:paddingTop="@dimen/size10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:hint="@string/budiman"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textView53"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/tanggal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUser" />
+
+            <TextView
+                android:id="@+id/textView87"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:background="@drawable/ic_filter"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView53" />
+
+            <EditText
+                android:id="@+id/etTanggal"
+                android:paddingTop="@dimen/size10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:hint="@string/pilih_tanggal"
+                app:layout_constraintLeft_toRightOf="@+id/textView87"
+                android:layout_marginLeft="@dimen/size25"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
+                tools:ignore="MissingConstraints" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtNoTelp"-->
+<!--                android:layout_width="@dimen/size0"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/size6"-->
+<!--                android:layout_marginEnd="@dimen/size16"-->
+<!--                android:text="@string/no_telepon"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/textView7"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView53" />-->
+
+            <TextView
+                android:id="@+id/textView56"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/nominal_uang_masuk"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView87" />
+
+            <TextView
+                android:id="@+id/textView88"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="Rp"
+                android:textStyle="bold"
+                android:textSize="@dimen/font14"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView56" />
+
+            <EditText
+                android:id="@+id/et_nominal"
+                android:paddingTop="@dimen/size10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:hint="@string/_0"
+                app:layout_constraintLeft_toRightOf="@+id/textView88"
+                android:layout_marginLeft="@dimen/size25"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textView55"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/deskripsi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView88" />
+
+            <EditText
+                android:id="@+id/et_deskripsi"
+                android:paddingTop="@dimen/size10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:hint="@string/masukan_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView55"
+                tools:ignore="MissingConstraints" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:layout_marginTop="@dimen/size20"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/simpan"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/nScroll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

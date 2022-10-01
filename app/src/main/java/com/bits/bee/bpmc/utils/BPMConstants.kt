@@ -38,6 +38,7 @@ interface BPMConstants {
         const val DEFAULT_DB_LIMIT: Long = 17
         const val DEFAULT_DB_UPLOAD: Long = 40
         const val BPM_DEFAULT_LICENSE_TYPE = "MOBILE"
+        const val REGEX_INPUT = "[().,*#!?/|:;'<>@$%&^=+-]"
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

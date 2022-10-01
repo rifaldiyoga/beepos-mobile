@@ -29,7 +29,7 @@ import java.util.*
 data class CadjEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = DATE_TRANS)
     var trxDate : Long,
     @ColumnInfo(name = AMOUNT)
@@ -37,11 +37,11 @@ data class CadjEntity(
     @ColumnInfo(name = NOTE)
     var note : String,
     @ColumnInfo(name = STATUS)
-    var status: Boolean,
+    var status: String,
     @ColumnInfo(name = REFTYPE)
     var refType : String,
     @ColumnInfo(name = AUTOGEN)
-    var autoGen : String,
+    var autoGen : Boolean,
     @ColumnInfo(name = CASH_ID, index = true)
     var cashAId: Int,
     @ColumnInfo(name = USER_ID, index = true)

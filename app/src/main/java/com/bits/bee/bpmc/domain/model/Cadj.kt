@@ -14,13 +14,13 @@ import java.util.*
  */
 @Parcelize
 data class Cadj (
-    var id : Int?,
+    var id : Int? = null,
     var trxDate : Long,
     var amount: BigDecimal,
     var note : String,
-    var status: Boolean,
+    var status: String,
     var refType : String,
-    var autoGen : String,
+    var autoGen : Boolean,
     var cashAId: Int,
     var operatorId: Int,
     var cashierId: Int,

@@ -194,7 +194,8 @@ class MainActivity(
     }
 
     private fun setBackgroundToolbar(destinationId : Int){
-        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment) {
+        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment || destinationId == R.id.memberFragment ||
+                destinationId == R.id.tambahMemberFragment) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(

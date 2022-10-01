@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
-        android:textSize="@dimen/size12"
+        android:textSize="@dimen/font14"
         android:text="@string/perusahaan"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
-        android:textSize="@dimen/size12"
+        android:textSize="@dimen/font14"
         android:text="@string/user_kasir"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
         android:layout_marginTop="@dimen/size16"
         android:text="@string/email"
         android:textColor="@color/black"
-        android:textSize="@dimen/size12"
+        android:textSize="@dimen/font14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nama_company" />
 
@@ -66,13 +66,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
-        android:textSize="@dimen/size12"
+        android:textSize="@dimen/font14"
         android:text="@string/sesi"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nama_company" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/btnClose"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"

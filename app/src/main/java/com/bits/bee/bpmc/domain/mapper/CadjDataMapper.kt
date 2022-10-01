@@ -23,7 +23,21 @@ object CadjDataMapper: BaseMapper<CadjEntity, Cadj, Any>() {
     }
 
     override fun fromDomainToDb(model: Cadj): CadjEntity {
-        TODO("Not yet implemented")
+        return CadjEntity(
+            model.id,
+            model.trxDate,
+            model.amount,
+            model.note,
+            model.status,
+            model.refType,
+            model.autoGen,
+            model.cashAId,
+            model.operatorId,
+            model.cashierId,
+            model.isUploaded,
+            model.kodeCadj,
+            model.refNo
+        )
     }
 
     override fun fromNetworkToDb(model: Any): CadjEntity {

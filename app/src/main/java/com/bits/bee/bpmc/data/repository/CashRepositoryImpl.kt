@@ -30,4 +30,11 @@ class CashRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getActiveCash(idPosses: Long): Flow<Cash?> {
+        return flow<Cash?> {
+            val data = cashDao.getActiveCash(idPosses)
+            emit(CashDataMapper.fromDbToDomain(data))
+        }.flowOn(defaultDispatcher)
+    }
+
 }

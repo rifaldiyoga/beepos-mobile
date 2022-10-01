@@ -118,12 +118,12 @@ class SaleRepositoryImpl @Inject constructor(
     override fun getSaleHaventUploaded(
         limit_trx: Long,
         saledlist: List<Int>
-    ): Flow<Resource<List<Sale>>> {
+    ): Flow<List<Sale>> {
         return flow {
             val delimiter = ","
             val result = saledlist.joinToString(delimiter)
             val data = saleDao.getSaleHaventUploaded(limit_trx, result).map { SaleDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit((data))
         }.flowOn(defaultDispatcher)
     }
 
@@ -133,17 +133,17 @@ class SaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSaleById(id: Int): Flow<Resource<Sale>> {
-        return flow {
+    override fun getSaleById(id: Int): Flow<Sale> {
+        return flow<Sale> {
             val data = saleDao.getSaleById(id)
-            emit(Resource.success(SaleDataMapper.fromDbToDomain(data)))
+            emit(SaleDataMapper.fromDbToDomain(data))
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getSaleNotUploaded(): Flow<Resource<List<Sale>>> {
+    override fun getSaleNotUploaded(): Flow<List<Sale>> {
         return flow {
             val data = saleDao.getSaleNotUploaded().map { SaleDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit((data))
         }.flowOn(defaultDispatcher)
     }
 

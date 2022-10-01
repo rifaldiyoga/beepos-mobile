@@ -13,4 +13,7 @@ import javax.inject.Singleton
 interface CashDao: BaseDao<CashEntity> {
     @Query("SELECT * FROM cash ORDER BY id DESC LIMIT 1")
     fun getLastId(): CashEntity
+
+    @Query("SELECT * FROM cash where id = :idPosses")
+    fun getActiveCash(idPosses: Long): CashEntity
 }
