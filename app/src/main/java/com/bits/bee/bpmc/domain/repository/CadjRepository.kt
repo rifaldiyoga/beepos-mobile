@@ -24,5 +24,8 @@ interface CadjRepository {
 
     fun getKasKeluar(): Flow<List<Cadj>>
 
+    fun getJmlCadjInByDate(startDate: Long, endDate: Long): Flow<List<Cadj>>
+
+    fun getJmlCadjOutByDate(startDate: Long, endDate: Long): Flow<List<Cadj>>
 
 }

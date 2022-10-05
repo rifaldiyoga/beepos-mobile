@@ -79,4 +79,18 @@ class CadjRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getJmlCadjInByDate(startDate: Long, endDate: Long): Flow<List<Cadj>> {
+        return flow {
+            val data = cadjDao.getJmlCadjInByDate(startDate, endDate).map { CadjDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getJmlCadjOutByDate(startDate: Long, endDate: Long): Flow<List<Cadj>> {
+        return flow {
+            val data = cadjDao.getJmlCadjOutByDate(startDate, endDate).map { CadjDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
 }

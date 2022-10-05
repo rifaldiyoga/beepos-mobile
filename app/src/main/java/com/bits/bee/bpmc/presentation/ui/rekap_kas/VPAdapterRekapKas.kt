@@ -24,11 +24,9 @@ class VPAdapterRekapKas(
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0 -> {
-                BeePreferenceManager.saveToPreferences(mContext, mContext.getString(R.string.pref_tablayout), true)
                 KasMasukFragment()
             }
             1 -> {
-                BeePreferenceManager.saveToPreferences(mContext, mContext.getString(R.string.pref_tablayout), false)
                 KasKeluarFragment()
             }
             else -> Fragment()

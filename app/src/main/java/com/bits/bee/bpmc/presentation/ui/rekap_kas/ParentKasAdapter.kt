@@ -23,6 +23,11 @@ class ParentKasAdapter constructor(
     private val sf = SimpleDateFormat("dd-MM-yyyy")
     private lateinit var nestedKasAdapter: NestedKasAdapter
 
+    fun initList(kasList: MutableList<Kas>) {
+        this.mList = kasList
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(val binding : ItemParentKasAdptBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -55,7 +60,7 @@ class ParentKasAdapter constructor(
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return mList.size
     }
 
     fun getDate(dates: Date): String{

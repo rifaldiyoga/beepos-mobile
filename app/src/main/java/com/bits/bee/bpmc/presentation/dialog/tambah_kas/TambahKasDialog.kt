@@ -43,7 +43,7 @@ class TambahKasDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getValue()
-        iskasMasuk = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_tablayout), false) as Boolean
+        iskasMasuk = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_tablayout), false) as Boolean
     }
 
     override fun initComponents() {
@@ -81,6 +81,7 @@ class TambahKasDialog(
                 }else{
                     sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
                 }
+                dismiss()
 //                builder.positiveCallback?.let { it(dialog!!) }
             }
         }

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.CadjEntity
+import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -26,4 +27,10 @@ interface CadjDao: BaseDao<CadjEntity> {
 
     @Query("SELECT * from cadj where inout = 'o'")
     fun getKasKeluar(): List<CadjEntity>
+
+    @Query("SELECT * FROM cadj WHERE inout = 'i' and trxdate between :startDate and :endDate")
+    fun getJmlCadjInByDate(startDate: Long, endDate: Long): List<CadjEntity>
+
+    @Query("SELECT * FROM cadj where inout = '0' and trxdate between :startDate and :endDate")
+    fun getJmlCadjOutByDate(startDate: Long, endDate: Long): List<CadjEntity>
 }

@@ -87,7 +87,7 @@ class RiwayatSesiViewModel @Inject constructor(
             if (!possesMap.containsKey(key)){
                 val mutable: MutableList<Posses> = mutableListOf()
                 mutable.add(posses)
-                possesMap.put(key, mutable)
+                    possesMap.put(key, mutable)
             }else{
                 possesMap.get(key)!!.add(posses)
             }

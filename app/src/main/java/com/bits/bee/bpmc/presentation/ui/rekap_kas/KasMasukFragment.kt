@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.rekap_kas
 
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -15,6 +17,7 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.tambah_kas.TambahKasDialog
 import com.bits.bee.bpmc.presentation.dialog.tambah_kas.TambahKasSharedViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,6 +29,12 @@ class KasMasukFragment(
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private val viewModel : TambahKasSharedViewModel by viewModels()
     private lateinit var parentKasAdapter: ParentKasAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sharedViewModel.loadKasMasuk()
+        BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_tablayout), true)
+    }
 
     override fun initComponents() {
         parentKasAdapter = ParentKasAdapter(requireContext())
@@ -80,8 +89,18 @@ class KasMasukFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sharedViewModel.viewStates().collect {
                     it?.let {
-                        it.cadjList?.let { data->
-                            sharedViewModel.setListKas(data)
+                        it.cadjListIn?.let { data->
+                            if (data.size > 0){
+                                sharedViewModel.setListKasIn(data)
+                                it.cashInList?.let {
+                                    parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                                }
+                                binding.lLEmptyKasMasuk.visibility = View.GONE
+                                binding.floatBtnTambah.visibility = View.VISIBLE
+                            }else{
+                                binding.lLEmptyKasMasuk.visibility = View.VISIBLE
+                                binding.floatBtnTambah.visibility = View.GONE
+                            }
                         }
                     }
                 }
