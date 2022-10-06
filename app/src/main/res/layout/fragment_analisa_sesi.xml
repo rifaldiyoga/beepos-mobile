@@ -196,9 +196,9 @@
 
                 <TextView
                     android:id="@+id/tvModal"
-                    android:layout_width="51dp"
-                    android:layout_height="17dp"
-                    android:text="@string/modal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mata_uang_nominal"
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -217,7 +217,7 @@
                     android:id="@+id/tvPemasukan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pemasukan"
+                    android:text="@string/mata_uang_nominal"
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -643,7 +643,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:padding="@dimen/size16"
+                android:paddingTop="@dimen/size16"
+                android:paddingRight="@dimen/size16"
+                android:paddingLeft="@dimen/size16"
+                android:paddingBottom="@dimen/size60"
                 android:layout_height="wrap_content">
 
                 <TextView

@@ -72,15 +72,16 @@ class CekStokViewModel @Inject constructor(
     fun filterStock(query: String) = viewModelScope.launch {
         querySearch = query
         val regex = """(?i)("${query}").*""".toRegex()
+        val regexx = "(?i)($query).*".toRegex()
         var mItemClone = mutableListOf<Item>()
         for (item in state.itemsList!!) {
-            if (item.name1.matches(regex)) {
+            if (item.name1.matches(regexx)) {
                 mItemClone.add(item)
             }
         }
         updateState(
             state.copy(
-                itemsList = mItemClone
+                itemListResult = mItemClone
             )
         )
     }
@@ -106,6 +107,16 @@ class CekStokViewModel @Inject constructor(
         updateState(
             state.copy(
                 itemsList = listSortItem
+            )
+        )
+    }
+
+    fun resetStock() = viewModelScope.launch {
+        querySearch = ""
+        var mItemClone = mutableListOf<Item>()
+        updateState(
+            state.copy(
+                itemListResult = mItemClone
             )
         )
     }

@@ -143,11 +143,9 @@ class LoginOperatorViewModel @Inject constructor(
 
         var listSale: List<Sale> = mutableListOf()
         getSaleNotUploadedUseCase.invoke().collect {
-            it.data?.let {
-                listSale = it
-            }
+            listSale = it
         }
-        if (listSale.size == 0){
+        if (listSale.size == 1){
             if (mPosses == null){
                 confirmGantiKasir()
             }else{
@@ -207,7 +205,7 @@ class LoginOperatorViewModel @Inject constructor(
         if (userList.size == 0){
             // tidak valid
             state.mTimesWrong = state.mTimesWrong + 1
-            Toast.makeText(context, "user tidak valid", Toast.LENGTH_SHORT).show()
+            eventChannel.send(UIEvent.ClearPIn)
             if (state.mTimesWrong == 2){
                 eventChannel.send(UIEvent.RequetWarningPass)
             }
@@ -262,5 +260,6 @@ class LoginOperatorViewModel @Inject constructor(
         object RequestDoSync : UIEvent()
         object RequestPilihKasir : UIEvent()
         object RequetWarningPass : UIEvent()
+        object ClearPIn : UIEvent()
     }
 }

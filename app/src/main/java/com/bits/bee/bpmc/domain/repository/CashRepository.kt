@@ -11,4 +11,6 @@ interface CashRepository {
 
     fun getLastId(): Flow<Cash?>
 
+    fun getActiveCash(idPosses: Long): Flow<Cash?>
+
 }

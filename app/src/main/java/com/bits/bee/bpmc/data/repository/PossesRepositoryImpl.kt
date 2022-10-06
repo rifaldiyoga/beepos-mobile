@@ -143,10 +143,10 @@ class PossesRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getPossesHaventUpload(): Flow<Resource<List<Posses>>> {
+    override fun getPossesHaventUpload(): Flow<List<Posses>> {
         return flow {
             val data = possesDao.getPossesHaventUpload().map { PossesDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit((data))
         }.flowOn(defaultDispatcher)
     }
 

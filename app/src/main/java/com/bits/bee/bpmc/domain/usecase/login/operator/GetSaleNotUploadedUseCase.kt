@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetSaleNotUploadedUseCase @Inject constructor(
     private val saleRepository: SaleRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Sale>>>{
+    operator fun invoke(): Flow<List<Sale>>{
         return saleRepository.getSaleNotUploaded()
     }
 }

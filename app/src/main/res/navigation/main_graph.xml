@@ -331,5 +331,15 @@
             android:name="srep"
             app:argType="com.bits.bee.bpmc.domain.model.Srep" />
     </fragment>
+    <fragment
+        android:id="@+id/kasMasukFragment"
+        tools:layout="@layout/fragment_kas_masuk"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasMasukFragment"
+        android:label="KasMasukFragment" />
+    <fragment
+        android:id="@+id/kasKeluarFragment"
+        tools:layout="@layout/fragment_kas_keluar"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarFragment"
+        android:label="KasKeluarFragment" />
 
 </navigation>

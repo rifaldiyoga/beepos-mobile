@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetPossesHaventUploadUseCase @Inject constructor(
     private val possesRepository: PossesRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Posses>>>{
+    operator fun invoke(): Flow<List<Posses>>{
         return possesRepository.getPossesHaventUpload()
     }
 }

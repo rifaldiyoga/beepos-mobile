@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCadjByReftypeInOutHaventUploadUseCase @Inject constructor(
    private val cadjRepository: CadjRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Cadj>>>{
+    operator fun invoke(): Flow<List<Cadj>>{
         return cadjRepository.getCadjByReftypeInOutHaventUpload()
     }
 }

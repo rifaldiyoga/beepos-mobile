@@ -57,6 +57,7 @@
     <string name="pref_counter_sesi">pref_counter_sesi</string>
     <string name="pref_pilih_tgl">pref_pilih_tgl</string>
     <string name="pref_login_user">login_user</string>
+    <string name="pref_tablayout">pref_tablayout</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -67,6 +68,8 @@
     <string name="page_pilih_operator">page_login_operator</string>
     <string name="page_home">page_home</string>
     <string name="page_login">page_login</string>
+    <string name="page_kas_masuk">page_kas_masuk</string>
+    <string name="page_kas_keluar">page_kas_keluar</string>
 
     <!-- Array Setting -->
     <string-array name="list_ukuran_font">
@@ -520,6 +523,7 @@ untuk memperbarui data dapur?</string>
     <string name="anda_tidak_dapat_detach_belum_sync">Anda tidak dapat melakukan proses detach, pastikan seluruh data transkasi telah ter-sync, Upload data sekarang?</string>
     <string name="proses_detach_akan_menghapus_seluruh_data">Proses Detach Lisensi Akan Menghapus KESELURUHAN Data Pada Device Ini Pastikan Seluruh Transaksi Telah Ter-Sinkronisasi, Apakah Anda Yakin Akan Melakukan Ini ??</string>
     <string name="anda_tidak_dapat_detach_belum_tutup_kasir">Anda tidak dapat melakukan proses detach, pastikan tutup kasir terlebih dahulu !</string>
+    <string name="cari_produknya_dulu">Cari produknya dulu ya, nanti datanya akan muncul disini</string>
 
 <!--    Member-->
     <string name="kecamatan_opsional">Kecamatan bersifat opsional (tidak wajib dipilih)</string>
@@ -618,5 +622,17 @@ untuk memperbarui data dapur?</string>
     <string name="cth_081234567890">Cth. 081234567890</string>
     <string name="jl_dharmawangsa_no_1">Jl. Dharmawangsa No. 1</string>
     <string name="nama_salesman">Nama Salesman</string>
+
+    <!-- Lainnya -->
+    <string name="data_kas_masuk">Data kas masuk belum tersedia</string>
+    <string name="data_kas_keluar">Data kas keluar belum tersedia</string>
+    <string name="kas_masuk">Kas Masuk</string>
+    <string name="kas_kelaur">Kas Keluar</string>
+    <string name="tambah_kas_masuk">Tambah Kas Masuk</string>
+    <string name="tambah_kas_keluar">Tambah Kas Keluar</string>
+    <string name="pastikan_data_kas_benar">Pastikan data yang dimasukkan sudah benar, ya! Karena kas masuk hanya bisa diubah, tidak bisa dihapus.</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="nominal_uang_masuk">Nominal Uang Masuk</string>
+    <string name="deskripsi">Deskripsi</string>
 
 </resources>

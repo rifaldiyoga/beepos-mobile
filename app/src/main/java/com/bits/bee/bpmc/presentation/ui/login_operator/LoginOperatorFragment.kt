@@ -18,9 +18,11 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginPinBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.info_akun.InfoAkunDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
+import com.bits.bee.bpmc.presentation.ui.login.LoginViewModel
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.ConnectionUtils
@@ -143,6 +145,10 @@ class LoginOperatorFragment(
                                 val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToPilihKasirFragment()
                                 findNavController().navigate(action)
                             }
+                            LoginOperatorViewModel.UIEvent.ClearPIn ->{
+                                Toast.makeText(requireContext(), "User Tidak Valid", Toast.LENGTH_SHORT).show()
+                                pinView.setText("")
+                            }
                             LoginOperatorViewModel.UIEvent.RequetWarningPass ->{
                                 val dialog = CustomDialogBuilder.Builder(requireContext())
                                     .setTitle(getString(R.string.gagal_login))
@@ -156,6 +162,18 @@ class LoginOperatorFragment(
                                         )
                                     }.build()
                                 dialog.show(parentFragmentManager, TAG)
+                            }
+                            LoginOperatorViewModel.UIEvent.RequestDialogSync ->{
+                                val dialog = DialogBuilderUtils.showDialogInfo(
+                                    requireContext(),
+                                    title = "Perhatian",
+                                    msg = "Anda Tidak dapat pindah kasir pastikan seluruh data transkasi telah ter-sync !",
+                                    positiveTxt = getString(R.string.ya),
+                                    positiveListener = {
+                                        it.dismiss()
+                                    }
+                                )
+                                dialog.show(parentFragmentManager,"")
                             }
                             else -> {}
                         }

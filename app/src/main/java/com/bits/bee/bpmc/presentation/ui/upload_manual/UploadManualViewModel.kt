@@ -170,14 +170,10 @@ class UploadManualViewModel @Inject constructor(
             saleIdList.add(saled.saleId)
         }
         getSaleHaventUploadedUseCase.invoke(50, saleIdList).collect {
-            it.data?.let {
-                listSaleHaventUpload = it
-            }
+            listSaleHaventUpload = it
         }
         getPossesHaventUploadUseCase.invoke().collect {
-            it.data?.let {
-                listPosses = it
-            }
+            listPosses = it
         }
 
         var newPosses = ""
@@ -195,9 +191,7 @@ class UploadManualViewModel @Inject constructor(
         }
 
         getCadjByReftypeInOutHaventUploadUseCase.invoke().collect {
-            it.data?.let {
-                listCadj = it
-            }
+            listCadj = it
         }
         getCstrByReftypeHaventUpload.invoke().collect {
             it.data?.let {
@@ -508,9 +502,7 @@ class UploadManualViewModel @Inject constructor(
 
         for (sale in listSaleHaventUpload!!){
             getSaleByIdUseCase.invoke(sale.id!!).collect {
-                it.data?.let {
-                    sales = it
-                }
+                sales = it
             }
             sales!!.isUploaded = true
             updateSaleUseCase.invoke(sales!!)
@@ -529,9 +521,7 @@ class UploadManualViewModel @Inject constructor(
 //        }
 
         getCadjByReftypeInOutHaventUploadUseCase.invoke().collect {
-            it.data?.let {
-                cadjList = it
-            }
+            cadjList = it
         }
         for (cadj in cadjList){
             cadj.isUploaded = true

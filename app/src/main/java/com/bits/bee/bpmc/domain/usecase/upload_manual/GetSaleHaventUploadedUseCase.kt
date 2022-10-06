@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetSaleHaventUploadedUseCase @Inject constructor(
     private val saleRepository: SaleRepository
 ) {
-    operator fun invoke(limit_trx: Long, saledlist: List<Int>): Flow<Resource<List<Sale>>>{
+    operator fun invoke(limit_trx: Long, saledlist: List<Int>): Flow<List<Sale>>{
         return saleRepository.getSaleHaventUploaded(limit_trx, saledlist)
     }
 }
