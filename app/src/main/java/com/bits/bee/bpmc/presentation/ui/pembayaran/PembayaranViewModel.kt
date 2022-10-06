@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.pembayaran
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -23,7 +24,7 @@ class PembayaranViewModel @Inject constructor() : BaseViewModel<PembayaranState,
         if(state.rekomBayar.isEmpty()) {
             isValid = false
             errorChannel.send("Maasukkan nominal pembayaran!")
-        } else if(state.total > BigDecimal(state.rekomBayar)) {
+        } else if(state.total > BigDecimal(state.rekomBayar.removeSymbol())) {
             isValid = false
             errorChannel.send("Nominal pembayaran kurang dari total bayar!")
         }

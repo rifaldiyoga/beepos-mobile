@@ -82,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size16"
         android:src="@drawable/ic_plus"
+        android:visibility="gone"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/llNext"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -90,6 +91,7 @@
         android:id="@+id/llNext"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@drawable/bg_rounded_top_background_color"
         android:clipToPadding="true"
         android:elevation="@dimen/size16"
@@ -143,14 +145,12 @@
         android:id="@+id/groupRetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="image1,textView44,btnTambahBaru, fabTambahBaru, fragmentInvoice" />
+        app:constraint_referenced_ids="image1, textView44, btnTambahBaru, fragmentInvoice" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupFnB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:constraint_referenced_ids="tabLayout,viewPager" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

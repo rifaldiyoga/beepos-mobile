@@ -318,7 +318,7 @@ class PromoCalc @Inject constructor(
                         var discAmt: BigDecimal?
                         var disc: BigDecimal?
                         if (isPercentage) {
-                            disc = BigDecimal(promoActive.itemDiscExp?.replace("[%]", "") ?: "0")
+                            disc = BigDecimal(promoActive.itemDiscExp?.replace("%", "") ?: "0")
                             discAmt = saled.listPrice.multiply(disc).divide(BigDecimal(100))
                                 .setScale(2, 0)
                             saled.discExp = promoActive.itemDiscExp ?: ""
@@ -750,7 +750,7 @@ class PromoCalc @Inject constructor(
                         var discAmt: BigDecimal?
                         var disc: BigDecimal?
                         if (isPercentage) {
-                            disc = BigDecimal(promoActive.itemDiscExp!!.replace("[%]", ""))
+                            disc = BigDecimal(promoActive.itemDiscExp!!.replace("%", ""))
                             discAmt = saled.listPrice.multiply(disc).divide(BigDecimal(100))
                                 .setScale(2, 0)
                             saled.discExp = promoActive.itemDiscExp ?: ""

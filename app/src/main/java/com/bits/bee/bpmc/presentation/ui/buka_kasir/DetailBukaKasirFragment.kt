@@ -90,14 +90,12 @@ class DetailBukaKasirFragment(
                         }
                         DetailBukaKasirViewModel.UIEvent.NavigateToPos -> {
 //                            val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToMainActivity()
-                            findNavController().popBackStack()
-                            findNavController().navigate(R.id.mainActivity)
+
                         }
                         DetailBukaKasirViewModel.UIEvent.RequestSave -> {
                             sharedViewModel.doBukaKasir(viewModel.state.modal,
                                 BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
                             )
-                            viewModel.onDoneSave()
                         }
                         DetailBukaKasirViewModel.UIEvent.NavigateToInsight -> {
                             val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToInsightPresetKasirFragment()
@@ -123,7 +121,7 @@ class DetailBukaKasirFragment(
 //                            }
                             it.listCasha?.let {
                                 if (it.isNotEmpty()){
-                                    val trxDate = DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, it.get(0).trxDate)
+                                    val trxDate = DateFormatUtils.formatStringToDate(BPMConstants.DATE_TIME_FROMAT, it[0].trxDate)
                                     if (SimpleDateFormat("MMdd").format(Date())compareTo(SimpleDateFormat("MMdd").format(trxDate)) > 0){
                                         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1)
                                     }else{
@@ -135,6 +133,16 @@ class DetailBukaKasirFragment(
                                 tvShift.text = (BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int).toString()
                             }
                         }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.event.collect {
+                when(it){
+                    BukaTutupKasirSharedViewModel.UIEvent.NavigateToPos -> {
+                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.mainActivity)
                     }
                 }
             }

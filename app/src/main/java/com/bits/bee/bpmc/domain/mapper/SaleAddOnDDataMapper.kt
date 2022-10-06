@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.SaleAddOnDEntity
+import com.bits.bee.bpmc.domain.model.SaleAddOn
 import com.bits.bee.bpmc.domain.model.SaleAddOnD
+import com.bits.bee.bpmc.domain.model.Saled
 
 /**
  * Created by aldi on 22/04/22.
@@ -11,9 +13,9 @@ object SaleAddOnDDataMapper : BaseMapper<SaleAddOnDEntity, SaleAddOnD, Any>(){
     override fun fromDbToDomain(model: SaleAddOnDEntity): SaleAddOnD {
         return SaleAddOnD(
             model.id ,
-            null,
-            null,
-            null,
+            SaleAddOn(id = model.saleAddOnId),
+            Saled(id = model.upSaledId),
+            Saled(id = model.saledId),
         )
     }
 

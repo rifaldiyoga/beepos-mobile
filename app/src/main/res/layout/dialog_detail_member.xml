@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/member"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/no_telepon"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView53" />
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/email"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView56" />
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/kota"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView55" />
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/alamat"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView54" />

@@ -20,7 +20,7 @@ import java.math.BigDecimal
 /**
  * Created by aldi on 22/04/22.
  */
-class ItemPosAdapter constructor(
+open class ItemPosAdapter constructor(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
     private var saledList : List<Saled>,
@@ -81,6 +81,10 @@ class ItemPosAdapter constructor(
                     }
                 }
 
+                tvInisial?.apply {
+                    text = ImageUtils.getInitial(item.name1)
+                    textSize = ImageUtils.getFontSize(item.name1.length).toFloat()
+                }
 
                 imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, item.name1))
 
@@ -93,7 +97,7 @@ class ItemPosAdapter constructor(
         }
     }
 
-    private fun getSumQty(item : Item) : BigDecimal {
+    internal fun getSumQty(item : Item) : BigDecimal {
         var qty = BigDecimal.ZERO
         saledList
             .filter { !it.isBonus }

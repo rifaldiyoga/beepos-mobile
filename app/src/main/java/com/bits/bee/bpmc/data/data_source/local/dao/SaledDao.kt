@@ -24,4 +24,7 @@ interface SaledDao : BaseDao<SaledEntity>{
             "WHERE b.isuploaded = 0 AND substr(c.code, -4) = '-DEL'")
     fun getSaledDeletedItem(): List<SaledEntity>
 
+    @Query("SELECT * FROM saled WHERE id = :id")
+    fun getSaledById(id : Int) : SaledEntity?
+
 }

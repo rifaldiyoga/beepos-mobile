@@ -1,12 +1,16 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.model.Unit
 import com.bits.bee.bpmc.domain.usecase.common.GetUnitItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CalcUtils
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -95,7 +99,11 @@ class EditItemViewModel @Inject constructor(
     }
 
     fun onClickMinus() = viewModelScope.launch {
-        if(state.qty >= BigDecimal.ONE) {
+        if(state.qty == BigDecimal.ONE){
+            state.saled?.let {
+                eventChannel.send(UIEvent.ValidateDelete)
+            }
+        }else if(state.qty > BigDecimal.ONE) {
             val qty = state.qty - BigDecimal.ONE
             updateState(
                 state.copy(
@@ -128,6 +136,7 @@ class EditItemViewModel @Inject constructor(
                 eventChannel.send(UIEvent.RequestSubmit(saled))
             } ?: state.item?.let {
                 it.qty = state.qty
+                it.price = state.listPrice
                 val item = ItemWithUnit(
                     item = it,
                     unit = state.unit!!,
@@ -151,6 +160,7 @@ class EditItemViewModel @Inject constructor(
         data class RequestSubmit(val saled: Saled) : UIEvent()
         data class RequestAdd(val itemWithUnit: ItemWithUnit) : UIEvent()
         data class NavigateToAddOn(val item: Item, val saled : Saled) : UIEvent()
+        object ValidateDelete : UIEvent()
     }
 
 }

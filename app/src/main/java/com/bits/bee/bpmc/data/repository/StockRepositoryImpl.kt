@@ -43,6 +43,7 @@ class StockRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: StockResponse) {
+                stockDao.deleteStockByItemAndWh(item.id, wh.id)
                 stockDao.insertBulk(data.stockModels.map { StockDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()

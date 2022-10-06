@@ -265,6 +265,7 @@
     <string name="gofood">GoFood</string>
     <string name="pilih_channel">Pilih Channel</string>
     <string name="anda_belum_punya_member">Anda belum punya member</string>
+    <string name="anda_belum_punya_salesman">Anda belum punya salesman</string>
     <string name="budiman">Budiman</string>
     <string name="nama_member">Nama Member</string>
     <string name="no_telepon">No. Telepon</string>
@@ -593,9 +594,8 @@ untuk memperbarui data dapur?</string>
     <string name="produk_dipilih">Produk Dipilih</string>
     <string name="kamu_mendapatkan_item_gratis">Kamu Mendapatkan %1$s Item Gratis</string>
     <string name="tebus_murah_item">Tebus Murah %1$s Item %2$s</string>
-    <string name="ambil_promos">Ambil Promo</string>
-    <string name="ambil_promo">AMBIL PROMO</string>
-    <string name="next">NEXT</string>
+    <string name="ambil_promo">Ambil Promo</string>
+    <string name="next">Next</string>
     <string name="abaikan">Abaikan</string>
     <string name="transaksi_penjualan">Transaksi Penjualan</string>
     <string name="gimana_caranya">Gimana Caranya?</string>
@@ -617,5 +617,6 @@ untuk memperbarui data dapur?</string>
     <string name="cth_budi">Cth. Budi</string>
     <string name="cth_081234567890">Cth. 081234567890</string>
     <string name="jl_dharmawangsa_no_1">Jl. Dharmawangsa No. 1</string>
+    <string name="nama_salesman">Nama Salesman</string>
 
 </resources>

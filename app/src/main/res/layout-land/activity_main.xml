@@ -72,6 +72,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
+                android:id="@+id/viewSalesman"
+                android:layout_marginStart="@dimen/size32"
                 android:layout_width="@dimen/size1"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/size16"
@@ -127,6 +129,7 @@
                 android:layout_width="@dimen/size1"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/size16"
+                android:layout_marginStart="@dimen/size32"
                 android:layout_marginBottom="@dimen/size16"
                 android:background="@color/white" />
 

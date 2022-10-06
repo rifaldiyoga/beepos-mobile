@@ -44,6 +44,7 @@ class MainViewModel @Inject constructor(
     private val getSalePromoBySaleUseCase: GetSalePromoBySaleUseCase,
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
+    private val getDefaultSalesmanUseCase: GetDefaultSalesmanUseCase,
     private val promoCalc: PromoCalc,
     private val beePreferenceManager: BeePreferenceManager,
     private val channelRepository: ChannelRepository
@@ -76,6 +77,9 @@ class MainViewModel @Inject constructor(
     val activeChannel : MutableStateFlow<Channel?>
         get() = _activeChannel
 
+    private val _activeSrep : MutableStateFlow<Srep?> = MutableStateFlow(null)
+    val activeSrep : MutableStateFlow<Srep?>
+        get() = _activeSrep
 
     init {
         state = MainState()
@@ -102,7 +106,7 @@ class MainViewModel @Inject constructor(
             bp = it.bp,
             itemGrpId = it.itemGroup,
             channel = it.channel,
-            usePid = false
+            usePid = posModeState.value is PosModeState.RetailState
         ).cachedIn(viewModelScope)
     }
 
@@ -115,7 +119,8 @@ class MainViewModel @Inject constructor(
             getActiveCashierUseCase(),
             getActiveChannelUseCase(),
             getDefaultBpUseCase(),
-            getItemGroupAddOnUseCase()
+            getItemGroupAddOnUseCase(),
+            getDefaultSalesmanUseCase()
         ) { array ->
             val crc = array[0] as Crc?
             val posses = array[1] as Posses?
@@ -124,6 +129,7 @@ class MainViewModel @Inject constructor(
             val channelList = array[4] as List<Channel>
             val bp = array[5] as Bp
             val itgrpAddOn = array[6] as ItemGroup?
+            val srep = array[7] as Srep?
 
             state.copy(
                 crc = crc,
@@ -133,11 +139,13 @@ class MainViewModel @Inject constructor(
                 channelList = channelList,
                 channel = if(channelList.isNotEmpty()) channelList[0] else null,
                 bp = bp,
-                itgrpAddOn = itgrpAddOn
+                itgrpAddOn = itgrpAddOn,
+                srep = srep
             )
         }.collect {
             activeBp.emit(it.bp)
             activeChannel.emit(it.channel)
+            activeSrep.emit(it.srep)
             saleTrans.setBp(it.bp!!)
             saleTrans.getMaster().channelId = it.channel?.id ?: -1
 //            saleTrans.getMaster().channel = it.channel
@@ -185,6 +193,10 @@ class MainViewModel @Inject constructor(
 
     fun onClickMember() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestMember)
+    }
+
+    fun onClickSalesman() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestSalesman)
     }
 
     fun onClickChannel() = viewModelScope.launch {
@@ -403,7 +415,9 @@ class MainViewModel @Inject constructor(
 
     private fun deployData() = viewModelScope.launch {
         val saledList = mutableListOf<Saled>()
-        saledList.addAll(saleTrans.getListDetail())
+        saleTrans.getListDetail().forEach {
+            saledList.add(it.copy())
+        }
         updateState(
             state.copy(
                 sale = saleTrans.getMaster().copy(),
@@ -433,8 +447,21 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
+    fun updateActiveSrep(channel : Srep) = viewModelScope.launch {
+        _activeSrep.emit(channel)
+//        saleTrans.getMaster().channelId = channel.id
+//        saleTrans.calculate()
+        deployData()
+    }
+
+    fun generatePromo() = viewModelScope.launch {
+        promoCalc.generatePromo()
+        deployData()
+    }
+
     sealed class UIEvent {
         object RequestMember : UIEvent()
+        object RequestSalesman : UIEvent()
         object RequestChannel: UIEvent()
         object NavigateToDraft : UIEvent()
         object NavigateToDiskonNota : UIEvent()

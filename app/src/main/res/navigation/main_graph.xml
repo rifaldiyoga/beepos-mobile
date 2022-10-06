@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_posFragment_to_klaimPromoFragment"
             app:destination="@id/klaimPromoFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_salesmanFragment"
+            app:destination="@id/salesmanFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -114,6 +117,9 @@
         <action
             android:id="@+id/action_invoiceFragment_to_klaimPromoFragment"
             app:destination="@id/klaimPromoFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_salesmanFragment"
+            app:destination="@id/salesmanFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
@@ -305,6 +311,25 @@
     <fragment
         android:id="@+id/klaimPromoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.klaim_promo.KlaimPromoFragment"
-        android:label="KlaimPromoFragment" />
+        android:label="KlaimPromoFragment"
+        tools:layout="@layout/fragment_klaim_promo"/>
+    <fragment
+        android:id="@+id/salesmanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.salesman.SalesmanFragment"
+        android:label="Pilih Salesman"
+        tools:layout="@layout/fragment_salesman">
+        <action
+            android:id="@+id/action_salesmanFragment_to_detailSalesmanFragment"
+            app:destination="@id/detailSalesmanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailSalesmanFragment"
+        tools:layout="@layout/fragment_detail_salesman"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_salesman.DetailSalesmanFragment"
+        android:label="DetailSalesmanFragment" >
+        <argument
+            android:name="srep"
+            app:argType="com.bits.bee.bpmc.domain.model.Srep" />
+    </fragment>
 
 </navigation>

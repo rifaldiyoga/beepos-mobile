@@ -1,11 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.buka_kasir
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.dialog.atur_modal.AturModalViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,8 +11,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DetailBukaKasirViewModel @Inject constructor(
-    private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val getActiveBranchUseCase: GetActiveBranchUseCase,
 ): BaseViewModel<DetailBukaKasirState, DetailBukaKasirViewModel.UIEvent>() {
 
     init {

@@ -131,6 +131,7 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
             val modalC = BigDecimal(modal)
             bukaKasirUseCase(modalC, sesi, state.activeBranch!!, state.activeCashier!!)
             getActivePosses()
+            eventChannel.send(UIEvent.NavigateToPos)
         }
     }
 
@@ -148,6 +149,6 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-
+        object NavigateToPos : UIEvent()
     }
 }

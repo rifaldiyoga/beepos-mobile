@@ -2,8 +2,6 @@ package com.bits.bee.bpmc.presentation.dialog.detail_member
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.usecase.member.GetDistrictByCodeUseCase
-import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

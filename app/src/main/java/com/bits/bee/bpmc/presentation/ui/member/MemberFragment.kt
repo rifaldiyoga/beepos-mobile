@@ -16,6 +16,8 @@ import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.member.MemberAdapter
+import com.bits.bee.bpmc.presentation.ui.member.MemberViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -35,12 +37,12 @@ class MemberFragment(
 
     private val mainViewModel : MainViewModel by activityViewModels()
 
-    private lateinit var memberAdapter: MemberAdapter
+    private lateinit var salesmanAdapter: MemberAdapter
 
     override fun initComponents() {
         setHasOptionsMenu(true)
         binding.apply {
-            memberAdapter = MemberAdapter(
+            salesmanAdapter = MemberAdapter(
                 onMemberClick = { model ->
                     viewModel.onClickDetailMember(model)
                 },
@@ -51,7 +53,7 @@ class MemberFragment(
 
             rvList.apply {
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = memberAdapter
+                adapter = salesmanAdapter
             }
         }
     }
@@ -97,7 +99,7 @@ class MemberFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.memberList.collect {
-                    memberAdapter.submitList(it)
+                    salesmanAdapter.submitList(it)
                 }
             }
         }
@@ -125,12 +127,12 @@ class MemberFragment(
                                 if (newText?.length == 0){
                                     viewModel.onSearch("")
                                     it.listBp?.let {
-                                        memberAdapter.submitList(it)
+                                        salesmanAdapter.submitList(it)
                                     }
                                 }else if (newText!!.length >= 3){
                                     viewModel.onSearch(newText.toString().trim())
                                     it.listBp?.let {
-                                        memberAdapter.submitList(it)
+                                        salesmanAdapter.submitList(it)
                                     }
                                 }
                             }

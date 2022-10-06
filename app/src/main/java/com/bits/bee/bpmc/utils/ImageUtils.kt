@@ -22,10 +22,7 @@ class ImageUtils {
 
             val color = generatorCol.getColor(name1)
 
-            var font = 92
-            if (text.length == 3) font = 74
-            if (text.length == 4) font = 64
-            if (text.length == 5) font = 54
+            val font = getFontSize(name1.length)
 
             val hexColor = String.format("#%06X", 0xFFFFFF and color)
             val txtColor: String = ViewUtils.pickTextColorBasedOnBg(hexColor)
@@ -40,7 +37,7 @@ class ImageUtils {
         }
 
 
-        private fun getInitial(title: String): String {
+        fun getInitial(title: String): String {
             val lists = title.split(" ").toTypedArray()
             val list: MutableList<String> = ArrayList()
             for (s in lists) {
@@ -60,6 +57,14 @@ class ImageUtils {
                 }
                 else -> "I"
             }
+        }
+
+        fun getFontSize(length : Int) : Int {
+            var font = 92
+            if (length == 3) font = 74
+            if (length == 4) font = 64
+            if (length == 5) font = 54
+            return font
         }
 
     }

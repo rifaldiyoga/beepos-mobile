@@ -18,4 +18,6 @@ interface SaledRepository {
 
     fun getSaledDeletedItem(): Flow<List<Saled>>
 
+    fun getSaledById(id : Int) : Flow<Saled?>
+
 }

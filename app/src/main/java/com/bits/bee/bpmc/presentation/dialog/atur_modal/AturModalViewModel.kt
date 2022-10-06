@@ -20,7 +20,7 @@ class AturModalViewModel @Inject constructor(
     }
 
     fun onBukaKasirClick() = viewModelScope.launch {
-        if (state.modal != null) {
+        if (state.modal.isNotEmpty()) {
             eventChannel.send(UIEvent.RequestSave)
         } else {
             eventChannel.send(UIEvent.NavigateToDefaultModal)

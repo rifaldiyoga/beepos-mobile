@@ -18,5 +18,6 @@ data class MainState(
     var activeBranch : Branch? = null,
     var activePosses : Posses? = null,
     var crc: Crc? = null,
-    var itgrpAddOn : ItemGroup? = null
+    var itgrpAddOn : ItemGroup? = null,
+    var srep : Srep? = null
 )

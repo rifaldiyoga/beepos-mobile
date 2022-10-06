@@ -195,7 +195,8 @@ object AppModule {
         usrGrpDao: UsrGrpDao,
         grpPrvDao: GrpPrvDao,
         crcDao: CrcDao,
-        whDao: WhDao
+        whDao: WhDao,
+        srepDao : SrepDao,
     ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
@@ -205,7 +206,8 @@ object AppModule {
             usrGrpDao,
             grpPrvDao,
             crcDao,
-            whDao
+            whDao,
+            srepDao
         )
     }
 
@@ -436,5 +438,11 @@ object AppModule {
             getPriceItemUseCase = getPriceItemUseCase,
             itemRepository = itemRepository
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSrepRepository(salePromoDao: SrepDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : SrepRepository {
+        return SrepRepositoryImpl(salePromoDao, dispatcher)
     }
 }

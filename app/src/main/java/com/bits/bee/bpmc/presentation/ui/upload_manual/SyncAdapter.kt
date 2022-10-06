@@ -2,19 +2,11 @@ package com.bits.bee.bpmc.presentation.ui.upload_manual
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bits.bee.bpmc.databinding.ItemRiwayatSesiBinding
 import com.bits.bee.bpmc.databinding.ItemSyncBinding
-import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sync
-import com.bits.bee.bpmc.presentation.ui.member.MemberAdapter
-import com.bits.bee.bpmc.presentation.ui.riwayat_sesi.RiwayatSesiAdapter
-import java.sql.Date
-import java.text.SimpleDateFormat
 
 class SyncAdapter constructor(
 

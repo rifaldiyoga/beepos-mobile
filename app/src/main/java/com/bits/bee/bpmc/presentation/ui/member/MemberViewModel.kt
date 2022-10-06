@@ -5,6 +5,7 @@ import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.member.GetFavoritMemberUseCase
 import com.bits.bee.bpmc.domain.usecase.member.SearchMemberUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.ui.salesman.SalesmanViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

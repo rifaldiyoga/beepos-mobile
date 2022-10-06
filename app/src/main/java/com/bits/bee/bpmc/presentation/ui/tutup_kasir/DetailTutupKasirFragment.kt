@@ -93,7 +93,7 @@ class DetailTutupKasirFragment(
 
                                 val startTime = Date(it.startTime.time)
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
-                                    BPMConstants.DEFAULT_DATE_FORMAT, startTime)
+                                    BPMConstants.DATE_TIME_FROMAT, startTime)
                                 sharedViewModel.getUser()
                             }
                             it.user?.let {

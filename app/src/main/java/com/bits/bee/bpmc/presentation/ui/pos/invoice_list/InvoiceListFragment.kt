@@ -20,6 +20,7 @@ import com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -66,7 +67,8 @@ class InvoiceListFragment(
                             it.dismiss()
                             mainViewModel.onDeleteDetail(saled)
                             if(mainViewModel.state.saledList.isEmpty()) {
-                                findNavController().popBackStack()
+                                if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
+                                    findNavController().popBackStack()
                                 showSnackbar("Tidak ada data detail!")
                             }
                         },
@@ -93,7 +95,7 @@ class InvoiceListFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mainViewModel.viewStates().collect {
+                mainViewModel.viewStates().collectLatest {
                     it?.let {
                         binding.apply {
                             invoiceAdapter.submitList(it.saledList.filter { !it.isAddOn })

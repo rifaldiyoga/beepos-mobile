@@ -21,7 +21,6 @@ import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosAdapter
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
 import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -102,7 +101,7 @@ class CariItemFragment(
             groupEmpty.gone()
             rvList.gone()
 
-            itemAdapter = ItemPosAdapter(
+            itemAdapter = ItemPosCariAdapter(
                 onItemClicK = { item ->
                     mViewModel.onAddDetail(ItemWithUnit(item))
                 },
@@ -152,8 +151,8 @@ class CariItemFragment(
             } else {
                 itemRetailPosAdapter.loadStateFlow.collectLatest {
                     if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
-                        binding.groupEmpty.isVisible = itemAdapter.itemCount == 0 && viewModel.currentQuery.value.length > 2
-                        binding.rvList.isVisible = itemAdapter.itemCount > 0 && viewModel.currentQuery.value.length > 2
+                        binding.groupEmpty.isVisible = itemRetailPosAdapter.itemCount == 0 && viewModel.currentQuery.value.length > 2
+                        binding.rvList.isVisible = itemRetailPosAdapter.itemCount > 0 && viewModel.currentQuery.value.length > 2
                     }
                 }
             }
@@ -190,7 +189,6 @@ class CariItemFragment(
                             CariItemFragmentDirections.actionCariItemFragmentToEditItemDialog(
                                 item = it.item
                             )
-
                         }
                         findNavController().navigate(action)
                     }

@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rect_primary"
         android:gravity="center_horizontal|center_vertical"
-        android:text="@string/ambil_promos"
+        android:text="@string/ambil_promo"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
         android:textStyle="bold"

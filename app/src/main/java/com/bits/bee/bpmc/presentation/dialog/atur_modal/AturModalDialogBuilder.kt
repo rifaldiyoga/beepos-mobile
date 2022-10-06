@@ -86,8 +86,6 @@ class AturModalDialogBuilder(
                 viewModel.event.collect {
                     when(it){
                         AturModalViewModel.UIEvent.NavigateToPos -> {
-                            findNavController().popBackStack()
-                            findNavController().navigate(R.id.mainActivity)
                         }
                         AturModalViewModel.UIEvent.NavigateToDefaultModal -> {
                             val dialog = DialogBuilderUtils.showDialogChoice(requireContext(), getString(
@@ -114,6 +112,16 @@ class AturModalDialogBuilder(
                             val action = AturModalDialogBuilderDirections.actionAturModalDialogBuilderToInsightPresetKasirFragment()
                             findNavController().navigate(action)
                         }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.event.collect {
+                when(it){
+                    BukaTutupKasirSharedViewModel.UIEvent.NavigateToPos -> {
+                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.mainActivity)
                     }
                 }
             }

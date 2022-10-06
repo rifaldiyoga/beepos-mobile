@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,7 +15,6 @@ import com.bits.bee.bpmc.databinding.FragmentPidBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -72,6 +72,7 @@ class PilihPidFragment(
                     it?.let { state ->
                         binding.textView102.text = state.item?.name1 ?: ""
                         pidAdapter.submitList(state.stockList)
+                        binding.progressBar.isVisible = state.isLoading
                     }
                 }
             }

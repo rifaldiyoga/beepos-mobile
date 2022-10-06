@@ -86,6 +86,9 @@ class MainActivity(
             clMember.setOnClickListener {
                 viewModel.onClickMember()
             }
+            clSalesman.setOnClickListener {
+                viewModel.onClickSalesman()
+            }
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 setVisibilityToolbar(destination.id)
                 setBackgroundToolbar(destination.id)
@@ -96,7 +99,15 @@ class MainActivity(
     override fun subscribeObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-
+                viewModel.activeSrep.collect {
+                    binding.apply {
+                        it?.let {
+//                            viewModel.state.sale.bpId = it.id!!
+//                            viewModel.state.sale.bpName = it.name
+                            tvSalesman.text = it.name
+                        }
+                    }
+                }
             }
         }
         lifecycleScope.launch {
@@ -158,6 +169,9 @@ class MainActivity(
                         MainViewModel.UIEvent.NavigateToPromo -> {
                             navController.navigate(R.id.promoFragment)
                         }
+                        MainViewModel.UIEvent.RequestSalesman -> {
+                            navController.navigate(R.id.salesmanFragment)
+                        }
                     }
                 }
             }
@@ -201,7 +215,9 @@ class MainActivity(
     }
 
     private fun setBackgroundToolbar(destinationId : Int){
-        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment || destinationId == R.id.klaimPromoFragment) {
+        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment
+            || destinationId == R.id.klaimPromoFragment || destinationId == R.id.tambahMemberFragment
+            || destinationId == R.id.memberFragment) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(
@@ -227,6 +243,7 @@ class MainActivity(
 
     private fun showSalesman(isVisible : Boolean) {
         binding.apply {
+            viewSalesman.isVisible = isVisible
             clSalesman.isVisible = isVisible
         }
     }

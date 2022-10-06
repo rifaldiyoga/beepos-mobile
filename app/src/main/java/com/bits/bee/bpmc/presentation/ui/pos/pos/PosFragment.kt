@@ -14,8 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPosBinding
-import com.bits.bee.bpmc.domain.model.Item
-import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
@@ -128,16 +126,25 @@ class PosFragment(
     }
 
     override fun subscribeObservers() {
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.viewStates().collect { state ->
                     state?.let {
                         if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
-                            when(mainViewModel.posModeState.value){
+                            binding.tvQty!!.text = getString(
+                                R.string._1_produk,
+                                CurrencyUtils.formatCurrency(getQtyDetail(state.saledList))
+                            )
+                            binding.tvSubtotal!!.text = getString(
+                                R.string.mata_uang_nominal,
+                                state.crc?.symbol ?: "",
+                                CurrencyUtils.formatCurrency(state.sale.total)
+                            )
+                            when(mainViewModel.posModeState.value) {
                                 PosModeState.RetailState -> {
                                     binding.apply {
                                         fabTambahBaru!!.isVisible = state.saledList.isNotEmpty()
+                                        llNext!!.isVisible = state.saledList.isNotEmpty()
                                         (state.saledList.isEmpty()).also {
                                             image1!!.isVisible = it
                                             btnTambahBaru!!.isVisible = it
@@ -146,16 +153,6 @@ class PosFragment(
                                     }
                                 }
                                 else -> {
-                                    binding.tvQty!!.text = getString(
-                                        R.string._1_produk,
-                                        CurrencyUtils.formatCurrency(getQtyDetail(state.saledList))
-                                    )
-                                    binding.tvSubtotal!!.text = getString(
-                                        R.string.mata_uang_nominal,
-                                        state.crc?.symbol ?: "",
-                                        CurrencyUtils.formatCurrency(state.sale.total)
-                                    )
-
                                     binding.llNext!!.isVisible = state.saledList.isNotEmpty()
                                 }
                             }
@@ -217,6 +214,7 @@ class PosFragment(
             if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
                 groupFnB!!.isVisible = true
                 groupRetail!!.isVisible = false
+                fabTambahBaru!!.isVisible = false
             }
         }
     }
@@ -225,7 +223,14 @@ class PosFragment(
         binding.apply {
             if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
                 groupFnB!!.isVisible = false
-                groupRetail!!.isVisible = true
+                val state = mainViewModel.state
+                fabTambahBaru!!.isVisible = state.saledList.isNotEmpty()
+                llNext!!.isVisible = state.saledList.isNotEmpty()
+                (state.saledList.isEmpty()).also {
+                    image1!!.isVisible = it
+                    btnTambahBaru!!.isVisible = it
+                    textView44!!.isVisible = it
+                }
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     val bundle: Bundle = Bundle().also { it.putString("page", "pos") }

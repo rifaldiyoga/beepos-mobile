@@ -51,4 +51,11 @@ class SaledRepositoryImpl @Inject constructor(
             emit(data)
         }.flowOn(defaultDispatcher)
     }
+
+    override fun getSaledById(id: Int): Flow<Saled?> {
+        return flow {
+            val data = saledDao.getSaledById(id)
+            emit(data?.let { SaledDataMapper.fromDbToDomain(it) })
+        }.flowOn(defaultDispatcher)
+    }
 }

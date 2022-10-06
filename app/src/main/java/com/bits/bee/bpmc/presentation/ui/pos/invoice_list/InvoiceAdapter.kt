@@ -27,8 +27,13 @@ class InvoiceAdapter(
     private val onDeleteClick : (Saled) -> Unit,
     private val isDelete : Boolean = true,
     private val modePos : PosModeState = PosModeState.FnBState,
-    private val saleAddOnList : List<SaleAddOnD> = mutableListOf()
+    private var saleAddOnList : List<SaleAddOnD> = mutableListOf()
 ) : ListAdapter<Saled, RecyclerView.ViewHolder>(DiffCallback()) {
+
+    fun submitSaleAddOnDList(saleAddOnList: List<SaleAddOnD>){
+        this.saleAddOnList = saleAddOnList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -80,6 +85,8 @@ class InvoiceAdapter(
 
                 if(!isDelete){
                     ivDelete.gone()
+                } else {
+                    ivDelete.visibility = if (model.isBonus) View.INVISIBLE else View.VISIBLE
                 }
 
                 clContent.setOnClickListener {
@@ -87,10 +94,13 @@ class InvoiceAdapter(
                 }
 
                 ivDelete.setOnClickListener {
-                    onDeleteClick(model)
+                    if (!model.isBonus)
+                        onDeleteClick(model)
                 }
 
-                val saledAddonList = saleAddOnList.filter { model == it.upSaled }.map { it.saled }
+                ivDelete.isEnabled = !model.isBonus
+
+                val saledAddonList = saleAddOnList.filter { model == it.upSaled ||(model.id != null && it.upSaled != null && it.upSaled!!.id != null && model.id == it.upSaled!!.id) }.map { it.saled }
 
                 rvAddon.isVisible = saledAddonList.isNotEmpty()
 

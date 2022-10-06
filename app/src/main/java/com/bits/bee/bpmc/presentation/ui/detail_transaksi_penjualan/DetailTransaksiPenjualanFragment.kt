@@ -3,7 +3,6 @@ package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -54,7 +53,7 @@ class DetailTransaksiPenjualanFragment(
         detailAdapter = InvoiceAdapter(
             onItemClicK = {},
             onDeleteClick = {},
-            isDelete = false
+            isDelete = false,
         )
         binding.apply {
             rvList.apply {
@@ -92,6 +91,8 @@ class DetailTransaksiPenjualanFragment(
                             }
                         }
                         detailAdapter.submitList(it.saledList)
+                        if(it.saleAddOnDList.isNotEmpty())
+                            detailAdapter.submitSaleAddOnDList(it.saleAddOnDList)
                     }
                 }
             }

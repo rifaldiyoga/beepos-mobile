@@ -65,7 +65,7 @@ class BukaKasirUseCase @Inject constructor(
         mCash = cashRepository.getLastId().first()
 
         addCashAUseCase(
-            refId = mPosses?.possesId?.toLong() ?: throw Exception(),
+            refId = mPosses?.possesId?.toLong() ?: throw Exception(""),
             refType = BPMConstants.BPM_DEFAULT_TYPE_POSSES,
             cashId = mCash?.id ?: throw Exception(),
             cashierId = cashier.id,

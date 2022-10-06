@@ -379,4 +379,10 @@ object DatabaseModule {
     fun providePromoMultiDao(dbHelper: DbHelper): PromoMultiDao{
         return dbHelper.promoMultiDao
     }
+
+    @Provides
+    @Singleton
+    fun provideSrepDao(dbHelper: DbHelper): SrepDao{
+        return dbHelper.srepDao
+    }
 }

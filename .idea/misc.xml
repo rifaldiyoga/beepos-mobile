@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/drawable/ic_back_white.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_white.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/ic_circle_minus.xml" value="0.228" />
+        <entry key="app/src/main/res/drawable/ic_circle_plus.xml" value="0.2295" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.241" />
         <entry key="app/src/main/res/drawable/ic_close_black.xml" value="0.2045" />
         <entry key="app/src/main/res/drawable/ic_close_gray.xml" value="0.241" />
@@ -33,6 +34,7 @@
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.18755516328331862" />
         <entry key="app/src/main/res/layout-land/fragment_analisa_sesi.xml" value="0.18738977072310406" />
         <entry key="app/src/main/res/layout-land/fragment_beranda.xml" value="0.33" />
+        <entry key="app/src/main/res/layout-land/fragment_cari_item.xml" value="0.21340388007054673" />
         <entry key="app/src/main/res/layout-land/fragment_detail_buka_kasir.xml" value="0.22" />
         <entry key="app/src/main/res/layout-land/fragment_detail_tutup_kasir.xml" value="0.18738977072310406" />
         <entry key="app/src/main/res/layout-land/fragment_lainnya.xml" value="0.18738977072310406" />
@@ -74,6 +76,7 @@
         <entry key="app/src/main/res/layout/fragment_detail_buka_kasir.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/fragment_detail_rekap_sesi.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/fragment_detail_riwayat_sesi.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_detail_salesman.xml" value="0.27960666951688756" />
         <entry key="app/src/main/res/layout/fragment_detail_transaksi_penjualan.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_detail_tutup_kasir.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/fragment_draft_list.xml" value="0.18170158187259514" />
@@ -84,7 +87,7 @@
         <entry key="app/src/main/res/layout/fragment_insight_pid.xml" value="0.27960666951688756" />
         <entry key="app/src/main/res/layout/fragment_insight_preset_kasir.xml" value="0.27960666951688756" />
         <entry key="app/src/main/res/layout/fragment_insight_ubah_preset_kasir.xml" value="0.27960666951688756" />
-        <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.3777120315581854" />
         <entry key="app/src/main/res/layout/fragment_klaim_promo.xml" value="0.341324200913242" />
         <entry key="app/src/main/res/layout/fragment_lainnya.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.6431924882629108" />
@@ -95,11 +98,14 @@
         <entry key="app/src/main/res/layout/fragment_pembayaran_gopay.xml" value="0.27960666951688756" />
         <entry key="app/src/main/res/layout/fragment_pembayaran_kartu.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_pembayaran_non_tunai.xml" value="0.18631006346328197" />
+        <entry key="app/src/main/res/layout/fragment_pid.xml" value="0.1791363830696879" />
         <entry key="app/src/main/res/layout/fragment_pilih_cabang.xml" value="0.15965346534653466" />
         <entry key="app/src/main/res/layout/fragment_pilih_db.xml" value="0.15965346534653466" />
         <entry key="app/src/main/res/layout/fragment_pilih_kasir.xml" value="0.15965346534653466" />
-        <entry key="app/src/main/res/layout/fragment_pos.xml" value="0.15965346534653466" />
+        <entry key="app/src/main/res/layout/fragment_pos.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_pos_item.xml" value="0.1496365968362548" />
         <entry key="app/src/main/res/layout/fragment_riwayat_sesi.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_salesman.xml" value="0.27960666951688756" />
         <entry key="app/src/main/res/layout/fragment_setting_nota.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_setting_pos.xml" value="0.29565929565929566" />
         <entry key="app/src/main/res/layout/fragment_tambah_member.xml" value="0.3333333333333333" />
@@ -112,6 +118,7 @@
         <entry key="app/src/main/res/layout/item_orientation.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_pos_itgrp.xml" value="0.2615593834995467" />
         <entry key="app/src/main/res/layout/item_pos_menu.xml" value="0.302536231884058" />
+        <entry key="app/src/main/res/layout/item_pos_menu_cari.xml" value="0.2069260367678495" />
         <entry key="app/src/main/res/layout/item_pos_menu_promo.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_pos_retail.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_produk_dummy.xml" value="0.25" />

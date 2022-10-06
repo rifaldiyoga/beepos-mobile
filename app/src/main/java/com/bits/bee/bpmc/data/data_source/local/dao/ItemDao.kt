@@ -27,7 +27,7 @@ interface ItemDao : BaseDao<ItemEntity> {
     fun getActiveItemPagedList(query : String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
     @Query("SELECT * FROM item " +
-            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND is_variant = 0 " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' " +
             "AND id NOT IN (SELECT item_id FROM item_variant) "+
             "AND id NOT IN (SELECT item_id FROM item_branch) " +
             "UNION SELECT id, code, name as name1, '' as brand_id, '' as itemtype_code, 0 as usepid, 0 as uniqepid, " +
@@ -50,7 +50,7 @@ interface ItemDao : BaseDao<ItemEntity> {
     fun getItemByItemGrpPagedList(itemGrpId : Int, query: String, usePid : Boolean = false) : PagingSource<Int, ItemEntity>
 
     @Query("SELECT * FROM item " +
-            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND itemgrp1_id = :itemGrpId AND is_variant = 0 " +
+            "WHERE ispos = 1 AND active = 1 AND name1 LIKE '%' || :query || '%' AND itemgrp1_id = :itemGrpId " +
             "AND id NOT IN (SELECT item_id FROM item_variant) "+
             "AND id NOT IN (SELECT item_id FROM item_branch) " +
             "UNION SELECT id, code, name as name1, '' as brand_id, '' as itemtype_code, 0 as usepid, 0 as uniqepid, " +

@@ -35,17 +35,25 @@ class PilihPidViewModel @Inject constructor(
             getPidByItemUseCase(it).collect {
                 when(it.status){
                     Resource.Status.LOADING -> {
-
+                        updateState(
+                            state.copy(
+                                isLoading = true
+                            )
+                        )
                     }
                     Resource.Status.SUCCESS -> {
                         it.data?.let {
                             updateState(
-                                state.copy(stockList = it)
+                                state.copy(stockList = it, isLoading = false)
                             )
                         }
                     }
                     Resource.Status.ERROR -> {
-                        it.message
+                        updateState(
+                            state.copy(
+                                isLoading = false
+                            )
+                        )
                     }
                 }
             }

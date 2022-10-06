@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 
 
@@ -32,7 +33,6 @@ class KlaimPromoFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     private lateinit var itemAdapter : KlaimPromoAdapater
-
     override fun initComponents() {
         binding.apply {
 
@@ -111,7 +111,10 @@ class KlaimPromoFragment(
                         Snackbar.make(binding.root, it.msg, Snackbar.LENGTH_LONG).setAnchorView(R.id.btnNext).show()
                     }
                     KlaimPromoViewModel.UIEvent.NavigateBack -> {
-                        mainViewModel.listPromoBonus.clear()
+//                        mainViewModel.listPromoBonus.clear()
+//                        runBlocking {
+//                            mainViewModel.generatePromo()
+//                        }
                         findNavController().popBackStack()
                     }
                     is KlaimPromoViewModel.UIEvent.RequestAdd -> {
