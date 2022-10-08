@@ -13,4 +13,6 @@ interface CashRepository {
 
     fun getActiveCash(idPosses: Long): Flow<Cash?>
 
+    suspend fun updateCash(cash: Cash)
+
 }

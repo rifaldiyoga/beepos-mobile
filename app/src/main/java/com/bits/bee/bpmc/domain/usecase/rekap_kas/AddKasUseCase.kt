@@ -22,8 +22,8 @@ class AddKasUseCase @Inject constructor(
 
     suspend operator fun invoke(cash: Cash, balance: BigDecimal) {
 
-        var cashInAmount: BigDecimal = cashRepository.getActiveCash(cash.id!!.toLong()).first()!!.balance.add(balance)
-        val cashOutAmount: BigDecimal = cashRepository.getActiveCash(cash.id!!.toLong()).first()!!.balance.subtract(balance)
+        var cashInAmount: BigDecimal = cash.balance.add(balance)
+        val cashOutAmount: BigDecimal = cash.balance.subtract(balance)
 
         cadjRepository.getLastInOutStatus(cash.id!!.toLong()).collectLatest {
             mCadj = it
@@ -32,10 +32,10 @@ class AddKasUseCase @Inject constructor(
         status = mCadj!!.status
         if (status.equals("i", ignoreCase = true)) {
             cash.balance = cashInAmount
-            cashRepository.addCash(CashDataMapper.fromDomainToDb(cash))
+            cashRepository.updateCash(cash)
         } else if (status.equals("o", ignoreCase = true)) {
             cash.balance = cashOutAmount
-            cashRepository.addCash(CashDataMapper.fromDomainToDb(cash))
+            cashRepository.updateCash(cash)
         }
     }
 }

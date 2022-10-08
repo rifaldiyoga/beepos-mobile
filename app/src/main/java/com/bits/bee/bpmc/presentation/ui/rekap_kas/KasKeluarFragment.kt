@@ -65,7 +65,7 @@ class KasKeluarFragment(
                                 .setTitle(getString(R.string.tambah_kas_keluar)).build()
                             dialog.show(parentFragmentManager, TAG)
                         }
-                        KasKeluarMasukSharedViewModel.UIEvent.RequestAddKasKeluar ->{
+                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar ->{
                             Toast.makeText(requireContext(), "Berhasil Simpan", Toast.LENGTH_SHORT).show()
                             sharedViewModel.loadKasKeluar()
                         }

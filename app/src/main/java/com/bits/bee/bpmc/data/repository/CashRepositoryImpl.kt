@@ -37,4 +37,10 @@ class CashRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override suspend fun updateCash(cash: Cash) {
+        withContext(defaultDispatcher){
+            cashDao.update(CashDataMapper.fromDomainToDb(cash))
+        }
+    }
+
 }

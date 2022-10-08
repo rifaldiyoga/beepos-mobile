@@ -22,15 +22,21 @@ interface CadjDao: BaseDao<CadjEntity> {
     @Query("SELECT * from cadj wHERE cash_id = :cashid order by id desc limit 1")
     fun getLastInOutStatus(cashid: Long): CadjEntity
 
-    @Query("SELECT * from cadj where inout = 'i' and autogen = 0")
-    fun getKasMasuk(): List<CadjEntity>
+    @Query("SELECT * from cadj where inout = 'i' and autogen = 0 order by id desc")
+    fun getKasMasukDesc(): List<CadjEntity>
 
-    @Query("SELECT * from cadj where inout = 'o'")
-    fun getKasKeluar(): List<CadjEntity>
+    @Query("SELECT * from cadj where inout = 'i' and autogen = 0 order by id asc")
+    fun getKasMasukAsc(): List<CadjEntity>
+
+    @Query("SELECT * from cadj where inout = 'o' order by id desc")
+    fun getKasKeluarDesc(): List<CadjEntity>
+
+    @Query("SELECT * from cadj where inout = 'o' order by id asc")
+    fun getKasKeluarAsc(): List<CadjEntity>
 
     @Query("SELECT * FROM cadj WHERE inout = 'i' and trxdate between :startDate and :endDate")
     fun getJmlCadjInByDate(startDate: Long, endDate: Long): List<CadjEntity>
 
-    @Query("SELECT * FROM cadj where inout = '0' and trxdate between :startDate and :endDate")
+    @Query("SELECT * FROM cadj where inout = 'o' and trxdate between :startDate and :endDate")
     fun getJmlCadjOutByDate(startDate: Long, endDate: Long): List<CadjEntity>
 }

@@ -33,6 +33,7 @@ class AnalisaSesiFragment(
     private val viewModel : AnalisaSesiViewModel by viewModels()
     private var mPosses: Posses? = null
     private var isRiwayat: Boolean = false
+    private var bigDecimalZero: BigDecimal = BigDecimal("0")
 
     private lateinit var itemRankAdapter: ItemRankAdapter
 
@@ -132,6 +133,8 @@ class AnalisaSesiFragment(
                                     "Rp", CurrencyUtils.formatCurrency(it.total))
                                 viewModel.getValueDetail()
                             }
+                            tvPemasukan.text =""
+                            tvPengeluaran.text=""
                             it.user?.let {
                                 tvUserKasir.text = it.name
                             }
@@ -152,21 +155,21 @@ class AnalisaSesiFragment(
                             }
                             it.totalTunai?.let {
                                 tvTotalTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
                             }
                             it.totalDebit?.let {
                                 tvTotalDebit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
                             }
                             it.totalKredit?.let {
                                 tvTotalKredit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
                             }
                             it.totalGopay?.let {
                                 tvTotalGopay.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
                                 tvTotalNonTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai() ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai() ?: bigDecimalZero))
                             }
                             it.rankItem?.let {
 //                                clEmptyRanking.visibility = View.GONE

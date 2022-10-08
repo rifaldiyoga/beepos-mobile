@@ -11,7 +11,7 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.util.HashMap
+import java.util.*
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -20,9 +20,9 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
     private val addKasKeluarMasukUseCase: AddKasKeluarMasukUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val loadKasMasukUseCase: LoadKasMasukUseCase,
+    private val loadKasMasukSortUseCase: LoadKasMasukSortUseCase,
     private val getCadjInByDateUseCase: GetCadjInByDateUseCase,
-    private val loadKasKeluarUseCase: LoadKasKeluarUseCase,
+    private val loadKasKeluarSortUseCase: LoadKasKeluarSortUseCase,
     private val getCadjOutByDateUseCase: GetCadjOutByDateUseCase,
     private val updateTotalPossesUseCase: UpdateTotalPossesUseCase,
     private val addKasUseCase: AddKasUseCase
@@ -82,7 +82,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             val status = "i"
             val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
             val balance = BigDecimal.valueOf(longStartBal)
-            val note = nominal.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
+            val note = deskripsi.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
             val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
             val autogen = false
 
@@ -93,9 +93,8 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
 //            loadKasMasukUseCase.invoke().collect{
 //                mListCadj = it
 //            }
-//
-//            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
-//            addKasUseCase.invoke(cash, balance)
+            addKasUseCase.invoke(cash, balance)
+            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
 
             eventChannel.send(UIEvent.SuccesAddkasMasuk)
         }
@@ -127,7 +126,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             val status = "o"
             val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
             val balance = BigDecimal.valueOf(longStartBal).negate()
-            val note = nominal.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
+            val note = deskripsi.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
             val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
             val autogen = false
 
@@ -136,17 +135,21 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
 //            loadKasMasukUseCase.invoke().collect{
 //                mListCadj = it
 //            }
-//
-//            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
-//            addKasUseCase.invoke(cash, balance)
+            addKasUseCase.invoke(cash, balance)
+            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
 
-            eventChannel.send(UIEvent.SuccesAddkasMasuk)
+            eventChannel.send(UIEvent.SuccesAddKasKeluar)
         }
 
     }
 
-    fun loadKasMasuk() = viewModelScope.launch {
-        loadKasMasukUseCase.invoke().collect{
+    fun loadKasMasuk(desc: Boolean) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isDesc = desc
+            )
+        )
+        loadKasMasukSortUseCase.invoke(desc).collect{
             updateState(
                 state.copy(
                     cadjListIn = it
@@ -155,8 +158,13 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         }
     }
 
-    fun loadKasKeluar() = viewModelScope.launch {
-        loadKasKeluarUseCase.invoke().collect{
+    fun loadKasKeluar(desc: Boolean) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isDesc = desc
+            )
+        )
+        loadKasKeluarSortUseCase.invoke(desc).collect{
             updateState(
                 state.copy(
                     cadjListOut = it
@@ -169,6 +177,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         val cadjMap : HashMap<Long, MutableList<Cadj>>
                 = HashMap()
         cadjMap.clear()
+        val resultSorted: SortedMap<Long, MutableList<Cadj>>
         for (cadj in dataList){
             val key = DateFormatUtils.convertStartDate(cadj.trxDate)
             if (!cadjMap.containsKey(key)){
@@ -179,10 +188,17 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
                 cadjMap.get(key)!!.add(cadj)
             }
         }
-        parseMapCadjIn(cadjMap)
+
+        if (state.isDesc){
+            resultSorted = cadjMap.toSortedMap(compareByDescending { it })
+        }else{
+            resultSorted = cadjMap.toSortedMap(compareBy { it })
+        }
+
+        parseMapCadjIn(resultSorted)
     }
 
-    private fun parseMapCadjIn(cadjMap: HashMap<Long, MutableList<Cadj>>) = viewModelScope.launch {
+    private fun parseMapCadjIn(cadjMap: SortedMap<Long, MutableList<Cadj>>) = viewModelScope.launch {
         var jmlTrans = 0
         val kasList = mutableListOf<Kas>()
         for (newMap in cadjMap.entries){
@@ -203,6 +219,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         val cadjMap : HashMap<Long, MutableList<Cadj>>
                 = HashMap()
         cadjMap.clear()
+        val resultSorted: SortedMap<Long, MutableList<Cadj>>
         for (cadj in dataList){
             val key = DateFormatUtils.convertStartDate(cadj.trxDate)
             if (!cadjMap.containsKey(key)){
@@ -213,10 +230,18 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
                 cadjMap.get(key)!!.add(cadj)
             }
         }
-        parseMapCadjOut(cadjMap)
+
+        if (state.isDesc){
+            resultSorted = cadjMap.toSortedMap(compareByDescending { it })
+        }else{
+            resultSorted = cadjMap.toSortedMap(compareBy { it })
+        }
+
+
+        parseMapCadjOut(resultSorted)
     }
 
-    private fun parseMapCadjOut(cadjMap: HashMap<Long, MutableList<Cadj>>) = viewModelScope.launch {
+    private fun parseMapCadjOut(cadjMap: SortedMap<Long, MutableList<Cadj>>) = viewModelScope.launch {
         var jmlTrans = 0
         val kasList = mutableListOf<Kas>()
         for (newMap in cadjMap.entries){

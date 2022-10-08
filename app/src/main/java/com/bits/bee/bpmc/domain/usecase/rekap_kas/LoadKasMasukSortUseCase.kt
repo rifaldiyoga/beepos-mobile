@@ -5,10 +5,14 @@ import com.bits.bee.bpmc.domain.repository.CadjRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LoadKasKeluarUseCase @Inject constructor(
+class LoadKasMasukSortUseCase @Inject constructor(
     private val cadjRepository: CadjRepository
 ) {
-    operator fun invoke(): Flow<List<Cadj>>{
-        return cadjRepository.getKasKeluar()
+    operator fun invoke(desc: Boolean): Flow<List<Cadj>>{
+        if (desc){
+            return cadjRepository.getKasMasukDesc()
+        }else{
+            return cadjRepository.getKasMasukAsc()
+        }
     }
 }

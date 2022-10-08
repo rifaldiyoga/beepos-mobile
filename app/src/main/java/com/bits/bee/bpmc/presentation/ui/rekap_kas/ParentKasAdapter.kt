@@ -41,7 +41,7 @@ class ParentKasAdapter constructor(
         val kasModel = mList.get(position)
         holder.binding.apply {
             tvTglKas.text = getDate(Date(kasModel.date))
-            tvJmlTrans.text = "${kasModel.jmltrans} Sesi"
+            tvJmlTrans.text = "${kasModel.jmltrans} Transaksi"
 
             nestedKasAdapter = NestedKasAdapter()
 

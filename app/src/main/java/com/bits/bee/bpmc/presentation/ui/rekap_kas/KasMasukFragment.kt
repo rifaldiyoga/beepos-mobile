@@ -32,7 +32,7 @@ class KasMasukFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedViewModel.loadKasMasuk()
+        sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc)
         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_tablayout), true)
     }
 
@@ -78,7 +78,7 @@ class KasMasukFragment(
                         }
                         KasKeluarMasukSharedViewModel.UIEvent.SuccesAddkasMasuk ->{
                             Toast.makeText(requireContext(), "berhasil simpan", Toast.LENGTH_SHORT).show()
-                            sharedViewModel.loadKasMasuk()
+                            sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc)
                         }
                     }
                 }
@@ -89,17 +89,23 @@ class KasMasukFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sharedViewModel.viewStates().collect {
                     it?.let {
-                        it.cadjListIn?.let { data->
-                            if (data.size > 0){
-                                sharedViewModel.setListKasIn(data)
-                                it.cashInList?.let {
-                                    parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                        binding.apply {
+                            it.cadjListIn?.let { data->
+                                if (data.size > 0){
+                                    sharedViewModel.setListKasIn(data)
+                                    it.cashInList?.let {
+                                        parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                                    }
+                                    imgEmpty.visibility = View.GONE
+                                    textDetai.visibility = View.GONE
+                                    btnTambah.visibility = View.GONE
+                                    binding.floatBtnTambah.visibility = View.VISIBLE
+                                }else{
+                                    imgEmpty.visibility = View.VISIBLE
+                                    textDetai.visibility = View.VISIBLE
+                                    btnTambah.visibility = View.VISIBLE
+                                    binding.floatBtnTambah.visibility = View.GONE
                                 }
-                                binding.lLEmptyKasMasuk.visibility = View.GONE
-                                binding.floatBtnTambah.visibility = View.VISIBLE
-                            }else{
-                                binding.lLEmptyKasMasuk.visibility = View.VISIBLE
-                                binding.floatBtnTambah.visibility = View.GONE
                             }
                         }
                     }

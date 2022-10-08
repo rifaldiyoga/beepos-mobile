@@ -20,9 +20,13 @@ interface CadjRepository {
 
     fun getLastInOutStatus(cashid: Long): Flow<Cadj>
 
-    fun getKasMasuk(): Flow<List<Cadj>>
+    fun getKasMasukDesc(): Flow<List<Cadj>>
 
-    fun getKasKeluar(): Flow<List<Cadj>>
+    fun getKasMasukAsc(): Flow<List<Cadj>>
+
+    fun getKasKeluarDesc(): Flow<List<Cadj>>
+
+    fun getKasKeluarAsc(): Flow<List<Cadj>>
 
     fun getJmlCadjInByDate(startDate: Long, endDate: Long): Flow<List<Cadj>>
 

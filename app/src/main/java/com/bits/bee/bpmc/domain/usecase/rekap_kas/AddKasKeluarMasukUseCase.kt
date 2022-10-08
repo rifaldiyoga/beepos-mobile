@@ -41,7 +41,7 @@ class AddKasKeluarMasukUseCase @Inject constructor(
             amount = balance,
             refNo = mPosses!!.trxNo,
             kodeCadj = "",
-            trxDate = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, Date()),
+            trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
             isUploaded = false,
         )
 
