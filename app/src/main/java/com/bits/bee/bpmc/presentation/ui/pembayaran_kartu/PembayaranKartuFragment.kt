@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,10 +19,9 @@ import com.bits.bee.bpmc.domain.model.Pmtd
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -74,6 +74,15 @@ class PembayaranKartuFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            val regCardNo = viewModel.regCardNoReq.first()
+            val regTrackNo = viewModel.regTrackNoReq.first()
+
+            binding.apply {
+                tvCardNoOps.isVisible = regCardNo?.value == "1"
+                tvTrackNoOps.isVisible = regTrackNo?.value == "1"
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 parentViewModel.activePmtd.collect {
@@ -102,7 +111,6 @@ class PembayaranKartuFragment(
                             binding.tvTotal.text = getString(R.string.mata_uang_nominal, mainState.crc?.symbol?: "", CurrencyUtils.formatCurrency(total))
                             binding.tvNominalSurcharge.text = getString(R.string.mata_uang_nominal, mainState.crc?.symbol ?: "",CurrencyUtils.formatCurrency(surcVal))
                         }
-
                     }
                 }
             }
@@ -126,15 +134,32 @@ class PembayaranKartuFragment(
                         }
                         PembayaranKartuViewModel.UIEvent.RequsetBayar -> {
                             val state = viewModel.state
-                            mainViewModel.submitSale(
-                                context = requireContext(),
-                                termType = state.type,
-                                paymentAmt = state.total,
-                                pmtd = state.pmtd,
-                                trackNo = state.trackNo,
-                                cardNo = state.nomorkartu,
-                                note = state.keterangan
-                            )
+                            var isValid = true
+
+                            val regCardNo = viewModel.regCardNoReq.first()
+                            val regTrackNo = viewModel.regTrackNoReq.first()
+
+                            if(regCardNo?.value == "1" && state.nomorkartu.isEmpty()) {
+                                binding.tilNomorKartu.error = "Nomor Kartu tidak boleh kosong!"
+                                isValid = false
+                            }
+                            if(regTrackNo?.value == "1" && state.trackNo.isEmpty()) {
+                                binding.tilTrackNo.error = "Track No tidak boleh kosong!"
+                                isValid = false
+                            }
+
+                            if(isValid) {
+                                mainViewModel.submitSale(
+                                    context = requireContext(),
+                                    termType = state.type,
+                                    paymentAmt = state.total,
+                                    pmtd = state.pmtd,
+                                    trackNo = state.trackNo,
+                                    cardNo = state.nomorkartu,
+                                    note = state.keterangan
+                                )
+                                viewModel.onSuccessBayar()
+                            }
                         }
                     }
                 }

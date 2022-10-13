@@ -39,5 +39,6 @@ data class  Item (
     var crcId: Int = -1,
     var crcSymbol: String = "Rp.",
     var unitList : List<Unit> = mutableListOf(),
-    var itemVariantList: List<Int> = mutableListOf()
+    var itemVariantList: List<Int> = mutableListOf(),
+    var isFavorit : Boolean = false
 ) : Parcelable

@@ -28,4 +28,9 @@ class SrepRepositoryImpl @Inject constructor(
         emit(data?.let { SrepDataMapper.fromDbToDomain(it) })
     }.flowOn(defDispatcher)
 
+    override fun getSrepById(id: Int): Flow<Srep?> = flow{
+        val data = srepDao.getSrepById(id)
+        emit(data?.let { SrepDataMapper.fromDbToDomain(it) })
+    }.flowOn(defDispatcher)
+
 }

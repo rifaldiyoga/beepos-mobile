@@ -1,7 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.pos.cari_item
 
+import android.Manifest
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -18,8 +21,8 @@ import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
-import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosAdapter
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
+import com.bits.bee.bpmc.utils.PermissionUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,9 +40,16 @@ class CariItemFragment(
 
     private val mViewModel : MainViewModel by activityViewModels()
 
-    private lateinit var itemAdapter : ItemPosAdapter
-
+    private lateinit var itemAdapter : ItemPosCariAdapter
     private lateinit var itemRetailPosAdapter: ItemPosRetailAdapter
+    private lateinit var searchView : SearchView
+
+    private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted ->
+        if(!isGranted){
+            Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.state.usePid = mViewModel.posModeState.value is PosModeState.RetailState
@@ -51,14 +61,15 @@ class CariItemFragment(
         val searchItem = menu.findItem(R.id.menu_search)
         menu.findItem(R.id.menu_scan).isVisible = mViewModel.posModeState.value == PosModeState.RetailState
 
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.cari_produk_min_3_karakter)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.onSearch(newText ?: "")
+                viewModel.onSearch(newText ?: viewModel.currentQuery.value)
                 if(newText != null && newText.length < 3){
                     binding.groupEmpty.gone()
                     binding.rvList.gone()
@@ -88,8 +99,13 @@ class CariItemFragment(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_scan -> {
-                val action = CariItemFragmentDirections.actionCariItemFragmentToScannerFragment()
-                findNavController().navigate(action)
+                if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)) {
+                    val action =
+                        CariItemFragmentDirections.actionCariItemFragmentToScannerFragment()
+                    findNavController().navigate(action)
+                } else {
+                    requestPermissionCamera.launch(Manifest.permission.CAMERA)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -118,6 +134,12 @@ class CariItemFragment(
                 else
                     itemRetailPosAdapter
                 layoutManager = LinearLayoutManager(requireActivity())
+            }
+
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
+                viewModel.onSearch(it)
+                searchView.setQuery(it, false)
+                showSnackbar(it)
             }
         }
     }

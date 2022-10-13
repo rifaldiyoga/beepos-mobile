@@ -68,8 +68,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clUploadManual"
@@ -121,8 +120,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clCekStok"
@@ -174,8 +172,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clRekapKas"
@@ -227,8 +224,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clRekapProduk"
@@ -280,8 +276,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clKelolaProduk"
@@ -333,8 +328,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clPengaturan"
@@ -385,8 +379,7 @@
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clPos" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </LinearLayout>
 

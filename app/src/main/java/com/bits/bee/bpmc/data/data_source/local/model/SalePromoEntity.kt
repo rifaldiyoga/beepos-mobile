@@ -17,11 +17,7 @@ import java.math.BigDecimal
             childColumns = [SalePromoEntity.SALED_ID],
             onDelete = ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = PromoEntity::class,
-            parentColumns = [PromoEntity.ID],
-            childColumns = [SalePromoEntity.PROMO_ID],
-        ),
+
     ]
 )
 data class SalePromoEntity(

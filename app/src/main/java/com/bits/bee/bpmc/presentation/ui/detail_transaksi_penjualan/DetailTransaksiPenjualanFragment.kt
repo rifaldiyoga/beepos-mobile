@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,10 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailTransaksiPenjualanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
 import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,7 +36,10 @@ class DetailTransaksiPenjualanFragment(
 
     private val parentViewModel : TransaksiPenjualanViewModel by viewModels({requireParentFragment()})
 
+    private val activityViewModel : HomeViewModel by activityViewModels()
+
     private lateinit var detailAdapter : InvoiceAdapter
+
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -54,8 +62,12 @@ class DetailTransaksiPenjualanFragment(
             onItemClicK = {},
             onDeleteClick = {},
             isDelete = false,
+            modePos = activityViewModel.posModeState.value
         )
         binding.apply {
+            if(activityViewModel.posModeState.value is PosModeState.FnBState)
+                groupSalesman.gone()
+
             rvList.apply {
                 adapter = detailAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -70,25 +82,31 @@ class DetailTransaksiPenjualanFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
-                    it?.let {
+                viewModel.viewStates().collect { state ->
+                    state?.let {
                         it.sale?.let { sale ->
                             binding.apply {
                                 setToolbarTitle(sale.trxNo)
-                                tvTotal.text = CurrencyUtils.formatCurrency(sale.total)
+                                tvTotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.total))
                                 tvKasir.text = sale.cashiername
                                 tvMember.text = sale.bpName
-                                tvPajak.text = CurrencyUtils.formatCurrency(sale.taxAmt)
-                                tvDiskon.text = CurrencyUtils.formatCurrency(sale.discAmt)
-                                tvPembulatan.text = CurrencyUtils.formatCurrency(sale.rounding)
-                                tvSubtotal.text = CurrencyUtils.formatCurrency(sale.subtotal)
+                                tvPajak.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.taxAmt))
+                                tvDiskon.text =  getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.discAmt))
+                                tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
+                                tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
                                 tvTanggal.text = dateFormat.format(sale.trxDate)
+                                tvJenisPembayaran.text = sale.termType
+                                tvChannel.text = sale.channelId.toString()
+                                tvSalesman.text = sale.srepId?.toString() ?: ""
 
                                 btnCetak.isEnabled = sale.isVoid
                                 if(sale.isVoid) {
                                     btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
+                                } else {
+                                    btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
                                 }
                             }
+
                         }
                         detailAdapter.submitList(it.saledList)
                         if(it.saleAddOnDList.isNotEmpty())
@@ -97,19 +115,48 @@ class DetailTransaksiPenjualanFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.event.collect{
+                when(it){
+                    DetailTransaksiPenjualanViewModel.UIEvent.SuccessVoid -> {
+                        viewModel.state.sale?.let {
+                            parentViewModel.updateActiveSale(it.copy(isVoid = true))
+                        }
+                    }
+                }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                parentViewModel.activeSale.collect{
-                    binding.group.isVisible = it != null
+                parentViewModel.activeSale.collect { sale ->
+                    binding.group.isVisible = sale != null
                     viewModel.updateState(
-                        viewModel.state.copy(sale = it)
+                        viewModel.state.copy(sale = sale)
                     )
                     viewModel.getSaledList()
+                    binding.apply {
+                        sale?.let {
+                            setToolbarTitle(sale.trxNo)
+                            tvTotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.total))
+                            tvKasir.text = sale.cashiername
+                            tvMember.text = sale.bpName
+                            tvPajak.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.taxAmt))
+                            tvDiskon.text =  getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.discAmt))
+                            tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
+                            tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
+                            tvTanggal.text = dateFormat.format(sale.trxDate)
+                            tvJenisPembayaran.text = sale.termType
+                            tvChannel.text = sale.channelId.toString()
+                            tvSalesman.text = sale.srepId?.toString() ?: ""
+
+                            btnCetak.isEnabled = sale.isVoid
+                            if(sale.isVoid) {
+                                btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
+                            } else {
+                                btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -3,13 +3,14 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemBluetoothBinding
 
 class FindPrinterAdapter constructor(
-    private val listDevice: MutableList<ListPrinter>,
     private val mListener: PilihBluetoothPrinterI
-): RecyclerView.Adapter<FindPrinterAdapter.ViewHolder>() {
+): ListAdapter<PrinterDevice, FindPrinterAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -21,25 +22,37 @@ class FindPrinterAdapter constructor(
         )
     }
 
-    override fun getItemCount(): Int = listDevice.size
-
     class ViewHolder(val binding : ItemBluetoothBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val current = listDevice.get(position)
+        val current = getItem(position)
         holder.binding.apply {
             clPrinterTerhubung.visibility = View.GONE
             clPrinterTidakTerhubung.visibility = View.GONE
-            itemBluetoothTvTitle.text = current.namaPrinter
+            itemBluetoothTvTitle.text = current.nama
             itemBluetoothTvAddress.text = current.address
-            itemListClPrinter.setOnClickListener {
+            holder.itemView.setOnClickListener {
                 mListener.OnItemClick(current)
             }
         }
     }
 
     interface PilihBluetoothPrinterI{
-        fun OnItemClick(element: ListPrinter)
+        fun OnItemClick(element: PrinterDevice)
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<PrinterDevice>(){
+        override fun areItemsTheSame(oldItem: PrinterDevice, newItem: PrinterDevice): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: PrinterDevice,
+            newItem: PrinterDevice
+        ): Boolean {
+            return oldItem.address == newItem.address
+        }
+
     }
 
 }

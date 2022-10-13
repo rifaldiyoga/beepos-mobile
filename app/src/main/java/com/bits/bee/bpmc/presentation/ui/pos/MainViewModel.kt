@@ -6,8 +6,10 @@ import androidx.paging.cachedIn
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
+import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.repository.ChannelRepository
+import com.bits.bee.bpmc.domain.repository.SrepRepository
 import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.domain.usecase.pos.*
@@ -16,10 +18,8 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
@@ -46,24 +46,23 @@ class MainViewModel @Inject constructor(
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
     private val getDefaultSalesmanUseCase: GetDefaultSalesmanUseCase,
     private val promoCalc: PromoCalc,
+    private val channelRepository: ChannelRepository,
+    private val srepRepository: SrepRepository,
     private val beePreferenceManager: BeePreferenceManager,
-    private val channelRepository: ChannelRepository
+    private val getRegUseCase: GetRegUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
-    private val _posModeState: MutableStateFlow<PosModeState> = MutableStateFlow(PosModeState.RetailState)
+    private val _posModeState = MutableStateFlow(PosModeState.FnBState)
+    @OptIn(FlowPreview::class)
+    val posModeState : StateFlow<PosModeState> = _posModeState
+        .filterNotNull()
+        .flatMapConcat { beePreferenceManager.modePreferences }
+        .stateIn(viewModelScope, SharingStarted.Lazily, PosModeState.FnBState)
 
-    val posModeState : MutableStateFlow<PosModeState>
-        get() = _posModeState
 
-    private val _saleTrans: SaleTrans = SaleTrans(promoCalc)
+    private val _saleTrans: SaleTrans = SaleTrans(promoCalc, SaleCalc(getRegUseCase))
     val saleTrans : SaleTrans
         get() = _saleTrans
-
-    val listPromoBonus = promoCalc.listPromoBonus
-
-    val posPreferences = beePreferenceManager.posPreferences
-
-    val orientation : MutableStateFlow<String> = MutableStateFlow(BPMConstants.SCREEN_LANDSCAPE)
 
     private val _activeItemGroup : MutableStateFlow<Int> = MutableStateFlow(1)
     val activeItemGroup : MutableStateFlow<Int>
@@ -80,6 +79,12 @@ class MainViewModel @Inject constructor(
     private val _activeSrep : MutableStateFlow<Srep?> = MutableStateFlow(null)
     val activeSrep : MutableStateFlow<Srep?>
         get() = _activeSrep
+
+    val listPromoBonus = promoCalc.listPromoBonus
+
+    val posPreferences = beePreferenceManager.posPreferences
+
+    val orientation : MutableStateFlow<String> = MutableStateFlow(BPMConstants.SCREEN_LANDSCAPE)
 
     init {
         state = MainState()
@@ -144,11 +149,11 @@ class MainViewModel @Inject constructor(
             )
         }.collect {
             activeBp.emit(it.bp)
+            saleTrans.setBp(it.bp!!)
             activeChannel.emit(it.channel)
             activeSrep.emit(it.srep)
-            saleTrans.setBp(it.bp!!)
             saleTrans.getMaster().channelId = it.channel?.id ?: -1
-//            saleTrans.getMaster().channel = it.channel
+            saleTrans.getMaster().srepId = it.srep?.id ?: -1
             saleTrans.setGrpAddOn(it.itgrpAddOn)
             updateState(it)
         }
@@ -174,6 +179,13 @@ class MainViewModel @Inject constructor(
         channelRepository.getChannelById(sale.channelId).first().let {
             it?.let {
                 updateActiveChannel(it)
+            }
+        }
+        sale.srepId?.let {
+            srepRepository.getSrepById(it).first().let {
+                it?.let {
+                    updateActiveSrep(it)
+                }
             }
         }
         deployData()
@@ -449,7 +461,8 @@ class MainViewModel @Inject constructor(
 
     fun updateActiveSrep(channel : Srep) = viewModelScope.launch {
         _activeSrep.emit(channel)
-//        saleTrans.getMaster().channelId = channel.id
+        if(posModeState.value is PosModeState.RetailState)
+            saleTrans.getMaster().srepId = channel.id
 //        saleTrans.calculate()
         deployData()
     }

@@ -25,9 +25,10 @@ class GetActiveItemUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(itemGrpId : Int, channel : Channel?, bp : Bp?, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
-        when(itemGrpId != 1){
-            true -> itemRepository.getActiveItemListPagedByItemGrp(itemGrpId = itemGrpId, query = query, usePid)
-            false -> itemRepository.getActiveItemListPaged(query, usePid)
+        when(itemGrpId){
+            -1 -> itemRepository.getFavoriteItemListPaged( query = query)
+            1 -> itemRepository.getActiveItemListPaged(query, usePid)
+            else -> itemRepository.getActiveItemListPagedByItemGrp(itemGrpId = itemGrpId, query = query, usePid)
         }.map { data ->
             data.map { item ->
                 if(bp != null)

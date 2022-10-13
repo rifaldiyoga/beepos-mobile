@@ -15,4 +15,7 @@ interface RegDao : BaseDao<RegEntity>{
     @Query("SELECT * FROM reg")
     fun getRegList() : List<RegEntity>
 
+    @Query("SELECT * FROM reg WHERE code = :code")
+    fun getRegByCode(code : String) : RegEntity?
+
 }

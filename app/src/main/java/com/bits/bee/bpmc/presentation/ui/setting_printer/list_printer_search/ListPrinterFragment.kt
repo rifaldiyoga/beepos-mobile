@@ -1,8 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search
 
 import android.Manifest
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothManager
 import android.content.*
 import android.os.Build
 import android.util.Log
@@ -10,62 +12,68 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingListPrinterBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListPrinterFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingListPrinterBinding = FragmentSettingListPrinterBinding::inflate
 ): BaseFragment<FragmentSettingListPrinterBinding>() {
 
-    lateinit var mBluetoothAdapter: BluetoothAdapter
-    lateinit var mDevice: BluetoothDevice
-    var deviceName = "My_Device_Name"
-    private var mListPrinter: MutableList<ListPrinter> = mutableListOf()
-    lateinit var findPrinterAdapter: FindPrinterAdapter
-    private val REQUEST_ENABLE_BLUETOOTH = 1
-    private lateinit var m_pairedDevices: Set<BluetoothDevice>
-    val viewModel: FindPrinterViewModel by viewModels()
+    private val viewModel: FindPrinterViewModel by viewModels()
 
-    override fun initComponents() {
-        init()
-        enableDiscover()
-        evenDiscover()
+    private lateinit var mBluetoothAdapter: BluetoothAdapter
+    private lateinit var bluetoothManager: BluetoothManager
+    var deviceName = "My_Device_Name"
+    private var mFindPrinterState: MutableList<FindPrinterState> = mutableListOf()
+    lateinit var findPrinterAdapter: FindPrinterAdapter
+    private lateinit var mPairedDevices: Set<BluetoothDevice>
+
+    private val requestBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        if(result.resultCode == Activity.RESULT_OK){
+            startDiscoverable()
+        }
     }
 
-    fun init(){
-        mBluetoothAdapter= BluetoothAdapter.getDefaultAdapter()
-        if(!mBluetoothAdapter.isEnabled) {
-            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
+    private val requestPermissionBt = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permission ->
+        val isGranted = true
+
+        if(!isGranted){
+            Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
         }
-        m_pairedDevices = mBluetoothAdapter.bondedDevices
-        if (m_pairedDevices.isNotEmpty()) {
-            for (device: BluetoothDevice in m_pairedDevices) {
-                if (deviceName == device.name){
-                    mDevice = device
-                    break
+    }
+
+    override fun initComponents() {
+        bluetoothManager = requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        mBluetoothAdapter = bluetoothManager.adapter
+        requestBluetoothEnable()
+        binding.apply {
+            findPrinterAdapter = FindPrinterAdapter(mListener = object: FindPrinterAdapter.PilihBluetoothPrinterI{
+                override fun OnItemClick(element: PrinterDevice) {
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set("printer", element)
+                    findNavController().popBackStack()
                 }
-                mListPrinter.add(ListPrinter(device.name, device.address))
-                Log.d(ContentValues.TAG, "paired device: {${device.name} ${device.address}} ")
-            }
-        } else {
-            Toast.makeText(requireContext(), "bluetooth device not found", Toast.LENGTH_LONG)
-                .show()
+            })
+            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
+            rvListPrinter.adapter = findPrinterAdapter
         }
     }
 
     fun stopDiscovery(){
+        checkBTPermission()
         if (mBluetoothAdapter.isDiscovering){
             mBluetoothAdapter.cancelDiscovery()
         }
-//        binding.clListPBar.visibility = View.GONE
         requireContext().unregisterReceiver(receiver)
     }
 
@@ -74,135 +82,89 @@ class ListPrinterFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.viewStates().collect {
+                    it?.let {
+                        binding.rvListPrinter.isVisible = it.deviceList.isNotEmpty()
+                        binding.clListPBar.isVisible = it.deviceList.isEmpty()
+                        binding.tvJmlPrinter.text = "${it.deviceList.size} perangkat ditemukan"
+                        findPrinterAdapter.submitList(it.deviceList)
 
+                    }
+                }
+            }
+        }
     }
 
-    fun enableDiscover(){
-        val discoverableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
-        startActivity(discoverableIntent)
+    private fun requestBluetoothEnable() {
+        if (!mBluetoothAdapter.isEnabled) {
+            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            requestBluetooth.launch(enableBluetoothIntent)
+        } else {
+            startDiscoverable()
+        }
+    }
 
+    private fun startDiscoverable(){
         val intentFilter = IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)
         requireContext().registerReceiver(receiver2, intentFilter)
-    }
-
-    fun evenDiscover(){
-        if (mBluetoothAdapter.isDiscovering){
+        checkBTPermission()
+        if (mBluetoothAdapter.isDiscovering) {
             mBluetoothAdapter.cancelDiscovery()
             Log.d(ContentValues.TAG, "Discovery: cancelling discover.")
-
-            checkBTPermission()
-
-            mBluetoothAdapter.startDiscovery()
-            val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-            requireContext().registerReceiver(receiver, filter)
         }
-        if (!mBluetoothAdapter.isDiscovering){
-            checkBTPermission()
+        mBluetoothAdapter.startDiscovery()
+        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+        requireContext().registerReceiver(receiver, filter)
+        binding.clListPBar.visibility = View.VISIBLE
 
-            mBluetoothAdapter.startDiscovery()
-            binding.clListPBar.visibility = View.VISIBLE
-            val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-            requireContext().registerReceiver(receiver, filter)
-        }
-    }
-
-    fun checkBTPermission(){
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            var permissionCheck =
-                requireContext().checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION")
-            permissionCheck += requireContext().checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION")
-            if (permissionCheck != 0) {
-                requestPermissions(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ), 1001
-                ) //Any number
+        mPairedDevices = mBluetoothAdapter.bondedDevices
+        if (mPairedDevices.isNotEmpty()) {
+            val pairedList = mPairedDevices.map {
+                PrinterDevice(it.name, it.address)
             }
-        } else {
-            Log.d(
-                ContentValues.TAG,
-                "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP."
+            viewModel.updateState(
+                viewModel.state.copy(
+                    deviceList = pairedList
+                )
             )
+        } else {
+            Toast.makeText(requireContext(), "bluetooth device not found", Toast.LENGTH_LONG).show()
         }
     }
 
-    fun initBinding(){
-        binding.apply {
-            tvJmlPrinter.text = if (mListPrinter.size < 1) "" else mListPrinter.size.toString()+" perangkat yang terhubung"
-            findPrinterAdapter = FindPrinterAdapter(mListPrinter, mListener = object: FindPrinterAdapter.PilihBluetoothPrinterI{
-                override fun OnItemClick(element: ListPrinter) {
-                    BeePreferenceManager.saveToPreferences(
-                        requireContext(),
-                        getString(R.string.pref_name_printer),
-                        element.namaPrinter
-                    )
-                    BeePreferenceManager.saveToPreferences(
-                        requireContext(),
-                        getString(R.string.pref_address_printer),
-                        element.address
-                    )
-                    BeePreferenceManager.saveToPreferences(
-                        requireContext(),
-                        getString(R.string.pref_is_scan),
-                        true
-                    )
-                    val action = ListPrinterFragmentDirections.actionListPrinterFragmentToAddPrinterFragment(true, null)
-                    findNavController().navigate(action)
-                }
-
-            })
-            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
-            rvListPrinter.adapter = findPrinterAdapter
+    private fun checkBTPermission(){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            requestPermissionBt.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT))
+        } else {
+            Log.d(ContentValues.TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.")
         }
     }
 
     private val receiver = object : BroadcastReceiver() {
-
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             Log.d(ContentValues.TAG, "onReceive: ACTION FOUND.")
-            if (BluetoothDevice.ACTION_FOUND.equals(action)){
+            if (BluetoothDevice.ACTION_FOUND == action){
                 val device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                //                mNewDevicesArrayAdapter.add(device.getName());
-                if (device?.bondState != BluetoothDevice.BOND_BONDED){
-                    if (device?.name != null){
-                        mListPrinter.add(ListPrinter(device.name, device.address))
-                        initBinding()
+//                checkBTPermission()
+                if (device != null && device.bondState != BluetoothDevice.BOND_BONDED){
+                    if (device.name != null) {
+                        val deviceList : MutableList<PrinterDevice> = mutableListOf()
+                        deviceList.addAll(viewModel.state.deviceList)
+                        viewModel.updateState(
+                            viewModel.state.copy(
+                                deviceList = deviceList
+                            )
+                        )
                     }
-//                    findPrinterAdapter.generate(mListPrinter)
-                    Log.d(ContentValues.TAG,"onReceive device: " + device?.name + ": "
-                            + device!!.address+" "+device+"List find: "+mListPrinter)
+                    Log.d(ContentValues.TAG,"onReceive device: " + device.name + ": " + device.address+" "+device+"List find: "+mFindPrinterState)
                 }
-            }else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action){
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action){
                 Log.d(ContentValues.TAG,"onReceive device: discovery is finish")
                 stopDiscovery()
             }
-//            if (BluetoothDevice.ACTION_FOUND.equals(action)){
-//                val device: BluetoothDevice? =
-//                    intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-//                if (mListPrinter.isEmpty()){
-//                    mListPrinter.add(ListPrinter(device!!.name, device.address))
-//                }else{
-//                    var isNew = true
-//                    for (i in mListPrinter.indices) {
-//                        val listDeviceNew: Array<String> =
-//                            arrayOf(mListPrinter.get(i).toString())
-//                        if (listDeviceNew[1] == device!!.address) {
-//                            isNew = false
-//                            break
-//                        }
-//                    }
-//                    if (isNew){
-//                        mListPrinter.add(ListPrinter(device!!.name, device.address))
-//                    }
-//                }
-//                Log.i("BT Scanning", """${device!!.name}${device.address}""".trimIndent())
-//            }
-//            if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
-//                stopDiscovery()
-//            }
         }
     }
 
@@ -230,24 +192,10 @@ class ListPrinterFragment(
                 }
             }
         }
-
     }
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == 2 && grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//            Toast.makeText(requireContext(), "bluetooth permission granted", Toast.LENGTH_LONG)
-//                .show()
-//        }
-//    }
 
     override fun onDestroy() {
         super.onDestroy()
         requireContext().unregisterReceiver(receiver2)
-//        requireContext().unregisterReceiver(BluetoothHandlerReceiver.instance)
     }
 }

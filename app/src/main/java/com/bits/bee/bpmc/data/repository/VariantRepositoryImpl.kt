@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -55,5 +56,11 @@ class VariantRepositoryImpl @Inject constructor(
         )
         emit(variant)
     }.flowOn(ioDispatcher)
+
+    override suspend fun updateFavorit(variantId: Int, fav: Boolean) {
+        withContext(ioDispatcher){
+            variantDao.updateFavoritVariant(variantId, fav)
+        }
+    }
 
 }

@@ -45,8 +45,8 @@
         <item name="materialButtonStyle">@style/ParentButton</item>
     </style>
 
-    <style name="Widget.Demo.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/ShapeBottomSheetAppearanceOverlay</item>
+    <style name="Widget.Demo.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_rounded_top_background_color</item>
     </style>
 
     <style name="SpinnerIcon" parent="android:Widget.Spinner">

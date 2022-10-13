@@ -26,7 +26,7 @@ class InvoiceAdapter(
     private val onItemClicK : (Saled) -> Unit,
     private val onDeleteClick : (Saled) -> Unit,
     private val isDelete : Boolean = true,
-    private val modePos : PosModeState = PosModeState.FnBState,
+    private val modePos : PosModeState = PosModeState.RetailState,
     private var saleAddOnList : List<SaleAddOnD> = mutableListOf()
 ) : ListAdapter<Saled, RecyclerView.ViewHolder>(DiffCallback()) {
 

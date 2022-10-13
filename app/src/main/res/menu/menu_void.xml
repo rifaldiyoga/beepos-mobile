@@ -9,10 +9,10 @@
         android:id="@+id/menu_lainnya"
         android:title="@string/lainnya">
         <menu>
-            <item android:icon="@drawable/ic_promo"
+            <item android:icon="@drawable/ic_delete_gray"
                 android:id="@+id/menu_void"
                 app:showAsAction="withText"
-                android:title="@string/void_penjualan" />
+                android:title="@string/hapus" />
 
         </menu>
 

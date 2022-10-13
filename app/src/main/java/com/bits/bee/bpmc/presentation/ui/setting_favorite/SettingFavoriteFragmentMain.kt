@@ -1,15 +1,11 @@
 package com.bits.bee.bpmc.presentation.ui.setting_favorite
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingFavMainBinding
-import com.bits.bee.bpmc.databinding.FragmentSettingNotaBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +27,7 @@ class SettingFavoriteFragmentMain(
         with(binding){
             vPSettingFav.adapter = viewPagerAdapter
 
-            TabLayoutMediator(tLSettingFav, vPSettingFav){ tab, position ->
+            TabLayoutMediator(tabLayout, vPSettingFav){ tab, position ->
                 when(position){
                     0 -> tab.text = requireActivity().getString(R.string.produk_fav)
                     1 -> tab.text = requireActivity().getText(R.string.member_fav)

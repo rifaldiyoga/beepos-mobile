@@ -13,7 +13,6 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -42,10 +41,10 @@ class ModeTampilanFragment(
             R.string.page_mode_tampilan))
         binding.apply {
             clRetailDist.setOnClickListener {
-                viewModel.onClickItem(requireContext(), BPMConstants.MODE_RETAIL)
+                viewModel.onClickItem(BPMConstants.MODE_RETAIL)
             }
             clFoodBeverages.setOnClickListener {
-                viewModel.onClickItem(requireContext(), BPMConstants.MODE_FOOD_BEVERAGES)
+                viewModel.onClickItem(BPMConstants.MODE_FOOD_BEVERAGES)
             }
         }
     }

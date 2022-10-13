@@ -67,7 +67,7 @@ class InvoiceListFragment(
                             it.dismiss()
                             mainViewModel.onDeleteDetail(saled)
                             if(mainViewModel.state.saledList.isEmpty()) {
-                                if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
+                                if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT && page == "invoice")
                                     findNavController().popBackStack()
                                 showSnackbar("Tidak ada data detail!")
                             }

@@ -2,9 +2,13 @@ package com.bits.bee.bpmc.presentation.ui.pos.scan
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.databinding.FragmentScannerBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -34,6 +38,23 @@ class ScannerFragment(
     }
 
     override fun subscribeListeners() {
+        // Callbacks
+        codeScanner.decodeCallback = DecodeCallback {
+            requireActivity().runOnUiThread {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("scan", it.text)
+                Toast.makeText(requireContext(), "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+                findNavController().popBackStack()
+            }
+        }
+        codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+            requireActivity().runOnUiThread {
+                Toast.makeText(
+                    requireActivity(),
+                    "Camera initialization error: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     override fun subscribeObservers() {

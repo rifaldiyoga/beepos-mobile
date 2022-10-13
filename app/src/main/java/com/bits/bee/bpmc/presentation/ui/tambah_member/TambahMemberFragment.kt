@@ -22,6 +22,7 @@ import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -183,6 +184,15 @@ class TambahMemberFragment(
                     adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, it.map { it.name })
                     binding.spPriceLvl.adapter = adapter
                 }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            val regTaxed = viewModel.regSaleTaxed.first()
+            val regTaxInc = viewModel.regSaleTaxInc.first()
+
+            binding.apply {
+                cbTax.isChecked = regTaxed?.value == "1"
+                cbTaxInc.isChecked = regTaxInc?.value == "1"
             }
         }
     }

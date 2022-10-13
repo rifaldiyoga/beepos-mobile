@@ -17,6 +17,8 @@ interface ItemRepository {
 
     suspend fun getActiveItemListPaged(query : String, usePid : Boolean) : Flow<PagingData<Item>>
 
+    suspend fun getFavoriteItemListPaged(query : String) : Flow<PagingData<Item>>
+
     fun getItemBySelection(selectionId : Int) : Flow<List<Item>>
 
     fun getItemByVariant(variantId : Int) : Flow<List<Item>>
@@ -26,5 +28,7 @@ interface ItemRepository {
     fun getActiveItemList() : Flow<List<Item>>
 
     fun getActiveItemListByItemGrp(itemGrpId: Int) : Flow<List<Item>>
+
+    suspend fun addUpdateItem(item : Item)
 
 }

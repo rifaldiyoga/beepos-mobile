@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 
+import com.bits.bee.bpmc.domain.model.Crc
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.SaleAddOnD
 import com.bits.bee.bpmc.domain.model.Saled
@@ -10,5 +11,6 @@ import com.bits.bee.bpmc.domain.model.Saled
 data class DetailTransaksiPenjualanState (
         var sale : Sale? = null,
         var saledList : List<Saled> = mutableListOf(),
-        var saleAddOnDList : List<SaleAddOnD> = mutableListOf()
+        var saleAddOnDList : List<SaleAddOnD> = mutableListOf(),
+        var crc: Crc? = null
 )

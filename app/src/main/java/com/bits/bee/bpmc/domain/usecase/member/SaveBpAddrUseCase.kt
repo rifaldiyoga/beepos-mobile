@@ -22,7 +22,7 @@ class SaveBpAddrUseCase @Inject constructor(
     private var district_code: String = ""
 
     suspend operator fun invoke(kota: String, bp: Bp, noTelp: String, email: String, alamat: String) {
-        val lastId = bpRepository.addUpdateBp(BpDataMapper.fromDomainToDb(bp))
+        val lastId = bpRepository.addUpdateBp(bp)
         bp.id = lastId.toInt()
 
         if (kota != "") {

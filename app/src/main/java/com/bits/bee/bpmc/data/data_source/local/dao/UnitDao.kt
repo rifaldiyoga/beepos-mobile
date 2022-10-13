@@ -17,4 +17,7 @@ interface UnitDao : BaseDao<UnitEntity> {
     @Query("SELECT * FROM unit WHERE item_id = :itemId")
     fun getUnitByItem(itemId : Int) : List<UnitEntity>
 
+    @Query("SELECT * FROM unit WHERE id = :id")
+    fun getUnitById(id : Int) : UnitEntity?
+
 }

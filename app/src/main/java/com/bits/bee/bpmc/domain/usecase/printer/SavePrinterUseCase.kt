@@ -3,22 +3,20 @@ package com.bits.bee.bpmc.domain.usecase.printer
 import com.bits.bee.bpmc.domain.mapper.PrinterDataMapper
 import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDDataMapper
 import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDataMapper
+import com.bits.bee.bpmc.domain.model.Kitchen
 import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.domain.model.PrinterKitchen
-import com.bits.bee.bpmc.domain.repository.PrinterKitchenRepository
-import com.bits.bee.bpmc.domain.repository.PrinterRespository
-import com.bits.bee.bpmc.domain.model.Kitchen
 import com.bits.bee.bpmc.domain.model.PrinterKitchenD
 import com.bits.bee.bpmc.domain.repository.PrinterKitchenDRepository
+import com.bits.bee.bpmc.domain.repository.PrinterKitchenRepository
+import com.bits.bee.bpmc.domain.repository.PrinterRespository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class SavePrinterUseCase @Inject constructor(
     private val printerRepo: PrinterRespository,
     private val printerKitchenRepo: PrinterKitchenRepository,
     private val printerKitchenDRepo: PrinterKitchenDRepository,
-    private val defaultDispatcher: CoroutineDispatcher
 ) {
     private var mlistPrinter: List<Printer>? = null
     private var mprinter: Printer? = null
@@ -48,7 +46,7 @@ class SavePrinterUseCase @Inject constructor(
                     }
                     val printerKitchen = printerKitchenList.get(index)
                     printerKitchen.kitchenName = printerKitchen.kitchenName
-                    printerKitchen.printerId = mprinter!!.id
+                    printerKitchen.printerId = mprinter!!.id!!
 
                     printerKitchenRepo.addUpdatePrinterK(PrinterKitchenDataMapper.fromDomainToDb(printerKitchen))
 
@@ -67,12 +65,12 @@ class SavePrinterUseCase @Inject constructor(
         }else{
             printer.id = mlistPrinter!!.get(0).id
             printerRepo.updatePrinter(printer.let { PrinterDataMapper.fromDomainToDb(it) })
-            clearPrinterKitchen(printer.id)
+            clearPrinterKitchen(printer.id!!)
 
             for ((index, value) in printerKitchenList.withIndex()){
                 val printerKitchen = printerKitchenList[index]
                 val id = printer.id
-                printerKitchen.copy(printerId = id, kitchenName = printerKitchen.kitchenName)
+                printerKitchen.copy(printerId = id!!, kitchenName = printerKitchen.kitchenName)
                 printerKitchenRepo.addUpdatePrinterK(PrinterKitchenDataMapper.fromDomainToDb(printerKitchen))
 //                val idPrinterKit = state.mPrinterKitchen!!.id
 

@@ -9,6 +9,6 @@ class DeleteBpUseCase @Inject constructor(
     private val bpRepository: BpRepository
 ) {
     suspend operator fun invoke(bp: Bp){
-        bpRepository.deleteBp(BpDataMapper.fromDomainToDb(bp))
+        bpRepository.deleteBp(bp)
     }
 }

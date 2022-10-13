@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.splash
 
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel

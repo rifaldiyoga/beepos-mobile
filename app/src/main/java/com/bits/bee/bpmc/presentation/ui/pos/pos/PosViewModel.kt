@@ -14,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PosViewModel @Inject constructor(
     private val getActiveItemGroupUseCase: GetActiveItemGroupUseCase,
-    private val beePreferenceManager: BeePreferenceManager
 ): BaseViewModel<PosState, PosViewModel.UIEvent>() {
 
     var itemGroupList = getActiveItemGroupUseCase()

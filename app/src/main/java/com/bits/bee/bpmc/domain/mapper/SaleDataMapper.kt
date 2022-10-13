@@ -43,7 +43,8 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             createdBy = model.createdBy,
             updatedAt = model.updatedAt,
             updatedBy = model.updatedBy,
-            crcId = model.crcId
+            crcId = model.crcId,
+            srepId = model.srepId
         )
     }
 
@@ -83,6 +84,7 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             updatedAt = model.updatedAt,
             updatedBy = model.updatedBy,
             crcId = model.crcId,
+            srepId = model.srepId
         )
     }
 

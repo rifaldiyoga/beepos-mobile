@@ -16,13 +16,12 @@ import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.presentation.ui.member.MemberAdapter
-import com.bits.bee.bpmc.presentation.ui.member.MemberViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -37,12 +36,12 @@ class MemberFragment(
 
     private val mainViewModel : MainViewModel by activityViewModels()
 
-    private lateinit var salesmanAdapter: MemberAdapter
+    private lateinit var memberAdapter: MemberAdapter
 
     override fun initComponents() {
         setHasOptionsMenu(true)
         binding.apply {
-            salesmanAdapter = MemberAdapter(
+            memberAdapter = MemberAdapter(
                 onMemberClick = { model ->
                     viewModel.onClickDetailMember(model)
                 },
@@ -53,7 +52,7 @@ class MemberFragment(
 
             rvList.apply {
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = salesmanAdapter
+                adapter = memberAdapter
             }
         }
     }
@@ -98,8 +97,8 @@ class MemberFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.memberList.collect {
-                    salesmanAdapter.submitList(it)
+                viewModel.memberList.collectLatest {
+                    memberAdapter.submitData(it)
                 }
             }
         }
@@ -120,25 +119,15 @@ class MemberFragment(
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.viewStates().collect {
-                            it?.let {
-                                if (newText?.length == 0){
-                                    viewModel.onSearch("")
-                                    it.listBp?.let {
-                                        salesmanAdapter.submitList(it)
-                                    }
-                                }else if (newText!!.length >= 3){
-                                    viewModel.onSearch(newText.toString().trim())
-                                    it.listBp?.let {
-                                        salesmanAdapter.submitList(it)
-                                    }
-                                }
-                            }
-                        }
-                    }
+
+
+                if (newText?.length == 0){
+                    viewModel.onSearch("")
+
+                }else if (newText!!.length >= 3){
+                    viewModel.onSearch(newText.toString().trim())
                 }
+
                 return false
             }
 

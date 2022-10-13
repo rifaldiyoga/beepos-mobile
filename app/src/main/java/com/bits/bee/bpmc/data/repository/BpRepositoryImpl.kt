@@ -1,5 +1,9 @@
 package com.bits.bee.bpmc.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.BpAddrDao
 import com.bits.bee.bpmc.data.data_source.local.dao.BpDao
 import com.bits.bee.bpmc.data.data_source.local.model.BpAddrEntity
@@ -11,14 +15,12 @@ import com.bits.bee.bpmc.data.data_source.remote.response.BpReturn
 import com.bits.bee.bpmc.domain.mapper.BpDataMapper
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.repository.BpRepository
-import com.bits.bee.bpmc.utils.ApiResponse
-import com.bits.bee.bpmc.utils.NetworkBoundResource
-import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
-import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -78,11 +80,25 @@ class BpRepositoryImpl @Inject constructor(
         emit(bp?.let { BpDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
-    override fun getFavoritBpList() : Flow<List<Bp>> {
-        return flow {
-            val data: List<Bp> = bpDao.getFavoritBpList(false).map { BpDataMapper.fromDbToDomain(it) }
-            emit(data)
+    override fun getActiveBpPagedList(query : String, isFavorit : Boolean) : Flow<PagingData<Bp>> {
+        val pagingSource = {
+            if(isFavorit)
+                bpDao.getFavoritBpPagedList(query, true)
+            else
+                bpDao.getBpPagedList( query)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+                maxSize = BPMConstants.BPM_MAX_PAGINATION,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = pagingSource
+        ).flow.mapLatest {
+            it.map { BpDataMapper.fromDbToDomain(it) }
         }.flowOn(ioDispatcher)
+
     }
 
     override fun getlastId(): Flow<Resource<Bp>> {
@@ -98,10 +114,15 @@ class BpRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun addUpdateBp(bpEntity: BpEntity) : Long {
+    override suspend fun addUpdateBp(bpEntity: Bp) : Long {
         var id : Long
         withContext(ioDispatcher){
-            id = bpDao.insertSingle(bpEntity)
+            if(bpEntity.id == null)
+                id = bpDao.insertSingle(BpDataMapper.fromDomainToDb(bpEntity))
+            else {
+                bpDao.update(BpDataMapper.fromDomainToDb(bpEntity))
+                id = bpEntity.id!!.toLong()
+            }
         }
         return id
     }
@@ -139,15 +160,15 @@ class BpRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun updateBp(bpEntity: BpEntity) {
+    override suspend fun updateBp(bpEntity: Bp) {
         withContext(ioDispatcher){
-            bpDao.update(bpEntity)
+            bpDao.update(BpDataMapper.fromDomainToDb(bpEntity))
         }
     }
 
-    override suspend fun deleteBp(bpEntity: BpEntity) {
+    override suspend fun deleteBp(bpEntity: Bp) {
         withContext(ioDispatcher){
-            bpDao.delete(bpEntity)
+            bpDao.delete(BpDataMapper.fromDomainToDb(bpEntity))
         }
     }
 

@@ -60,6 +60,8 @@
                 android:text="CST"
                 android:textColor="@color/white"
                 android:textAlignment="center"
+                android:gravity="center"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:textSize="@dimen/size85"
                 app:layout_constraintBottom_toTopOf="@+id/tvNamaItem"
@@ -79,6 +81,7 @@
                 android:textSize="@dimen/font12"
                 android:text="@string/jus_mangga"
                 android:maxLines="2"
+                app:layout_goneMarginBottom="@dimen/size16"
                 app:layout_constraintBottom_toTopOf="@id/tvHarga"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

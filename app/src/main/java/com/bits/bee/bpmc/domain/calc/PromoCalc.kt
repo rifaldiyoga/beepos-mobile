@@ -1221,11 +1221,11 @@ class PromoCalc @Inject constructor(
         }
     }
 
-    private fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal) {
+    private suspend fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal) {
         duplicateSaled(saled, qtyLeft, null)
     }
 
-    private fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal, price: BigDecimal?) {
+    private suspend fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal, price: BigDecimal?) {
         val saledNew = Saled()
         saledNew.itemId = saled.itemId
         saledNew.item = saled.item

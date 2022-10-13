@@ -46,6 +46,16 @@ class ItemGroupRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: ItemGroupResponse) {
+                itemGroupDao.insertSingle(
+                    ItemGroupEntity(
+                        id = -1,
+                        code = "FAVORIT",
+                        name = "Favorit",
+                        level = 1,
+                        upId = 1,
+                        isPos = true
+                    )
+                )
                 itemGroupDao.insertBulk(data.data.map { ItemGroupDataMapper.fromNetworkToDb(it) })
             }
 

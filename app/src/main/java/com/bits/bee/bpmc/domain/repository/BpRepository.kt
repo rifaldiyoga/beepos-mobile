@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
+import androidx.paging.PagingData
 import com.bits.bee.bpmc.data.data_source.remote.post.BpPost
 import com.bits.bee.bpmc.data.data_source.remote.response.BpReturn
 import com.bits.bee.bpmc.domain.model.Bp
@@ -19,13 +19,13 @@ interface BpRepository {
 
     fun getBpById(id : Int) : Flow<Bp?>
 
-    fun getFavoritBpList() : Flow<List<Bp>>
+    fun getActiveBpPagedList(query: String, isFavorit : Boolean) : Flow<PagingData<Bp>>
 
     fun getlastId(): Flow<Resource<Bp>>
 
     fun searchBp(query: String): Flow<Resource<List<Bp>>>
 
-    suspend fun addUpdateBp(bpEntity: BpEntity) : Long
+    suspend fun addUpdateBp(bpEntity: Bp) : Long
 
     fun getBpByDate(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>>
 
@@ -35,8 +35,8 @@ interface BpRepository {
 
     fun getBpByCode(code: String): Flow<Resource<Bp>>
 
-    suspend fun updateBp(bpEntity: BpEntity)
+    suspend fun updateBp(bpEntity: Bp)
 
-    suspend fun deleteBp(bpEntity: BpEntity)
+    suspend fun deleteBp(bpEntity: Bp)
 
 }

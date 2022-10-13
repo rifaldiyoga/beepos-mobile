@@ -57,7 +57,7 @@ class SettingPosViewModel @Inject constructor(
 
     fun onClickMuatGambar(value: Boolean) = viewModelScope.launch {
         onUpdatePosPreferences(posPreferences.first().copy(
-            isKonfirmasiCust = value
+            isMuatGambar = value
         ))
     }
 

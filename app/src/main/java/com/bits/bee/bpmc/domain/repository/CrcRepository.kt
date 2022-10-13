@@ -12,4 +12,6 @@ interface CrcRepository {
     fun getLatestCrc() : Flow<Resource<List<Crc>>>
 
     fun getDefaultCrc() : Flow<Crc?>
+
+    fun getCrcById(id : Int) : Flow<Crc?>
 }

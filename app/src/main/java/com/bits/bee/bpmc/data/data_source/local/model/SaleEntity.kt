@@ -83,6 +83,8 @@ data class SaleEntity(
     var updatedBy: Int = -1,
     @ColumnInfo(name = CRC_ID, index = true)
     var crcId: Int? = -1,
+    @ColumnInfo(name = SREP_ID, index = true)
+    var srepId: Int? = -1,
 ) {
     companion object {
         const val TBL_NAME = "sale"
@@ -121,6 +123,7 @@ data class SaleEntity(
         const val UPDATED_AT = "updated_at"
         const val UPDATED_BY = "updated_by"
         const val CRC_ID = "crc_id"
+        const val SREP_ID = "srep_id"
 
     }
 }

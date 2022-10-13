@@ -31,7 +31,8 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             isAvailable = model.isAvailable,
             isVariant = model.isVariant,
             vCode = model.vCode,
-            vColor = model.vColor
+            vColor = model.vColor,
+            isFavorit = model.isFavorit
         )
     }
 
@@ -57,7 +58,8 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             isAvailable = model.isAvailable,
             isVariant = model.isVariant,
             vCode = model.vCode,
-            vColor = model.vColor
+            vColor = model.vColor,
+            isFavorit = model.isFavorit
         )
     }
 

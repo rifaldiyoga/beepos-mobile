@@ -24,7 +24,7 @@ object PrinterDataMapper: BaseMapper<PrinterEntity, Printer, Any>() {
             model.id,
             model.printerName,
             model.address,
-            model.tipe,
+            model.tipe ?: -1,
             model.size,
             model.isReceipt,
             model.isKitchen,

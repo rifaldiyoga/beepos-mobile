@@ -2,18 +2,18 @@ package com.bits.bee.bpmc.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Created by aldi on 04/03/22.
  */
-abstract class BaseViewModel<State, UIEvent>(
-) : ViewModel() {
+abstract class BaseViewModel<State, UIEvent> : ViewModel() {
 
     val eventChannel = Channel<UIEvent>(Channel.BUFFERED)
     val event = eventChannel.receiveAsFlow()

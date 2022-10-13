@@ -24,7 +24,6 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -60,37 +59,48 @@ class PositemFragment (
 
     override fun initComponents() {
         binding.apply {
-            posAdapter = ItemPosAdapter(
-                onItemClicK = {item ->
-                    onItemClick(item)
-                },
-                onMinusClick = {item ->
-                    mainViewModel.onMinusClick(item)
-                },
-                mainViewModel.state.saledList,
-            )
-            posAdapter.addLoadStateListener { loadState ->
-                loadState.decideOnState(
-                    posAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
-                    showLoading = {
-                        setVisibilityComponent(it)
-                    },
-                    showEmptyState = { isVisible ->
-                        binding.groupEmpty.isVisible = isVisible
-                    },
-                    showError = { it ->
-                        showSnackbar(it)
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                mainViewModel.posPreferences.collect{
+                    posAdapter = ItemPosAdapter(
+                        onItemClicK = {item ->
+                            onItemClick(item)
+                        },
+                        onMinusClick = {item ->
+                            mainViewModel.onMinusClick(item)
+                        },
+                        mainViewModel.state.saledList,
+                        it.ukuranFont,
+                        it.isMultiLine,
+                        it.isMuatGambar
+                    )
+
+                    posAdapter.addLoadStateListener { loadState ->
+                        loadState.decideOnState(
+                            posAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+                            showLoading = {
+                                setVisibilityComponent(it)
+                            },
+                            showEmptyState = { isVisible ->
+                                binding.groupEmpty.isVisible = isVisible
+                            },
+                            showError = { it ->
+                                showSnackbar(it)
+                            }
+                        )
                     }
-                )
-            }
-            rvList.apply {
-                layoutManager = when(mainViewModel.orientation.value) {
-                    BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
-                    else -> GridLayoutManager(requireContext(), 3)
+                    rvList.apply {
+                        layoutManager = when(mainViewModel.orientation.value) {
+                            BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
+                            else -> GridLayoutManager(requireContext(), 3)
+                        }
+                        adapter = posAdapter
+                        itemAnimator = null
+                    }
                 }
-                adapter = posAdapter
-                itemAnimator = null
             }
+
+
+
         }
     }
 

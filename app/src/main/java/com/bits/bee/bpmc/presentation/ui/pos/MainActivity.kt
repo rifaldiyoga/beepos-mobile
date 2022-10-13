@@ -24,12 +24,9 @@ import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
@@ -50,13 +47,6 @@ class MainActivity(
         viewModel.saleTrans.newTrans()
         viewModel.loadData()
         viewModel.initPromo()
-        val mode = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.pref_mode_tampilan), BPMConstants.MODE_FOOD_BEVERAGES)
-        viewModel.posModeState.update {
-            when(mode){
-                BPMConstants.MODE_FOOD_BEVERAGES ->PosModeState.FnBState
-                else -> PosModeState.RetailState
-            }
-        }
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         initStetho()
@@ -70,7 +60,10 @@ class MainActivity(
 
             NavigationUI.setupActionBarWithNavController(this@MainActivity, navController, appBarConfiguration)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
-
+            toolbar.setNavigationOnClickListener {
+                if(navController.currentDestination?.id == R.id.posFragment)
+                    finish()
+            }
             navController.addOnDestinationChangedListener { _, _, _ ->
                 toolbar.setNavigationIcon(R.drawable.ic_back_white)
             }
@@ -217,7 +210,7 @@ class MainActivity(
     private fun setBackgroundToolbar(destinationId : Int){
         if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment
             || destinationId == R.id.klaimPromoFragment || destinationId == R.id.tambahMemberFragment
-            || destinationId == R.id.memberFragment) {
+            || destinationId == R.id.memberFragment || destinationId == R.id.salesmanFragment || destinationId == R.id.detailSalesmanFragment) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(
@@ -246,9 +239,5 @@ class MainActivity(
             viewSalesman.isVisible = isVisible
             clSalesman.isVisible = isVisible
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 }

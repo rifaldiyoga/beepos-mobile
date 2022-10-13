@@ -41,6 +41,15 @@ interface BPMConstants {
         const val BPM_DEFAULT_LICENSE_TYPE = "MOBILE"
         const val REGEX_INPUT = "[().,*#!?/|:;'<>@$%&^=+-]"
         const val DIVIDE_DIALOG_SIZE = 2.0
+        const val REG_ROUND = "ROUND"
+        const val REG_SALE_TAXED = "SALE_TAXED"
+        const val REG_SALE_TAXINC = "SALE_TAXINC"
+        const val REG_POSSES_ACTUAL_ENDCASH = "POSSES_ACTUAL_ENDCASH"
+        const val REG_POS_CARDNO_REQUIRED = "POS_CARDNO_REQUIRED"
+        const val REG_POS_TRACKNO_REQUIRED = "POS_TRACKNO_REQUIRED"
+        const val REG_ROUND_DIGITS = "ROUND_DIGITS"
+        const val REG_ROUND_DIGITS_ENB = "ROUND_DIGITS_ENB"
+        const val REG_ROUND_DOWN_BLW = "ROUND_DOWN_BLW"
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

@@ -321,7 +321,9 @@ untuk memperbarui data dapur?</string>
     <string name="jus_mangga">Jus Mangga</string>
     <string name="strip">-</string>
     <string name="channel">Channel :</string>
+    <string name="channel_">Channel</string>
     <string name="member">Member :</string>
+    <string name="member_">Member</string>
     <string name="search">Search</string>
     <string name="_1_produk">%1$s Produk</string>
     <string name="_1_PCS">%1$s %2$s</string>
@@ -611,9 +613,9 @@ untuk memperbarui data dapur?</string>
     <string name="cara_mudah_dan_cepat_isi_sendiri_nilai_buka_kasir">Cara mudah dan cepat isi sendiri nilai buka kasir</string>
     <string name="atur_sekarang">Atur Sekarang</string>
     <string name="apa_sih_pid_itu_dan_gunanya_untuk_apa">Apa sih PID itu? dan gunanya untuk apa?</string>
-    <string name="product_id_atau_pid_adalah_fitur_yang_bisa_anda_manfaatkan_untuk_kebutuhan_khusus_seperti_varian_ukuran_bahkan_warna_produk">Product ID atau PID adalah fitur yang bisa anda manfaatkan untuk kebutuhan khusus seperti varian, ukuran, bahkan warna produk</string>
-    <string name="pid_dapat_memangkas_jumlah_stock_keeping_unit_sku_yang_ada_namun_tetap_dapat_memanfaatkan_kebutuhan_khusus_sebagai_bagian_dari_perhitungan_jumlah_stok">PID dapat memangkas jumlah Stock Keeping Unit (SKU) yang ada, namun tetap dapat memanfaatkan kebutuhan khusus sebagai bagian dari perhitungan jumlah stok</string>
-    <string name="pid_cocok_digunakan_untuk_bisnis_toko_sepatu_toko_pakaian_dll_khusus_untuk_bisnis_jual_hp_dan_toko_elektronik_kami_menyediakan_pid_unik_yang_dapat_digunakan_untuk_sn_imei">PID cocok digunakan untuk bisnis toko sepatu, toko pakaian, dll. Khusus untuk bisnis jual HP, dan toko elektronik kami menyediakan PID Unik yang dapat digunakan untuk SN / IMEI</string>
+    <string name="product_id_atau_pid_adalah_fitur">Product ID atau PID adalah fitur yang bisa anda manfaatkan untuk kebutuhan khusus seperti varian, ukuran, bahkan warna produk</string>
+    <string name="pid_dapat_memangkas_jumlah_stock">PID dapat memangkas jumlah Stock Keeping Unit (SKU) yang ada, namun tetap dapat memanfaatkan kebutuhan khusus sebagai bagian dari perhitungan jumlah stok</string>
+    <string name="pid_cocok_digunakan">PID cocok digunakan untuk bisnis toko sepatu, toko pakaian, dll. Khusus untuk bisnis jual HP, dan toko elektronik kami menyediakan PID Unik yang dapat digunakan untuk SN / IMEI</string>
     <string name="baca_artikel_pid_selengkapnya_disini">Baca artikel PID selengkapnya disini</string>
     <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
     <string name="cari_produk_min_3_karakter">Cari produk, min 3 karakter</string>
@@ -634,5 +636,10 @@ untuk memperbarui data dapur?</string>
     <string name="tanggal">Tanggal</string>
     <string name="nominal_uang_masuk">Nominal Uang Masuk</string>
     <string name="deskripsi">Deskripsi</string>
+    <string name="rupanya_anda_belum_memiliki_produk_favorit_natur_sekarang_yuk">Rupanya anda belum memiliki produk favorit.\nAtur sekarang, yuk!</string>
+    <string name="rupanya_anda_belum_memiliki_member_favorit_natur_sekarang_yuk">Rupanya anda belum memiliki member favorit.\nAtur sekarang, yuk!</string>
+    <string name="atur_produk">Atur Produk</string>
+    <string name="atur_member">Atur Member</string>
+    <string name="mencari_printer">Mencari Printer...</string>
 
 </resources>

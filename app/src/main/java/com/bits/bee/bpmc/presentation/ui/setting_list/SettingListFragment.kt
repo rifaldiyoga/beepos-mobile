@@ -1,101 +1,132 @@
 package com.bits.bee.bpmc.presentation.ui.setting_list
 
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.AbstractListDetailFragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.FragmentSettingListBinding
-import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 /**
  * Created by aldi on 04/04/22.
  */
 @AndroidEntryPoint
-class SettingListFragment(
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingListBinding = FragmentSettingListBinding::inflate
-) : BaseFragment<FragmentSettingListBinding>() {
+class SettingListFragment : AbstractListDetailFragment() {
 
     private val viewModel : SettingListViewModel by viewModels()
 
-    override fun initComponents() {
-
+    override fun onCreateListPaneView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_setting_list, container, false)
     }
 
-    override fun subscribeListeners() {
-        binding.apply {
-            clPos.setOnClickListener {
-                viewModel.onClickSettingPos()
-            }
-            clFavorit.setOnClickListener {
-                viewModel.onClickSettingFavorit()
-            }
-            clSistem.setOnClickListener {
-                viewModel.onClickSettingSistem()
-            }
-            clNota.setOnClickListener {
-                viewModel.onClickSettingNota()
-            }
-            clHelp.setOnClickListener {
-                viewModel.onClickHelp()
-            }
-            clPrint.setOnClickListener {
-                viewModel.onClickSettingPrint()
-            }
-            clKeluar.setOnClickListener {
-                viewModel.onClickKeluar()
+    override fun onCreateDetailPaneNavHostFragment(): NavHostFragment {
+        return NavHostFragment.create(R.navigation.setting_graph)
+    }
+
+    override fun onListPaneViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onListPaneViewCreated(view, savedInstanceState)
+        val recyclerView = view as RecyclerView
+        val adapterS = TwoPaneAdapter(map.keys.toTypedArray()) {
+            map[it]?.let { destId ->
+                if(destId > 0)
+                    openDetails(destId)
+                else
+                    doKeluar()
             }
         }
+        recyclerView.apply {
+            adapter = adapterS
+            layoutManager = LinearLayoutManager(requireActivity())
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, TwoPaneOnBackPressedCallback(slidingPaneLayout))
+        slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
+
     }
 
-    override fun subscribeObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.event.collect { event ->
-                    when(event){
-                        SettingListViewModel.UIEvent.NavigateToSettingPos -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingPosFragment()
-                            findNavController().navigate(action)
-                        }
-                        SettingListViewModel.UIEvent.NavigateToSettingFavorit -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingFavoriteFragmentMain()
-                            findNavController().navigate(action)
-                        }
-                        SettingListViewModel.UIEvent.NavigateToSettingNota -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingNotaFragment()
-                            findNavController().navigate(action)
-                        }
-                        SettingListViewModel.UIEvent.NavigateToSettingPrint -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingPrinterFragment()
-                            findNavController().navigate(action)
-                        }
-                        SettingListViewModel.UIEvent.NavigateToSettingSistem -> {
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToSettingSistemFragment()
-                            findNavController().navigate(action)
-                        }
-                        SettingListViewModel.UIEvent.NavigateToLoginOperator ->{
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-                                R.string.page_pilih_operator))
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToInitialActivity()
-                            findNavController().navigate(action)
-                        }
-                        SettingListViewModel.UIEvent.NavigateToDetailHelp ->{
-                            val action = SettingListFragmentDirections.actionSettingListFragmentToDetailMenuHelpFragment()
-                            findNavController().navigate(action)
-                        }
-                        else -> {}
+
+
+    private fun doKeluar(){
+        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
+            R.string.page_pilih_operator))
+        val action = SettingListFragmentDirections.actionSettingListFragmentToInitialActivity2()
+        findNavController().navigate(action)
+    }
+
+    private fun openDetails(destinationId: Int) {
+        val detailNavController = detailPaneNavHostFragment.navController
+        detailNavController.navigate(
+            destinationId,
+            null,
+            NavOptions.Builder()
+                .setPopUpTo(detailNavController.graph.startDestinationId, true)
+                .apply {
+                    if (slidingPaneLayout.isOpen) {
+                        setEnterAnim(R.anim.nav_default_enter_anim)
+                        setExitAnim(R.anim.nav_default_exit_anim)
                     }
                 }
-            }
+                .build()
+        )
+        slidingPaneLayout.open()
+    }
+
+    inner class TwoPaneOnBackPressedCallback(
+        private val slidingPaneLayout: SlidingPaneLayout
+    ) : OnBackPressedCallback(
+        // Set the default 'enabled' state to true only if it is slidable (i.e., the panes
+        // are overlapping) and open (i.e., the detail pane is visible).
+        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
+    ), SlidingPaneLayout.PanelSlideListener {
+
+        init {
+            slidingPaneLayout.addPanelSlideListener(this)
+        }
+
+        override fun handleOnBackPressed() {
+            if(map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                slidingPaneLayout.closePane()
+            else
+                detailPaneNavHostFragment.navController.popBackStack()
+        }
+
+        override fun onPanelSlide(panel: View, slideOffset: Float) { }
+
+        override fun onPanelOpened(panel: View) {
+            // Intercept the system back button when the detail pane becomes visible.
+            isEnabled = true
+        }
+
+        override fun onPanelClosed(panel: View) {
+            // Disable intercepting the system back button when the user returns to the
+            // list pane.
+            isEnabled = false
         }
     }
 
+    companion object {
+        val map = mapOf(
+            "POS" to R.id.settingPosFragment,
+            "Favorit" to R.id.settingFavoriteFragmentMain,
+            "Nota" to R.id.settingNotaFragment,
+            "Print" to R.id.settingPrinterFragment,
+            "Sistem" to R.id.settingSistemFragment,
+            "Bantuan" to R.id.detailMenuHelpFragment,
+            "Keluar" to -1
+        )
+    }
 
 }

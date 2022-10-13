@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.SaleAddOnD
+import com.bits.bee.bpmc.domain.repository.CrcRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddOnBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddonDByAddonUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
@@ -20,7 +21,8 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
-    private val voidTransactionUseCase: VoidTransactionUseCase
+    private val voidTransactionUseCase: VoidTransactionUseCase,
+    private val crcRepository: CrcRepository
 ): BaseViewModel<DetailTransaksiPenjualanState, DetailTransaksiPenjualanViewModel.UIEvent>(){
 
     init {
@@ -28,8 +30,8 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     }
 
     fun onClickVoid() = viewModelScope.launch {
-        state.sale!!.isVoid = true
         voidTransactionUseCase(state.sale!!)
+        eventChannel.send(UIEvent.SuccessVoid)
     }
 
     fun getSaledList() = viewModelScope.launch {
@@ -37,6 +39,7 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
             var saledList = getSaledBySaleUseCase(it.id!!).first()
             val saleAddOn = getSaleAddOnBySaleUseCase(it.id!!).first()
             var saleAddOnDList : List<SaleAddOnD> = mutableListOf()
+            val crc = if(it.crcId != null) crcRepository.getCrcById(it.crcId!!).first() else null
             saleAddOn?.let {
                 saleAddOnDList = getSaleAddonDByAddonUseCase(saleAddOn.id!!).first()
                 saledList = saledList.filter { !saleAddOnDList.map { it.saled?.id ?: -1 }.contains(it.id) }
@@ -44,7 +47,8 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
             updateState(
                 state.copy(
                     saledList = saledList,
-                    saleAddOnDList = saleAddOnDList
+                    saleAddOnDList = saleAddOnDList,
+                    crc = crc
                 )
             )
 
@@ -52,7 +56,7 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-
+        object SuccessVoid : UIEvent()
     }
 
 }

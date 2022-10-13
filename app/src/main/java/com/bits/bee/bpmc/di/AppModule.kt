@@ -4,9 +4,11 @@ import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.repository.*
 import com.bits.bee.bpmc.domain.calc.PromoCalc
+import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -442,7 +444,19 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideSaleCalc(getRegUseCase: GetRegUseCase) : SaleCalc {
+        return SaleCalc(getRegUseCase)
+    }
+
+    @Provides
+    @Singleton
     fun provideSrepRepository(salePromoDao: SrepDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : SrepRepository {
         return SrepRepositoryImpl(salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegRepository(salePromoDao: RegDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : RegRepository {
+        return RegRepositoryImpl(apiUtils, salePromoDao, dispatcher)
     }
 }

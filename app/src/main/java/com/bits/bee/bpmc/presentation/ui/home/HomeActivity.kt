@@ -19,6 +19,7 @@ import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -36,6 +37,7 @@ class HomeActivity(
 ) : BaseActivity<ActivityHomeBinding>(){
 
     private val viewModel : HomeViewModel by viewModels()
+
     private val sharedViewModel : BukaTutupKasirSharedViewModel by viewModels()
 
     private lateinit var navHostFragment: NavHostFragment
@@ -61,7 +63,8 @@ class HomeActivity(
             NavigationUI.setupWithNavController(bottomNav, navController)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
             navController.addOnDestinationChangedListener { _, _, _ ->
-                toolbar.setNavigationIcon(R.drawable.ic_back_black)
+                if(navController.currentDestination?.id != R.id.berandaFragment)
+                    toolbar.setNavigationIcon(R.drawable.ic_back_black)
             }
         }
     }
@@ -103,6 +106,13 @@ class HomeActivity(
                             navController.navigate(R.id.mainActivity)
                         }
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.posModeState.collect {
+
                 }
             }
         }

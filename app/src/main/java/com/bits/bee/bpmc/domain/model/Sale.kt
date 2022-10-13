@@ -46,6 +46,7 @@ data class Sale (
     var updatedAt: Date = Date(),
     var updatedBy: Int = -1,
     var crcId : Int? = -1,
+    var srepId : Int? = -1,
     var crcSymbol : String = "Rp",
     var bp : Bp? = null,
 //    var channel : Channel? = null

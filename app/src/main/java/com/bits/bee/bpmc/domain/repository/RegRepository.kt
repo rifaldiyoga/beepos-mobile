@@ -11,4 +11,6 @@ interface RegRepository {
 
     fun getLatestRegList() : Flow<Resource<List<Reg>>>
 
+    fun getRegByCode(code : String) : Flow<Reg?>
+
 }

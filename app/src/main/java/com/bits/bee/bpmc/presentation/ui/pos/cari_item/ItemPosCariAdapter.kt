@@ -39,6 +39,7 @@ class ItemPosCariAdapter(
         }
     }
 
+
     inner class ViewHolder(private val binding : ItemPosMenuCariBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item : Item){

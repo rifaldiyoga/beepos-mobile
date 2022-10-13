@@ -25,6 +25,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvTrackNoOps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size8"
+            android:text="@string/opsional"
+            android:textSize="@dimen/font12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvTrackNo"
+            app:layout_constraintStart_toEndOf="@+id/tvTrackNo" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilTrackNo"
             android:layout_width="@dimen/size0"
@@ -54,6 +64,16 @@
             android:text="@string/nomor_kartu"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilTrackNo" />
+
+        <TextView
+            android:id="@+id/tvCardNoOps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size8"
+            android:text="@string/opsional"
+            android:textSize="@dimen/font12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvNomorKartu"
+            app:layout_constraintStart_toEndOf="@+id/tvNomorKartu" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilNomorKartu"

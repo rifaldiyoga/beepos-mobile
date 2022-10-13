@@ -80,6 +80,9 @@ class KasMasukFragment(
                             Toast.makeText(requireContext(), "berhasil simpan", Toast.LENGTH_SHORT).show()
                             sharedViewModel.loadKasMasuk()
                         }
+                        KasKeluarMasukSharedViewModel.UIEvent.RequestAddKasKeluar -> TODO()
+                        KasKeluarMasukSharedViewModel.UIEvent.RequestDialogNominal -> TODO()
+                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar -> TODO()
                     }
                 }
             }

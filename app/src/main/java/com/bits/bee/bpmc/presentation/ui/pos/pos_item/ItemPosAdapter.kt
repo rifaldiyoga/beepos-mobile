@@ -24,6 +24,9 @@ open class ItemPosAdapter constructor(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
     private var saledList : List<Saled>,
+    private val ukuranFont : String = "",
+    private val isMultiline : Boolean = false,
+    private val isMuatGambar : Boolean = false,
 ) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
 
     fun submitSaledList(list : List<Saled>) {
@@ -45,12 +48,22 @@ open class ItemPosAdapter constructor(
         }
     }
 
-    inner class ViewHolder(private val binding : ItemPosMenuBinding) : RecyclerView.ViewHolder(binding.root){
+    open inner class ViewHolder(private val binding : ItemPosMenuBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item : Item){
             binding.apply {
                 val qty = getSumQty(item)
                 tvNamaItem.text =  item.name1
+
+                tvNamaItem.apply {
+                    maxLines = if(!isMultiline) 1 else 2
+                    textSize = when(ukuranFont){
+                        "Large" -> 16
+                        "Small" -> 12
+                        else -> 14
+                    }.toFloat()
+                }
+
                 tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,item.crcSymbol, CurrencyUtils.formatCurrency(item.price))
 
                 tvHarga.isVisible = !item.isVariant

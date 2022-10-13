@@ -74,7 +74,7 @@
                     android:layout_marginTop="@dimen/size8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/product_id_atau_pid_adalah_fitur_yang_bisa_anda_manfaatkan_untuk_kebutuhan_khusus_seperti_varian_ukuran_bahkan_warna_produk"
+                    android:text="@string/product_id_atau_pid_adalah_fitur"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -124,7 +124,7 @@
                     android:layout_marginTop="@dimen/size8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/pid_dapat_memangkas_jumlah_stock_keeping_unit_sku_yang_ada_namun_tetap_dapat_memanfaatkan_kebutuhan_khusus_sebagai_bagian_dari_perhitungan_jumlah_stok"
+                    android:text="@string/pid_dapat_memangkas_jumlah_stock"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:singleLine="false"/>
@@ -173,7 +173,7 @@
                     android:id="@+id/txtCocok"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/pid_cocok_digunakan_untuk_bisnis_toko_sepatu_toko_pakaian_dll_khusus_untuk_bisnis_jual_hp_dan_toko_elektronik_kami_menyediakan_pid_unik_yang_dapat_digunakan_untuk_sn_imei"
+                    android:text="@string/pid_cocok_digunakan"
                     android:textColor="@color/black"
                     android:layout_marginTop="@dimen/size8"
                     android:gravity="center_vertical"

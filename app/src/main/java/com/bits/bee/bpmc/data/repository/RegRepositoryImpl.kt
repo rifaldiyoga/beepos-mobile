@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -41,5 +43,10 @@ class RegRepositoryImpl @Inject constructor(
             }
         }.getAsFlow()
     }
+
+    override fun getRegByCode(code : String): Flow<Reg?> = flow {
+        val data = regDao.getRegByCode(code)
+        emit(data?.let { RegDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }

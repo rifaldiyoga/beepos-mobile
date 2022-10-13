@@ -36,18 +36,6 @@ class InvoiceViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateKlaimPromo)
     }
 
-    fun saveDraft(saleTrans: SaleTrans, counter : Int)= viewModelScope.launch {
-
-        val sale = saleTrans.getMaster()
-        sale.isDraft = true
-        val saledList = saleTrans.getListDetail()
-        val saleAddOn = saleTrans.addOnTrans?.getMaster()
-        val saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf()
-        val salePromoList = saleTrans.salePromoList
-
-        addTransactionUseCase(sale, saledList, saleAddOn, saleAddOnDList, salePromoList, counter = counter)
-    }
-
     fun onDetailEmpty() = viewModelScope.launch {
         errorChannel.send("Tidak ada data detail!")
         eventChannel.send(UIEvent.NavigatePos)

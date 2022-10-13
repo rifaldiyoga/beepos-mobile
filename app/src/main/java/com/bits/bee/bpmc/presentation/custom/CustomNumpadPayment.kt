@@ -87,7 +87,7 @@ class CustomNumpadPayment : ConstraintLayout, View.OnClickListener {
         keyValues.put(R.id.numpad_btn8, "8")
         keyValues.put(R.id.numpad_btn9, "9")
         keyValues.put(R.id.numpad_btn0, "0")
-        keyValues.put(R.id.numpad_btn00, "00")
+        keyValues.put(R.id.numpad_btn00, "000")
     }
 
     fun setInputConnection(inputConnection: InputConnection) {

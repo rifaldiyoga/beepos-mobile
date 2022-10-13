@@ -13,4 +13,6 @@ interface SrepRepository {
 
     fun getDefaultSrep() : Flow<Srep?>
 
+    fun getSrepById(id : Int) : Flow<Srep?>
+
 }

@@ -1,9 +1,10 @@
 package com.bits.bee.bpmc.domain.trans
 
-import com.bits.bee.bpmc.data.calc.SaleCalc
 import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
+import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
 import java.math.BigDecimal
@@ -17,7 +18,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class SaleTrans @Inject constructor(
-    private val promoCalc: PromoCalc
+    private val promoCalc: PromoCalc,
+    private val saleCalc: SaleCalc
 ) : BaseTrans<Sale, Saled>() {
 
     private var bp: Bp? = null
@@ -29,7 +31,7 @@ class SaleTrans @Inject constructor(
     private var roundVal = 0
     var addOnTrans: AddOnTrans? = null
 
-    fun setBp(bp: Bp){
+    suspend fun setBp(bp: Bp){
         this.bp = bp
         getMaster().bpId = bp.id!!
         getMaster().bp = bp
@@ -73,7 +75,7 @@ class SaleTrans @Inject constructor(
     }
 
 
-    fun addDetail(itemWithUnit: ItemWithUnit, isBonus: Boolean = false, useItemqty: Boolean = false, promoBonus: ListPromoBonus.PromoBonus? = null) {
+    suspend fun addDetail(itemWithUnit: ItemWithUnit, isBonus: Boolean = false, useItemqty: Boolean = false, promoBonus: ListPromoBonus.PromoBonus? = null) {
         val item = itemWithUnit.item
         val discExp = itemWithUnit.discExp
         val discAmt = itemWithUnit.discAmt
@@ -180,7 +182,7 @@ class SaleTrans @Inject constructor(
     }
 
 
-    fun addDetail(itemWithUnit: ItemWithUnit, saledParent : Saled){
+    suspend fun addDetail(itemWithUnit: ItemWithUnit, saledParent : Saled){
         val item = itemWithUnit.item
         val discExp = itemWithUnit.discExp
         val discAmt = itemWithUnit.discAmt
@@ -276,7 +278,7 @@ class SaleTrans @Inject constructor(
         }
     }
 
-    override fun addDetail(d: Saled) {
+    override suspend fun addDetail(d: Saled) {
         dnoCounter++
         d.dno = dnoCounter
         super.addDetail(d)
@@ -284,7 +286,7 @@ class SaleTrans @Inject constructor(
     }
 
 
-    fun editDetail(saledEdit: Saled) {
+    suspend fun editDetail(saledEdit: Saled) {
         val saled  = getListDetail().firstOrNull { it.itemId == saledEdit.itemId }
         saled?.let {
             getListDetail().map {
@@ -296,7 +298,7 @@ class SaleTrans @Inject constructor(
         calculate()
     }
 
-    fun updateDiskonMaster(diskon : String) {
+    suspend fun updateDiskonMaster(diskon : String) {
         val sale = getMaster()
         if(diskon.isNotEmpty()) {
             sale.discExp = diskon
@@ -309,7 +311,7 @@ class SaleTrans @Inject constructor(
         calculate()
     }
 
-    private fun calcDetailDiskon() {
+    private suspend fun calcDetailDiskon() {
         val sale = getMaster()
         for (saled in getListDetail()){
             var disc2Amt = BigDecimal.ZERO
@@ -332,7 +334,7 @@ class SaleTrans @Inject constructor(
         return saled
     }
 
-    fun deleteDetail(saledDel: Saled) {
+    suspend fun deleteDetail(saledDel: Saled) {
         var indexDelete = -1
 
         for (i in 0 until getListDetail().size){
@@ -348,11 +350,11 @@ class SaleTrans @Inject constructor(
         calculate()
     }
 
-    fun calculate(){
-        SaleCalc.calculate(getMaster(), getListDetail(), bp!!)
+    suspend fun calculate(){
+        saleCalc.calculate(getMaster(), getListDetail(), bp!!)
     }
 
-    fun mergeAddon() {
+    suspend fun mergeAddon() {
         //Rubah data saleaddon ke map
         val mapAddOn: MutableMap<Saled, MutableList<Saled>> = HashMap()
         //Map untuk seleksi  addon yg dimerge
@@ -410,7 +412,7 @@ class SaleTrans @Inject constructor(
     }
 
     //Merge item addon tanpa addon
-    fun mergeItemAddon() {
+    suspend fun mergeItemAddon() {
         if (addOnTrans != null) {
             val saledList: MutableList<Saled> = ArrayList()
             val saledListResult: MutableList<Saled> = ArrayList()
@@ -451,7 +453,7 @@ class SaleTrans @Inject constructor(
         }
     }
 
-    fun mergeSaled(saled1: Saled, saled2: Saled) {
+    suspend fun mergeSaled(saled1: Saled, saled2: Saled) {
         for (saled in getListDetail()) {
             if (saled == saled1) {
                 saled.listPrice = saled.item?.price ?: BigDecimal.ZERO
@@ -480,7 +482,7 @@ class SaleTrans @Inject constructor(
         calculate()
     }
 
-    fun deleteAddon(up_saled: Saled?, saled: Saled) {
+    suspend fun deleteAddon(up_saled: Saled?, saled: Saled) {
         val saledList = mutableListOf<Saled>()
         getListDetail().forEachIndexed { i, saled1 ->
             if (saled1 == saled) {

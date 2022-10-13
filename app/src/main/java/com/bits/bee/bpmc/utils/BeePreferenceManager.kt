@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
 import com.bits.bee.bpmc.BuildConfig
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -106,6 +107,22 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             PosPreferences(ukuranFont, isMultiLine, isKonfirmasiCust, customer, jumlahMeja, presetBukaKasir, isMuatGambar, orientasi)
         }
 
+    val modePreferences = context.dataStore.data
+        .catch {
+            if (it is IOException) {
+                Log.e(TAG, "Error reading preferences", it)
+            } else {
+                throw it
+            }
+        }.map {
+            val posMode : PosModeState
+            if(it.equals(BPMConstants.MODE_FOOD_BEVERAGES))
+                posMode = PosModeState.FnBState
+            else
+                posMode = PosModeState.RetailState
+            posMode
+        }
+
     suspend fun updatePosPreferences(posPreferences: PosPreferences) {
         context.dataStore.edit {
             it[PreferenceKeys.UKURAN_FONT] = posPreferences.ukuranFont
@@ -117,6 +134,12 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             it[PreferenceKeys.IS_MUAT_GAMBAR] = posPreferences.isMuatGambar
             it[PreferenceKeys.ORIENTASI] = posPreferences.orientasi
             ORIENTATION = posPreferences.orientasi
+        }
+    }
+
+    suspend fun updateModePreferences(mode : String) {
+        context.dataStore.edit {
+            it[PreferenceKeys.MODE] = mode
         }
     }
 
@@ -140,6 +163,7 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
         val PRESET_BUKA_KASIR = stringPreferencesKey("${DATASTORE_NAME}_PRESET_BUKA_KASIR")
         val IS_MUAT_GAMBAR = booleanPreferencesKey("${DATASTORE_NAME}_IS_MUAT_GAMBAR")
         val ORIENTASI = stringPreferencesKey("${DATASTORE_NAME}_ORIENTASI")
+        val MODE = stringPreferencesKey("${DATASTORE_NAME}_MODE")
     }
 
 }
