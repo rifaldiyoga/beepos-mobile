@@ -9,60 +9,102 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_kas_keluar"
         android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="@dimen/size16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
 
-    <LinearLayout
-        android:id="@+id/lL_empty_kas_keluar"
-        android:paddingTop="@dimen/size8"
-        android:visibility="visible"
-        android:paddingBottom="@dimen/size8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="@dimen/size45"
-        android:paddingLeft="@dimen/size45"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+    <ImageView
+        android:id="@+id/imgEmpty"
+        android:layout_width="@dimen/size300"
+        android:layout_height="@dimen/size180"
+        android:src="@drawable/image_content_empty"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/size100"
+        />
 
-        <ImageView
-            android:id="@+id/imageView12"
-            android:layout_width="@dimen/size300"
-            android:layout_height="@dimen/size180"
-            android:layout_marginBottom="@dimen/size16"
-            android:src="@drawable/image_content_empty"
-            app:layout_constraintBottom_toTopOf="@+id/textView52"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+    <TextView
+        style="@style/TextDetail"
+        android:id="@+id/textDetai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/data_kas_masuk"
+        android:textSize="@dimen/font12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEmpty" />
 
-        <TextView
-            style="@style/TextDetail"
-            android:textSize="@dimen/font12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/size16"
-            android:text="@string/data_kas_keluar"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTambah"
+        android:layout_marginTop="@dimen/size16"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:textSize="@dimen/size14"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/tambah_baru"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDetai"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnTambah"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:textSize="@dimen/size14"
-            android:background="@drawable/btn_rect_primary"
-            android:text="@string/tambah_baru"
-            android:textColor="@color/white" />
-    </LinearLayout>
+
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/lL_empty_kas_masuk"-->
+    <!--        android:paddingTop="@dimen/size8"-->
+    <!--        android:visibility="visible"-->
+    <!--        android:paddingBottom="@dimen/size8"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingRight="@dimen/size45"-->
+    <!--        android:paddingLeft="@dimen/size45"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:gravity="center"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintVertical_chainStyle="packed" >-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/imageView12"-->
+    <!--            android:layout_width="@dimen/size300"-->
+    <!--            android:layout_height="@dimen/size180"-->
+    <!--            android:layout_marginBottom="@dimen/size16"-->
+    <!--            android:src="@drawable/image_content_empty"-->
+    <!--            app:layout_constraintBottom_toTopOf="@+id/textView52"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.5"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            app:layout_constraintVertical_chainStyle="packed" />-->
+
+    <!--        <TextView-->
+    <!--            style="@style/TextDetail"-->
+    <!--            android:textSize="@dimen/font12"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginBottom="@dimen/size16"-->
+    <!--            android:text="@string/data_kas_masuk"/>-->
+
+    <!--        <androidx.appcompat.widget.AppCompatButton-->
+    <!--            android:id="@+id/btnTambah"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:inputType="textCapWords"-->
+    <!--            android:textSize="@dimen/size14"-->
+    <!--            android:background="@drawable/btn_rect_primary"-->
+    <!--            android:text="@string/tambah_baru"-->
+    <!--            android:textColor="@color/white" />-->
+    <!--    </LinearLayout>-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/float_btn_tambah"
         android:visibility="gone"
@@ -76,6 +118,7 @@
         android:layout_marginEnd="@dimen/size50"
         android:layout_marginRight="@dimen/size50"
         android:layout_marginBottom ="60dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnTambah"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

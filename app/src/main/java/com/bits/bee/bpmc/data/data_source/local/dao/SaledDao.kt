@@ -24,4 +24,10 @@ interface SaledDao : BaseDao<SaledEntity>{
             "WHERE b.isuploaded = 0 AND substr(c.code, -4) = '-DEL'")
     fun getSaledDeletedItem(): List<SaledEntity>
 
+    @Query("select saled.id, saled.item_id, saled.name, saled.listprice, sum(saled.qty) as qty, count(saled.sale_id) as sale_id, saled.subtotal from saled " +
+            "left join sale on saled.sale_id = sale.id " +
+            "left join item on saled.item_id = item.id " +
+            "left join itemgrp on item.itemgrp1_id = itemgrp.id group by saled.item_id order by qty DESC")
+    fun queryByPenjualan(): List<SaledEntity>
+
 }

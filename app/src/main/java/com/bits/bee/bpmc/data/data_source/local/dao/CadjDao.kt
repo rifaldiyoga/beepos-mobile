@@ -22,17 +22,17 @@ interface CadjDao: BaseDao<CadjEntity> {
     @Query("SELECT * from cadj wHERE cash_id = :cashid order by id desc limit 1")
     fun getLastInOutStatus(cashid: Long): CadjEntity
 
-    @Query("SELECT * from cadj where inout = 'i' and autogen = 0 order by id desc")
-    fun getKasMasukDesc(): List<CadjEntity>
+    @Query("SELECT * from cadj where inout = 'i' and autogen = 0 and note LIKE '%'|| :query || '%' order by id desc")
+    fun getKasMasukDesc(query: String): List<CadjEntity>
 
-    @Query("SELECT * from cadj where inout = 'i' and autogen = 0 order by id asc")
-    fun getKasMasukAsc(): List<CadjEntity>
+    @Query("SELECT * from cadj where inout = 'i' and autogen = 0 and note LIKE '%'|| :query || '%' order by id asc")
+    fun getKasMasukAsc(query: String): List<CadjEntity>
 
-    @Query("SELECT * from cadj where inout = 'o' order by id desc")
-    fun getKasKeluarDesc(): List<CadjEntity>
+    @Query("SELECT * from cadj where inout = 'o' and note LIKE '%'|| :query || '%' order by id desc")
+    fun getKasKeluarDesc(query: String): List<CadjEntity>
 
-    @Query("SELECT * from cadj where inout = 'o' order by id asc")
-    fun getKasKeluarAsc(): List<CadjEntity>
+    @Query("SELECT * from cadj where inout = 'o' and note LIKE '%'|| :query || '%' order by id asc")
+    fun getKasKeluarAsc(query: String): List<CadjEntity>
 
     @Query("SELECT * FROM cadj WHERE inout = 'i' and trxdate between :startDate and :endDate")
     fun getJmlCadjInByDate(startDate: Long, endDate: Long): List<CadjEntity>

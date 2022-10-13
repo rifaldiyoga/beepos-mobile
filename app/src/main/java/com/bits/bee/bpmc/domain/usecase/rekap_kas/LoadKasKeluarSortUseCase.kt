@@ -8,11 +8,11 @@ import javax.inject.Inject
 class LoadKasKeluarSortUseCase @Inject constructor(
     private val cadjRepository: CadjRepository
 ) {
-    operator fun invoke(desc: Boolean): Flow<List<Cadj>>{
+    operator fun invoke(desc: Boolean, query: String): Flow<List<Cadj>>{
         if (desc){
-            return cadjRepository.getKasKeluarDesc()
+            return cadjRepository.getKasKeluarDesc(query)
         }else{
-            return cadjRepository.getKasKeluarAsc()
+            return cadjRepository.getKasKeluarAsc(query)
         }
     }
 }

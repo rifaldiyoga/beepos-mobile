@@ -131,10 +131,12 @@ class AnalisaSesiFragment(
                                     "Rp", CurrencyUtils.formatCurrency(it.startBal))
                                 tvTotalPendapatan.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(it.total))
+                                tvPemasukan.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.totIn ?: bigDecimalZero))
+                                tvPengeluaran.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.totOut ?: bigDecimalZero))
                                 viewModel.getValueDetail()
                             }
-                            tvPemasukan.text =""
-                            tvPengeluaran.text=""
                             it.user?.let {
                                 tvUserKasir.text = it.name
                             }
@@ -142,7 +144,7 @@ class AnalisaSesiFragment(
                                 tvAvgOrder.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
                                 tvJmlOrder.text = it.size.toString()
-                                tvTotalQty.text = viewModel.totalQty(it).toString()
+                                tvTotalQty.text = CurrencyUtils.formatCurrency(viewModel.totalQty(it))
                             }
                             it.bpDateList?.let {
                                 tvNewMember.text = it.size.toString()
@@ -159,10 +161,6 @@ class AnalisaSesiFragment(
                             }
                             it.totalDebit?.let {
                                 tvTotalDebit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
-                            }
-                            it.totalKredit?.let {
-                                tvTotalKredit.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
                             }
                             it.totalGopay?.let {

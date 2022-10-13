@@ -90,28 +90,43 @@ class SaleRepositoryImpl @Inject constructor(
     override fun getTotalPaidTunai(id: Int): Flow<BigDecimal> {
         return flow {
             val data = saleDao.getTotalPaidTunai(id)
-            emit(data)
+            if (data != null)
+                emit(data)
+            else
+                emit(BigDecimal.ZERO)
+
         }.flowOn(defaultDispatcher)
     }
 
     override fun getTotalPaidDebit(id: Int): Flow<BigDecimal> {
         return flow {
             val data = saleDao.getTotalPaidDebit(id)
-            emit(data)
+            if (data != null)
+                emit(data)
+            else
+                emit(BigDecimal("0"))
+
         }.flowOn(defaultDispatcher)
     }
 
     override fun getTotalPaidKredit(id: Int): Flow<BigDecimal> {
         return flow {
             val data = saleDao.getTotalPaidKredit(id)
-            emit(data)
+            if (data != null)
+                emit(data)
+            else
+                emit(BigDecimal.ZERO)
+
         }.flowOn(defaultDispatcher)
     }
 
     override fun getTotalPaidGopay(id: Int): Flow<BigDecimal> {
         return flow {
             val data = saleDao.getTotalPaidGopay(id)
-            emit(data)
+            if (data != null)
+                emit(data)
+            else
+            emit(BigDecimal.ZERO)
         }.flowOn(defaultDispatcher)
     }
 

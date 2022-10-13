@@ -49,4 +49,11 @@ class SaledRepositoryImpl @Inject constructor(
             emit(data)
         }.flowOn(defaultDispatcher)
     }
+
+    override fun queryByPenjualan(): Flow<List<Saled>> {
+        return flow {
+            val data = saledDao.queryByPenjualan().map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
 }

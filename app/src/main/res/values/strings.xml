@@ -57,6 +57,7 @@
     <string name="pref_pilih_tgl">pref_pilih_tgl</string>
     <string name="pref_login_user">login_user</string>
     <string name="pref_tablayout">pref_tablayout</string>
+    <string name="pref_user_kasir">pref_user_kasir</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -465,7 +466,7 @@ untuk memperbarui data dapur?</string>
     <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no JL12345?</string>
     <string name="alasan_void">Alasan Void</string>
     <string name="hapus">Hapus</string>
-    <string name="pendapatan_sesi_1">Pendapatan Sesi #1</string>
+    <string name="pendapatan_sesi_1">Pendapatan Sesi</string>
     <string name="detail_pendapatan">Detail Pendapatan</string>
     <string name="debit">Debit</string>
     <string name="kredit">Kredit</string>
@@ -604,6 +605,7 @@ untuk memperbarui data dapur?</string>
     <string name="pastikan_data_kas_benar">Pastikan data yang dimasukkan sudah benar, ya! Karena kas masuk hanya bisa diubah, tidak bisa dihapus.</string>
     <string name="tanggal">Tanggal</string>
     <string name="nominal_uang_masuk">Nominal Uang Masuk</string>
+    <string name="nominal_uang_keluar">Nominal Uang Keluar</string>
     <string name="deskripsi">Deskripsi</string>
 
 </resources>

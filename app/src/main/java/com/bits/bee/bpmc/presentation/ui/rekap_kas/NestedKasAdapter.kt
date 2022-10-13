@@ -1,21 +1,19 @@
 package com.bits.bee.bpmc.presentation.ui.rekap_kas
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bits.bee.bpmc.databinding.ItemNestedSesiBinding
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemRekapKasBinding
 import com.bits.bee.bpmc.domain.model.Cadj
-import com.bits.bee.bpmc.domain.model.Posses
-import com.bits.bee.bpmc.presentation.ui.riwayat_sesi.NestedSesiAdapter
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import java.sql.Date
 import java.text.SimpleDateFormat
 
-class NestedKasAdapter constructor(
-
-): ListAdapter<Cadj, RecyclerView.ViewHolder>(Diffcallback()) {
+class NestedKasAdapter(private  val ctx: Context) : ListAdapter<Cadj, RecyclerView.ViewHolder>(Diffcallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,7 +31,7 @@ class NestedKasAdapter constructor(
 
         fun bind(model : Cadj) {
             binding.apply {
-                tvNamaKasir.text = "Kasir#${model.cashAId}"
+                tvNamaKasir.text = BeePreferenceManager.getDataFromPreferences(ctx, ctx.getString(R.string.pref_user_kasir), "") as String
                 tvDeskripsi.text = model.note
                 tvJmlKas.text = model.amount.toString()
 

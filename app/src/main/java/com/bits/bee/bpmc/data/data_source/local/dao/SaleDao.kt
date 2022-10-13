@@ -29,16 +29,16 @@ interface SaleDao : BaseDao<SaleEntity> {
     fun getTotalNotaVoid(id: Int): BigDecimal
 
     @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'TUNAI' and isvoid = 0")
-    fun getTotalPaidTunai(id: Int): BigDecimal
+    fun getTotalPaidTunai(id: Int): BigDecimal?
 
     @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'Debit Card' and isvoid = 0")
-    fun getTotalPaidDebit(id: Int): BigDecimal
+    fun getTotalPaidDebit(id: Int): BigDecimal?
 
     @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'Credit Card' and isvoid = 0")
-    fun getTotalPaidKredit(id: Int): BigDecimal
+    fun getTotalPaidKredit(id: Int): BigDecimal?
 
     @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'GOPAY' and isvoid = 0")
-    fun getTotalPaidGopay(id: Int): BigDecimal
+    fun getTotalPaidGopay(id: Int): BigDecimal?
 
     @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0 and id not in (:saledlist) limit :limit_trx")
     fun getSaleHaventUploaded(limit_trx: Long, saledlist: String): List<SaleEntity>

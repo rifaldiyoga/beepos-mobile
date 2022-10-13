@@ -12,11 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.DialogTambahKasBinding
+import com.bits.bee.bpmc.databinding.DialogTambahKasKeluarBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -28,27 +25,22 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
-class TambahKasDialog(
+class TambahKasKeluarDialog(
     private val builder : Builder,
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogTambahKasBinding = DialogTambahKasBinding::inflate
-): BaseBottomSheetDialogFragment<DialogTambahKasBinding>() {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogTambahKasKeluarBinding = DialogTambahKasKeluarBinding::inflate
+): BaseBottomSheetDialogFragment<DialogTambahKasKeluarBinding>() {
 
-//    private val sharedViewModel: TambahKasSharedViewModel by activityViewModels()
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private val viewModel : TambahKasSharedViewModel by viewModels()
-    private var iskasMasuk = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getValue()
-//        iskasMasuk = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_tablayout), false) as Boolean
     }
 
     override fun initComponents() {
         binding.apply {
             tvTitle.text = builder.title
-            etNominal.setText(builder.nominal)
-            etDeskripsi.setText(builder.deskripsi)
         }
     }
 
@@ -60,7 +52,6 @@ class TambahKasDialog(
                         nominal = etNominal.text.toString().trim()
                     )
                 )
-//                viewModel.state.nominal = etNominal.text.toString().trim()
             }
             etDeskripsi.addTextChangedListener {
                 viewModel.updateState(
@@ -68,18 +59,11 @@ class TambahKasDialog(
                         deskripsi = etDeskripsi.text.toString().trim()
                     )
                 )
-//                viewModel.state.deskripsi =
             }
 
             btnSimpan.setOnClickListener {
-                sharedViewModel.onSaveKasMasuk(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
-//                if (iskasMasuk){
-//
-//                }else{
-//                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
-//                }
+                sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
                 dismiss()
-//                builder.positiveCallback?.let { it(dialog!!) }
             }
         }
     }
@@ -98,12 +82,15 @@ class TambahKasDialog(
                                 etNominal.isFocusable = true
                                 viewModel.posses()
                             }
-                            etTanggal.setText(DateFormatUtils.formatDateToString(
-                                BPMConstants.DEFAULT_DATE_FORMAT, Date()))
+                            etTanggal.setText(
+                                DateFormatUtils.formatDateToString(
+                                BPMConstants.DEFAULT_DATE_FORMAT, Date()
+                                ))
                             it.posses?.let {
                                 viewModel.initCash(it.possesId!!)
-                                etTanggal.setText(DateFormatUtils.formatDateToString(
-                                        BPMConstants.DEFAULT_DATE_FORMAT, it.trxDate))
+                                etTanggal.setText(
+                                    DateFormatUtils.formatDateToString(
+                                    BPMConstants.DEFAULT_DATE_FORMAT, it.trxDate))
                                 etTanggal.isEnabled = false
                             }
                         }
@@ -111,7 +98,6 @@ class TambahKasDialog(
                 }
             }
         }
-
     }
 
     data class Builder(
@@ -142,9 +128,8 @@ class TambahKasDialog(
             return this
         }
 
-        fun build(): TambahKasDialog {
-            return TambahKasDialog(this)
+        fun build(): TambahKasKeluarDialog {
+            return TambahKasKeluarDialog(this)
         }
     }
-
 }

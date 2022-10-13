@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_kas.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -25,15 +26,24 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
     private val loadKasKeluarSortUseCase: LoadKasKeluarSortUseCase,
     private val getCadjOutByDateUseCase: GetCadjOutByDateUseCase,
     private val updateTotalPossesUseCase: UpdateTotalPossesUseCase,
-    private val addKasUseCase: AddKasUseCase
+    private val addKasUseCase: AddKasUseCase,
+    private val getActivePossesUseCase: GetActivePossesUseCase
 ): BaseViewModel<KasKeluarMasukState, KasKeluarMasukSharedViewModel.UIEvent>() {
-
-    private var mListCadj: List<Cadj> = mutableListOf()
 
     init {
         state = KasKeluarMasukState()
         getActiveBranch()
         getActiveCashier()
+    }
+
+    fun checkPosses() = viewModelScope.launch {
+        getActivePossesUseCase.invoke().collect {
+            updateState(
+                state.copy(
+                    acrivePosses = it
+                )
+            )
+        }
     }
 
     private fun getActiveBranch() = viewModelScope.launch {
@@ -143,13 +153,13 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
 
     }
 
-    fun loadKasMasuk(desc: Boolean) = viewModelScope.launch {
+    fun loadKasMasuk(desc: Boolean, query: String) = viewModelScope.launch {
         updateState(
             state.copy(
                 isDesc = desc
             )
         )
-        loadKasMasukSortUseCase.invoke(desc).collect{
+        loadKasMasukSortUseCase.invoke(desc, query).collect{
             updateState(
                 state.copy(
                     cadjListIn = it
@@ -158,13 +168,13 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         }
     }
 
-    fun loadKasKeluar(desc: Boolean) = viewModelScope.launch {
+    fun loadKasKeluar(desc: Boolean, query: String) = viewModelScope.launch {
         updateState(
             state.copy(
                 isDesc = desc
             )
         )
-        loadKasKeluarSortUseCase.invoke(desc).collect{
+        loadKasKeluarSortUseCase.invoke(desc, query).collect{
             updateState(
                 state.copy(
                     cadjListOut = it
@@ -269,7 +279,6 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
     sealed class UIEvent{
         object RequestAddKasMasuk: UIEvent()
         object RequestAddKasKeluar: UIEvent()
-        object RequestDialogNominal: UIEvent()
         object SuccesAddkasMasuk: UIEvent()
         object SuccesAddKasKeluar: UIEvent()
     }

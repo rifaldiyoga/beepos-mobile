@@ -110,16 +110,16 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                 tools:ignore="MissingConstraints" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/txtNoTelp"-->
-<!--                android:layout_width="@dimen/size0"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/size6"-->
-<!--                android:layout_marginEnd="@dimen/size16"-->
-<!--                android:text="@string/no_telepon"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/textView7"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView53" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/txtNoTelp"-->
+            <!--                android:layout_width="@dimen/size0"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/size6"-->
+            <!--                android:layout_marginEnd="@dimen/size16"-->
+            <!--                android:text="@string/no_telepon"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/textView7"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/textView53" />-->
 
             <TextView
                 android:id="@+id/textView56"
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size16"
-                android:text="@string/nominal_uang_masuk"
+                android:text="@string/nominal_uang_keluar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView87" />
 

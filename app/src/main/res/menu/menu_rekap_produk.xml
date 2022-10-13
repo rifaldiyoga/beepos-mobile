@@ -4,14 +4,14 @@
 
     <item
         android:title="@string/search"
-        android:id="@+id/search_rekap_kas"
+        android:id="@+id/search_rekap_produk"
         android:icon="@drawable/ic_search_black"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>
 
     <item
-        android:id="@+id/sort_rekap_kas"
-        android:icon="@drawable/ic_sort_descending"
-        app:showAsAction="ifRoom"
-        android:title="" />
+        android:title="@string/filter"
+        android:id="@+id/filter_rekap_produk"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="ifRoom"/>
 </menu>
