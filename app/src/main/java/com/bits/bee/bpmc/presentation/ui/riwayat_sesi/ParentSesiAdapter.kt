@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemNestedSesiBinding
 import com.bits.bee.bpmc.databinding.ItemParentSesiAdptBinding
 import com.bits.bee.bpmc.databinding.ItemSectionKitchenBinding
@@ -50,6 +51,12 @@ class ParentSesiAdapter constructor(
 
             var isExpand = sesiModel.expand
             clExpand.visibility = if (isExpand) View.VISIBLE else View.GONE
+
+            if (isExpand){
+                imgChevron.setImageResource(R.drawable.ic_cv_up);
+            }else{
+                imgChevron.setImageResource(R.drawable.ic_cv_down);
+            }
 
             nestedSesiAdapter = NestedSesiAdapter(listener)
 

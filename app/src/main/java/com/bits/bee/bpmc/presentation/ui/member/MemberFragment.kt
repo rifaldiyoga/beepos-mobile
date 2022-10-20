@@ -148,7 +148,12 @@ class MemberFragment(
                                 }else if (newText!!.length >= 3){
                                     viewModel.onSearch(newText.toString().trim())
                                     it.listBp?.let {
-                                        memberAdapter.submitList(it)
+                                        if (it.size > 0){
+                                            binding.imageView12.visibility = View.GONE
+                                            memberAdapter.submitList(it)
+                                        }else{
+                                            binding.imageView12.visibility = View.VISIBLE
+                                        }
                                     }
                                 }
                             }
