@@ -5,6 +5,7 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 20/05/22.
@@ -20,5 +21,9 @@ interface SaledRepository {
     fun getSaledDeletedItem(): Flow<List<Saled>>
 
     fun queryByPenjualan(): Flow<List<Saled>>
+
+    fun getSaledTotal(id: Int, startDate: Long, endDate: Long): Flow<List<Saled>>
+
+    fun getStokByItem(id: Int, startDate: Long, endDate: Long): Flow<BigDecimal>
 
 }

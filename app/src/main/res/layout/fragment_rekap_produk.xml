@@ -3,8 +3,108 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/size2"
+            android:layout_marginBottom="@dimen/size14"
+            android:background="@color/soft_red"
+            android:id="@+id/cl_jml_printer"
+            android:padding="@dimen/size16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:padding="@dimen/size8"
+                android:layout_width="@dimen/size30"
+                android:layout_height="@dimen/size30"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgview_tipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/alert_circle"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_last_sync"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/size8"
+                android:text="Menampilkan data stok pada 09/08/2022"
+                android:textSize="@dimen/font12"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/size2"
+            android:layout_marginBottom="@dimen/size14"
+            android:id="@+id/cl_list_printer"
+            android:padding="@dimen/size16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_rekap_produk"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/size2"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/size14"
+            android:id="@+id/cl_list_pBar"
+            android:padding="@dimen/size16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:visibility="visible"
+                android:gravity="center_horizontal"
+                android:id="@+id/dialogprinter_llProggress"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size20" />
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:text="Mencari Printer..."
+                    android:textSize="@dimen/size8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView16"

@@ -22,7 +22,7 @@ data class  Item (
     var unitdesc : String,
     var note : String?,
     var active : Boolean,
-    var     saleUnit : Int?,
+    var saleUnit : Int?,
     var stockUnit : Int?,
     var qty : BigDecimal = BigDecimal.ZERO,
     var isPos : Boolean = true,
@@ -39,5 +39,6 @@ data class  Item (
     var crcId: Int = -1,
     var crcSymbol: String = "Rp.",
     var unitList : List<Unit> = mutableListOf(),
-    var itemVariantList: List<Int> = mutableListOf()
+    var itemVariantList: List<Int> = mutableListOf(),
+    var subtotal: BigDecimal = BigDecimal.ZERO
 ) : Parcelable

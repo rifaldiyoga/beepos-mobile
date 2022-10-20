@@ -27,4 +27,6 @@ interface ItemRepository {
 
     fun getActiveItemListByItemGrp(itemGrpId: Int) : Flow<List<Item>>
 
+    fun cariItems(query: String): Flow<List<Item>>
+
 }

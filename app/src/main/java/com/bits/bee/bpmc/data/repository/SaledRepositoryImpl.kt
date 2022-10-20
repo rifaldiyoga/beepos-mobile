@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -21,6 +22,8 @@ class SaledRepositoryImpl @Inject constructor(
     private val defaultDispatcher: CoroutineDispatcher,
     private val saledDao: SaledDao
 ) : SaledRepository {
+
+   private lateinit var mSubtotal: BigDecimal
 
     override suspend fun addSaled(saledList: List<Saled>) {
         withContext(defaultDispatcher){
@@ -54,6 +57,24 @@ class SaledRepositoryImpl @Inject constructor(
         return flow {
             val data = saledDao.queryByPenjualan().map { SaledDataMapper.fromDbToDomain(it) }
             emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaledTotal(id: Int, startDate: Long, endDate: Long): Flow<List<Saled>> {
+        return flow{
+            val data = saledDao.sumTotalByItem(id, startDate, endDate).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getStokByItem(id: Int, startDate: Long, endDate: Long): Flow<BigDecimal> {
+        var qty = BigDecimal.ZERO
+        return flow<BigDecimal> {
+            val data = saledDao.sumStokByItem(id, startDate, endDate).map { SaledDataMapper.fromDbToDomain(it) }
+            for (saled in data){
+                qty.add(saled.qty)
+            }
+            emit(qty)
         }.flowOn(defaultDispatcher)
     }
 }

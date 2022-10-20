@@ -24,10 +24,16 @@ interface SaledDao : BaseDao<SaledEntity>{
             "WHERE b.isuploaded = 0 AND substr(c.code, -4) = '-DEL'")
     fun getSaledDeletedItem(): List<SaledEntity>
 
-    @Query("select saled.id, saled.item_id, saled.name, saled.listprice, sum(saled.qty) as qty, count(saled.sale_id) as sale_id, saled.subtotal from saled " +
+    @Query("select saled.item_code, saled.disc, saled.tax, saled.discexp, saled.discamt, saled.disc2amt, saled.taxamt, saled.baseprice, saled.taxableamt, saled.dno, saled.totaldiscamt, saled.totaldisc2amt, saled.totaltaxamt, saled.dnote, saled.id, saled.item_id, saled.name, saled.listprice, sum(saled.qty) as qty, count(saled.sale_id) as sale_id, saled.subtotal from saled " +
             "left join sale on saled.sale_id = sale.id " +
             "left join item on saled.item_id = item.id " +
             "left join itemgrp on item.itemgrp1_id = itemgrp.id group by saled.item_id order by qty DESC")
     fun queryByPenjualan(): List<SaledEntity>
+
+    @Query("select saled.subtotal, saled.item_code, saled.disc, saled.tax, saled.discexp, saled.discamt, saled.disc2amt, saled.taxamt, saled.baseprice, saled.taxableamt, saled.dno, saled.totaldiscamt, saled.totaldisc2amt, saled.totaltaxamt, saled.dnote, saled.id, saled.item_id, saled.name, saled.listprice, saled.qty, saled.sale_id from saled, sale where sale.draft = 0 and saled.item_id = :id and sale.isvoid = 0 and sale.id == saled.sale_id and sale.trx_date between :startDate and :endDate")
+    fun sumTotalByItem(id: Int, startDate: Long, endDate: Long): List<SaledEntity>
+
+    @Query("select saled.qty, saled.subtotal, saled.item_code, saled.disc, saled.tax, saled.discexp, saled.discamt, saled.disc2amt, saled.taxamt, saled.baseprice, saled.taxableamt, saled.dno, saled.totaldiscamt, saled.totaldisc2amt, saled.totaltaxamt, saled.dnote, saled.id, saled.item_id, saled.name, saled.listprice, saled.sale_id from saled, sale where sale.draft = 0 and saled.item_id = :id and sale.isvoid = 0 and sale.id == saled.sale_id and sale.trx_date between :startDate and :endDate")
+    fun sumStokByItem(id: Int, startDate: Long, endDate: Long): List<SaledEntity>
 
 }

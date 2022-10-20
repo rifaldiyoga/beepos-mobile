@@ -106,4 +106,11 @@ class ItemRepositoryImpl @Inject constructor(
         emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
+    override fun cariItems(query: String): Flow<List<Item>> {
+        return flow {
+            val data = itemDao.cariItems(query).map { ItemDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
 }

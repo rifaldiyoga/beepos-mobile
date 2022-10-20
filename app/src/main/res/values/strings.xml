@@ -607,5 +607,6 @@ untuk memperbarui data dapur?</string>
     <string name="nominal_uang_masuk">Nominal Uang Masuk</string>
     <string name="nominal_uang_keluar">Nominal Uang Keluar</string>
     <string name="deskripsi">Deskripsi</string>
+    <string name="ini_deskripsi">ini deskripsi</string>
 
 </resources>
