@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.domain.mapper
 import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
 import com.bits.bee.bpmc.data.data_source.remote.response.BpResponse
 import com.bits.bee.bpmc.domain.model.Bp
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -54,6 +55,7 @@ object BpDataMapper : BaseMapper<BpEntity, Bp, BpResponse.BpModel>(){
     }
 
     override fun fromNetworkToDb(model: BpResponse.BpModel): BpEntity {
+        val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         return BpEntity(
             id = model.id,
             code = model.code,
@@ -64,7 +66,7 @@ object BpDataMapper : BaseMapper<BpEntity, Bp, BpResponse.BpModel>(){
             isTaxedOnSale = model.saleistaxed,
             priceLvlId = model.pricelvl_id,
             bpgrpId = model.bpgrpid,
-            createdAt = Date(),
+            createdAt = format.parse(model.created_at) ?: Date(),
             createdBy = -1,
         )
     }

@@ -656,5 +656,6 @@ untuk memperbarui data dapur?</string>
     <string name="keluar">Keluar</string>
     <string name="digunakan">Digunakan</string>
     <string name="pin_salah_coba_lagi">PIN salah. Coba lagi</string>
+    <string name="ini_deskripsi">ini deskripsi</string>
 
 </resources>

@@ -131,4 +131,11 @@ class ItemRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun cariItems(query: String): Flow<List<Item>> {
+        return flow {
+            val data = itemDao.cariItems(query).map { ItemDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
 }

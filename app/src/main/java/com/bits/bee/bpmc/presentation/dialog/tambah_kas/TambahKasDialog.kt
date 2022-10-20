@@ -3,9 +3,14 @@ package com.bits.bee.bpmc.presentation.dialog.tambah_kas
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,9 +24,14 @@ import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -34,6 +44,7 @@ class TambahKasDialog(
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private val viewModel : TambahKasSharedViewModel by viewModels()
     private var iskasMasuk = false
+    private var thousandSeparator = "#,###.##"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,14 +62,53 @@ class TambahKasDialog(
 
     override fun subscribeListeners() {
         binding.apply {
-            etNominal.addTextChangedListener {
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        nominal = etNominal.text.toString().trim()
-                    )
-                )
-//                viewModel.state.nominal = etNominal.text.toString().trim()
-            }
+            etNominal.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    etNominal.removeTextChangedListener(this)
+
+                    try {
+                        var originalString: String = p0.toString()
+                        val longval: Long
+                        if (originalString.contains(",")) {
+                            originalString = originalString.replace(",".toRegex(), "")
+                        }
+                        longval = originalString.toLong()
+                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+                        formatter.applyPattern("#,###,###,###")
+                        val formattedString = formatter.format(longval)
+
+                        //setting text after format to EditText
+                        etNominal.setText(formattedString)
+                        etNominal.setSelection(etNominal.getText().length)
+                    } catch (nfe: NumberFormatException) {
+                        nfe.printStackTrace()
+                    }
+                    etNominal.addTextChangedListener(this)
+                    if (p0.toString().length > 0) {
+                        try {
+                            val nominalUang: String
+                            nominalUang = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
+                            viewModel.updateState(
+                                viewModel.state.copy(
+                                    nominal = nominalUang
+                                )
+                            )
+                        } catch (e: Exception) {
+                            e.stackTrace
+                        }
+                    }
+
+                }
+
+            })
             etDeskripsi.addTextChangedListener {
                 viewModel.updateState(
                     viewModel.state.copy(
@@ -69,14 +119,31 @@ class TambahKasDialog(
             }
 
             btnSimpan.setOnClickListener {
-                sharedViewModel.onSaveKasMasuk(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
+                if (viewModel.state.nominal != null && viewModel.state.deskripsi != null) {
+                    sharedViewModel.onSaveKasMasuk(
+                        viewModel.state.nominal!!,
+                        viewModel.state.deskripsi ?: "",
+                        viewModel.state.posses,
+                        viewModel.state.cash
+                    )
+                    dismiss()
+                }else {
+                    Toast.makeText(
+                        builder.context,
+                        "Nominal atau deskripsi tidak boleh kosong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 //                if (iskasMasuk){
 //
 //                }else{
 //                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
 //                }
-                dismiss()
 //                builder.positiveCallback?.let { it(dialog!!) }
+            }
+
+            imgViewClose.setOnClickListener {
+                dismiss()
             }
         }
     }
@@ -96,11 +163,11 @@ class TambahKasDialog(
                                 viewModel.posses()
                             }
                             etTanggal.setText(DateFormatUtils.formatDateToString(
-                                BPMConstants.DATE_FORMAT_RESPONSE, Date()))
+                                BPMConstants.NEW_DATE_FORMAT, Date()))
                             it.posses?.let {
                                 viewModel.initCash(it.possesId!!)
                                 etTanggal.setText(DateFormatUtils.formatDateToString(
-                                        BPMConstants.DATE_FORMAT_RESPONSE, it.trxDate))
+                                        BPMConstants.NEW_DATE_FORMAT, it.trxDate))
                                 etTanggal.isEnabled = false
                             }
                         }

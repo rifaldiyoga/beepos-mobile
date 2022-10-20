@@ -40,5 +40,6 @@ data class  Item (
     var crcSymbol: String = "Rp.",
     var unitList : List<Unit> = mutableListOf(),
     var itemVariantList: List<Int> = mutableListOf(),
-    var isFavorit : Boolean = false
+    var isFavorit : Boolean = false,
+    var subtotal: BigDecimal = BigDecimal.ZERO
 ) : Parcelable

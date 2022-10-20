@@ -60,11 +60,12 @@
                     android:text="@string/sesi" />
 
                 <ImageView
+                    android:id="@+id/img_chevron"
                     android:layout_marginTop="@dimen/size1"
                     android:layout_marginLeft="@dimen/size10"
-                    android:layout_width="@dimen/size12"
-                    android:layout_height="@dimen/size12"
-                    android:src="@drawable/ic_chevron_up" />
+                    android:layout_width="@dimen/size18"
+                    android:layout_height="@dimen/size16"
+                    android:src="@drawable/ic_cv_down" />
 
             </LinearLayout>
 

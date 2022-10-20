@@ -31,4 +31,6 @@ interface ItemRepository {
 
     suspend fun addUpdateItem(item : Item)
 
+    fun cariItems(query: String): Flow<List<Item>>
+
 }

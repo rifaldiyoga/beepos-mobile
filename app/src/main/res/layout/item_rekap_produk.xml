@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cl_rekap_kas"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/lL_riwayat_sesi"
+        android:weightSum="5"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/size16"
+        android:paddingBottom="@dimen/size16"
+        tools:ignore="MissingConstraints">
+
+
+        <LinearLayout
+            android:paddingTop="@dimen/size2"
+            android:id="@+id/lL_content_tipeTrans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:weightSum="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_rvContent_LlDec"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="3.5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:paddingLeft="@dimen/size2"
+                android:id="@+id/tv_barang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                style="@style/TextHeader"
+                android:text="@string/cash"
+                android:textSize="@dimen/size12" />
+
+            <TextView
+                android:paddingLeft="@dimen/size2"
+                android:id="@+id/tv_qty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginTop="10dp"
+                android:text="@string/cash"
+                android:textSize="@dimen/size12"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingRight="@dimen/size12"
+            android:id="@+id/lL_content_member"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:weightSum="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_rvContent_LlDec"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1.5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5.5"
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tvKas_waktu"
+                    android:paddingRight="@dimen/size2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text=""
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:paddingRight="@dimen/size2"
+                    android:id="@+id/tv_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:singleLine="false"
+                    android:text="@string/rp"
+                    style="@style/TextHeader"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size14"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size1"
+        android:background="@color/light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

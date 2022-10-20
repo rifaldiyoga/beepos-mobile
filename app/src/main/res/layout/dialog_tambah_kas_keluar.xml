@@ -47,7 +47,6 @@
 
             <TextView
                 android:id="@+id/textView8"
-                style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size16"
@@ -82,7 +81,7 @@
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
+                android:layout_marginTop="@dimen/size10"
                 android:text="@string/tanggal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etUser" />
@@ -125,10 +124,10 @@
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
+                android:layout_marginTop="@dimen/size10"
                 android:text="@string/nominal_uang_keluar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView87" />
+                app:layout_constraintTop_toBottomOf="@+id/etTanggal" />
 
             <TextView
                 android:id="@+id/textView88"
@@ -148,6 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
+                android:inputType="number"
                 android:hint="@string/_0"
                 app:layout_constraintLeft_toRightOf="@+id/textView88"
                 android:layout_marginLeft="@dimen/size25"
@@ -159,10 +159,10 @@
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
+                android:layout_marginTop="@dimen/size10"
                 android:text="@string/deskripsi"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView88" />
+                app:layout_constraintTop_toBottomOf="@+id/et_nominal" />
 
             <EditText
                 android:id="@+id/et_deskripsi"
@@ -170,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
-                android:hint="@string/masukan_info"
+                android:hint="@string/ini_deskripsi"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView55"
