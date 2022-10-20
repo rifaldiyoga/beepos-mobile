@@ -1,11 +1,8 @@
 package com.bits.bee.bpmc.domain.usecase.rekap_kas
 
 import com.bits.bee.bpmc.domain.mapper.CadjDataMapper
-import com.bits.bee.bpmc.domain.mapper.CashDataMapper
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.repository.CadjRepository
-import com.bits.bee.bpmc.domain.repository.CashRepository
-import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
@@ -41,7 +38,7 @@ class AddKasKeluarMasukUseCase @Inject constructor(
             amount = balance,
             refNo = mPosses!!.trxNo,
             kodeCadj = "",
-            trxDate = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, Date()),
+            trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DATE_FORMAT_RESPONSE, Date()),
             isUploaded = false,
         )
 

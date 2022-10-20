@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
 import com.bits.bee.bpmc.domain.model.RankItem
+import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -19,5 +20,7 @@ interface SaledRepository {
     fun getSaledDeletedItem(): Flow<List<Saled>>
 
     fun getSaledById(id : Int) : Flow<Saled?>
+
+    fun queryByPenjualan(): Flow<List<Saled>>
 
 }

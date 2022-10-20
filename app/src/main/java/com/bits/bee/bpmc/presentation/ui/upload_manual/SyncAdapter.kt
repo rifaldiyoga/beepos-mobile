@@ -2,15 +2,15 @@ package com.bits.bee.bpmc.presentation.ui.upload_manual
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemSyncBinding
 import com.bits.bee.bpmc.domain.model.Sync
 
 class SyncAdapter constructor(
 
-): ListAdapter<Sync, RecyclerView.ViewHolder>(DiffCallback()) {
+): PagingDataAdapter<Sync, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

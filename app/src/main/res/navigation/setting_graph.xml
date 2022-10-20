@@ -86,8 +86,8 @@
         android:label="SettingLisensiFragment"
         tools:layout="@layout/fragment_help_lisensi">
         <action
-            android:id="@+id/action_settingLisensiFragment_to_initialActivity"
-            app:destination="@id/initialActivity" />
+            android:id="@+id/action_settingLisensiFragment_to_initialActivity22"
+            app:destination="@id/initialActivity2" />
     </fragment>
     <action
         android:id="@+id/action_settingListFragment_to_settingNotaFragment"
@@ -141,4 +141,8 @@
             android:id="@+id/action_settingPrinterFragment_to_addPrinterFragment"
             app:destination="@id/addPrinterFragment" />
     </fragment>
+    <activity
+        android:id="@+id/initialActivity2"
+        android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
+        android:label="InitialActivity" />
 </navigation>

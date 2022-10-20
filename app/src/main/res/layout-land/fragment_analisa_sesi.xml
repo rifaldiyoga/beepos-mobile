@@ -360,6 +360,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
                 <TextView
+                    android:id="@+id/tv_pengeluaran"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
@@ -735,20 +736,19 @@
             android:paddingBottom="@dimen/size8"
             android:visibility="visible">
 
-            <TextView
+            <ImageView
                 android:layout_width="@dimen/size225"
                 android:layout_height="@dimen/size150"
                 android:layout_gravity="center"
-                android:background="@drawable/image_analisa"
+                android:src="@drawable/image_analisa"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/size30" />
+                />
 
             <TextView
                 style="@style/TextDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size20"
                 android:layout_marginBottom="@dimen/size16"
                 android:text="@string/kasir_belum_aktif_belum_ada_data_yg_ditampilkan"
                 android:textAlignment="center"

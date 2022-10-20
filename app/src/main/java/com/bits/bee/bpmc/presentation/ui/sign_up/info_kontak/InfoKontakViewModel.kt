@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.info_kontak
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.data.data_source.remote.response.SignUpResponse
 import com.bits.bee.bpmc.domain.model.SignUp
@@ -27,7 +26,7 @@ class InfoKontakViewModel @Inject constructor(
     fun observeSignUpResponse() = registerResponse as LiveData<Resource<SignUpResponse>>
 
     suspend fun postSignUp() : Flow<Resource<SignUpResponse>> {
-        val signUp = SignUp(state.nama, state.noWa, state.email, state.password, step = 1)
+        val signUp = SignUp(state.nama, state.noWa, state.email, state.password)
          return postSignUpUseCase(signUp)
     }
 

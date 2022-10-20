@@ -6,7 +6,6 @@ import com.bits.bee.bpmc.domain.mapper.SaledDataMapper
 import com.bits.bee.bpmc.domain.model.RankItem
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaledRepository
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -56,6 +55,13 @@ class SaledRepositoryImpl @Inject constructor(
         return flow {
             val data = saledDao.getSaledById(id)
             emit(data?.let { SaledDataMapper.fromDbToDomain(it) })
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun queryByPenjualan(): Flow<List<Saled>> {
+        return flow {
+            val data = saledDao.queryByPenjualan().map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 }

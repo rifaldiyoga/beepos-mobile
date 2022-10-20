@@ -54,7 +54,7 @@ class DownloadViewModel @Inject constructor (
         downloadItemVariant()
         downloadPromo()
         downloadPromoMulti()
-        downloadReg()
+//        downloadReg()
         onFinsihDownload()
     }
 

@@ -2,11 +2,13 @@ package com.bits.bee.bpmc.presentation.ui.salesman
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemMemberBinding
 import com.bits.bee.bpmc.domain.model.Srep
+import com.bits.bee.bpmc.utils.extension.gone
 
 /**
  * Created by aldi on 22/04/22.
@@ -33,6 +35,7 @@ class SalesmanAdapter constructor(
         fun bind(model : Srep) {
             binding.apply {
                 tvNamaMember.text = model.name
+                tvNoTelp.gone()
                 lLContentMember.setOnClickListener {
                     onMemberClick(model)
                 }

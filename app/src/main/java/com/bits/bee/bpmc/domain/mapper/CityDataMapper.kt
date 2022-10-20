@@ -35,7 +35,7 @@ object CityDataMapper : BaseMapper<CityEntity, City, CityModel>() {
             model.code,
             model.name,
 //            true
-            if(model.updatedAt.isNotBlank()) DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt) else Date()
+            if(model.updatedAt.isNotBlank()) DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt) else Date()
         )
     }
 }

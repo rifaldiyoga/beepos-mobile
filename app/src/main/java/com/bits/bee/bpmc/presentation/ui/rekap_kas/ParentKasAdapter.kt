@@ -2,16 +2,11 @@ package com.bits.bee.bpmc.presentation.ui.rekap_kas
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemParentKasAdptBinding
-import com.bits.bee.bpmc.databinding.ItemParentSesiAdptBinding
 import com.bits.bee.bpmc.domain.model.Kas
-import com.bits.bee.bpmc.domain.model.Sesi
-import com.bits.bee.bpmc.presentation.ui.riwayat_sesi.NestedSesiAdapter
-import com.bits.bee.bpmc.presentation.ui.riwayat_sesi.ParentSesiAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,9 +36,9 @@ class ParentKasAdapter constructor(
         val kasModel = mList.get(position)
         holder.binding.apply {
             tvTglKas.text = getDate(Date(kasModel.date))
-            tvJmlTrans.text = "${kasModel.jmltrans} Sesi"
+            tvJmlTrans.text = "${kasModel.jmltrans} Transaksi"
 
-            nestedKasAdapter = NestedKasAdapter()
+            nestedKasAdapter = NestedKasAdapter(ctx)
 
             rvChildKas.apply {
                 layoutManager = LinearLayoutManager(ctx)

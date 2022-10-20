@@ -152,17 +152,17 @@ class PilihDbViewModel @Inject constructor(
             }
         }
 
-        if (mUserList.size == 0){
+        if (mUserList.isEmpty()){
             mUser = User(
                 username = state.inputEmail,
-                userApiKey = "Bearer "+authKey,
+                userApiKey = "Bearer $authKey",
                 pin = "",
                 active = false,
                 name = "",
                 id = -1
             )
         }else{
-            mUser = mUserList.get(0)
+            mUser = mUserList[0]
         }
 
         var lic = LicPost(

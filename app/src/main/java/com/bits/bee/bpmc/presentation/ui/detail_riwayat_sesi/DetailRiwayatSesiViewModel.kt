@@ -46,7 +46,7 @@ class DetailRiwayatSesiViewModel @Inject constructor(
             }
         }
         getCashierByIdUseCase.invoke(state.posses!!.cashierId).collect {
-            it.data?.let {
+            it?.let {
                 updateState(
                     state.copy(
                         cashier = it

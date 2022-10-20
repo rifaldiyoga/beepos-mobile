@@ -16,7 +16,7 @@ data class Cstr (
     var amount2: BigDecimal,
     var excrate1 : BigDecimal,
     var excrate2 : BigDecimal,
-    var note: Boolean,
+    var note: String,
     var refType : String,
     var refNo: String,
     var autoGen: String,

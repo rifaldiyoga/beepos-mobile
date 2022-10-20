@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -36,7 +37,9 @@ class TransaksiBerhasilFragment(
 
     override fun initComponents() {
         binding.apply {
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
 
+            }
         }
     }
 

@@ -134,10 +134,10 @@ class BpRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override fun getBpHaventUploaded(): Flow<Resource<List<Bp>>> {
+    override fun getBpHaventUploaded(): Flow<List<Bp>> {
         return flow {
             val data = bpDao.getBpHaventUploaded().map { BpDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
 
@@ -149,14 +149,11 @@ class BpRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getBpByCode(code: String): Flow<Resource<Bp>> {
+    override fun getBpByCode(code: String): Flow<Bp?> {
         return flow {
             val data : BpEntity? = bpDao.getBpByCode(code)
-            data?.let {
-                emit(Resource.success(BpDataMapper.fromDbToDomain(data)))
-            } ?: run {
-                emit(Resource.error(null, "Data Bp Kosong!", 1))
-            }
+
+            emit(data?.let { BpDataMapper.fromDbToDomain(data) })
         }.flowOn(ioDispatcher)
     }
 

@@ -71,10 +71,10 @@ class DetailSalesmanFragment(
                         it?.let {
                             it.srep?.let { bp ->
                                 tvSalesman.text = bp.name
-                                tvNoTelp.text = bp.phone?.ifEmpty { "-" }
-                                tvAlamat.text = bp.address?.ifEmpty { "-" }
-                                tvKota.text = bp.cityCode?.ifEmpty { "-" }
-                                tvEmail.text = bp.email?.ifEmpty { "-" }
+                                tvNoTelp.text = bp.phone ?: "-"
+                                tvAlamat.text = bp.address ?: "-"
+                                tvKota.text = bp.cityCode ?: "-"
+                                tvEmail.text = bp.email ?: "-"
                             }
                         }
                     }

@@ -13,6 +13,7 @@ import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiPenjualanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.home.HomeActivity
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,7 @@ class TransaksiPenjualanFragment(
     private lateinit var transAdapter : TransaksiPenjualanAdapter
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
@@ -61,9 +63,6 @@ class TransaksiPenjualanFragment(
             viewLifecycleOwner,
             TransaksiPenjualanOnBackPressedCallback(slidingPaneLayout)
         )
-    }
-
-    override fun subscribeListeners() {
         binding.apply {
             transAdapter = TransaksiPenjualanAdapter(
                 onItemClick = {
@@ -77,6 +76,25 @@ class TransaksiPenjualanFragment(
                 adapter = transAdapter
                 layoutManager = LinearLayoutManager(requireContext())
             }
+        }
+    }
+
+    override fun subscribeListeners() {
+        binding.apply {
+            slidingPaneLayout.addPanelSlideListener(object : SlidingPaneLayout.PanelSlideListener{
+                override fun onPanelSlide(panel: View, slideOffset: Float) {
+
+                }
+
+                override fun onPanelOpened(panel: View) {
+                    (requireActivity() as HomeActivity).setVisibilityBottom(false)
+                }
+
+                override fun onPanelClosed(panel: View) {
+                    (requireActivity() as HomeActivity).setVisibilityBottom(true)
+                }
+
+            })
         }
     }
 
@@ -130,6 +148,7 @@ class TransaksiPenjualanFragment(
 
         override fun handleOnBackPressed() {
             slidingPaneLayout.closePane()
+
             setToolbarTitle(getString(R.string.transaksi_penjualan))
         }
 
@@ -144,7 +163,6 @@ class TransaksiPenjualanFragment(
         override fun onPanelClosed(panel: View) {
             isEnabled = false
         }
-
     }
 
 }

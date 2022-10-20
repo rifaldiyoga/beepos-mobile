@@ -32,7 +32,8 @@ class KasMasukFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedViewModel.loadKasMasuk()
+        sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc, sharedViewModel.state.search)
+        sharedViewModel.checkPosses()
         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_tablayout), true)
     }
 
@@ -64,8 +65,9 @@ class KasMasukFragment(
                 sharedViewModel.event.collect { event ->
                     when (event) {
                         KasKeluarMasukSharedViewModel.UIEvent.RequestAddKasMasuk ->{
-                            val dialog = TambahKasDialog.Builder(requireContext())
-                                .setTitle(getString(R.string.tambah_kas_masuk))
+                            if (sharedViewModel.state.acrivePosses != null){
+                                val dialog = TambahKasDialog.Builder(requireContext())
+                                    .setTitle(getString(R.string.tambah_kas_masuk))
 //                                .setPositiveCallback {
 //                                    sharedViewModel.onSaveKasMasuk(
 //                                        viewModel.state.nominal!!,
@@ -73,15 +75,17 @@ class KasMasukFragment(
 //                                        viewModel.state.posses,
 //                                        viewModel.state.cash)
 //                                }
-                                .build()
-                            dialog.show(parentFragmentManager, TAG)
+                                    .build()
+                                dialog.show(parentFragmentManager, TAG)
+                            }else{
+                                Toast.makeText(requireContext(), "Pastikan buka kasir terlebih dahulu", Toast.LENGTH_SHORT).show()
+                            }
                         }
                         KasKeluarMasukSharedViewModel.UIEvent.SuccesAddkasMasuk ->{
-                            Toast.makeText(requireContext(), "berhasil simpan", Toast.LENGTH_SHORT).show()
-                            sharedViewModel.loadKasMasuk()
+                            Toast.makeText(requireContext(), "berhasil simpan kas masuk", Toast.LENGTH_SHORT).show()
+                            sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc, sharedViewModel.state.search)
                         }
                         KasKeluarMasukSharedViewModel.UIEvent.RequestAddKasKeluar -> TODO()
-                        KasKeluarMasukSharedViewModel.UIEvent.RequestDialogNominal -> TODO()
                         KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar -> TODO()
                     }
                 }
@@ -92,17 +96,27 @@ class KasMasukFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sharedViewModel.viewStates().collect {
                     it?.let {
-                        it.cadjListIn?.let { data->
-                            if (data.size > 0){
-                                sharedViewModel.setListKasIn(data)
-                                it.cashInList?.let {
-                                    parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                        binding.apply {
+                            it.cadjListIn?.let { data->
+                                if (data.size > 0){
+                                    sharedViewModel.setListKasIn(data)
+                                    it.cashInList?.let {
+                                        parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                                    }
+                                    imgEmpty.visibility = View.GONE
+                                    textDetai.visibility = View.GONE
+                                    btnTambah.visibility = View.GONE
+                                    binding.floatBtnTambah.visibility = View.VISIBLE
+                                }else{
+                                    sharedViewModel.setListKasIn(data)
+                                    it.cashInList?.let {
+                                        parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                                    }
+                                    imgEmpty.visibility = View.VISIBLE
+                                    textDetai.visibility = View.VISIBLE
+                                    btnTambah.visibility = View.VISIBLE
+                                    binding.floatBtnTambah.visibility = View.GONE
                                 }
-                                binding.lLEmptyKasMasuk.visibility = View.GONE
-                                binding.floatBtnTambah.visibility = View.VISIBLE
-                            }else{
-                                binding.lLEmptyKasMasuk.visibility = View.VISIBLE
-                                binding.floatBtnTambah.visibility = View.GONE
                             }
                         }
                     }

@@ -19,7 +19,7 @@
     <ImageView
         android:id="@+id/imageView22"
         android:layout_width="@dimen/size225"
-        android:layout_height="@dimen/size225"
+        android:layout_height="@dimen/size180"
         android:src="@drawable/image_fav_empty"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"

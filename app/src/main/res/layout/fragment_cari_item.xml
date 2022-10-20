@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/imageView13"
         android:layout_width="@dimen/size225"
-        android:layout_height="@dimen/size225"
+        android:layout_height="@dimen/size150"
         android:src="@drawable/image_city_empty"
         app:layout_constraintBottom_toTopOf="@+id/tvEmpty"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,6 @@
         android:textColor="@color/dark_gray"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size8"
         android:layout_marginStart="@dimen/size32"
         android:textAlignment="center"
         android:layout_marginEnd="@dimen/size32"

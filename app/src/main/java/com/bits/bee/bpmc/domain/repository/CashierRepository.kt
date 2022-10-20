@@ -23,7 +23,7 @@ interface CashierRepository {
 
     fun getActiveCashier() : Flow<Cashier?>
 
-    fun getCashierById(id: Int): Flow<Resource<Cashier>>
+    fun getCashierById(id: Int): Flow<Cashier?>
 
     fun detachCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>>
 

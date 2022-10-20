@@ -1,24 +1,21 @@
 package com.bits.bee.bpmc.presentation.ui.setting_lisensi
 
 import android.os.Build
-import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.BuildConfig
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentHelpLisensiBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
-import com.bits.bee.bpmc.presentation.ui.pilih_kasir.PilihKasirFragmentDirections
-import com.bits.bee.bpmc.presentation.ui.pilih_kasir.PilihKasirViewModel
 import com.bits.bee.bpmc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,13 +27,19 @@ class SettingLisensiFragment(
 
     private val viewModel : SettingLisensiViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+    private lateinit var loadingDialogHelper : LoadingDialogHelper
 
     override fun initComponents() {
+        loadingDialogHelper = LoadingDialogHelper(requireActivity())
         viewModel.getLicense()
         viewModel.getCashier()
+        binding.apply {
+            tvVersiBpm.text = BuildConfig.VERSION_NAME
+
+            tVNamaPerangkat.text = Build.MANUFACTURER + " " + Build.MODEL
+            tVNamaDevice.text = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(
+                R.string.pref_nama_device), "") as String
+        }
     }
 
     override fun subscribeListeners() {
@@ -56,12 +59,10 @@ class SettingLisensiFragment(
                 viewModel.event.collect {
                     when(it){
                         SettingLisensiViewModel.UIEvent.RequestInfoTutupKasir -> {
-                            val dialog = CustomDialogBuilder.Builder(requireContext())
-                                .setTitle(getString(R.string.perhatian))
-                                .setMessage(getString(R.string.anda_tidak_dapat_detach_belum_tutup_kasir))
-                                .setNegativeCallback {
-
-                                }.build()
+                            val dialog = DialogBuilderHelper.showDialogInfo(requireContext(), getString(R.string.perhatian),
+                                getString(R.string.anda_tidak_dapat_detach_belum_tutup_kasir), positiveListener = {
+                                    it.dismiss()
+                                })
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingLisensiViewModel.UIEvent.RequestSyncData ->{
@@ -83,10 +84,10 @@ class SettingLisensiFragment(
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingLisensiViewModel.UIEvent.NavigateToLogin ->{
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-                                R.string.page_login))
-                            val action = SettingLisensiFragmentDirections.actionSettingLisensiFragmentToInitialActivity()
-                            findNavController().navigate(action)
+                            BeePreferenceManager.clearAllPreferences(requireActivity())
+                            viewModel.clearDataStore()
+                            Utils.deleteApplicationData(requireActivity())
+                            requireActivity().finish()
                         }
                     }
                 }
@@ -107,9 +108,6 @@ class SettingLisensiFragment(
 //                                    getApplicationContext().getContentResolver(),
 //                                    Settings.Secure.ANDROID_ID
 //                                ) + "-" + Build.SERIAL
-                                tVNamaPerangkat.text = Build.MANUFACTURER + " " + Build.MODEL
-                                tVNamaDevice.text = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(
-                                    R.string.pref_nama_device), "") as String
                             }
                         }
                     }
@@ -121,18 +119,21 @@ class SettingLisensiFragment(
         viewModel.observeCashierStatusResponse().observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.LOADING -> {
-
+                    loadingDialogHelper.show(message = "Proses detach kasir ..")
                 }
                 Resource.Status.SUCCESS -> {
+                    loadingDialogHelper.hide()
                     it.data?.let {
                         if (it.data.status_cashier){
-                            viewModel.confirmDetachLicense()
+                            viewModel.detachLicense()
+//                            viewModel.confirmDetachLicense()
                         }else{
                             Toast.makeText(requireContext(), "Gagal Proses Detach", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
                 Resource.Status.ERROR -> {
+                    loadingDialogHelper.hide()
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -142,20 +143,23 @@ class SettingLisensiFragment(
         viewModel.observeDetachResponse().observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.LOADING -> {
-
+                    loadingDialogHelper.show(message = "Proses detach lisensi ..")
                 }
                 Resource.Status.SUCCESS -> {
+                    loadingDialogHelper.hide()
                     it.data?.let {
                         if (it.data.status){
                             Toast.makeText(requireContext(), "Berhasil Detach", Toast.LENGTH_SHORT).show()
                             viewModel.onSuccesDetach()
                         }else{
+                            viewModel.onSuccesDetach()
                             Toast.makeText(requireContext(), "Proses Detach Lisensi Gagal\n" +
                                     "Silahkan Kontak Admin", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
                 Resource.Status.ERROR -> {
+                    loadingDialogHelper.hide()
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }

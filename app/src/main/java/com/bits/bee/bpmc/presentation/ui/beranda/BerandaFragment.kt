@@ -1,8 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.beranda
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,14 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentBerandaBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -66,10 +63,10 @@ class BerandaFragment(
                 if(sharedViewModel.state.activePosses == null) {
                     viewModel.onBukaKasirClick()
                 } else {
-                    val dialog = DialogBuilderUtils.showDialogYesNo(requireContext(),
+                    val dialog = DialogBuilderHelper.showDialogYesNo(requireContext(),
                         getString(R.string.tutup_kasir), getString(R.string.msg_validasi_tutup_kasir), {
                             it.dismiss()
-                            mCounter = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
+                            mCounter = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
                             mCounter++
                             BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), mCounter)
                             sharedViewModel.doTutupKasir()
@@ -96,14 +93,15 @@ class BerandaFragment(
                         if(it.activePosses != null){
                             binding.apply {
                                 groupPendapatan.visible()
-                                tvInfoKasir.text = getString(R.string.klik_tutup_kasir_untuk_mengakhiri_shift_3_ya, it.shift)
+                                tvInfoKasir.text = getString(R.string.klik_tutup_kasir_untuk_mengakhiri_shift_3_ya, it.activePosses!!.shift)
                                 btnBukaKasir.text = getString(R.string.tutup_kasir)
                                 tvTotalPendapatan.text = CurrencyUtils.formatCurrency(it.activePosses!!.totIn ?: BigDecimal.ZERO)
                             }
                         } else {
                             binding.apply {
+                                val shift = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
                                 groupPendapatan.gone()
-                                tvInfoKasir.text = getString(R.string.klik_buka_kasir_untuk_memulai_shift_3_ya, it.shift)
+                                tvInfoKasir.text = getString(R.string.klik_buka_kasir_untuk_memulai_shift_3_ya, shift)
                                 btnBukaKasir.text = getString(R.string.buka_kasir)
                             }
                         }
@@ -125,7 +123,9 @@ class BerandaFragment(
                         }
                         BerandaViewModel.UIEvent.NavigateToDialogBukaKasir -> {
                             val state = sharedViewModel.state
-                            var dialog = BerandaFragmentDirections.actionBerandaFragmentToAturModalDialogBuilder(state.activeCashier!!, state.activeBranch!!, state.shift )
+
+                            val shift = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
+                            val dialog = BerandaFragmentDirections.actionBerandaFragmentToAturModalDialogBuilder(state.activeCashier!!, state.activeBranch!!, shift )
                             findNavController().navigate(dialog)
 //                            dialog.show(parentFragmentManager, TAG)
                         }

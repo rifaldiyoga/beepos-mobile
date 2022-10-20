@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
-    private val beePreferenceManager: BeePreferenceManager
+    val beePreferenceManager: BeePreferenceManager
 ) : BaseViewModel<SplashScreenState, SplashScreenViewModel.UIEvent>() {
 
     val posPreferences = beePreferenceManager.posPreferences

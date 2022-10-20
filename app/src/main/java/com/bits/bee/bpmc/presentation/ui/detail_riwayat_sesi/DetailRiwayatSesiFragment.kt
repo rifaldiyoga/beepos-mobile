@@ -20,7 +20,6 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.sql.Date
 
@@ -103,9 +102,9 @@ class DetailRiwayatSesiFragment(
                                 val endTime = Date(mPosses!!.endTime?.time ?: 0)
 
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
-                                    BPMConstants.DEFAULT_DATE_FORMAT, startTime)
+                                    BPMConstants.DATE_FORMAT_RESPONSE, startTime)
                                 tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(
-                                    BPMConstants.DEFAULT_DATE_FORMAT, endTime)
+                                    BPMConstants.DATE_FORMAT_RESPONSE, endTime)
                                 pemasukanTotal.text = getString(
                                     R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(mPosses!!.total))

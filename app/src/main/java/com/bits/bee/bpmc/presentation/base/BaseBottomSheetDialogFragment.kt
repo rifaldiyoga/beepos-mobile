@@ -8,8 +8,8 @@ import android.view.*
 import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -23,7 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 /**
  * Created by aldi on 28/03/22.
  */
-abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialogFragment(), BaseInterface {
+abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : AppCompatDialogFragment(), BaseInterface {
 
     //View Binding
     private var _binding : ViewBinding? = null
@@ -34,11 +34,10 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
         get() = _binding as T
 
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) {
             val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
-            val lp = WindowManager.LayoutParams()
             try {
                 val display: Display = (activity as Activity?)!!.windowManager.defaultDisplay
                 val size = Point()
@@ -46,7 +45,6 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
                 val width: Int = size.x
                 val widthDialog: Double = width / BPMConstants.DIVIDE_DIALOG_SIZE
                 params.width = (width - widthDialog).toInt()
-                params.height = WindowManager.LayoutParams.WRAP_CONTENT
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -55,9 +53,15 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
     }
 
     override fun onCreateDialog(@Nullable savedInstanceState: Bundle?): Dialog {
-        val dialog: Dialog = super.onCreateDialog(savedInstanceState)
-        if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
-            dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.bg_rounded_transparent))
+        val dialog = if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) super.onCreateDialog(savedInstanceState) else BottomSheetDialog(requireContext(), R.style.ThemeOverlay_Demo_BottomSheetDialog)
+        if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) {
+            dialog.window?.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.bg_rounded_transparent
+                )
+            )
+        }
         return dialog
     }
 
@@ -66,7 +70,7 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
         if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
             setStyle(STYLE_NORMAL, R.style.ThemeOverlay_Demo_BottomSheetDialog)
         } else {
-            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
+            setStyle(STYLE_NO_TITLE, android.R.style.ThemeOverlay_Material_Dialog)
         }
     }
 
@@ -93,8 +97,7 @@ abstract class BaseBottomSheetDialogFragment<T : ViewBinding> : BottomSheetDialo
 
     abstract override fun subscribeObservers()
 
-    override fun showSnackbar(message: String) =
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    override fun showSnackbar(message: String) = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
 
     override fun showSnackbarWithAction(
         @StringRes message: Int,

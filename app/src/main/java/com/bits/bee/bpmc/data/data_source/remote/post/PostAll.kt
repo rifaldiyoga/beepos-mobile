@@ -1,10 +1,6 @@
 package com.bits.bee.bpmc.data.data_source.remote.post
 
 import android.os.Parcelable
-import com.bits.bee.bpmc.domain.model.Cadj
-import com.bits.bee.bpmc.domain.model.Cstr
-import com.bits.bee.bpmc.domain.model.Posses
-import com.bits.bee.bpmc.domain.model.Sale
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
@@ -13,7 +9,7 @@ import java.util.*
 @Parcelize
 data class PostAll(
     @SerializedName("meta")
-    var meta: Meta,
+    var meta: Meta? = null,
     @SerializedName("sales")
     var salesPostList: MutableList<SalePost>? = mutableListOf(),
     @SerializedName("cadjs")
@@ -180,9 +176,9 @@ data class PostAll(
             @SerializedName("note")
             var note: String? = null,
             @SerializedName("edc_id")
-            var edc_id: String? = null,
+            var edc_id: Int? = null,
             @SerializedName("cash_id")
-            var cash_id: String? = null,
+            var cash_id: Int? = null,
             @SerializedName("card_no")
             var card_no: String? = null,
             @SerializedName("cctype_code")

@@ -21,7 +21,7 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.model.Stock
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -220,7 +220,7 @@ class EditItemFragment(
                             findNavController().navigate(R.id.action_editItemDialog_to_addOnFragment, bundle)
                         }
                         EditItemViewModel.UIEvent.ValidateDelete -> {
-                            val dialog = DialogBuilderUtils.showDialogChoice(
+                            val dialog = DialogBuilderHelper.showDialogChoice(
                                 requireContext(),
                                 title = getString(R.string.hapus_produk),
                                 msg = getString(R.string.msg_hapus_produk),

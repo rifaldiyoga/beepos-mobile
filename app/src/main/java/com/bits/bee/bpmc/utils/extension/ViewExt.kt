@@ -1,15 +1,20 @@
 package com.bits.bee.bpmc.utils.extension
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.NumberFormatWatcher
 
 /**
@@ -77,4 +82,16 @@ fun EditText.addNumberFormatChange(){
 fun String.removeSymbol() : String{
     val re = Regex("[Rp, %]")
     return if(this.isNotEmpty()) re.replace(this, "").trim() else ""
+}
+
+fun SearchView.setSearchViewStyle(context: Context, colorInt: Int) {
+    val editText = findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+    val imageIcon = findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+    val imageClose = findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+    imageIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_search))
+    imageIcon.setColorFilter(ContextCompat.getColor(context, colorInt))
+    imageClose.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_close))
+    imageClose.setColorFilter(ContextCompat.getColor(context, colorInt))
+    editText.setTextColor(ContextCompat.getColor(context, colorInt))
+    editText.setHintTextColor(ContextCompat.getColor(context, colorInt))
 }

@@ -13,6 +13,7 @@ import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 @AndroidEntryPoint
 class DetailPendapatanDialog(
@@ -21,6 +22,7 @@ class DetailPendapatanDialog(
 ): BaseBottomSheetDialogFragment<DialogDetailPendapatanBinding>() {
 
     private val viewModel : DetailPendapatanViewModel by viewModels()
+    private var bigDecimalZero: BigDecimal = BigDecimal("0")
 
     override fun initComponents() {
         viewModel.updateState(
@@ -32,7 +34,7 @@ class DetailPendapatanDialog(
 
     override fun subscribeListeners() {
         binding.apply {
-            imgViewClose.setOnClickListener {
+            imageView2.setOnClickListener {
                 dismiss()
             }
             buttonClosed.setOnClickListener {
@@ -56,8 +58,26 @@ class DetailPendapatanDialog(
                                     "Rp", CurrencyUtils.formatCurrency(it.startBal))
                                 tvPemasukan.text = getString(
                                     R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.totIn))
-                                tvPengeluaran.text = it.totOut.toString()
+                                    "Rp", CurrencyUtils.formatCurrency(it.totIn ?: BigDecimal.ZERO))
+                                tvPengeluaran.text = getString(
+                                    R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.totOut ?: BigDecimal.ZERO))
+                                viewModel.getValueDetail()
+                            }
+
+                            it.totalTunai?.let {
+                                tvTotalTunai.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
+                            }
+                            it.totalDebit?.let {
+                                tvTotalDebit.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
+                            }
+                            it.totalGopay?.let {
+                                tvTotalGopay.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
+                                tvTotalNonTunai.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai() ?: bigDecimalZero))
                             }
                         }
                     }

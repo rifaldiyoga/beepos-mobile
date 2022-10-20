@@ -3,7 +3,6 @@ package com.bits.bee.bpmc.utils
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -22,7 +21,7 @@ class ImageUtils {
 
             val color = generatorCol.getColor(name1)
 
-            val font = getFontSize(name1.length)
+            val font = getFontSize(text.length)
 
             val hexColor = String.format("#%06X", 0xFFFFFF and color)
             val txtColor: String = ViewUtils.pickTextColorBasedOnBg(hexColor)
@@ -35,7 +34,6 @@ class ImageUtils {
                 .endConfig()
                 .buildRect(text.uppercase(), color)
         }
-
 
         fun getInitial(title: String): String {
             val lists = title.split(" ").toTypedArray()
@@ -60,14 +58,12 @@ class ImageUtils {
         }
 
         fun getFontSize(length : Int) : Int {
-            var font = 92
-            if (length == 3) font = 74
-            if (length == 4) font = 64
-            if (length == 5) font = 54
+            var font = 50
+            if (length == 4) font = 44
+            if (length == 5) font = 34
             return font
         }
 
     }
-
 
 }

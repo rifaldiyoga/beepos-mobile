@@ -4,7 +4,6 @@ import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
-import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
 import java.math.BigDecimal
@@ -47,6 +46,7 @@ class SaleTrans @Inject constructor(
         mTblMaster = Sale()
         mTblDetail.clear()
         salePromoList.clear()
+        promoCalc.listPromoBonus.clear()
         addOnTrans = null
     }
 
@@ -103,7 +103,8 @@ class SaleTrans @Inject constructor(
                 conv = unit?.conv,
                 pid = pid,
                 isAddOn = item.isAddOn,
-                item = item
+                item = item,
+                taxCode = item.taxCode
             )
             addDetail(saledNew)
             currentSaled = saledNew
@@ -153,7 +154,8 @@ class SaleTrans @Inject constructor(
                     conv = unit?.conv,
                     pid = pid,
                     isAddOn = item.isAddOn,
-                    item = item
+                    item = item,
+                    taxCode = item.taxCode
                 )
                 addDetail(saledNew)
                 currentSaled = saledNew
@@ -298,7 +300,7 @@ class SaleTrans @Inject constructor(
         calculate()
     }
 
-    suspend fun updateDiskonMaster(diskon : String) {
+    suspend fun updateDiskonMaster(diskon : String)  {
         val sale = getMaster()
         if(diskon.isNotEmpty()) {
             sale.discExp = diskon

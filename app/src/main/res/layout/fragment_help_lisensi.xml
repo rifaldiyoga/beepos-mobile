@@ -315,26 +315,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:inputType="textCapWords"
+                android:layout_height="wrap_content"
                 android:background="@drawable/btn_react_enable"
                 android:textColor="@color/gray"
                 android:id="@+id/btn_lepas_lisensi"
                 android:gravity="center"
                 android:text="@string/lepas_lisensi"
-                android:layout_marginBottom="@dimen/size16"
-                android:textSize="12sp" />
+                android:layout_marginBottom="@dimen/size16"/>
 
-            <TextView
+            <Button
                 android:gravity="center"
-                android:inputType="textCapWords"
                 android:id="@+id/btn_perpanjang_lisensi"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:textSize="12sp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_weight="1"
                 android:text="@string/perpanjang_lisensi"

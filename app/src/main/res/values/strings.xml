@@ -58,6 +58,7 @@
     <string name="pref_pilih_tgl">pref_pilih_tgl</string>
     <string name="pref_login_user">login_user</string>
     <string name="pref_tablayout">pref_tablayout</string>
+    <string name="pref_user_kasir">pref_user_kasir</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -113,10 +114,10 @@
 
     <string-array name="list_sistem_batch_upload">
         <item>AUTO</item>
-        <item>5(Paling Ringan)</item>
+        <item>5 (Paling Ringan)</item>
         <item>10</item>
         <item>25</item>
-        <item>50(Paling Berat)</item>
+        <item>50 (Paling Berat)</item>
     </string-array>
 
     <string-array name="list_periode_upload_otomatis">
@@ -317,6 +318,7 @@ untuk memperbarui data dapur?</string>
     <string name="title">Lorem Ipsum Dolor</string>
     <string name="simpan">Simpan</string>
     <string name="email_tidak_boleh_kosong">Email tidak boleh kosong</string>
+    <string name="password_tidak_boleh_kosong">Password tidak boleh kosong</string>
     <string name="mata_uang_nominal">%1$s %2$s</string>
     <string name="jus_mangga">Jus Mangga</string>
     <string name="strip">-</string>
@@ -469,7 +471,7 @@ untuk memperbarui data dapur?</string>
     <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no JL12345?</string>
     <string name="alasan_void">Alasan Void</string>
     <string name="hapus">Hapus</string>
-    <string name="pendapatan_sesi_1">Pendapatan Sesi #1</string>
+    <string name="pendapatan_sesi_1">Pendapatan Sesi</string>
     <string name="detail_pendapatan">Detail Pendapatan</string>
     <string name="debit">Debit</string>
     <string name="kredit">Kredit</string>
@@ -490,7 +492,7 @@ untuk memperbarui data dapur?</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="lainnya">Lainnya</string>
     <string name="seluruh_data_transaksi_sudah_tersinkron">Seluruh data transaksi sudah tersinkron</string>
-    <string name="msg_default_modal_kasir">Apakah anda yakin ingin menggunakan default nilai modal kasir (Rp 100,000) ?</string>
+    <string name="msg_default_modal_kasir">Apakah anda yakin ingin menggunakan default nilai modal kasir (%1$s) ?</string>
     <string name="ya">Ya</string>
     <string name="belum_buka_kasir">Belum Buka Kasir</string>
     <string name="msg_info_belum_buka_kasir_pos">Untuk memulai jualan, jangan lupa buka kasir dulu, ya~</string>
@@ -549,6 +551,7 @@ untuk memperbarui data dapur?</string>
     <string name="rekap_sesi_empty">Belum ada rekap sesi yang dicatat. Rekap sesi akan otomatis tersedia kasir aktif</string>
     <string name="note_retail">Keranjangmu masih kosong. Tambah produk dulu ya untuk memulai transaksi</string>
     <string name="salesman">Salesman :</string>
+    <string name="salesman_">Salesman</string>
     <string name="scan_barcode">Scan Barcode</string>
     <string name="total_pendapatan">Total Pendapatan</string>
     <string name="lihat_riwayat_sebelumnya">Lihat Riwayat Sebelumnya</string>
@@ -617,7 +620,7 @@ untuk memperbarui data dapur?</string>
     <string name="pid_dapat_memangkas_jumlah_stock">PID dapat memangkas jumlah Stock Keeping Unit (SKU) yang ada, namun tetap dapat memanfaatkan kebutuhan khusus sebagai bagian dari perhitungan jumlah stok</string>
     <string name="pid_cocok_digunakan">PID cocok digunakan untuk bisnis toko sepatu, toko pakaian, dll. Khusus untuk bisnis jual HP, dan toko elektronik kami menyediakan PID Unik yang dapat digunakan untuk SN / IMEI</string>
     <string name="baca_artikel_pid_selengkapnya_disini">Baca artikel PID selengkapnya disini</string>
-    <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
+    <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada.\n Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
     <string name="cari_produk_min_3_karakter">Cari produk, min 3 karakter</string>
     <string name="draft_tidak_ditemukan">Draft yang anda cari tidak ada!</string>
     <string name="cth_budi">Cth. Budi</string>
@@ -635,11 +638,23 @@ untuk memperbarui data dapur?</string>
     <string name="pastikan_data_kas_benar">Pastikan data yang dimasukkan sudah benar, ya! Karena kas masuk hanya bisa diubah, tidak bisa dihapus.</string>
     <string name="tanggal">Tanggal</string>
     <string name="nominal_uang_masuk">Nominal Uang Masuk</string>
+    <string name="nominal_uang_keluar">Nominal Uang Keluar</string>
     <string name="deskripsi">Deskripsi</string>
     <string name="rupanya_anda_belum_memiliki_produk_favorit_natur_sekarang_yuk">Rupanya anda belum memiliki produk favorit.\nAtur sekarang, yuk!</string>
     <string name="rupanya_anda_belum_memiliki_member_favorit_natur_sekarang_yuk">Rupanya anda belum memiliki member favorit.\nAtur sekarang, yuk!</string>
     <string name="atur_produk">Atur Produk</string>
     <string name="atur_member">Atur Member</string>
     <string name="mencari_printer">Mencari Printer...</string>
+    <string name="_000">000</string>
+    <string name="buka_menu_master_pilih_submenu_item">Buka menu Master, pilih submenu Item</string>
+    <string name="isi_data_yang_sesuai_dengan_produk">Isi data yang sesuai dengan produk</string>
+    <string name="_5">5</string>
+    <string name="simpan_data_produk_yang_telah_diisi">Simpan data produk yang telah diisi</string>
+    <string name="buka_beepos_mobile_dan_lakukan_perbarui_data">Buka Beepos Mobile dan lakukan Perbarui Data</string>
+    <string name="kelola_produk_untuk_jualan_dengan_mudah_bersama_beecloud">Kelola produk untuk jualan dengan mudah bersama Beecloud</string>
+    <string name="kelola_produk_info">Untuk kelola data produk (tambah, edit, update harga, nonaktif, dll), anda bisa mengikuti langkah dibawah ini:</string>
+    <string name="keluar">Keluar</string>
+    <string name="digunakan">Digunakan</string>
+    <string name="pin_salah_coba_lagi">PIN salah. Coba lagi</string>
 
 </resources>

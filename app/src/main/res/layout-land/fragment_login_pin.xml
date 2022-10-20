@@ -24,7 +24,7 @@
         android:layout_height="@dimen/size0"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnMasuk"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -40,13 +40,25 @@
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+        <TextView
+            android:id="@+id/tvNamaKasir"
+            style="@style/TextHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size40"
+            android:gravity="center"
+            android:text="@string/surabaya"
+            android:textSize="@dimen/font18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.chaos.view.PinView
             android:id="@+id/pinView"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/size45"
             android:layout_marginLeft="@dimen/size20"
-            android:layout_marginTop="@dimen/size32"
+            android:layout_marginTop="@dimen/size24"
             android:layout_marginRight="@dimen/size20"
             android:inputType="numberPassword"
             android:itemBackground="@drawable/bg_rect_light_gray"
@@ -59,11 +71,24 @@
             app:layout_constraintTop_toBottomOf="@+id/textView6"
             app:lineColor="@color/light_gray" />
 
+        <TextView
+            android:id="@+id/tvPinSalah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size16"
+            android:gravity="center"
+            android:text="@string/pin_salah_coba_lagi"
+            android:textColor="?colorPrimary"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.bits.bee.bpmc.presentation.custom.CustomNumpadPin
             android:id="@+id/numpad"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/size32"
+            android:layout_marginTop="@dimen/size40"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -28,7 +28,7 @@ class GetPriceItemUseCase @Inject constructor(
             val saletaxinc = bp.isTaxIncOnSale
 
             item.tax = tax?.expr?.replace("%", "") ?: ""
-            item.taxCode = tax?.calcMtd ?: ""
+            item.taxCode = tax?.code ?: ""
             item.price = price?.price ?: BigDecimal.ZERO
             item.crcSymbol = crc?.symbol ?: ""
             item.crcId = crc?.id!!

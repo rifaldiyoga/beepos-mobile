@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentInvoiceListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
@@ -58,7 +58,7 @@ class InvoiceListFragment(
                     findNavController().navigate(action)
                 },
                 onDeleteClick = { saled ->
-                    val dialog = DialogBuilderUtils.showDialogChoice(
+                    val dialog = DialogBuilderHelper.showDialogChoice(
                         requireContext(),
                         title = getString(R.string.hapus_produk),
                         msg = getString(R.string.msg_hapus_produk),

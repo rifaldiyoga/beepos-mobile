@@ -43,9 +43,9 @@ object KitchenDataMapper: BaseMapper<KitchenEntity, Kitchen, KitchenResponse.Kit
             model.name,
             model.branchId,
             model.createdBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt).time,
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.createdAt).time,
             model.updatedBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt).time,
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt).time,
             false
         )
     }

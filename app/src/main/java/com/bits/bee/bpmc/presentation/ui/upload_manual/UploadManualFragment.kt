@@ -3,22 +3,26 @@ package com.bits.bee.bpmc.presentation.ui.upload_manual
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentUploadManualBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.decideOnState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -33,11 +37,28 @@ class UploadManualFragment(
     private lateinit var syncAdapter: SyncAdapter
     private var lastPost: Long = 0
     private var mMenu: Menu? = null
+    private lateinit var loadingDialog : LoadingDialogHelper
 
     override fun initComponents() {
         setHasOptionsMenu(true)
-        syncAdapter = SyncAdapter()
+        viewModel.loadData()
+        loadingDialog = LoadingDialogHelper(requireContext())
         binding.apply {
+            syncAdapter = SyncAdapter()
+            syncAdapter.addLoadStateListener { loadState ->
+                loadState.decideOnState(
+                    syncAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+                    showLoading = {
+                    },
+                    showEmptyState = { isVisible ->
+                        binding.lLDoneSync.isVisible = isVisible
+                        binding.btnUploadManual.isVisible = !isVisible
+                    },
+                    showError = { it ->
+                        showSnackbar(it)
+                    }
+                )
+            }
             rvSync.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = syncAdapter
@@ -48,12 +69,19 @@ class UploadManualFragment(
     override fun subscribeListeners() {
         binding.apply {
             btnUploadManual.setOnClickListener {
-                viewModel.confirmDialogUpload()
+                viewModel.onClickUpload()
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.syncList.collectLatest {
+                    syncAdapter.submitData(it)
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
@@ -66,37 +94,7 @@ class UploadManualFragment(
 
                             dialog.show(parentFragmentManager, TAG)
                         }
-
                         UploadManualViewModel.UIEvent.RequestUpload ->{
-                            val dialog = CustomDialogBuilder.Builder(requireContext())
-                                .setTitle(getString(R.string.konfirmasi))
-                                .setMessage(getString(R.string.yakin_sync_manual))
-                                .setPositiveCallback {
-                                    viewModel.manualUpload()
-                                }.build()
-                            dialog.show(parentFragmentManager, TAG)
-                        }
-                    }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewStates().collect {
-                    it?.let {
-                        binding.apply {
-                            viewModel.loadDataSync(BPMConstants.DEFAULT_DB_UPLOAD, lastPost)
-                            it.listSync?.let {
-                                if (it.isEmpty()){
-                                    lLDoneSync.visibility = View.VISIBLE
-                                    btnUploadManual.visibility = View.GONE
-                                }else{
-                                    lLDoneSync.visibility = View.GONE
-                                    btnUploadManual.visibility = View.VISIBLE
-                                }
-                                syncAdapter.submitList(it)
-                            }
                         }
                     }
                 }
@@ -108,15 +106,19 @@ class UploadManualFragment(
             it?.let {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-
+                        loadingDialog.show("", "Mohon tunggu sebentar..")
                     }
                     Resource.Status.SUCCESS -> {
+                        loadingDialog.hide()
                         it.data?.let {
                             viewModel.checkBpCode(it)
                         }
                     }
                     Resource.Status.ERROR -> {
-
+                        loadingDialog.hide()
+                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
+                            it.dismiss()
+                        }.show(parentFragmentManager, TAG)
                     }
                 }
             }
@@ -127,20 +129,26 @@ class UploadManualFragment(
             it?.let {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-
+                        loadingDialog.show("", "Mohon tunggu sebentar..")
                     }
                     Resource.Status.SUCCESS -> {
+                        loadingDialog.hide()
                         it.data?.let {
                             if (it.status){
-                                viewModel.prosesResponse()
-                                Toast.makeText(requireContext(), "Sync Data...Berhasil Upload", Toast.LENGTH_SHORT).show()
+                                viewModel.prosesResponsePostAll()
+                                DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
+                                    it.dismiss()
+                                }.show(parentFragmentManager, "")
                             }else{
                                 Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
                     Resource.Status.ERROR -> {
-
+                        loadingDialog.hide()
+                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
+                            it.dismiss()
+                        }.show(parentFragmentManager, TAG)
                     }
                 }
             }

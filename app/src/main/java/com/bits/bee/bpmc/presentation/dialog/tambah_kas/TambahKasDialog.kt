@@ -12,9 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogTambahKasBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
@@ -36,19 +33,15 @@ class TambahKasDialog(
 //    private val sharedViewModel: TambahKasSharedViewModel by activityViewModels()
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private val viewModel : TambahKasSharedViewModel by viewModels()
-//    private lateinit var navHostFragment: NavHostFragment
-//    private lateinit var navController: NavController
     private var iskasMasuk = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getValue()
-        iskasMasuk = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_tablayout), false) as Boolean
+//        iskasMasuk = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_tablayout), false) as Boolean
     }
 
     override fun initComponents() {
-//        navHostFragment = R.id.mainHostFragment as NavHostFragment
-//        navController = navHostFragment.findNavController()
         binding.apply {
             tvTitle.text = builder.title
             etNominal.setText(builder.nominal)
@@ -76,11 +69,12 @@ class TambahKasDialog(
             }
 
             btnSimpan.setOnClickListener {
-                if (iskasMasuk){
-                    sharedViewModel.onSaveKasMasuk(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
-                }else{
-                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
-                }
+                sharedViewModel.onSaveKasMasuk(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
+//                if (iskasMasuk){
+//
+//                }else{
+//                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
+//                }
                 dismiss()
 //                builder.positiveCallback?.let { it(dialog!!) }
             }
@@ -95,17 +89,18 @@ class TambahKasDialog(
                         it?.let {
                             it.user?.let {
                                 etUser.setText(it)
+                                BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_user_kasir), it)
                                 etUser.isEnabled = false
 //                                etNominal.setText("")
                                 etNominal.isFocusable = true
                                 viewModel.posses()
                             }
                             etTanggal.setText(DateFormatUtils.formatDateToString(
-                                BPMConstants.DEFAULT_DATE_FORMAT, Date()))
+                                BPMConstants.DATE_FORMAT_RESPONSE, Date()))
                             it.posses?.let {
                                 viewModel.initCash(it.possesId!!)
                                 etTanggal.setText(DateFormatUtils.formatDateToString(
-                                        BPMConstants.DEFAULT_DATE_FORMAT, it.trxDate))
+                                        BPMConstants.DATE_FORMAT_RESPONSE, it.trxDate))
                                 etTanggal.isEnabled = false
                             }
                         }

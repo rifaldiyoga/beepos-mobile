@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.diskon_nota
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -12,7 +13,7 @@ import com.bits.bee.bpmc.databinding.DialogDiskonNotaBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -29,7 +30,6 @@ class DiskonNotaDialog(
 
     override fun initComponents() {
         binding.apply {
-
         }
     }
 
@@ -53,6 +53,7 @@ class DiskonNotaDialog(
                 viewModel.event.collect {
                     when(it){
                         is DiskonNotaViewModel.UIEvent.RequestDiskonNota -> {
+                            mViewModel.onUpdateDiskonNota(it.diskon)
                             dismiss()
                         }
                     }
@@ -63,6 +64,7 @@ class DiskonNotaDialog(
             mViewModel.viewStates().collect {
                 it?.let {
                     viewModel.state.diskon = it.sale.discExp
+                    viewModel.state.subtotal = it.sale.subtotal
                 }
             }
         }
@@ -71,6 +73,11 @@ class DiskonNotaDialog(
                 it?.let {
                     binding.etDiskon.setText(it.diskon)
                 }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.error.collectLatest {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
             }
         }
     }

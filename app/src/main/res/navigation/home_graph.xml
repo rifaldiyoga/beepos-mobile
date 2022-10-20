@@ -100,11 +100,11 @@
             android:id="@+id/action_lainnyaFragment_to_cekStokFragment"
             app:destination="@id/cekStokFragment" />
         <action
-            android:id="@+id/action_lainnyaFragment_to_kelolaProdukFragment"
-            app:destination="@id/kelolaProdukFragment" />
-        <action
             android:id="@+id/action_lainnyaFragment_to_downloadDialogBuilder"
             app:destination="@id/downloadDialogBuilder" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_insightKelolaProdukFragment"
+            app:destination="@id/insightKelolaProdukFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_upload_manual"
@@ -126,10 +126,7 @@
         android:id="@+id/cekStokFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
         android:label="CekStokFragment" />
-    <fragment
-        android:id="@+id/kelolaProdukFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukFragment"
-        android:label="KelolaProdukFragment" />
+
     <dialog
         tools:layout="@layout/dialog_atur_modal_kasir"
         android:id="@+id/aturModalDialogBuilder"
@@ -239,5 +236,10 @@
         android:id="@+id/insightPresetKasirFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.insight_preset_kasir.InsightPresetKasirFragment"
         android:label="InsightPresetKasirFragment" />
+    <fragment
+        android:id="@+id/insightKelolaProdukFragment"
+        tools:layout="@layout/fragment_insight_kelola_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.insight_kelola_produk.InsightKelolaProdukFragment"
+        android:label="InsightKelolaProdukFragment" />
 
 </navigation>

@@ -11,8 +11,6 @@ import com.bits.bee.bpmc.databinding.FragmentSettingPosBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.orientasi.OrientasiDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -147,8 +145,7 @@ class SettingPosFragment(
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestPosisiOrientasi -> {
-                        val orientasi = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.posisi_orientasi), BPMConstants.SCREEN_POTRAIT) as String
-                        val dialog = OrientasiDialogBuilder(orientasi, onFinish = {
+                        val dialog = OrientasiDialogBuilder(viewModel.state.orientation, onFinish = {
                             viewModel.onSuccessOrientasi(it)
                             requireActivity().finish()
                             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()

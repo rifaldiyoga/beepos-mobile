@@ -10,29 +10,29 @@ data class SignUpPost(
     @SerializedName("status")
     var status: Boolean? = null,
     @SerializedName("username")
-    var username: String="",
+    var username: String?,
     @SerializedName("email")
-    var email: String = "",
+    var email: String?,
     @SerializedName("address")
-    var address: String="",
+    var address: String? = "",
     @SerializedName("city_id")
-    var city_id: String="",
+    var city_id: String? = null,
     @SerializedName("bussiness")
-    var bussiness: String = "",
+    var bussiness: String? = "",
     @SerializedName("bussiness2")
     var bussiness2: String? = null,
     @SerializedName("company")
-    var company: String="",
+    var company: String? = "",
     @SerializedName("mobile")
-    var mobile: String="",
+    var mobile: String? = null,
     @SerializedName("regid")
-    var regid: String? = null,
+    var regid: Int? = null,
     @SerializedName("step")
-    var step:Int = 0,
+    var step:Int = 1,
     @SerializedName("cust_id")
-    var cust_id:Int? = 0,
+    var cust_id:Int? = null,
     @SerializedName("otp_tipe")
-    var otptipe: String? = "",
+    var otptipe: String? = null,
     @SerializedName("dataUTM")
     var data_utm: UTM? = null
 ): Parcelable

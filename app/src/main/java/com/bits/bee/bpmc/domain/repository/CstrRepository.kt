@@ -16,7 +16,7 @@ interface CstrRepository {
 
     fun getLastId(): Flow<Cstr?>
 
-    fun getCstrByReftypeHaventUpload(): Flow<Resource<List<Cstr>>>
+    fun getCstrByReftypeHaventUpload(): Flow<List<Cstr>>
 
     suspend fun updateCstr(cstr: Cstr)
 }

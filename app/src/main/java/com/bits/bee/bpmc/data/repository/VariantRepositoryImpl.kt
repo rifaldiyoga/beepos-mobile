@@ -50,11 +50,13 @@ class VariantRepositoryImpl @Inject constructor(
     }
 
     override fun getVariant(variantId: Int): Flow<VariantWithItem> = flow {
-        val variant = VariantWithItem(
-            VariantDataMapper.fromDbToDomain(variantDao.getVariantById(variantId)),
-            itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) }
-        )
-        emit(variant)
+        variantDao.getVariantById(variantId)?.let { variantEntity ->
+            val variant = VariantWithItem(
+                VariantDataMapper.fromDbToDomain(variantEntity),
+                itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) }
+            )
+            emit(variant)
+        }
     }.flowOn(ioDispatcher)
 
     override suspend fun updateFavorit(variantId: Int, fav: Boolean) {

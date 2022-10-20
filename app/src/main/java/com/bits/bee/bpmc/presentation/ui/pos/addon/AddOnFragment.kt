@@ -43,14 +43,14 @@ class AddOnFragment(
         binding.apply {
             arguments?.let {
                 val item = it.getParcelable<Item>("item")
-                item?.let {
-                    setToolbarTitle(it.name1)
+                item?.let { item1 ->
+                    setToolbarTitle(item1.name1)
                     layoutVariant.apply {
-                        root.isVisible = it.isVariant
+                        root.isVisible = item1.isVariant
                         tvName.text = item.name1
                         tvOptional.isVisible = false
                     }
-                    rvListAddOn.isVisible = !it.isVariant
+                    rvListAddOn.isVisible = !item1.isVariant
                 }
                 val bp = it.getParcelable<Bp>("bp")
                 val saled = it.getParcelable<Saled>("saled")
@@ -181,11 +181,12 @@ class AddOnFragment(
     override fun onItemClick(item: Item) {
         if(item.isVariant && !item.isAddOn){
             binding.rvListAddOn.visible()
+            binding.progressBarSelection.visible()
             viewModel.clearSelectedAddOn()
             item.qty = BigDecimal(binding.etQty.text.toString())
             viewModel.addItemSelectedList(item)
             selectionAdapter.notifyDataSetChanged()
-            viewModel.getSelection(item, )
+            viewModel.getSelection(item)
         } else {
             item.qty = BigDecimal.ONE
             viewModel.addItemSelectedList(item)
@@ -199,6 +200,7 @@ class AddOnFragment(
     override fun onDeselect(item: Item) {
         if(item.isVariant && !item.isAddOn){
             binding.rvListAddOn.gone()
+            binding.progressBarSelection.gone()
             viewModel.clearSelectedAddOn()
         }
 //        else {

@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RadioListFilterDialog(
     val title : String,
     val stringList: List<String>,
-    val posSelected: Int,
+    var posSelected: Int,
     val onSaveClick : (Any) -> Unit,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogRadioListFilterBinding = DialogRadioListFilterBinding::inflate
 ):BaseBottomSheetDialogFragment<DialogRadioListFilterBinding>() {
@@ -50,6 +50,10 @@ class RadioListFilterDialog(
             }
             imageView2.setOnClickListener {
                 dismiss()
+            }
+            tvReset.setOnClickListener {
+                posSelected = 0
+                initComponents()
             }
         }
     }

@@ -18,24 +18,28 @@ import javax.inject.Inject
  */
 class AddCstrUseCase @Inject constructor(
     private val cstrRepository: CstrRepository,
+    private val getActiveUserUseCase: GetActiveUserUseCase
 ) {
 
-    suspend operator fun invoke(refNo : String, refType : String, amt : BigDecimal, branch : Branch, cashier : Cashier){
+    suspend operator fun invoke(isBuka : Boolean, refNo : String, refType : String, amt : BigDecimal, branch : Branch, cashier : Cashier, shift : Int){
+
+        val user = getActiveUserUseCase().first()
 
         val cstr = Cstr(
-            trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
+            trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DATE_FORMAT_RESPONSE, Date()),
             amount1 = amt,
             amount2 = amt,
             excrate1 = BigDecimal.ZERO,
             excrate2 = BigDecimal.ZERO,
-            note = false,
+            note = if(isBuka) "Modal untuk Kasir : ${cashier.cashierName} Shift : $shift" else "Setoran Kasir : ${cashier.cashierName} Shift : $shift",
             refType = refType,
             refNo = refNo,
             autoGen = "",
-            cashId1 = 1,
-            cashId2 = 1,
+            cashId1 = (if(isBuka) cashier.cashBranchId else cashier.cashId).toLong(),
+            cashId2 = (if(isBuka) cashier.cashId else cashier.cashBranchId).toLong(),
             isUploaded = false,
             kodeCstr = "",
+            createdBy = user?.id ?: throw Exception("No default user active!")
         )
         cstrRepository.addCstr(CstrDataMapper.fromDomainToDb(cstr))
 

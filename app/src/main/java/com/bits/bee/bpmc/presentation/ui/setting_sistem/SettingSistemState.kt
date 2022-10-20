@@ -6,4 +6,4 @@ data class SettingSistemState (
     var periodeUploadOtomatis: String ="",
     var aboutCloudDapur: String ="",
     var isCloudDapur: Boolean = false
-    )
+)

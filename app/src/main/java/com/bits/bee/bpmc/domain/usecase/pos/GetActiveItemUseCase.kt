@@ -24,7 +24,7 @@ class GetActiveItemUseCase @Inject constructor(
     private val getPriceItemUseCase: GetPriceItemUseCase
 ) {
 
-    suspend operator fun invoke(itemGrpId : Int, channel : Channel?, bp : Bp?, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
+    suspend operator fun invoke(itemGrpId : Int = -1, channel : Channel?, bp : Bp?, query : String = "", usePid : Boolean = false) : Flow<PagingData<Item>>  =
         when(itemGrpId){
             -1 -> itemRepository.getFavoriteItemListPaged( query = query)
             1 -> itemRepository.getActiveItemListPaged(query, usePid)

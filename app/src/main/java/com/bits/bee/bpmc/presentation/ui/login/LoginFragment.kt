@@ -1,5 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.login
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -18,6 +20,7 @@ import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 /**
  * Created by aldi on 01/03/22.
@@ -70,6 +73,11 @@ class LoginFragment constructor (
             btnMasuk.setOnClickListener {
                 onClickLogin()
             }
+            tvLupaKataSandi.setOnClickListener {
+                val uri = Uri.parse("https://app.beecloud.id/resetpassword")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
         }
     }
 
@@ -90,9 +98,7 @@ class LoginFragment constructor (
                                 })
                                 isEnabled = it.isValid
                             }
-
                         }
-
                     }
                 }
             }

@@ -66,6 +66,11 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             }
         }
 
+        fun clearAllPreferences(context: Context) {
+            initPreferences(context)
+            sharedPreferencesEditor.clear().commit()
+        }
+
         fun removeSomeKey(context: Context, key: String,  value : Any): Any{
             initPreferences(context)
             sharedPreferencesEditor = sharedPreferences.edit()
@@ -103,8 +108,9 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             val presetBukaKasir = it[PreferenceKeys.PRESET_BUKA_KASIR] ?: "100000"
             val isMuatGambar = it[PreferenceKeys.IS_MUAT_GAMBAR] ?: false
             val orientasi = it[PreferenceKeys.ORIENTASI] ?: ""
+            val isChangeOrientasi = it[PreferenceKeys.IS_CHANGE_ORIENTASI] ?: false
             ORIENTATION = orientasi
-            PosPreferences(ukuranFont, isMultiLine, isKonfirmasiCust, customer, jumlahMeja, presetBukaKasir, isMuatGambar, orientasi)
+            PosPreferences(ukuranFont, isMultiLine, isKonfirmasiCust, customer, jumlahMeja, presetBukaKasir, isMuatGambar, orientasi, isChangeOrientasi)
         }
 
     val modePreferences = context.dataStore.data
@@ -115,12 +121,27 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
                 throw it
             }
         }.map {
-            val posMode : PosModeState
-            if(it.equals(BPMConstants.MODE_FOOD_BEVERAGES))
-                posMode = PosModeState.FnBState
+            val posMode : PosModeState = if(it[PreferenceKeys.MODE].equals(BPMConstants.MODE_FOOD_BEVERAGES))
+                PosModeState.FnBState
             else
-                posMode = PosModeState.RetailState
+                PosModeState.RetailState
             posMode
+        }
+
+    val sistemPreferences = context.dataStore.data
+        .catch {
+            if (it is IOException) {
+                Log.e(TAG, "Error reading preferences", it)
+            } else {
+                throw it
+            }
+        }.map {
+            val penyimpanan = it[PreferenceKeys.PENYIMPANAN] ?: "30 Hari"
+            val batchUpload = it[PreferenceKeys.BATCH_UPLOAD] ?: "AUTO"
+            val periodeUpload = it[PreferenceKeys.PERIODE_UPLOAD] ?: "60 Menit"
+            val isCloudDapur = it[PreferenceKeys.CLOUD_DAPUR] ?: false
+
+            SistemPreferences(penyimpanan, batchUpload, periodeUpload, isCloudDapur)
         }
 
     suspend fun updatePosPreferences(posPreferences: PosPreferences) {
@@ -133,6 +154,7 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             it[PreferenceKeys.PRESET_BUKA_KASIR] = posPreferences.presetBukaKasir
             it[PreferenceKeys.IS_MUAT_GAMBAR] = posPreferences.isMuatGambar
             it[PreferenceKeys.ORIENTASI] = posPreferences.orientasi
+            it[PreferenceKeys.IS_CHANGE_ORIENTASI] = posPreferences.isChangeOrientasi
             ORIENTATION = posPreferences.orientasi
         }
     }
@@ -140,6 +162,21 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
     suspend fun updateModePreferences(mode : String) {
         context.dataStore.edit {
             it[PreferenceKeys.MODE] = mode
+        }
+    }
+
+    suspend fun updateSistemPreferences(sistemPreferences: SistemPreferences) {
+        context.dataStore.edit {
+            it[PreferenceKeys.PENYIMPANAN] = sistemPreferences.penyimpanan
+            it[PreferenceKeys.BATCH_UPLOAD] = sistemPreferences.batchUpload
+            it[PreferenceKeys.PERIODE_UPLOAD] = sistemPreferences.periodeUpload
+            it[PreferenceKeys.CLOUD_DAPUR] = sistemPreferences.isCloudDapur
+        }
+    }
+
+    suspend fun clearPreferences() {
+        context.dataStore.edit {
+            it.clear()
         }
     }
 
@@ -152,9 +189,18 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
         val presetBukaKasir : String,
         val isMuatGambar : Boolean,
         val orientasi : String,
+        val isChangeOrientasi : Boolean,
+    )
+
+    data class SistemPreferences(
+        val penyimpanan : String,
+        val batchUpload : String,
+        val periodeUpload : String,
+        val isCloudDapur : Boolean,
     )
 
     private object PreferenceKeys {
+        // Setting POS
         val UKURAN_FONT = stringPreferencesKey("${DATASTORE_NAME}_UKURAN_FONT")
         val ISMULTILINE = booleanPreferencesKey("${DATASTORE_NAME}_ISMULTILINE")
         val ISKONFIRMASICUST = booleanPreferencesKey("${DATASTORE_NAME}_ISKONFIRMASICUST")
@@ -163,7 +209,14 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
         val PRESET_BUKA_KASIR = stringPreferencesKey("${DATASTORE_NAME}_PRESET_BUKA_KASIR")
         val IS_MUAT_GAMBAR = booleanPreferencesKey("${DATASTORE_NAME}_IS_MUAT_GAMBAR")
         val ORIENTASI = stringPreferencesKey("${DATASTORE_NAME}_ORIENTASI")
+        val IS_CHANGE_ORIENTASI = booleanPreferencesKey("${DATASTORE_NAME}_IS_CHANGE_ORIENTASI")
         val MODE = stringPreferencesKey("${DATASTORE_NAME}_MODE")
+
+        //Setting Sistem
+        val PENYIMPANAN = stringPreferencesKey("${DATASTORE_NAME}_PENYIMPANAN")
+        val BATCH_UPLOAD = stringPreferencesKey("${DATASTORE_NAME}_BATCH_UPLOAD")
+        val PERIODE_UPLOAD = stringPreferencesKey("${DATASTORE_NAME}_PERIODE_UPLOAD")
+        val CLOUD_DAPUR = booleanPreferencesKey("${DATASTORE_NAME}_CLOUD_DAPUR")
     }
 
 }

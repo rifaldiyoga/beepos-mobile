@@ -57,14 +57,14 @@ class MainViewModel @Inject constructor(
     val posModeState : StateFlow<PosModeState> = _posModeState
         .filterNotNull()
         .flatMapConcat { beePreferenceManager.modePreferences }
-        .stateIn(viewModelScope, SharingStarted.Lazily, PosModeState.FnBState)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, PosModeState.FnBState)
 
 
     private val _saleTrans: SaleTrans = SaleTrans(promoCalc, SaleCalc(getRegUseCase))
     val saleTrans : SaleTrans
         get() = _saleTrans
 
-    private val _activeItemGroup : MutableStateFlow<Int> = MutableStateFlow(1)
+    private val _activeItemGroup : MutableStateFlow<Int> = MutableStateFlow(-1)
     val activeItemGroup : MutableStateFlow<Int>
         get() = _activeItemGroup
 
@@ -159,7 +159,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun initPromo() = viewModelScope.launch {
+    fun initPromo() = viewModelScope.launch(exceptionHandler) {
         promoCalc.initPromo(saleTrans)
     }
 
@@ -219,7 +219,8 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToPromo)
     }
 
-    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false, promoBonus: ListPromoBonus.PromoBonus? = null, isBonus : Boolean = false) = viewModelScope.launch {
+    fun onAddDetail(item : ItemWithUnit, useItemqty: Boolean = false,
+                    promoBonus: ListPromoBonus.PromoBonus? = null, isBonus : Boolean = false) = viewModelScope.launch(exceptionHandler) {
         saleTrans.addDetail(
             itemWithUnit = item,
             useItemqty = useItemqty,
@@ -232,7 +233,7 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun onAddAddOn(variant: ItemWithUnit?, addOnList : List<ItemWithUnit>) = viewModelScope.launch {
+    fun onAddAddOn(variant: ItemWithUnit?, addOnList : List<ItemWithUnit>) = viewModelScope.launch(exceptionHandler) {
         variant?.let {
             saleTrans.addDetail(
                 itemWithUnit = variant,
@@ -251,7 +252,7 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun onItemAddOn(itemList : List<Item?>, upSaled: Saled?) = viewModelScope.launch {
+    fun onItemAddOn(itemList : List<Item?>, upSaled: Saled?) = viewModelScope.launch(exceptionHandler) {
         for (item in itemList){
             item?.let {
                 if(upSaled == null){
@@ -279,7 +280,7 @@ class MainViewModel @Inject constructor(
 
     }
 
-    fun onDeleteDetail(saled: Saled) = viewModelScope.launch {
+    fun onDeleteDetail(saled: Saled) = viewModelScope.launch(exceptionHandler) {
         if(saled.item?.isVariant == true) {
             saleTrans.addOnTrans?.let {
                 val saledRemoveList = mutableListOf<Saled>()
@@ -302,14 +303,14 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun onEditDetail(saled: Saled) = viewModelScope.launch {
+    fun onEditDetail(saled: Saled) = viewModelScope.launch(exceptionHandler) {
         saleTrans.editDetail(saled)
 
         promoCalc.generatePromo()
         deployData()
     }
 
-    fun onDeleteAddOnData(upSaled : Saled, saled : Saled) = viewModelScope.launch {
+    fun onDeleteAddOnData(upSaled : Saled, saled : Saled) = viewModelScope.launch(exceptionHandler) {
         saleTrans.deleteAddon(upSaled, saled)
 
         saleTrans.mergeAddon()
@@ -317,6 +318,11 @@ class MainViewModel @Inject constructor(
 
         promoCalc.generatePromo()
 
+        deployData()
+    }
+
+    fun onUpdateDiskonNota(diskon : String) = viewModelScope.launch(exceptionHandler) {
+        saleTrans.updateDiskonMaster(diskon)
         deployData()
     }
 
@@ -331,7 +337,7 @@ class MainViewModel @Inject constructor(
         resetTransaction()
     }
 
-    private fun resetTransaction() = viewModelScope.launch {
+    private fun resetTransaction() = viewModelScope.launch(exceptionHandler) {
         combine(
             getDefaultCrcUseCase(),
             getActivePossesUseCase(),
@@ -376,7 +382,7 @@ class MainViewModel @Inject constructor(
         trackNo : String = "",
         cardNo : String = "",
         note : String = "",
-    )  {
+    ) {
 
         updateTrxOrderNo(context)
 
@@ -414,15 +420,23 @@ class MainViewModel @Inject constructor(
         val salePromoList = saleTrans.salePromoList
         sale.isDraft = true
 
-        addTransactionUseCase(
-            sale = sale,
-            saledList = saledList,
-            saleAddOn = saleAddOn,
-            saleAddOnDList = saleAddOnDList,
-            salePromoList = salePromoList,
-            counter = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 1) as Int
-        )
-        resetState()
+        kotlin.runCatching {
+            addTransactionUseCase(
+                sale = sale,
+                saledList = saledList,
+                saleAddOn = saleAddOn,
+                saleAddOnDList = saleAddOnDList,
+                salePromoList = salePromoList,
+                counter = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 1) as Int
+            )
+        }
+            .onSuccess {
+                catchError("Berhasil simpan draft")
+                resetState()
+            }
+            .onFailure {
+                catchError(it.message)
+            }
     }
 
     private fun deployData() = viewModelScope.launch {

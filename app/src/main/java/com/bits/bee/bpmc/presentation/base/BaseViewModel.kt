@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -39,4 +40,15 @@ abstract class BaseViewModel<State, UIEvent> : ViewModel() {
             s
         }
     }
+
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
+        catchError(throwable.message)
+    }
+
+    fun catchError(msg : String?) = viewModelScope.launch {
+        errorChannel.send(msg ?: "")
+    }
+
+
 }

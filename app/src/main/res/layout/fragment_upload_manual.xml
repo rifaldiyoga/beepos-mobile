@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="@dimen/size16"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sync"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/size16"
+        app:layout_constraintBottom_toTopOf="@+id/btn_upload_manual"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,8 +32,8 @@
 
         <ImageView
             android:id="@+id/imageView16"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size225"
+            android:layout_width="@dimen/size225"
+            android:layout_height="@dimen/size180"
             android:layout_marginStart="@dimen/size32"
             android:layout_marginEnd="@dimen/size32"
             android:src="@drawable/image_upload_manual"
@@ -58,13 +57,13 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/btn_upload_manual"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size16"
         android:background="@drawable/btn_rect_primary"
         android:text="@string/upload_manual"
+        android:layout_margin="@dimen/size16"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

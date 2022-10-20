@@ -25,6 +25,7 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -47,23 +48,27 @@ class PosFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_pos, menu)
+        menu.clear()
+        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
+            inflater.inflate(R.menu.menu_pos, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_draft -> {
-                mainViewModel.onClickDraft()
-            }
-            R.id.menu_diskon -> {
-                mainViewModel.onClickDiskonNota()
-            }
-            R.id.menu_search -> {
-                mainViewModel.onClickSearch()
-            }
-            R.id.menu_promo -> {
-                mainViewModel.onClickPromo()
+        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
+            when (item.itemId) {
+                R.id.menu_draft -> {
+                    mainViewModel.onClickDraft()
+                }
+                R.id.menu_diskon -> {
+                    mainViewModel.onClickDiskonNota()
+                }
+                R.id.menu_search -> {
+                    mainViewModel.onClickSearch()
+                }
+                R.id.menu_promo -> {
+                    mainViewModel.onClickPromo()
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -126,6 +131,7 @@ class PosFragment(
     }
 
     override fun subscribeObservers() {
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.viewStates().collect { state ->
@@ -190,6 +196,7 @@ class PosFragment(
                             }.attach()
                         } else {
                             listAdapter.submitList(it)
+
                         }
                     }
                 }

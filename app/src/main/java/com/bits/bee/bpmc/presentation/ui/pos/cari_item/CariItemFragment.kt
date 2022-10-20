@@ -14,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCariItemBinding
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
@@ -23,7 +25,9 @@ import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
 import com.bits.bee.bpmc.utils.PermissionUtils
+import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -63,6 +67,7 @@ class CariItemFragment(
 
         searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.cari_produk_min_3_karakter)
+        searchView.setSearchViewStyle(requireActivity(), R.color.white)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -116,7 +121,6 @@ class CariItemFragment(
         binding.apply {
             groupEmpty.gone()
             rvList.gone()
-
             itemAdapter = ItemPosCariAdapter(
                 onItemClicK = { item ->
                     mViewModel.onAddDetail(ItemWithUnit(item))
@@ -124,7 +128,8 @@ class CariItemFragment(
                 onMinusClick = { item ->
                     mViewModel.onMinusClick(item)
                 },
-                mViewModel.state.saledList)
+                mViewModel.state.saledList
+            )
             itemRetailPosAdapter = ItemPosRetailAdapter {
                 viewModel.onClickRetail(it)
             }

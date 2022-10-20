@@ -17,6 +17,7 @@ object UserDataMapper : BaseMapper<UserEntity, User, UsrModel>(){
             userApiKey = model.userApiKey,
             pin = model.pin,
             active = model.active,
+            used = model.used
         )
     }
 
@@ -28,6 +29,7 @@ object UserDataMapper : BaseMapper<UserEntity, User, UsrModel>(){
             userApiKey = model.userApiKey,
             pin = model.pin,
             active = model.active,
+            used = model.used
         )
     }
 
@@ -39,6 +41,7 @@ object UserDataMapper : BaseMapper<UserEntity, User, UsrModel>(){
             userApiKey = model.authKey,
             pin = model.pin,
             active = model.active,
+            used = false
         )
     }
 

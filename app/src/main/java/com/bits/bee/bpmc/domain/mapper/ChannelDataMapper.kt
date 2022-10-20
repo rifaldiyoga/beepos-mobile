@@ -51,9 +51,9 @@ object ChannelDataMapper : BaseMapper<ChannelEntity, Channel, ChannelResponse.Ch
             model.active,
             model.isPos,
             model.createdBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt),
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.createdAt),
             model.updatedBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt),
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt),
             model.color,
             model.priceLvlId
         )

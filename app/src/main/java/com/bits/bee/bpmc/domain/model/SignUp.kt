@@ -9,20 +9,19 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class SignUp (
-    var nama: String = "",
-    var noWa : String = "",
-    var email: String = "",
-    var password: String = "",
-    var confPassword: String = "",
-    var namaPerusahaan : String = "",
-    var bidangUsah : String = "",
-    var cityId : String = "",
-    var address : String = "",
+    var nama: String,
+    var noWa : String,
+    var email: String,
+    var password: String,
+    var namaPerusahaan : String? = "",
+    var bidangUsah : String? = "",
+    var cityId : String? = "",
+    var address : String? = "",
     var step : Int = 1,
-    var regId : String? = null,
-    var utm_source: String="",
-    var utm_medium: String="",
-    var utm_campaign: String="",
-    var utm_term: String="",
-    var utm_content: String = ""
+    var regId : Int? = null,
+    var utm_source: String? = null,
+    var utm_medium: String? = null,
+    var utm_campaign: String? = null,
+    var utm_term: String? = null,
+    var utm_content: String? = null
 ) : Parcelable

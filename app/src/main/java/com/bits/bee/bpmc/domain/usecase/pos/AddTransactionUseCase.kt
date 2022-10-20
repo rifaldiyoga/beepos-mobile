@@ -21,6 +21,7 @@ class AddTransactionUseCase @Inject constructor(
     private val saleAddOnRepository: SaleAddOnRepository,
     private val saleAddOnDRepository: SaleAddOnDRepository,
     private val salePromoRepository: SalePromoRepository,
+    private val getUnitItemUseCase: GetUnitItemUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveUserUseCase: GetActiveUserUseCase,
@@ -60,6 +61,8 @@ class AddTransactionUseCase @Inject constructor(
 
             crc?.let {
                 sale.crcId = it.id!!
+                sale.excrate = it.excRate
+                sale.fisrate = it.fisRate
             } ?: throw Exception("There is no active crc!")
 
             cashier?.let {
@@ -68,8 +71,10 @@ class AddTransactionUseCase @Inject constructor(
             } ?: throw Exception("There is no active cashier!")
 
             user?.let {
-                sale.operatorId = it.id
+                sale.userId = it.id
                 sale.userName = it.name
+                sale.createdBy = it.id
+                sale.updatedBy = it.id
             } ?: throw Exception("There is no active user!")
 
             posses?.let {
@@ -90,8 +95,17 @@ class AddTransactionUseCase @Inject constructor(
             val id = saleRepository.addSale(sale)
             sale.id = id.toInt()
 
-            saledList.map {
-                it.saleId = id.toInt()
+            saledList.map { saled ->
+                saled.saleId = id.toInt()
+                if(saled.unitId == null || saled.unit == null) {
+                    val unit = getUnitItemUseCase(saled.itemId).first().sortedBy { it.conv }.firstOrNull()
+                    unit?.let {
+                        saled.unitId = it.id
+                        saled.unit = it.unit
+                        saled.conv = it.conv
+                    }
+                }
+
             }
             val list = saledRepository.addSaled(saledList)
 
@@ -144,7 +158,8 @@ class AddTransactionUseCase @Inject constructor(
                     pmtd,
                     trackNo,
                     cardNo,
-                    note
+                    note,
+                    paymentAmt
                 )
 
                 /** For update totin for active session cashier */

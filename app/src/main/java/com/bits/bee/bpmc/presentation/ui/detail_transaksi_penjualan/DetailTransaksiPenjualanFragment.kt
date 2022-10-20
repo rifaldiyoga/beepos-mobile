@@ -19,7 +19,6 @@ import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanV
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -96,8 +95,8 @@ class DetailTransaksiPenjualanFragment(
                                 tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
                                 tvTanggal.text = dateFormat.format(sale.trxDate)
                                 tvJenisPembayaran.text = sale.termType
-                                tvChannel.text = sale.channelId.toString()
-                                tvSalesman.text = sale.srepId?.toString() ?: ""
+                                tvChannel.text = sale.channel
+                                tvSalesman.text = sale.salesman
 
                                 btnCetak.isEnabled = sale.isVoid
                                 if(sale.isVoid) {

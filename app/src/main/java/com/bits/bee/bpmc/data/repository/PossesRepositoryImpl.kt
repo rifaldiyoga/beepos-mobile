@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.domain.mapper.PossesDataMapper
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.model.Posses
+import com.bits.bee.bpmc.domain.model.User
 import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
@@ -50,7 +51,7 @@ class PossesRepositoryImpl @Inject constructor(
         it.map { PossesDataMapper.fromDbToDomain(it) }
     }.flowOn(defaultDispatcher)
 
-    override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier) {
+    override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier, user : User) {
         val date = Date()
         withContext(defaultDispatcher) {
             val posses = PossesEntity(
@@ -64,10 +65,9 @@ class PossesRepositoryImpl @Inject constructor(
                 endBal = null,
                 endCash = BigDecimal.ZERO,
                 credit = BigDecimal.ZERO,
-                userId = 3,
+                userId = user.id,
                 totalActualCash = startBal,
                 totalDiffCash = BigDecimal.ZERO,
-                totIn = startBal,
                 isUploaded = false
             )
             possesDao.insertSingle(posses)

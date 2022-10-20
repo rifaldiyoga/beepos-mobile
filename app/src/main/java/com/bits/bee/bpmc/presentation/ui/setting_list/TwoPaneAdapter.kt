@@ -49,7 +49,7 @@ class TwoPaneAdapter(
             "Nota" -> R.drawable.ic_note
             "Print" -> R.drawable.ic_printer
             "Sistem" -> R.drawable.ic_upload
-            "Bantuan" -> R.drawable.ic_info
+            "Bantuan" -> R.drawable.ic_help
             "Keluar" -> R.drawable.ic_logout_black
             else -> R.drawable.ic_info
         }

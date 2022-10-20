@@ -33,6 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pendapatan_sesi_1"
+                    android:textColor="@color/gray"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -88,16 +89,24 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/size16"
+                            android:layout_marginEnd="@dimen/size12"
                             android:gravity="end"
                             android:textColor="@color/red"
                             android:text="Detail" />
 
+<!--                        <TextView-->
+<!--                            android:layout_width="@dimen/size6"-->
+<!--                            android:layout_height="@dimen/size10"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:background="@drawable/ic_chev_right_foreground"-->
+<!--                            android:gravity="center"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/size30"/>-->
+
                         <ImageView
                             android:layout_width="@dimen/size10"
                             android:layout_height="@dimen/size10"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_chevron_right_red" />
+                            android:src="@drawable/ic_chev_right_foreground" />
 
                     </LinearLayout>
 
@@ -129,6 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/info_kasir"
+                    android:textColor="@color/gray"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -294,19 +304,23 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:layout_marginBottom="@dimen/size16"
                     android:layout_height="wrap_content"
-                    android:text="@string/rata_rata_penjualan"
+                    android:text="@string/analisa_sesi"
+                    android:textColor="@color/gray"
                     android:textStyle="bold"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="@dimen/size5"
-                    android:layout_marginTop="@dimen/size10"
+                    app:cardCornerRadius="@dimen/size6"
+                    app:cardElevation="@dimen/size2"
+                    app:cardUseCompatPadding="true"
                     android:id="@+id/cV_analisa_sesi"
                     tools:ignore="MissingConstraints">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:padding="@dimen/size12"
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
                         android:id="@+id/pid_available"

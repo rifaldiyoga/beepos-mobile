@@ -65,16 +65,30 @@ class CadjRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override fun getKasMasuk(): Flow<List<Cadj>> {
+    override fun getKasMasukDesc(query: String): Flow<List<Cadj>> {
         return flow {
-            val data = cadjDao.getKasMasuk().map { CadjDataMapper.fromDbToDomain(it) }
+            val data = cadjDao.getKasMasukDesc(query).map { CadjDataMapper.fromDbToDomain(it) }
             emit(data)
         }.flowOn(ioDispatcher)
     }
 
-    override fun getKasKeluar(): Flow<List<Cadj>> {
+    override fun getKasMasukAsc(query: String): Flow<List<Cadj>> {
         return flow {
-            val data = cadjDao.getKasKeluar().map { CadjDataMapper.fromDbToDomain(it) }
+            val data = cadjDao.getKasMasukAsc(query).map { CadjDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getKasKeluarDesc(query: String): Flow<List<Cadj>> {
+        return flow {
+            val data = cadjDao.getKasKeluarDesc(query).map { CadjDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getKasKeluarAsc(query: String): Flow<List<Cadj>> {
+        return flow {
+            val data = cadjDao.getKasKeluarAsc(query).map { CadjDataMapper.fromDbToDomain(it) }
             emit(data)
         }.flowOn(ioDispatcher)
     }

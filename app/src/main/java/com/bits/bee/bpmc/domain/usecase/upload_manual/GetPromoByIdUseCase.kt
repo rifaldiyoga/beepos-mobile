@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetPromoByIdUseCase @Inject constructor(
     private val promoRepository: PromoRepository
 ) {
-    operator fun invoke(id: Int): Flow<Resource<Promo>>{
+    operator fun invoke(id: Int): Flow<Promo>{
         return promoRepository.getPromoById(id)
     }
 }

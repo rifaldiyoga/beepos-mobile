@@ -27,4 +27,10 @@ interface SaledDao : BaseDao<SaledEntity>{
     @Query("SELECT * FROM saled WHERE id = :id")
     fun getSaledById(id : Int) : SaledEntity?
 
+    @Query("select saled.*, sum(saled.qty) as qty, count(saled.sale_id) as sale_id from saled " +
+            "left join sale on saled.sale_id = sale.id " +
+            "left join item on saled.item_id = item.id " +
+            "left join itemgrp on item.itemgrp1_id = itemgrp.id group by saled.item_id order by qty DESC")
+    fun queryByPenjualan(): List<SaledEntity>
+
 }

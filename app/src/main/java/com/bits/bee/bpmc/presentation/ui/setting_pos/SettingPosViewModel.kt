@@ -81,7 +81,8 @@ class SettingPosViewModel @Inject constructor(
 
     fun onSuccessOrientasi(value : String) = viewModelScope.launch {
         onUpdatePosPreferences(posPreferences.first().copy(
-            orientasi = value
+            orientasi = value,
+            isChangeOrientasi = true
         ))
     }
 
@@ -91,7 +92,7 @@ class SettingPosViewModel @Inject constructor(
         ))
     }
 
-    fun onUpdatePosPreferences(posPreferences: BeePreferenceManager.PosPreferences) = viewModelScope.launch {
+    private fun onUpdatePosPreferences(posPreferences: BeePreferenceManager.PosPreferences) = viewModelScope.launch {
         beePreferenceManager.updatePosPreferences(posPreferences)
     }
 

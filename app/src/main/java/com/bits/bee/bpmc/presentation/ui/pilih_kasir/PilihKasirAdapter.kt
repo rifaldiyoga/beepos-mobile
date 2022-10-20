@@ -32,14 +32,18 @@ class PilihKasirAdapter(private val onItemClick : (Cashier) -> Unit) : ListAdapt
 
         fun bind(model : Cashier){
             binding.apply {
+                val context = tvNamaKasir.context
                 tvNamaKasir.text = model.cashierName
                 clContent.setOnClickListener {
                     onItemClick(model)
                 }
-                tvStatus.background = if(model.isActive)
+                tvStatus.background = if(!model.status) {
                     ContextCompat.getDrawable(clContent.context, R.drawable.bg_rounded_green)
-                else
+                } else {
                     ContextCompat.getDrawable(clContent.context, R.drawable.bg_rounded_red)
+                }
+
+                tvStatus.text = if(!model.status) context.getString(R.string.tersedia) else context.getString(R.string.digunakan)
 
             }
         }

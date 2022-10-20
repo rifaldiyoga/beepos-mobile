@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:id="@+id/nScroll"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/buttonClosed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,7 +29,6 @@
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/size16"
                 android:text="@string/tambah_kas_masuk"
                 android:textSize="@dimen/font16"
                 app:layout_constraintBottom_toBottomOf="@+id/imgView_close"

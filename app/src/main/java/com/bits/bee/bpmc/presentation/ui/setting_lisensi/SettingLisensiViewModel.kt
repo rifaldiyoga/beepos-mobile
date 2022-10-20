@@ -13,17 +13,14 @@ import com.bits.bee.bpmc.domain.model.Sync
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.GetActivePossesListUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveLicenseUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.help.DetachLicenseUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.help.GetHaventUploadedManualSyncUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.login_operator.LoginOperatorViewModel
-import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,10 +32,11 @@ class SettingLisensiViewModel @Inject constructor(
     private val getHaventUploadedManualSyncUseCase: GetHaventUploadedManualSyncUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val detachCashierUseCase: DetachCashierUseCase,
-    private val detachLicenseUseCase: DetachLicenseUseCase
+    private val detachLicenseUseCase: DetachLicenseUseCase,
+    private val beePreferenceManager: BeePreferenceManager
 ): BaseViewModel<SettingLisensiState, SettingLisensiViewModel.UIEvent>() {
 
-    private var mPossesList: List<Posses>? = null
+    private var mPossesList: List<Posses> = mutableListOf()
     private var mSyncList: List<Sync>? = null
 
     init {
@@ -48,8 +46,8 @@ class SettingLisensiViewModel @Inject constructor(
     private var cashierStatusResponse: MediatorLiveData<Resource<CashierStatusResponse>> = MediatorLiveData()
     fun observeCashierStatusResponse() = cashierStatusResponse as LiveData<Resource<CashierStatusResponse>>
 
-    private var detachResponse: MediatorLiveData<Resource<DetachResponse>> = MediatorLiveData()
-    fun observeDetachResponse() = detachResponse as LiveData<Resource<DetachResponse>>
+    private var detachLicenseResponse: MediatorLiveData<Resource<DetachResponse>> = MediatorLiveData()
+    fun observeDetachResponse() = detachLicenseResponse as LiveData<Resource<DetachResponse>>
 
     fun getLicense() = viewModelScope.launch {
         val license : License = getActiveLicenseUseCase().first() ?: throw Exception("No Active License!")
@@ -71,12 +69,13 @@ class SettingLisensiViewModel @Inject constructor(
     }
 
     fun lepasLisensi() = viewModelScope.launch {
-        getActivePossesListUseCase.invoke().collect {
+        getActivePossesListUseCase.invoke().collect{
             it.data?.let {
                 mPossesList = it
             }
         }
-        if (mPossesList!!.size > 0){
+
+        if (mPossesList.isNotEmpty()){
             eventChannel.send(UIEvent.RequestInfoTutupKasir)
             return@launch
         }
@@ -86,12 +85,12 @@ class SettingLisensiViewModel @Inject constructor(
                 mSyncList = it
             }
         }
-        if (mSyncList!!.size > 0){
+        if (mSyncList!!.isNotEmpty()){
             eventChannel.send(UIEvent.RequestSyncData)
             return@launch
         }
 
-        if (mPossesList!!.size == 0 && mSyncList!!.size == 0){
+        if (mPossesList.isEmpty() && mSyncList!!.isEmpty()){
             if (ConnectionUtils.isInternetAvailable()){
                 deactiveStatusCashier()
             }
@@ -118,17 +117,21 @@ class SettingLisensiViewModel @Inject constructor(
         )
 
         val source = detachLicenseUseCase.invoke(detachPost).asLiveData()
-        detachResponse.addSource(source){
+        detachLicenseResponse.addSource(source){
             if (it != null) {
-                detachResponse.value = it
+                detachLicenseResponse.value = it
                 if (it.status !== Resource.Status.LOADING) {
-                    detachResponse.removeSource(source)
+                    detachLicenseResponse.removeSource(source)
                 }
             } else {
-                detachResponse.removeSource(source)
+                detachLicenseResponse.removeSource(source)
             }
         }
 
+    }
+
+    fun clearDataStore() = viewModelScope.launch {
+        beePreferenceManager.clearPreferences()
     }
 
     fun perpanjangLisensi() = viewModelScope.launch {

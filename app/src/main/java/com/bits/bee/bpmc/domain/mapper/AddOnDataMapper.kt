@@ -37,7 +37,7 @@ object AddOnDataMapper : BaseMapper<AddOnEntity, AddOn, AddOnResponse.AddOnModel
             model.code,
             model.name,
             model.isActive,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt)
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.createdAt)
         )
     }
 }

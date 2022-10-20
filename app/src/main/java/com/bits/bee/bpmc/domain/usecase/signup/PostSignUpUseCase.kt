@@ -19,9 +19,11 @@ class PostSignUpUseCase @Inject constructor(
 ){
 
     suspend operator fun invoke(signUp: SignUp, kota : String = "") : Flow<Resource<SignUpResponse>> {
-        val city : City? = searchActiveCityUseCase(kota).first().firstOrNull()
-        signUp.cityId = city?.code.toString()
+        if(kota.isNotEmpty()) {
+            val city: City? = searchActiveCityUseCase(kota).first().firstOrNull()
+            signUp.cityId = city?.code.toString()
 
+        }
         return signUpRepository.postSignUp(signUp)
     }
 

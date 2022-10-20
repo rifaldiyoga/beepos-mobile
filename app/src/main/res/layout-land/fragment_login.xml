@@ -41,16 +41,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/CustomTextInputLayout"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size16"
+        android:layout_marginTop="@dimen/size8"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <EditText
             android:id="@+id/etEmail"
+            android:paddingTop="@dimen/size12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/cth_budi_email_com"
@@ -63,7 +64,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size24"
+        android:layout_marginTop="@dimen/size16"
         android:text="@string/password"
         style="@style/TextHeader"
         android:textSize="@dimen/font20"
@@ -74,7 +75,8 @@
         android:id="@+id/tilPassword"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size16"
+        android:layout_marginTop="@dimen/size8"
+        style="@style/CustomTextInputLayout"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
@@ -82,6 +84,7 @@
 
         <EditText
             android:id="@+id/etPassword"
+            android:paddingTop="@dimen/size8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
@@ -100,16 +103,6 @@
         android:textSize="@dimen/font16"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
-
-    <TextView
-        android:id="@+id/tvDaftar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Daftar"
-        android:layout_marginTop="@dimen/size16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLupaKataSandi" />
 
     <Button
         android:id="@+id/btnMasuk"

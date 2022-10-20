@@ -39,7 +39,7 @@ class SettingListFragment : AbstractListDetailFragment() {
 
     override fun onListPaneViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onListPaneViewCreated(view, savedInstanceState)
-        val recyclerView = view as RecyclerView
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list_pane)
         val adapterS = TwoPaneAdapter(map.keys.toTypedArray()) {
             map[it]?.let { destId ->
                 if(destId > 0)
@@ -56,8 +56,6 @@ class SettingListFragment : AbstractListDetailFragment() {
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
 
     }
-
-
 
     private fun doKeluar(){
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
@@ -87,9 +85,7 @@ class SettingListFragment : AbstractListDetailFragment() {
     inner class TwoPaneOnBackPressedCallback(
         private val slidingPaneLayout: SlidingPaneLayout
     ) : OnBackPressedCallback(
-        // Set the default 'enabled' state to true only if it is slidable (i.e., the panes
-        // are overlapping) and open (i.e., the detail pane is visible).
-        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
+        true
     ), SlidingPaneLayout.PanelSlideListener {
 
         init {
@@ -97,23 +93,31 @@ class SettingListFragment : AbstractListDetailFragment() {
         }
 
         override fun handleOnBackPressed() {
-            if(map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
-                slidingPaneLayout.closePane()
-            else
-                detailPaneNavHostFragment.navController.popBackStack()
+            if(slidingPaneLayout.isSlideable) {
+                if (map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                    slidingPaneLayout.closePane()
+                else
+                    detailPaneNavHostFragment.navController.popBackStack()
+            } else {
+                if (map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                    findNavController().popBackStack()
+                else
+                    detailPaneNavHostFragment.navController.popBackStack()
+            }
         }
 
-        override fun onPanelSlide(panel: View, slideOffset: Float) { }
+        override fun onPanelSlide(panel: View, slideOffset: Float) {
+
+
+        }
 
         override fun onPanelOpened(panel: View) {
-            // Intercept the system back button when the detail pane becomes visible.
             isEnabled = true
         }
 
         override fun onPanelClosed(panel: View) {
-            // Disable intercepting the system back button when the user returns to the
-            // list pane.
-            isEnabled = false
+            if(slidingPaneLayout.isSlideable && map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                isEnabled = false
         }
     }
 

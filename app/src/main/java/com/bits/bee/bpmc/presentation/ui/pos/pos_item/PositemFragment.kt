@@ -60,7 +60,7 @@ class PositemFragment (
     override fun initComponents() {
         binding.apply {
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                mainViewModel.posPreferences.collect{
+                mainViewModel.posPreferences.collect {
                     posAdapter = ItemPosAdapter(
                         onItemClicK = {item ->
                             onItemClick(item)

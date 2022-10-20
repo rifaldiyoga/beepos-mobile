@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.bits.bee.bpmc.databinding.DialogInfoBuilderBinding
 import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
+import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 /**
@@ -30,6 +32,7 @@ class CustomDialogBuilder private constructor (
             tvMessage.text = builder.message
             btnSecondary.text = builder.negative
             btnPrimary.text = builder.positive
+            btnSecondary.isVisible = !builder.isInfo
         }
     }
 
@@ -58,7 +61,7 @@ class CustomDialogBuilder private constructor (
         var message: String? = null,
         var isInfo : Boolean = false,
         var positive : String = "OK",
-        var negative : String = "Batal"
+        var negative : String = "Batal",
     ){
 
         fun setPositiveCallback(positiveCallback: (Dialog) -> Unit): Builder {

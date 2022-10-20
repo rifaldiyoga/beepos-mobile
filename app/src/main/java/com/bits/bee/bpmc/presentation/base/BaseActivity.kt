@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.base
 
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -30,19 +31,15 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
         setContentView(requireNotNull(_binding).root)
 
         //set orientation
-
+        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        else
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = orientation
 
         initComponents()
         subscribeListeners()
         subscribeObservers()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        requestedOrientation = orientation
     }
 
     override fun onDestroy() {
@@ -73,5 +70,11 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
 
     override fun showToast(message: Int) =
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        setTheme(R.style.Theme_BeeposMobile)
+    }
 
 }

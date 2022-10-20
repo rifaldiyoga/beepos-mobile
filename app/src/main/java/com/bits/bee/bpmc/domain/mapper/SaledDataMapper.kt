@@ -34,6 +34,7 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
             conv = model.conv,
             unitId = model.unitId,
             crcId = model.crcId,
+            taxCode = model.taxCode
         )
     }
 
@@ -64,6 +65,7 @@ object SaledDataMapper : BaseMapper<SaledEntity, Saled, Any>() {
             conv = model.conv,
             unitId = model.unitId,
             crcId = model.crcId,
+            taxCode = model.taxCode
         )
     }
 

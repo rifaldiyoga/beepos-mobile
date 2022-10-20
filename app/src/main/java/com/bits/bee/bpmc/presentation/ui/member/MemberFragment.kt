@@ -2,22 +2,27 @@ package com.bits.bee.bpmc.presentation.ui.member
 
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentMemberBinding
-import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
+import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +54,20 @@ class MemberFragment(
                     viewModel.onClickEye(model)
                 }
             )
+            memberAdapter.addLoadStateListener { loadState ->
+                loadState.decideOnState(
+                    memberAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+                    showLoading = {
+                        setVisibilityLoading(it)
+                    },
+                    showEmptyState = { isVisible ->
+                        binding.groupEmpty.isVisible = isVisible
+                    },
+                    showError = {
+                        showSnackbar(it)
+                    }
+                )
+            }
 
             rvList.apply {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -102,43 +121,37 @@ class MemberFragment(
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            memberAdapter.loadStateFlow.collectLatest {
+                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                    binding.groupEmpty.isVisible = memberAdapter.itemCount == 0  && viewModel.currentQuery.length > 2
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search_member, menu)
 
-//        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE)
-
         val searchItem = menu.findItem(R.id.search_member)
         val searchView = searchItem.actionView as SearchView
-
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
-
                 if (newText?.length == 0){
                     viewModel.onSearch("")
-
                 }else if (newText!!.length >= 3){
                     viewModel.onSearch(newText.toString().trim())
                 }
-
                 return false
             }
 
         })
-//        if (searchItem != null){
-//            searchView = searchItem.actionView as SearchView
-//        }
-//
-//        if (searchView != null){
-//            searchView.setSearchableInfo(searchManager)
-//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -150,21 +163,21 @@ class MemberFragment(
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setVisibilityLoading(isLoading : Boolean, data : List<Bp> = mutableListOf()){
+    private fun setVisibilityLoading(isLoading : Boolean){
         binding.apply {
             if(isLoading){
                 progressBar.visible()
                 groupList.gone()
-                groupEmpty.gone()
             } else {
                 progressBar.gone()
-                if(data.isEmpty()) {
-                    groupEmpty.visible()
-                    groupList.gone()
-                } else {
-                    groupList.visible()
-                    groupEmpty.gone()
-                }
+                groupList.visible()
+//                if(data.isEmpty()) {
+//                    groupEmpty.visible()
+//                    groupList.gone()
+//                } else {
+//                    groupList.visible()
+//                    groupEmpty.gone()
+//                }
             }
         }
     }

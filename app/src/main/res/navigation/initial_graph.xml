@@ -182,7 +182,7 @@
         tools:layout="@layout/fragment_inital"
         android:id="@+id/initialFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialFragment"
-        android:label="InitialFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_initialFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

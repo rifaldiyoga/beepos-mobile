@@ -9,15 +9,16 @@ import javax.inject.Singleton
  * Created by aldi on 10/06/22.
  */
 @Singleton
-class DialogBuilderUtils {
+class DialogBuilderHelper {
 
     companion object {
 
-        fun showDialogInfo(context: Context, title : String, msg : String, positiveTxt : String, positiveListener : (Dialog) -> Unit) : CustomDialogBuilder {
+        fun showDialogInfo(context: Context, title : String, msg : String, positiveTxt : String = "OK", positiveListener : (Dialog) -> Unit) : CustomDialogBuilder {
             return CustomDialogBuilder.Builder(context)
                 .setTitle(title)
                 .setMessage(msg)
                 .setPositiveText(positiveTxt)
+                .setInfo(true)
                 .setPositiveCallback(positiveListener)
                 .build()
         }

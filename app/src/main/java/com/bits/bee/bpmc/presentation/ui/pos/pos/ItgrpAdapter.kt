@@ -17,7 +17,7 @@ class ItgrpAdapter(
     val onItemClick : (ItemGroup) -> Unit
 ) : ListAdapter<ItemGroup, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    var selectedPos : Int = -1
+    var selectedPos : Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

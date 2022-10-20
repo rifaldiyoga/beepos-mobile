@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentInvoiceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -34,9 +34,9 @@ class InvoiceFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
         inflater.inflate(R.menu.menu_pos, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 
@@ -117,7 +117,7 @@ class InvoiceFragment(
                 viewModel.event.collect {
                     when(it){
                         InvoiceViewModel.UIEvent.RequestBatal -> {
-                            val dialog = DialogBuilderUtils.showDialogChoice (
+                            val dialog = DialogBuilderHelper.showDialogChoice (
                                 requireContext(),
                                 title = getString(R.string.batalkan_transaksi),
                                 msg = getString(R.string.msg_batalkan_transaksi),
@@ -143,7 +143,7 @@ class InvoiceFragment(
                             findNavController().navigate(action)
                         }
                         InvoiceViewModel.UIEvent.RequestDraft -> {
-                            val dialog = DialogBuilderUtils.showDialogChoice(
+                            val dialog = DialogBuilderHelper.showDialogChoice(
                                 requireContext(),
                                 title = getString(R.string.simpan_sebagai_draft),
                                 msg = getString(R.string.msg_draft),

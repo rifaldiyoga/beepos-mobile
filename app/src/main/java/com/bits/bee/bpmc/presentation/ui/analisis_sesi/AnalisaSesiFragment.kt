@@ -17,7 +17,6 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.sql.Date
@@ -33,6 +32,7 @@ class AnalisaSesiFragment(
     private val viewModel : AnalisaSesiViewModel by viewModels()
     private var mPosses: Posses? = null
     private var isRiwayat: Boolean = false
+    private var bigDecimalZero: BigDecimal = BigDecimal("0")
 
     private lateinit var itemRankAdapter: ItemRankAdapter
 
@@ -117,11 +117,11 @@ class AnalisaSesiFragment(
                             it.posses?.let {
                                 val startTime = Date(it.startTime.time)
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
-                                    BPMConstants.DEFAULT_DATE_FORMAT, startTime)
+                                    BPMConstants.DATE_FORMAT_RESPONSE, startTime)
                                 if (it.endTime != null){
                                     val endTime = Date(it.endTime!!.time)
                                     tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(
-                                        BPMConstants.DEFAULT_DATE_FORMAT, endTime)
+                                        BPMConstants.DATE_FORMAT_RESPONSE, endTime)
                                 }else{
                                     tvSelesaiOperasional.text = ""
                                 }
@@ -130,6 +130,10 @@ class AnalisaSesiFragment(
                                     "Rp", CurrencyUtils.formatCurrency(it.startBal))
                                 tvTotalPendapatan.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(it.total))
+                                tvPemasukan.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.totIn))
+                                tvPengeluaran.text = getString(R.string.mata_uang_nominal,
+                                    "Rp", CurrencyUtils.formatCurrency(it.totOut))
                                 viewModel.getValueDetail()
                             }
                             it.user?.let {
@@ -139,7 +143,7 @@ class AnalisaSesiFragment(
                                 tvAvgOrder.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
                                 tvJmlOrder.text = it.size.toString()
-                                tvTotalQty.text = viewModel.totalQty(it).toString()
+                                tvTotalQty.text = CurrencyUtils.formatCurrency(viewModel.totalQty(it))
                             }
                             it.bpDateList?.let {
                                 tvNewMember.text = it.size.toString()
@@ -152,21 +156,17 @@ class AnalisaSesiFragment(
                             }
                             it.totalTunai?.let {
                                 tvTotalTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it))
                             }
                             it.totalDebit?.let {
                                 tvTotalDebit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
-                            }
-                            it.totalKredit?.let {
-                                tvTotalKredit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it))
                             }
                             it.totalGopay?.let {
                                 tvTotalGopay.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it))
                                 tvTotalNonTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai() ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai()))
                             }
                             it.rankItem?.let {
 //                                clEmptyRanking.visibility = View.GONE

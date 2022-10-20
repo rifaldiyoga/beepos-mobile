@@ -37,7 +37,7 @@ object PriceLvlDataMapper : BaseMapper<PriceLvlEntity, PriceLvl, PriceLvlRespons
             model.name,
             model.code,
 //            model.active,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt)
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt)
         )
     }
 

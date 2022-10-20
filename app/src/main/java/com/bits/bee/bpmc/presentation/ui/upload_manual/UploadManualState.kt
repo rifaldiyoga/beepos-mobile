@@ -1,10 +1,19 @@
 package com.bits.bee.bpmc.presentation.ui.upload_manual
 
-import com.bits.bee.bpmc.domain.model.Item
-import com.bits.bee.bpmc.domain.model.Sync
+import com.bits.bee.bpmc.domain.model.*
+import kotlinx.coroutines.flow.first
 
 data class UploadManualState(
     var listSync: List<Sync>? = null,
     var listItem: List<Item>? = null,
+    var userId : Int? = null,
+    var whId : Int? = null,
+    var cashId : Int? = null,
+    var cashierId : Int? = null,
+    var branchId : Int? = null,
+    var saleList : List<Sale> = mutableListOf(),
+    var possesList : List<Posses> = mutableListOf(),
+    var cadjList : List<Cadj> = mutableListOf(),
+    var cstrList : List<Cstr> = mutableListOf()
 
 )

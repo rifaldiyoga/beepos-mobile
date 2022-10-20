@@ -29,11 +29,11 @@ interface BpRepository {
 
     fun getBpByDate(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>>
 
-    fun getBpHaventUploaded(): Flow<Resource<List<Bp>>>
+    fun getBpHaventUploaded(): Flow<List<Bp>>
 
     fun uploadBpClient(bpPost: BpPost): Flow<Resource<BpReturn>>
 
-    fun getBpByCode(code: String): Flow<Resource<Bp>>
+    fun getBpByCode(code: String): Flow<Bp?>
 
     suspend fun updateBp(bpEntity: Bp)
 

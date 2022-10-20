@@ -16,34 +16,6 @@ import kotlin.coroutines.resumeWithException
  * Created by aldi on 15/03/22.
  */
 
-class LiveDataCallAdapter<R>(
-    private val responseType: Type
-) : CallAdapter<R, LiveData<ApiResponse<R>>> {
-
-    override fun responseType() = responseType
-
-    override fun adapt(call: Call<R>): LiveData<ApiResponse<R>> {
-        return object : LiveData<ApiResponse<R>>() {
-            private var started = AtomicBoolean(false)
-            override fun onActive() {
-                super.onActive()
-                if (started.compareAndSet(false, true)) {
-                    call.enqueue(object : Callback<R> {
-                        override fun onResponse(call: Call<R>, response: Response<R>) {
-                            postValue(ApiResponse.create(response))
-                        }
-
-                        override fun onFailure(call: Call<R>, throwable: Throwable) {
-                            postValue(ApiResponse.create(throwable))
-                            throwable.printStackTrace()
-                        }
-                    })
-                }
-            }
-        }
-    }
-}
-
 class ResponseCallAdapter<T>(
     private val responseType: Type
 ) : CallAdapter<T, Flow<ApiResponse<T>>> {
@@ -55,14 +27,16 @@ class ResponseCallAdapter<T>(
             suspendCancellableCoroutine { continuation ->
                 call.enqueue(object : Callback<T> {
                     override fun onFailure(call: Call<T>, t: Throwable) {
-                        continuation.resumeWithException(t)
+                        continuation.resume(ApiResponse.create(t)){}
                     }
 
                     override fun onResponse(call: Call<T>, response: Response<T>) {
                         continuation.resume(ApiResponse.create(response)){}
                     }
                 })
-                continuation.invokeOnCancellation { call.cancel() }
+                continuation.invokeOnCancellation {
+                    call.cancel()
+                }
             }
         )
     }

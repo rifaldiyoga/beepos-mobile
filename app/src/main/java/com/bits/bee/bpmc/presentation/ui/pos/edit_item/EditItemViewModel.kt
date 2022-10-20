@@ -1,20 +1,14 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
-import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.model.Unit
 import com.bits.bee.bpmc.domain.usecase.common.GetUnitItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
-import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CalcUtils
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject

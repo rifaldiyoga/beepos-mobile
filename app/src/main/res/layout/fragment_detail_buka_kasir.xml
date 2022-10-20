@@ -159,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
         android:layout_marginEnd="@dimen/size16"
-        android:inputType="number"
+        android:inputType="number|phone"
         android:maxLines="1"
         android:layout_marginStart="@dimen/size16"
         android:minHeight="48dp"

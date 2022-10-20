@@ -16,10 +16,11 @@ import com.bits.bee.bpmc.databinding.DialogAturModalKasirBinding
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ class AturModalDialogBuilder(
 
     private val viewModel : AturModalViewModel by viewModels()
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,7 +57,9 @@ class AturModalDialogBuilder(
     }
 
     override fun initComponents() {
-
+        binding.apply{
+            etModal.addNumberFormatChange()
+        }
     }
 
     override fun subscribeListeners() {
@@ -88,8 +92,9 @@ class AturModalDialogBuilder(
                         AturModalViewModel.UIEvent.NavigateToPos -> {
                         }
                         AturModalViewModel.UIEvent.NavigateToDefaultModal -> {
-                            val dialog = DialogBuilderUtils.showDialogChoice(requireContext(), getString(
-                                R.string.atur_modal_kasir), getString(R.string.msg_default_modal_kasir),
+                            val dialog = DialogBuilderHelper.showDialogChoice(requireContext(), getString(
+                                R.string.atur_modal_kasir),
+                                getString(R.string.msg_default_modal_kasir, getString(R.string.mata_uang_nominal, sharedViewModel.state.crc?.symbol ?: "", CurrencyUtils.formatCurrency(BigDecimal(viewModel.state.defaultModal)))),
                                 getString(R.string.ya), {
                                     it.dismiss()
                                     viewModel.updateState(
@@ -103,9 +108,8 @@ class AturModalDialogBuilder(
                             dialog.show(parentFragmentManager, "")
                         }
                         AturModalViewModel.UIEvent.RequestSave -> {
-                            sharedViewModel.doBukaKasir(
-                                viewModel.state.modal, BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
-                            )
+                            val shift = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
+                            sharedViewModel.doBukaKasir(viewModel.state.modal, shift)
                             viewModel.onDoneSave()
                         }
                         AturModalViewModel.UIEvent.NavigateToInsight -> {

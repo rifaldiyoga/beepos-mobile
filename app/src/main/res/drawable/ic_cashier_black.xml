@@ -1,0 +1,47 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="18dp"
+    android:viewportWidth="20"
+    android:viewportHeight="18">
+  <path
+      android:pathData="M17.093,1.187C16.859,1.012 3.677,0.873 3.074,1.187C2.472,1.501 2.874,3.817 2.639,6.503C2.405,9.189 2.233,10.375 2.171,10.863C2.109,11.351 1,10.619 1,11.456V16.06C1,17.176 1.535,16.988 1.535,16.988H17.996C17.996,16.988 19,17.037 19,16.2V11.7C19,10.653 18.23,11.686 17.996,10.57C17.762,9.454 17.361,8.023 17.327,6.07C17.294,4.117 17.327,1.361 17.093,1.187Z"
+      android:strokeWidth="2"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/black"/>
+  <path
+      android:pathData="M2,11.317L18,11.317"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/black"
+      android:strokeLineCap="square"/>
+  <path
+      android:pathData="M6,4.095L10,4.095"
+      android:strokeWidth="1.2"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/black"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M9.264,14H10.669"
+      android:strokeWidth="1.2"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/black"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M10.031,7.138m-0.7,0a0.7,0.7 0,1 1,1.4 0a0.7,0.7 0,1 1,-1.4 0"
+      android:fillColor="@color/black"/>
+  <path
+      android:pathData="M12.373,7.138m-0.7,0a0.7,0.7 0,1 1,1.4 0a0.7,0.7 0,1 1,-1.4 0"
+      android:fillColor="@color/black"/>
+  <path
+      android:pathData="M14.715,7.138m-0.7,0a0.7,0.7 0,1 1,1.4 0a0.7,0.7 0,1 1,-1.4 0"
+      android:fillColor="@color/black"/>
+  <path
+      android:pathData="M14.715,9.231m-0.7,0a0.7,0.7 0,1 1,1.4 0a0.7,0.7 0,1 1,-1.4 0"
+      android:fillColor="@color/black"/>
+  <path
+      android:pathData="M12.373,9.231m-0.7,0a0.7,0.7 0,1 1,1.4 0a0.7,0.7 0,1 1,-1.4 0"
+      android:fillColor="@color/black"/>
+  <path
+      android:pathData="M10.031,9.231m-0.7,0a0.7,0.7 0,1 1,1.4 0a0.7,0.7 0,1 1,-1.4 0"
+      android:fillColor="@color/black"/>
+</vector>

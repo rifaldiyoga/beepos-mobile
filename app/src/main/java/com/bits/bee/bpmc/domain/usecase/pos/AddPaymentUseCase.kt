@@ -19,7 +19,7 @@ class AddPaymentUseCase @Inject constructor(
     private val getActiveCashierUseCase: GetActiveCashierUseCase
 ){
 
-    suspend operator fun invoke(sale : Sale, pmtd: Pmtd? = null, trackNo : String = "", cardNo : String = "", note : String = "") {
+    suspend operator fun invoke(sale : Sale, pmtd: Pmtd? = null, trackNo : String = "", cardNo : String = "", note : String = "", payment : BigDecimal = BigDecimal.ZERO) {
 
         var saleCrcv = SaleCrcv(
             saleInt = sale.id!!,
@@ -46,7 +46,7 @@ class AddPaymentUseCase @Inject constructor(
             val cashier = getActiveCashierUseCase().first()
 
             saleCrcv.cashId = cashier?.cashId?.toInt() ?: 0
-            saleCrcv.rcvAmt = sale.total.toString()
+            saleCrcv.rcvAmt = payment.toString()
             saleCrcv.rcvTypeCode = BPMConstants.BPM_DEFAULT_TYPE_CASH
             saleCrcvRepository.addSaleCrcv(saleCrcv)
 

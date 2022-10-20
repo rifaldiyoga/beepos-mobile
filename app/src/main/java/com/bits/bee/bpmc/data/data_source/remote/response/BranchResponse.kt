@@ -39,6 +39,9 @@ data class BranchResponse (
         @SerializedName("name")
         @Expose
         var name: String,
+        @SerializedName("active")
+        @Expose
+        var active: Boolean,
         @SerializedName("version")
         @Expose
         var version: Int,
