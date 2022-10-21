@@ -19,7 +19,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.airbnb.paris.extensions.style
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
@@ -72,6 +71,10 @@ class MainActivity(
                         if (navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
 
                         }
+                    }
+                } else {
+                    toolbar.setNavigationOnClickListener {
+                        onBackPressed()
                     }
                 }
             }
@@ -252,5 +255,9 @@ class MainActivity(
             viewSalesman.isVisible = isVisible
             clSalesman.isVisible = isVisible
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

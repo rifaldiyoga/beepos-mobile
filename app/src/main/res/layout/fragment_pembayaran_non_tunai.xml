@@ -30,7 +30,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentGopay"
-            android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranGopayFragment"
+            android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

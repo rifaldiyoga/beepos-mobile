@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai
+package com.bits.bee.bpmc.presentation.ui.pembayaran_gopay
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.databinding.FragmentPembayaranGopayBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayViewModel
+import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

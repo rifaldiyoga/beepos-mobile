@@ -50,7 +50,6 @@
                 android:paddingTop="@dimen/size12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/cth_smartphone_1"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -91,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
-                android:hint="@string/cth_smartphone_1"
+                android:hint="@string/cth_1234567890123456"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -105,6 +104,16 @@
             android:text="@string/keterangan"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilNomorKartu" />
+
+        <TextView
+            android:id="@+id/tvKeteranganOps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size8"
+            android:text="@string/opsional"
+            android:textSize="@dimen/font12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvKeterangan"
+            app:layout_constraintStart_toEndOf="@+id/tvKeterangan" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilKeterangan"

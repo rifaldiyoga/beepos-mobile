@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.domain.model.SelectionWithItem
 import com.bits.bee.bpmc.domain.repository.ItemRepository
 import com.bits.bee.bpmc.domain.repository.SelectionRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
+import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -20,7 +21,8 @@ class GetSelectionAddOnUseCase @Inject constructor(
     private val getPriceItemUseCase: GetPriceItemUseCase
 ) {
 
-    suspend operator fun invoke(item: Item, priceLvlId : Int, bp: Bp) : Flow<List<SelectionWithItem>>  = flow {
+    suspend operator fun invoke(item: Item, priceLvlId : Int, bp: Bp) : Flow<Resource<List<SelectionWithItem>>>  = flow {
+        emit(Resource.loading())
         val selection = selectionRepository.getSelectionByItem(item.id).first()
         var selectionList : MutableList<SelectionWithItem> = mutableListOf()
 
@@ -33,7 +35,7 @@ class GetSelectionAddOnUseCase @Inject constructor(
             val selectionWithItem = SelectionWithItem(selection = data, itemList = itemList)
             selectionList.add(selectionWithItem)
         }
-        emit(selectionList)
+        emit(Resource.success(selectionList))
     }
 
 }

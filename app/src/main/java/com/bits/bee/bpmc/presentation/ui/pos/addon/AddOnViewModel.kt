@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.usecase.addon.GetItemVariantUseCase
 import com.bits.bee.bpmc.domain.usecase.addon.GetSelectionAddOnUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -80,22 +81,39 @@ class AddOnViewModel @Inject constructor(
 
     fun getSelection(item: Item) = viewModelScope.launch {
         getSelectionAddOnUseCase(item, state.priceLvlId, state.bp!!).collect {
-            it.forEach {
-                it.itemList.forEach { item ->
-                    state.itemList.forEach { selectedItem ->
-                        if (item.id == selectedItem.id)
-                            item.qty = selectedItem.qty
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    showLoading(true)
+                }
+                Resource.Status.SUCCESS -> {
+                    showLoading(false)
+                    it.data?.let {
+                        it.forEach {
+                            it.itemList.forEach { item ->
+                                state.itemList.forEach { selectedItem ->
+                                    if (item.id == selectedItem.id)
+                                        item.qty = selectedItem.qty
+                                }
+                            }
+                        }
+
+                        updateState(
+                            state.copy(
+                                selectionList = it
+                            )
+                        )
                     }
+                }
+                Resource.Status.ERROR -> {
+                    showLoading(false)
                 }
             }
 
-            updateState(
-                state.copy(
-                    selectionList = it
-                )
-            )
-
         }
+    }
+
+    fun showLoading(isLoading: Boolean) = viewModelScope.launch {
+        eventChannel.send(UIEvent.ShowLoadingSelection(isLoading))
     }
 
     fun getVariant(id : Int) = viewModelScope.launch {
@@ -109,7 +127,7 @@ class AddOnViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-
+        data class ShowLoadingSelection(val isLoading : Boolean) : UIEvent()
     }
 
     data class VariantState(

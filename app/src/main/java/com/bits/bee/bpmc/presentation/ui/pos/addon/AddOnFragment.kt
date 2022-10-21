@@ -156,6 +156,17 @@ class AddOnFragment(
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.event.collect{
+                when(it){
+                    is AddOnViewModel.UIEvent.ShowLoadingSelection -> {
+                        binding.apply {
+                            progressBarSelection.isVisible = it.isLoading
+                        }
+                    }
+                }
+            }
+        }
         viewModel.selectedAddOn.observe(viewLifecycleOwner) {
             recalcSubtotal()
         }

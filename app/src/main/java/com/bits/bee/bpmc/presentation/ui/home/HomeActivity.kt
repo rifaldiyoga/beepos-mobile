@@ -135,5 +135,11 @@ class HomeActivity(
             }
         }
     }
+
+//    override fun onBackPressed() {
+//        when(navController.currentDestination?.id){
+//            else -> super.onBackPressed()
+//        }
+//    }
 }
 

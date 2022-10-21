@@ -81,6 +81,8 @@ class PembayaranNonTunaiFragment(
                             binding.fragmentGopay.isVisible = it.pmtd.ccType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY
                             binding.fragmentKartu.isVisible = it.pmtd.ccType != BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY
 
+                            setToolbarTitle("Bayar Dengan ${it.pmtd.name}")
+
                             viewModel.updateActivePmtd(it.pmtd)
                             binding.slidingPaneLayout.openPane()
                         }
@@ -102,7 +104,6 @@ class PembayaranNonTunaiFragment(
 
         override fun handleOnBackPressed() {
             slidingPaneLayout.closePane()
-            setToolbarTitle(getString(R.string.transaksi_penjualan))
         }
 
         override fun onPanelSlide(panel: View, slideOffset: Float) {
@@ -115,6 +116,7 @@ class PembayaranNonTunaiFragment(
 
         override fun onPanelClosed(panel: View) {
             isEnabled = false
+            setToolbarTitle("Non Tunai")
         }
 
     }

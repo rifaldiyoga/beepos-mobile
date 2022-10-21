@@ -182,7 +182,7 @@
     <fragment
         tools:layout="@layout/fragment_pembayaran_gopay"
         android:id="@+id/pembayaranGopayFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranGopayFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment"
         android:label="PembayaranGopayFragment" >
         <action
             android:id="@+id/action_pembayaranGopayFragment_to_transaksiBerhasilFragment"

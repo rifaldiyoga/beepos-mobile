@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1088878779663",
+    "firebase_url": "https://beepos-mobile-cloud.firebaseio.com",
+    "project_id": "beepos-mobile-cloud",
+    "storage_bucket": "beepos-mobile-cloud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088878779663:android:e23437e392e3f2aac5b27a",
+        "android_client_info": {
+          "package_name": "com.bits.bee.bpmc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088878779663-i4sle03vcm8o1cohh3nqto2fep08nn6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB16J7ToT5GEtnFBVJEmgu3Fk7tbkYbKEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088878779663-i4sle03vcm8o1cohh3nqto2fep08nn6c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088878779663:android:51364ed316e732b1c5b27a",
+        "android_client_info": {
+          "package_name": "com.bits.bee.bpmcloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088878779663-i4sle03vcm8o1cohh3nqto2fep08nn6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB16J7ToT5GEtnFBVJEmgu3Fk7tbkYbKEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088878779663-i4sle03vcm8o1cohh3nqto2fep08nn6c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

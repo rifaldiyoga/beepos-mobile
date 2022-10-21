@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.AbstractListDetailFragment
 import androidx.navigation.fragment.NavHostFragment
@@ -14,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 
 /**
  * Created by aldi on 04/04/22.
@@ -52,7 +56,27 @@ class SettingListFragment : AbstractListDetailFragment() {
             adapter = adapterS
             layoutManager = LinearLayoutManager(requireActivity())
         }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, TwoPaneOnBackPressedCallback(slidingPaneLayout))
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, TwoPaneOnBackPressedCallback(slidingPaneLayout))
+            if(viewModel.posPreferences.first().orientasi == BPMConstants.SCREEN_LANDSCAPE) {
+                val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+                toolbar.setNavigationOnClickListener {
+                    if (slidingPaneLayout.isSlideable) {
+                        if (map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                            slidingPaneLayout.closePane()
+                        else
+                            detailPaneNavHostFragment.navController.popBackStack()
+                    } else {
+                        if (map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                            findNavController().popBackStack()
+                        else
+                            detailPaneNavHostFragment.navController.popBackStack()
+                    }
+                }
+            }
+        }
+
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
 
     }
@@ -80,12 +104,13 @@ class SettingListFragment : AbstractListDetailFragment() {
                 .build()
         )
         slidingPaneLayout.open()
+        viewModel.isPageChange = true
     }
 
     inner class TwoPaneOnBackPressedCallback(
-        private val slidingPaneLayout: SlidingPaneLayout
+        private val slidingPaneLayout: SlidingPaneLayout,
     ) : OnBackPressedCallback(
-        true
+        if(!slidingPaneLayout.isSlideable) true else viewModel.isPageChange
     ), SlidingPaneLayout.PanelSlideListener {
 
         init {
@@ -116,8 +141,10 @@ class SettingListFragment : AbstractListDetailFragment() {
         }
 
         override fun onPanelClosed(panel: View) {
-            if(slidingPaneLayout.isSlideable && map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+            if(slidingPaneLayout.isSlideable && map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id)) {
                 isEnabled = false
+                viewModel.isPageChange = false
+            }
         }
     }
 
