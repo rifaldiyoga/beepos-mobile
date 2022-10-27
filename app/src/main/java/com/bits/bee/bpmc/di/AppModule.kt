@@ -25,8 +25,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePromoCalc(getActiveCashierUseCase: GetActiveCashierUseCase, promoMultiRepository: PromoMultiRepository,
-                         promoRepository: PromoRepository, getPriceItemUseCase: GetPriceItemUseCase, itemRepository: ItemRepository) : PromoCalc {
+    fun providePromoCalc(
+        getActiveCashierUseCase: GetActiveCashierUseCase,
+        promoMultiRepository: PromoMultiRepository,
+        promoRepository: PromoRepository,
+        getPriceItemUseCase: GetPriceItemUseCase,
+        itemRepository: ItemRepository
+    ): PromoCalc {
         return PromoCalc(
             getActiveCashierUseCase = getActiveCashierUseCase,
             promoMultiRepository = promoMultiRepository,
@@ -38,57 +43,78 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddrDao: BpAddrDao, defaultDispatcher: CoroutineDispatcher) : BpRepository {
+    fun proivdeBpRepository(
+        apiUtils: ApiUtils,
+        dao: BpDao,
+        bpAddrDao: BpAddrDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): BpRepository {
         return BpRepositoryImpl(apiUtils, dao, bpAddrDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeBranchRepository(apiUtils: ApiUtils, dao: BranchDao, defaultDispatcher: CoroutineDispatcher) : BranchRepository {
+    fun proivdeBranchRepository(
+        apiUtils: ApiUtils,
+        dao: BranchDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): BranchRepository {
         return BranchRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeCashierRepository(apiUtils: ApiUtils, dao: CashierDao, defaultDispatcher: CoroutineDispatcher) : CashierRepository {
+    fun proivdeCashierRepository(
+        apiUtils: ApiUtils,
+        dao: CashierDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): CashierRepository {
         return CashierRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeItemGroupRepository(apiUtils: ApiUtils, dao: ItemGroupDao) : ItemGroupRepository {
+    fun proivdeItemGroupRepository(apiUtils: ApiUtils, dao: ItemGroupDao): ItemGroupRepository {
         return ItemGroupRepositoryImpl(apiUtils, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeLoginRepository(apiUtils: ApiUtils) : LoginRepository {
+    fun proivdeLoginRepository(apiUtils: ApiUtils): LoginRepository {
         return LoginRepositoryImpl(apiUtils)
     }
 
     @Provides
     @Singleton
-    fun proivdePriceLvlRepository(apiUtils: ApiUtils, dao: PriceLvlDao) : PriceLvlRepository {
+    fun proivdePriceLvlRepository(apiUtils: ApiUtils, dao: PriceLvlDao): PriceLvlRepository {
         return PriceLvlRepositoryImpl(apiUtils, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeTaxRepository(apiUtils: ApiUtils, dao: TaxDao) : TaxRepository {
+    fun proivdeTaxRepository(apiUtils: ApiUtils, dao: TaxDao): TaxRepository {
         return TaxRepositoryImpl(apiUtils, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeChannelRepository(apiUtils: ApiUtils, dao: ChannelDao, defaultDispatcher: CoroutineDispatcher) : ChannelRepository {
+    fun proivdeChannelRepository(
+        apiUtils: ApiUtils,
+        dao: ChannelDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): ChannelRepository {
         return ChannelRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao,  defaultDispatcher: CoroutineDispatcher ) : ItemRepository {
+    fun proivdeItemRepository(
+        apiUtils: ApiUtils,
+        itemDao: ItemDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): ItemRepository {
         return ItemRepositoryImpl(
-            apiUtils =  apiUtils,
+            apiUtils = apiUtils,
             itemDao = itemDao,
             defaultDispatcher = defaultDispatcher,
         )
@@ -96,103 +122,162 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdePriceRepository(dao: PriceDao, apiUtils: ApiUtils, defaultDispatcher: CoroutineDispatcher) : PriceRepository {
+    fun proivdePriceRepository(
+        dao: PriceDao,
+        apiUtils: ApiUtils,
+        defaultDispatcher: CoroutineDispatcher
+    ): PriceRepository {
         return PriceRepositoryImpl(dao, apiUtils, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePrinterRepository(printerDao: PrinterDao, defaultDispatcher: CoroutineDispatcher): PrinterRespository{
+    fun providePrinterRepository(
+        printerDao: PrinterDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): PrinterRespository {
         return PrinterRepositoryImpl(printerDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePrinterKitchenRepository(printerKitchenDao: PrinterKitchenDao, defaultDispatcher: CoroutineDispatcher): PrinterKitchenRepository{
+    fun providePrinterKitchenRepository(
+        printerKitchenDao: PrinterKitchenDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): PrinterKitchenRepository {
         return PrinterKitchenRepositoryImpl(printerKitchenDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePrinterKitchenDRepository(printerKitchenDDao: PrinterKitchenDDao, defaultDispatcher: CoroutineDispatcher): PrinterKitchenDRepository{
-        return PrinterKitchenDRepositoryImpl(printerKitchenDDao,defaultDispatcher)
+    fun providePrinterKitchenDRepository(
+        printerKitchenDDao: PrinterKitchenDDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): PrinterKitchenDRepository {
+        return PrinterKitchenDRepositoryImpl(printerKitchenDDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeCityRepository(apiUtils: ApiUtils,dao: CityDao, defaultDispatcher: CoroutineDispatcher) : CityRepository {
-        return CityRepositoryImpl( apiUtils, dao, defaultDispatcher)
+    fun proivdeCityRepository(
+        apiUtils: ApiUtils,
+        dao: CityDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): CityRepository {
+        return CityRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeSaleRepository(dao: SaleDao, defaultDispatcher: CoroutineDispatcher) : SaleRepository {
+    fun proivdeSaleRepository(
+        dao: SaleDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): SaleRepository {
         return SaleRepositoryImpl(defaultDispatcher, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeSaledRepository(dao: SaledDao, defaultDispatcher: CoroutineDispatcher) : SaledRepository {
+    fun proivdeSaledRepository(
+        dao: SaledDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): SaledRepository {
         return SaledRepositoryImpl(saledDao = dao, defaultDispatcher = defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePossesRepository(possesDao: PossesDao, dispatcher: CoroutineDispatcher) : PossesRepository {
+    fun providePossesRepository(
+        possesDao: PossesDao,
+        dispatcher: CoroutineDispatcher
+    ): PossesRepository {
         return PossesRepositoryImpl(possesDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideKitchenRepository(kitchenDao: KitchenDao, defaultDispatcher: CoroutineDispatcher): KitchenRepository{
+    fun provideKitchenRepository(
+        kitchenDao: KitchenDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): KitchenRepository {
         return KitchenRepositoryImpl(kitchenDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideUserRepository(operatorDao: UserDao, defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils): UserRepository {
+    fun provideUserRepository(
+        operatorDao: UserDao,
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
+    ): UserRepository {
         return UserRepositoryImpl(operatorDao, defaultDispatcher, apiUtils)
     }
 
     @Provides
     @Singleton
-    fun provideCityPopulerRespository(cityPopulerDao: CityPopulerDao, defaultDispatcher: CoroutineDispatcher): CityPopulerRepository{
+    fun provideCityPopulerRespository(
+        cityPopulerDao: CityPopulerDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): CityPopulerRepository {
         return CityPopulerRepositoryImp(cityPopulerDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideCrcRepository(operatorDao: CrcDao, defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils): CrcRepository {
+    fun provideCrcRepository(
+        operatorDao: CrcDao,
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
+    ): CrcRepository {
         return CrcRepositoryImpl(defaultDispatcher, operatorDao, apiUtils)
     }
 
     @Provides
     @Singleton
-    fun provideBpaddrRepository(bpAddrDao: BpAddrDao, defaultDispatcher: CoroutineDispatcher): BpAddrRepository{
+    fun provideBpaddrRepository(
+        bpAddrDao: BpAddrDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): BpAddrRepository {
         return BpAddrRepositoryImpl(bpAddrDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideCmpRepository(operatorDao: CmpDao, defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils): CmpRepository {
+    fun provideCmpRepository(
+        operatorDao: CmpDao,
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
+    ): CmpRepository {
         return CmpRepositoryImpl(defaultDispatcher, operatorDao, apiUtils)
     }
 
     @Provides
     @Singleton
-    fun provideProvinceRepository(apiUtils: ApiUtils, provinceDao: ProvinceDao, defaultDispatcher: CoroutineDispatcher): ProvinceRepository{
+    fun provideProvinceRepository(
+        apiUtils: ApiUtils,
+        provinceDao: ProvinceDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): ProvinceRepository {
         return ProvinceRepositoryImpl(apiUtils, provinceDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideRegencyRepository(apiUtils: ApiUtils, regencyDao: RegencyDao, defaultDispatcher: CoroutineDispatcher): RegencyRepository{
+    fun provideRegencyRepository(
+        apiUtils: ApiUtils,
+        regencyDao: RegencyDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): RegencyRepository {
         return RegencyRepositoryImpl(apiUtils, regencyDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideDistrictRepository(apiUtils: ApiUtils, districtDao: DistrictDao, defaultDispatcher: CoroutineDispatcher): DistrictRepository{
+    fun provideDistrictRepository(
+        apiUtils: ApiUtils,
+        districtDao: DistrictDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): DistrictRepository {
         return DistrictRepositoryImpl(apiUtils, districtDao, defaultDispatcher)
     }
 
@@ -207,7 +292,7 @@ object AppModule {
         grpPrvDao: GrpPrvDao,
         crcDao: CrcDao,
         whDao: WhDao
-    ): InitialRepository{
+    ): InitialRepository {
         return InitialRepositoryImpl(
             apiUtils,
             cmpDao,
@@ -222,7 +307,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideItemKitchenRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemKitchenDao: ItemKitchenDao): ItemKitchenRepository{
+    fun provideItemKitchenRepository(
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils,
+        itemKitchenDao: ItemKitchenDao
+    ): ItemKitchenRepository {
         return ItemKitchenRepositoryImpl(
             defaultDispatcher,
             itemKitchenDao,
@@ -232,7 +321,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideItemBranchRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: ItemBranchDao): ItemBranchRepository{
+    fun provideItemBranchRepository(
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils,
+        itemBranchDao: ItemBranchDao
+    ): ItemBranchRepository {
         return ItemBranchRepositoryImpl(
             apiUtils,
             itemBranchDao,
@@ -242,7 +335,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideItemSaleTaxRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: ItemSaleTaxDao): ItemSaleTaxRepository{
+    fun provideItemSaleTaxRepository(
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils,
+        itemBranchDao: ItemSaleTaxDao
+    ): ItemSaleTaxRepository {
         return ItemSaleTaxRepositoryImpl(
             defaultDispatcher,
             itemBranchDao,
@@ -252,7 +349,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideEdcRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: EdcDao): EdcRepository{
+    fun provideEdcRepository(
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils,
+        itemBranchDao: EdcDao
+    ): EdcRepository {
         return EdcRepositoryImpl(
             apiUtils,
             itemBranchDao,
@@ -262,7 +363,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideEdcSurcRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: EdcSurcDao): EdcSurcRepository{
+    fun provideEdcSurcRepository(
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils,
+        itemBranchDao: EdcSurcDao
+    ): EdcSurcRepository {
         return EdcSurcRepositoryImpl(
             apiUtils,
             itemBranchDao,
@@ -272,7 +377,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCcTypeRepository(defaultDispatcher: CoroutineDispatcher, apiUtils: ApiUtils, itemBranchDao: CcTypeDao): CcTypeRepository{
+    fun provideCcTypeRepository(
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils,
+        itemBranchDao: CcTypeDao
+    ): CcTypeRepository {
         return CcTypeRepositoryImpl(
             apiUtils,
             itemBranchDao,
@@ -282,158 +391,254 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCashRepository(cashDao: CashDao, dispatcher: CoroutineDispatcher) : CashRepository {
+    fun provideCashRepository(cashDao: CashDao, dispatcher: CoroutineDispatcher): CashRepository {
         return CashRepositoryImpl(cashDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideCashARepository(cashADao: CashADao, dispatcher: CoroutineDispatcher) : CashARepository {
+    fun provideCashARepository(
+        cashADao: CashADao,
+        dispatcher: CoroutineDispatcher
+    ): CashARepository {
         return CashARepositoryImpl(cashADao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideCstrRepository(cstrDao: CstrDao, dispatcher: CoroutineDispatcher) : CstrRepository {
+    fun provideCstrRepository(cstrDao: CstrDao, dispatcher: CoroutineDispatcher): CstrRepository {
         return CstrRepositoryImpl(cstrDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideSaleCrcvRepository(saleCrcvDao: SaleCrcvDao, dispatcher: CoroutineDispatcher) : SaleCrcvRepository {
+    fun provideSaleCrcvRepository(
+        saleCrcvDao: SaleCrcvDao,
+        dispatcher: CoroutineDispatcher
+    ): SaleCrcvRepository {
         return SaleCrcvRepositoryImpl(saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePmtdRepository(apiUtils: ApiUtils, saleCrcvDao: PmtdDao, edcDao : EdcDao, edcSurcDao: EdcSurcDao, branchDao: BranchDao, dispatcher: CoroutineDispatcher) : PmtdRepository {
+    fun providePmtdRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: PmtdDao,
+        edcDao: EdcDao,
+        edcSurcDao: EdcSurcDao,
+        branchDao: BranchDao,
+        dispatcher: CoroutineDispatcher
+    ): PmtdRepository {
         return PmtdRepositoryImpl(apiUtils, saleCrcvDao, edcDao, edcSurcDao, branchDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideStockRepository(apiUtils: ApiUtils,saleCrcvDao: StockDao) : StockRepository {
+    fun provideStockRepository(apiUtils: ApiUtils, saleCrcvDao: StockDao): StockRepository {
         return StockRepositoryImpl(apiUtils, saleCrcvDao)
     }
 
     @Provides
     @Singleton
-    fun proivdeSyncRepository(apiUtils: ApiUtils, syncDao: SyncDao, defaultDispatcher: CoroutineDispatcher) : SyncRepository {
+    fun proivdeSyncRepository(
+        apiUtils: ApiUtils,
+        syncDao: SyncDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): SyncRepository {
         return SyncRepositoryImpl(apiUtils, syncDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideWhRepository(apiUtils: ApiUtils,saleCrcvDao: WhDao, dispatcher: CoroutineDispatcher) : WhRepository {
+    fun provideWhRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: WhDao,
+        dispatcher: CoroutineDispatcher
+    ): WhRepository {
         return WhRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideUnitRepository(apiUtils: ApiUtils,saleCrcvDao: UnitDao, dispatcher: CoroutineDispatcher) : UnitRepository {
+    fun provideUnitRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: UnitDao,
+        dispatcher: CoroutineDispatcher
+    ): UnitRepository {
         return UnitRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideAddOnRepository(apiUtils: ApiUtils,saleCrcvDao: AddOnDao, dispatcher: CoroutineDispatcher) : AddOnRepository {
+    fun provideAddOnRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: AddOnDao,
+        dispatcher: CoroutineDispatcher
+    ): AddOnRepository {
         return AddOnRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideAddOnDRepository(apiUtils: ApiUtils,saleCrcvDao: AddOnDDao, dispatcher: CoroutineDispatcher) : AddOnDRepository {
+    fun provideAddOnDRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: AddOnDDao,
+        dispatcher: CoroutineDispatcher
+    ): AddOnDRepository {
         return AddOnDRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideItemAddOnRepository(apiUtils: ApiUtils,saleCrcvDao: ItemAddOnDao, dispatcher: CoroutineDispatcher) : ItemAddOnRepository {
+    fun provideItemAddOnRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: ItemAddOnDao,
+        dispatcher: CoroutineDispatcher
+    ): ItemAddOnRepository {
         return ItemAddOnRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideSelectionRepository(apiUtils: ApiUtils,saleCrcvDao: SelectionDao, dispatcher: CoroutineDispatcher) : SelectionRepository {
+    fun provideSelectionRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: SelectionDao,
+        dispatcher: CoroutineDispatcher
+    ): SelectionRepository {
         return SelectionRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideSelectionDRepository(apiUtils: ApiUtils,saleCrcvDao: SelectionDDao, dispatcher: CoroutineDispatcher) : SelectionDRepository {
+    fun provideSelectionDRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: SelectionDDao,
+        dispatcher: CoroutineDispatcher
+    ): SelectionDRepository {
         return SelectionDRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideVariantRepository(apiUtils: ApiUtils,saleCrcvDao: VariantDao, itemDao: ItemDao, dispatcher: CoroutineDispatcher) : VariantRepository {
+    fun provideVariantRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: VariantDao,
+        itemDao: ItemDao,
+        dispatcher: CoroutineDispatcher
+    ): VariantRepository {
         return VariantRepositoryImpl(apiUtils, saleCrcvDao, itemDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideItemVariantRepository(apiUtils: ApiUtils,saleCrcvDao: ItemVariantDao, dispatcher: CoroutineDispatcher) : ItemVariantRepository {
+    fun provideItemVariantRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: ItemVariantDao,
+        dispatcher: CoroutineDispatcher
+    ): ItemVariantRepository {
         return ItemVariantRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePromoRepository(apiUtils: ApiUtils,saleCrcvDao: PromoDao, dispatcher: CoroutineDispatcher) : PromoRepository {
+    fun providePromoRepository(
+        apiUtils: ApiUtils,
+        saleCrcvDao: PromoDao,
+        dispatcher: CoroutineDispatcher
+    ): PromoRepository {
         return PromoRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideSignUpRepository(apiUtils: ApiUtils,) : SignUpRepository {
+    fun provideSignUpRepository(apiUtils: ApiUtils, ): SignUpRepository {
         return SignUpRepositoryImpl(apiUtils,)
     }
+
     @Provides
     @Singleton
-    fun proivdeCadjRepository(apiUtils: ApiUtils, cadjDao: CadjDao, defaultDispatcher: CoroutineDispatcher) : CadjRepository {
+    fun proivdeCadjRepository(
+        apiUtils: ApiUtils,
+        cadjDao: CadjDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): CadjRepository {
         return CadjRepositoryImpl(apiUtils, cadjDao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideItemDummyRepository(saleCrcvDao: ItemDummyDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : ItemDummyRepository {
+    fun provideItemDummyRepository(
+        saleCrcvDao: ItemDummyDao,
+        dispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
+    ): ItemDummyRepository {
         return ItemDummyRepositoryImpl(saleCrcvDao, dispatcher, apiUtils)
     }
 
 
     @Provides
     @Singleton
-    fun provideUnitDummyRepository(saleCrcvDao: UnitDummyDao, dispatcher: CoroutineDispatcher) : UnitDummyRepository {
+    fun provideUnitDummyRepository(
+        saleCrcvDao: UnitDummyDao,
+        dispatcher: CoroutineDispatcher
+    ): UnitDummyRepository {
         return UnitDummyRepositoryImpl(saleCrcvDao, dispatcher,)
     }
 
     @Provides
     @Singleton
-    fun provideSaleAddOnRepository(dispatcher: CoroutineDispatcher, saleAddOnDao: SaleAddOnDao) : SaleAddOnRepository {
+    fun provideSaleAddOnRepository(
+        dispatcher: CoroutineDispatcher,
+        saleAddOnDao: SaleAddOnDao
+    ): SaleAddOnRepository {
         return SaleAddOnRepositoryImpl(dispatcher, saleAddOnDao)
     }
 
     @Provides
     @Singleton
-    fun provideSaleAddOnDRepository(dispatcher: CoroutineDispatcher, saleAddOnDDao: SaleAddOnDDao) : SaleAddOnDRepository {
+    fun provideSaleAddOnDRepository(
+        dispatcher: CoroutineDispatcher,
+        saleAddOnDDao: SaleAddOnDDao
+    ): SaleAddOnDRepository {
         return SaleAddOnDRepositoryImpl(dispatcher, saleAddOnDDao)
     }
 
     @Provides
     @Singleton
-    fun provideSalePromoRepository(salePromoDao: SalePromoDao, dispatcher: CoroutineDispatcher) : SalePromoRepository {
+    fun provideSalePromoRepository(
+        salePromoDao: SalePromoDao,
+        dispatcher: CoroutineDispatcher
+    ): SalePromoRepository {
         return SalePromoRepositoryImpl(salePromoDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideLicenseRepository(salePromoDao: LicenseDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : LicenseRepository {
-        return LicenseRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
+    fun provideLicenseRepository(
+        salePromoDao: LicenseDao,
+        dispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
+    ): LicenseRepository {
+        return LicenseRepositoryImpl(apiUtils, salePromoDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePromoMultiRepository(salePromoDao: PromoMultiDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : PromoMultiRepository {
-        return PromoMultiRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
+    fun providePromoMultiRepository(
+        salePromoDao: PromoMultiDao,
+        dispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
+    ): PromoMultiRepository {
+        return PromoMultiRepositoryImpl(apiUtils, salePromoDao, dispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun proivdeRegRepository(
+        apiUtils: ApiUtils,
+        dao: RegDao,
+        defaultDispatcher: CoroutineDispatcher
+    ): RegRepository {
+        return RegRepositoryImpl(apiUtils, dao, defaultDispatcher)
+    }
 }

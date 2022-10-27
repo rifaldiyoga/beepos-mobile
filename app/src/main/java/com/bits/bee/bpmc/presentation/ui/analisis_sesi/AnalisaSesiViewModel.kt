@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.analisis_sesi
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
@@ -8,11 +9,12 @@ import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.github.mikephil.charting.data.Entry
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.sql.SQLException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +31,9 @@ class AnalisaSesiViewModel @Inject constructor(
     private val getTotalPaidDebitUseCase: GetTotalPaidDebitUseCase,
     private val getTotalPaidKreditUseCase: GetTotalPaidKreditUseCase,
     private val getTotalPaidGopayUseCase: GetTotalPaidGopayUseCase,
-    private val getRankItemUseCase: GetRankItemUseCase
+    private val getRankItemUseCase: GetRankItemUseCase,
+    private val getSumByHourUseCase: GetSumByHourUseCase,
+    private val getRegPossesActualEndCashUseCase: GetRegPossesActualEndCashUseCase
 ):BaseViewModel<AnalisaSesiState, AnalisaSesiViewModel.UIEvent>() {
 
     init {
@@ -151,7 +155,26 @@ class AnalisaSesiViewModel @Inject constructor(
             )
         }
 
+        getRegPossesActualEndCashUseCase.invoke().collect{
+            updateState(
+                state.copy(
+                    reg = it
+                )
+            )
+        }
+
+        val chart = getSumByHourUseCase.invoke(state.posses!!)
+        updateState(
+            state.copy(
+                listEntry = chart
+            )
+        )
+
     }
+
+//    fun loadDataChart() = viewModelScope.launch {
+//
+//    }
 
     fun getTotalNonTunai(): BigDecimal{
         var nonTunai = state.totalDebit!!.add(state.totalKredit).add(state.totalGopay)
@@ -196,28 +219,6 @@ class AnalisaSesiViewModel @Inject constructor(
     fun onClickBukaKasir() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequstDetailBukaKasir)
     }
-
-//    fun getActiveBranch() = viewModelScope.launch {
-//        getActiveBranchUseCase.invoke().collect {
-//            updateState(
-//                state.copy(
-//                    activeBranch = it
-//                )
-//            )
-//        }
-//    }
-//
-//    fun getCashierActive() = viewModelScope.launch {
-//        getActiveCashierUseCase.invoke().collect {
-//            it?.let {
-//                updateState(
-//                    state.copy(
-//                        activeCashier = it
-//                    )
-//                )
-//            }
-//        }
-//    }
 
     sealed class UIEvent {
         object RequestRiwayatSesi : UIEvent()

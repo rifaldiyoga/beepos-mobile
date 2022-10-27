@@ -12,10 +12,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="@dimen/size2"
-            android:layout_marginBottom="@dimen/size14"
             android:background="@color/soft_red"
             android:id="@+id/cl_jml_printer"
-            android:padding="@dimen/size16"
+            android:padding="@dimen/size12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
@@ -55,7 +54,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="@dimen/size2"
             android:layout_marginBottom="@dimen/size14"
             android:id="@+id/cl_list_printer"
             android:padding="@dimen/size16"

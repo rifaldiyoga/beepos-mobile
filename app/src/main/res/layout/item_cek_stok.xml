@@ -21,7 +21,7 @@
             android:id="@+id/lL_content_tipeTrans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="3.5"
             android:orientation="vertical"
             android:weightSum="5"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
             android:id="@+id/lL_content_member"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="1.5"
             android:orientation="vertical"
             android:weightSum="5"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -63,21 +63,22 @@
                 android:layout_marginBottom="@dimen/size5"
                 android:layout_weight="5.5"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/size10"
                 android:weightSum="3">
 
                 <TextView
                     android:id="@+id/tv_porsi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:gravity="center_vertical"
-                    android:text="30.00 jumlah porsi banyak sdsd"
+                    android:text="@string/analisa"
                     android:textSize="@dimen/size12" />
 
                 <TextView
                     android:id="@+id/tv_harga"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:gravity="center_vertical"
                     android:layout_marginTop="10dp"
                     android:singleLine="false"

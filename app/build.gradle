@@ -133,4 +133,7 @@ dependencies {
     //code-scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'
 
+    //grafik
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }

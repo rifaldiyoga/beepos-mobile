@@ -57,6 +57,8 @@ class SettingSistemFragment(
             positionPenyimpanan = 1
         }else if (sistemPenyimpanan.equals("30 Hari")){
             positionPenyimpanan = 2
+        }else{
+            positionPenyimpanan = 0
         }
         return positionPenyimpanan
     }
@@ -74,6 +76,8 @@ class SettingSistemFragment(
             positionBatchupload = 3
         }else if (batchUpload.equals("50(Paling Berat)")){
             positionBatchupload = 4
+        }else{
+            positionBatchupload = 0
         }
 
         return positionBatchupload
@@ -88,6 +92,8 @@ class SettingSistemFragment(
             positionPeriodeUpload = 1
         }else if (periodeUpload.equals("60 Menit")){
             positionPeriodeUpload = 2
+        }else{
+            positionPeriodeUpload = 0
         }
         return positionPeriodeUpload
     }
@@ -127,6 +133,7 @@ class SettingSistemFragment(
                             val dialog = RadioListDialogBuilder.Builder(requireContext())
                                 .setTitle(getString(R.string.sistem_penyimpanan))
                                 .setList(sistemPenyimpananList)
+                                .setSelectedPos(iniliazePenyimpanan())
                                 .setOnSaveListener {
                                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
@@ -148,6 +155,7 @@ class SettingSistemFragment(
                             val dialog = RadioListDialogBuilder.Builder(requireContext())
                                 .setTitle(getString(R.string.sistem_batch))
                                 .setList(sistemBatchUploadList)
+                                .setSelectedPos(iniliazeBatch())
                                 .setOnSaveListener {
                                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
@@ -169,6 +177,7 @@ class SettingSistemFragment(
                             val dialog = RadioListDialogBuilder.Builder(requireContext())
                                 .setTitle(getString(R.string.periode_upload))
                                 .setList(periodeUploadList)
+                                .setSelectedPos(iniliazePeriodeUpload())
                                 .setOnSaveListener {
                                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
@@ -237,11 +246,14 @@ class SettingSistemFragment(
                         swcloudDapur.isChecked = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
                             R.string.pref_switch_dapur), false) as Boolean
                         tvDetailPenyimpanan.text = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
-                            R.string.pref_sistem_penyimpanan), "") as String
+                            R.string.pref_sistem_penyimpanan), getString(
+                            R.string.belum_diatur)) as String
                         tvDetailBatch.text = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
-                            R.string.pref_batch_upload), "" ) as String
+                            R.string.pref_batch_upload), getString(
+                            R.string.belum_diatur) ) as String
                         tvDetailPeriode.text = BeePreferenceManager.getDataFromPreferences(requireContext(),getString(
-                            R.string.pref_periode_upload_otomatis), "") as String
+                            R.string.pref_periode_upload_otomatis), getString(
+                            R.string.belum_diatur)) as String
                     }
                 }
             }

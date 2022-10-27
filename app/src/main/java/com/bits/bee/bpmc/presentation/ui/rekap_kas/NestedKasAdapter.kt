@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemRekapKasBinding
 import com.bits.bee.bpmc.domain.model.Cadj
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import java.sql.Date
 import java.text.SimpleDateFormat
 
@@ -33,7 +34,8 @@ class NestedKasAdapter(private  val ctx: Context) : ListAdapter<Cadj, RecyclerVi
             binding.apply {
                 tvNamaKasir.text = BeePreferenceManager.getDataFromPreferences(ctx, ctx.getString(R.string.pref_user_kasir), "") as String
                 tvDeskripsi.text = model.note
-                tvJmlKas.text = model.amount.toString()
+                tvJmlKas.text = ctx.getString(R.string.mata_uang_nominal,
+                    "Rp", CurrencyUtils.formatCurrency(model.amount))
 
                 val backToDate = Date(model.trxDate)
                 val format = SimpleDateFormat("kk:mm")

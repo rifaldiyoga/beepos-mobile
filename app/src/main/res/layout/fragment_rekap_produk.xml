@@ -108,10 +108,8 @@
 
     <ImageView
         android:id="@+id/imageView16"
-        android:layout_width="@dimen/size0"
-        android:layout_height="@dimen/size225"
-        android:layout_marginStart="@dimen/size32"
-        android:layout_marginEnd="@dimen/size32"
+        android:layout_width="@dimen/size300"
+        android:layout_height="@dimen/size180"
         android:src="@drawable/image_stok"
         app:layout_constraintBottom_toTopOf="@+id/textView90"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,14 +119,45 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        style="@style/TextDetail"
         android:id="@+id/textView90"
         android:layout_width="wrap_content"
         android:layout_marginTop="@dimen/size16"
+        android:textSize="@dimen/font12"
         android:layout_height="wrap_content"
-        android:text="@string/seluruh_data_transaksi_sudah_tersinkron"
+        android:text="@string/cari_produk_dulu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView16"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
         app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:visibility="gone"
+        android:layout_width="@dimen/size300"
+        android:layout_height="@dimen/size180"
+        android:src="@drawable/ic_rekap_produk_notfound"
+        app:layout_constraintBottom_toTopOf="@+id/textView91"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:visibility="gone"
+        style="@style/TextDetail"
+        android:paddingLeft="@dimen/size40"
+        android:paddingRight="@dimen/size40"
+        android:id="@+id/textView91"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:textSize="@dimen/font12"
+        android:layout_height="wrap_content"
+        android:text="@string/cari_produk_not_found"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView17"
+        app:layout_constraintStart_toStartOf="@+id/imageView17"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,6 +39,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgEmpty" />
 
+    <ImageView
+        android:id="@+id/imageView17"
+        android:visibility="gone"
+        android:layout_width="@dimen/size300"
+        android:layout_height="@dimen/size180"
+        android:src="@drawable/ic_rekap_produk_notfound"
+        app:layout_constraintBottom_toTopOf="@+id/textView91"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/size100"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:visibility="gone"
+        style="@style/TextDetail"
+        android:paddingLeft="@dimen/size40"
+        android:paddingRight="@dimen/size40"
+        android:id="@+id/textView91"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:textSize="@dimen/font12"
+        android:layout_height="wrap_content"
+        android:text="@string/cari_kas_not_found"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView17"
+        app:layout_constraintStart_toStartOf="@+id/imageView17"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnTambah"
         android:layout_marginTop="@dimen/size16"

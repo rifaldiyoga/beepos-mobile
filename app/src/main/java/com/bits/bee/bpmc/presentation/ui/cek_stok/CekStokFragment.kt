@@ -92,9 +92,31 @@ class CekStokFragment(
 
         val searchItem = menu.findItem(R.id.search_cek_stok)
         val searchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Masukan minimal 3 huruf"
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                        viewModel.viewStates().collect{
+                            it?.let {
+                                if (query!!.length >=3 ){
+                                    viewModel.loadStock()
+                                    it.stockList?.let { stock ->
+                                        viewModel.initStock(stock)
+                                        it.itemsList?.let { listitem->
+                                            viewModel.filterStock(query.toString().trim())
+                                            it.itemListResult?.let {
+                                                binding.lLStockEmpty.visibility = View.GONE
+                                                cekStokAdapter.initLists(viewModel.state.stockList!!, it)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 return false
             }
 
@@ -115,18 +137,6 @@ class CekStokFragment(
 //                                            }
 //                                        }
 //                                    }
-                                }else if (newText!!.length >= 3){
-                                    viewModel.loadStock()
-                                    it.stockList?.let { stock ->
-                                        viewModel.initStock(stock)
-                                        it.itemsList?.let { listitem->
-                                            viewModel.filterStock(newText.toString().trim())
-                                            it.itemListResult?.let {
-                                                binding.lLStockEmpty.visibility = View.GONE
-                                                cekStokAdapter.initLists(viewModel.state.stockList!!, it)
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }

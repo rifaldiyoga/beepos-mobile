@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.SaleEntity
+import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
 import java.math.BigDecimal
 
 /**
@@ -51,5 +52,9 @@ interface SaleDao : BaseDao<SaleEntity> {
 
     @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0")
     fun getSaleNotUploaded(): List<SaleEntity>
+
+    @Query("select strftime('%H', datetime(trx_date/1000, 'unixepoch', 'localtime')) as date, sum(a.total) as qty from sale a " +
+            "WHERE date = :hour AND a.isvoid = '0' AND a.posses_id = :id group by strftime('%H', datetime(trx_date/1000, 'unixepoch', 'localtime'))")
+    fun sumQtyByHour(id: Int, hour: String): LineChartData
 
 }

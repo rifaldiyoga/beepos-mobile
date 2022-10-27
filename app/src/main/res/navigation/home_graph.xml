@@ -97,7 +97,7 @@
         tools:layout="@layout/fragment_analisa_sesi"
         android:id="@+id/analasisiSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiFragment"
-        android:label="@string/analisis_sesi" >
+        android:label="@string/analisa_sesi" >
 
         <action
             android:id="@+id/action_analasisiSesiFragment_to_riwayatSesiFragment"
@@ -170,17 +170,17 @@
         tools:layout="@layout/fragment_rekap_kas"
         android:id="@+id/rekapKasFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.RekapKasFragment"
-        android:label="RekapKasFragment" />
+        android:label="@string/rekap_kas" />
     <fragment
         tools:layout="@layout/fragment_rekap_produk"
         android:id="@+id/rekapProdukFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.RekapProdukFragment"
-        android:label="RekapProdukFragment" />
+        android:label="@string/rekap_produk" />
     <fragment
         tools:layout="@layout/fragment_cek_stok"
         android:id="@+id/cekStokFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
-        android:label="CekStokFragment" />
+        android:label="@string/cek_stok" />
     <fragment
         android:id="@+id/kelolaProdukFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukFragment"

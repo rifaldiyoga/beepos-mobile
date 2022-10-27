@@ -55,58 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/size16"
-        android:id="@+id/cl_filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" >
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="@dimen/size16"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <EditText
-
-                android:id="@+id/dialog_filter_etStartDate"
-                android:clickable="true"
-                android:editable="false"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/size16"
-                />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="@dimen/size16"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/dialog_filter_transaksi_etEndDate"
-                android:clickable="true"
-                android:editable="false"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/size16"
-                />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSimpan"

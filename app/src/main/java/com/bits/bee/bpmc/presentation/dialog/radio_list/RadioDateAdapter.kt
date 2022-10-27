@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.dialog.radio_list
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,7 +69,13 @@ class RadioDateAdapter(
                     notifyDataSetChanged()
                 }
 
-                etNamaDevice.setOnClickListener {
+                if (materialRadioButton.isChecked){
+                    etPilihTgl.visibility = View.VISIBLE
+                }else{
+                    etPilihTgl.visibility = View.GONE
+                }
+
+                etPilihTgl.setOnClickListener {
                     val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
                     datePicker.show(childFragmentManager, "")
 
@@ -76,9 +83,9 @@ class RadioDateAdapter(
                         val startDate = dateSelected.first
                         val endDate = dateSelected.second
 
-                        etNamaDevice.setText("${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, startDate)} - " +
+                        etPilihTgl.setText("${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, startDate)} - " +
                                 "${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, endDate)}")
-                        setTextDate(holderTwo.binding.etNamaDevice.text.toString())
+                        setTextDate(holderTwo.binding.etPilihTgl.text.toString())
                     }
 
                 }

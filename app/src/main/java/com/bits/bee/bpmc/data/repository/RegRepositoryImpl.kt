@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -40,6 +42,13 @@ class RegRepositoryImpl @Inject constructor(
                 regDao.insertSingle(RegDataMapper.fromNetworkToDb(data.regModel))
             }
         }.getAsFlow()
+    }
+
+    override fun getRegPossesActualEndcash(): Flow<Reg> {
+        return flow {
+            val data = regDao.getRegPossesActualEndcash()
+            emit(RegDataMapper.fromDbToDomain(data))
+        }.flowOn(ioDispatcher)
     }
 
 }
