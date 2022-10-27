@@ -24,7 +24,7 @@ class RekapKasFragment(
 
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private lateinit var vpAdapterRekapKas: VPAdapterRekapKas
-    private var desc = false
+    private var desc = true
     private var mMenu: Menu? = null
 
     override fun initComponents() {
@@ -57,6 +57,7 @@ class RekapKasFragment(
 
         val searchItem = menu.findItem(R.id.search_rekap_kas)
         val searchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Masukan minimal 3 huruf"
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -69,6 +70,11 @@ class RekapKasFragment(
                         if (newText?.length == 0){
                             sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc, "")
                             sharedViewModel.loadKasKeluar(sharedViewModel.state.isDesc, "")
+                            sharedViewModel.updateState(
+                                sharedViewModel.state.copy(
+                                    search = ""
+                                )
+                            )
                         }else if (newText!!.length >= 3){
                             sharedViewModel.updateState(
                                 sharedViewModel.state.copy(
@@ -83,6 +89,11 @@ class RekapKasFragment(
                                 )
                             )
                             sharedViewModel.loadKasKeluar(sharedViewModel.state.isDesc, newText.toString().trim())
+                            sharedViewModel.updateState(
+                                sharedViewModel.state.copy(
+                                    search = newText.toString().trim()
+                                )
+                            )
                         }
                     }
                 }
@@ -92,7 +103,7 @@ class RekapKasFragment(
         })
 
 //        onClickSort(desc)
-        if (!desc) {
+        if (desc) {
             menu.getItem(1).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
             desc = false
         }

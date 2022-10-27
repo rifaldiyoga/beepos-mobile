@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.repository
 
 import androidx.paging.PagingData
+import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -43,5 +44,6 @@ interface SaleRepository {
 
     fun getSaleNotUploaded(): Flow<List<Sale>>
 
+    fun sumQtyByHour(id: Int, hour: String): Flow<LineChartData>
 
 }

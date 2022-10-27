@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.analisis_sesi
 
 import com.bits.bee.bpmc.domain.model.*
+import com.github.mikephil.charting.data.Entry
 import java.math.BigDecimal
 
 data class AnalisaSesiState(
@@ -19,5 +20,7 @@ data class AnalisaSesiState(
     var totalDebit: BigDecimal? = null,
     var totalKredit: BigDecimal? = null,
     var totalGopay: BigDecimal? = null,
-    var rankItem: List<RankItem>? = null
+    var rankItem: List<RankItem>? = null,
+    var reg: Reg? = null,
+    var listEntry: List<Entry>? = null
 )

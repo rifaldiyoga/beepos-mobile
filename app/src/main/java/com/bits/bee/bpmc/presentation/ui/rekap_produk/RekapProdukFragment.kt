@@ -31,10 +31,14 @@ class RekapProdukFragment(
     private lateinit var pilihTglList : List<String>
     private var posFilter: Int = 0
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
+    }
+
     override fun initComponents() {
         setHasOptionsMenu(true)
         pilihTglList = requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList()
-        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
         rekapProdukAdapter = RekapProdukAdapter(requireContext())
         binding.apply {
             rvRekapProduk.apply {
@@ -79,18 +83,20 @@ class RekapProdukFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {
                     it?.let {
-//                        binding.apply {
-//                            it.itemList?.let { data ->
-//                                if (data.size > 0){
-//                                    imageView16.visibility = View.GONE
-//                                    textView90.visibility = View.GONE
-//                                    rekapProdukAdapter.submitList(data)
-//                                }else{
-//                                    imageView16.visibility = View.VISIBLE
-//                                    textView90.visibility = View.VISIBLE
-//                                }
-//                            }
-//                        }
+                        binding.apply {
+                            it.itemList?.let { data ->
+                                if (data.size > 0){
+                                    imageView16.visibility = View.GONE
+                                    textView90.visibility = View.GONE
+//                                    viewModel.checkListItem(data)
+                                    rekapProdukAdapter.submitList(data)
+                                }else{
+                                    rekapProdukAdapter.submitList(data)
+                                    imageView16.visibility = View.VISIBLE
+                                    textView90.visibility = View.VISIBLE
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -100,10 +106,11 @@ class RekapProdukFragment(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_rekap_produk, menu)
-        onView()
+//        onView()
 
         val searchItem = menu.findItem(R.id.search_rekap_produk)
         val searchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Masukan minimal 3 huruf"
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -117,26 +124,44 @@ class RekapProdukFragment(
                             it?.let {
                                 binding.apply {
                                     if (newText?.length == 0){
-                                        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, "")
-//                                        it.itemList?.let {
-//                                            rekapProdukAdapter.submitList(it)
-//                                        }
+                                        it.itemList?.let { data ->
+                                            if (data.size > 0){
+                                                imageView16.visibility = View.GONE
+                                                textView90.visibility = View.GONE
+                                                imageView17.visibility = View.GONE
+                                                textView91.visibility = View.GONE
+                                                rekapProdukAdapter.submitList(data)
+                                            }else{
+                                                rekapProdukAdapter.submitList(data)
+                                                imageView16.visibility = View.VISIBLE
+                                                textView90.visibility = View.VISIBLE
+                                                imageView17.visibility = View.GONE
+                                                textView91.visibility = View.GONE
+                                            }
+                                        }
                                     }else if (newText!!.length >= 3){
 //                                        viewModel.updateState(
 //                                            viewModel.state.copy(
 //                                                itemList = null
 //                                            )
 //                                        )
-                                        viewModel.cariItems(newText.toString().trim(), 1)
-                                        it.itemList?.let { data->
-                                            if (data.size > 0){
-                                                imageView16.visibility = View.GONE
-                                                textView90.visibility = View.GONE
-                                                rekapProdukAdapter.submitList(data)
-                                            }else{
-                                                rekapProdukAdapter.submitList(data)
-                                                imageView16.visibility = View.VISIBLE
-                                                textView90.visibility = View.VISIBLE
+                                        viewModel.cariItems(newText.toString().trim(), 1, inilizeTgl(), viewModel.state.selectFilter)
+                                        it.itemListResult?.let { data->
+                                            viewModel.filterItems(data, inilizeTgl(), viewModel.state.selectFilter)
+                                            it.resultFilteritem?.let { resultFilter ->
+                                                if (resultFilter.size > 0){
+                                                    imageView16.visibility = View.GONE
+                                                    textView90.visibility = View.GONE
+                                                    imageView17.visibility = View.GONE
+                                                    textView91.visibility = View.GONE
+                                                    rekapProdukAdapter.submitList(resultFilter)
+                                                }else{
+                                                    rekapProdukAdapter.submitList(resultFilter)
+                                                    imageView16.visibility = View.GONE
+                                                    textView90.visibility = View.GONE
+                                                    imageView17.visibility = View.VISIBLE
+                                                    textView91.visibility = View.VISIBLE
+                                                }
                                             }
                                         }
                                     }
@@ -203,5 +228,9 @@ class RekapProdukFragment(
                 }
             }
         }
+    }
+
+    private fun searchEvent(){
+
     }
 }

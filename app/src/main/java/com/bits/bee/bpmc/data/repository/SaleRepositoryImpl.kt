@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.SaleDao
+import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
 import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.repository.SaleRepository
@@ -159,6 +160,13 @@ class SaleRepositoryImpl @Inject constructor(
         return flow {
             val data = saleDao.getSaleNotUploaded().map { SaleDataMapper.fromDbToDomain(it) }
             emit((data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun sumQtyByHour(id: Int, hour: String): Flow<LineChartData> {
+        return flow {
+            val data = saleDao.sumQtyByHour(id, hour)
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 

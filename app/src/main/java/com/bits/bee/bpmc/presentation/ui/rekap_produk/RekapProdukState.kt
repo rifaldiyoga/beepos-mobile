@@ -6,5 +6,6 @@ data class RekapProdukState(
     var itemList: List<Item>? = null,
     var selectFilter: String = "1 Minggu Terakhir",
     var itemListResult: List<Item>? = null,
-    var searchQuery: String = ""
+    var searchQuery: String = "",
+    var resultFilteritem: List<Item>? = null
 )

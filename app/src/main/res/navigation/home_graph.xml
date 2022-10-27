@@ -46,7 +46,7 @@
         tools:layout="@layout/fragment_analisa_sesi"
         android:id="@+id/analasisiSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiFragment"
-        android:label="@string/analisis_sesi" >
+        android:label="@string/analisa_sesi" >
 
         <action
             android:id="@+id/action_analasisiSesiFragment_to_riwayatSesiFragment"
@@ -224,9 +224,6 @@
         android:id="@+id/downloadDialogBuilder"
         android:name="com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder"
         android:label="DownloadDialogBuilder" />
-
-    <include app:graph="@navigation/initial_graph" />
-
     <activity
         android:id="@+id/initialActivity"
         android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
