@@ -17,29 +17,14 @@
         android:layout_weight="1"
         android:layout_height="match_parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentKartu"
-            android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_kartu.PembayaranKartuFragment"
+        <FrameLayout
+            android:id="@+id/fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentGopay"
-            android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

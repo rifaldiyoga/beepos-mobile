@@ -39,7 +39,6 @@ class InvoiceFragment(
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_draft -> {
@@ -62,7 +61,6 @@ class InvoiceFragment(
         setHasOptionsMenu(true)
         binding.apply {
             clPromo.gone()
-
         }
     }
 
@@ -99,7 +97,7 @@ class InvoiceFragment(
                             tvTotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.total))
                         }
                         if(it.saledList.size == 0 && BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT){
-//                            viewModel.onDetailEmpty()
+                            viewModel.onDetailEmpty()
                         }
                     }
                 }
@@ -107,7 +105,7 @@ class InvoiceFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.error.collect {
+                viewModel.msg.collect {
                     showSnackbar(it)
                 }
             }
@@ -136,11 +134,15 @@ class InvoiceFragment(
                             dialog.show(parentFragmentManager, "")
                         }
                         InvoiceViewModel.UIEvent.RequestPembayaran -> {
-                            val action = when(BeePreferenceManager.ORIENTATION) {
-                                BPMConstants.SCREEN_POTRAIT ->  InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()
-                                else -> PosFragmentDirections.actionPosFragmentToPembayaranFragment()
+                            if (mainViewModel.state.saledList.isEmpty()) {
+                                showSnackbar("Detail Kosong!")
+                            } else {
+                                val action = when (BeePreferenceManager.ORIENTATION) {
+                                    BPMConstants.SCREEN_POTRAIT -> InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()
+                                    else -> PosFragmentDirections.actionPosFragmentToPembayaranFragment()
+                                }
+                                findNavController().navigate(action)
                             }
-                            findNavController().navigate(action)
                         }
                         InvoiceViewModel.UIEvent.RequestDraft -> {
                             val dialog = DialogBuilderHelper.showDialogChoice(
@@ -150,10 +152,13 @@ class InvoiceFragment(
                                 positiveTxt = getString(R.string.simpan),
                                 positiveListener = {
                                     it.dismiss()
-                                    mainViewModel.submitDraft(requireActivity())
-                                    if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
-                                        findNavController().popBackStack()
-
+                                    if (mainViewModel.state.saledList.isEmpty()) {
+                                        showSnackbar("Detail Kosong!")
+                                    } else {
+                                        mainViewModel.submitDraft(requireActivity())
+                                        if (mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
+                                            findNavController().popBackStack()
+                                    }
                                 },
                                 negativeTxt = getString(R.string.batal),
                                 negativeListener = {

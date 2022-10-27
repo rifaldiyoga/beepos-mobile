@@ -9,13 +9,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by aldi on 20/05/22.
  */
-class AddTransactionUseCase @Inject constructor(
+class  AddTransactionUseCase @Inject constructor(
     private val saleRepository: SaleRepository,
     private val saledRepository: SaledRepository,
     private val saleAddOnRepository: SaleAddOnRepository,
@@ -30,7 +31,8 @@ class AddTransactionUseCase @Inject constructor(
     private val addCashAUseCase: AddCashAUseCase,
     private val addTotalPossesUseCase: AddTotalPossesUseCase,
     private val addPaymentUseCase: AddPaymentUseCase,
-    private val defDispatcher: CoroutineDispatcher
+    private val defDispatcher: CoroutineDispatcher,
+    private val getRegUseCase: GetRegUseCase
 ) {
 
     suspend operator fun invoke(
@@ -58,6 +60,7 @@ class AddTransactionUseCase @Inject constructor(
             val user = getActiveUserUseCase().first()
             val posses = getActivePossesUseCase().first()
             val crc = getDefaultCrcUseCase().first()
+            var total : BigDecimal = sale.total
 
             crc?.let {
                 sale.crcId = it.id!!
@@ -82,15 +85,17 @@ class AddTransactionUseCase @Inject constructor(
                 sale.kodePosses = it.trxNo
             } ?: throw Exception("There is no active posses!")
 
+            pmtd?.let {
+                val reg = getRegUseCase(BPMConstants.REG_ROUND).first()
+                val surc = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total).setScale(reg?.value?.toInt() ?: 0, RoundingMode.HALF_UP)
+                sale.total = sale.total.add(surc)
+            }
+
             sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, branch!!, cashier)
+            sale.trxOrderNum = counter
             sale.trxDate = Date()
             sale.totPaid = paymentAmt
-            sale.totChange = if(paymentAmt > BigDecimal.ZERO) paymentAmt.subtract(sale.total) else BigDecimal.ZERO
-
-            pmtd?.let {
-                val surc = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total)
-                sale.total.add(surc)
-            }
+            sale.totChange = if(paymentAmt > BigDecimal.ZERO && pmtd == null) paymentAmt.subtract(sale.total) else BigDecimal.ZERO
 
             val id = saleRepository.addSale(sale)
             sale.id = id.toInt()
@@ -159,7 +164,8 @@ class AddTransactionUseCase @Inject constructor(
                     trackNo,
                     cardNo,
                     note,
-                    paymentAmt
+                    paymentAmt,
+                    total
                 )
 
                 /** For update totin for active session cashier */

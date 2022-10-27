@@ -69,7 +69,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <TextView
                 android:id="@+id/tvNamaItem"
                 style="@style/TextHeader"
@@ -79,7 +78,6 @@
                 android:layout_marginEnd="@dimen/size16"
                 android:layout_marginBottom="@dimen/size4"
                 android:textSize="@dimen/font12"
-                android:text="@string/jus_mangga"
                 android:maxLines="2"
                 app:layout_goneMarginBottom="@dimen/size16"
                 app:layout_constraintBottom_toTopOf="@id/tvHarga"
@@ -91,7 +89,6 @@
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/size16"
-                android:text="@string/mata_uang_nominal"
                 android:textSize="@dimen/font12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tvNamaItem"

@@ -18,7 +18,10 @@ data class GopayPost (
     var total: String,
     @SerializedName("item_details")
     @Expose
-    var item_details: List<ItemDetail> = mutableListOf()
+    var item_details: List<ItemDetail> = mutableListOf(),
+    @SerializedName("customer_details")
+    @Expose
+    var customer_detail: CustomerDetails,
 ) : Parcelable {
 
     @Parcelize

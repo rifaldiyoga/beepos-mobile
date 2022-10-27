@@ -61,7 +61,8 @@ class MemberFragment(
                         setVisibilityLoading(it)
                     },
                     showEmptyState = { isVisible ->
-                        binding.groupEmpty.isVisible = isVisible
+                        binding.group4.isVisible = isVisible
+                        binding.groupList.isVisible = !isVisible
                     },
                     showError = {
                         showSnackbar(it)
@@ -100,10 +101,8 @@ class MemberFragment(
                             findNavController().navigate(action)
                         }
                         is MemberViewModel.UIEvent.RequestPos -> {
-                            val action = MemberFragmentDirections.actionMemberFragmentToPosFragment()
-
                             mainViewModel.updateActiveBp(it.model)
-                            findNavController().navigate(action)
+                            findNavController().popBackStack()
                         }
 
                         is MemberViewModel.UIEvent.RequestIconEye ->{
@@ -121,10 +120,10 @@ class MemberFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             memberAdapter.loadStateFlow.collectLatest {
                 if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
-                    binding.groupEmpty.isVisible = memberAdapter.itemCount == 0  && viewModel.currentQuery.length > 2
+                    binding.group4.isVisible = memberAdapter.itemCount == 0 && viewModel.currentQuery.value.length > 2
                 }
             }
         }

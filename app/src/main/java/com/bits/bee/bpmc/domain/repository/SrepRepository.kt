@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface SrepRepository {
 
-    fun getSrepList() : Flow<List<Srep>>
+    fun getSrepList(query : String) : Flow<List<Srep>>
 
     fun getDefaultSrep() : Flow<Srep?>
 

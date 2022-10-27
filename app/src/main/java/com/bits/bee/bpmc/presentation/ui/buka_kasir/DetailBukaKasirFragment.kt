@@ -13,17 +13,13 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailBukaKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Created by aldi on 13/04/22.
@@ -59,7 +55,7 @@ class DetailBukaKasirFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            sharedViewModel.error.collect{
+            sharedViewModel.msg.collect{
                 showSnackbar(it)
             }
         }

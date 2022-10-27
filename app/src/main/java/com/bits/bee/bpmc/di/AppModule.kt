@@ -25,8 +25,6 @@ object AppModule {
     @Singleton
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-
-
     @Provides
     @Singleton
     fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddr : BpAddrDao, defaultDispatcher: CoroutineDispatcher) : BpRepository {
@@ -458,5 +456,11 @@ object AppModule {
     @Singleton
     fun provideRegRepository(salePromoDao: RegDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : RegRepository {
         return RegRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGopayRepository(apiUtils: ApiUtils) : GopayRepository {
+        return GopayRepositoryImpl(apiUtils)
     }
 }

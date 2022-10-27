@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,10 +14,9 @@ import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranNonTunaiBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment
 import com.bits.bee.bpmc.presentation.ui.pembayaran_kartu.PembayaranKartuFragment
 import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -78,8 +76,13 @@ class PembayaranNonTunaiFragment(
                 viewModel.event.collect {
                     when(it){
                         is PembayaranNonTunaiViewModel.UIEvent.RequestClick -> {
-                            binding.fragmentGopay.isVisible = it.pmtd.ccType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY
-                            binding.fragmentKartu.isVisible = it.pmtd.ccType != BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY
+
+                            val fragment = if(it.pmtd.ccType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY) PembayaranGopayFragment() else PembayaranKartuFragment()
+
+                            val ft = childFragmentManager.beginTransaction()
+
+                            ft.replace(R.id.fragment, fragment)
+                            ft.commit()
 
                             setToolbarTitle("Bayar Dengan ${it.pmtd.name}")
 
@@ -90,6 +93,10 @@ class PembayaranNonTunaiFragment(
                 }
             }
         }
+    }
+
+    fun closePane() {
+        binding.slidingPaneLayout.closePane()
     }
 
     inner class PembayaranaOnBackPressedCallback(

@@ -178,6 +178,9 @@
         <action
             android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranDebitKreditFragment"
             app:destination="@id/pembayaranDebitKreditFragment" />
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran_gopay"
@@ -307,7 +310,7 @@
     <fragment
         android:id="@+id/promoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.promo.PromoFragment"
-        android:label="PromoFragment" />
+        android:label="Promo" />
     <fragment
         android:id="@+id/klaimPromoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.klaim_promo.KlaimPromoFragment"

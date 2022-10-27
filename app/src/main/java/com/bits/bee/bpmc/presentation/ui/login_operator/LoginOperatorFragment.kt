@@ -42,13 +42,14 @@ class LoginOperatorFragment(
 
 
     private var loginUser = false
-    private var mLoginUserStatus:Int = 1
+    private var mLoginUserStatus:Int = 2
 
     private lateinit var dialog : LoadingDialogHelper
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_login_operator, menu)
+        val menuLogin = menu.findItem(R.id.menu_login)
+        loadMenu(menuLogin)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -59,26 +60,13 @@ class LoginOperatorFragment(
                     1 -> {
                         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), true)
                         mLoginUserStatus = 2
-                        binding.apply {
-                            llModePin.visibility = View.GONE
-                            llModeEmail.visibility = View.VISIBLE
-                            btnMasuk.visibility = View.VISIBLE
-                        }
-                        item.title = getString(R.string.login_pin)
-                        item.icon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tag_pin);
                     }
                     2 -> {
                         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), false)
                         mLoginUserStatus = 1
-                        binding.apply {
-                            llModePin.visibility = View.VISIBLE
-                            llModeEmail.visibility = View.GONE
-                            btnMasuk.visibility = View.GONE
-                        }
-                        item.title = getString(R.string.login_email)
-                        item.icon =  ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tag_email);
                     }
                 }
+                loadMenu(item)
             }
             R.id.menu_sinkron ->{
                 if (ConnectionUtils.checkInternet(requireContext())){
@@ -105,7 +93,6 @@ class LoginOperatorFragment(
     }
 
     override fun initComponents() {
-        mLoginUserStatus = 1
         viewModel.loadData()
         dialog = LoadingDialogHelper(requireContext())
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
@@ -300,6 +287,29 @@ class LoginOperatorFragment(
 
                     }
                 }
+            }
+        }
+    }
+
+    private fun loadMenu(menuLogin : MenuItem) {
+        when(mLoginUserStatus){
+            1 -> {
+                binding.apply {
+                    llModePin.visibility = View.GONE
+                    llModeEmail.visibility = View.VISIBLE
+                    btnMasuk.visibility = View.VISIBLE
+                }
+                menuLogin.title = getString(R.string.login_pin)
+                menuLogin.icon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tag_pin);
+            }
+            2 -> {
+                binding.apply {
+                    llModePin.visibility = View.VISIBLE
+                    llModeEmail.visibility = View.GONE
+                    btnMasuk.visibility = View.GONE
+                }
+                menuLogin.title = getString(R.string.login_email)
+                menuLogin.icon =  ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tag_email);
             }
         }
     }

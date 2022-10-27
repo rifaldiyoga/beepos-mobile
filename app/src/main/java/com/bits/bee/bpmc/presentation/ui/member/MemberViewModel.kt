@@ -21,8 +21,7 @@ class MemberViewModel @Inject constructor(
     private val getActiveMemberUseCase: GetActiveMemberUseCase,
 ): BaseViewModel<MemberState, MemberViewModel.UIEvent>() {
 
-    private val _currentQuery = MutableStateFlow("")
-    val currentQuery = _currentQuery.value
+    val currentQuery = MutableStateFlow("")
 
     init {
         state = MemberState()
@@ -30,7 +29,7 @@ class MemberViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val memberList = combine(
-        _currentQuery,
+        currentQuery,
     ) { (query) ->
        QueryWithSort(query)
     }.flatMapLatest {
@@ -51,7 +50,7 @@ class MemberViewModel @Inject constructor(
 
 
     fun onSearch(query: String) = viewModelScope.launch{
-        _currentQuery.value = query
+        currentQuery.value = query
     }
 
     data class QueryWithSort(

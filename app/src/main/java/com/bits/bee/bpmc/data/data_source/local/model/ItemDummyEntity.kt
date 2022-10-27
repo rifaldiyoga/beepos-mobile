@@ -26,8 +26,8 @@ data class ItemDummyEntity(
     var itemGroup : String,
     @ColumnInfo(name= PRICE)
     var price : String,
-    @ColumnInfo(name= UNIT)
-    var unit: String,
+    @ColumnInfo(name= PID)
+    var pid: String,
     @ColumnInfo(name= PICPATH)
     var picPath : String,
 ) {
@@ -40,6 +40,7 @@ data class ItemDummyEntity(
         const val ITEMGROUP = "itemgroup"
         const val PRICE = "price"
         const val UNIT = "unit"
+        const val PID = "pid"
         const val PICPATH = "picpath"
 
     }

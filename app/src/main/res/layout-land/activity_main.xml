@@ -49,8 +49,10 @@
                     android:layout_marginStart="@dimen/size16"
                     android:text="@string/channel"
                     android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/size36"
                     android:textSize="@dimen/font12"
                     app:layout_constraintBottom_toTopOf="@+id/tvChannel"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageChannel"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="spread" />
@@ -73,12 +75,11 @@
 
             <View
                 android:id="@+id/viewSalesman"
-                android:layout_marginStart="@dimen/size32"
                 android:layout_width="@dimen/size1"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/size16"
                 android:layout_marginBottom="@dimen/size16"
-                android:background="@color/white" />
+                android:background="@color/red_200" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSalesman"
@@ -104,7 +105,9 @@
                     android:text="@string/salesman"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font12"
+                    android:layout_marginEnd="@dimen/size32"
                     app:layout_constraintBottom_toTopOf="@+id/tvSalesman"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView20"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="spread" />
@@ -129,9 +132,8 @@
                 android:layout_width="@dimen/size1"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/size16"
-                android:layout_marginStart="@dimen/size32"
                 android:layout_marginBottom="@dimen/size16"
-                android:background="@color/white" />
+                android:background="@color/red_200" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clMember"

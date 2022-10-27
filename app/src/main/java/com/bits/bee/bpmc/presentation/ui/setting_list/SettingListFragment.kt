@@ -78,7 +78,6 @@ class SettingListFragment : AbstractListDetailFragment() {
         }
 
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
-
     }
 
     private fun doKeluar(){
@@ -86,6 +85,7 @@ class SettingListFragment : AbstractListDetailFragment() {
             R.string.page_pilih_operator))
         val action = SettingListFragmentDirections.actionSettingListFragmentToInitialActivity2()
         findNavController().navigate(action)
+        findNavController().popBackStack(R.id.settingListFragment, true)
     }
 
     private fun openDetails(destinationId: Int) {

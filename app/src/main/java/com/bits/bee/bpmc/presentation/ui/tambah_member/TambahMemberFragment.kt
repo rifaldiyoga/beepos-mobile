@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -105,13 +106,19 @@ class TambahMemberFragment(
             cbTaxInc.setOnClickListener {
                 viewModel.state.isTaxInc = cbTaxInc.isChecked
             }
-//            spPriceLvl.setOnItemClickListener { _, _, i, _ ->
-//                viewModel.updateState(
-//                    viewModel.state.copy(
-//                        priceLvl = viewModel.state.priceLvlList[i].id
-//                    )
-//                )
-//            }
+            spPriceLvl.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            priceLvl = viewModel.state.priceLvlList[p2].id
+                        )
+                    )
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+            }
             imgClose.setOnClickListener {
                 viewModel.onClickIcon()
             }

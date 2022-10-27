@@ -8,10 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiBerhasilBinding
@@ -19,8 +15,8 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -70,7 +66,7 @@ class TransaksiBerhasilFragment(
                 mainViewModel.viewStates().collect {
                     it?.let { state ->
                         val kembali = getString(R.string.mata_uang_nominal, state.crc?.symbol ?: "", CurrencyUtils.formatCurrency(state.sale.totChange))
-                        val bayar = termType(state.sale.termType)
+                        val bayar = Utils.getTermType(requireActivity(),state.sale.termType)
                         binding.tvKembali.text =  getString(R.string.kembali_4_500_dibayar_tunai, kembali, bayar)
                     }
                 }
@@ -78,12 +74,5 @@ class TransaksiBerhasilFragment(
         }
     }
 
-    private fun termType(value : String) : String {
-        return when(value){
-            BPMConstants.BPM_DEFAULT_TYPE_TUNAI -> BPMConstants.BPM_DEFAULT_TYPE_TUNAI
-            BPMConstants.DEBIT_CARD_CODE -> getString(R.string.kartu_debit)
-            BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY -> getString(R.string.gopay)
-            else -> getString(R.string.kartu_kredit)
-        }
-    }
+
 }

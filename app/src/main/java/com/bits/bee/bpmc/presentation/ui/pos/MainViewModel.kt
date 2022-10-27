@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.domain.usecase.pos.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -328,8 +329,15 @@ class MainViewModel @Inject constructor(
 
     private fun updateTrxOrderNo(context : Context)  {
         val trxOrderNum = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 0) as Int + 1
-        saleTrans.getMaster().trxOrderNum = trxOrderNum
         BeePreferenceManager.saveToPreferences(context, context.getString(R.string.trx_ordernum), trxOrderNum)
+    }
+
+    fun getTrxNo(context: Context) : String{
+        val trxOrderNum = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 0) as Int + 1
+        val trxNo = TrxNoGeneratorUtils.counterNoTrx(trxOrderNum, state.activeBranch!!, state.activeCashier!!)
+        saleTrans.getMaster().trxOrderNum = trxOrderNum
+        saleTrans.getMaster().trxNo = trxNo
+        return trxNo
     }
 
     fun resetState() {
@@ -431,11 +439,11 @@ class MainViewModel @Inject constructor(
             )
         }
             .onSuccess {
-                catchError("Berhasil simpan draft")
+                sendMessage("Berhasil simpan draft")
                 resetState()
             }
             .onFailure {
-                catchError(it.message)
+                sendMessage(it.message)
             }
     }
 

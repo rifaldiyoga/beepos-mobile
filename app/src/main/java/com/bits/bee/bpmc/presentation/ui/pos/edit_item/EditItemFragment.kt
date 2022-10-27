@@ -1,8 +1,11 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
+import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -45,6 +48,14 @@ class EditItemFragment(
 
     private val mViewModel : MainViewModel by activityViewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun initComponents() {
         arguments?.let { bundle ->
             val saled = bundle.getParcelable<Saled>("saled")
@@ -56,10 +67,11 @@ class EditItemFragment(
                         diskon = it.discExp,
                         qty = it.qty,
                         note = it.dNotes,
-                        discAmt = it.discAmt
+                        discAmt = it.discAmt,
+                        pid = it.stock
                     )
                 )
-                viewModel.loadUnit(it.itemId)
+                viewModel.loadUnit(it.itemId, it.unitId)
                 setToolbarTitle(it.name)
             }
             val stock = bundle.getParcelable<Stock>("pid")
@@ -150,13 +162,22 @@ class EditItemFragment(
             tvUbah.setOnClickListener {
                 viewModel.onClickAddOn()
             }
+            spSatuan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    viewModel.onUnitChange(p2)
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+            }
         }
     }
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.error.collect{
+                viewModel.msg.collect{
                     showSnackbar(it)
                 }
             }
@@ -201,9 +222,8 @@ class EditItemFragment(
 
                                 mViewModel.onItemAddOn(viewModel.state.addOnList, it.saled)
                             }
-
                             mViewModel.onEditDetail(it.saled)
-                            findNavController().popBackStack(R.id.invoiceFragment, false)
+                            findNavController().popBackStack()
                         }
                         is EditItemViewModel.UIEvent.RequestAdd -> {
                             mViewModel.onAddDetail(it.itemWithUnit, true)
@@ -256,9 +276,9 @@ class EditItemFragment(
                                     tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(state.qty))
                                 }
                                 PosModeState.RetailState -> {
-                                    state.unit?.let {
-                                        tvQty.text = getString(R.string._1_PCS, CurrencyUtils.formatCurrency(state.qty), it.unit)
-//                                        spSatuan.setText(it.unit)
+                                    state.unit?.let { unit ->
+                                        tvQty.text = getString(R.string._1_PCS, CurrencyUtils.formatCurrency(state.qty), unit.unit)
+                                        spSatuan.setSelection(state.unitList.indexOfFirst { it.id == unit.id })
                                     } ?: run {
                                         tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(state.qty))
                                     }

@@ -123,9 +123,9 @@ class SettingSistemFragment(
                                 "Atur sekarang", {
                                     val action = SettingSistemFragmentDirections.actionSettingSistemFragmentToSettingPrinterFragment()
                                     findNavController().navigate(action)
-                                    return@showDialogChoice
+                                    it.dismiss()
                                 }, "Nanti", {
-                                    return@showDialogChoice
+                                    it.dismiss()
                                 })
                             dialog2.show(parentFragmentManager, TAG)
                         }

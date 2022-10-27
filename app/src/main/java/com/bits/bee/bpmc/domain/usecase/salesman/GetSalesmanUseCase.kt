@@ -12,8 +12,8 @@ class GetSalesmanUseCase @Inject constructor(
     private val srepRepository: SrepRepository
 ) {
 
-    operator fun invoke() : Flow<List<Srep>> {
-        return srepRepository.getSrepList()
+    operator fun invoke(query : String) : Flow<List<Srep>> {
+        return srepRepository.getSrepList(query)
     }
 
 }

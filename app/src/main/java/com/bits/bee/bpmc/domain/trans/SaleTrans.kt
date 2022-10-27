@@ -81,6 +81,7 @@ class SaleTrans @Inject constructor(
         val discAmt = itemWithUnit.discAmt
         val unit = itemWithUnit.unit
         val pid = itemWithUnit.pid
+        val stock = itemWithUnit.stock
 
         if (getListDetail().isEmpty()) {
             /** when list empty add new detail to list and set current saled*/
@@ -104,7 +105,8 @@ class SaleTrans @Inject constructor(
                 pid = pid,
                 isAddOn = item.isAddOn,
                 item = item,
-                taxCode = item.taxCode
+                taxCode = item.taxCode,
+                stock = stock
             )
             addDetail(saledNew)
             currentSaled = saledNew
@@ -155,7 +157,8 @@ class SaleTrans @Inject constructor(
                     pid = pid,
                     isAddOn = item.isAddOn,
                     item = item,
-                    taxCode = item.taxCode
+                    taxCode = item.taxCode,
+                    stock = stock
                 )
                 addDetail(saledNew)
                 currentSaled = saledNew

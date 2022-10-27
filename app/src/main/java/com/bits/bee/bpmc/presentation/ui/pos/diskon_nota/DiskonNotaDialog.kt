@@ -76,7 +76,7 @@ class DiskonNotaDialog(
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.error.collectLatest {
+            viewModel.msg.collectLatest {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
             }
         }

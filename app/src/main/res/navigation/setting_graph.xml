@@ -13,14 +13,14 @@
         tools:layout="@layout/fragment_setting_fav_pilih_produk"
         android:id="@+id/settingFavPilihProdukFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_produk.pilih_produk.SettingFavPilihProdukFragment"
-        android:label="SettingFavPilihProdukFragment" />
+        android:label="@string/favorit" />
     <action
         android:id="@+id/action_settingListFragment_to_detailMenuHelpFragment"
         app:destination="@id/detailMenuHelpFragment" />
     <fragment
         android:id="@+id/settingFavoriteFragmentMain"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavoriteFragmentMain"
-        android:label="Favorite"
+        android:label="@string/favorit"
         tools:layout="@layout/fragment_setting_fav_main">
         <action
             android:id="@+id/action_settingFavoriteFragmentMain_to_settingFavPilihMemberFragment"
@@ -41,12 +41,12 @@
     <fragment
         android:id="@+id/settingPosFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosFragment"
-        android:label="SettingPosFragment"
+        android:label="@string/pos"
         tools:layout="@layout/fragment_setting_pos" />
     <fragment
         android:id="@+id/settingNotaFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_nota.SettingNotaFragment"
-        android:label="SettingNotaFragment"
+        android:label="@string/nota"
         tools:layout="@layout/fragment_setting_nota" />
     <action
         android:id="@+id/action_settingListFragment_to_settingFavoriteFragmentMain"
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/settingSistemFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_sistem.SettingSistemFragment"
-        android:label="SettingSistemFragment"
+        android:label="@string/sistem"
         tools:layout="@layout/fragment_setting_sistem">
         <action
             android:id="@+id/action_settingSistemFragment_to_settingPrinterFragment"
@@ -79,11 +79,11 @@
         tools:layout="@layout/fragment_pos_item"
         android:id="@+id/settingFavPilihMemberFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_member.SettingFavPilihMemberFragment"
-        android:label="SettingFavPilihMemberFragment" />
+        android:label="@string/favorit" />
     <fragment
         android:id="@+id/settingLisensiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_lisensi.SettingLisensiFragment"
-        android:label="SettingLisensiFragment"
+        android:label="@string/lisensi"
         tools:layout="@layout/fragment_help_lisensi">
         <action
             android:id="@+id/action_settingLisensiFragment_to_initialActivity22"
@@ -98,28 +98,17 @@
     <fragment
         android:id="@+id/listPrinterFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.ListPrinterFragment"
-        android:label="ListPrinterFragment"
+        android:label="@string/cari_bluetooth_printer"
         tools:layout="@layout/fragment_setting_list_printer">
         <action
             android:id="@+id/action_listPrinterFragment_to_addPrinterFragment"
             app:destination="@id/addPrinterFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_settingListFragment_to_settingPosFragment"
-        app:destination="@id/settingPosFragment" />
-    <action
-        android:id="@+id/action_addPrinterFragment_to_listPrinterFragment"
-        app:destination="@id/listPrinterFragment" />
-    <action
-        android:id="@+id/action_listPrinterFragment_to_addPrinterFragment"
-        app:destination="@id/addPrinterFragment" />
-    <action
-        android:id="@+id/action_settingSistemFragment_to_settingPrinterFragment"
-        app:destination="@id/settingPrinterFragment" />
+
     <fragment
         android:id="@+id/addPrinterFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterFragment"
-        android:label="AddPrinterFragment"
+        android:label="@string/tambah_printer"
         tools:layout="@layout/fragment_setting_add_printer">
         <action
             android:id="@+id/action_addPrinterFragment_to_listPrinterFragment"
@@ -135,7 +124,7 @@
     <fragment
         android:id="@+id/settingPrinterFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.SettingPrinterFragment"
-        android:label="SettingPrinterFragment"
+        android:label="@string/printer"
         tools:layout="@layout/fragment_setting_printer">
         <action
             android:id="@+id/action_settingPrinterFragment_to_addPrinterFragment"

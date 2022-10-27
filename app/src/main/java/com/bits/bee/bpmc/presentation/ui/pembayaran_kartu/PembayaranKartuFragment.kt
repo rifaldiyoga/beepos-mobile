@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranKartuBinding
 import com.bits.bee.bpmc.domain.model.Pmtd
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -79,8 +80,8 @@ class PembayaranKartuFragment(
             val regTrackNo = viewModel.regTrackNoReq.first()
 
             binding.apply {
-                tvCardNoOps.isVisible = regCardNo?.value == "1"
-                tvTrackNoOps.isVisible = regTrackNo?.value == "1"
+                tvCardNoOps.isVisible = regCardNo?.value != "1"
+                tvTrackNoOps.isVisible = regTrackNo?.value != "1"
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -129,7 +130,7 @@ class PembayaranKartuFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         is PembayaranKartuViewModel.UIEvent.NavigateToTransaksiBerhasil -> {
-                            val action = PembayaranKartuFragmentDirections.actionPembayaranDebitKreditFragmentToTransaksiBerhasilFragment()
+                            val action = PembayaranNonTunaiFragmentDirections.actionPembayaranNonTunaiFragmentToTransaksiBerhasilFragment()
                             findNavController().navigate(action)
                         }
                         PembayaranKartuViewModel.UIEvent.RequsetBayar -> {
@@ -151,7 +152,7 @@ class PembayaranKartuFragment(
                             if(isValid) {
                                 mainViewModel.submitSale(
                                     context = requireContext(),
-                                    termType = state.type,
+                                    termType = state.pmtd?.edcSurcType ?: "",
                                     paymentAmt = state.total,
                                     pmtd = state.pmtd,
                                     trackNo = state.trackNo,

@@ -13,7 +13,6 @@ import com.bits.bee.bpmc.domain.usecase.login.operator.GetSaleNotUploadedUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.UpdateActiveCashierUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.login_operator.LoginOperatorViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

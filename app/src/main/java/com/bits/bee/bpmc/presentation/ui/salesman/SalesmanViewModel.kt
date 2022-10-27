@@ -2,10 +2,14 @@ package com.bits.bee.bpmc.presentation.ui.salesman
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Srep
-import com.bits.bee.bpmc.domain.usecase.member.SearchMemberUseCase
 import com.bits.bee.bpmc.domain.usecase.salesman.GetSalesmanUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.ui.member.MemberViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,14 +19,23 @@ import javax.inject.Inject
 @HiltViewModel
 class SalesmanViewModel @Inject constructor(
     private val getSalesmanUseCase: GetSalesmanUseCase,
-    private val searchMemberUseCase: SearchMemberUseCase
 ): BaseViewModel<SalesmanState, SalesmanViewModel.UIEvent>() {
+
+    val currentQuery = MutableStateFlow("")
 
     init {
         state = SalesmanState()
     }
 
-    val memberList = getSalesmanUseCase()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val memberList = combine(
+        currentQuery,
+    ) { (query) ->
+        QueryWithSort(query)
+    }.flatMapLatest {
+        getSalesmanUseCase(it.query)
+    }
+
 
     fun onClickDetailMember(model : Srep) = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestPos(model))
@@ -32,30 +45,13 @@ class SalesmanViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestIconEye(model))
     }
 
-    fun onSearch(query: String) = viewModelScope.launch{
-        updateState(
-            state.copy(
-                search = query
-            )
-        )
-//        searchMemberUseCase.invoke(state.search).collect {
-//            when(it.status){
-//                Resource.Status.LOADING ->{
-////                    val str=""
-//                }
-//                Resource.Status.SUCCESS ->{
-//                    updateState(
-//                        state.copy(
-//                            listSrep = it.data
-//                        )
-//                    )
-//                }
-//                Resource.Status.ERROR ->{
-//
-//                }
-//            }
-//        }
+    fun onSearch(query: String) = viewModelScope.launch {
+        currentQuery.value = query
     }
+
+    data class QueryWithSort(
+        val query: String,
+    )
 
     sealed class UIEvent {
         data class RequestPos(val model : Srep): UIEvent()

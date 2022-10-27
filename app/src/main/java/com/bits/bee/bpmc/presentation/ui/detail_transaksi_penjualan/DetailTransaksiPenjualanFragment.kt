@@ -16,10 +16,13 @@ import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
 import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,7 +97,7 @@ class DetailTransaksiPenjualanFragment(
                                 tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
                                 tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
                                 tvTanggal.text = dateFormat.format(sale.trxDate)
-                                tvJenisPembayaran.text = sale.termType
+                                tvJenisPembayaran.text = Utils.getTermType(requireActivity(), sale.termType)
                                 tvChannel.text = sale.channel
                                 tvSalesman.text = sale.salesman
 
@@ -103,6 +106,18 @@ class DetailTransaksiPenjualanFragment(
                                     btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
                                 } else {
                                     btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
+                                }
+                                groupSurc.isVisible = sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI
+                                if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
+                                    var totalSurc: BigDecimal = BigDecimal.ZERO
+                                    state.saleCrcvList.forEach {
+                                        totalSurc += BigDecimal(it.surcAmt)
+                                    }
+                                    tvSurcharge.text = getString(
+                                        R.string.mata_uang_nominal,
+                                        viewModel.state.crc?.symbol,
+                                        CurrencyUtils.formatCurrency(totalSurc)
+                                    )
                                 }
                             }
 

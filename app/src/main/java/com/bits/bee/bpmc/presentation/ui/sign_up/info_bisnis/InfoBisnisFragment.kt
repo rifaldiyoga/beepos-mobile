@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.databinding.FragmentInfoBisnisBinding
 import com.bits.bee.bpmc.domain.model.SignUp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -124,7 +125,7 @@ class InfoBisnisFragment constructor(
         }
     }
 
-    fun onClickSignUp() {
+    private fun onClickSignUp() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.postSignUp(requireContext()).collect{
                 when(it.status){
@@ -135,6 +136,7 @@ class InfoBisnisFragment constructor(
                         dialog.hide()
                         it.data?.let {
                             if(it.status){
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_is_sign_up), true)
                                 findNavController().navigate(InfoBisnisFragmentDirections.actionInfoBisnisFragmentToOtpFragment(viewModel.state.signUp!!))
                             } else if(it.errorData.isNotEmpty()){
                                 for (data in it.errorData){
@@ -177,8 +179,7 @@ class InfoBisnisFragment constructor(
         }
 
         override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-            var v: View?
-            v = super.getDropDownView(position, null, parent)
+            val v: View = super.getDropDownView(position, null, parent)
 
             if (kategoriList.contains(getItem(position))) {
                 v.setBackgroundColor(ContextCompat.getColor(context, R.color.light_gray))

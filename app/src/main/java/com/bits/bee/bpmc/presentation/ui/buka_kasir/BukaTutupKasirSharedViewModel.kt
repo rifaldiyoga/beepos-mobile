@@ -126,7 +126,7 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
 
     suspend fun doBukaKasir(modal : String, sesi: Int) = viewModelScope.launch {
         if (modal.isEmpty() || modal.contains(Regex("[A-Za-z]")))
-            errorChannel.send("Modal yang anda masukkan salah!")
+            msgChannel.send("Modal yang anda masukkan salah!")
         else {
             val modalC = BigDecimal(modal)
             bukaKasirUseCase(modalC, sesi, state.activeBranch!!, state.activeCashier!!)

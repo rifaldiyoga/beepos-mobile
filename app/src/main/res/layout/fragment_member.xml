@@ -34,29 +34,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ImageView
-        android:visibility="gone"
         android:id="@+id/imageView12"
-        android:layout_width="@dimen/size300"
+        android:layout_width="@dimen/size225"
         android:layout_height="@dimen/size180"
-        android:layout_marginBottom="@dimen/size16"
         android:src="@drawable/image_content_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView52"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/textView52"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/size16"
-        android:text="@string/anda_belum_punya_member"
-        app:layout_constraintBottom_toTopOf="@+id/btnTambahBaru"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/member_tidak_ditemukan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView12"
+        app:layout_constraintStart_toStartOf="@+id/imageView12"
         app:layout_constraintTop_toBottomOf="@+id/imageView12" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -66,23 +62,22 @@
         android:background="@drawable/btn_rect_primary"
         android:text="@string/tambah_baru"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView52" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/groupEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="textView52,btnTambahBaru" />
-
-    <androidx.constraintlayout.widget.Group
         android:id="@+id/groupList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="rvList,fabTambahMember" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imageView12,textView52" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

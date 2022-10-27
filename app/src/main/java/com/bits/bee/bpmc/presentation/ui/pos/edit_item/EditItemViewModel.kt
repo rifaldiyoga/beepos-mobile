@@ -25,12 +25,12 @@ class EditItemViewModel @Inject constructor(
         state = EditItemState()
     }
 
-    fun loadUnit(id : Int) = viewModelScope.launch {
+    fun loadUnit(id : Int, unit : Int? = -1) = viewModelScope.launch {
         getUnitItemUseCase(id).collect {
             updateState(
                 state.copy(
                     unitList = it,
-                    unit = if(it.isNotEmpty()) it[0] else null
+                    unit = if(it.isNotEmpty()) if(unit != null && unit > 0) it[it.indexOfFirst { it.id == unit }] else it[0] else null
                 )
             )
         }
@@ -38,7 +38,7 @@ class EditItemViewModel @Inject constructor(
 
     fun onPriceChange(price : String) = viewModelScope.launch {
         if(price.isEmpty()){
-            errorChannel.send("Qty tidak boleh kosong!")
+            msgChannel.send("Qty tidak boleh kosong!")
         } else {
             updateState(
                 state.copy(
@@ -59,19 +59,18 @@ class EditItemViewModel @Inject constructor(
                 )
             )
         } catch (e : Exception){
-            errorChannel.send(e.message ?: "")
+            msgChannel.send(e.message ?: "")
             updateState(
                 state.copy(
                     diskonMsg = e.message ?: ""
                 )
             )
         }
-
     }
 
     fun onQtyChange(qty : String) = viewModelScope.launch {
         if(qty.isEmpty()) {
-            errorChannel.send("Qty tidak boleh kosong!")
+            msgChannel.send("Qty tidak boleh kosong!")
         } else {
             updateState(
                 state.copy(
@@ -79,6 +78,14 @@ class EditItemViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    fun onUnitChange(pos : Int) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                unit = state.unitList[pos]
+            )
+        )
     }
 
 
@@ -112,11 +119,11 @@ class EditItemViewModel @Inject constructor(
 
         if(state.discAmt > state.listPrice) {
             isValid = false
-            errorChannel.send("Diskon tidak boleh melebihi harga produk!")
+            msgChannel.send("Diskon tidak boleh melebihi harga produk!")
         }
         if(state.diskonMsg.isNotEmpty()) {
             isValid = false
-            errorChannel.send("Format diskon yang anda masukkan salah!")
+            msgChannel.send("Format diskon yang anda masukkan salah!")
         }
 
         if(isValid) {
@@ -127,6 +134,7 @@ class EditItemViewModel @Inject constructor(
                 saled.discExp = state.diskon
                 saled.discAmt = state.discAmt
                 saled.dNotes = state.note
+                saled.stock = state.pid
                 eventChannel.send(UIEvent.RequestSubmit(saled))
             } ?: state.item?.let {
                 it.qty = state.qty
@@ -137,7 +145,8 @@ class EditItemViewModel @Inject constructor(
                     pid = state.pid?.pid,
                     discAmt = state.discAmt,
                     discExp = state.diskon,
-                    note = state.note
+                    note = state.note,
+                    stock = state.pid
                 )
                 eventChannel.send(UIEvent.RequestAdd(item))
             }

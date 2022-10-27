@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.AsyncTask
 import android.text.TextUtils
 import android.util.DisplayMetrics
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse.Db
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cash
@@ -132,6 +133,15 @@ class Utils {
                 }
             }
             return deletedAll
+        }
+
+        fun getTermType(context: Context, value : String) : String {
+            return when(value){
+                BPMConstants.BPM_DEFAULT_TYPE_TUNAI -> BPMConstants.BPM_DEFAULT_TYPE_TUNAI
+                BPMConstants.DEBIT_CARD_CODE -> context.getString(R.string.kartu_debit)
+                BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY -> context.getString(R.string.gopay)
+                else -> context.getString(R.string.kartu_kredit)
+            }
         }
 
     }

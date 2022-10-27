@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddOnBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddonDByAddonUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.VoidTransactionUseCase
+import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSalecrcvBySaleUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -21,6 +22,7 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
+    private val getSalecrcvBySaleUseCase: GetSalecrcvBySaleUseCase,
     private val voidTransactionUseCase: VoidTransactionUseCase,
     private val crcRepository: CrcRepository
 ): BaseViewModel<DetailTransaksiPenjualanState, DetailTransaksiPenjualanViewModel.UIEvent>(){
@@ -38,6 +40,7 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
         state.sale?.let {
             var saledList = getSaledBySaleUseCase(it.id!!).first()
             val saleAddOn = getSaleAddOnBySaleUseCase(it.id!!).first()
+            val saleCrcvList = getSalecrcvBySaleUseCase(it.id!!).first()
             var saleAddOnDList : List<SaleAddOnD> = mutableListOf()
             val crc = if(it.crcId != null) crcRepository.getCrcById(it.crcId!!).first() else null
             saleAddOn?.let {
@@ -48,7 +51,8 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
                 state.copy(
                     saledList = saledList,
                     saleAddOnDList = saleAddOnDList,
-                    crc = crc
+                    crc = crc,
+                    saleCrcvList = saleCrcvList
                 )
             )
 

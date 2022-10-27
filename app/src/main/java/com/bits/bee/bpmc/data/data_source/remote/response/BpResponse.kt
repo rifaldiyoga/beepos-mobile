@@ -67,10 +67,10 @@ data class BpResponse (
         var bpgrpid: Int?,
         @SerializedName("created_at")
         @Expose
-        var created_at:String ,
+        var created_at:String? ,
         @SerializedName("created_by")
         @Expose
-        var createdBy:String ,
+        var createdBy:String? ,
     ) : Parcelable {
 
     }

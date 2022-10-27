@@ -17,7 +17,6 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BSmartPay
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.removeSymbol
@@ -84,7 +83,7 @@ class PembayaranFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.error.collect {
+                viewModel.msg.collect {
                     showSnackbar(it)
                 }
             }

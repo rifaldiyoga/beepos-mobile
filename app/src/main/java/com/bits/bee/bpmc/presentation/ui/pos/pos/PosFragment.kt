@@ -131,7 +131,6 @@ class PosFragment(
     }
 
     override fun subscribeObservers() {
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.viewStates().collect { state ->

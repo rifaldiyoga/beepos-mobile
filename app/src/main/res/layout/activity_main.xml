@@ -78,7 +78,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/size16"
             android:layout_marginBottom="@dimen/size16"
-            android:background="@color/white" />
+            android:background="@color/red_200" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSalesman"
@@ -131,7 +131,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/size16"
             android:layout_marginBottom="@dimen/size16"
-            android:background="@color/white" />
+            android:background="@color/red_200" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMember"

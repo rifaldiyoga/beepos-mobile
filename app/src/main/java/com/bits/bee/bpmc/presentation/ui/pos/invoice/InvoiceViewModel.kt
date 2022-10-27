@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.invoice
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +36,7 @@ class InvoiceViewModel @Inject constructor(
     }
 
     fun onDetailEmpty() = viewModelScope.launch {
-        errorChannel.send("Tidak ada data detail!")
+        msgChannel.send("Tidak ada data detail!")
         eventChannel.send(UIEvent.NavigatePos)
     }
 

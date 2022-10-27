@@ -11,8 +11,11 @@ import com.bits.bee.bpmc.databinding.FragmentSettingPosBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.orientasi.OrientasiDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.util.*
 
 /**
  * Created by aldi on 04/04/22.
@@ -100,7 +103,7 @@ class SettingPosFragment(
                     tvDetailUkuranFont.text = it.ukuranFont
                     tvDetailJumlahMeja.text = it.jumlahMeja
                     tvDetailCustomer.text = it.customer
-                    tvDetailPresetBukaKasir.text = it.presetBukaKasir
+                    tvDetailPresetBukaKasir.text = CurrencyUtils.formatCurrency(BigDecimal(it.presetBukaKasir))
 
                     swKonfirmasiCust.isChecked = it.isKonfirmasiCust
                     setVisibilityKonfirmasiCust(it.isKonfirmasiCust)
@@ -191,7 +194,7 @@ class SettingPosFragment(
         }
     }
 
-    fun setVisibilityKonfirmasiCust(isKonfirmasi : Boolean){
+    private fun setVisibilityKonfirmasiCust(isKonfirmasi : Boolean){
         binding.apply {
             clCustomer.isVisible = isKonfirmasi
             vCustomer.isVisible = isKonfirmasi

@@ -9,7 +9,7 @@
         tools:layout="@layout/fragment_setting_list"
         android:id="@+id/settingListFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment"
-        android:label="SettingListFragment" >
+        android:label="@string/pengaturan" >
         <action
             android:id="@+id/action_settingListFragment_to_initialActivity2"
             app:destination="@id/initialActivity" />
@@ -41,7 +41,7 @@
         android:id="@+id/settingFavProdukFragment"
         tools:layout="@layout/fragment_setting_fav_produk"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_produk.SettingFavProdukFragment"
-        android:label="SettingFavProdukFragment" />
+        android:label="@string/favorit" />
     <fragment
         tools:layout="@layout/fragment_analisa_sesi"
         android:id="@+id/analasisiSesiFragment"
@@ -65,7 +65,7 @@
         tools:layout="@layout/fragment_transaksi_penjualan"
         android:id="@+id/transaksiPenjualanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragment"
-        android:label="TransaksiPenjualanFragment" >
+        android:label="@string/transaksi_penjualan" >
         <action
             android:id="@+id/action_transaksiPenjualanFragment_to_detailTransaksiPenjualanFragment"
             app:destination="@id/detailTransaksiPenjualanFragment" />
@@ -83,7 +83,7 @@
         tools:layout="@layout/fragment_lainnya"
         android:id="@+id/lainnyaFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.lainnya.LainnyaFragment"
-        android:label="LainnyaFragment" >
+        android:label="@string/lainnya" >
         <action
             android:id="@+id/action_lainnyaFragment_to_settingListFragment"
             app:destination="@id/settingListFragment" />
@@ -110,22 +110,22 @@
         tools:layout="@layout/fragment_upload_manual"
         android:id="@+id/uploadManualFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualFragment"
-        android:label="UploadManualFragment" />
+        android:label="@string/upload_manual" />
     <fragment
         tools:layout="@layout/fragment_rekap_kas"
         android:id="@+id/rekapKasFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.RekapKasFragment"
-        android:label="RekapKasFragment" />
+        android:label="@string/rekap_kas" />
     <fragment
         tools:layout="@layout/fragment_rekap_produk"
         android:id="@+id/rekapProdukFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.RekapProdukFragment"
-        android:label="RekapProdukFragment" />
+        android:label="@string/rekap_produk" />
     <fragment
         tools:layout="@layout/fragment_cek_stok"
         android:id="@+id/cekStokFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
-        android:label="CekStokFragment" />
+        android:label="@string/cek_stok" />
 
     <dialog
         tools:layout="@layout/dialog_atur_modal_kasir"
@@ -162,7 +162,7 @@
         tools:layout="@layout/fragment_detail_transaksi_penjualan"
         android:id="@+id/detailTransaksiPenjualanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan.DetailTransaksiPenjualanFragment"
-        android:label="DetailTransaksiPenjualanFragment" >
+        android:label="" >
         <argument
             android:name="sale"
             app:argType="com.bits.bee.bpmc.domain.model.Sale" />
@@ -171,7 +171,7 @@
         tools:layout="@layout/fragment_rekap_sesi"
         android:id="@+id/rekapSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_sesi_kasir.RekapSesiFragment"
-        android:label="RekapSesiFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_rekapSesiFragment_to_detailSesiKasirFragment"
             app:destination="@id/detailSesiKasirFragment" />
@@ -180,7 +180,7 @@
         tools:layout="@layout/fragment_detail_rekap_sesi"
         android:id="@+id/detailSesiKasirFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_sesi_kasir.DetailSesiKasirFragment"
-        android:label="DetailSesiKasirFragment" >
+        android:label="" >
         <argument
             android:name="posses"
             app:argType="string" />
@@ -235,11 +235,11 @@
         tools:layout="@layout/fragment_insight_preset_kasir"
         android:id="@+id/insightPresetKasirFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.insight_preset_kasir.InsightPresetKasirFragment"
-        android:label="InsightPresetKasirFragment" />
+        android:label="@string/ubah_nilai_kasir" />
     <fragment
         android:id="@+id/insightKelolaProdukFragment"
         tools:layout="@layout/fragment_insight_kelola_produk"
         android:name="com.bits.bee.bpmc.presentation.ui.insight_kelola_produk.InsightKelolaProdukFragment"
-        android:label="InsightKelolaProdukFragment" />
+        android:label="@string/kelola_produk" />
 
 </navigation>

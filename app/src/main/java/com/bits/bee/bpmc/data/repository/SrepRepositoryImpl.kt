@@ -18,13 +18,13 @@ class SrepRepositoryImpl @Inject constructor(
     private val defDispatcher: CoroutineDispatcher
 ) : SrepRepository {
 
-    override fun getSrepList(): Flow<List<Srep>> = flow{
-        val data = srepDao.getSrepList()
+    override fun getSrepList(query : String): Flow<List<Srep>> = flow{
+        val data = srepDao.getSrepList(query)
         emit(data.map { SrepDataMapper.fromDbToDomain(it) })
     }.flowOn(defDispatcher)
 
     override fun getDefaultSrep(): Flow<Srep?> = flow{
-        val data = srepDao.getSrepList().firstOrNull()
+        val data = srepDao.getSrepList("").firstOrNull()
         emit(data?.let { SrepDataMapper.fromDbToDomain(it) })
     }.flowOn(defDispatcher)
 

@@ -13,7 +13,7 @@ data class ItemDummy (
     var itemTypeCode: String = "",
     var itemGroup : String = "",
     var price : String = "",
-    var unit: String = "",
     var picPath : String = "",
     var pid : String = "",
+    var unitList : List<UnitDummy> = mutableListOf()
 ) : Parcelable

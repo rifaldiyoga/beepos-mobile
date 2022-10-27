@@ -79,6 +79,7 @@ class SalesmanFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.memberList.collect {
                     salesmanAdapter.submitList(it)
+                    setVisibilityLoading(false, it)
                 }
             }
         }
@@ -99,24 +100,10 @@ class SalesmanFragment(
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.viewStates().collect {
-                            it?.let {
-                                if (newText?.length == 0){
-                                    viewModel.onSearch("")
-                                    it.listSrep?.let {
-                                        salesmanAdapter.submitList(it)
-                                    }
-                                }else if (newText!!.length >= 3){
-                                    viewModel.onSearch(newText.toString().trim())
-                                    it.listSrep?.let {
-                                        salesmanAdapter.submitList(it)
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (newText?.length == 0){
+                    viewModel.onSearch("")
+                }else if (newText!!.length >= 3){
+                    viewModel.onSearch(newText.toString().trim())
                 }
                 return false
             }

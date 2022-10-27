@@ -6,9 +6,11 @@ import com.bits.bee.bpmc.domain.model.SaleCrcv
 import com.bits.bee.bpmc.domain.repository.SaleCrcvRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.utils.BPMConstants
 import kotlinx.coroutines.flow.first
 import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
 
 /**
@@ -16,16 +18,19 @@ import javax.inject.Inject
  */
 class AddPaymentUseCase @Inject constructor(
     private val saleCrcvRepository: SaleCrcvRepository,
-    private val getActiveCashierUseCase: GetActiveCashierUseCase
+    private val getActiveCashierUseCase: GetActiveCashierUseCase,
+    private val getRegUseCase: GetRegUseCase
 ){
 
-    suspend operator fun invoke(sale : Sale, pmtd: Pmtd? = null, trackNo : String = "", cardNo : String = "", note : String = "", payment : BigDecimal = BigDecimal.ZERO) {
+    suspend operator fun invoke(sale : Sale, pmtd: Pmtd? = null, trackNo : String = "", cardNo : String = "", note : String = "", payment : BigDecimal = BigDecimal.ZERO, total : BigDecimal = BigDecimal.ZERO) {
 
         var saleCrcv = SaleCrcv(
             saleInt = sale.id!!,
             rcvTypeCode = sale.termType,
             note = "",
         )
+
+        val reg = getRegUseCase(BPMConstants.REG_ROUND).first()
 
         pmtd?.let {
             saleCrcv.rcvAmt = sale.total.toString()
@@ -36,9 +41,12 @@ class AddPaymentUseCase @Inject constructor(
             saleCrcv.cardNo = cardNo
             saleCrcv.note = note
             saleCrcv.surcExp = it.surExp
-            saleCrcv.surcAmt = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total).toString()
-            saleCrcv.mdrAmt = BigDecimal(it.mdrExp).divide(BigDecimal(100)).multiply(sale.total).toString()
+            saleCrcv.surcAmt = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(total).setScale(reg?.value?.toInt() ?: 0, RoundingMode.HALF_UP).toString()
+            saleCrcv.mdrAmt = BigDecimal(it.mdrExp).divide(BigDecimal(100)).multiply(total).setScale(reg?.value?.toInt() ?: 0, RoundingMode.HALF_UP).toString()
             saleCrcv.mdrExp = it.mdrExp
+            saleCrcv.mdrAccId = it.mdrAcc.toString()
+            saleCrcv.surAccId = it.surAcc.toString()
+            saleCrcv.cctypeCode = it.ccType
 
             saleCrcvRepository.addSaleCrcv(saleCrcv)
         } ?: run {

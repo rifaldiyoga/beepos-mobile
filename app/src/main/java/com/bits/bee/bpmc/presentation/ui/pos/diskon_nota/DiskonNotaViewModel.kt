@@ -23,7 +23,7 @@ class DiskonNotaViewModel : BaseViewModel<DiskonNotaState, DiskonNotaViewModel.U
 
             eventChannel.send(UIEvent.RequestDiskonNota(state.diskon))
         } catch (e : Exception) {
-            errorChannel.send(e.message ?: "")
+            msgChannel.send(e.message ?: "")
         }
     }
 

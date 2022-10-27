@@ -19,12 +19,12 @@ data class GopayResponse(
     data class Data(
         @SerializedName("order_id")
         @Expose
-        var order_id: String,
+        var order_id: String?,
         @SerializedName("transaction_id")
         @Expose
-        var transaction_id: String,
+        var transaction_id: String?,
         @SerializedName("url_qrcode")
         @Expose
-        var url_qrcode: String
+        var url_qrcode: String?
     ): Parcelable
 }

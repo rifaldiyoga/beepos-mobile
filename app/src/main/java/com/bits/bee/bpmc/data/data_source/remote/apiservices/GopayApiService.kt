@@ -19,10 +19,10 @@ import retrofit2.http.Query
 interface GopayApiService {
 
     @GET("/api/v1/gopaystatus")
-    fun getGopayStatus(@Query("id") transactionID: String?): Flow<ApiResponse<GopayStatusResponse>>
+    fun getGopayStatus(@Query("id") transactionID: String): Flow<ApiResponse<GopayStatusResponse>>
 
     @GET("/api/v1/gopaycancel")
-    fun getGopayCancel(@Query("id") transactionID: String?): Flow<ApiResponse<GopayStatusResponse>>
+    fun getGopayCancel(@Query("id") transactionID: String): Flow<ApiResponse<GopayStatusResponse>>
 
     @POST("/api/v1/gopaycharge")
     fun postGoPay(@Body goPayPost: GopayPost): Flow<ApiResponse<GopayResponse>>

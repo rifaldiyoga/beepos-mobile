@@ -11,12 +11,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahPrdBinding
 import com.bits.bee.bpmc.domain.model.ItemDummy
+import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,7 @@ class TambahProdukFragment(
 
     private val viewModel : TambahProdukViewModel by viewModels()
 
+    private lateinit var unitAdapter : SatuanAdapter
     private lateinit var grpList : Array<String>
     private lateinit var tipeProdList : Array<String>
     private var tipeList = listOf("Barang Jadi (di stok)", "Jasa (tidak distok)")
@@ -39,24 +41,10 @@ class TambahProdukFragment(
     override fun initComponents() {
         grpList = resources.getStringArray(R.array.list_itgrp)
         tipeProdList = resources.getStringArray(R.array.list_tipe_produk)
-        val mode = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_mode_tampilan), BPMConstants.MODE_FOOD_BEVERAGES)
         binding.apply {
-            when(mode){
-                BPMConstants.MODE_FOOD_BEVERAGES -> {
-                    cvPid.gone()
-                    groupSatuan.gone()
 
-                    val adapterGrp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, grpList)
-                    spGrpPrd.adapter = adapterGrp
-                    viewModel.state.kategoriProduk = grpList[0]
-                }
-                else -> {
-                    cvPid.visible()
-                    groupSatuan.visible()
-                }
-            }
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, tipeList)
-            spTipePrd.adapter = adapter
+            val tipeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, tipeList)
+            spTipePrd.adapter = tipeAdapter
             viewModel.state.kategoriProduk = tipeProdList[0]
 
             arguments?.let {
@@ -66,13 +54,31 @@ class TambahProdukFragment(
                 item?.let {
                     state.nama = it.name
                     state.harga = it.price
-                    state.satuan = it.unit
+                    state.unitList = it.unitList.toMutableList()
                     etNamaPrd.setText(it.name)
                     etHarga.setText(it.price)
-                    etSatuan.setText(it.unit)
                     spTipePrd.setSelection(tipeProdList.indexOf(it.itemTypeCode))
                     spGrpPrd.setSelection(grpList.indexOf(it.itemGroup))
                 }
+            } ?: run {
+                val state = viewModel.state
+                state.unitList = mutableListOf(UnitDummy())
+            }
+
+            unitAdapter = SatuanAdapter(
+                onSatuanChange = { pos, value ->
+                    viewModel.onSatuanChange(pos, value)
+                },
+                onQtyChange = {pos, value ->
+                    viewModel.onQtyChange(pos, value)
+                },
+                onDelete = {
+                    viewModel.onDelete(it)
+                }
+            )
+            recyclerView2.apply {
+                layoutManager = LinearLayoutManager(requireActivity())
+                adapter = unitAdapter
             }
         }
     }
@@ -85,9 +91,9 @@ class TambahProdukFragment(
             etHarga.addTextChangedListener {
                 viewModel.state.harga = etHarga.text.toString().trim()
             }
-            etSatuan.addTextChangedListener {
-                viewModel.state.satuan = etSatuan.text.toString().trim()
-            }
+//            etSatuan.addTextChangedListener {
+//                viewModel.state.satuan = etSatuan.text.toString().trim()
+//            }
             spGrpPrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     viewModel.state.kategoriProduk = grpList[p2]
@@ -111,16 +117,51 @@ class TambahProdukFragment(
             btnLanjut.setOnClickListener {
                 viewModel.onSubmit()
             }
+            btnTambahSatuan.setOnClickListener {
+                viewModel.onClickTambahSatuan()
+            }
         }
     }
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.viewStates().collect {
+                    it?.let { state ->
+                        unitAdapter.submitList(state.unitList)
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
                     when(it){
                         TambahProdukViewModel.UIEvent.FinsihSubmit -> {
                             findNavController().popBackStack()
+                        }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.modePreferences.collect {
+                    binding.apply {
+                        when(it){
+                            PosModeState.FnBState -> {
+                                cvPid.gone()
+                                groupSatuan.gone()
+
+                                val adapterGrp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, grpList)
+                                spGrpPrd.adapter = adapterGrp
+                                viewModel.state.kategoriProduk = grpList[0]
+
+                            }
+                            PosModeState.RetailState -> {
+                                cvPid.visible()
+                                groupSatuan.visible()
+                            }
                         }
                     }
                 }
