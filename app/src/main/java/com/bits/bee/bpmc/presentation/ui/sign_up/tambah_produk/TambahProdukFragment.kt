@@ -36,14 +36,13 @@ class TambahProdukFragment(
     private lateinit var unitAdapter : SatuanAdapter
     private lateinit var grpList : Array<String>
     private lateinit var tipeProdList : Array<String>
-    private var tipeList = listOf("Barang Jadi (di stok)", "Jasa (tidak distok)")
+    private var tipeList = listOf("Pilih Tipe Adapter", "Barang Jadi (di stok)", "Jasa (tidak distok)")
 
     override fun initComponents() {
-        grpList = resources.getStringArray(R.array.list_itgrp)
         tipeProdList = resources.getStringArray(R.array.list_tipe_produk)
         binding.apply {
 
-            val tipeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, tipeList)
+            val tipeAdapter = SpinnerAdapter(requireContext(), tipeList)
             spTipePrd.adapter = tipeAdapter
             viewModel.state.kategoriProduk = tipeProdList[0]
 
@@ -62,7 +61,9 @@ class TambahProdukFragment(
                 }
             } ?: run {
                 val state = viewModel.state
-                state.unitList = mutableListOf(UnitDummy())
+                state.unitList = mutableListOf(UnitDummy(
+                    id = 1
+                ))
             }
 
             unitAdapter = SatuanAdapter(
@@ -94,6 +95,9 @@ class TambahProdukFragment(
 //            etSatuan.addTextChangedListener {
 //                viewModel.state.satuan = etSatuan.text.toString().trim()
 //            }
+            spGrpPrd.setOnClickListener {
+
+            }
             spGrpPrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     viewModel.state.kategoriProduk = grpList[p2]
@@ -106,7 +110,7 @@ class TambahProdukFragment(
             }
             spTipePrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.state.tipeProduk = tipeProdList[p2]
+                    viewModel.state.tipeProduk = tipeProdList[p2 - 1]
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -124,6 +128,11 @@ class TambahProdukFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.msg.collect {
+                showSnackbar(it)
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {

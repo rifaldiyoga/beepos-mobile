@@ -10,12 +10,11 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingPosBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.orientasi.OrientasiDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.radio_list.list.RadioListDialogBuilder
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.util.*
 
 /**
  * Created by aldi on 04/04/22.

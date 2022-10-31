@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
@@ -11,6 +12,7 @@ import com.bits.bee.bpmc.databinding.ItemSatuanInputBinding
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
+import java.util.*
 
 /**
  * Created by aldi on 27/10/22
@@ -45,7 +47,9 @@ class SatuanAdapter(
                 txtSatuan.text = lLSatuan.context.getString(R.string.satuan1, absoluteAdapterPosition + 1)
                 etSatuan.setText(model.unit)
                 etQty.setText(CurrencyUtils.formatCurrency(model.conv))
+                etSatuan.filters = arrayOf(InputFilter.AllCaps())
                 etSatuan.addTextChangedListener {
+                    model.unit = etSatuan.text.toString().trim()
                     onSatuanChange(absoluteAdapterPosition, etSatuan.text.toString().trim())
                 }
                 etQty.addTextChangedListener {

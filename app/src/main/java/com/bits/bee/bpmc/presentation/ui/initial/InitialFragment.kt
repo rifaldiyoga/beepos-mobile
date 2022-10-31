@@ -26,9 +26,9 @@ class InitialFragment(
                 findNavController().navigate(action)
             }
             btnMasuk.setOnClickListener {
-//                val action = InitialFragmentDirections.actionInitialFragmentToLoginFragment()
-//                findNavController().navigate(action)
-                findNavController().navigate(R.id.aturProdukFragment)
+                val action = InitialFragmentDirections.actionInitialFragmentToLoginFragment()
+                findNavController().navigate(action)
+//                findNavController().navigate(R.id.aturProdukFragment)
             }
         }
     }

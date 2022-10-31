@@ -188,7 +188,7 @@ class PostAllUseCase @Inject constructor(
 
                     val salepost = PostAll.SalePost(
                         trxno = sale.trxNo,
-                        trxdate = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FROMAT, sale.trxDate),
+                        trxdate = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, sale.trxDate),
                         termtype = "C",
                         cashId = cashId.toLong(),
                         branchId = branchId,
@@ -199,8 +199,8 @@ class PostAllUseCase @Inject constructor(
                         createdBy = sale.createdBy,
                         updatedBy = sale.updatedBy,
                         reserverd_var1 = sale.kodePosses,
-                        createdAt = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FROMAT, sale.createdAt),
-                        updatedAt = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FROMAT, sale.updatedAt),
+                        createdAt = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, sale.createdAt),
+                        updatedAt = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, sale.updatedAt),
                         crcId = sale.crcId,
                         excrate = sale.excrate.toInt(),
                         fisrate = sale.fisrate.toInt(),
@@ -255,7 +255,7 @@ class PostAllUseCase @Inject constructor(
                 for (cstr in listCstr){
                     val cstrPost = PostAll.CstrPost(
                         trxno = cstr.kodeCstr,
-                        trxdate = DateFormatUtils.formatLongToString(BPMConstants.DEFAULT_DATE_FROMAT, cstr.trxDate),
+                        trxdate = DateFormatUtils.formatLongToString(BPMConstants.DEFAULT_DATE_FORMAT, cstr.trxDate),
                         branch_id = branchId,
                         reftype = cstr.refType,
                         refno = cstr.refNo,
@@ -273,7 +273,7 @@ class PostAllUseCase @Inject constructor(
                 for (cadj in listCadj){
                     val cadjPost = PostAll.CadjsPost(
                         trxno = cadj.kodeCadj,
-                        trxdate = DateFormatUtils.formatLongToString(BPMConstants.DEFAULT_DATE_FROMAT, cadj.trxDate),
+                        trxdate = DateFormatUtils.formatLongToString(BPMConstants.DEFAULT_DATE_FORMAT, cadj.trxDate),
                         branchId = branchId,
                         reftype = cadj.refType,
                         note = cadj.note,
@@ -291,7 +291,7 @@ class PostAllUseCase @Inject constructor(
                 val meta = PostAll.Meta(
                     branchId = branchId,
                     cashierId = cashierId.toLong(),
-                    syncAt = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FROMAT, Date())
+                    syncAt = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, Date())
                 )
 
                 postBody = PostAll(meta, salePostList, cadjPostList, cstrPostList, possesPostList)

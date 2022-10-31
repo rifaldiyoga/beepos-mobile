@@ -16,9 +16,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout8"
@@ -57,8 +57,8 @@
                     android:layout_marginTop="@dimen/size16"
                     android:text="@string/user_kasir"
                     android:textColor="@color/black"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView95"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView95" />
 
                 <TextView
                     android:id="@+id/textView99"
@@ -118,7 +118,7 @@
                     android:text="@string/selesai_operasional"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView97" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView97"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -179,8 +179,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/detail_pendapatan"
-                    android:textColor="@color/gray"
                     android:textStyle="bold"
+                    android:textColor="@color/gray"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -196,9 +196,9 @@
 
                 <TextView
                     android:id="@+id/tvModal"
-                    android:layout_width="51dp"
-                    android:layout_height="17dp"
-                    android:text="@string/modal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mata_uang_nominal"
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -217,7 +217,7 @@
                     android:id="@+id/tvPemasukan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pemasukan"
+                    android:text="@string/mata_uang_nominal"
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -329,24 +329,24 @@
                         app:layout_constraintBaseline_toBaselineOf="@+id/textView92"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/size16"
-                        android:text="@string/kredit"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView92" />
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginTop="@dimen/size16"-->
+                    <!--                        android:text="@string/kredit"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/textView92" />-->
 
-                    <TextView
-                        android:id="@+id/tvTotalKredit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/size16"
-                        android:text="@string/kredit"
-                        android:textColor="@color/black"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView92" />
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/tvTotalKredit"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginTop="@dimen/size16"-->
+                    <!--                        android:text="@string/kredit"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/textView92" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -383,8 +383,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:padding="@dimen/size16"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view9">
@@ -392,66 +392,66 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rata_rata_penjualan"
                     android:textColor="@color/gray"
-                    android:textStyle="bold" />
+                    android:text="@string/rata_rata_penjualan"
+                    android:textStyle="bold"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_width="@dimen/size0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
                         android:paddingTop="@dimen/size16"
-                        android:paddingBottom="@dimen/size16">
+                        android:layout_width="@dimen/size0"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/size16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_avg_order"
-                            style="@style/TextHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mata_uang_nominal"
-                            android:textSize="@dimen/font20" />
+                            style="@style/TextHeader"
+                            android:textSize="@dimen/font20"
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/rata_rata_order" />
+                            android:text="@string/rata_rata_order"/>
 
                     </LinearLayout>
 
                     <View
+                        android:layout_marginEnd="@dimen/size16"
                         android:layout_width="@dimen/size1"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/size16"
-                        android:background="@color/light_gray" />
+                        android:background="@color/light_gray"/>
 
                     <LinearLayout
-                        android:layout_width="@dimen/size0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
                         android:paddingTop="@dimen/size16"
-                        android:paddingBottom="@dimen/size16">
+                        android:layout_width="@dimen/size0"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/size16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_new_member"
-                            style="@style/TextHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mata_uang_nominal"
-                            android:textSize="@dimen/font20" />
+                            style="@style/TextHeader"
+                            android:textSize="@dimen/font20"
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/member_baru" />
+                            android:text="@string/member_baru"/>
 
                     </LinearLayout>
 
@@ -460,64 +460,64 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size1"
-                    android:background="@color/light_gray" />
+                    android:background="@color/light_gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="@dimen/size0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="vertical"
                         android:paddingTop="@dimen/size16"
-                        android:paddingBottom="@dimen/size16">
+                        android:paddingBottom="@dimen/size16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_jml_order"
-                            style="@style/TextHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mata_uang_nominal"
-                            android:textSize="@dimen/font20" />
+                            style="@style/TextHeader"
+                            android:textSize="@dimen/font20"
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="Jumlah Order" />
+                            android:text="Jumlah Order"/>
 
                     </LinearLayout>
 
                     <View
+                        android:layout_marginEnd="@dimen/size16"
                         android:layout_width="@dimen/size1"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/size16"
-                        android:background="@color/light_gray" />
+                        android:background="@color/light_gray"/>
 
                     <LinearLayout
                         android:layout_width="@dimen/size0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="vertical"
                         android:paddingTop="@dimen/size16"
-                        android:paddingBottom="@dimen/size16">
+                        android:paddingBottom="@dimen/size16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_total_qty"
-                            style="@style/TextHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mata_uang_nominal"
-                            android:textSize="@dimen/font20" />
+                            style="@style/TextHeader"
+                            android:textSize="@dimen/font20"
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/total_qty" />
+                            android:text="@string/total_qty"/>
 
                     </LinearLayout>
 
@@ -526,64 +526,63 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size1"
-                    android:background="@color/light_gray" />
-
+                    android:background="@color/light_gray"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_width="@dimen/size0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
                         android:paddingTop="@dimen/size16"
-                        android:paddingBottom="@dimen/size16">
+                        android:layout_width="@dimen/size0"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/size16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_trans_sukses"
-                            style="@style/TextHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mata_uang_nominal"
-                            android:textSize="@dimen/font20" />
+                            style="@style/TextHeader"
+                            android:textSize="@dimen/font20"
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/transaksi_berhasil" />
+                            android:text="@string/transaksi_berhasil"/>
 
                     </LinearLayout>
 
                     <View
+                        android:layout_marginEnd="@dimen/size16"
                         android:layout_width="@dimen/size1"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/size16"
-                        android:background="@color/light_gray" />
+                        android:background="@color/light_gray"/>
 
                     <LinearLayout
-                        android:layout_width="@dimen/size0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
                         android:paddingTop="@dimen/size16"
-                        android:paddingBottom="@dimen/size16">
+                        android:layout_width="@dimen/size0"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/size16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_trans_void"
-                            style="@style/TextHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mata_uang_nominal"
-                            android:textSize="@dimen/font20" />
+                            style="@style/TextHeader"
+                            android:textSize="@dimen/font20"
+                            android:text="@string/mata_uang_nominal"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/transaksi_dihapus" />
+                            android:text="@string/transaksi_dihapus"/>
 
                     </LinearLayout>
 
@@ -601,37 +600,45 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/size16">
+                android:padding="@dimen/size16"
+                android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="@color/gray"
                     android:id="@+id/textView93"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/grafik_penjualan_per_jam"
-                    android:textColor="@color/gray"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="@dimen/size120"
-                    android:layout_height="@dimen/size120"
-                    android:layout_marginTop="@dimen/size16"
-                    android:src="@drawable/image_grafik"
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart1"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView93" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size16"
-                    android:text="@string/grafik_belum_tersedia"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imageView14"-->
+                <!--                    android:layout_width="@dimen/size120"-->
+                <!--                    android:layout_height="@dimen/size120"-->
+                <!--                    android:layout_marginTop="@dimen/size16"-->
+                <!--                    android:src="@drawable/image_grafik"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/textView93" />-->
+
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/size16"-->
+                <!--                    android:text="@string/grafik_belum_tersedia"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/imageView14" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -645,16 +652,19 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/size16">
+                android:paddingTop="@dimen/size16"
+                android:paddingRight="@dimen/size16"
+                android:paddingLeft="@dimen/size16"
+                android:paddingBottom="@dimen/size60"
+                android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="@color/gray"
                     android:id="@+id/textView94"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rangking_produk"
-                    android:textColor="@color/gray"
                     android:textStyle="bold"
+                    android:text="@string/rangking_produk"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -662,8 +672,8 @@
                     android:id="@+id/cl_empty_ranking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size16"
                     android:visibility="gone"
+                    android:layout_marginTop="@dimen/size16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView94">

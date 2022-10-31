@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.dialog.radio_list
+package com.bits.bee.bpmc.presentation.dialog.radio_list.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

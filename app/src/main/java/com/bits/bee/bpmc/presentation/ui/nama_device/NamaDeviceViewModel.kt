@@ -39,8 +39,7 @@ class NamaDeviceViewModel @Inject constructor(
     }
 
     fun onClickLanjutkan(context: Context) = viewModelScope.launch {
-
-        BeePreferenceManager.saveToPreferences(context, context.getString(R.string.pref_nama_device), Build.MANUFACTURER + Build.DEVICE + Build.ID + "-"+state.value.deviceName)
+        BeePreferenceManager.saveToPreferences(context, context.getString(R.string.pref_nama_device), Build.MANUFACTURER + Build.ID + "-"+state.value.deviceName)
         eventChannel.send(UIEvent.NavigateToPilihDb(state.value.email, state.value.password))
     }
 

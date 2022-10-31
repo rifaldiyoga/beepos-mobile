@@ -97,14 +97,15 @@
         <entry key="app/src/main/res/layout/dialog_info_builder.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/dialog_loading_helper.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/dialog_no_intenet_builder.xml" value="0.2994791666666667" />
-        <entry key="app/src/main/res/layout/dialog_radio_list.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/layout/dialog_radio_list.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_radio_list_filter.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/layout/dialog_radio_list_tambah.xml" value="0.21633176571184268" />
         <entry key="app/src/main/res/layout/dialog_tambah_kas.xml" value="0.15006412997007268" />
         <entry key="app/src/main/res/layout/dialog_tambah_kas_keluar.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_tax_info.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/dialog_tipe_printer.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_addon.xml" value="0.19628286491387126" />
-        <entry key="app/src/main/res/layout/fragment_analisa_sesi.xml" value="0.5428973277074542" />
+        <entry key="app/src/main/res/layout/fragment_analisa_sesi.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_atur_pin.xml" value="0.16223958333333333" />
         <entry key="app/src/main/res/layout/fragment_atur_produk.xml" value="0.340625" />
         <entry key="app/src/main/res/layout/fragment_beranda.xml" value="0.17325227963525835" />
@@ -186,6 +187,7 @@
         <entry key="app/src/main/res/layout/item_produk_dummy.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_produk_favorite.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_produk_tambah.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_radio_button.xml" value="0.21633176571184268" />
         <entry key="app/src/main/res/layout/item_satuan_input.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_selection.xml" value="0.67" />
         <entry key="app/src/main/res/layout/item_sync.xml" value="0.5" />

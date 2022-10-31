@@ -26,41 +26,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout16"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size16"
-        android:gravity="center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_plus_primary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size8"
-            android:text="@string/tambah_baru"
-            android:textColor="?colorPrimary"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/view12"
-        android:layout_width="@dimen/size0"
-        android:layout_height="@dimen/size1"
-        android:layout_marginTop="@dimen/size8"
-        android:background="@color/light_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout16" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="@dimen/size0"
@@ -82,11 +47,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/groupCustomButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="linearLayout16,view12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

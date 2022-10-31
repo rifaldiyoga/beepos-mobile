@@ -33,7 +33,7 @@ class AturProdukFragment(
 
     override fun initComponents() {
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-            R.string.page_atur_pin))
+            R.string.page_atur_produk))
         binding.apply {
             itemDummyAdapter = ItemDummyAdapter(onItemClick = { item ->
                 val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment(if(item.id != null) item else null)

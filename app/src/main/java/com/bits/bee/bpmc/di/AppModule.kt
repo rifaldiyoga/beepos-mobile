@@ -613,13 +613,4 @@ object AppModule {
         return GopayRepositoryImpl(apiUtils)
     }
 
-    @Provides
-    @Singleton
-    fun proivdeRegRepository(
-        apiUtils: ApiUtils,
-        dao: RegDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): RegRepository {
-        return RegRepositoryImpl(apiUtils, dao, defaultDispatcher)
-    }
 }

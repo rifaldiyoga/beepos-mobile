@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.dialog.radio_list
+package com.bits.bee.bpmc.presentation.dialog.radio_list.list
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.DialogRadioListBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
-import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -28,15 +27,6 @@ class RadioListDialogBuilder(
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = radioAdapter
-            }
-            builder.onCustomButton?.let { onCust ->
-                groupCustomButton.setOnClickListener {
-                    radioAdapter.getSelectedPosition()?.let { selectedPos ->
-                        onCust(selectedPos)
-                    }
-                }
-            } ?: run {
-                groupCustomButton.gone()
             }
         }
     }

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogRadioListBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
-import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -31,7 +30,6 @@ class OrientasiDialogBuilder(
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = radioAdapter
             }
-            groupCustomButton.gone()
         }
     }
 

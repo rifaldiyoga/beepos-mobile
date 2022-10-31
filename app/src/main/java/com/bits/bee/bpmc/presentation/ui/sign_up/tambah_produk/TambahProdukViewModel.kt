@@ -28,7 +28,9 @@ class TambahProdukViewModel @Inject constructor(
 
     fun onClickTambahSatuan() = viewModelScope.launch {
         if(state.unitList[0].unit.isNotEmpty()) {
-            val unit = UnitDummy()
+            val unit = UnitDummy(
+                id = state.unitList.size
+            )
             val unitList = mutableListOf<UnitDummy>()
             state.unitList.forEach {
                 unitList.add(it)
@@ -40,35 +42,21 @@ class TambahProdukViewModel @Inject constructor(
                     unitList = unitList
                 )
             )
+        } else {
+            sendMessage("Harap isi Satuan 1 terlebih dahulu!")
         }
     }
 
     fun onSatuanChange(pos : Int,value : String) = viewModelScope.launch{
-        val unitList = mutableListOf<UnitDummy>()
-        state.unitList.forEach {
-            unitList.add(it.copy())
-        }
-        val unit = unitList[pos]
+        val unit =  state.unitList[pos]
         unit.unit = value
-        updateState(
-            state.copy(
-                unitList = unitList
-            )
-        )
+
     }
     fun onQtyChange(pos : Int, value : String) = viewModelScope.launch{
-        val unitList = mutableListOf<UnitDummy>()
-        state.unitList.forEach {
-            unitList.add(it.copy())
-        }
         val unit = state.unitList[pos]
         unit.conv = BigDecimal(value)
-        updateState(
-            state.copy(
-                unitList = unitList
-            )
-        )
     }
+
     fun onDelete (pos : Int) = viewModelScope.launch {
         val unitList = mutableListOf<UnitDummy>()
         state.unitList.forEach {

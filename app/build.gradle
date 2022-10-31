@@ -147,7 +147,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.0.1')
 
     // Add the dependencies for the Crashlytics and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // When using the BoM, you don't specify versions in Firebase library dependencie s
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 

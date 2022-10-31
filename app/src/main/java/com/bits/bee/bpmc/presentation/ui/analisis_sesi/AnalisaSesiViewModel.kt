@@ -1,20 +1,19 @@
 package com.bits.bee.bpmc.presentation.ui.analisis_sesi
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
-import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
+import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
-import com.github.mikephil.charting.data.Entry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.sql.SQLException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +32,7 @@ class AnalisaSesiViewModel @Inject constructor(
     private val getTotalPaidGopayUseCase: GetTotalPaidGopayUseCase,
     private val getRankItemUseCase: GetRankItemUseCase,
     private val getSumByHourUseCase: GetSumByHourUseCase,
-    private val getRegPossesActualEndCashUseCase: GetRegPossesActualEndCashUseCase
+    private val getRegPossesActualEndCashUseCase: GetRegUseCase
 ):BaseViewModel<AnalisaSesiState, AnalisaSesiViewModel.UIEvent>() {
 
     init {
@@ -155,7 +154,7 @@ class AnalisaSesiViewModel @Inject constructor(
             )
         }
 
-        getRegPossesActualEndCashUseCase.invoke().collect{
+        getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
             updateState(
                 state.copy(
                     reg = it
