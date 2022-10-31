@@ -613,5 +613,8 @@ untuk memperbarui data dapur?</string>
     <string name="cari_produk_dulu">Cari produknya dulu ya, nanti datanya akan muncul disini</string>
     <string name="cari_produk_not_found">Produk yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
     <string name="cari_kas_not_found">Data yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
+    <string name="masukan_deskripsi_masuk">Masukkan deskripsi kas masuk</string>
+    <string name="masukan_deskripsi_keluar">Masukkan deskripsi kas keluar</string>
+    <string name="tgl_belum_diatur">Tanggal belum diatur</string>
 
 </resources>

@@ -1,11 +1,8 @@
 package com.bits.bee.bpmc.domain.usecase.rekap_kas
 
 import com.bits.bee.bpmc.domain.mapper.CadjDataMapper
-import com.bits.bee.bpmc.domain.mapper.CashDataMapper
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.repository.CadjRepository
-import com.bits.bee.bpmc.domain.repository.CashRepository
-import com.bits.bee.bpmc.domain.repository.PossesRepository
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
@@ -30,6 +27,14 @@ class AddKasKeluarMasukUseCase @Inject constructor(
         activeBranch: Branch?,
         activeCashier: Cashier?,
     ) {
+        var amountNew: BigDecimal = BigDecimal.ZERO
+        if (status.equals("i")){
+            amountNew = balance
+        }else if (status.equals("o")){
+            amountNew = balance.negate()
+        }
+
+
         val newCadj = Cadj(
             cashAId = cash.id!!,
             cashierId = cashierId!!,
@@ -38,7 +43,7 @@ class AddKasKeluarMasukUseCase @Inject constructor(
             note = note,
             refType = reftype,
             autoGen = autogen,
-            amount = balance,
+            amount = amountNew,
             refNo = mPosses!!.trxNo,
             kodeCadj = "",
             trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DEFAULT_DATE_FORMAT, Date()),

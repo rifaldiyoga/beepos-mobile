@@ -60,13 +60,13 @@ class DetailPendapatanDialog(
                             it.posses?.let {
                                 tvTotalIncome.text = getString(
                                     R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.total))
+                                    "Rp", CurrencyUtils.formatCurrency(it.total.add(it.startBal)))
                                 tvModal.text = getString(
                                     R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(it.startBal))
                                 tvPemasukan.text = getString(
                                     R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.totIn ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it.total ?: BigDecimal.ZERO))
                                 tvPengeluaran.text = getString(
                                     R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(it.totOut ?: BigDecimal.ZERO))

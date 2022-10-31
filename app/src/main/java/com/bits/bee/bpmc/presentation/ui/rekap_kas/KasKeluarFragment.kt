@@ -34,6 +34,11 @@ class KasKeluarFragment(
         BeePreferenceManager.saveToPreferences(requireContext(),getString(R.string.pref_tablayout), false)
     }
 
+    override fun onResume() {
+        super.onResume()
+//        Toast.makeText(requireContext(), "berhasil simpan kas masuk", Toast.LENGTH_SHORT).show()
+    }
+
     override fun initComponents() {
         parentKasAdapter = ParentKasAdapter(requireContext())
 
@@ -70,10 +75,10 @@ class KasKeluarFragment(
                                 Toast.makeText(requireContext(), "Pastikan buka kasir terlebih dahulu", Toast.LENGTH_SHORT).show()
                             }
                         }
-                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar ->{
-                            Toast.makeText(requireContext(), "Berhasil Simpan kas keluar", Toast.LENGTH_SHORT).show()
-                            sharedViewModel.loadKasKeluar(sharedViewModel.state.isDesc, sharedViewModel.state.search)
-                        }
+//                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar ->{
+//                            Toast.makeText(requireContext(), "Berhasil Simpan kas keluar", Toast.LENGTH_SHORT).show()
+//                            sharedViewModel.loadKasKeluar(sharedViewModel.state.isDesc, sharedViewModel.state.search)
+//                        }
                     }
                 }
             }

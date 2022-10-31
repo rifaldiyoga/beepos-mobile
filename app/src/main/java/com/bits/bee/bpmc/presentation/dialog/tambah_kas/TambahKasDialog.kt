@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -105,16 +106,17 @@ class TambahKasDialog(
                             e.stackTrace
                         }
                     }
-
+                    viewModel.validateInput()
                 }
-
             })
+
             etDeskripsi.addTextChangedListener {
                 viewModel.updateState(
                     viewModel.state.copy(
                         deskripsi = etDeskripsi.text.toString().trim()
                     )
                 )
+                viewModel.validateInput()
 //                viewModel.state.deskripsi =
             }
 
@@ -169,6 +171,13 @@ class TambahKasDialog(
                                 etTanggal.setText(DateFormatUtils.formatDateToString(
                                         BPMConstants.NEW_DATE_FORMAT, it.trxDate))
                                 etTanggal.isEnabled = false
+                            }
+                            btnSimpan.apply {
+                                background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
+                                    true -> R.drawable.btn_rect_primary
+                                    false -> R.drawable.btn_rect_disable
+                                })
+                                isEnabled = it.isValid
                             }
                         }
                     }

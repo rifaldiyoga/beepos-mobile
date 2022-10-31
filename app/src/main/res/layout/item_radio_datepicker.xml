@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:editable="false"
             android:drawableRight="@drawable/custom_icon_calendar"
-            android:hint="@string/pilih_tanggal">
+            android:hint="@string/tgl_belum_diatur">
 
         </EditText>
     </androidx.constraintlayout.widget.ConstraintLayout>

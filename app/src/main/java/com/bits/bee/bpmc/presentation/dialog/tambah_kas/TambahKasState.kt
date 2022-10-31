@@ -6,8 +6,9 @@ import java.math.BigDecimal
 
 data class TambahKasState(
     var user: String? = null,
-    var nominal : String? = null,
-    var deskripsi: String? = null,
+    var nominal : String = "",
+    var deskripsi: String = "",
     var posses: Posses? = null,
-    var cash: Cash? = null
+    var cash: Cash? = null,
+    var isValid: Boolean = false
 )

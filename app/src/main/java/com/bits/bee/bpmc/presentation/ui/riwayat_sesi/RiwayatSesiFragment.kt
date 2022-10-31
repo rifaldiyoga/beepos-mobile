@@ -95,6 +95,7 @@ class RiwayatSesiFragment(
                     when(event){
                         RiwayatSesiViewModel.UIEvent.RequestDialogFilter ->{
                             val dialog = RadioListFilterDialog(
+                                requireContext(),
                                 getString(R.string.pilih_tanggal),
                                 pilihTglList,
                                 inilizeTgl(),

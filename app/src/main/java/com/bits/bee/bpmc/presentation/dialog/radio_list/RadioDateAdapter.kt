@@ -21,7 +21,7 @@ class RadioDateAdapter(
 
     private var stringList : List<String> = mutableListOf()
     private var selectedPosition : Int = 0
-    private lateinit var getDateString: String
+    private var getDateString: String? = null
 
     init {
         this.stringList = stringList
@@ -110,7 +110,7 @@ class RadioDateAdapter(
     }
 
     fun getTextDate(): String{
-        return getDateString
+        return getDateString ?: ""
     }
 
 
