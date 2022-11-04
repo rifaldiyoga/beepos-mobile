@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,12 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,7 @@ class DraftFragment(
 
     private val viewModel : DraftViewModel by viewModels()
 
-    private val mViewModel : MainViewModel by viewModels()
+    private val mViewModel : MainViewModel by activityViewModels()
 
     private lateinit var draftAdapter : DraftAdapter
 
@@ -42,6 +43,7 @@ class DraftFragment(
         inflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -67,7 +69,7 @@ class DraftFragment(
                 viewModel.onItemClick(it)
             },
             onDeleteItem = { sale ->
-                val dialog = DialogBuilderUtils.showDialogChoice(
+                val dialog = DialogBuilderHelper.showDialogChoice(
                     requireContext(),
                     title = "Hapus Draft",
                     msg = "Apakah anda yakin ingin menghapus draft? Transaksi yang dihapus tidak dapat dikembalikan lagi",
@@ -109,8 +111,9 @@ class DraftFragment(
             viewModel.event.collect {
                 when(it){
                     is DraftViewModel.UIEvent.RequestDraft -> {
-                        findNavController().popBackStack(R.id.posFragment, false)
                         mViewModel.loadDraft(it.sale)
+                        findNavController().popBackStack()
+//                        findNavController().previousBackStackEntry?.savedStateHandle?.set("sale", it.sale)
                     }
                 }
             }
@@ -135,6 +138,7 @@ class DraftFragment(
         binding.apply {
             if(isVisible){
                 groupEmpty.visible()
+                tvDesc.text = if (viewModel.currentQuery.length > 3) getString(R.string.draft_tidak_ditemukan) else getString(R.string.tidak_ada_draft_yang_disimpan)
                 rvList.gone()
             } else {
                 groupEmpty.gone()

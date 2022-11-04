@@ -12,6 +12,7 @@ data class ItemWithUnit (
     var item: Item,
     var unit : Unit? = null,
     var pid : String? = null,
+    var stock : Stock? = null,
     var discExp : String = "",
     var discAmt : BigDecimal = BigDecimal.ZERO,
     var note : String = ""

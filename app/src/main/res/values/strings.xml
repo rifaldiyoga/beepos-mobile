@@ -3,6 +3,7 @@
     <string name="version">version</string>
 
     <string name="api_key">api_key</string>
+    <string name="trx_ordernum">trx_ordernum</string>
     <string name="is_first_run">is_first_run</string>
 
     <!--    Peferances-->
@@ -24,6 +25,7 @@
     <string name="pref_jumlah_meja">pref_jumlah_meja</string>
     <string name="pref_preset_buka_kasir">pref_preset_buka_kasir</string>
     <string name="pref_gambar_produk">pref_gambar_produk</string>
+    <string name="pref_is_sign_up">pref_is_sign_up</string>
     <string name="pref_rekap_per_channel">pref_rekap_per_channel</string>
     <string name="pref_rekap_per_produk_perchannel">pref_rekap_per_produk_perchannel</string>
     <string name="pref_rekap_per_faktur">pref_rekap_per_faktur</string>
@@ -58,6 +60,10 @@
     <string name="pref_login_user">login_user</string>
     <string name="pref_tablayout">pref_tablayout</string>
     <string name="pref_user_kasir">pref_user_kasir</string>
+    <string name="pref_add_nama_prd">pref_add_nama_prd</string>
+    <string name="pref_add_harga_prd">pref_add_harga_prd</string>
+    <string name="pref_add_tipe_prd">pref_add_tipe_prd</string>
+    <string name="pref_add_list_unit">pref_add_list_unit</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -113,10 +119,10 @@
 
     <string-array name="list_sistem_batch_upload">
         <item>AUTO</item>
-        <item>5(Paling Ringan)</item>
+        <item>5 (Paling Ringan)</item>
         <item>10</item>
         <item>25</item>
-        <item>50(Paling Berat)</item>
+        <item>50 (Paling Berat)</item>
     </string-array>
 
     <string-array name="list_periode_upload_otomatis">
@@ -177,7 +183,7 @@
     <string name="sebagai_identitas_device_yang_digunakan">Sebagai identitas device yang digunakan</string>
     <string name="nama_device">Nama Device</string>
     <string name="cth_smartphone_1">Cth. Smartphone 1</string>
-    <string name="lanjutkan">LANJUTKAN</string>
+    <string name="lanjutkan">Lanjutkan</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu felis nec orci tincidunt lobortis ut non mi. Suspendisse dolor orci, viverra a odio sed, mollis finibus dolor. Nunc in augue fringilla, consectetur dolor a, feugiat arcu. Sed vel leo sem. In et imperdiet quam, ut mollis libero. Etiam faucibus felis urna, ut porta purus auctor ac.</string>
     <string name="informasi">Informasi ?</string>
     <string name="konfirmasi_keluar">Anda belum menyelesaikan proses login dan perubahan belum disimpan</string>
@@ -248,6 +254,7 @@
     <string name="nama_prd">Nama Produk</string>
     <string name="harga">Harga</string>
     <string name="satuan_prd">Satuan Produk</string>
+    <string name="satuan1">Satuan %1$d</string>
     <string name="tipe_prd">Tipe Produk</string>
     <string name="grup_prd">Grup Produk</string>
     <string name="foto_prd">Foto Produk (Opsional)</string>
@@ -268,6 +275,7 @@
     <string name="gofood">GoFood</string>
     <string name="pilih_channel">Pilih Channel</string>
     <string name="anda_belum_punya_member">Anda belum punya member</string>
+    <string name="anda_belum_punya_salesman">Anda belum punya salesman</string>
     <string name="budiman">Budiman</string>
     <string name="nama_member">Nama Member</string>
     <string name="no_telepon">No. Telepon</string>
@@ -286,6 +294,11 @@ untuk memperbarui data dapur?</string>
     <string name="informasi_akun">Informasi Akun</string>
     <string name="gagal_login">Gagal Login</string>
     <string name="silahkan_login_email_sinkron">Silahkan login menggunakan Email atau Sinkron data ulang!</string>
+    <string name="kategori_blm_ada">Kategori belum ada, klik untuk tambahkan</string>
+    <string name="nama_kategori">Nama Kategori</string>
+    <string name="pilih_kategori">Pilih Kategori</string>
+    <string name="gunakan_sub_kategori">Gunakan Sub-Kategori Produk</string>
+    <string name="pilih_kategori_prd">Pilih kategori produk</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>
@@ -297,7 +310,7 @@ untuk memperbarui data dapur?</string>
     <string name="ukuran_font">Ukuran Font</string>
     <string name="medium">Medium</string>
     <string name="multi_line">Multi Line</string>
-    <string name="tampilkan_nama_item_menjadi_beberapa_baris">Tampilkan nama item menjadi beberapa baris Tampilkan nama item menjadi beberapa baris</string>
+    <string name="tampilkan_nama_item_menjadi_beberapa_baris">Tampilkan nama item menjadi beberapa baris</string>
     <string name="konfirmasi_customer">Konfirmasi Customer</string>
     <string name="preset_buka_kasir">Preset Buka Kasir</string>
     <string name="_100_000">100.000</string>
@@ -316,11 +329,14 @@ untuk memperbarui data dapur?</string>
     <string name="title">Lorem Ipsum Dolor</string>
     <string name="simpan">Simpan</string>
     <string name="email_tidak_boleh_kosong">Email tidak boleh kosong</string>
+    <string name="password_tidak_boleh_kosong">Password tidak boleh kosong</string>
     <string name="mata_uang_nominal">%1$s %2$s</string>
     <string name="jus_mangga">Jus Mangga</string>
     <string name="strip">-</string>
     <string name="channel">Channel :</string>
+    <string name="channel_">Channel</string>
     <string name="member">Member :</string>
+    <string name="member_">Member</string>
     <string name="search">Search</string>
     <string name="_1_produk">%1$s Produk</string>
     <string name="_1_PCS">%1$s %2$s</string>
@@ -487,7 +503,7 @@ untuk memperbarui data dapur?</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="lainnya">Lainnya</string>
     <string name="seluruh_data_transaksi_sudah_tersinkron">Seluruh data transaksi sudah tersinkron</string>
-    <string name="msg_default_modal_kasir">Apakah anda yakin ingin menggunakan default nilai modal kasir (Rp 100,000) ?</string>
+    <string name="msg_default_modal_kasir">Apakah anda yakin ingin menggunakan default nilai modal kasir (%1$s) ?</string>
     <string name="ya">Ya</string>
     <string name="belum_buka_kasir">Belum Buka Kasir</string>
     <string name="msg_info_belum_buka_kasir_pos">Untuk memulai jualan, jangan lupa buka kasir dulu, ya~</string>
@@ -512,7 +528,7 @@ untuk memperbarui data dapur?</string>
     <string name="tidak_ada_draft_yang_disimpan">Tidak ada draft yang disimpan</string>
     <string name="transaksi_draft">Transaksi Draft</string>
     <string name="tambah">Tambah</string>
-    <string name="hint_diskon_nota">Cth. 10% atau 10,000 atau 10% + 10,000</string>
+    <string name="hint_diskon_nota">Cth. 10% atau 10000 atau 10% + 10000</string>
     <string name="untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2">Untuk diskon kombinasi, gunakan tanda + diantara diskon 1 dan diskon 2</string>
     <string name="bantuan">Bantuan</string>
     <string name="fitur_beepos">Fitur Beepos Mobile</string>
@@ -547,6 +563,7 @@ untuk memperbarui data dapur?</string>
     <string name="rekap_sesi_empty">Belum ada rekap sesi yang dicatat. Rekap sesi akan otomatis tersedia kasir aktif</string>
     <string name="note_retail">Keranjangmu masih kosong. Tambah produk dulu ya untuk memulai transaksi</string>
     <string name="salesman">Salesman :</string>
+    <string name="salesman_">Salesman</string>
     <string name="scan_barcode">Scan Barcode</string>
     <string name="total_pendapatan">Total Pendapatan</string>
     <string name="lihat_riwayat_sebelumnya">Lihat Riwayat Sebelumnya</string>
@@ -571,7 +588,7 @@ untuk memperbarui data dapur?</string>
     <string name="custom">Custom</string>
     <string name="selection_name">Selection Name</string>
     <string name="optional">Optional</string>
-    <string name="masukkan_satuan_produk">Masukkan satuan produk</string>
+    <string name="masukkan_satuan_produk">Masukkan satuan</string>
     <string name="kategori_produk">Kategori Produk</string>
     <string name="buat_akun">Buat Akun</string>
     <string name="star">*******</string>
@@ -587,7 +604,7 @@ untuk memperbarui data dapur?</string>
     <string name="sedang_memperbarui_data">Sedang memperbarui data...</string>
     <string name="downloading_data_produk">Downloading data produk</string>
     <string name="bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini">Bagaimana caranya agar saya bisa mengubah modal kasir? Pelajari selengkapnya disini</string>
-    <string name="msg_batalkan_transaksi">\"Apakah anda yakin ingin membatalkan transaksi? Seluruh produk yang telah dipilih tidak akan diproses \"</string>
+    <string name="msg_batalkan_transaksi">Apakah anda yakin ingin membatalkan transaksi? Seluruh produk yang telah dipilih tidak akan diproses </string>
     <string name="batalkan_transaksi">Batalkan Transaksi</string>
     <string name="batalkan">Batalkan</string>
     <string name="lanjut_bayar">Lanjut Bayar</string>
@@ -596,6 +613,35 @@ untuk memperbarui data dapur?</string>
     <string name="hapus_produk">Hapus Produk</string>
     <string name="msg_hapus_produk">Apakah anda yakin ingin menghapus produk ini?</string>
     <string name="terapkan">Terapkan</string>
+    <string name="produk_dipilih">Produk Dipilih</string>
+    <string name="kamu_mendapatkan_item_gratis">Kamu Mendapatkan %1$s Item Gratis</string>
+    <string name="tebus_murah_item">Tebus Murah %1$s Item %2$s</string>
+    <string name="ambil_promo">Ambil Promo</string>
+    <string name="next">Next</string>
+    <string name="abaikan">Abaikan</string>
+    <string name="transaksi_penjualan">Transaksi Penjualan</string>
+    <string name="gimana_caranya">Gimana Caranya?</string>
+    <string name="agar_bisa_mengubah_nilai_kasir_anda_bisa_mengikuti_langkah_dibawah_ini">Agar bisa mengubah nilai kasir, anda bisa mengikuti langkah dibawah ini:</string>
+    <string name="login_ke_app_beecloud_id">Login ke app.beecloud.id</string>
+    <string name="buka_menu_sistem_pilih_submenu_pegaturan_sistem">Buka menu Sistem, pilih submenu Pegaturan Sistem</string>
+    <string name="cari_keyword_pos_automodal_di_kolom_cari_cepat_lalu_aktifkan">Cari keyword POS_AUTOMODAL di kolom cari cepat, lalu aktifkan</string>
+    <string name="perbarui_data_beepos_mobile">Perbarui data Beepos Mobile</string>
+    <string name="cara_mudah_dan_cepat_isi_sendiri_nilai_buka_kasir">Cara mudah dan cepat isi sendiri nilai buka kasir</string>
+    <string name="atur_sekarang">Atur Sekarang</string>
+    <string name="apa_sih_pid_itu_dan_gunanya_untuk_apa">Apa sih PID itu? dan gunanya untuk apa?</string>
+    <string name="product_id_atau_pid_adalah_fitur">Product ID atau PID adalah fitur yang bisa anda manfaatkan untuk kebutuhan khusus seperti varian, ukuran, bahkan warna produk</string>
+    <string name="pid_dapat_memangkas_jumlah_stock">PID dapat memangkas jumlah Stock Keeping Unit (SKU) yang ada, namun tetap dapat memanfaatkan kebutuhan khusus sebagai bagian dari perhitungan jumlah stok</string>
+    <string name="pid_cocok_digunakan">PID cocok digunakan untuk bisnis toko sepatu, toko pakaian, dll. Khusus untuk bisnis jual HP, dan toko elektronik kami menyediakan PID Unik yang dapat digunakan untuk SN / IMEI</string>
+    <string name="baca_artikel_pid_selengkapnya_disini">Baca artikel PID selengkapnya disini</string>
+    <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada.\n Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
+    <string name="cari_produk_min_3_karakter">Cari produk, min 3 karakter</string>
+    <string name="draft_tidak_ditemukan">Draft yang anda cari tidak ada!</string>
+    <string name="member_tidak_ditemukan">Member yang anda cari tidak ada!</string>
+    <string name="salesman_tidak_ditemukan">Salesman yang anda cari tidak ada!</string>
+    <string name="cth_budi">Cth. Budi</string>
+    <string name="cth_081234567890">Cth. 081234567890</string>
+    <string name="jl_dharmawangsa_no_1">Jl. Dharmawangsa No. 1</string>
+    <string name="nama_salesman">Nama Salesman</string>
 
     <!-- Lainnya -->
     <string name="data_kas_masuk">Data kas masuk belum tersedia</string>
@@ -609,6 +655,22 @@ untuk memperbarui data dapur?</string>
     <string name="nominal_uang_masuk">Nominal Uang Masuk</string>
     <string name="nominal_uang_keluar">Nominal Uang Keluar</string>
     <string name="deskripsi">Deskripsi</string>
+    <string name="rupanya_anda_belum_memiliki_produk_favorit_natur_sekarang_yuk">Rupanya anda belum memiliki produk favorit.\nAtur sekarang, yuk!</string>
+    <string name="rupanya_anda_belum_memiliki_member_favorit_natur_sekarang_yuk">Rupanya anda belum memiliki member favorit.\nAtur sekarang, yuk!</string>
+    <string name="atur_produk">Atur Produk</string>
+    <string name="atur_member">Atur Member</string>
+    <string name="mencari_printer">Mencari Printer...</string>
+    <string name="_000">000</string>
+    <string name="buka_menu_master_pilih_submenu_item">Buka menu Master, pilih submenu Item</string>
+    <string name="isi_data_yang_sesuai_dengan_produk">Isi data yang sesuai dengan produk</string>
+    <string name="_5">5</string>
+    <string name="simpan_data_produk_yang_telah_diisi">Simpan data produk yang telah diisi</string>
+    <string name="buka_beepos_mobile_dan_lakukan_perbarui_data">Buka Beepos Mobile dan lakukan Perbarui Data</string>
+    <string name="kelola_produk_untuk_jualan_dengan_mudah_bersama_beecloud">Kelola produk untuk jualan dengan mudah bersama Beecloud</string>
+    <string name="kelola_produk_info">Untuk kelola data produk (tambah, edit, update harga, nonaktif, dll), anda bisa mengikuti langkah dibawah ini:</string>
+    <string name="keluar">Keluar</string>
+    <string name="digunakan">Digunakan</string>
+    <string name="pin_salah_coba_lagi">PIN salah. Coba lagi</string>
     <string name="ini_deskripsi">ini deskripsi</string>
     <string name="cari_produk_dulu">Cari produknya dulu ya, nanti datanya akan muncul disini</string>
     <string name="cari_produk_not_found">Produk yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
@@ -616,5 +678,11 @@ untuk memperbarui data dapur?</string>
     <string name="masukan_deskripsi_masuk">Masukkan deskripsi kas masuk</string>
     <string name="masukan_deskripsi_keluar">Masukkan deskripsi kas keluar</string>
     <string name="tgl_belum_diatur">Tanggal belum diatur</string>
+    <string name="cth_1234567890123456">Cth. 1234567890123456</string>
+    <string name="ubah_nilai_kasir">Ubah Nilai Kasir</string>
+    <string name="printer">Printer</string>
+    <string name="tambah_printer">Tambah Printer</string>
+    <string name="cari_bluetooth_printer">Cari Bluetooth Printer</string>
+    <string name="konversi">Konversi</string>
 
 </resources>

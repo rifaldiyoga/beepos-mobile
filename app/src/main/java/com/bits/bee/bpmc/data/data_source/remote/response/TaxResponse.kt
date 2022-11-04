@@ -38,9 +38,6 @@ data class TaxResponse (
         val isDefault : Boolean,
     ) : Parcelable {
 
-        fun toTax() : TaxEntity {
-            return TaxEntity(-1, code, name, expr, isActive, isDefault)
-        }
 
     }
 

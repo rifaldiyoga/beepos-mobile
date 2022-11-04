@@ -26,10 +26,10 @@ class SaleCrcvRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSalecrcvBySale(id: Int): Flow<Resource<List<SaleCrcv>>> {
+    override fun getSalecrcvBySale(id: Int): Flow<List<SaleCrcv>> {
         return flow {
             val data = saleCrcvDao.getSalecrcvBySale(id).map { SaleCrcvDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defDispatcher)
     }
 

@@ -6,7 +6,6 @@ import com.bits.bee.bpmc.domain.mapper.SaledDataMapper
 import com.bits.bee.bpmc.domain.model.RankItem
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaledRepository
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,15 +22,17 @@ class SaledRepositoryImpl @Inject constructor(
     private val saledDao: SaledDao
 ) : SaledRepository {
 
-   private lateinit var mSubtotal: BigDecimal
+    private lateinit var mSubtotal: BigDecimal
 
-    override suspend fun addSaled(saledList: List<Saled>) {
-        withContext(defaultDispatcher){
+    override suspend fun addSaled(saledList: List<Saled>) : List<Long> {
+        var list : List<Long> = mutableListOf()
+        withContext(defaultDispatcher) {
             val saledNew = saledList.map {
                 SaledDataMapper.fromDomainToDb(it)
             }
-            saledDao.insertBulk(saledNew)
+            list = saledDao.insertBulk(saledNew)
         }
+        return list
     }
 
     override fun getSaledList(saleId: Int): Flow<List<Saled>> = flow {
@@ -50,6 +51,13 @@ class SaledRepositoryImpl @Inject constructor(
         return flow {
             val data = saledDao.getSaledDeletedItem().map { SaledDataMapper.fromDbToDomain(it) }
             emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaledById(id: Int): Flow<Saled?> {
+        return flow {
+            val data = saledDao.getSaledById(id)
+            emit(data?.let { SaledDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 

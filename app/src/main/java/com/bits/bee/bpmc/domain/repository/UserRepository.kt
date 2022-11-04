@@ -13,8 +13,6 @@ interface UserRepository {
 
     fun getActiveUser() : Flow<User?>
 
-    fun getDefaultUser(): Flow<Resource<User>>
-
     fun getUserById(id: Int): Flow<Resource<User>>
 
     fun getBranchUser(): Flow<Resource<Any>>
@@ -24,4 +22,6 @@ interface UserRepository {
     fun getUserBySecretSauce(username: String, userapi: String): Flow<Resource<List<User>>>
 
     suspend fun updateUser(user: User)
+
+    suspend fun resetUsedUser()
 }

@@ -48,10 +48,10 @@ class PromoRepositoryImpl @Inject constructor(
         emit(promoDao.getPromoList().map { PromoDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
-    override fun getPromoById(id: Int): Flow<Resource<Promo>> {
+    override fun getPromoById(id: Int): Flow<Promo> {
         return flow {
             val data = promoDao.getPromoById(id)
-            emit(Resource.success(PromoDataMapper.fromDbToDomain(data)))
+            emit(PromoDataMapper.fromDbToDomain(data))
         }.flowOn(ioDispatcher)
     }
 

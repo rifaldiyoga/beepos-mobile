@@ -19,7 +19,10 @@ class CalcUtils {
                 for (exp in discList) {
                     if(exp.isNotEmpty()) {
                         val re = Regex("/[^a-zA-Z ]/g")
-                        val disc = BigDecimal(re.replace(exp.removeSymbol(), ""))
+                        val discRe = re.replace(exp.removeSymbol(), "")
+                        if(discRe.isEmpty())
+                            throw Exception("Format yang anda masukkan salah!")
+                        val disc = BigDecimal(discRe)
                         if (exp.contains("%")) {
                             if(disc <= BigDecimal(100)) {
                                 val discamt = total.multiply(
@@ -34,6 +37,8 @@ class CalcUtils {
                             discAmt = discAmt.add(disc)
                         }
                         total = total.subtract(discAmt)
+                    } else {
+                        throw Exception("Format yang anda masukkan salah!")
                     }
                 }
                 return discAmt

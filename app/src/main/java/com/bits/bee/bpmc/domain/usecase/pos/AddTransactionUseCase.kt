@@ -1,10 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.pos
 
-import com.bits.bee.bpmc.domain.model.Pmtd
-import com.bits.bee.bpmc.domain.model.Sale
-import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.repository.SaleRepository
-import com.bits.bee.bpmc.domain.repository.SaledRepository
+import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.TrxNoGeneratorUtils
@@ -12,15 +9,20 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by aldi on 20/05/22.
  */
-class AddTransactionUseCase @Inject constructor(
+class  AddTransactionUseCase @Inject constructor(
     private val saleRepository: SaleRepository,
     private val saledRepository: SaledRepository,
+    private val saleAddOnRepository: SaleAddOnRepository,
+    private val saleAddOnDRepository: SaleAddOnDRepository,
+    private val salePromoRepository: SalePromoRepository,
+    private val getUnitItemUseCase: GetUnitItemUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveUserUseCase: GetActiveUserUseCase,
@@ -29,21 +31,26 @@ class AddTransactionUseCase @Inject constructor(
     private val addCashAUseCase: AddCashAUseCase,
     private val addTotalPossesUseCase: AddTotalPossesUseCase,
     private val addPaymentUseCase: AddPaymentUseCase,
-    private val defDispatcher: CoroutineDispatcher
+    private val defDispatcher: CoroutineDispatcher,
+    private val getRegUseCase: GetRegUseCase
 ) {
 
     suspend operator fun invoke(
         sale : Sale,
         saledList : List<Saled>,
+        saleAddOn : SaleAddOn? = null,
+        saleAddOnDList : List<SaleAddOnD> = mutableListOf(),
+        salePromoList : List<SalePromo> = mutableListOf(),
         paymentAmt : BigDecimal = BigDecimal.ZERO,
         pmtd : Pmtd? = null,
         trackNo : String = "",
         cardNo : String = "",
-        note : String = ""
-    ) {
+        note : String = "",
+        counter : Int
+    ) : Sale {
         withContext(defDispatcher){
 
-            for (i in (1 .. saledList.size)){
+            for (i in (1 .. saledList.size)) {
                 val saled = saledList[i - 1]
                 saled.dno = i
             }
@@ -53,9 +60,12 @@ class AddTransactionUseCase @Inject constructor(
             val user = getActiveUserUseCase().first()
             val posses = getActivePossesUseCase().first()
             val crc = getDefaultCrcUseCase().first()
+            var total : BigDecimal = sale.total
 
             crc?.let {
                 sale.crcId = it.id!!
+                sale.excrate = it.excRate
+                sale.fisrate = it.fisRate
             } ?: throw Exception("There is no active crc!")
 
             cashier?.let {
@@ -64,8 +74,10 @@ class AddTransactionUseCase @Inject constructor(
             } ?: throw Exception("There is no active cashier!")
 
             user?.let {
-                sale.operatorId = it.id
+                sale.userId = it.id
                 sale.userName = it.name
+                sale.createdBy = it.id
+                sale.updatedBy = it.id
             } ?: throw Exception("There is no active user!")
 
             posses?.let {
@@ -73,24 +85,67 @@ class AddTransactionUseCase @Inject constructor(
                 sale.kodePosses = it.trxNo
             } ?: throw Exception("There is no active posses!")
 
-            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(1, branch!!, cashier)
+            pmtd?.let {
+                val reg = getRegUseCase(BPMConstants.REG_ROUND).first()
+                val surc = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total).setScale(reg?.value?.toInt() ?: 0, RoundingMode.HALF_UP)
+                sale.total = sale.total.add(surc)
+            }
+
+            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, branch!!, cashier)
+            sale.trxOrderNum = counter
             sale.trxDate = Date()
             sale.totPaid = paymentAmt
-            sale.totChange = if(paymentAmt > BigDecimal.ZERO) paymentAmt.subtract(sale.total) else BigDecimal.ZERO
-
-            pmtd?.let {
-                val surc = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total)
-                sale.total.add(surc)
-            }
+            sale.totChange = if(paymentAmt > BigDecimal.ZERO && pmtd == null) paymentAmt.subtract(sale.total) else BigDecimal.ZERO
 
             val id = saleRepository.addSale(sale)
             sale.id = id.toInt()
 
-            saledList.map {
-                it.saleId = id.toInt()
-            }
-            saledRepository.addSaled(saledList)
+            saledList.map { saled ->
+                saled.saleId = id.toInt()
+                if(saled.unitId == null || saled.unit == null) {
+                    val unit = getUnitItemUseCase(saled.itemId).first().sortedBy { it.conv }.firstOrNull()
+                    unit?.let {
+                        saled.unitId = it.id
+                        saled.unit = it.unit
+                        saled.conv = it.conv
+                    }
+                }
 
+            }
+            val list = saledRepository.addSaled(saledList)
+
+            saledList.forEachIndexed { index, saled ->
+                saled.id = list[index].toInt()
+            }
+
+            saleAddOn?.let {
+                saleAddOn.saleId = sale
+                val saleAddOnId = saleAddOnRepository.addSaleAddOn(saleAddOn)
+
+                saleAddOnDList.forEach { saleAddOnD ->
+                    saleAddOnD.saleAddOn?.let { saleAddOn ->
+                        saleAddOn.id = saleAddOnId.toInt()
+                    }
+                    saleAddOnD.saled?.let { saled ->
+                        saled.id = saledList.firstOrNull { saled == it }?.id
+                    }
+                    saleAddOnD.upSaled?.let { saled ->
+                        saled.id = saledList.firstOrNull { saled == it }?.id
+                    }
+                }
+
+                saleAddOnDRepository.addSaleAddOnD(saleAddOnDList)
+            }
+
+            if(salePromoList.isNotEmpty()) {
+                salePromoList.forEach { salePromo ->
+                    salePromo.sale = sale
+                    salePromo.saleNo = sale.trxNo
+                    salePromo.bp = sale.bp
+                }
+
+                salePromoRepository.addSalePromo(salePromoList)
+            }
             if(!sale.isDraft) {
                 /** For input transaction to table casha for history cash in or out in active session cashier */
                 addCashAUseCase(
@@ -108,7 +163,9 @@ class AddTransactionUseCase @Inject constructor(
                     pmtd,
                     trackNo,
                     cardNo,
-                    note
+                    note,
+                    paymentAmt,
+                    total
                 )
 
                 /** For update totin for active session cashier */
@@ -118,6 +175,7 @@ class AddTransactionUseCase @Inject constructor(
             }
 
         }
+        return sale
     }
 
 }

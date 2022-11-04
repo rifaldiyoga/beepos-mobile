@@ -20,4 +20,7 @@ interface ChannelDao : BaseDao<ChannelEntity>{
     @Query("SELECT * FROM channel WHERE ispos = 1 AND active = 1")
     fun getActiveChannelList() : List<ChannelEntity>
 
+    @Query("SELECT * FROM channel WHERE id = :id")
+    fun getChannelById(id : Int) : ChannelEntity?
+
 }

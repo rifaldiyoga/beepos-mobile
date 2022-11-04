@@ -2,10 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.nama_device
 
 import android.os.Bundle
 import android.view.*
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentNamaDeviceBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -34,13 +34,10 @@ class UserRepositoryImpl @Inject constructor(
 
     }.flowOn(defaultDispatcher)
 
-    override fun getActiveUser(): Flow<User?> = flow {
-        emit(UserDataMapper.fromDbToDomain(userDao.geActiveUser()))
-    }. flowOn(defaultDispatcher)
-
-    override fun getDefaultUser(): Flow<Resource<User>> {
+    override fun getActiveUser(): Flow<User?> {
         return flow {
-            emit(Resource.success(UserDataMapper.fromDbToDomain(userDao.getDefaultUser())))
+            val data = userDao.getDefaultUser()
+            emit(data?.let { UserDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 
@@ -88,6 +85,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateUser(user: User) {
         withContext(defaultDispatcher){
             userDao.update(UserDataMapper.fromDomainToDb(user))
+        }
+    }
+
+    override suspend fun resetUsedUser() {
+        withContext(defaultDispatcher){
+            userDao.resetUsed()
         }
     }
 }

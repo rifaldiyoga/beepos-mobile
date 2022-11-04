@@ -8,8 +8,8 @@ import java.math.BigDecimal
  * Created by aldi on 15/06/22.
  */
 data class AturModalState (
-    var modal : BigDecimal? = null,
-    var defaultModal : BigDecimal = BigDecimal(100000),
+    var modal : String = "",
+    var defaultModal : String = "",
     var activeBranch : Branch? = null,
     var activeCashier : Cashier? = null,
     var shift : Int = 1,

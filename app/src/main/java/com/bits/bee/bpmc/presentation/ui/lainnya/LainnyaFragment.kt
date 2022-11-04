@@ -63,7 +63,7 @@ class LainnyaFragment(
                             findNavController().navigate(action)
                         }
                         LainnyaViewModel.UIEvent.NavigateToKelolaProduk -> {
-                            val action = LainnyaFragmentDirections.actionLainnyaFragmentToKelolaProdukFragment()
+                            val action = LainnyaFragmentDirections.actionLainnyaFragmentToInsightKelolaProdukFragment()
                             findNavController().navigate(action)
                         }
                         LainnyaViewModel.UIEvent.NavigateToPengaturan -> {

@@ -13,7 +13,7 @@ import rx.Observable
 interface StockApiService {
 
     @GET("v2/stock")
-    fun getStockByItem(@Query("itemcode") itemCode : String,@Query("whcode") whCode : String) : Flow<ApiResponse<StockResponse>>
+    fun getStockByItem(@Query("itemcode") itemCode : String, @Query("whcode") whCode : String) : Flow<ApiResponse<StockResponse>>
 
     @GET("v2/stock")
     fun getItemStock(@Query("wh_id") wh_id: Int): Flow<ApiResponse<StockResponse>>

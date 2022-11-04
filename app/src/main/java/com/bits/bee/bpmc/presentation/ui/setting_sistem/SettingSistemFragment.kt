@@ -12,11 +12,10 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingSistemBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CloudDapurDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
-import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
-import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.radio_list.list.RadioListDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 const val TAG = "SettingSistemFragment"
@@ -30,72 +29,17 @@ class SettingSistemFragment(
     private lateinit var sistemPenyimpananList : List<String>
     private lateinit var sistemBatchUploadList : List<String>
     private lateinit var periodeUploadList : List<String>
-    private lateinit var cloudDataDapur : String
-
-    private lateinit var sistemPenyimpanan: String
-    private lateinit var batchUpload: String
-    private lateinit var periodeUpload: String
-    private var positionPenyimpanan: Int = 0
-    private var positionBatchupload: Int = 0
-    private var positionPeriodeUpload: Int = 0
 
     override fun initComponents() {
         sistemPenyimpananList = requireActivity().resources.getStringArray(R.array.list_sistem_penyimpanan).toList()
         sistemBatchUploadList = requireActivity().resources.getStringArray(R.array.list_sistem_batch_upload).toList()
         periodeUploadList = requireActivity().resources.getStringArray(R.array.list_periode_upload_otomatis).toList()
-//        cloudDataDapur =
         binding.apply {
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                val sistem = viewModel.sistemPreferences.first()
+                swcloudDapur.isChecked = sistem.isCloudDapur
+            }
         }
-    }
-
-    fun iniliazePenyimpanan(): Int{
-        sistemPenyimpanan = BeePreferenceManager.getDataFromPreferences(requireContext(),getString(
-            R.string.pref_sistem_penyimpanan), "") as String
-        if (sistemPenyimpanan.equals("7 Hari")){
-            positionPenyimpanan = 0
-        }else if (sistemPenyimpanan.equals("15 Hari")){
-            positionPenyimpanan = 1
-        }else if (sistemPenyimpanan.equals("30 Hari")){
-            positionPenyimpanan = 2
-        }else{
-            positionPenyimpanan = 0
-        }
-        return positionPenyimpanan
-    }
-
-    fun iniliazeBatch(): Int{
-        batchUpload = BeePreferenceManager.getDataFromPreferences(requireContext(),getString(
-            R.string.pref_batch_upload), "") as String
-        if (batchUpload.equals("AUTO")){
-            positionBatchupload = 0
-        }else if(batchUpload.equals("5(Paling Ringan)")){
-            positionBatchupload = 1
-        }else if (batchUpload.equals("10")){
-            positionBatchupload = 2
-        }else if (batchUpload.equals("25")){
-            positionBatchupload = 3
-        }else if (batchUpload.equals("50(Paling Berat)")){
-            positionBatchupload = 4
-        }else{
-            positionBatchupload = 0
-        }
-
-        return positionBatchupload
-    }
-
-    fun iniliazePeriodeUpload(): Int{
-        periodeUpload = BeePreferenceManager.getDataFromPreferences(requireContext(),getString(
-            R.string.pref_periode_upload_otomatis), "") as String
-        if (periodeUpload.equals("15 Menit")){
-            positionPeriodeUpload = 0
-        }else if (periodeUpload.equals("30 Menit")){
-            positionPeriodeUpload = 1
-        }else if (periodeUpload.equals("60 Menit")){
-            positionPeriodeUpload = 2
-        }else{
-            positionPeriodeUpload = 0
-        }
-        return positionPeriodeUpload
     }
 
     override fun subscribeListeners() {
@@ -113,15 +57,13 @@ class SettingSistemFragment(
                 viewModel.onClickAboutCloudDapur()
             }
             swcloudDapur.setOnCheckedChangeListener { _, b ->
-                if (b){
-                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_switch_dapur), true)
-                }else{
-                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_switch_dapur), false)
-                }
+                viewModel.onClickCloudDapur(b)
                 viewModel.onClickAturPrinter()
             }
+            clCloudDataDapur.setOnClickListener {
+                swcloudDapur.isChecked = !swcloudDapur.isChecked
+            }
         }
-
     }
 
     override fun subscribeObservers() {
@@ -133,20 +75,11 @@ class SettingSistemFragment(
                             val dialog = RadioListDialogBuilder.Builder(requireContext())
                                 .setTitle(getString(R.string.sistem_penyimpanan))
                                 .setList(sistemPenyimpananList)
-                                .setSelectedPos(iniliazePenyimpanan())
+                                .setValue(viewModel.state.sistemPenyimpanan)
                                 .setOnSaveListener {
+                                    viewModel.onSuccessSistemPenyimpanan(it.toString())
                                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
-                                    BeePreferenceManager.saveToPreferences(
-                                        requireActivity(), getString(
-                                            R.string.pref_sistem_penyimpanan
-                                        ), it.toString()
-                                    )
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            sistemPenyimpanan = it.toString()
-                                        )
-                                    )
                                 }.build()
 
                             dialog.show(parentFragmentManager, TAG)
@@ -154,21 +87,12 @@ class SettingSistemFragment(
                         SettingSistemViewModel.UIEvent.RequestSistemBatchUpload -> {
                             val dialog = RadioListDialogBuilder.Builder(requireContext())
                                 .setTitle(getString(R.string.sistem_batch))
+                                .setValue(viewModel.state.sistemBatchUpload)
                                 .setList(sistemBatchUploadList)
-                                .setSelectedPos(iniliazeBatch())
                                 .setOnSaveListener {
+                                    viewModel.onSuccessSistemBatchUpload(it.toString())
                                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
-                                    BeePreferenceManager.saveToPreferences(
-                                        requireActivity(), getString(
-                                            R.string.pref_batch_upload
-                                        ), it.toString()
-                                    )
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            sistemBatchUpload = it.toString()
-                                        )
-                                    )
                                 }.build()
 
                             dialog.show(parentFragmentManager, TAG)
@@ -176,21 +100,12 @@ class SettingSistemFragment(
                         SettingSistemViewModel.UIEvent.RequestPeriodeUploadOtomatis -> {
                             val dialog = RadioListDialogBuilder.Builder(requireContext())
                                 .setTitle(getString(R.string.periode_upload))
+                                .setValue(viewModel.state.periodeUploadOtomatis)
                                 .setList(periodeUploadList)
-                                .setSelectedPos(iniliazePeriodeUpload())
                                 .setOnSaveListener {
+                                    viewModel.onSuccessSistemUploadOtomatis(it.toString())
                                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG)
                                         .show()
-                                    BeePreferenceManager.saveToPreferences(
-                                        requireActivity(), getString(
-                                            R.string.pref_periode_upload_otomatis
-                                        ), it.toString()
-                                    )
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            periodeUploadOtomatis = it.toString()
-                                        )
-                                    )
                                 }.build()
 
                             dialog.show(parentFragmentManager, TAG)
@@ -199,41 +114,20 @@ class SettingSistemFragment(
                             val dialog = CloudDapurDialogBuilder(getString(R.string.tentang_cloud), { data ->
                                 Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
                                     .show()
-                                BeePreferenceManager.saveToPreferences(
-                                    requireActivity(), getString(
-                                        R.string.pref_cloud_data_dapur
-                                    ), data.toString()
-                                )
                             })
                             dialog.show(parentFragmentManager, TAG)
                         }
                         SettingSistemViewModel.UIEvent.RequestSettingPritner -> {
-//                            val dialog = CustomDialogBuilder.Builder(requireContext())
-//                                .setTitle(getString(R.string.data_dapur_diperbarui))
-//                                .setPositiveCallback {
-//                                    val action = SettingSistemFragmentDirections.actionSettingSistemFragmentToSettingPrinterFragment()
-//                                    findNavController().navigate(action)
-//                                }
-//                                .setNegativeCallback{
-////                        dismis()
-//                                }
-//                                .setMessage(getString(R.string.apakah_anda_ingin_memberbarui_printer)).build()
-//
-//                            dialog.show(parentFragmentManager,
-//                                com.bits.bee.bpmc.presentation.ui.nama_device.TAG
-//                            )
-                            val dialog2 = DialogBuilderUtils.showDialogChoice(requireContext(), getString(R.string.data_dapur_diperbarui),
+                            val dialog2 = DialogBuilderHelper.showDialogChoice(requireContext(), getString(R.string.data_dapur_diperbarui),
                                 getString(R.string.apakah_anda_ingin_memberbarui_printer),
                                 "Atur sekarang", {
                                     val action = SettingSistemFragmentDirections.actionSettingSistemFragmentToSettingPrinterFragment()
                                     findNavController().navigate(action)
-                                    return@showDialogChoice
+                                    it.dismiss()
                                 }, "Nanti", {
-                                    return@showDialogChoice
+                                    it.dismiss()
                                 })
-                            dialog2.show(parentFragmentManager,
-                                com.bits.bee.bpmc.presentation.ui.nama_device.TAG
-                            )
+                            dialog2.show(parentFragmentManager, TAG)
                         }
                     }
                 }
@@ -241,30 +135,23 @@ class SettingSistemFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewStates().collect {
+                viewModel.sistemPreferences.collect {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            sistemPenyimpanan = it.penyimpanan,
+                            sistemBatchUpload = it.batchUpload,
+                            periodeUploadOtomatis = it.periodeUpload,
+                            isCloudDapur = it.isCloudDapur
+                        )
+                    )
                     binding.apply {
-                        swcloudDapur.isChecked = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
-                            R.string.pref_switch_dapur), false) as Boolean
-                        tvDetailPenyimpanan.text = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
-                            R.string.pref_sistem_penyimpanan), getString(
-                            R.string.belum_diatur)) as String
-                        tvDetailBatch.text = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(
-                            R.string.pref_batch_upload), getString(
-                            R.string.belum_diatur) ) as String
-                        tvDetailPeriode.text = BeePreferenceManager.getDataFromPreferences(requireContext(),getString(
-                            R.string.pref_periode_upload_otomatis), getString(
-                            R.string.belum_diatur)) as String
+                        swcloudDapur.isChecked = it.isCloudDapur
+                        tvDetailPenyimpanan.text = it.penyimpanan
+                        tvDetailBatch.text = it.batchUpload
+                        tvDetailPeriode.text = it.periodeUpload
                     }
                 }
             }
         }
-//        viewLifecycleOwner.collectLifecycleFlow {
-//            viewModel.state.collect {
-//                binding.apply {
-//                    swcloudDapur.isChecked = it.isCloudDapur
-//
-//                }
-//            }
-//        }
     }
 }

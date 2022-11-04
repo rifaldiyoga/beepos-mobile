@@ -23,7 +23,7 @@ class GetListDistrictByCodeUseCase @Inject constructor(
     operator fun invoke(name : String) : Flow<Resource<List<District>>> {
         return flow {
             regencyRepository.getCodeByRegency(name).collect {
-                it.data?.let { data ->
+                it?.let { data ->
                     mRegency = data
                 }
             }

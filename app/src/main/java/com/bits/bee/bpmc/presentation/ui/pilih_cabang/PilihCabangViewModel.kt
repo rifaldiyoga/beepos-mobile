@@ -22,7 +22,9 @@ class PilihCabangViewModel @Inject constructor (
     val getLatestBranch = getLatestBranchUseCase()
 
     fun onItemClick(branch: Branch) = viewModelScope.launch {
-        updateActiveBranchUseCase(branch)
+        updateActiveBranchUseCase(branch.copy(
+            active = true
+        ))
         eventChannel.send(UIEvent.NavigateToCashier)
     }
 

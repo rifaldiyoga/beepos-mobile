@@ -24,7 +24,7 @@
                 android:id="@+id/menu_reset"
                 android:orderInCategory="100"
                 android:title="Ganti Kasir"
-                android:icon="@drawable/ic_reload"
+                android:icon="@drawable/ic_cashier_black"
                 app:showAsAction="ifRoom"/>
             <item
                 android:id="@+id/menu_info"
@@ -34,6 +34,5 @@
                 app:showAsAction="ifRoom"/>
         </menu>
     </item>
-
 
 </menu>

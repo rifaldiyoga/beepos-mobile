@@ -24,12 +24,10 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -40,7 +38,7 @@ import kotlinx.coroutines.launch
 const val ITGRP = "itgrp"
 
 @AndroidEntryPoint
-class PositemFragment(
+class PositemFragment (
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPosItemBinding = FragmentPosItemBinding::inflate
 ) : BaseFragment<FragmentPosItemBinding>() {
 
@@ -61,36 +59,48 @@ class PositemFragment(
 
     override fun initComponents() {
         binding.apply {
-            posAdapter = ItemPosAdapter(
-                onItemClicK = {item ->
-                    onItemClick(item)
-                },
-                onMinusClick = {item ->
-                    mainViewModel.onMinusClick(item)
-                },
-                mainViewModel.state.saledList,
-            )
-            posAdapter.addLoadStateListener { loadState ->
-                loadState.decideOnState(
-                    posAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
-                    showLoading = {
-                        setVisibilityComponent(it)
-                    },
-                    showEmptyState = { isVisible ->
-                        binding.groupEmpty.isVisible = isVisible
-                    },
-                    showError = { it ->
-                        showSnackbar(it)
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                mainViewModel.posPreferences.collect {
+                    posAdapter = ItemPosAdapter(
+                        onItemClicK = {item ->
+                            onItemClick(item)
+                        },
+                        onMinusClick = {item ->
+                            mainViewModel.onMinusClick(item)
+                        },
+                        mainViewModel.state.saledList,
+                        it.ukuranFont,
+                        it.isMultiLine,
+                        it.isMuatGambar
+                    )
+
+                    posAdapter.addLoadStateListener { loadState ->
+                        loadState.decideOnState(
+                            posAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+                            showLoading = {
+                                setVisibilityComponent(it)
+                            },
+                            showEmptyState = { isVisible ->
+                                binding.groupEmpty.isVisible = isVisible
+                            },
+                            showError = { it ->
+                                showSnackbar(it)
+                            }
+                        )
                     }
-                )
-            }
-            rvList.apply {
-                layoutManager = when(Utils.getScreenResolution(requireActivity())) {
-                    BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
-                    else -> GridLayoutManager(requireContext(), 3)
+                    rvList.apply {
+                        layoutManager = when(mainViewModel.orientation.value) {
+                            BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
+                            else -> GridLayoutManager(requireContext(), 3)
+                        }
+                        adapter = posAdapter
+                        itemAnimator = null
+                    }
                 }
-                adapter = posAdapter
             }
+
+
+
         }
     }
 
@@ -101,42 +111,22 @@ class PositemFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mainViewModel.viewStates().collectLatest {
-                    it?.let {
-                        it.bp?.let { bp ->
-                            viewModel.state.priceLvlId = bp.priceLvlId
-                            viewModel.loadItem(bp)
-                        }
-                        posAdapter.submitSaledList(it.saledList)
-//                        it.channel?.let { channel ->
-//                            channel.priceLvlId?.let { pricelvl ->
-//                                viewModel.state.priceLvlId = channel.priceLvlId!!
-//                                viewModel.loadItem()
-//                            }
-//                        }
-                    }
+                mainViewModel.itemList.collectLatest { pagingData ->
+                    posAdapter.submitData(pagingData)
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
+                mainViewModel.viewStates().collectLatest {
                     it?.let {
-                        it.itemGroup?.let {
-                            mainViewModel.state.let {
-                                it.bp?.let{ bp ->
-                                    viewModel.loadItem(bp)
-                                }
-                            }
-                        }
-                        it.itemList?.let { pagingData ->
-                            posAdapter.submitData(pagingData)
-                        }
+                        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
+                            posAdapter.submitSaledList(it.saledList)
                     }
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             posAdapter.loadStateFlow.collectLatest {
                 if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
                     if (posAdapter.itemCount == 0)
@@ -146,6 +136,7 @@ class PositemFragment(
                 }
             }
         }
+        
     }
 
     private fun setVisibilityComponent(isLoading : Boolean) {

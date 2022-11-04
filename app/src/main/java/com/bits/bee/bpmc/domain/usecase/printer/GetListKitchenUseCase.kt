@@ -54,7 +54,7 @@ class GetListKitchenUseCase @Inject constructor(
                         }
                         var itmGrp = itemgrp!!
                         val kitchen = Kitchen(
-                            id = itmGrp.id,
+                            id = itmGrp.id!!,
                             name = itmGrp.name,
                         )
                         kitchenList.add(kitchen)

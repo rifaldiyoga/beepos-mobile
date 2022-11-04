@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAturProdukBinding
@@ -33,7 +34,7 @@ class AturProdukFragment(
 
     override fun initComponents() {
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-            R.string.page_atur_pin))
+            R.string.page_atur_produk))
         binding.apply {
             itemDummyAdapter = ItemDummyAdapter(onItemClick = { item ->
                 val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment(if(item.id != null) item else null)
@@ -49,6 +50,7 @@ class AturProdukFragment(
     override fun subscribeListeners() {
         binding.apply {
             btntambahPrd.setOnClickListener {
+                clearPref()
                 val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment()
                 findNavController().navigate(action)
             }
@@ -84,5 +86,13 @@ class AturProdukFragment(
                 }
             }
         }
+    }
+
+    private fun clearPref(){
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+        sharedPreferences.remove(getString(R.string.pref_add_nama_prd))
+        sharedPreferences.remove(getString(R.string.pref_add_harga_prd))
+        sharedPreferences.remove(getString(R.string.pref_add_tipe_prd))
+        sharedPreferences.commit()
     }
 }

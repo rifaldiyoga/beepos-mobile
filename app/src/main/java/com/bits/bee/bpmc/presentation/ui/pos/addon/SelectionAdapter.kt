@@ -46,7 +46,6 @@ class SelectionAdapter(
                 val addOnAdapter = AddOnAdapter(
                     isMultiQty = model.selection.isMultiQty,
                     isMultiSelect = model.selection.isMultiSelect,
-                    selectionAdapter = this@SelectionAdapter,
                     selectionPosition = absoluteAdapterPosition,
                     addOnSelected = addOnSelected,
                     lifecycleScope = lifecycleScope,
@@ -61,7 +60,8 @@ class SelectionAdapter(
                 }
 
                 addOnSelected.observe(lifecycleScope){ selectedItem ->
-                    ivCheck.isVisible = checkSelected(model.itemList, selectedItem)
+                    val isContains = checkSelected(model.itemList, selectedItem)
+                    ivCheck.isVisible = isContains
                 }
 
             }

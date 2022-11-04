@@ -50,4 +50,8 @@ class CrcRepositoryImpl @Inject constructor(
         emit(crcDao.getDefaultCrc()?.let { CrcDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
+    override fun getCrcById(id: Int): Flow<Crc?> = flow {
+        emit(crcDao.getCrcById(id)?.let { CrcDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
+
 }

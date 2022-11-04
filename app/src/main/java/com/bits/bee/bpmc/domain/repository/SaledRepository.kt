@@ -12,13 +12,15 @@ import java.math.BigDecimal
  */
 interface SaledRepository {
 
-    suspend fun addSaled(saledList : List<Saled>)
+    suspend fun addSaled(saledList : List<Saled>) : List<Long>
 
     fun getSaledList(saleId : Int) : Flow<List<Saled>>
 
     fun getRankItem(possesId: Int): Flow<List<RankItem>>
 
     fun getSaledDeletedItem(): Flow<List<Saled>>
+
+    fun getSaledById(id : Int) : Flow<Saled?>
 
     fun queryByPenjualan(): Flow<List<Saled>>
 

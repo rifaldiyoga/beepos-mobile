@@ -22,7 +22,7 @@ object BpAddrDataMapper: BaseMapper<BpAddrEntity, BpAddr, Any>() {
             model.isMainAddr,
             model.provinceCode,
             model.regencyCode,
-            model.cityId,
+            model.cityCode,
             model.districtCode
         )
     }
@@ -34,7 +34,7 @@ object BpAddrDataMapper: BaseMapper<BpAddrEntity, BpAddr, Any>() {
             model.name,
             model.greeting.toString(),
             model.address,
-            model.phone,
+            model.phone ?: "",
             model.zipCode.toString(),
             model.email.toString(),
             model.note.toString(),
@@ -43,7 +43,7 @@ object BpAddrDataMapper: BaseMapper<BpAddrEntity, BpAddr, Any>() {
             model.isMainAddr,
             model.provinceCode,
             model.regencyCode,
-            model.cityId,
+            model.cityCode ?: "",
             model.districtCode
         )
     }

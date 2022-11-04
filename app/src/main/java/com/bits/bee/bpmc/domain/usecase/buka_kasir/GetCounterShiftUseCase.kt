@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCounterShiftUseCase @Inject constructor(
     private val cashARepository: CashARepository
 ) {
-    operator fun invoke(): Flow<Resource<List<CashA>>>{
+    operator fun invoke(): Flow<List<CashA>>{
        return cashARepository.getLastCasha()
     }
 }

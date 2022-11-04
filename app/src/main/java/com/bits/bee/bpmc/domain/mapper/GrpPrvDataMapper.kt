@@ -50,7 +50,7 @@ object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvModel>(){
     override fun fromNetworkToDb(model: GrpPrvModel): GrpPrvEntity {
         return GrpPrvEntity(
             model.id ,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt),
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt),
             model.objCode ,
             model.acsType ,
             model.enabled ,

@@ -2,8 +2,8 @@ package com.bits.bee.bpmc.presentation.ui.member
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemMemberBinding
 import com.bits.bee.bpmc.domain.model.Bp
@@ -14,7 +14,7 @@ import com.bits.bee.bpmc.domain.model.Bp
 class MemberAdapter constructor(
     private val onMemberClick : (Bp) -> Unit,
     private val onEyeClick: (Bp) -> Unit
-) : ListAdapter<Bp, RecyclerView.ViewHolder>(Diffcallback()) {
+) : PagingDataAdapter<Bp, RecyclerView.ViewHolder>(Diffcallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,7 +25,9 @@ class MemberAdapter constructor(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as ViewHolder
-        viewHolder.bind(getItem(viewHolder.absoluteAdapterPosition))
+        getItem(viewHolder.absoluteAdapterPosition)?.let {
+            viewHolder.bind(it)
+        }
     }
 
     inner class ViewHolder(private val binding : ItemMemberBinding) : RecyclerView.ViewHolder(binding.root){
@@ -33,6 +35,7 @@ class MemberAdapter constructor(
         fun bind(model : Bp) {
             binding.apply {
                 tvNamaMember.text = model.name
+                tvNoTelp.text = model.bpAddr?.phone ?: ""
                 lLContentMember.setOnClickListener {
                     onMemberClick(model)
                 }

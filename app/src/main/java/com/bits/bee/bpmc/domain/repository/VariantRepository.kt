@@ -14,4 +14,5 @@ interface VariantRepository {
 
     fun getVariant(variantId : Int) : Flow<VariantWithItem>
 
+    suspend fun updateFavorit(variantId: Int, fav : Boolean)
 }

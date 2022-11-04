@@ -20,6 +20,11 @@ class DateFormatUtils  {
             return sFormat.format(value)
         }
 
+        fun formatLongToString(format: String, value: Long): String{
+            val sFormat = SimpleDateFormat(format)
+            return sFormat.format(value)
+        }
+
         fun formatDateToLong(format: String, value: Date): Long{
             val sFormat = SimpleDateFormat(format)
             val str = sFormat.format(value)

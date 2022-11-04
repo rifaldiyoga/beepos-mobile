@@ -83,6 +83,12 @@ data class SaleEntity(
     var updatedBy: Int = -1,
     @ColumnInfo(name = CRC_ID, index = true)
     var crcId: Int? = -1,
+    @ColumnInfo(name = SREP_ID, index = true)
+    var srepId: Int? = -1,
+    @ColumnInfo(name = EXCRATE)
+    var excrate: BigDecimal = BigDecimal.ZERO,
+    @ColumnInfo(name = FISRATE)
+    var fisrate: BigDecimal = BigDecimal.ZERO,
 ) {
     companion object {
         const val TBL_NAME = "sale"
@@ -121,6 +127,9 @@ data class SaleEntity(
         const val UPDATED_AT = "updated_at"
         const val UPDATED_BY = "updated_by"
         const val CRC_ID = "crc_id"
+        const val SREP_ID = "srep_id"
+        const val EXCRATE = "excrate"
+        const val FISRATE = "fisrate"
 
     }
 }

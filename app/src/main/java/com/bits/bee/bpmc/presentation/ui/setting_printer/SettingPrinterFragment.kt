@@ -3,26 +3,21 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding
-import com.bits.bee.bpmc.presentation.base.BaseFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
+import com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding
 import com.bits.bee.bpmc.domain.model.Printer
-import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.google.gson.Gson
+import com.bits.bee.bpmc.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingPrinterFragment(
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding = FragmentSettingPrinterBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingPrinterBinding = FragmentSettingPrinterBinding::inflate
 ): BaseFragment<FragmentSettingPrinterBinding>() {
 
     private val viewModel : SettingPrinterViewModel by viewModels()
@@ -53,9 +48,7 @@ class SettingPrinterFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         SettingPrinterViewModel.UIEvent.RequestAddPrinter -> {
-                            BeePreferenceManager.saveToPreferences(requireContext(), getString(
-                                R.string.pref_is_scan), false)
-                            val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(true, Gson().toJson(null))
+                            val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(null)
                             findNavController().navigate(action)
                         }
                     }
@@ -71,13 +64,6 @@ class SettingPrinterFragment(
                         initAdapter(viewModel.get())
                         validateAdapter()
                     }
-//                    when(it.status){
-//                        Resource.Status.SUCCESS ->{
-//                        }
-//                        Resource.Status.ERROR -> {
-//                            val error = ""
-//                        }
-//                    }
                 }
             }
         }
@@ -99,7 +85,7 @@ class SettingPrinterFragment(
     private fun initAdapter(data: List<Printer>) {
         printerAdapter = PrinterAdapter(data, mListener = object : PrinterAdapter.PilihPrinterI{
             override fun onItemClick(printer: Printer) {
-                val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(false, Gson().toJson(printer))
+                val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(printer)
                 findNavController().navigate(action)
             }
 

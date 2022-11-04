@@ -34,7 +34,7 @@ class ListPromoBonus : ArrayList<ListPromoBonus.PromoBonus>() {
     class PromoBonus(promo: Promo, qty: BigDecimal, saled: Saled?) {
         private var promo: Promo
         var qty: BigDecimal
-        private var saled: Saled?
+        var saled: Saled?
 
         fun getPromo(): Promo {
             return promo

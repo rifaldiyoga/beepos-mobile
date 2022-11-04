@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/size16"
             android:text="@string/lihat_promo"
+            android:visibility="gone"
             android:textColor="?colorPrimary"
             android:textSize="@dimen/font12"
             app:layout_constraintBottom_toBottomOf="parent"

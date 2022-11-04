@@ -24,6 +24,9 @@ interface SaledDao : BaseDao<SaledEntity>{
             "WHERE b.isuploaded = 0 AND substr(c.code, -4) = '-DEL'")
     fun getSaledDeletedItem(): List<SaledEntity>
 
+    @Query("SELECT * FROM saled WHERE id = :id")
+    fun getSaledById(id : Int) : SaledEntity?
+
     @Query("select saled.item_code, saled.disc, saled.tax, saled.discexp, saled.discamt, saled.disc2amt, saled.taxamt, saled.baseprice, saled.taxableamt, saled.dno, saled.totaldiscamt, saled.totaldisc2amt, saled.totaltaxamt, saled.dnote, saled.id, saled.item_id, saled.name, saled.listprice, sum(saled.qty) as qty, count(saled.sale_id) as sale_id, saled.subtotal from saled " +
             "left join sale on saled.sale_id = sale.id " +
             "left join item on saled.item_id = item.id " +

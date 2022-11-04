@@ -2,9 +2,12 @@ package com.bits.bee.bpmc.domain.usecase.member
 
 import com.bits.bee.bpmc.domain.mapper.BpAddrDataMapper
 import com.bits.bee.bpmc.domain.mapper.BpDataMapper
-import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.model.Bp
+import com.bits.bee.bpmc.domain.model.BpAddr
+import com.bits.bee.bpmc.domain.model.District
+import com.bits.bee.bpmc.domain.model.Regency
 import com.bits.bee.bpmc.domain.repository.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class SaveBpAddrUseCase @Inject constructor(
@@ -14,82 +17,63 @@ class SaveBpAddrUseCase @Inject constructor(
     private val regencyRepository: RegencyRepository,
     private val districtRepository: DistrictRepository
 ) {
-    private var city: City? = null
-    private var mBp: Bp? = null
-    private var mRegency: Regency? = null
-    private var mDistrict: District? = null
-    private var mListDistrict: List<District>? = null
-    private lateinit var province_code: String
-    private lateinit var regency_code: String
-    private lateinit var district_code: String
+    private var province_code: String = ""
+    private var regency_code: String = ""
+    private var district_code: String = ""
 
     suspend operator fun invoke(kota: String, bp: Bp, noTelp: String, email: String, alamat: String) {
-        bpRepository.addUpdateBp(BpDataMapper.fromDomainToDb(bp))
+        val lastId = bpRepository.addUpdateBp(bp)
+        bp.id = lastId.toInt()
 
-        bpRepository.getlastId().collect {
-            it.data?.let { data ->
-                mBp = data
-            }
+        if (kota != "") {
+//            val kotaDistrict = kota.split(", ").toTypedArray()
+//            var getKota: String? = null
+//            var getDistrict: String? = null
+//
+//            if (kotaDistrict.lastIndex == 1) {
+//                getKota = kotaDistrict[0]
+//                getDistrict = kotaDistrict[1]
+//            } else if (kotaDistrict.lastIndex == 0) {
+//                getKota = kotaDistrict[0]
+//            }
+//
+//            val regency = regencyRepository.getCodeByRegency(getKota!!).first()
+//
+//            province_code = regency?.provinceCode ?: ""
+//            regency_code = regency?.code ?: ""
+//
+//            if (getDistrict != null) {
+//                districtRepository.getCodeByName(getDistrict).collect {
+//                    it.data?.let {
+//                        mDistrict = it
+//                    }
+//                }
+//
+//                district_code = mDistrict!!.code
+//            } else {
+//                district_code = ""
+//            }
         }
 
-        if (!kota.equals("")){
-            val kotaDistrict = kota.split(", ").toTypedArray()
-            var getKota: String? = null
-            var getDistrict: String? = null
+        val bpAddr = BpAddr(
+            bpId = bp.id!!,
+            name = bp.name,
+            greeting = "",
+            address = alamat,
+            phone = noTelp,
+            zipCode = "",
+            email = email,
+            note = "",
+            isBillAddr = false,
+            isShipAddr = false,
+            isMainAddr = false,
+            provinceCode = province_code,
+            regencyCode = regency_code,
+            cityCode = "",
+            districtCode = district_code
+        )
 
-            if (kotaDistrict.lastIndex == 1){
-                getKota = kotaDistrict[0]
-                getDistrict = kotaDistrict[1]
-            }else if(kotaDistrict.lastIndex == 0){
-                getKota = kotaDistrict[0]
-            }
+        bpAddrRepository.addUpdateBpAddr(BpAddrDataMapper.fromDomainToDb(bpAddr))
 
-            regencyRepository.getCodeByRegency(getKota!!).collect {
-                it.data?.let {
-                    mRegency = it
-                }
-            }
-
-            province_code = mRegency!!.provinceCode
-            regency_code = mRegency!!.code
-
-            if (getDistrict != null){
-                districtRepository.getCodeByName(getDistrict).collect {
-                    it.data?.let {
-                        mDistrict = it
-                    }
-                }
-
-                district_code = mDistrict!!.code
-            }else{
-                district_code = ""
-            }
-        }else{
-            province_code = ""
-            regency_code = ""
-            district_code = ""
-        }
-
-        if (mBp != null){
-            var bpAddr = BpAddr(
-                bpId = mBp?.id!!,
-                name = mBp?.name!!,
-                greeting = "",
-                address = alamat,
-                phone = noTelp,
-                zipCode = "",
-                email = email,
-                note = "",
-                isBillAddr = false,
-                isShipAddr = false,
-                isMainAddr = false,
-                provinceCode = province_code,
-                regencyCode = regency_code,
-                cityId = 0,
-                districtCode = district_code
-            )
-
-            bpAddrRepository.addUpdateBpAddr(BpAddrDataMapper.fromDomainToDb(bpAddr))
-        }
     }
 }

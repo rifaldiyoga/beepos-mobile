@@ -35,7 +35,7 @@ class GetKategoriPrinterKitchenUseCase @Inject constructor(
                     }
                 }
                 for (itemgrp in itmGrpList!!){
-                    var kitchen = Kitchen(id = itemgrp.id, name = itemgrp.name)
+                    var kitchen = Kitchen(id = itemgrp.id!!, name = itemgrp.name)
                     mutListKitchen.add(kitchen)
                 }
             }

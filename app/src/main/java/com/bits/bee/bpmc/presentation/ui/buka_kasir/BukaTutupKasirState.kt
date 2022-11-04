@@ -11,5 +11,6 @@ data class BukaTutupKasirState(
     var activeBranch : Branch? = null,
     var shift : Int = 1,
     var listCasha: List<CashA>? = null,
-    var user: User? = null
+    var user: User? = null,
+    var crc : Crc? = null
 )

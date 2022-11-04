@@ -9,16 +9,25 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SalePromoRepositoryImpl @Inject constructor(
     private val salePromoDao: SalePromoDao,
     private val ioDispatcher: CoroutineDispatcher
 ): SalePromoRepository {
-    override fun getSalePromoBySale(id: Int): Flow<Resource<List<SalePromo>>> {
+
+    override suspend fun addSalePromo(salePromoList: List<SalePromo>) {
+        withContext(ioDispatcher){
+            salePromoDao.insertBulk(salePromoList.map { SalePromoDataMapper.fromDomainToDb(it) })
+        }
+    }
+
+    override fun getSalePromoBySale(id: Int): Flow<List<SalePromo>> {
         return flow {
             val data = salePromoDao.getSalePromoBySale(id).map { SalePromoDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
+
 }

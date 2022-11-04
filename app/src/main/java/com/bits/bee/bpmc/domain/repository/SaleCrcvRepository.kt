@@ -11,6 +11,6 @@ interface SaleCrcvRepository {
 
     suspend fun addSaleCrcv(saleCrcv: SaleCrcv)
 
-    fun getSalecrcvBySale(id: Int): Flow<Resource<List<SaleCrcv>>>
+    fun getSalecrcvBySale(id: Int): Flow<List<SaleCrcv>>
 
 }

@@ -20,7 +20,7 @@ class BSmartPay {
             returnHash[spawnOneHundredThousand(totalRounded)] = spawnOneHundredThousand(totalRounded)
             returnHash[spawnTwentyThousandFromFifty(totalRounded)] = spawnTwentyThousandFromFifty(totalRounded)
             returnHash[spawnTenThousand(totalRounded)] = spawnTenThousand(totalRounded)
-            //		returnHash.put(spawnFiveThousand(total), spawnFiveThousand(total));
+            returnHash[spawnFiveThousand(totalRounded)] = spawnFiveThousand(totalRounded)
 //		returnHash.put(spawnOneThousand(total), spawnOneThousand(total));
             return returnHash
         }
@@ -120,7 +120,7 @@ class BSmartPay {
             return total.replace(total, "10000")
         }
 
-        private fun spawnFiveThousand(total: String): String? {
+        private fun spawnFiveThousand(total: String): String {
             if (total.length < 4) {
                 return total.replace(total, "5000")
             }

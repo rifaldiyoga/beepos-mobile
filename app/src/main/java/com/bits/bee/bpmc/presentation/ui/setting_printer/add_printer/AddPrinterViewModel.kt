@@ -9,10 +9,8 @@ import com.bits.bee.bpmc.domain.usecase.printer.GetListKitchenUseCase
 import com.bits.bee.bpmc.domain.usecase.printer.PrinterInteractor
 import com.bits.bee.bpmc.domain.usecase.printer.SavePrinterUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.SectionKitchenAdapter
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,22 +21,33 @@ class AddPrinterViewModel @Inject constructor(
     private val getListKitchenUseCase: GetListKitchenUseCase,
     private val getKategoriPrinterKitchenUseCase: GetKategoriPrinterKitchenUseCase
 ): BaseViewModel<AddPrinterState, AddPrinterViewModel.UIEvent>() {
-    private lateinit var sectionKitchenAdapter: SectionKitchenAdapter
-    private var data_kitchen = false
 
+    private var data_kitchen = false
     private var listKitchen = mutableListOf<Kitchen>()
 
     init {
         state = AddPrinterState()
     }
 
-//    var kitchenList : Flow<Resource<MutableList<Kitchen>>> = getKategoriPrinterKitchenUseCase(state.data_kitchen)
-    private fun deletePrinterKitD(id: Int) = viewModelScope.launch{
-        printerInteractor.deletePrinterKitchenD(id)
+    fun doSave() = viewModelScope.launch {
+        savePrinterUseCase(state.mPrinter, state.listPrinterKitchen, state.listKitchen)
+        eventChannel.send(UIEvent.RequestSimpan)
     }
 
-    private fun deletePrinterKit(printK: PrinterKitchen) = viewModelScope.launch{
-        printerInteractor.deletePrinterKit(printK)
+    fun onClickPrinterKasir() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                mPrinter = state.mPrinter?.copy(isReceipt = !state.isReceipt)
+            )
+        )
+    }
+
+    fun onClickPrinterSetoran() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                mPrinter = state.mPrinter?.copy(isReport = !state.isReport)
+            )
+        )
     }
 
     private fun clearPrinterKitchen(id: Int) = viewModelScope.launch {
@@ -56,12 +65,17 @@ class AddPrinterViewModel @Inject constructor(
         }
     }
 
-//    val loadKitchen = printerInteractor.loadKitchen()
-//
-//    val getItemgrpKitchen = printerInteractor.getItemgrpKitchen()
+    private fun deletePrinterKitD(id: Int) = viewModelScope.launch{
+        printerInteractor.deletePrinterKitchenD(id)
+    }
+
+    private fun deletePrinterKit(printK: PrinterKitchen) = viewModelScope.launch{
+        printerInteractor.deletePrinterKit(printK)
+    }
+
 
     fun setPrinterKitchen(mPrinter: Printer?) = viewModelScope.launch {
-        printerInteractor.getPrinterFromPrinterKitchen(mPrinter!!.id).collect {
+        printerInteractor.getPrinterFromPrinterKitchen(mPrinter!!.id!!).collect {
             it.data?.let { data ->
                 updateState(
                     state.copy(listPrinterKitchen = data)
@@ -71,21 +85,21 @@ class AddPrinterViewModel @Inject constructor(
 
 //        val printerKitchenList: List<PrinterKitchen>? = state.listPrinterKitchen
 //        var listMap: HashMap<Int, MutableList<Kitchen>> = HashMap()
-        getListKitchenUseCase(state.listPrinterKitchen, state.data_kitchen).collect {
-            when(it.status){
-                Resource.Status.LOADING ->{
-
-                }
-                Resource.Status.SUCCESS ->{
-                    updateState(
-                        state.copy(listhashMap = it.data)
-                    )
-                }
-                Resource.Status.ERROR ->{
-
-                }
-            }
-        }
+//        getListKitchenUseCase(state.listPrinterKitchen, state.data_kitchen).collect {
+//            when(it.status){
+//                Resource.Status.LOADING ->{
+//
+//                }
+//                Resource.Status.SUCCESS ->{
+//                    updateState(
+//                        state.copy(listhashMap = it.data)
+//                    )
+//                }
+//                Resource.Status.ERROR ->{
+//
+//                }
+//            }
+//        }
 //        for((index, value) in state.listPrinterKitchen!!!!.withIndex()){
 //            var printerKitchen: PrinterKitchen = state.listPrinterKitchen!!.get(index)
 ////            getDetailByPrinterKit(printerKitchen.id)
@@ -133,102 +147,6 @@ class AddPrinterViewModel @Inject constructor(
 
     fun onClickShowPrinter() = viewModelScope.launch{
         eventChannel.send(UIEvent.RequestTipePrinter)
-    }
-
-    fun save(printer: Printer?, printerKitchenList: List<PrinterKitchen>,
-             mListKitchen: MutableList<Kitchen>) = viewModelScope.launch{
-        savePrinterUseCase(printer, printerKitchenList, mListKitchen)
-//        if (listPrinter.isEmpty()){
-//
-////            addPrinter(printer)
-//            printerInteractor.addUpdatePrinter(printer)
-//
-//
-//            for ((index, value) in printerKitchenList.withIndex()){
-//                printerInteractor.getLastId().collect {
-//                    it.data?.let { data ->
-//                        updateState(
-//                            state.copy(mPrinter = data)
-//                        )
-//                    }
-//                }
-//                var printerKitchen = printerKitchenList.get(index)
-//                printerKitchen.kitchenName = printerKitchen.kitchenName
-//                printerKitchen.printerId = state.mPrinter!!.id
-//
-//                printerInteractor.addUpdatePrinterK(printerKitchen)
-//
-//                printerInteractor.getLastIdPrinterKitchen().collect {
-//                    it.data?.let { data ->
-//                        updateState(
-//                            state.copy(mPrinterKitchen = data)
-//                        )
-//                    }
-//                }
-//
-//                for (kit in mListKitchen){
-//                    var printerKitchenD = PrinterKitchenD(printerKitchenId = state.mPrinterKitchen!!.id, kitchenId = kit.id)
-////                        addPrinterKitchenD(printerKitchenD)
-//                    printerInteractor.AddUpdatePrinterKitchenD(printerKitchenD)
-//                }
-////                for (kitchen in mList.get(index)){
-////                    var printerKitchenD = PrinterKitchenD(printerKitchenId = state.mPrinterKitchen!!.id, kitchenId = kitchen.id)
-////                    addPrinterKitchenD(printerKitchenD)
-////                }
-//            }
-//        }else{
-//            printer?.id = listPrinter.get(0).id
-////            printer?.copy(id = listPrinter.get(0).id)
-//            updatePrinter(printer)
-//            clearPrinterKitchen(printer!!.id)
-//
-//            for ((index, value) in printerKitchenList.withIndex()){
-//                var printerKitchen = printerKitchenList.get(index)
-//                val id = printer!!.id
-//                printerKitchen.copy(printerId = id, kitchenName = printerKitchen.kitchenName)
-//                addPrinterKitchen(printerKitchen)
-//                val idPrinterKit = state.mPrinterKitchen!!.id
-//
-//                val kitchenList = mListMap.get(index)
-//                for (kitchen in kitchenList!!){
-//                    val printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit, kitchenId = kitchen.id)
-//                    addPrinterKitchenD(printerKitchenD)
-//                }
-//            }
-//        }
-        eventChannel.send(UIEvent.RequestSimpan)
-    }
-
-    fun loadKategoriPrinterKit() = viewModelScope.launch {
-//        var mutable = mutableListOf<Kitchen>()
-        getKategoriPrinterKitchenUseCase(state.data_kitchen).collect {
-            when(it.status){
-                Resource.Status.LOADING -> {
-
-                }
-                Resource.Status.SUCCESS -> {
-                    updateState(
-                        state.copy(
-                            listKitchen = it.data
-                        )
-                    )
-                }
-                Resource.Status.ERROR -> {
-
-                }
-            }
-        }
-
-//        if (data_kitchen){
-//            mutable = state.listKitchen!!
-//        }else{
-//            val itemgrpList = state.listItemgrp
-//            for (itmgrp in itemgrpList!!){
-//                var kitchen = Kitchen(id = itmgrp.id, name = itmgrp.name)
-//                mutable.add(kitchen)
-//            }
-//        }
-//        sectionKitchenAdapter.setKitchenList(listKitchen)
     }
 
     sealed class UIEvent{

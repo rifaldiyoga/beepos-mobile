@@ -39,6 +39,7 @@ class PriceRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: PriceResponse) {
+                priceDao.deleteAll()
                 priceDao.insertBulk(data.data.map { PriceDataMapper.fromNetworkToDb(it) })
             }
 

@@ -11,6 +11,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface SyncApiService {
+
     @POST("/api/v2/sync")
     fun postSyncAll(@Body postAll: PostAll): Flow<ApiResponse<PostAllReturn>>
+
 }

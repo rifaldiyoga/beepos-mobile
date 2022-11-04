@@ -73,7 +73,6 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
 
     private val result : Flow<Resource<RequestObject>> = flow {
         emit(Resource.loading())
-
         when(val apiResponse = createCall().first()){
             is ApiErrorResponse -> {
                 emit(Resource.error(null, apiResponse.errorMessage, apiResponse.code))

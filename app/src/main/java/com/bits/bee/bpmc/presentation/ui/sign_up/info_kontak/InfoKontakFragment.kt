@@ -41,7 +41,7 @@ class InfoKontakFragment constructor(
                                     viewModel.state.email,
                                     viewModel.state.password,
                                     viewModel.state.confPassword,
-                                    regId = viewModel.state.regId)
+                                    regId = viewModel.state.regId.toInt())
 
                                 val action = InfoKontakFragmentDirections.actionInfoKontakFragmentToInfoBisnisFragment(signUp)
                                 findNavController().navigate(action)

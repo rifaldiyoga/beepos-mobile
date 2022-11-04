@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setting_graph"
+    app:startDestination="@id/settingPosFragment">
+
+
+    <action
+        android:id="@+id/action_settingFavoriteFragmentMain_to_settingFavPilihMemberFragment"
+        app:destination="@id/settingFavPilihMemberFragment" />
+    <fragment
+        tools:layout="@layout/fragment_setting_fav_pilih_produk"
+        android:id="@+id/settingFavPilihProdukFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_produk.pilih_produk.SettingFavPilihProdukFragment"
+        android:label="@string/favorit" />
+    <action
+        android:id="@+id/action_settingListFragment_to_detailMenuHelpFragment"
+        app:destination="@id/detailMenuHelpFragment" />
+    <fragment
+        android:id="@+id/settingFavoriteFragmentMain"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavoriteFragmentMain"
+        android:label="@string/favorit"
+        tools:layout="@layout/fragment_setting_fav_main">
+        <action
+            android:id="@+id/action_settingFavoriteFragmentMain_to_settingFavPilihMemberFragment"
+            app:destination="@id/settingFavPilihMemberFragment" />
+        <action
+            android:id="@+id/action_settingFavoriteFragmentMain_to_settingFavPilihProdukFragment"
+            app:destination="@id/settingFavPilihProdukFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailMenuHelpFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_menu_bantuan.DetailMenuHelpFragment"
+        android:label="DetailMenuHelpFragment"
+        tools:layout="@layout/fragment_detail_menu_help">
+        <action
+            android:id="@+id/action_detailMenuHelpFragment_to_settingLisensiFragment"
+            app:destination="@id/settingLisensiFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingPosFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosFragment"
+        android:label="@string/pos"
+        tools:layout="@layout/fragment_setting_pos" />
+    <fragment
+        android:id="@+id/settingNotaFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_nota.SettingNotaFragment"
+        android:label="@string/nota"
+        tools:layout="@layout/fragment_setting_nota" />
+    <action
+        android:id="@+id/action_settingListFragment_to_settingFavoriteFragmentMain"
+        app:destination="@id/settingFavoriteFragmentMain" />
+    <action
+        android:id="@+id/action_addPrinterFragment_to_settingPrinterFragment"
+        app:destination="@id/settingPrinterFragment" />
+    <action
+        android:id="@+id/action_settingPrinterFragment_to_addPrinterFragment"
+        app:destination="@id/addPrinterFragment" />
+    <action
+        android:id="@+id/action_settingListFragment_to_settingSistemFragment"
+        app:destination="@id/settingSistemFragment" />
+    <fragment
+        android:id="@+id/settingSistemFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_sistem.SettingSistemFragment"
+        android:label="@string/sistem"
+        tools:layout="@layout/fragment_setting_sistem">
+        <action
+            android:id="@+id/action_settingSistemFragment_to_settingPrinterFragment"
+            app:destination="@id/settingPrinterFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_settingListFragment_to_initialActivity"
+        app:destination="@id/initialActivity" />
+    <action
+        android:id="@+id/action_settingListFragment_to_settingPrinterFragment"
+        app:destination="@id/settingPrinterFragment" />
+    <fragment
+        tools:layout="@layout/fragment_pos_item"
+        android:id="@+id/settingFavPilihMemberFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_member.SettingFavPilihMemberFragment"
+        android:label="@string/favorit" />
+    <fragment
+        android:id="@+id/settingLisensiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_lisensi.SettingLisensiFragment"
+        android:label="@string/lisensi"
+        tools:layout="@layout/fragment_help_lisensi">
+        <action
+            android:id="@+id/action_settingLisensiFragment_to_initialActivity22"
+            app:destination="@id/initialActivity2" />
+    </fragment>
+    <action
+        android:id="@+id/action_settingListFragment_to_settingNotaFragment"
+        app:destination="@id/settingNotaFragment" />
+    <action
+        android:id="@+id/action_settingFavoriteFragmentMain_to_settingFavPilihProdukFragment"
+        app:destination="@id/settingFavPilihProdukFragment" />
+    <fragment
+        android:id="@+id/listPrinterFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.ListPrinterFragment"
+        android:label="@string/cari_bluetooth_printer"
+        tools:layout="@layout/fragment_setting_list_printer">
+        <action
+            android:id="@+id/action_listPrinterFragment_to_addPrinterFragment"
+            app:destination="@id/addPrinterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addPrinterFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterFragment"
+        android:label="@string/tambah_printer"
+        tools:layout="@layout/fragment_setting_add_printer">
+        <action
+            android:id="@+id/action_addPrinterFragment_to_listPrinterFragment"
+            app:destination="@id/listPrinterFragment" />
+        <argument
+            android:name="printer"
+            app:argType="com.bits.bee.bpmc.domain.model.Printer"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_addPrinterFragment_to_settingPrinterFragment"
+            app:destination="@id/settingPrinterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingPrinterFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.SettingPrinterFragment"
+        android:label="@string/printer"
+        tools:layout="@layout/fragment_setting_printer">
+        <action
+            android:id="@+id/action_settingPrinterFragment_to_addPrinterFragment"
+            app:destination="@id/addPrinterFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/initialActivity2"
+        android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
+        android:label="InitialActivity" />
+</navigation>

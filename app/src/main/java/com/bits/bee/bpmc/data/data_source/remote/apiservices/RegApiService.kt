@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.data.data_source.remote.apiservices
 
-import com.bits.bee.bpmc.data.data_source.remote.response.PriceLvlResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.RegResponse
 import com.bits.bee.bpmc.utils.ApiResponse
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +10,7 @@ import retrofit2.http.GET
  */
 interface RegApiService {
 
-    @GET("v1/reg")
+    @GET("v2/reg")
     fun getReg() : Flow<ApiResponse<RegResponse>>
 
 }

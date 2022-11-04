@@ -20,6 +20,7 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch, BranchResponse.Branch
             model.cmpName,
             model.cmpPhone,
             model.active,
+            model.status,
             model.cmpAddress,
             model.cmpFax,
             model.custDeftId,
@@ -39,6 +40,7 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch, BranchResponse.Branch
             model.cmpName,
             model.cmpPhone,
             model.active,
+            model.status,
             model.cmpAddress,
             model.cmpFax,
             model.custDeftId,
@@ -57,13 +59,14 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch, BranchResponse.Branch
             model.version,
             model.cmpName,
             model.cmpPhone,
-            true,
+            false,
+            model.active,
             model.cmpAddress,
             model.noFax,
             model.branchDefaultCust,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.createdAt).time,
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.createdAt).time,
             model.createdBy,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT, model.updatedAt).time,
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt).time,
             model.updatedBy
         )
     }

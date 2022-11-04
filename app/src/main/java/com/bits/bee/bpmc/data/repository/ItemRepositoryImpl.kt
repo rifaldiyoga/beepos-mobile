@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -53,7 +54,12 @@ class ItemRepositoryImpl @Inject constructor(
 
     override suspend fun getActiveItemListPagedByItemGrp(itemGrpId: Int, query: String, usePid : Boolean): Flow<PagingData<Item>> {
 
-        val pagingSource = { if(usePid) itemDao.getItemByItemGrpPagedListPid(itemGrpId, query) else itemDao.getItemByItemGrpPagedList(itemGrpId, query, false) }
+        val pagingSource = {
+            if(usePid)
+                itemDao.getItemByItemGrpPagedListPid(itemGrpId, query)
+            else
+                itemDao.getItemByItemGrpPagedList(itemGrpId, query, false)
+        }
 
         return Pager(
             config = PagingConfig(
@@ -83,6 +89,19 @@ class ItemRepositoryImpl @Inject constructor(
         it.map { ItemDataMapper.fromDbToDomain(it) }
     }.flowOn(defaultDispatcher)
 
+    override suspend fun getFavoriteItemListPaged(query: String): Flow<PagingData<Item>> = Pager(
+        config = PagingConfig(
+            pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+            maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            itemDao.getFavoriteItemPagedList(query)
+        }
+    ).flow.mapLatest {
+        it.map { ItemDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
     override fun getItemBySelection(selectionId: Int): Flow<List<Item>> = flow{
         emit(itemDao.getItemBySelection(selectionId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
@@ -105,6 +124,12 @@ class ItemRepositoryImpl @Inject constructor(
     override fun getActiveItemListByItemGrp(itemGrpId: Int): Flow<List<Item>> = flow {
         emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
+
+    override suspend fun addUpdateItem(item: Item) {
+        withContext(defaultDispatcher){
+            itemDao.insertSingle(ItemDataMapper.fromDomainToDb(item))
+        }
+    }
 
     override fun cariItems(query: String): Flow<List<Item>> {
         return flow {

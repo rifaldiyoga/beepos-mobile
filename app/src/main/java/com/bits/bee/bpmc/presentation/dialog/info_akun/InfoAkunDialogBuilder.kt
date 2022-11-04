@@ -9,7 +9,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.databinding.DialogInfoAkunBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

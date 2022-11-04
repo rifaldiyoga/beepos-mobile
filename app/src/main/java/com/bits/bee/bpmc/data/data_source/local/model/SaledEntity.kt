@@ -6,11 +6,6 @@ import java.math.BigDecimal
 @Entity(tableName = SaledEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = ItemEntity::class,
-            parentColumns = [ItemEntity.ID],
-            childColumns = [SaledEntity.ITEM_ID],
-        ),
-        ForeignKey(
             entity = SaleEntity::class,
             parentColumns = [SaleEntity.ID],
             childColumns = [SaledEntity.SALE_ID],

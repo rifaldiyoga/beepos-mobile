@@ -2,14 +2,8 @@ package com.bits.bee.bpmc.presentation.dialog.detail_member
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.usecase.member.GetBpAddrByBpUseCase
-import com.bits.bee.bpmc.domain.usecase.member.GetDistrictByCodeUseCase
-import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,9 +12,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DetailMemberViewModel @Inject constructor(
-    private val getBpAddrByBpUseCase: GetBpAddrByBpUseCase,
-    private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase,
-    private val getDistrictByCodeUseCase: GetDistrictByCodeUseCase
 ): BaseViewModel<DetailMemberState, DetailMemberViewModel.UIEvent>() {
 
     init {
@@ -46,60 +37,60 @@ class DetailMemberViewModel @Inject constructor(
             )
         )
     }
-
-    fun getBpaddr() = viewModelScope.launch{
-        getBpAddrByBpUseCase.invoke(state.bp!!.id!!).collect {
-            when(it.status){
-                Resource.Status.LOADING ->{
-
-                }
-                Resource.Status.SUCCESS ->{
-                    updateState(
-                        state.copy(
-                            bpAdddr = it.data
-                        )
-                    )
-                }
-                Resource.Status.ERROR ->{
-
-                }
-            }
-        }
-        if (!state.bpAdddr!!.regencyCode.equals("")){
-            getRegencyByCodeUseCase.invoke(state.bpAdddr!!.regencyCode).collect {
-                when(it.status){
-                    Resource.Status.LOADING ->{
-
-                    }
-                    Resource.Status.SUCCESS ->{
-                        updateState(
-                            state.copy(regency = it.data)
-                        )
-                    }
-                    Resource.Status.ERROR ->{
-
-                    }
-                }
-            }
-            if (!state.bpAdddr!!.districtCode.equals("")){
-                getDistrictByCodeUseCase.invoke(state.bpAdddr!!.districtCode).collect {
-                    when(it.status){
-                        Resource.Status.LOADING ->{
-
-                        }
-                        Resource.Status.SUCCESS ->{
-                            updateState(
-                                state.copy(district = it.data)
-                            )
-                        }
-                        Resource.Status.ERROR ->{
-
-                        }
-                    }
-                }
-            }
-        }
-    }
+//
+//    fun getBpaddr() = viewModelScope.launch{
+//        getBpAddrByBpUseCase.invoke(state.bp!!.id!!).collect {
+//            when(it.status){
+//                Resource.Status.LOADING ->{
+//
+//                }
+//                Resource.Status.SUCCESS ->{
+//                    updateState(
+//                        state.copy(
+//                            bpAdddr = it.data
+//                        )
+//                    )
+//                }
+//                Resource.Status.ERROR ->{
+//
+//                }
+//            }
+//        }
+//        if (!state.bpAdddr!!.regencyCode.equals("")){
+//            getRegencyByCodeUseCase.invoke(state.bpAdddr!!.regencyCode).collect {
+//                when(it.status){
+//                    Resource.Status.LOADING ->{
+//
+//                    }
+//                    Resource.Status.SUCCESS ->{
+//                        updateState(
+//                            state.copy(regency = it.data)
+//                        )
+//                    }
+//                    Resource.Status.ERROR ->{
+//
+//                    }
+//                }
+//            }
+//            if (!state.bpAdddr!!.districtCode.equals("")){
+//                getDistrictByCodeUseCase.invoke(state.bpAdddr!!.districtCode).collect {
+//                    when(it.status){
+//                        Resource.Status.LOADING ->{
+//
+//                        }
+//                        Resource.Status.SUCCESS ->{
+//                            updateState(
+//                                state.copy(district = it.data)
+//                            )
+//                        }
+//                        Resource.Status.ERROR ->{
+//
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     sealed class UIEvent {
         object RequestInfoTax : UIEvent()

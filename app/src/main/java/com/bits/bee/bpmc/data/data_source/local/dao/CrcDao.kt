@@ -17,4 +17,8 @@ interface CrcDao : BaseDao<CrcEntity> {
     @Query("SELECT * FROM crc WHERE id = (SELECT crc_id FROM cmp LIMIT 1)")
     fun getDefaultCrc() : CrcEntity?
 
+
+    @Query("SELECT * FROM crc WHERE id = :id")
+    fun getCrcById(id : Int) : CrcEntity?
+
 }

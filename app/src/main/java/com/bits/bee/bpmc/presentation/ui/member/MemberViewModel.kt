@@ -1,13 +1,15 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.bits.bee.bpmc.domain.model.Bp
-import com.bits.bee.bpmc.domain.usecase.member.MemberInteractor
-import com.bits.bee.bpmc.domain.usecase.member.SearchMemberUseCase
+import com.bits.bee.bpmc.domain.usecase.member.GetActiveMemberUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,15 +18,23 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MemberViewModel @Inject constructor(
-    memberInteractor: MemberInteractor,
-    private val searchMemberUseCase: SearchMemberUseCase
+    private val getActiveMemberUseCase: GetActiveMemberUseCase,
 ): BaseViewModel<MemberState, MemberViewModel.UIEvent>() {
+
+    val currentQuery = MutableStateFlow("")
 
     init {
         state = MemberState()
     }
 
-    val memberList = memberInteractor.getFavoritMemberUseCase()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val memberList = combine(
+        currentQuery,
+    ) { (query) ->
+       QueryWithSort(query)
+    }.flatMapLatest {
+        getActiveMemberUseCase(it.query, it.fav).cachedIn(viewModelScope)
+    }
 
     fun onClickDetailMember(model : Bp) = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestPos(model))
@@ -40,29 +50,13 @@ class MemberViewModel @Inject constructor(
 
 
     fun onSearch(query: String) = viewModelScope.launch{
-        updateState(
-            state.copy(
-                search = query
-            )
-        )
-        searchMemberUseCase.invoke(state.search).collect {
-            when(it.status){
-                Resource.Status.LOADING ->{
-//                    val str=""
-                }
-                Resource.Status.SUCCESS ->{
-                    updateState(
-                        state.copy(
-                            listBp = it.data
-                        )
-                    )
-                }
-                Resource.Status.ERROR ->{
-
-                }
-            }
-        }
+        currentQuery.value = query
     }
+
+    data class QueryWithSort(
+        val query: String,
+        val fav : Boolean = false
+    )
 
     sealed class UIEvent {
         object RequestAddMember : UIEvent()

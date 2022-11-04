@@ -11,5 +11,6 @@ interface RegRepository {
 
     fun getLatestRegList() : Flow<Resource<List<Reg>>>
 
-    fun getRegPossesActualEndcash(): Flow<Reg>
+    fun getRegByCode(code : String) : Flow<Reg?>
+
 }

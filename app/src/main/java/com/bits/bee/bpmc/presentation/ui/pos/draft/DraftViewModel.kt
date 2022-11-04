@@ -23,15 +23,15 @@ class DraftViewModel @Inject constructor(
     private val deleteSaleUseCase: DeleteSaleUseCase
 ): BaseViewModel<DraftState, DraftViewModel.UIEvent>() {
 
-    private var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
-
+    private var _currentQuery : MutableStateFlow<String> = MutableStateFlow("")
+    val currentQuery = _currentQuery.value
     init {
         state = DraftState()
     }
 
     @ExperimentalCoroutinesApi
     val draftList =  combine(
-        currentQuery
+        _currentQuery
     ){ (query) ->
         QueryWithSort(query)
     }.flatMapLatest {
@@ -39,7 +39,7 @@ class DraftViewModel @Inject constructor(
     }
 
     fun onSearch(query: String) {
-        currentQuery.value = query
+        _currentQuery.value = query
     }
 
     fun onItemClick(sale : Sale) = viewModelScope.launch {

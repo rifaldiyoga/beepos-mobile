@@ -25,10 +25,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvTrackNoOps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size8"
+            android:text="@string/opsional"
+            android:textSize="@dimen/font12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvTrackNo"
+            app:layout_constraintStart_toEndOf="@+id/tvTrackNo" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilTrackNo"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
+            style="@style/CustomTextInputLayout"
             android:layout_marginTop="@dimen/size6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvTrackNo"
@@ -36,10 +47,9 @@
 
             <EditText
                 android:id="@+id/etTrackNo"
+                android:paddingTop="@dimen/size12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:hint="@string/cth_smartphone_1"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -54,21 +64,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilTrackNo" />
 
+        <TextView
+            android:id="@+id/tvCardNoOps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size8"
+            android:text="@string/opsional"
+            android:textSize="@dimen/font12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvNomorKartu"
+            app:layout_constraintStart_toEndOf="@+id/tvNomorKartu" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilNomorKartu"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvNomorKartu"
             app:layout_constraintTop_toBottomOf="@+id/tvNomorKartu">
 
             <EditText
                 android:id="@+id/etNomorKartu"
+                android:paddingTop="@dimen/size12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
-                android:hint="@string/cth_smartphone_1"
+                android:hint="@string/cth_1234567890123456"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -83,11 +105,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilNomorKartu" />
 
+        <TextView
+            android:id="@+id/tvKeteranganOps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size8"
+            android:text="@string/opsional"
+            android:textSize="@dimen/font12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvKeterangan"
+            app:layout_constraintStart_toEndOf="@+id/tvKeterangan" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilKeterangan"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvKeterangan"
             app:layout_constraintTop_toBottomOf="@+id/tvKeterangan">
@@ -96,9 +129,8 @@
                 android:id="@+id/etKeterangan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:hint="@string/cth_smartphone_1"
-                android:inputType="phone" />
+                android:paddingTop="@dimen/size12"
+                android:layout_marginTop="@dimen/size6" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

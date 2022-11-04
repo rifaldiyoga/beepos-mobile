@@ -1,9 +1,10 @@
 package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.CstrEntity
+import com.bits.bee.bpmc.data.data_source.remote.post.PostAll
 import com.bits.bee.bpmc.domain.model.Cstr
 
-object CstrDataMapper: BaseMapper<CstrEntity, Cstr, Any>() {
+object CstrDataMapper: BaseMapper<CstrEntity, Cstr, PostAll.CstrPost>() {
     override fun fromDbToDomain(model: CstrEntity): Cstr {
         return Cstr(
             model.id,
@@ -50,7 +51,7 @@ object CstrDataMapper: BaseMapper<CstrEntity, Cstr, Any>() {
         )
     }
 
-    override fun fromNetworkToDb(model: Any): CstrEntity {
+    override fun fromNetworkToDb(model: PostAll.CstrPost): CstrEntity {
         TODO("Not yet implemented")
     }
 }

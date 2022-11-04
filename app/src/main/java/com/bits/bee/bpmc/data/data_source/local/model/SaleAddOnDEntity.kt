@@ -25,9 +25,9 @@ import androidx.room.*
     ]
 )
 data class SaleAddOnDEntity(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = SALEADDON_ID, index = true)
     var saleAddOnId: Int,
     @ColumnInfo(name = UP_SALED_ID, index = true)

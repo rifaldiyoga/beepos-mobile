@@ -1,10 +1,14 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -20,6 +24,7 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.model.Stock
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -43,19 +48,31 @@ class EditItemFragment(
 
     private val mViewModel : MainViewModel by activityViewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun initComponents() {
         arguments?.let { bundle ->
             val saled = bundle.getParcelable<Saled>("saled")
             saled?.let {
-                val state = viewModel.state
-                state.listPrice = it.listPrice
-                state.diskon = it.discExp
-                state.qty = it.qty
-                state.note = it.dNotes
-                state.discAmt = it.discAmt
-                viewModel.state.saled = saled
-                viewModel.loadUnit(it.itemId)
-                setTitle(it.name)
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        saled = saled,
+                        listPrice = it.listPrice,
+                        diskon = it.discExp,
+                        qty = it.qty,
+                        note = it.dNotes,
+                        discAmt = it.discAmt,
+                        pid = it.stock
+                    )
+                )
+                viewModel.loadUnit(it.itemId, it.unitId)
+                setToolbarTitle(it.name)
             }
             val stock = bundle.getParcelable<Stock>("pid")
             stock?.let {
@@ -66,20 +83,18 @@ class EditItemFragment(
             }
             val item = bundle.getParcelable<Item>("item")
             item?.let {
-                val state = viewModel.state
-                state.listPrice = it.price
-                state.diskon = ""
-                state.qty = BigDecimal.ONE
-                state.note = ""
-                viewModel.state.item = it
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        item = item,
+                        listPrice = it.price,
+                        diskon = "",
+                        qty = BigDecimal.ONE,
+                        note = "",
+                    )
+                )
                 viewModel.loadUnit(it.id)
             }
         }
-
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun initComponents() {
         binding.apply {
             val state = viewModel.state
             etHarga.setText(CurrencyUtils.formatCurrency(state.listPrice))
@@ -89,15 +104,25 @@ class EditItemFragment(
             mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
                 state.saled?.let { saled ->
 
+
                     val addOnAdapter = EditItemAddOnAdapter(saled.qty)
                     rvAddon.apply {
                         layoutManager = LinearLayoutManager(requireActivity())
                         adapter = addOnAdapter
                     }
-                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaled }.map { it.saled }
+                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaled }.map { it.saled!!.item }
                     state.addOnList = saledList
                     groupAddon.isVisible = saledList.isNotEmpty()
                     addOnAdapter.submitList(saledList)
+
+                    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<List<Item>>("addon")?.observe(viewLifecycleOwner) {
+                        addOnAdapter.submitList(it)
+                        viewModel.updateState(
+                            state.copy(
+                                addOnList = it
+                            )
+                        )
+                    }
                 }
             }
 
@@ -137,10 +162,26 @@ class EditItemFragment(
             tvUbah.setOnClickListener {
                 viewModel.onClickAddOn()
             }
+            spSatuan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    viewModel.onUnitChange(p2)
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+            }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.msg.collect{
+                    showSnackbar(it)
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             mViewModel.posModeState.collect {
                 viewModel.state.modePos = it
@@ -166,16 +207,57 @@ class EditItemFragment(
                 viewModel.event.collect {
                     when(it){
                         is EditItemViewModel.UIEvent.RequestSubmit -> {
+                            mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
+                                val saledAddOnList : MutableList<Saled?> = mutableListOf()
+                                for (saleAddOnD in addOnTrans.getListDetail()){
+                                    if(saleAddOnD.upSaled == it.saled)
+                                        saledAddOnList.add(saleAddOnD.saled)
+                                }
+
+                                for(saled in saledAddOnList){
+                                    saled?.let { saled ->
+                                        mViewModel.onDeleteAddOnData(it.saled, saled)
+                                    }
+                                }
+
+                                mViewModel.onItemAddOn(viewModel.state.addOnList, it.saled)
+                            }
                             mViewModel.onEditDetail(it.saled)
-                            findNavController().popBackStack(R.id.posFragment, false)
+                            findNavController().popBackStack()
                         }
                         is EditItemViewModel.UIEvent.RequestAdd -> {
                             mViewModel.onAddDetail(it.itemWithUnit, true)
                             findNavController().popBackStack(R.id.posFragment, false)
                         }
                         is EditItemViewModel.UIEvent.NavigateToAddOn -> {
-                            val action = EditItemFragmentDirections.actionEditItemDialogToAddOnFragment(it.item, mViewModel.state.bp!!, saled = it.saled)
-                            findNavController().navigate(action)
+                            val bundle = bundleOf(
+                                "addOnList" to (viewModel.state.addOnList as ArrayList<out Parcelable>),
+                                "item" to it.item,
+                                "bp" to mViewModel.state.bp!!,
+                                "saled" to it.saled
+                            )
+//                            val action = EditItemFragmentDirections.actionEditItemDialogToAddOnFragment(it.item, mViewModel.state.bp!!, saled = it.saled)
+                            findNavController().navigate(R.id.action_editItemDialog_to_addOnFragment, bundle)
+                        }
+                        EditItemViewModel.UIEvent.ValidateDelete -> {
+                            val dialog = DialogBuilderHelper.showDialogChoice(
+                                requireContext(),
+                                title = getString(R.string.hapus_produk),
+                                msg = getString(R.string.msg_hapus_produk),
+                                positiveTxt = getString(R.string.ya),
+                                positiveListener = {
+                                    it.dismiss()
+                                    viewModel.state.saled?.let {
+                                        mViewModel.onDeleteDetail(it)
+                                    }
+                                    findNavController().popBackStack()
+                                },
+                                negativeTxt = getString(R.string.batal),
+                                negativeListener = {
+                                    it.dismiss()
+                                }
+                            )
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }
@@ -194,9 +276,9 @@ class EditItemFragment(
                                     tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(state.qty))
                                 }
                                 PosModeState.RetailState -> {
-                                    state.unit?.let {
-                                        tvQty.text = getString(R.string._1_PCS, CurrencyUtils.formatCurrency(state.qty), it.unit)
-//                                        spSatuan.setText(it.unit)
+                                    state.unit?.let { unit ->
+                                        tvQty.text = getString(R.string._1_PCS, CurrencyUtils.formatCurrency(state.qty), unit.unit)
+                                        spSatuan.setSelection(state.unitList.indexOfFirst { it.id == unit.id })
                                     } ?: run {
                                         tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(state.qty))
                                     }
@@ -205,6 +287,28 @@ class EditItemFragment(
                                     tvNamaItem.text = "$code - $name"
                                 }
                             }
+                            state.saled?.let { saled ->
+                                ivPlus.isEnabled = !saled.isBonus
+                                ivMinus.isEnabled = !saled.isBonus
+                                etQty.isEnabled = !saled.isBonus
+                                etDiskon.isEnabled = !saled.isBonus
+                                etHarga.isEnabled = !saled.isBonus
+                                if(saled.isBonus) {
+                                    ivPlus.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireActivity(),
+                                            R.drawable.ic_circle_plus_disable
+                                        )
+                                    )
+                                    ivMinus.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireActivity(),
+                                            R.drawable.ic_circle_minus_disable
+                                        )
+                                    )
+                                }
+                            }
+
                             state.item?.let {
                                 groupPid.isVisible = it.usePid
                             }
@@ -212,7 +316,7 @@ class EditItemFragment(
                                 tvPid.text = it.pid
                             }
                             groupPid.isVisible = state.pid != null
-                            val subtotal = (state.listPrice - state.discAmt) * state.qty
+                            val subtotal = ((state.listPrice + getTotalAddOn()) - state.discAmt) * state.qty
                             tvSubtotal.text = getString(R.string.mata_uang_nominal ,mViewModel.state.crc?.symbol ?: "",CurrencyUtils.formatCurrency(subtotal))
                         }
                     }
@@ -221,4 +325,13 @@ class EditItemFragment(
         }
     }
 
+    private fun getTotalAddOn() : BigDecimal {
+        var subtotal = BigDecimal.ZERO
+        viewModel.state.addOnList.forEach {
+            it?.let {
+                subtotal += it.price * it.qty
+            }
+        }
+        return subtotal
+    }
 }

@@ -26,7 +26,6 @@ object SignUpDataMapper : BaseMapper<Any, SignUp, SignUpPost>() {
             username = model.nama,
             address = model.address,
             bussiness = model.bidangUsah,
-            bussiness2 = "",
             city_id = model.cityId,
             company = model.namaPerusahaan,
             mobile = model.noWa,
@@ -34,14 +33,14 @@ object SignUpDataMapper : BaseMapper<Any, SignUp, SignUpPost>() {
             otptipe = "WA",
             step = model.step,
             regid = model.regId,
-            data_utm = UTM(
+            cust_id = model.regId ?: 0,
+            data_utm = if(model.utm_source != null) UTM(
                 model.utm_source ,
                 model.utm_medium ,
                 model.utm_campaign ,
                 model.utm_term ,
                 model.utm_content ,
-            ),
-            cust_id = model.regId?.toInt() ?: 0
+            ) else null,
         )
     }
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetSalecrcvBySaleUseCase @Inject constructor(
     private val saleCrcvRepository: SaleCrcvRepository
 ) {
-    operator fun invoke(id: Int): Flow<Resource<List<SaleCrcv>>>{
+    operator fun invoke(id: Int): Flow<List<SaleCrcv>>{
         return saleCrcvRepository.getSalecrcvBySale(id)
     }
 }

@@ -19,7 +19,7 @@ class AddCashAUseCase @Inject constructor(
 
     suspend operator fun invoke(refId : Long, refType : String, cashId : Int, userId : Int, cashierId : Int, amt : BigDecimal){
         val cashA = CashA(
-            trxDate = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, Date()),
+            trxDate = DateFormatUtils.formatDateToString(BPMConstants.DATE_FORMAT_RESPONSE, Date()),
             amount = amt,
             note = "",
             inOut = (if(amt >= BigDecimal.ZERO) "i" else "o"),

@@ -28,10 +28,10 @@ data class Sale (
     var possesId : Int = -1,
     var kodePosses : String = "",
     var discExp : String = "",
-    var operatorId: Int = -1,
+    var userId: Int = -1,
     var cashierId: Int = -1,
     var bpId: Int = -1,
-    var custName : String = "",
+    var bpName : String = "",
     var termType: String = "",
     var isUploaded: Boolean = false,
     var isVoid: Boolean = false,
@@ -46,6 +46,11 @@ data class Sale (
     var updatedAt: Date = Date(),
     var updatedBy: Int = -1,
     var crcId : Int? = -1,
+    var srepId : Int? = -1,
     var crcSymbol : String = "Rp",
-    var bp : Bp? = null
+    var bp : Bp? = null,
+    var excrate : BigDecimal = BigDecimal.ZERO,
+    var fisrate : BigDecimal = BigDecimal.ZERO,
+    var channel : String = "",
+    var salesman : String = ""
 ) : Parcelable

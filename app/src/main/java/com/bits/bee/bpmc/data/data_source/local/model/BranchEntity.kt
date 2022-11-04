@@ -22,6 +22,8 @@ data class BranchEntity(
     var cmpPhone : String,
     @ColumnInfo(name = ACTIVE)
     var active : Boolean,
+    @ColumnInfo(name = STATUS)
+    var status : Boolean,
     @ColumnInfo(name = COMPANY_ADDRESS)
     var cmpAddress : String,
     @ColumnInfo(name = COMPANY_FAX)
@@ -45,6 +47,7 @@ data class BranchEntity(
         const val NAME = "name"
         const val VERSION = "version"
         const val ACTIVE = "active"
+        const val STATUS = "status"
         const val CREATED_AT = "created_at"
         const val CREATED_BY = "created_by"
         const val UPDATED_AT = "updated_at"

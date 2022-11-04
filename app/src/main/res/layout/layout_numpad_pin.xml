@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_1"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_2"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_3"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
     </LinearLayout>
@@ -70,7 +70,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_4"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -85,7 +85,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="5"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -100,7 +100,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="6"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
     </LinearLayout>
@@ -123,7 +123,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_7"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -139,7 +139,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_8"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -155,7 +155,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_9"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
     </LinearLayout>
@@ -177,7 +177,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -193,7 +193,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/_0"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
 
@@ -209,7 +209,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/ic_backspace"
-            android:textSize="@dimen/font24"
+            android:textSize="@dimen/font38"
             android:textColor="@color/black"
             android:background="@color/white"/>
     </LinearLayout>

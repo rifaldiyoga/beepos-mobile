@@ -11,9 +11,13 @@ data class MainState(
     var channelList : List<Channel> = mutableListOf(),
     var sale : Sale = Sale(),
     var saledList : MutableList<Saled> = mutableListOf(),
+    var saleAddOn : SaleAddOn = SaleAddOn(),
+    var saleAddOnDList : MutableList<SaleAddOnD> = mutableListOf(),
+    var salePromoList : MutableList<SalePromo> = mutableListOf(),
     var activeCashier : Cashier? = null,
     var activeBranch : Branch? = null,
     var activePosses : Posses? = null,
     var crc: Crc? = null,
-    var itgrpAddOn : ItemGroup? = null
+    var itgrpAddOn : ItemGroup? = null,
+    var srep : Srep? = null
 )

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.tutup_kasir
 
-import android.view.*
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -10,15 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailTutupKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import java.sql.Date
 
 /**
@@ -43,7 +44,7 @@ class DetailTutupKasirFragment(
     override fun subscribeListeners() {
         binding.apply {
             btnTutupKasir.setOnClickListener {
-                val dialog = DialogBuilderUtils.showDialogYesNo(requireContext(),
+                val dialog = DialogBuilderHelper.showDialogYesNo(requireContext(),
                     getString(R.string.tutup_kasir), getString(R.string.msg_validasi_tutup_kasir), {
                         it.dismiss()
                         viewModel.onTutupKasir()
@@ -60,7 +61,7 @@ class DetailTutupKasirFragment(
                 viewModel.event.collect { event  ->
                     when(event){
                         DetailTutupKasirViewModel.UIEvent.RequestSave -> {
-                            mCounter = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 0) as Int
+                            mCounter = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
                             mCounter++
                             BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), mCounter)
                             sharedViewModel.doTutupKasir()
@@ -88,7 +89,7 @@ class DetailTutupKasirFragment(
                                 tvModal.text = CurrencyUtils.formatCurrency(it.startBal)
                                 tvPemasukan.text = CurrencyUtils.formatCurrency(it.totIn)
                                 tvPengeluaran.text = CurrencyUtils.formatCurrency(it.totOut)
-                                tvSaldoAkhir.text = CurrencyUtils.formatCurrency(it.total)
+                                tvSaldoAkhir.text = CurrencyUtils.formatCurrency(it.startBal + (it.totIn ?: BigDecimal.ZERO) - (it.totOut ?: BigDecimal.ZERO))
                                 tvShift.text = it.shift.toString()
 
                                 val startTime = Date(it.startTime.time)

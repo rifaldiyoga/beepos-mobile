@@ -7,7 +7,8 @@ import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface BpAddrRepository {
+
     suspend fun addUpdateBpAddr(bpaddr: BpAddrEntity)
 
-    fun getBpAddrByBp(id: Int): Flow<Resource<BpAddr>>
+    fun getBpAddrByBp(id: Int): Flow<BpAddr?>
 }

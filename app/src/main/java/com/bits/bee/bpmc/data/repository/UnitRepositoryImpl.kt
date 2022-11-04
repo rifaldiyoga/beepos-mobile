@@ -50,4 +50,9 @@ class UnitRepositoryImpl @Inject constructor(
         emit(data.map { UnitDataMapper.fromDbToDomain(it) })
     }.flowOn(defDispatcher)
 
+    override fun getUnitById(id: Int): Flow<Unit?> = flow {
+        val data = unitDao.getUnitById(id)
+        emit(data?.let { UnitDataMapper.fromDbToDomain(it) })
+    }.flowOn(defDispatcher)
+
 }

@@ -64,6 +64,7 @@
                 android:id="@+id/etNominalBayar"
                 android:focusable="false"
                 android:inputType="none"
+                android:text="@string/_0"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

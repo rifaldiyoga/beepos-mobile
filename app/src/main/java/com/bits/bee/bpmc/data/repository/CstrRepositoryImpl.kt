@@ -40,10 +40,10 @@ class CstrRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getCstrByReftypeHaventUpload(): Flow<Resource<List<Cstr>>> {
+    override fun getCstrByReftypeHaventUpload(): Flow<List<Cstr>> {
         return flow {
             val data = cstrDao.getCstrByReftypeHaventUpload().map { CstrDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 

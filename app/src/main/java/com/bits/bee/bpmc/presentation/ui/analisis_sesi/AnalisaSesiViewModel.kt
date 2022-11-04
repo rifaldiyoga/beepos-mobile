@@ -1,20 +1,19 @@
 package com.bits.bee.bpmc.presentation.ui.analisis_sesi
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
-import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetSaledListUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
-import com.github.mikephil.charting.data.Entry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.sql.SQLException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +23,7 @@ class AnalisaSesiViewModel @Inject constructor(
     private val getActivePossesListUseCase: GetActivePossesListUseCase,
     private val getSaleByPossesUseCase: GetSaleByPossesUseCase,
     private val getBpByDateUseCase: GetBpByDateUseCase,
-    private val getSaledListUseCase: GetSaledListUseCase,
+    private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getCountNotaUseCase: GetCountNotaUseCase,
     private val getCountNotaVoidUseCase: GetCountNotaVoidUseCase,
     private val getTotalPaidTunaiUseCase: GetTotalPaidTunaiUseCase,
@@ -33,7 +32,7 @@ class AnalisaSesiViewModel @Inject constructor(
     private val getTotalPaidGopayUseCase: GetTotalPaidGopayUseCase,
     private val getRankItemUseCase: GetRankItemUseCase,
     private val getSumByHourUseCase: GetSumByHourUseCase,
-    private val getRegPossesActualEndCashUseCase: GetRegPossesActualEndCashUseCase
+    private val getRegPossesActualEndCashUseCase: GetRegUseCase
 ):BaseViewModel<AnalisaSesiState, AnalisaSesiViewModel.UIEvent>() {
 
     init {
@@ -155,7 +154,7 @@ class AnalisaSesiViewModel @Inject constructor(
             )
         }
 
-        getRegPossesActualEndCashUseCase.invoke().collect{
+        getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
             updateState(
                 state.copy(
                     reg = it
@@ -197,17 +196,20 @@ class AnalisaSesiViewModel @Inject constructor(
         var total = BigDecimal.ZERO
         for (sale in saleList) {
             if (!sale.isVoid)
-                getSaledListUseCase.invoke(sale.id!!).collect {
+                getSaledBySaleUseCase.invoke(sale.id!!).collect {
                     updateState(
                         state.copy(
                             saledList = it
                         )
                     )
                 }
+            state.saledList?.let {
                 for (saled in state.saledList!!) {
 //                    if (!ItemDao.getInstance().checkItemAddon(saled.getItem()))
-                        total = total.add(saled.qty)
+                    total = total.add(saled.qty)
+                }
             }
+
         }
         return total
     }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCstrByReftypeHaventUpload @Inject constructor(
     private var cstrRepository: CstrRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Cstr>>>{
+    operator fun invoke(): Flow<List<Cstr>>{
         return cstrRepository.getCstrByReftypeHaventUpload()
     }
 }

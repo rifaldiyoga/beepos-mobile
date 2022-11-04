@@ -10,4 +10,5 @@ data class User (
     var userApiKey: String?,
     var pin : String?,
     var active : Boolean,
+    var used : Boolean = false
 )

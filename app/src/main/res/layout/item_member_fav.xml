@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/clContent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/pid_available"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size16"
+        android:weightSum="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:background="@drawable/bg_rect_light_gray"
+            android:id="@+id/linearLayout"
+            android:padding="@dimen/size10"
+            android:layout_width="@dimen/size40"
+            android:layout_height="@dimen/size40"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_person"
+                app:tint="@color/gray" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lL_content_member"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/size16"
+            android:weightSum="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_rvContent_LlDec"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5.5"
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tvNamaMember"
+                    style="@style/TextHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="false"
+                    android:text="@string/budiman"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNoTelp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    android:gravity="center_vertical"
+                    android:text="@string/_100_000"
+                    android:textSize="@dimen/font12" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_detail_member"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivFav"
+                android:layout_width="@dimen/size24"
+                android:layout_height="@dimen/size24"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_star_disabled"
+                android:gravity="center"
+                android:textColor="@color/black"
+                tools:layout_editor_absoluteX="376dp"
+                tools:layout_editor_absoluteY="23dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size1"
+        android:background="@color/light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</LinearLayout>

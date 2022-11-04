@@ -26,10 +26,10 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             possesId = model.possesId,
             kodePosses = model.kodePosses,
             discExp = model.discExp,
-            operatorId = model.userId,
+            userId = model.userId,
             cashierId = model.cashierId,
             bpId = model.bpId,
-            custName = model.bpName,
+            bpName = model.bpName,
             termType = model.termType,
             isUploaded = model.isUploaded,
             isVoid = model.isVoid,
@@ -43,7 +43,10 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             createdBy = model.createdBy,
             updatedAt = model.updatedAt,
             updatedBy = model.updatedBy,
-            crcId = model.crcId
+            crcId = model.crcId,
+            srepId = model.srepId,
+            excrate = model.excrate,
+            fisrate = model.fisrate,
         )
     }
 
@@ -65,10 +68,10 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             possesId = model.possesId,
             kodePosses = model.kodePosses,
             discExp = model.discExp,
-            userId = model.operatorId,
+            userId = model.userId,
             cashierId = model.cashierId,
             bpId = model.bpId,
-            bpName = model.custName,
+            bpName = model.bpName,
             termType = model.termType,
             isUploaded = model.isUploaded,
             isVoid = model.isVoid,
@@ -83,6 +86,9 @@ object SaleDataMapper : BaseMapper<SaleEntity, Sale, Any>(){
             updatedAt = model.updatedAt,
             updatedBy = model.updatedBy,
             crcId = model.crcId,
+            srepId = model.srepId,
+            fisrate = model.fisrate,
+            excrate = model.excrate,
         )
     }
 

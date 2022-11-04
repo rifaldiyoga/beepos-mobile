@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.dialog.atur_modal
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +14,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AturModalViewModel @Inject constructor(
+    private val getDefaultCrcUseCase: GetDefaultCrcUseCase
 ) : BaseViewModel<AturModalState, AturModalViewModel.UIEvent>(){
 
     init {
@@ -20,7 +22,7 @@ class AturModalViewModel @Inject constructor(
     }
 
     fun onBukaKasirClick() = viewModelScope.launch {
-        if (state.modal != null) {
+        if (state.modal.isNotEmpty()) {
             eventChannel.send(UIEvent.RequestSave)
         } else {
             eventChannel.send(UIEvent.NavigateToDefaultModal)
@@ -29,18 +31,21 @@ class AturModalViewModel @Inject constructor(
 
     fun saveBukaKasir() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestSave)
-        onDoneSave()
     }
 
     fun onDoneSave() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToPos)
     }
 
+    fun onInsight() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToInsight)
+    }
 
 
     sealed class UIEvent {
         object NavigateToPos : UIEvent()
         object NavigateToDefaultModal : UIEvent()
+        object NavigateToInsight : UIEvent()
         object RequestSave : UIEvent()
     }
 }

@@ -54,6 +54,7 @@ class DownloadViewModel @Inject constructor (
         downloadItemVariant()
         downloadPromo()
         downloadPromoMulti()
+//        downloadReg()
         onFinsihDownload()
     }
 
@@ -691,6 +692,26 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     updateState(
                         state.copy(status = "Finish Downloading Promo Multi")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadReg()  {
+        di.getLatestRegUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Reg")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Reg")
                     )
                 }
                 Resource.Status.ERROR -> {

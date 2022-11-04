@@ -23,6 +23,7 @@ class ChannelRepositoryImpl  @Inject constructor(
     private val channelDao: ChannelDao,
     private val ioDispatcher: CoroutineDispatcher
 ) : ChannelRepository {
+
     override fun getChannelList(): Flow<Resource<List<Channel>>> {
         return object : NetworkDatabaseBoundResource<List<Channel>, ChannelResponse>(){
             override suspend fun loadFormDB(): List<Channel>? {
@@ -49,4 +50,9 @@ class ChannelRepositoryImpl  @Inject constructor(
             emit(channelDao.getActiveChannelList().map { ChannelDataMapper.fromDbToDomain(it) })
         }.flowOn(ioDispatcher)
     }
+
+    override fun getChannelById(id: Int): Flow<Channel?> = flow {
+        val data = channelDao.getChannelById(id)
+        emit(data?.let { ChannelDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 }

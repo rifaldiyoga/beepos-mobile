@@ -18,5 +18,5 @@ interface BpAddrDao : BaseDao<BpAddrEntity>{
     fun getBpAddrList() : List<BpAddrEntity>
 
     @Query("SELECT * FROM bpaddr where bp_id = :id")
-    fun getBpAddrByBp(id: Int): BpAddrEntity
+    fun getBpAddrByBp(id: Int): BpAddrEntity?
 }

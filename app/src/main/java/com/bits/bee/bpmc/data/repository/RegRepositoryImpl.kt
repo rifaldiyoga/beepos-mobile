@@ -44,11 +44,9 @@ class RegRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getRegPossesActualEndcash(): Flow<Reg> {
-        return flow {
-            val data = regDao.getRegPossesActualEndcash()
-            emit(RegDataMapper.fromDbToDomain(data))
-        }.flowOn(ioDispatcher)
-    }
+    override fun getRegByCode(code : String): Flow<Reg?> = flow {
+        val data = regDao.getRegByCode(code)
+        emit(data?.let { RegDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }

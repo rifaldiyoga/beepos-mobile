@@ -39,8 +39,8 @@ class PilihKasirViewModel @Inject constructor(
     }
 
     fun onItemClick(cashier: Cashier, deviceName : String) = viewModelScope.launch {
-        activateCashierUseCase(cashier, deviceName).collect{
-            when(it.status){
+        activateCashierUseCase(cashier, deviceName).collect {
+            when (it.status) {
                 Resource.Status.LOADING -> {
                     showDialog()
                 }

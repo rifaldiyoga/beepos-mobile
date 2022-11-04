@@ -42,7 +42,7 @@ class DraftAdapter(private val onClickItem : (Sale) -> Unit, private val onDelet
                 ivDelete.setOnClickListener {
                     onDeleteItem(model)
                 }
-                tvCust.text = model.custName
+                tvCust.text = model.bpName
                 tvOperator.text = model.userName
                 tvTotal.text = CurrencyUtils.formatCurrency(model.total)
                 tvJam.text = hourFormat.format(model.trxDate)

@@ -75,10 +75,7 @@ class KasKeluarFragment(
                                 Toast.makeText(requireContext(), "Pastikan buka kasir terlebih dahulu", Toast.LENGTH_SHORT).show()
                             }
                         }
-//                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar ->{
-//                            Toast.makeText(requireContext(), "Berhasil Simpan kas keluar", Toast.LENGTH_SHORT).show()
-//                            sharedViewModel.loadKasKeluar(sharedViewModel.state.isDesc, sharedViewModel.state.search)
-//                        }
+                        else -> {}
                     }
                 }
             }

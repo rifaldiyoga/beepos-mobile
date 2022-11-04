@@ -1,24 +1,22 @@
 package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.ViewGroup
+import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiPenjualanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.home.HomeActivity
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -35,6 +33,7 @@ class TransaksiPenjualanFragment(
     private lateinit var transAdapter : TransaksiPenjualanAdapter
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
@@ -57,20 +56,45 @@ class TransaksiPenjualanFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
-    }
+        val slidingPaneLayout = binding.slidingPaneLayout
+        slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
 
-    override fun subscribeListeners() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            TransaksiPenjualanOnBackPressedCallback(slidingPaneLayout)
+        )
         binding.apply {
             transAdapter = TransaksiPenjualanAdapter(
                 onItemClick = {
-                    val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToDetailTransaksiPenjualanFragment(it)
-                    findNavController().navigate(action)
+                    viewModel.updateActiveSale(it)
+                    binding.slidingPaneLayout.openPane()
+//                    val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToDetailTransaksiPenjualanFragment(it)
+//                    findNavController().navigate(action)
                 }
             )
             rvList.apply {
                 adapter = transAdapter
                 layoutManager = LinearLayoutManager(requireContext())
             }
+        }
+    }
+
+    override fun subscribeListeners() {
+        binding.apply {
+            slidingPaneLayout.addPanelSlideListener(object : SlidingPaneLayout.PanelSlideListener{
+                override fun onPanelSlide(panel: View, slideOffset: Float) {
+
+                }
+
+                override fun onPanelOpened(panel: View) {
+                    (requireActivity() as HomeActivity).setVisibilityBottom(false)
+                }
+
+                override fun onPanelClosed(panel: View) {
+                    (requireActivity() as HomeActivity).setVisibilityBottom(true)
+                }
+
+            })
         }
     }
 
@@ -111,4 +135,34 @@ class TransaksiPenjualanFragment(
             }
         }
     }
+
+    inner class TransaksiPenjualanOnBackPressedCallback(
+        private val slidingPaneLayout: SlidingPaneLayout
+    ) : OnBackPressedCallback (
+        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
+    ), SlidingPaneLayout.PanelSlideListener {
+
+        init {
+            slidingPaneLayout.addPanelSlideListener(this)
+        }
+
+        override fun handleOnBackPressed() {
+            slidingPaneLayout.closePane()
+
+            setToolbarTitle(getString(R.string.transaksi_penjualan))
+        }
+
+        override fun onPanelSlide(panel: View, slideOffset: Float) {
+
+        }
+
+        override fun onPanelOpened(panel: View) {
+            isEnabled = true
+        }
+
+        override fun onPanelClosed(panel: View) {
+            isEnabled = false
+        }
+    }
+
 }

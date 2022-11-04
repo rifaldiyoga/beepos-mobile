@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.base
 
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -10,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.Utils
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterface {
@@ -30,9 +31,10 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
         setContentView(requireNotNull(_binding).root)
 
         //set orientation
-        val orientation = if(Utils.getScreenResolution(this).equals(BPMConstants.SCREEN_LANDSCAPE))
+        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        else
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         requestedOrientation = orientation
 
         initComponents()
@@ -68,5 +70,11 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
 
     override fun showToast(message: Int) =
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        setTheme(R.style.Theme_BeeposMobile)
+    }
 
 }

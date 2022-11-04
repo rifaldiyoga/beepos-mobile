@@ -58,5 +58,13 @@ class BranchRepositoryImpl @Inject constructor(
         emit(branch)
     }.flowOn(defaultDispatcher)
 
+    override fun getBranchById(id: Int): Flow<Branch?> = flow{
+        var branch : Branch? = null
+        branchDao.getBranchById(id)?.let {
+            branch = BranchDataMapper.fromDbToDomain(it)
+        }
+        emit(branch)
+    }.flowOn(defaultDispatcher)
+
 
 }

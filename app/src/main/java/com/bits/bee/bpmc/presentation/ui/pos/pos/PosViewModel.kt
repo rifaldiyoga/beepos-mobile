@@ -1,15 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.usecase.pos.GetActiveChannelUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemGroupUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +17,10 @@ class PosViewModel @Inject constructor(
 ): BaseViewModel<PosState, PosViewModel.UIEvent>() {
 
     var itemGroupList = getActiveItemGroupUseCase()
+
+    init {
+        state = PosState()
+    }
 
     fun onClickInvoice() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestInvoice)

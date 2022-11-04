@@ -8,5 +8,6 @@ import com.bits.bee.bpmc.domain.model.Stock
  */
 data class PilihPidState(
     var item : Item? = null,
-    var stockList : List<Stock> = mutableListOf()
+    var stockList : List<Stock> = mutableListOf(),
+    var isLoading : Boolean = false
 )

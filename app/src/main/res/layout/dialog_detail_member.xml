@@ -18,7 +18,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/size16"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -30,7 +29,7 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/size16"
+            android:layout_marginTop="@dimen/size16"
             android:text="@string/detail_member"
             android:textSize="@dimen/font16"
             app:layout_constraintBottom_toBottomOf="@+id/imgView_close"
@@ -38,32 +37,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <ImageView-->
-<!--            android:padding="@dimen/size8"-->
-<!--            android:id="@+id/imageView2"-->
-<!--            android:layout_width="@dimen/size32"-->
-<!--            android:layout_height="@dimen/size32"-->
-<!--            android:src="@drawable/ic_close_gray"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/tvTitle"-->
-<!--            style="@style/TextHeader"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="@dimen/size16"-->
-<!--            android:text="@string/detail_member"-->
-<!--            android:textSize="@dimen/font16"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/imgView_close"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/imgView_close"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <ImageView
             android:id="@+id/imgView_close"
             android:layout_width="@dimen/size36"
             android:layout_height="@dimen/size36"
+            android:layout_margin="@dimen/size16"
             android:padding="@dimen/size8"
             android:src="@drawable/ic_close_gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,18 +52,19 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/nama_member"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgView_close" />
 
         <TextView
-            android:id="@+id/txtMember"
+            android:id="@+id/tvMember"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/member"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -95,18 +74,19 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/no_telepon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMember" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMember" />
 
         <TextView
-            android:id="@+id/txtNoTelp"
+            android:id="@+id/tvNoTelp"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/no_telepon"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView53" />
@@ -116,10 +96,11 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/email"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNoTelp" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNoTelp" />
 
 <!--        <TextView-->
 <!--            android:id="@+id/textView1"-->
@@ -132,12 +113,12 @@
 <!--            app:layout_constraintStart_toEndOf="@+id/textView56" />-->
 
         <TextView
-            android:id="@+id/txtEmail"
+            android:id="@+id/tvEmail"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/email"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView56" />
@@ -148,10 +129,11 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/kota"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
 <!--        <TextView-->
 <!--            android:id="@+id/textView2"-->
@@ -164,12 +146,12 @@
 <!--            app:layout_constraintStart_toEndOf="@+id/textView55" />-->
 
         <TextView
-            android:id="@+id/txtKota"
+            android:id="@+id/tvKota"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/kota"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView55" />
@@ -180,18 +162,19 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/alamat"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtKota" />
+            app:layout_constraintTop_toBottomOf="@+id/tvKota" />
 
         <TextView
-            android:id="@+id/txtAlamat"
+            android:id="@+id/tvAlamat"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
             android:layout_marginEnd="@dimen/size16"
-            android:text="@string/alamat"
+            android:text="-"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView54" />
@@ -206,7 +189,7 @@
             android:layout_marginTop="@dimen/size16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtAlamat">
+            app:layout_constraintTop_toBottomOf="@+id/tvAlamat">
 
             <TextView
                 android:layout_width="@dimen/size0"
@@ -232,6 +215,7 @@
             style="@style/TextHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
             android:layout_marginTop="@dimen/size16"
             android:text="@string/level_harga"
             app:layout_constraintStart_toStartOf="parent"
@@ -239,7 +223,7 @@
 
 
         <TextView
-            android:id="@+id/txtLevelHarga"
+            android:id="@+id/tvLevelHarga"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size6"
@@ -253,20 +237,20 @@
             android:id="@+id/cbTax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="true"
+            android:enabled="false"
             android:layout_marginTop="@dimen/size16"
             android:paddingStart="@dimen/size12"
             android:text="@string/pajak"
-            app:layout_constraintStart_toStartOf="@+id/txtLevelHarga"
-            app:layout_constraintTop_toBottomOf="@+id/txtLevelHarga"
+            app:layout_constraintStart_toStartOf="@+id/tvLevelHarga"
+            app:layout_constraintTop_toBottomOf="@+id/tvLevelHarga"
             tools:ignore="RtlSymmetry" />
 
         <ImageView
             android:id="@+id/imageInfoTax"
-            android:layout_width="@dimen/size22"
-            android:layout_height="@dimen/size22"
-            android:layout_marginStart="@dimen/size1"
-            android:padding="@dimen/size4"
+            android:layout_width="@dimen/size32"
+            android:layout_height="@dimen/size32"
+            android:layout_marginStart="@dimen/size4"
+            android:padding="@dimen/size8"
             android:src="@drawable/ic_help_circle"
             app:layout_constraintBottom_toBottomOf="@+id/cbTax"
             app:layout_constraintStart_toEndOf="@+id/cbTax"
@@ -276,18 +260,18 @@
             android:id="@+id/cbTaxInc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="true"
+            android:enabled="false"
             android:paddingStart="@dimen/size12"
             android:text="@string/harga_termasuk_pajak"
-            app:layout_constraintStart_toStartOf="@+id/txtAlamat"
+            app:layout_constraintStart_toStartOf="@+id/tvAlamat"
             app:layout_constraintTop_toBottomOf="@+id/cbTax" />
 
         <ImageView
             android:id="@+id/imageInfoTaxInc"
-            android:layout_width="@dimen/size22"
-            android:layout_height="@dimen/size22"
-            android:layout_marginStart="@dimen/size1"
-            android:padding="@dimen/size4"
+            android:layout_width="@dimen/size32"
+            android:layout_height="@dimen/size32"
+            android:layout_marginStart="@dimen/size4"
+            android:padding="@dimen/size8"
             android:src="@drawable/ic_help_circle"
             app:layout_constraintBottom_toBottomOf="@+id/cbTaxInc"
             app:layout_constraintStart_toEndOf="@+id/cbTaxInc"
@@ -299,7 +283,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="txtLevelHarga, textView57, cbTax,cbTaxInc, imageInfoTax, imageInfoTaxInc" />
+            app:constraint_referenced_ids="tvLevelHarga, textView57, cbTax,cbTaxInc, imageInfoTax, imageInfoTaxInc" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

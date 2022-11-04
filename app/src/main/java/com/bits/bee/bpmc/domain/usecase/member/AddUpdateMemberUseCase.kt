@@ -13,7 +13,7 @@ class AddUpdateMemberUseCase @Inject constructor(
 ){
 
     suspend operator fun invoke(bp : Bp){
-        bpRepository.addUpdateBp(BpDataMapper.fromDomainToDb(bp))
+        bpRepository.addUpdateBp(bp)
     }
 
 }

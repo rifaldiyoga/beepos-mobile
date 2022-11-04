@@ -1,11 +1,10 @@
 package com.bits.bee.bpmc.data.data_source.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.BpEntity
-import com.bits.bee.bpmc.data.data_source.local.model.CityEntity
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import javax.inject.Singleton
 
 /**
@@ -22,8 +21,11 @@ interface BpDao : BaseDao<BpEntity> {
     @Query("SELECT * FROM bp WHERE id = :id")
     fun getBpById(id : Int) : BpEntity?
 
-    @Query("SELECT * FROM bp Where isfavorit = :isFav ")
-    fun getFavoritBpList(isFav: Boolean) : List<BpEntity>
+    @Query("SELECT * FROM bp Where name LIKE '%'|| :query || '%' AND active = 1")
+    fun getBpPagedList(query: String) : PagingSource<Int, BpEntity>
+
+    @Query("SELECT * FROM bp Where name LIKE '%'|| :query || '%' AND isfavorit = :isFav AND active = 1")
+    fun getFavoritBpPagedList(query: String, isFav: Boolean) : PagingSource<Int, BpEntity>
 
     @Query("SELECT * FROM bp ORDER BY id DESC LIMIT 1")
     fun getLastId(): BpEntity
@@ -38,6 +40,6 @@ interface BpDao : BaseDao<BpEntity> {
     fun getBpHaventUploaded(): List<BpEntity>
 
     @Query("SELECT * FROM bp WHERE code LIKE '%'|| :code || '%'")
-    fun getBpByCode(code: String): BpEntity
+    fun getBpByCode(code: String): BpEntity?
 
 }

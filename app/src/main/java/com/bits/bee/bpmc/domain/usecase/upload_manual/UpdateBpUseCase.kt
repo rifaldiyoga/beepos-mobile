@@ -9,6 +9,6 @@ class UpdateBpUseCase @Inject constructor(
     private val bpRepository: BpRepository
 ) {
     suspend operator fun invoke(bp: Bp){
-        bpRepository.updateBp(BpDataMapper.fromDomainToDb(bp))
+        bpRepository.updateBp(bp)
     }
 }

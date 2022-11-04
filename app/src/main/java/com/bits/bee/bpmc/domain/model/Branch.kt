@@ -15,6 +15,7 @@ data class Branch (
     val cmpName : String,
     val cmpPhone : String,
     val active : Boolean,
+    val status : Boolean,
     val cmpAddress : String,
     val cmpFax : String,
     val custDeftId : Int?,

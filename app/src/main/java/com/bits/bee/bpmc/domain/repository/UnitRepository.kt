@@ -13,4 +13,6 @@ interface UnitRepository {
 
     fun getUnitByItem(itemId : Int) : Flow<List<Unit>>
 
+    fun getUnitById(id : Int) : Flow<Unit?>
+
 }

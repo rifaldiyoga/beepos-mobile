@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class SaleAddOnD (
-    var id : Int = -1,
+    var id : Int? = null,
     var saleAddOn: SaleAddOn? = null,
     var upSaled: Saled? = null,
     var saled: Saled? = null,

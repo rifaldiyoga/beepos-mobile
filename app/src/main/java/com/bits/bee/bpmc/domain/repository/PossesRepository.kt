@@ -5,6 +5,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
 import com.bits.bee.bpmc.domain.model.Branch
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.model.Posses
+import com.bits.bee.bpmc.domain.model.User
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import java.math.BigDecimal
@@ -18,7 +19,7 @@ interface PossesRepository {
 
     suspend fun getPosses(): Flow<PagingData<Posses>>
 
-    suspend fun addPosses(startBal : BigDecimal, shift : Int, branch: Branch, cashier: Cashier)
+    suspend fun addPosses(startBal : BigDecimal, shift : Int, branch: Branch, cashier: Cashier, user : User)
 
     suspend fun updatePosses(posses: Posses)
 

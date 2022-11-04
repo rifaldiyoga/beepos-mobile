@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.home
 
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
@@ -16,14 +17,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -35,14 +35,11 @@ class HomeActivity(
 ) : BaseActivity<ActivityHomeBinding>(){
 
     private val viewModel : HomeViewModel by viewModels()
+
     private val sharedViewModel : BukaTutupKasirSharedViewModel by viewModels()
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
-
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun initComponents() {
         BeePreferenceManager.saveToPreferences(this, getString(R.string.pref_last_page), getString(
@@ -60,7 +57,8 @@ class HomeActivity(
             NavigationUI.setupWithNavController(bottomNav, navController)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
             navController.addOnDestinationChangedListener { _, _, _ ->
-                toolbar.setNavigationIcon(R.drawable.ic_back_black)
+                if(navController.currentDestination?.id != R.id.berandaFragment)
+                    toolbar.setNavigationIcon(R.drawable.ic_back_black)
             }
         }
     }
@@ -71,7 +69,7 @@ class HomeActivity(
                 if (sharedViewModel.state.activePosses != null){
                     viewModel.onPosClick()
                 } else {
-                    val dialog = DialogBuilderUtils.showDialogChoice(this@HomeActivity,
+                    val dialog = DialogBuilderHelper.showDialogChoice(this@HomeActivity,
                         getString(R.string.belum_buka_kasir), getString(R.string.msg_info_belum_buka_kasir_pos),
                         getString(R.string.buka_kasir), {
                             navController.navigate(R.id.detailBukaKasirFragment)
@@ -105,6 +103,13 @@ class HomeActivity(
                 }
             }
         }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.posModeState.collect {
+
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -112,16 +117,29 @@ class HomeActivity(
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun setVisibilityBottom(isShow : Boolean){
+    fun setVisibilityBottom(isShow : Boolean){
         binding.apply {
             if(isShow) {
+                val param = mainHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+                param.bottomMargin = bottomAppBar.height
+                mainHostFragment.layoutParams = param
                 bottomAppBar.visible()
                 fab.visible()
+
             } else {
+                val param = mainHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+                param.bottomMargin = 0
+                mainHostFragment.layoutParams = param
                 bottomAppBar.gone()
                 fab.gone()
             }
         }
     }
+
+//    override fun onBackPressed() {
+//        when(navController.currentDestination?.id){
+//            else -> super.onBackPressed()
+//        }
+//    }
 }
 

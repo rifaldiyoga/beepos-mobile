@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
@@ -68,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/member"
+                    android:text="@string/member_"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textView74" />
@@ -83,14 +84,33 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
+                    android:id="@+id/textView90"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/salesman_"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView75" />
+
+                <TextView
+                    android:id="@+id/tvSalesman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/member"
+                    android:textColor="@color/black"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView90"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
                     android:id="@+id/textView77"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/channel"
+                    android:text="@string/channel_"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView75" />
+                    app:layout_constraintTop_toBottomOf="@id/textView90" />
 
                 <TextView
                     android:id="@+id/tvChannel"
@@ -119,6 +139,13 @@
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView78"
                     app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSalesman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tvSalesman,textView90" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -238,6 +265,26 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
+                    android:id="@+id/textView812"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/surcharge"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView83" />
+
+
+                <TextView
+                    android:id="@+id/tvSurcharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pajak"
+                    android:textColor="@color/black"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView812"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
                     android:id="@+id/textView84"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -245,7 +292,7 @@
                     android:text="@string/pembulatan"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView83" />
+                    app:layout_constraintTop_toBottomOf="@id/textView812" />
 
                 <TextView
                     android:id="@+id/tvPembulatan"
@@ -256,6 +303,12 @@
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView84"
                     app:layout_constraintEnd_toEndOf="parent" />
 
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSurc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="textView812,tvSurcharge" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -263,14 +316,13 @@
 
     </ScrollView>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded_top_background_color"
-        android:elevation="@dimen/size16"
         android:clipToPadding="true"
+        android:elevation="@dimen/size16"
         android:padding="@dimen/size16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -302,12 +354,20 @@
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rect_primary"
+            android:textColor="@color/white"
             android:text="@string/cetak_nota"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="constraintLayout2,scrollView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

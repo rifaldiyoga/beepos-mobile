@@ -20,7 +20,6 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -44,18 +43,25 @@ class AddOnFragment(
         binding.apply {
             arguments?.let {
                 val item = it.getParcelable<Item>("item")
-                item?.let {
-                    setTitle(it.name1)
+                item?.let { item1 ->
+                    setToolbarTitle(item1.name1)
                     layoutVariant.apply {
-                        root.isVisible = it.isVariant
+                        root.isVisible = item1.isVariant
                         tvName.text = item.name1
                         tvOptional.isVisible = false
                     }
-                    rvListAddOn.isVisible = !it.isVariant
+                    rvListAddOn.isVisible = !item1.isVariant
                 }
                 val bp = it.getParcelable<Bp>("bp")
                 val saled = it.getParcelable<Saled>("saled")
-                saled?.let {
+                val addOnList = it.getParcelableArrayList<Item>("addOnList")
+                addOnList?.let {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            itemList = it
+                        )
+                    )
+                    viewModel.setItemSelectedList(it as ArrayList<Item>)
                     layoutVariant.root.gone()
                     rvListAddOn.visible()
                 }
@@ -80,6 +86,7 @@ class AddOnFragment(
             variantAdapter = AddOnAdapter(
                 addOnSelected = viewModel.selectedAddOn,
                 lifecycleScope = viewLifecycleOwner,
+//                onItemClick = { viewModel.addItemSelectedList(it) },
                 addOnI = this@AddOnFragment
             )
             layoutVariant.rvList.apply {
@@ -94,13 +101,7 @@ class AddOnFragment(
         }
 
         viewModel.loadData()
-        viewModel.state.saled?.let {
-            mainViewModel.saleTrans.getSaledByUpSaledList(it).map { it?.item }.forEach {
-                it?.let {
-                    viewModel.addItemSelectedList(it)
-                }
-            }
-        }
+
     }
 
     override fun subscribeListeners() {
@@ -123,8 +124,14 @@ class AddOnFragment(
                 val selectedList = viewModel.getSelectedAddOn()
                 val variant = selectedList.firstOrNull{ it.isVariant && !it.isAddOn }
                 val addOnList = selectedList.filter { it.isAddOn }
-                for (i in 1..viewModel.state.qty.toInt()){
-                    mainViewModel.onAddAddOn(if(variant!= null) ItemWithUnit(variant) else null , addOnList.map { ItemWithUnit(it) })
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("addon", selectedList)
+                if(viewModel.state.saled == null){
+                    for (i in 1..viewModel.state.qty.toInt()){
+                        mainViewModel.onAddAddOn(
+                            if(variant != null) ItemWithUnit(variant) else null ,
+                            addOnList.map { ItemWithUnit(it) }
+                        )
+                    }
                 }
                 findNavController().popBackStack()
             }
@@ -149,6 +156,17 @@ class AddOnFragment(
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.event.collect{
+                when(it){
+                    is AddOnViewModel.UIEvent.ShowLoadingSelection -> {
+                        binding.apply {
+                            progressBarSelection.isVisible = it.isLoading
+                        }
+                    }
+                }
+            }
+        }
         viewModel.selectedAddOn.observe(viewLifecycleOwner) {
             recalcSubtotal()
         }
@@ -161,6 +179,9 @@ class AddOnFragment(
             if(!it.isVariant)
                 subtotal = it.price
         }
+        state.saled?.let {
+            subtotal = it.listPrice
+        }
         viewModel.getSelectedAddOn().map {
             subtotal = (it.price * it.qty) + subtotal
         }
@@ -171,17 +192,31 @@ class AddOnFragment(
     override fun onItemClick(item: Item) {
         if(item.isVariant && !item.isAddOn){
             binding.rvListAddOn.visible()
+            binding.progressBarSelection.visible()
             viewModel.clearSelectedAddOn()
+            item.qty = BigDecimal(binding.etQty.text.toString())
+            viewModel.addItemSelectedList(item)
             selectionAdapter.notifyDataSetChanged()
-            viewModel.getSelection(item, )
+            viewModel.getSelection(item)
+        } else {
+            item.qty = BigDecimal.ONE
+            viewModel.addItemSelectedList(item)
         }
+    }
+
+    override fun onMin(item: Item) {
+        viewModel.minItemSelected(item)
     }
 
     override fun onDeselect(item: Item) {
         if(item.isVariant && !item.isAddOn){
             binding.rvListAddOn.gone()
+            binding.progressBarSelection.gone()
             viewModel.clearSelectedAddOn()
         }
+//        else {
+//            viewModel.addItemSelectedList(item)
+//        }
     }
 
     override fun addOrRemoveItem(item: Item) {

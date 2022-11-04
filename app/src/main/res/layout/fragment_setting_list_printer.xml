@@ -11,20 +11,17 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="@dimen/size2"
-            android:layout_marginBottom="@dimen/size14"
-            android:background="@color/soft_red"
             android:id="@+id/cl_jml_printer"
-            android:padding="@dimen/size16"
+            android:paddingTop="@dimen/size12"
+            android:paddingBottom="@dimen/size12"
+            android:paddingStart="@dimen/size16"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:padding="@dimen/size8"
-                android:layout_width="@dimen/size30"
-                android:layout_height="@dimen/size30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -33,7 +30,7 @@
                     android:id="@+id/imgview_tipe"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/alert_circle"/>
+                    android:src="@drawable/ic_alert_circle"/>
 
             </LinearLayout>
 
@@ -42,55 +39,41 @@
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="@dimen/size8"
+                android:layout_marginStart="@dimen/size16"
                 android:text="@string/bluetooth"
-                android:textSize="@dimen/font16"
+                android:textSize="@dimen/font12"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="@dimen/size2"
-            android:layout_marginBottom="@dimen/size14"
             android:id="@+id/cl_list_printer"
-            android:padding="@dimen/size16"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
-
-            <ListView
-                android:id="@+id/select_device_list"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/rv_list_printer"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_list_printer"
                 android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
+                android:layout_height="@dimen/size0"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="@dimen/size2"
-            android:visibility="gone"
             android:layout_marginBottom="@dimen/size14"
             android:id="@+id/cl_list_pBar"
             android:padding="@dimen/size16"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:visibility="visible"
@@ -104,7 +87,7 @@
                     android:layout_height="@dimen/size20" />
                 <TextView
                     android:gravity="center_horizontal"
-                    android:text="Mencari Printer..."
+                    android:text="@string/mencari_printer"
                     android:textSize="@dimen/size8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -113,6 +96,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

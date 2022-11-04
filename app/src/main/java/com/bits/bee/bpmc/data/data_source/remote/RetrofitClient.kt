@@ -68,7 +68,6 @@ class RetrofitClient {
                 .addInterceptor(interceptor)
                 .addNetworkInterceptor(AddHeaderInterceptor(
                     "Bearer $API_KEY"
-//                    "Bearer eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM0NTJjYWZlYmVlIiwiZGJob3N0IjoiMTAuMTMwLjIyLjExMiIsInVzZXJfaWQiOiIxMiJ9.oh2Z-wRXLqmm9hBz8IxQVFRb72BCewHNTwWYMZJh9jM"
                 )).build()
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)

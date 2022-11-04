@@ -13,7 +13,9 @@
     <color name="gray">#CBCBCB</color>
     <color name="light_gray">#F4F4F4</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red_200">#F6524E</color>
     <color name="red">#E40904</color>
+    <color name="light_red">#1AE40904</color>
     <color name="maroon">#9a000c</color>
     <color name="light_red_bpm">#D32F2F</color>
     <color name="soft_red">#FEEEED</color>

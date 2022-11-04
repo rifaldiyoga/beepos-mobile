@@ -1,8 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.pos.cari_item
 
+import android.Manifest
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -11,15 +13,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCariItemBinding
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
-import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosAdapter
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
+import com.bits.bee.bpmc.utils.PermissionUtils
+import com.bits.bee.bpmc.utils.extension.decideOnState
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,9 +44,15 @@ class CariItemFragment(
 
     private val mViewModel : MainViewModel by activityViewModels()
 
-    private lateinit var itemAdapter : ItemPosAdapter
-
+    private lateinit var itemAdapter : ItemPosCariAdapter
     private lateinit var itemRetailPosAdapter: ItemPosRetailAdapter
+    private lateinit var searchView : SearchView
+
+    private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted ->
+        if(!isGranted){
+            Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+        }
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,17 +65,20 @@ class CariItemFragment(
         val searchItem = menu.findItem(R.id.menu_search)
         menu.findItem(R.id.menu_scan).isVisible = mViewModel.posModeState.value == PosModeState.RetailState
 
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView = searchItem.actionView as SearchView
+        searchView.queryHint = getString(R.string.cari_produk_min_3_karakter)
+        searchView.setSearchViewStyle(requireActivity(), R.color.white)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null && newText.length >= 3) {
-                    viewModel.onSearch(newText)
+                viewModel.onSearch(newText ?: viewModel.currentQuery.value)
+                if(newText != null && newText.length < 3){
+                    binding.groupEmpty.gone()
+                    binding.rvList.gone()
                 }
-                setVisiblitySearch(newText != null && newText.length < 3)
                 return true
             }
         })
@@ -87,8 +104,13 @@ class CariItemFragment(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_scan -> {
-                val action = CariItemFragmentDirections.actionCariItemFragmentToScannerFragment()
-                findNavController().navigate(action)
+                if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)) {
+                    val action =
+                        CariItemFragmentDirections.actionCariItemFragmentToScannerFragment()
+                    findNavController().navigate(action)
+                } else {
+                    requestPermissionCamera.launch(Manifest.permission.CAMERA)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -97,14 +119,17 @@ class CariItemFragment(
     override fun initComponents() {
         setHasOptionsMenu(true)
         binding.apply {
-            itemAdapter = ItemPosAdapter(
-                onItemClicK = {item ->
+            groupEmpty.gone()
+            rvList.gone()
+            itemAdapter = ItemPosCariAdapter(
+                onItemClicK = { item ->
                     mViewModel.onAddDetail(ItemWithUnit(item))
                 },
-                onMinusClick = {item ->
+                onMinusClick = { item ->
                     mViewModel.onMinusClick(item)
                 },
-                mViewModel.state.saledList)
+                mViewModel.state.saledList
+            )
             itemRetailPosAdapter = ItemPosRetailAdapter {
                 viewModel.onClickRetail(it)
             }
@@ -115,6 +140,12 @@ class CariItemFragment(
                     itemRetailPosAdapter
                 layoutManager = LinearLayoutManager(requireActivity())
             }
+
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
+                viewModel.onSearch(it)
+                searchView.setQuery(it, false)
+                showSnackbar(it)
+            }
         }
     }
 
@@ -123,20 +154,44 @@ class CariItemFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            mViewModel.viewStates().collect {
+            mViewModel.activeBp.collect {
                 it?.let {
-                    viewModel.state.bp = it.bp
+                    viewModel.state.bp = it
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+            mViewModel.activeChannel.collect {
+                it?.let {
+                    viewModel.state.channel = it
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            if(mViewModel.posModeState.value is PosModeState.FnBState) {
+                itemAdapter.loadStateFlow.collectLatest {
+                    if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                        binding.groupEmpty.isVisible = itemAdapter.itemCount == 0  && viewModel.currentQuery.value.length > 2
+                        binding.rvList.isVisible = itemAdapter.itemCount > 0 && viewModel.currentQuery.value.length > 2
+                    }
+                }
+            } else {
+                itemRetailPosAdapter.loadStateFlow.collectLatest {
+                    if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                        binding.groupEmpty.isVisible = itemRetailPosAdapter.itemCount == 0 && viewModel.currentQuery.value.length > 2
+                        binding.rvList.isVisible = itemRetailPosAdapter.itemCount > 0 && viewModel.currentQuery.value.length > 2
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchItemFlow.collectLatest {
-                    if(mViewModel.posModeState.value is PosModeState.FnBState)
+                    if(mViewModel.posModeState.value is PosModeState.FnBState) {
                         itemAdapter.submitData(it)
-                    else
+                    } else {
                         itemRetailPosAdapter.submitData(it)
-                    setVisiblitySearch(itemAdapter.itemCount == 0)
+                    }
                 }
             }
         }
@@ -161,7 +216,6 @@ class CariItemFragment(
                             CariItemFragmentDirections.actionCariItemFragmentToEditItemDialog(
                                 item = it.item
                             )
-
                         }
                         findNavController().navigate(action)
                     }
@@ -169,12 +223,4 @@ class CariItemFragment(
             }
         }
     }
-
-    fun setVisiblitySearch(isVisible : Boolean) {
-        binding.apply {
-            groupEmpty.isVisible = isVisible
-            rvList.isVisible = !isVisible
-        }
-    }
-
 }

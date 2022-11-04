@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetRegencyByCodeUseCase @Inject constructor(
     private val regencyRepository: RegencyRepository
 ) {
-    operator fun invoke(regencyCode: String): Flow<Resource<Regency>>{
+    operator fun invoke(regencyCode: String): Flow<Regency?>{
         return regencyRepository.getRegencyByCode(regencyCode)
     }
 }

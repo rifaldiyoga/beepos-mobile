@@ -318,12 +318,12 @@ class PromoCalc @Inject constructor(
                         var discAmt: BigDecimal?
                         var disc: BigDecimal?
                         if (isPercentage) {
-                            disc = BigDecimal(promoActive.itemDiscExp?.replace("[%]", "") ?: "0")
+                            disc = BigDecimal(promoActive.itemDiscExp?.replace("%", "") ?: "0")
                             discAmt = saled.listPrice.multiply(disc).divide(BigDecimal(100))
                                 .setScale(2, 0)
                             saled.discExp = promoActive.itemDiscExp ?: ""
                         } else {
-                            discAmt = BigDecimal(promoActive.itemDiscExp)
+                            discAmt = BigDecimal(promoActive.itemDiscExp ?: "0")
                             disc = discAmt
                             saled.discExp = "0"
                         }
@@ -750,7 +750,7 @@ class PromoCalc @Inject constructor(
                         var discAmt: BigDecimal?
                         var disc: BigDecimal?
                         if (isPercentage) {
-                            disc = BigDecimal(promoActive.itemDiscExp!!.replace("[%]", ""))
+                            disc = BigDecimal(promoActive.itemDiscExp!!.replace("%", ""))
                             discAmt = saled.listPrice.multiply(disc).divide(BigDecimal(100))
                                 .setScale(2, 0)
                             saled.discExp = promoActive.itemDiscExp ?: ""
@@ -1221,11 +1221,11 @@ class PromoCalc @Inject constructor(
         }
     }
 
-    private fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal) {
+    private suspend fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal) {
         duplicateSaled(saled, qtyLeft, null)
     }
 
-    private fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal, price: BigDecimal?) {
+    private suspend fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal, price: BigDecimal?) {
         val saledNew = Saled()
         saledNew.itemId = saled.itemId
         saledNew.item = saled.item
@@ -1365,7 +1365,7 @@ class PromoCalc @Inject constructor(
         addSalePromo(promo, null, "S")
     }
 
-    private fun addSalePromoItem(promo: Promo, saledSyarat: Saled?, saledPromo: Saled?) {
+    fun addSalePromoItem(promo: Promo, saledSyarat: Saled?, saledPromo: Saled?) {
         addSalePromo(promo, saledSyarat, "S")
         addSalePromo(promo, saledPromo, "D")
     }

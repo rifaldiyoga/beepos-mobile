@@ -1,26 +1,30 @@
 package com.bits.bee.bpmc.presentation.ui.mode_tampilan
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Created by aldi on 01/04/22.
  */
-class ModeTampilanViewModel : ViewModel() {
+@HiltViewModel
+class ModeTampilanViewModel @Inject constructor(
+    private val beePreferenceManager: BeePreferenceManager
+) : ViewModel() {
 
     private val eventChannel = Channel<UIEvent>()
     val event = eventChannel.receiveAsFlow()
 
     var type = "signin"
 
-    fun onClickItem(context : Context, string: String) = viewModelScope.launch {
-        BeePreferenceManager.saveToPreferences(context, context.getString(R.string.pref_mode_tampilan), string)
+
+    fun onClickItem(string: String) = viewModelScope.launch {
+        beePreferenceManager.updateModePreferences(string)
         eventChannel.send(UIEvent.RequestClickItem(string))
     }
 

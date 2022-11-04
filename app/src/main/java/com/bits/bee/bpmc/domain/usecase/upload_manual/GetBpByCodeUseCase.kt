@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetBpByCodeUseCase @Inject constructor(
     private val bpRepository: BpRepository
 ) {
-    operator fun invoke(code: String): Flow<Resource<Bp>>{
+    operator fun invoke(code: String): Flow<Bp?>{
         return bpRepository.getBpByCode(code)
     }
 }

@@ -25,7 +25,7 @@ abstract class BaseTrans<M , D> {
         return this.mTblDetail
     }
 
-    open fun addDetail(d : D) {
+    open suspend fun addDetail(d : D) {
         this.mTblDetail.add(d)
     }
 

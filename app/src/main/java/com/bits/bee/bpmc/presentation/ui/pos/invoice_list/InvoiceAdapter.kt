@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pos.invoice_list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -10,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemInvoiceBinding
 import com.bits.bee.bpmc.databinding.ItemInvoiceRetailBinding
+import com.bits.bee.bpmc.domain.model.SaleAddOnD
 import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
@@ -25,9 +26,14 @@ class InvoiceAdapter(
     private val onItemClicK : (Saled) -> Unit,
     private val onDeleteClick : (Saled) -> Unit,
     private val isDelete : Boolean = true,
-    private val modePos : PosModeState = PosModeState.FnBState,
-    private val saleTrans: SaleTrans
+    private val modePos : PosModeState = PosModeState.RetailState,
+    private var saleAddOnList : List<SaleAddOnD> = mutableListOf()
 ) : ListAdapter<Saled, RecyclerView.ViewHolder>(DiffCallback()) {
+
+    fun submitSaleAddOnDList(saleAddOnList: List<SaleAddOnD>){
+        this.saleAddOnList = saleAddOnList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -76,20 +82,29 @@ class InvoiceAdapter(
                     tvHargaDiskon.visible()
                     tvLabelItem.text = context.getString(R.string.diskon_nominal, CurrencyUtils.formatCurrency(model.discAmt))
                 }
+
                 if(!isDelete){
                     ivDelete.gone()
+                } else {
+                    ivDelete.visibility = if (model.isBonus) View.INVISIBLE else View.VISIBLE
                 }
-
-                rvAddon.isVisible = saleTrans.addOnTrans != null && saleTrans.addOnTrans!!.getListDetail().find { it.upSaled == model } != null
 
                 clContent.setOnClickListener {
                     onItemClicK(model)
                 }
+
                 ivDelete.setOnClickListener {
-                    onDeleteClick(model)
+                    if (!model.isBonus)
+                        onDeleteClick(model)
                 }
 
-                saleTrans.addOnTrans?.let {
+                ivDelete.isEnabled = !model.isBonus
+
+                val saledAddonList = saleAddOnList.filter { model == it.upSaled ||(model.id != null && it.upSaled != null && it.upSaled!!.id != null && model.id == it.upSaled!!.id) }.map { it.saled }
+
+                rvAddon.isVisible = saledAddonList.isNotEmpty()
+
+                if(saledAddonList.isNotEmpty()) {
                     val addOnAdapter = InvoiceAddOnAdapter(model.qty)
 
                     rvAddon.apply {
@@ -97,7 +112,6 @@ class InvoiceAdapter(
                         layoutManager = LinearLayoutManager(context)
                     }
 
-                    val saledAddonList = saleTrans.getSaledByUpSaledList(model)
                     addOnAdapter.submitList(saledAddonList)
 
                     saledAddonList.forEach {
@@ -106,6 +120,13 @@ class InvoiceAdapter(
                 }
 
                 tvHarga.text =  context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(subtotal))
+
+                if (model.isBonus && model.isBonusUsed) {
+                    tvLabelItem.visibility = View.VISIBLE
+                    tvLabelItem.text = "Free"
+                }
+                tvNote.isVisible = model.dNotes.isNotEmpty()
+                tvNote.text = "Note : ${model.dNotes}"
             }
         }
     }
@@ -142,7 +163,6 @@ class InvoiceAdapter(
                 }
             }
         }
-
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Saled>() {

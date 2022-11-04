@@ -17,7 +17,6 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:paddingBottom="@dimen/size45"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -750,18 +749,16 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <TextView
+            <ImageView
                 android:layout_width="@dimen/size225"
-                android:layout_height="@dimen/size150"
+                android:layout_height="@dimen/size180"
                 android:layout_gravity="center"
-                android:background="@drawable/image_analisa"
-                android:gravity="center"
+                android:src="@drawable/image_analisa"
                 android:textColor="@color/black"
-                android:textSize="@dimen/size30"/>
+                />
 
             <TextView
                 style="@style/TextDetail"
-                android:layout_marginTop="@dimen/size20"
                 android:textAlignment="center"
                 android:textSize="@dimen/font12"
                 android:layout_width="wrap_content"

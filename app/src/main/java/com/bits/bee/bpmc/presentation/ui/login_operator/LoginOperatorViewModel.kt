@@ -1,19 +1,23 @@
 package com.bits.bee.bpmc.presentation.ui.login_operator
 
 import android.content.Context
-import android.os.Build
-import android.widget.Toast
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.repository.UserRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveLicenseUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
-import com.bits.bee.bpmc.domain.usecase.login.operator.*
+import com.bits.bee.bpmc.domain.usecase.login.operator.GetBranchUserUseCase
+import com.bits.bee.bpmc.domain.usecase.login.operator.GetLicenseUseCase
+import com.bits.bee.bpmc.domain.usecase.login.operator.GetSaleNotUploadedUseCase
+import com.bits.bee.bpmc.domain.usecase.login.operator.GetUserPinUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.UpdateActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.UpdateUserUseCase
@@ -32,23 +36,13 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class LoginOperatorViewModel @Inject constructor(
-    private val getSaleNotUploadedUseCase: GetSaleNotUploadedUseCase,
-    private val getActivePossesUseCase: GetActivePossesUseCase,
-    private val getLicenseUseCase: GetLicenseUseCase,
     private val loginUseCase: LoginUseCase,
     private val getBranchUserUseCase: GetBranchUserUseCase,
-    private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val updateActiveCashierUseCase: UpdateActiveCashierUseCase,
     private val getUserPinUseCase: GetUserPinUseCase,
-    private val getActiveLicenseUseCase: GetActiveLicenseUseCase,
-    private val detachCashierUseCase: DetachCashierUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
+    private val userRepository: UserRepository,
     @ApplicationContext val context: Context
 ): BaseViewModel<LoginOperatorState, LoginOperatorViewModel.UIEvent>() {
-
-    private var mPosses: Posses? = null
-    private var mLicense: License? = null
-    private var mCashier: Cashier? = null
 
     init {
         state = LoginOperatorState()
@@ -60,8 +54,9 @@ class LoginOperatorViewModel @Inject constructor(
     private var branchUserResponse: MediatorLiveData<Resource<Any>> = MediatorLiveData()
     fun observebranchUserResponse() = branchUserResponse as LiveData<Resource<Any>>
 
-    private var cashierStatusResponse: MediatorLiveData<Resource<CashierStatusResponse>> = MediatorLiveData()
-    fun observeCashierStatusResponse() = cashierStatusResponse as LiveData<Resource<CashierStatusResponse>>
+    fun loadData() = viewModelScope.launch {
+
+    }
 
     fun validateEmail() = viewModelScope.launch{
         val email = state.email
@@ -120,7 +115,6 @@ class LoginOperatorViewModel @Inject constructor(
     }
 
     fun menuSinkron(){
-
         val source = getBranchUserUseCase().asLiveData()
         branchUserResponse.addSource(source){
             if (it != null) {
@@ -134,65 +128,6 @@ class LoginOperatorViewModel @Inject constructor(
         }
     }
 
-    fun menuReset() = viewModelScope.launch{
-        getActivePossesUseCase.invoke().collect {
-            it?.let {
-                mPosses = it
-            }
-        }
-
-        var listSale: List<Sale> = mutableListOf()
-        getSaleNotUploadedUseCase.invoke().collect {
-            listSale = it
-        }
-        if (listSale.size == 1){
-            if (mPosses == null){
-                confirmGantiKasir()
-            }else{
-                //tutup kasir dulu
-            }
-        }else{
-            dialogHaventSync()
-        }
-
-    }
-
-    fun deActiveStatusKasir() = viewModelScope.launch {
-
-        getActiveCashierUseCase.invoke().collect {
-            it?.let {
-                mCashier = it
-            }
-        }
-
-        val license : License = getActiveLicenseUseCase().first() ?: throw Exception("No Active License!")
-//        getLicenseUseCase.invoke().collect {
-//            it.data?.let {
-//                mLicense = it.get(0)
-//            }
-//        }
-
-//        val cashierPost = CashierPost(
-//            cashierid = mCashier!!.id,
-//            serial_number = mLicense!!.licNumber,
-//            device_info = ""
-//        )
-//        val kode_device = Build.MANUFACTURER + Build.DEVICE + Build.ID + "-"
-        val deviceName = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_nama_device), "") as String
-
-        val source = detachCashierUseCase.invoke(mCashier!!, deviceName).asLiveData()
-        cashierStatusResponse.addSource(source){
-            if (it != null) {
-                cashierStatusResponse.value = it
-                if (it.status !== Resource.Status.LOADING) {
-                    cashierStatusResponse.removeSource(source)
-                }
-            } else {
-                cashierStatusResponse.removeSource(source)
-            }
-        }
-
-    }
 
     fun checkPinUser(pin: String) = viewModelScope.launch {
         var userList: List<User> = mutableListOf()
@@ -202,7 +137,7 @@ class LoginOperatorViewModel @Inject constructor(
                 userList = it
             }
         }
-        if (userList.size == 0){
+        if (userList.isEmpty()){
             // tidak valid
             state.mTimesWrong = state.mTimesWrong + 1
             eventChannel.send(UIEvent.ClearPIn)
@@ -211,32 +146,19 @@ class LoginOperatorViewModel @Inject constructor(
             }
 
         }else{
-            userPin = userList.get(0)
-            if (pin.equals(userPin.pin)){
+            userPin = userList[0]
+            if (pin == userPin.pin){
                 //login Sukses
-                userPin.active = true
-                updateUserUseCase.invoke(userPin)
+                userRepository.resetUsedUser()
+                userPin.used = true
+                updateUserUseCase(userPin)
                 onSuccessLogin()
             }
         }
     }
 
-    fun updateCashier() = viewModelScope.launch {
-        mCashier!!.isActive = false
-        updateActiveCashierUseCase.invoke(mCashier!!)
-        eventChannel.send(UIEvent.RequestPilihKasir)
-    }
-
     fun onClickLogin() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestLoginEmail)
-    }
-
-    fun confirmGantiKasir() = viewModelScope.launch{
-        eventChannel.send(UIEvent.RequestConfirmKasir)
-    }
-
-    fun dialogHaventSync() = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestDialogSync)
     }
 
     fun onSuccessLogin() = viewModelScope.launch {
@@ -252,8 +174,6 @@ class LoginOperatorViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-        object RequestConfirmKasir : UIEvent()
-        object RequestDialogSync : UIEvent()
         object RequestLoginEmail :  UIEvent()
         object NavigateToHome : UIEvent()
         object RequestDialogInfo : UIEvent()

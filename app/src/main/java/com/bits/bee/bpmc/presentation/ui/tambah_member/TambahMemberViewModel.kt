@@ -2,16 +2,15 @@ package com.bits.bee.bpmc.presentation.ui.tambah_member
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.domain.usecase.member.AddUpdateMemberUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetActivePriceLvlUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
 import com.bits.bee.bpmc.domain.usecase.member.SaveBpAddrUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -24,7 +23,8 @@ class TambahMemberViewModel @Inject constructor(
     private val addUpdateMemberUseCase: AddUpdateMemberUseCase,
     private val getActivePriceLvlUseCase: GetActivePriceLvlUseCase,
     private val saveBpAddrUseCase: SaveBpAddrUseCase,
-    private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase
+    private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase,
+    private val getRegUseCase: GetRegUseCase
 ): BaseViewModel<TambahMemberState, TambahMemberViewModel.UIEvent >() {
 
     init {
@@ -32,6 +32,9 @@ class TambahMemberViewModel @Inject constructor(
     }
 
     var priceLvlList = getActivePriceLvlUseCase()
+
+    val regSaleTaxed = getRegUseCase(BPMConstants.REG_SALE_TAXED)
+    val regSaleTaxInc = getRegUseCase(BPMConstants.REG_SALE_TAXINC)
 
     fun onClickSimpan() = viewModelScope.launch {
         var errorNamaMember = ""
@@ -87,22 +90,14 @@ class TambahMemberViewModel @Inject constructor(
 
     fun getRegency() = viewModelScope.launch{
         getRegencyByCodeUseCase.invoke(state.district!!.regencyCode).collect {
-            when(it.status){
-                Resource.Status.LOADING ->{
 
-                }
-                Resource.Status.SUCCESS ->{
-                    updateState(
-                        state.copy(
-                            regency = it.data
-                        )
-                    )
-                }
-                Resource.Status.ERROR ->{
-
-                }
-            }
+            updateState(
+                state.copy(
+                    regency = it
+                )
+            )
         }
+
     }
 
     fun onClickInfoLainnya() = viewModelScope.launch {

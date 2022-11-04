@@ -9,34 +9,11 @@
         tools:layout="@layout/fragment_setting_list"
         android:id="@+id/settingListFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment"
-        android:label="SettingListFragment" >
+        android:label="@string/pengaturan" >
         <action
-            android:id="@+id/action_settingListFragment_to_settingPosFragment"
-            app:destination="@id/settingPosFragment" />
-        <action
-            android:id="@+id/action_settingListFragment_to_settingSistemFragment"
-            app:destination="@id/settingSistemFragment" />
-        <action
-            android:id="@+id/action_settingListFragment_to_settingNotaFragment"
-            app:destination="@id/settingNotaFragment" />
-        <action
-            android:id="@+id/action_settingListFragment_to_settingFavoriteFragmentMain"
-            app:destination="@id/settingFavoriteFragmentMain" />
-        <action
-            android:id="@+id/action_settingListFragment_to_settingPrinterFragment"
-            app:destination="@id/settingPrinterFragment" />
-        <action
-            android:id="@+id/action_settingListFragment_to_initialActivity"
+            android:id="@+id/action_settingListFragment_to_initialActivity2"
             app:destination="@id/initialActivity" />
-        <action
-            android:id="@+id/action_settingListFragment_to_detailMenuHelpFragment"
-            app:destination="@id/detailMenuHelpFragment" />
     </fragment>
-    <fragment
-        tools:layout="@layout/fragment_setting_pos"
-        android:id="@+id/settingPosFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosFragment"
-        android:label="SettingPosFragment" />
     <fragment
         tools:layout="@layout/fragment_beranda"
         android:id="@+id/berandaFragment"
@@ -61,38 +38,10 @@
         android:id="@+id/mainActivity"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.MainActivity"/>
     <fragment
-        android:id="@+id/settingSistemFragment"
-        tools:layout="@layout/fragment_setting_sistem"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_sistem.SettingSistemFragment"
-        android:label="SettingSistemFragment" >
-        <action
-            android:id="@+id/action_settingSistemFragment_to_settingPrinterFragment"
-            app:destination="@id/settingPrinterFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/settingNotaFragment"
-        tools:layout="@layout/fragment_setting_nota"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_nota.SettingNotaFragment"
-        android:label="SettingNotaFragment" />
-    <fragment
-        tools:layout="@layout/fragment_setting_fav_main"
-        android:id="@+id/settingFavoriteFragmentMain"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavoriteFragmentMain"
-        android:label="Favorite" />
-    <fragment
         android:id="@+id/settingFavProdukFragment"
-        tools:layout="@layout/fragment_setting_produk_fav"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavProdukFragment"
-        android:label="SettingFavProdukFragment" />
-    <fragment
-        android:id="@+id/settingPrinterFragment"
-        tools:layout="@layout/fragment_setting_printer"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.SettingPrinterFragment"
-        android:label="SettingPrinterFragment" >
-        <action
-            android:id="@+id/action_settingPrinterFragment_to_addPrinterFragment"
-            app:destination="@id/addPrinterFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_setting_fav_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_produk.SettingFavProdukFragment"
+        android:label="@string/favorit" />
     <fragment
         tools:layout="@layout/fragment_analisa_sesi"
         android:id="@+id/analasisiSesiFragment"
@@ -116,7 +65,7 @@
         tools:layout="@layout/fragment_transaksi_penjualan"
         android:id="@+id/transaksiPenjualanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragment"
-        android:label="TransaksiPenjualanFragment" >
+        android:label="@string/transaksi_penjualan" >
         <action
             android:id="@+id/action_transaksiPenjualanFragment_to_detailTransaksiPenjualanFragment"
             app:destination="@id/detailTransaksiPenjualanFragment" />
@@ -127,10 +76,6 @@
         android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
         android:label="@string/kasir" >
         <action
-            android:id="@+id/action_detailTutupKasirFragment_to_mainActivity"
-            app:destination="@id/mainActivity"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_detailTutupKasirFragment_to_rekapSesiFragment"
             app:destination="@id/rekapSesiFragment" />
     </fragment>
@@ -138,7 +83,7 @@
         tools:layout="@layout/fragment_lainnya"
         android:id="@+id/lainnyaFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.lainnya.LainnyaFragment"
-        android:label="LainnyaFragment" >
+        android:label="@string/lainnya" >
         <action
             android:id="@+id/action_lainnyaFragment_to_settingListFragment"
             app:destination="@id/settingListFragment" />
@@ -155,17 +100,17 @@
             android:id="@+id/action_lainnyaFragment_to_cekStokFragment"
             app:destination="@id/cekStokFragment" />
         <action
-            android:id="@+id/action_lainnyaFragment_to_kelolaProdukFragment"
-            app:destination="@id/kelolaProdukFragment" />
-        <action
             android:id="@+id/action_lainnyaFragment_to_downloadDialogBuilder"
             app:destination="@id/downloadDialogBuilder" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_insightKelolaProdukFragment"
+            app:destination="@id/insightKelolaProdukFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_upload_manual"
         android:id="@+id/uploadManualFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualFragment"
-        android:label="UploadManualFragment" />
+        android:label="@string/upload_manual" />
     <fragment
         tools:layout="@layout/fragment_rekap_kas"
         android:id="@+id/rekapKasFragment"
@@ -181,10 +126,7 @@
         android:id="@+id/cekStokFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
         android:label="@string/cek_stok" />
-    <fragment
-        android:id="@+id/kelolaProdukFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukFragment"
-        android:label="KelolaProdukFragment" />
+
     <dialog
         tools:layout="@layout/dialog_atur_modal_kasir"
         android:id="@+id/aturModalDialogBuilder"
@@ -199,36 +141,11 @@
         <argument
             android:name="shift"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_aturModalDialogBuilder_to_insightPresetKasirFragment"
+            app:destination="@id/insightPresetKasirFragment" />
     </dialog>
 
-    <fragment
-        android:id="@+id/addPrinterFragment"
-        tools:layout="@layout/fragment_setting_add_printer"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterFragment"
-        android:label="AddPrinterFragment" >
-        <action
-            android:id="@+id/action_addPrinterFragment_to_listPrinterFragment"
-            app:destination="@id/listPrinterFragment" />
-        <argument
-            android:name="isNew"
-            app:argType="boolean" />
-        <argument
-            android:name="printer"
-            app:argType="string"
-            app:nullable="true" />
-        <action
-            android:id="@+id/action_addPrinterFragment_to_settingPrinterFragment"
-            app:destination="@id/settingPrinterFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/listPrinterFragment"
-        tools:layout="@layout/fragment_setting_list_printer"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.ListPrinterFragment"
-        android:label="ListPrinterFragment" >
-        <action
-            android:id="@+id/action_listPrinterFragment_to_addPrinterFragment"
-            app:destination="@id/addPrinterFragment" />
-    </fragment>
     <fragment
         tools:layout="@layout/fragment_detail_buka_kasir"
         android:id="@+id/detailBukaKasirFragment"
@@ -237,12 +154,15 @@
         <action
             android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_detailBukaKasirFragment_to_insightPresetKasirFragment"
+            app:destination="@id/insightPresetKasirFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_detail_transaksi_penjualan"
         android:id="@+id/detailTransaksiPenjualanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan.DetailTransaksiPenjualanFragment"
-        android:label="DetailTransaksiPenjualanFragment" >
+        android:label="" >
         <argument
             android:name="sale"
             app:argType="com.bits.bee.bpmc.domain.model.Sale" />
@@ -251,7 +171,7 @@
         tools:layout="@layout/fragment_rekap_sesi"
         android:id="@+id/rekapSesiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_sesi_kasir.RekapSesiFragment"
-        android:label="RekapSesiFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_rekapSesiFragment_to_detailSesiKasirFragment"
             app:destination="@id/detailSesiKasirFragment" />
@@ -260,7 +180,7 @@
         tools:layout="@layout/fragment_detail_rekap_sesi"
         android:id="@+id/detailSesiKasirFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_sesi_kasir.DetailSesiKasirFragment"
-        android:label="DetailSesiKasirFragment" >
+        android:label="" >
         <argument
             android:name="posses"
             app:argType="string" />
@@ -309,22 +229,14 @@
         android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
         android:label="InitialActivity" />
     <fragment
-        android:id="@+id/detailMenuHelpFragment"
-        tools:layout="@layout/fragment_detail_menu_help"
-        android:name="com.bits.bee.bpmc.presentation.ui.detail_menu_bantuan.DetailMenuHelpFragment"
-        android:label="DetailMenuHelpFragment" >
-        <action
-            android:id="@+id/action_detailMenuHelpFragment_to_settingLisensiFragment"
-            app:destination="@id/settingLisensiFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_insight_preset_kasir"
+        android:id="@+id/insightPresetKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.insight_preset_kasir.InsightPresetKasirFragment"
+        android:label="@string/ubah_nilai_kasir" />
     <fragment
-        android:id="@+id/settingLisensiFragment"
-        tools:layout="@layout/fragment_help_lisensi"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_lisensi.SettingLisensiFragment"
-        android:label="SettingLisensiFragment" >
-        <action
-            android:id="@+id/action_settingLisensiFragment_to_initialActivity"
-            app:destination="@id/initialActivity" />
-    </fragment>
+        android:id="@+id/insightKelolaProdukFragment"
+        tools:layout="@layout/fragment_insight_kelola_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.insight_kelola_produk.InsightKelolaProdukFragment"
+        android:label="@string/kelola_produk" />
 
 </navigation>

@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -49,11 +50,19 @@ class VariantRepositoryImpl @Inject constructor(
     }
 
     override fun getVariant(variantId: Int): Flow<VariantWithItem> = flow {
-        val variant = VariantWithItem(
-            VariantDataMapper.fromDbToDomain(variantDao.getVariantById(variantId)),
-            itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) }
-        )
-        emit(variant)
+        variantDao.getVariantById(variantId)?.let { variantEntity ->
+            val variant = VariantWithItem(
+                VariantDataMapper.fromDbToDomain(variantEntity),
+                itemDao.getItemByVariant(variantId).map { ItemDataMapper.fromDbToDomain(it) }
+            )
+            emit(variant)
+        }
     }.flowOn(ioDispatcher)
+
+    override suspend fun updateFavorit(variantId: Int, fav: Boolean) {
+        withContext(ioDispatcher){
+            variantDao.updateFavoritVariant(variantId, fav)
+        }
+    }
 
 }

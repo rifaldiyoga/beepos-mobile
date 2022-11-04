@@ -14,7 +14,7 @@ class GetActiveItemGroupUseCase @Inject constructor(
     private val itemGroupRepository: ItemGroupRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<List<ItemGroup>>> {
+    operator fun invoke(): Flow<List<ItemGroup>> {
         return itemGroupRepository.getActiveItemGroupList()
     }
 

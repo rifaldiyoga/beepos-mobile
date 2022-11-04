@@ -10,12 +10,12 @@ object SalePromoDataMapper: BaseMapper<SalePromoEntity, SalePromo, Any>() {
 
     override fun fromDomainToDb(model: SalePromo): SalePromoEntity {
         return SalePromoEntity(
-            model.id ?: -1,
-            model.sale!!.id!!,
-            model.saleNo!!,
-            model.saled!!.id!!,
+            model.id,
+            model.sale!!.id,
+            model.saleNo,
+            model.saled!!.id,
             model.promo!!.id,
-            model.bp!!.id!!,
+            model.bp!!.id,
             model.promoQty,
             model.promoRule
         )

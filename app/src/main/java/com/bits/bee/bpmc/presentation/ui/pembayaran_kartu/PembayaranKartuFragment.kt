@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,10 +17,12 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranKartuBinding
 import com.bits.bee.bpmc.domain.model.Pmtd
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiFragmentDirections
+import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -34,6 +37,8 @@ class PembayaranKartuFragment(
     private val viewModel : PembayaranKartuViewModel by viewModels()
 
     private val mainViewModel : MainViewModel by activityViewModels()
+
+    private val parentViewModel : PembayaranNonTunaiViewModel by viewModels({requireParentFragment()})
 
     private lateinit var adapterEdc : ArrayAdapter<String>
     private lateinit var adapterEdcType : ArrayAdapter<String>
@@ -64,13 +69,32 @@ class PembayaranKartuFragment(
                 viewModel.state.keterangan = etKeterangan.text.toString().trim()
             }
             btnBayar.setOnClickListener {
-                val state = mainViewModel.state
-                viewModel.onBayarClick(state.sale, state.saledList)
+                viewModel.onBayarClick()
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            val regCardNo = viewModel.regCardNoReq.first()
+            val regTrackNo = viewModel.regTrackNoReq.first()
+
+            binding.apply {
+                tvCardNoOps.isVisible = regCardNo?.value != "1"
+                tvTrackNoOps.isVisible = regTrackNo?.value != "1"
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                parentViewModel.activePmtd.collect {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            pmtd = it
+                        )
+                    )
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
@@ -88,7 +112,6 @@ class PembayaranKartuFragment(
                             binding.tvTotal.text = getString(R.string.mata_uang_nominal, mainState.crc?.symbol?: "", CurrencyUtils.formatCurrency(total))
                             binding.tvNominalSurcharge.text = getString(R.string.mata_uang_nominal, mainState.crc?.symbol ?: "",CurrencyUtils.formatCurrency(surcVal))
                         }
-
                     }
                 }
             }
@@ -106,9 +129,38 @@ class PembayaranKartuFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
                     when(event){
-                        PembayaranKartuViewModel.UIEvent.NavigateToTransaksiBerhasil -> {
-                            val action = PembayaranKartuFragmentDirections.actionPembayaranDebitKreditFragmentToTransaksiBerhasilFragment()
+                        is PembayaranKartuViewModel.UIEvent.NavigateToTransaksiBerhasil -> {
+                            val action = PembayaranNonTunaiFragmentDirections.actionPembayaranNonTunaiFragmentToTransaksiBerhasilFragment()
                             findNavController().navigate(action)
+                        }
+                        PembayaranKartuViewModel.UIEvent.RequsetBayar -> {
+                            val state = viewModel.state
+                            var isValid = true
+
+                            val regCardNo = viewModel.regCardNoReq.first()
+                            val regTrackNo = viewModel.regTrackNoReq.first()
+
+                            if(regCardNo?.value == "1" && state.nomorkartu.isEmpty()) {
+                                binding.tilNomorKartu.error = "Nomor Kartu tidak boleh kosong!"
+                                isValid = false
+                            }
+                            if(regTrackNo?.value == "1" && state.trackNo.isEmpty()) {
+                                binding.tilTrackNo.error = "Track No tidak boleh kosong!"
+                                isValid = false
+                            }
+
+                            if(isValid) {
+                                mainViewModel.submitSale(
+                                    context = requireContext(),
+                                    termType = state.pmtd?.edcSurcType ?: "",
+                                    paymentAmt = state.total,
+                                    pmtd = state.pmtd,
+                                    trackNo = state.trackNo,
+                                    cardNo = state.nomorkartu,
+                                    note = state.keterangan
+                                )
+                                viewModel.onSuccessBayar()
+                            }
                         }
                     }
                 }

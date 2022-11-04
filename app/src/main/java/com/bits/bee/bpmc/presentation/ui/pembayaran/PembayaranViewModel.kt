@@ -1,11 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pembayaran
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.Sale
-import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.usecase.pos.AddTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,20 +12,24 @@ import javax.inject.Inject
  * Created by aldi on 25/05/22.
  */
 @HiltViewModel
-class PembayaranViewModel @Inject constructor(
-    private val addTransactionUseCase: AddTransactionUseCase
-) : BaseViewModel<PembayaranState, PembayaranViewModel.UIEvent>() {
+class PembayaranViewModel @Inject constructor() : BaseViewModel<PembayaranState, PembayaranViewModel.UIEvent>() {
 
     init {
         state = PembayaranState()
     }
 
-    fun onTunaiClick(sale : Sale, saledList : List<Saled>) = viewModelScope.launch {
-        val paymentAmt = state.rekomBayar.removeSymbol()
-        sale.termType = BPMConstants.BPM_DEFAULT_TYPE_TUNAI
-        addTransactionUseCase(sale, saledList, BigDecimal(paymentAmt))
-        eventChannel.send(UIEvent.RequestBayar)
-        eventChannel.send(UIEvent.NavigateTransaksiBerhasil)
+    fun onTunaiClick() = viewModelScope.launch {
+        var isValid = true
+        if(state.rekomBayar.isEmpty()) {
+            isValid = false
+            msgChannel.send("Maasukkan nominal pembayaran!")
+        } else if(state.total > BigDecimal(state.rekomBayar.removeSymbol())) {
+            isValid = false
+            msgChannel.send("Nominal pembayaran kurang dari total bayar!")
+        }
+
+        if(isValid)
+            eventChannel.send(UIEvent.RequestBayar)
     }
 
     fun onNonTunaiClick() = viewModelScope.launch {
@@ -43,6 +43,10 @@ class PembayaranViewModel @Inject constructor(
             )
         )
         eventChannel.send(UIEvent.RequestRekomBayar)
+    }
+
+    fun onSuccess() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateTransaksiBerhasil)
     }
 
 

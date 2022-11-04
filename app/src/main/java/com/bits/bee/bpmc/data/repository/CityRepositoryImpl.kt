@@ -51,7 +51,7 @@ class CityRepositoryImpl @Inject constructor(
     }
 
     override fun searchCityList(query: String): Flow<List<City>> {
-        return flow<List<City>> {
+        return flow {
             emit(cityDao.searchCityList(query).map { CityDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }

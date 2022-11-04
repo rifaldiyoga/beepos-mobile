@@ -1,11 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.cari_kota
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,14 +16,12 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCariKotaBinding
 import com.bits.bee.bpmc.domain.model.City
 import com.bits.bee.bpmc.domain.model.CityPopuler
-import com.bits.bee.bpmc.domain.model.District
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -56,16 +52,16 @@ class CariKotaFragment(
                 }
 
             })
-//            cityAdapterSearch = CariKotaAdapter(mListener = object : CariKotaAdapter.PilihKotaI{
-//                override fun onItemClick(city: City) {
-//                    viewModel.updateState(
-//                        viewModel.state.copy(
-//                            etKota = city.name
-//                        )
-//                    )
-//                }
-//
-//            })
+            cityAdapterSearch = CariKotaAdapter(mListener = object : CariKotaAdapter.PilihKotaI{
+                override fun onItemClick(city: City) {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            etKota = city.name
+                        )
+                    )
+                }
+
+            })
             rvRekomendasi.apply {
                 layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
                 adapter = cityAdapterRekomendasi
@@ -89,7 +85,6 @@ class CariKotaFragment(
 //                viewModel.state.cari = acSearch.text.toString().trim()
                 viewModel.onSearch(acSearch.text.toString().trim())
             }
-
             btnsimpanCity.setOnClickListener {
                 val str = acSearch.text.toString()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_city), str)
@@ -116,9 +111,6 @@ class CariKotaFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-//                viewModel.cityList.collect {
-//                    cityAdapterSearch.submitList(it)
-//                }
                 viewModel.cityPopuler.collect {
                     cityAdapterRekomendasi.submitList(it)
                 }
@@ -135,7 +127,7 @@ class CariKotaFragment(
                                 viewModel.searchCity()
 //                                viewModel.onGetList(it.cityListCari)
                                 it.nameList?.let {
-                                    if (viewModel.state.nameList!!.size == 0){
+                                    if (viewModel.state.nameList!!.isEmpty()){
                                         binding.lLCityEmpty.visibility = View.VISIBLE
                                     }else{
                                         binding.apply {
@@ -156,22 +148,13 @@ class CariKotaFragment(
                             it.etKota?.let {
                                 acSearch.setText(it)
                             }
-//                            cityAdapterSearch.submitList(it.cityListCari)
-//                            if(it.cityListCari.size == 0 ){
-//                                lLCityEmpty.visibility = View.VISIBLE
-//                            }else{
-//                                lLCityEmpty.visibility = View.GONE
-//                            }
-//                            it.etKota?.let {
-//                                etCari.setText(it.trim())
-//                                etCari.editableText
-//                                rvCari.gone()
-//                            }
-//                            it.district?.let {
-////                                rvCari.gone()
-//                                lLCityEmpty.gone()
-//                                acSearch.setText(it.name)
-//                            }
+                            cityAdapterSearch.submitList(it.cityListCari)
+                            if(it.cityListCari.isNotEmpty()){
+                                lLCityEmpty.visibility = View.VISIBLE
+                            }else{
+                                lLCityEmpty.visibility = View.GONE
+                            }
+
                         }
                     }
                 }

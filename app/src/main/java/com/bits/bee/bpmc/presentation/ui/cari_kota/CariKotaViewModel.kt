@@ -6,8 +6,6 @@ import com.bits.bee.bpmc.domain.model.CityPopuler
 import com.bits.bee.bpmc.domain.usecase.member.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,20 +38,20 @@ class CariKotaViewModel @Inject constructor(
 //            }
 //        }
 
-        searchActiveRegencyUseCase(state.cari).collect { list ->
+        searchActiveCityUseCase(state.cari).collect { list ->
            updateState(
                state.copy(
-                   regencyListCari = list
+                   cityListCari = list
                )
            )
         }
 
-        val nameList:List<String> = state.regencyListCari.map { it.name }
-        updateState(
-            state.copy(
-                nameList = nameList
-            )
-        )
+//        val nameList : List<String> = state.regencyListCari.map { it.name }
+//        updateState(
+//            state.copy(
+//                nameList = nameList
+//            )
+//        )
     }
 
     fun onSearch(query : String) = viewModelScope.launch {

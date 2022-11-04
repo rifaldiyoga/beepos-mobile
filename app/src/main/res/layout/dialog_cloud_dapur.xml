@@ -7,16 +7,14 @@
     android:padding="@dimen/size18">
 
     <TextView
-        android:layout_marginEnd="@dimen/size16"
-        android:layout_marginStart="@dimen/size16"
         android:id="@+id/tvTitle"
         style="@style/TextHeader"
         android:layout_width="wrap_content"
-        android:textSize="@dimen/font16"
         android:layout_height="wrap_content"
         android:text="@string/tentang_cloud"
+        android:textSize="@dimen/font16"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,10 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.tambah_member
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahMemberBinding
 import com.bits.bee.bpmc.domain.model.District
@@ -24,7 +23,7 @@ import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -107,12 +106,18 @@ class TambahMemberFragment(
             cbTaxInc.setOnClickListener {
                 viewModel.state.isTaxInc = cbTaxInc.isChecked
             }
-            etLevelHarga.setOnItemClickListener { _, _, i, _ ->
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        priceLvl = viewModel.state.priceLvlList[i].id
+            spPriceLvl.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            priceLvl = viewModel.state.priceLvlList[p2].id
+                        )
                     )
-                )
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
             }
             imgClose.setOnClickListener {
                 viewModel.onClickIcon()
@@ -182,9 +187,19 @@ class TambahMemberFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.priceLvlList.collect {
                     viewModel.state.priceLvlList = it
+                    viewModel.state.priceLvl = if(it.isNotEmpty()) it[0].id else 1
                     adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, it.map { it.name })
-                    binding.etLevelHarga.setAdapter(adapter)
+                    binding.spPriceLvl.adapter = adapter
                 }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            val regTaxed = viewModel.regSaleTaxed.first()
+            val regTaxInc = viewModel.regSaleTaxInc.first()
+
+            binding.apply {
+                cbTax.isChecked = regTaxed?.value == "1"
+                cbTaxInc.isChecked = regTaxInc?.value == "1"
             }
         }
     }

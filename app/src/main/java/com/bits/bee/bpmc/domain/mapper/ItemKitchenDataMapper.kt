@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.ItemKitchenEntity
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemKitchenResponse
-import com.bits.bee.bpmc.data.data_source.remote.response.ItemTaxResponse
 import com.bits.bee.bpmc.domain.model.ItemKitchen
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
@@ -42,9 +41,9 @@ object ItemKitchenDataMapper : BaseMapper<ItemKitchenEntity, ItemKitchen, ItemKi
             model.item_id,
             model.kitchen_id,
             model.created_by ,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT,model.created_at ),
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE,model.created_at ),
             model.updated_by ,
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT,model.updated_at ),
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE,model.updated_at ),
         )
     }
 }

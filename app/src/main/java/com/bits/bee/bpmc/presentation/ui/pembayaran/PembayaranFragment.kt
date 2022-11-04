@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.pembayaran
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,12 +15,14 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPembayaranBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BSmartPay
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 25/04/22.
@@ -65,9 +68,11 @@ class PembayaranFragment(
 
     override fun subscribeListeners() {
         binding.apply {
+            etNominalBayar.addTextChangedListener {
+                viewModel.state.rekomBayar = etNominalBayar.text.toString().trim()
+            }
             btnTunai.setOnClickListener {
-                val state = mainViewModel.state
-                viewModel.onTunaiClick(state.sale, state.saledList)
+                viewModel.onTunaiClick()
             }
             btnNonTunai.setOnClickListener {
                 viewModel.onNonTunaiClick()
@@ -76,6 +81,13 @@ class PembayaranFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.msg.collect {
+                    showSnackbar(it)
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
@@ -94,6 +106,9 @@ class PembayaranFragment(
                             }
                         }
                         PembayaranViewModel.UIEvent.RequestBayar -> {
+                            val payment = BigDecimal(viewModel.state.rekomBayar.removeSymbol())
+                            mainViewModel.submitSale(requireContext(), BPMConstants.BPM_DEFAULT_TYPE_TUNAI, payment)
+                            viewModel.onSuccess()
                         }
                     }
                 }
@@ -113,7 +128,7 @@ class PembayaranFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let {
-                        rekomBayarAdapter.submitList(it.rekomBayarList.values.toList())
+                        rekomBayarAdapter.submitList(it.rekomBayarList.values.toList().sortedBy { BigDecimal(it) })
                     }
                 }
             }

@@ -22,7 +22,7 @@ data class CstrEntity(
     @ColumnInfo(name = EXRATE_2)
     var excrate2 : BigDecimal,
     @ColumnInfo(name = NOTE)
-    var note: Boolean,
+    var note: String,
     @ColumnInfo(name = REFTYPE)
     var refType : String,
     @ColumnInfo(name = REFNO)

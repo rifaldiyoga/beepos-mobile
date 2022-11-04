@@ -66,7 +66,7 @@ object BpDataMapper : BaseMapper<BpEntity, Bp, BpResponse.BpModel>(){
             isTaxedOnSale = model.saleistaxed,
             priceLvlId = model.pricelvl_id,
             bpgrpId = model.bpgrpid,
-            createdAt = format.parse(model.created_at) ?: Date(),
+            createdAt =  model.created_at?.let { format.parse(it) } ?: kotlin.run { Date() } ,
             createdBy = -1,
         )
     }

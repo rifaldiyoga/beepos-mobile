@@ -4,9 +4,11 @@ import com.bits.bee.bpmc.data.data_source.local.dao.*
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.repository.*
 import com.bits.bee.bpmc.domain.calc.PromoCalc
+import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,96 +27,57 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePromoCalc(
-        getActiveCashierUseCase: GetActiveCashierUseCase,
-        promoMultiRepository: PromoMultiRepository,
-        promoRepository: PromoRepository,
-        getPriceItemUseCase: GetPriceItemUseCase,
-        itemRepository: ItemRepository
-    ): PromoCalc {
-        return PromoCalc(
-            getActiveCashierUseCase = getActiveCashierUseCase,
-            promoMultiRepository = promoMultiRepository,
-            promoRepository = promoRepository,
-            getPriceItemUseCase = getPriceItemUseCase,
-            itemRepository = itemRepository
-        )
+    fun proivdeBpRepository(apiUtils: ApiUtils, dao: BpDao, bpAddr : BpAddrDao, defaultDispatcher: CoroutineDispatcher) : BpRepository {
+        return BpRepositoryImpl(apiUtils, dao, bpAddr, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeBpRepository(
-        apiUtils: ApiUtils,
-        dao: BpDao,
-        bpAddrDao: BpAddrDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): BpRepository {
-        return BpRepositoryImpl(apiUtils, dao, bpAddrDao, defaultDispatcher)
-    }
-
-    @Provides
-    @Singleton
-    fun proivdeBranchRepository(
-        apiUtils: ApiUtils,
-        dao: BranchDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): BranchRepository {
+    fun proivdeBranchRepository(apiUtils: ApiUtils, dao: BranchDao, defaultDispatcher: CoroutineDispatcher) : BranchRepository {
         return BranchRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeCashierRepository(
-        apiUtils: ApiUtils,
-        dao: CashierDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): CashierRepository {
+    fun proivdeCashierRepository(apiUtils: ApiUtils, dao: CashierDao, defaultDispatcher: CoroutineDispatcher) : CashierRepository {
         return CashierRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeItemGroupRepository(apiUtils: ApiUtils, dao: ItemGroupDao): ItemGroupRepository {
+    fun proivdeItemGroupRepository(apiUtils: ApiUtils, dao: ItemGroupDao) : ItemGroupRepository {
         return ItemGroupRepositoryImpl(apiUtils, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeLoginRepository(apiUtils: ApiUtils): LoginRepository {
+    fun proivdeLoginRepository(apiUtils: ApiUtils) : LoginRepository {
         return LoginRepositoryImpl(apiUtils)
     }
 
     @Provides
     @Singleton
-    fun proivdePriceLvlRepository(apiUtils: ApiUtils, dao: PriceLvlDao): PriceLvlRepository {
+    fun proivdePriceLvlRepository(apiUtils: ApiUtils, dao: PriceLvlDao) : PriceLvlRepository {
         return PriceLvlRepositoryImpl(apiUtils, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeTaxRepository(apiUtils: ApiUtils, dao: TaxDao): TaxRepository {
+    fun proivdeTaxRepository(apiUtils: ApiUtils, dao: TaxDao) : TaxRepository {
         return TaxRepositoryImpl(apiUtils, dao)
     }
 
     @Provides
     @Singleton
-    fun proivdeChannelRepository(
-        apiUtils: ApiUtils,
-        dao: ChannelDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): ChannelRepository {
+    fun proivdeChannelRepository(apiUtils: ApiUtils, dao: ChannelDao, defaultDispatcher: CoroutineDispatcher) : ChannelRepository {
         return ChannelRepositoryImpl(apiUtils, dao, defaultDispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeItemRepository(
-        apiUtils: ApiUtils,
-        itemDao: ItemDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): ItemRepository {
+    fun proivdeItemRepository(apiUtils: ApiUtils, itemDao: ItemDao,  defaultDispatcher: CoroutineDispatcher ) : ItemRepository {
         return ItemRepositoryImpl(
-            apiUtils = apiUtils,
+            apiUtils =  apiUtils,
             itemDao = itemDao,
             defaultDispatcher = defaultDispatcher,
         )
@@ -122,11 +85,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun proivdePriceRepository(
-        dao: PriceDao,
-        apiUtils: ApiUtils,
-        defaultDispatcher: CoroutineDispatcher
-    ): PriceRepository {
+    fun proivdePriceRepository(dao: PriceDao, apiUtils: ApiUtils, defaultDispatcher: CoroutineDispatcher) : PriceRepository {
         return PriceRepositoryImpl(dao, apiUtils, defaultDispatcher)
     }
 
@@ -291,8 +250,9 @@ object AppModule {
         usrGrpDao: UsrGrpDao,
         grpPrvDao: GrpPrvDao,
         crcDao: CrcDao,
-        whDao: WhDao
-    ): InitialRepository {
+        whDao: WhDao,
+        srepDao : SrepDao,
+    ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
             cmpDao,
@@ -301,7 +261,8 @@ object AppModule {
             usrGrpDao,
             grpPrvDao,
             crcDao,
-            whDao
+            whDao,
+            srepDao
         )
     }
 
@@ -587,58 +548,69 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSaleAddOnRepository(
-        dispatcher: CoroutineDispatcher,
-        saleAddOnDao: SaleAddOnDao
-    ): SaleAddOnRepository {
+    fun provideSaleAddOnRepository(dispatcher: CoroutineDispatcher, saleAddOnDao: SaleAddOnDao) : SaleAddOnRepository {
         return SaleAddOnRepositoryImpl(dispatcher, saleAddOnDao)
     }
 
     @Provides
     @Singleton
-    fun provideSaleAddOnDRepository(
-        dispatcher: CoroutineDispatcher,
-        saleAddOnDDao: SaleAddOnDDao
-    ): SaleAddOnDRepository {
+    fun provideSaleAddOnDRepository(dispatcher: CoroutineDispatcher, saleAddOnDDao: SaleAddOnDDao) : SaleAddOnDRepository {
         return SaleAddOnDRepositoryImpl(dispatcher, saleAddOnDDao)
     }
 
     @Provides
     @Singleton
-    fun provideSalePromoRepository(
-        salePromoDao: SalePromoDao,
-        dispatcher: CoroutineDispatcher
-    ): SalePromoRepository {
+    fun provideSalePromoRepository(salePromoDao: SalePromoDao, dispatcher: CoroutineDispatcher) : SalePromoRepository {
         return SalePromoRepositoryImpl(salePromoDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideLicenseRepository(
-        salePromoDao: LicenseDao,
-        dispatcher: CoroutineDispatcher,
-        apiUtils: ApiUtils
-    ): LicenseRepository {
-        return LicenseRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    fun provideLicenseRepository(salePromoDao: LicenseDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : LicenseRepository {
+        return LicenseRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun providePromoMultiRepository(
-        salePromoDao: PromoMultiDao,
-        dispatcher: CoroutineDispatcher,
-        apiUtils: ApiUtils
-    ): PromoMultiRepository {
-        return PromoMultiRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    fun providePromoMultiRepository(salePromoDao: PromoMultiDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : PromoMultiRepository {
+        return PromoMultiRepositoryImpl(apiUtils ,salePromoDao, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun proivdeRegRepository(
-        apiUtils: ApiUtils,
-        dao: RegDao,
-        defaultDispatcher: CoroutineDispatcher
-    ): RegRepository {
-        return RegRepositoryImpl(apiUtils, dao, defaultDispatcher)
+    fun providePromoCalc(getActiveCashierUseCase: GetActiveCashierUseCase, promoMultiRepository: PromoMultiRepository,
+                         promoRepository: PromoRepository, getPriceItemUseCase: GetPriceItemUseCase, itemRepository: ItemRepository) : PromoCalc {
+        return PromoCalc(
+            getActiveCashierUseCase = getActiveCashierUseCase,
+            promoMultiRepository = promoMultiRepository,
+            promoRepository = promoRepository,
+            getPriceItemUseCase = getPriceItemUseCase,
+            itemRepository = itemRepository
+        )
     }
+
+    @Provides
+    @Singleton
+    fun provideSaleCalc(getRegUseCase: GetRegUseCase) : SaleCalc {
+        return SaleCalc(getRegUseCase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSrepRepository(salePromoDao: SrepDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : SrepRepository {
+        return SrepRepositoryImpl(salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegRepository(salePromoDao: RegDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : RegRepository {
+        return RegRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGopayRepository(apiUtils: ApiUtils) : GopayRepository {
+        return GopayRepositoryImpl(apiUtils)
+    }
+
 }

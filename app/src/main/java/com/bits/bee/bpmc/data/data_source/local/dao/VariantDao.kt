@@ -16,6 +16,8 @@ interface VariantDao : BaseDao<VariantEntity>{
     fun getVariantList() : List<VariantEntity>
 
     @Query("SELECT * FROM variant WHERE id = :id")
-    fun getVariantById(id : Int) : VariantEntity
+    fun getVariantById(id : Int) : VariantEntity?
 
+    @Query("UPDATE variant SET isfavorit = :fav WHERE id = :id")
+    fun updateFavoritVariant(id : Int, fav : Boolean)
 }

@@ -62,21 +62,21 @@ class RegencyRepositoryImpl @Inject constructor(
 
     override fun searchRegencyList(q: String): Flow<List<Regency>> {
         return flow {
-                emit(regencyDao.searchRegencyList(q).map { RegencyDataMapper.fromDbToDomain(it) })
+            emit(regencyDao.searchRegencyList(q).map { RegencyDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getCodeByRegency(name: String): Flow<Resource<Regency>> {
+    override fun getCodeByRegency(name: String): Flow<Regency?> {
         return flow {
             val data = regencyDao.getCodeByName(name)
-            emit(Resource.success(RegencyDataMapper.fromDbToDomain(data)))
+            emit(data?.let { RegencyDataMapper.fromDbToDomain(data) })
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getRegencyByCode(code: String): Flow<Resource<Regency>> {
+    override fun getRegencyByCode(code: String): Flow<Regency?> {
         return flow {
             val data = regencyDao.getNameByCode(code)
-            emit(Resource.success(RegencyDataMapper.fromDbToDomain(data)))
+            emit(data?.let { RegencyDataMapper.fromDbToDomain(data) })
         }.flowOn(defaultDispatcher)
     }
 

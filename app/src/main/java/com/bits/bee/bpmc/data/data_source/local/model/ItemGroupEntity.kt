@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class ItemGroupEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int? = null,
     @ColumnInfo(name = CODE)
     var code : String,
     @ColumnInfo(name = NAME)

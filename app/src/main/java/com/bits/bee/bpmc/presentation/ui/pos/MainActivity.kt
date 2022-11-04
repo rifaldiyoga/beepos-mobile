@@ -24,13 +24,10 @@ import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -48,15 +45,9 @@ class MainActivity(
     private lateinit var navController: NavController
 
     override fun initComponents() {
-        viewModel.loadData()
         viewModel.saleTrans.newTrans()
-        val mode = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.pref_mode_tampilan), BPMConstants.MODE_FOOD_BEVERAGES)
-        viewModel.posModeState.update {
-            when(mode){
-               BPMConstants.MODE_FOOD_BEVERAGES ->PosModeState.FnBState
-               else -> PosModeState.RetailState
-            }
-        }
+        viewModel.loadData()
+        viewModel.initPromo()
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHostFragment) as NavHostFragment
         initStetho()
@@ -73,6 +64,19 @@ class MainActivity(
 
             navController.addOnDestinationChangedListener { _, _, _ ->
                 toolbar.setNavigationIcon(R.drawable.ic_back_white)
+                if (navController.currentDestination?.id == R.id.posFragment || navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
+                    toolbar.setNavigationOnClickListener {
+                        if (navController.currentDestination?.id == R.id.posFragment)
+                            finish()
+                        if (navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
+
+                        }
+                    }
+                } else {
+                    toolbar.setNavigationOnClickListener {
+                        onBackPressed()
+                    }
+                }
             }
         }
     }
@@ -86,6 +90,9 @@ class MainActivity(
             clMember.setOnClickListener {
                 viewModel.onClickMember()
             }
+            clSalesman.setOnClickListener {
+                viewModel.onClickSalesman()
+            }
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 setVisibilityToolbar(destination.id)
                 setBackgroundToolbar(destination.id)
@@ -96,64 +103,87 @@ class MainActivity(
     override fun subscribeObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
+                viewModel.activeSrep.collect {
                     binding.apply {
                         it?.let {
-                            it.channel?.let { channel ->
-                                viewModel.state.sale.channelId = channel.id
-                                tvChannel.text = channel.name
-                                channel.color?.let { color ->
-                                    if(color.isNotEmpty())
-                                        ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
-                                            Color.parseColor(color)))
-                                }
-
-                            }
-                            it.bp?.let {
-                                viewModel.state.sale.bpId = it.id!!
-                                viewModel.state.sale.custName = it.name
-                                tvMember.text = it.name
-                            }
+//                            viewModel.state.sale.bpId = it.id!!
+//                            viewModel.state.sale.bpName = it.name
+                            tvSalesman.text = it.name
                         }
                     }
                 }
             }
         }
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.event.collect {
-                    when(it){
-                        MainViewModel.UIEvent.RequestMember -> {
-                            navController.navigate(R.id.memberFragment)
-                        }
-                        MainViewModel.UIEvent.RequestChannel -> {
-                            val dialog = ChannelListDialogBuilder(
-                                viewModel.state.channelList,
-                                onChannelClick = { channel ->
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            channel = channel,
-                                        )
-                                    )
-                                }
-                            )
-                            dialog.show(supportFragmentManager, TAG)
-                        }
-                        MainViewModel.UIEvent.NavigateToDiskonNota -> {
-                            navController.navigate(R.id.diskonNotaDialog)
-                        }
-                        MainViewModel.UIEvent.NavigateToDraft -> {
-                            navController.navigate(R.id.draftListDialog)
-                        }
-                        MainViewModel.UIEvent.NavigateToSearch -> {
-                            navController.navigate(R.id.cariItemFragment)
-                        }
-                        MainViewModel.UIEvent.NavigateToPromo -> {
-                            navController.navigate(R.id.promoFragment)
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.activeBp.collect {
+                    binding.apply {
+                        it?.let {
+                            viewModel.state.sale.bpId = it.id!!
+                            viewModel.state.sale.bpName = it.name
+                            tvMember.text = it.name
                         }
                     }
                 }
             }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.activeChannel.collect {
+                    binding.apply {
+                        it?.let { channel ->
+                            viewModel.state.sale.channelId = channel.id
+                            tvChannel.text = channel.name
+                            channel.color?.let { color ->
+                                if(color.isNotEmpty())
+                                    ImageViewCompat.setImageTintList(imageChannel, ColorStateList.valueOf(
+                                        Color.parseColor(color)))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.event.collectLatest {
+                when(it){
+                    MainViewModel.UIEvent.RequestMember -> {
+                        navController.navigateUp()
+                        navController.navigate(R.id.memberFragment)
+                    }
+                    MainViewModel.UIEvent.RequestChannel -> {
+                        val dialog = ChannelListDialogBuilder(
+                            viewModel.state.channelList,
+                            onChannelClick = { channel ->
+                                viewModel.updateActiveChannel(channel)
+                            }
+                        )
+                        dialog.show(supportFragmentManager, TAG)
+                    }
+                    MainViewModel.UIEvent.NavigateToDiskonNota -> {
+                        navController.navigateUp()
+                        navController.navigate(R.id.diskonNotaDialog)
+                    }
+                    MainViewModel.UIEvent.NavigateToDraft -> {
+                        navController.navigateUp()
+                        navController.navigate(R.id.draftListDialog)
+                    }
+                    MainViewModel.UIEvent.NavigateToSearch -> {
+                        navController.navigateUp()
+                        navController.navigate(R.id.cariItemFragment)
+                    }
+                    MainViewModel.UIEvent.NavigateToPromo -> {
+                        navController.navigateUp()
+                        navController.navigate(R.id.promoFragment)
+                    }
+                    MainViewModel.UIEvent.RequestSalesman -> {
+                        navController.navigateUp()
+                        navController.navigate(R.id.salesmanFragment)
+                    }
+                }
+            }
+
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -194,8 +224,9 @@ class MainActivity(
     }
 
     private fun setBackgroundToolbar(destinationId : Int){
-        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment || destinationId == R.id.memberFragment ||
-                destinationId == R.id.tambahMemberFragment) {
+        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment
+            || destinationId == R.id.klaimPromoFragment || destinationId == R.id.tambahMemberFragment
+            || destinationId == R.id.memberFragment || destinationId == R.id.salesmanFragment || destinationId == R.id.detailSalesmanFragment) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(
@@ -206,6 +237,7 @@ class MainActivity(
             )
             binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
             binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.black))
+            binding.toolbar.context.setTheme(R.style.MySearchViewStyleBlack)
         } else {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
@@ -214,11 +246,13 @@ class MainActivity(
             )
             binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
             binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+            binding.toolbar.context.setTheme(R.style.MySearchViewStyleWhite)
         }
     }
 
     private fun showSalesman(isVisible : Boolean) {
         binding.apply {
+            viewSalesman.isVisible = isVisible
             clSalesman.isVisible = isVisible
         }
     }

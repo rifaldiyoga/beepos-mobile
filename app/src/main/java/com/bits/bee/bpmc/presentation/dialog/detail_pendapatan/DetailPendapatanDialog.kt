@@ -7,21 +7,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.DialogDetailMemberBinding
 import com.bits.bee.bpmc.databinding.DialogDetailPendapatanBinding
-import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
-import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberViewModel
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.sql.Date
-import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
 class DetailPendapatanDialog(

@@ -53,7 +53,7 @@ class LoginViewModel @Inject constructor (
         val email = state.password
         var msg = ""
         if(email.isEmpty())
-            msg = context.getString(R.string.email_tidak_boleh_kosong)
+            msg = context.getString(R.string.password_tidak_boleh_kosong)
 
         updateState(
             state.copy(

@@ -9,8 +9,7 @@
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
         android:label=""
-        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment"
-         >
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment">
         <action
             android:id="@+id/action_posFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
@@ -38,6 +37,15 @@
         <action
             android:id="@+id/action_posFragment_to_promoFragment"
             app:destination="@id/promoFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_pembayaranFragment"
+            app:destination="@id/pembayaranFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_klaimPromoFragment"
+            app:destination="@id/klaimPromoFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_salesmanFragment"
+            app:destination="@id/salesmanFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -106,6 +114,12 @@
         <action
             android:id="@+id/action_invoiceFragment_to_editItemDialog"
             app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_klaimPromoFragment"
+            app:destination="@id/klaimPromoFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_salesmanFragment"
+            app:destination="@id/salesmanFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
@@ -164,11 +178,14 @@
         <action
             android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranDebitKreditFragment"
             app:destination="@id/pembayaranDebitKreditFragment" />
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran_gopay"
         android:id="@+id/pembayaranGopayFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranGopayFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment"
         android:label="PembayaranGopayFragment" >
         <action
             android:id="@+id/action_pembayaranGopayFragment_to_transaksiBerhasilFragment"
@@ -189,7 +206,7 @@
     <fragment
         tools:layout="@layout/fragment_transaksi_berhasil"
         android:id="@+id/transaksiBerhasilFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.transaksi_berhasil.TransaksiBerhasilFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil.TransaksiBerhasilFragment"
          >
         <action
             app:destination="@+id/posFragment"
@@ -293,7 +310,30 @@
     <fragment
         android:id="@+id/promoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.promo.PromoFragment"
-        android:label="PromoFragment" />
+        android:label="Promo" />
+    <fragment
+        android:id="@+id/klaimPromoFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.klaim_promo.KlaimPromoFragment"
+        android:label="KlaimPromoFragment"
+        tools:layout="@layout/fragment_klaim_promo"/>
+    <fragment
+        android:id="@+id/salesmanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.salesman.SalesmanFragment"
+        android:label="Pilih Salesman"
+        tools:layout="@layout/fragment_salesman">
+        <action
+            android:id="@+id/action_salesmanFragment_to_detailSalesmanFragment"
+            app:destination="@id/detailSalesmanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailSalesmanFragment"
+        tools:layout="@layout/fragment_detail_salesman"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_salesman.DetailSalesmanFragment"
+        android:label="DetailSalesmanFragment" >
+        <argument
+            android:name="srep"
+            app:argType="com.bits.bee.bpmc.domain.model.Srep" />
+    </fragment>
     <fragment
         android:id="@+id/kasMasukFragment"
         tools:layout="@layout/fragment_kas_masuk"

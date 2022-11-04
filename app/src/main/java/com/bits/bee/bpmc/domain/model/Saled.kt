@@ -42,6 +42,7 @@ data class Saled (
     var unit : String? = "",
     var conv : BigDecimal? = BigDecimal.ZERO,
     var pid : String? = "",
+    var stock : Stock? = null,
     var isAddOn : Boolean = false,
     var taxCode : String? = "",
     var item : Item? = null

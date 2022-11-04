@@ -9,9 +9,9 @@ import java.math.BigDecimal
  */
 @Parcelize
 data class UnitDummy (
-    var id : Int,
-    var itemId : Int,
-    var idx: Int,
-    var unit: String,
-    var conv : BigDecimal,
+    var id : Int = -1,
+    var itemId : Int = -1,
+    var idx: Int = -1,
+    var unit: String = "",
+    var conv : BigDecimal = BigDecimal.ONE,
 ) : Parcelable

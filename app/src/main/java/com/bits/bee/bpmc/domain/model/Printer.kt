@@ -8,13 +8,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Printer(
-    var id : Int = 0,
-    var printerName : String,
-    var address : String,
-    var tipe : Int,
-    var size : String,
+    var id : Int? = null,
+    var printerName : String = "",
+    var address : String = "",
+    var tipe : Int? = null,
+    var size : String = "",
     var isReceipt : Boolean = true,
-    var isKitchen : Boolean = true,
-    var isReport : Boolean = true,
-    var isChecker : Boolean = true,
+    var isKitchen : Boolean = false,
+    var isReport : Boolean = false,
+    var isChecker : Boolean = false,
 ): Parcelable

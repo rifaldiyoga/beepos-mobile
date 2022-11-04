@@ -5,30 +5,27 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginPinBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderUtils
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.info_akun.InfoAkunDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
-import com.bits.bee.bpmc.presentation.ui.login.LoginViewModel
+import com.bits.bee.bpmc.presentation.ui.initial.InitialViewModel
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -41,14 +38,18 @@ class LoginOperatorFragment(
 ) : BaseFragment<FragmentLoginPinBinding>() {
 
     private val viewModel : LoginOperatorViewModel by viewModels()
+    private val mViewModel : InitialViewModel by activityViewModels()
+
+
     private var loginUser = false
-    private var mLoginUserStatus:Int = 1
+    private var mLoginUserStatus:Int = 2
 
     private lateinit var dialog : LoadingDialogHelper
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_login_operator, menu)
+        val menuLogin = menu.findItem(R.id.menu_login)
+        loadMenu(menuLogin)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -59,26 +60,13 @@ class LoginOperatorFragment(
                     1 -> {
                         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), true)
                         mLoginUserStatus = 2
-                        binding.apply {
-                            llModePin.visibility = View.GONE
-                            llModeEmail.visibility = View.VISIBLE
-                            btnMasuk.visibility = View.VISIBLE
-                        }
-                        item.title = getString(R.string.login_pin)
-                        item.icon = requireContext().getResources().getDrawable(R.drawable.ic_tag_pin);
                     }
                     2 -> {
                         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), false)
                         mLoginUserStatus = 1
-                        binding.apply {
-                            llModePin.visibility = View.VISIBLE
-                            llModeEmail.visibility = View.GONE
-                            btnMasuk.visibility = View.GONE
-                        }
-                        item.title = getString(R.string.login_email)
-                        item.icon = requireContext().getResources().getDrawable(R.drawable.ic_tag_email);
                     }
                 }
+                loadMenu(item)
             }
             R.id.menu_sinkron ->{
                 if (ConnectionUtils.checkInternet(requireContext())){
@@ -86,7 +74,7 @@ class LoginOperatorFragment(
                 }
             }
             R.id.menu_reset ->{
-                viewModel.menuReset()
+                mViewModel.onBackOperator()
             }
             R.id.menu_info ->{
                 viewModel.menuInfo()
@@ -105,10 +93,10 @@ class LoginOperatorFragment(
     }
 
     override fun initComponents() {
-        mLoginUserStatus = 1
+        viewModel.loadData()
         dialog = LoadingDialogHelper(requireContext())
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-                    R.string.page_pilih_operator))
+            R.string.page_pilih_operator))
         binding.apply {
             numpad.setInputConnection(pinView.onCreateInputConnection(EditorInfo())!!)
             viewLifecycleOwner.lifecycleScope.launch {
@@ -120,17 +108,6 @@ class LoginOperatorFragment(
                             }
                             LoginOperatorViewModel.UIEvent.RequestDoSync ->{
                                 viewModel.menuSinkron()
-                            }
-                            LoginOperatorViewModel.UIEvent.RequestConfirmKasir ->{
-                                val dialog = CustomDialogBuilder.Builder(requireContext())
-                                    .setTitle(getString(R.string.konfirmasi))
-                                    .setMessage(getString(R.string.yakin_ganti_kasir))
-                                    .setPositiveCallback {
-                                        if (ConnectionUtils.checkInternet(requireContext())){
-                                            viewModel.deActiveStatusKasir()
-                                        }
-                                    }.build()
-                                dialog.show(parentFragmentManager, TAG)
                             }
                             LoginOperatorViewModel.UIEvent.NavigateToHome ->{
                                 val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToHomeActivity()
@@ -148,6 +125,7 @@ class LoginOperatorFragment(
                             LoginOperatorViewModel.UIEvent.ClearPIn ->{
                                 Toast.makeText(requireContext(), "User Tidak Valid", Toast.LENGTH_SHORT).show()
                                 pinView.setText("")
+                                binding.tvPinSalah.visible()
                             }
                             LoginOperatorViewModel.UIEvent.RequetWarningPass ->{
                                 val dialog = CustomDialogBuilder.Builder(requireContext())
@@ -162,18 +140,6 @@ class LoginOperatorFragment(
                                         )
                                     }.build()
                                 dialog.show(parentFragmentManager, TAG)
-                            }
-                            LoginOperatorViewModel.UIEvent.RequestDialogSync ->{
-                                val dialog = DialogBuilderUtils.showDialogInfo(
-                                    requireContext(),
-                                    title = "Perhatian",
-                                    msg = "Anda Tidak dapat pindah kasir pastikan seluruh data transkasi telah ter-sync !",
-                                    positiveTxt = getString(R.string.ya),
-                                    positiveListener = {
-                                        it.dismiss()
-                                    }
-                                )
-                                dialog.show(parentFragmentManager,"")
                             }
                             else -> {}
                         }
@@ -223,6 +189,8 @@ class LoginOperatorFragment(
                             tilEmail.error = it.messageEmail
 
                             tilPassword.error = it.messagePassword
+
+                            tvNamaKasir.text = it.mCashier?.cashierName ?: ""
 
                             btnMasuk.apply {
                                 background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
@@ -321,25 +289,27 @@ class LoginOperatorFragment(
                 }
             }
         }
+    }
 
-        viewModel.observeCashierStatusResponse().removeObservers(viewLifecycleOwner)
-        viewModel.observeCashierStatusResponse().observe(viewLifecycleOwner){
-            when(it.status){
-                Resource.Status.LOADING -> {
-
+    private fun loadMenu(menuLogin : MenuItem) {
+        when(mLoginUserStatus){
+            1 -> {
+                binding.apply {
+                    llModePin.visibility = View.GONE
+                    llModeEmail.visibility = View.VISIBLE
+                    btnMasuk.visibility = View.VISIBLE
                 }
-                Resource.Status.SUCCESS -> {
-                    it.data?.let {
-                        if (it.data.status_cashier){
-                            viewModel.updateCashier()
-                        }else{
-                            Toast.makeText(requireContext(), "Gagal Proses Detach", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                menuLogin.title = getString(R.string.login_pin)
+                menuLogin.icon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tag_pin);
+            }
+            2 -> {
+                binding.apply {
+                    llModePin.visibility = View.VISIBLE
+                    llModeEmail.visibility = View.GONE
+                    btnMasuk.visibility = View.GONE
                 }
-                Resource.Status.ERROR -> {
-                    Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                }
+                menuLogin.title = getString(R.string.login_email)
+                menuLogin.icon =  ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tag_email);
             }
         }
     }

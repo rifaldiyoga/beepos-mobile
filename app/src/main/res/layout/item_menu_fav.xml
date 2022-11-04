@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size16"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="@dimen/size60"
+        android:layout_height="@dimen/size60"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/llQty"
+            android:layout_width="@dimen/size60"
+            android:layout_height="@dimen/size60"
+            android:background="@drawable/bg_circle_white"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <TextView
+                android:id="@+id/tvQty"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_1"
+                android:textColor="?colorPrimary"
+                android:textSize="@dimen/font24" />
+
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="@dimen/size60"
+            android:layout_height="@dimen/size60"
+            app:cardCornerRadius="@dimen/size10"
+            app:cardElevation="@dimen/size0">
+
+
+            <ImageView
+                android:id="@+id/imageItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNamaItem"
+        style="@style/TextHeader"
+        android:layout_width="@dimen/size0"
+        android:layout_marginEnd="@dimen/size16"
+        android:layout_height="wrap_content"
+        app:layout_goneMarginEnd="@dimen/size0"
+        android:layout_marginStart="@dimen/size16"
+        android:text="@string/jus_mangga"
+        app:layout_constraintBottom_toTopOf="@+id/tvHarga"
+        app:layout_constraintEnd_toStartOf="@+id/llMinus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHarga"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size8"
+        android:text="@string/mata_uang_nominal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvNamaItem"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/tvNamaItem"
+        app:layout_constraintTop_toBottomOf="@+id/tvNamaItem" />
+
+    <LinearLayout
+        android:id="@+id/llMinus"
+        android:layout_width="@dimen/size60"
+        android:layout_height="@dimen/size60"
+        android:background="@drawable/bg_circle_white"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/TextHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/strip"
+            android:textColor="?colorPrimary"
+            android:textSize="@dimen/font24" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_fav"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivFav"
+            android:layout_width="@dimen/size24"
+            android:layout_height="@dimen/size24"
+            android:layout_gravity="right"
+            android:background="@drawable/ic_star_disabled"
+            android:gravity="center"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="376dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

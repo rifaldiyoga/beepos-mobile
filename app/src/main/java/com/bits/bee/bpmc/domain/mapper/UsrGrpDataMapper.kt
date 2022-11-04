@@ -40,7 +40,7 @@ object UsrGrpDataMapper : BaseMapper<UsrGrpEntity, UsrGrp, UsrGrpModel>(){
             model.isDisabled ,
             model.grpId.toInt(),
             "",
-            DateFormatUtils.formatStringToDate(BPMConstants.DEFAULT_DATE_FORMAT,model.updatedAt)
+            DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE,model.updatedAt)
         )
     }
 }

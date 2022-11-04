@@ -47,8 +47,16 @@ class PilihKasirFragment(
         setHasOptionsMenu(true)
         binding.apply {
             adapter = PilihKasirAdapter(onItemClick = {
-                val device = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_nama_device), "") as String
-                viewModel.onItemClick(cashier = it, device)
+                if(!it.status) {
+                    val device = BeePreferenceManager.getDataFromPreferences(
+                        requireActivity(),
+                        getString(R.string.pref_nama_device),
+                        ""
+                    ) as String
+                    viewModel.onItemClick(cashier = it, device)
+                } else {
+                    showSnackbar("Kasir sudah digunakan!")
+                }
             })
 
             rvList.layoutManager = LinearLayoutManager(requireActivity())
@@ -108,9 +116,11 @@ class PilihKasirFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_refresh -> viewModel.getCashierList()
+            R.id.menu_refresh -> {
+                viewModel.getCashierList()
+            }
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
 

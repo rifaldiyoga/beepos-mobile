@@ -5,7 +5,6 @@ import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
-import com.bits.bee.bpmc.data.data_source.remote.response.CashierReturn
 import com.bits.bee.bpmc.domain.mapper.CashierDataMapper
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.repository.CashierRepository
@@ -45,12 +44,12 @@ class CashierRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CashierResponse) {
-                var dataList : MutableList<CashierResponse.CashierModel> = mutableListOf()
-                for (datanew in data.data){
-                    datanew.isActive = false
-                    dataList.add(datanew)
-                }
-                cashierDao.insertBulk(dataList.map { CashierDataMapper.fromNetworkToDb(it) })
+                val dataList : MutableList<CashierResponse.CashierModel> = mutableListOf()
+//                for (datanew in data.data){
+//                    datanew.isActive = false
+//                    dataList.add(datanew)
+//                }
+                cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()
@@ -89,10 +88,10 @@ class CashierRepositoryImpl @Inject constructor(
         emit(cashier)
     }.flowOn(defaultDispatcher)
 
-    override fun getCashierById(id: Int): Flow<Resource<Cashier>> {
+    override fun getCashierById(id: Int): Flow<Cashier?> {
         return flow {
             val data = cashierDao.getCashierById(id)
-            emit(Resource.success(CashierDataMapper.fromDbToDomain(data)))
+            emit(data?.let {  CashierDataMapper.fromDbToDomain(data)})
         }.flowOn(defaultDispatcher)
     }
 

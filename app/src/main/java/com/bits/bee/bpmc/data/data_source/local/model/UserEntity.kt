@@ -19,6 +19,8 @@ data class UserEntity(
     var pin : String?,
     @ColumnInfo(name = ACTIVE)
     var active : Boolean,
+    @ColumnInfo(name = USED)
+    var used : Boolean = false,
 ) {
     companion object {
         const val TBL_NAME = "user"
@@ -29,6 +31,7 @@ data class UserEntity(
         const val AUTH_KEY = "auth_key"
         const val PIN = "pin"
         const val ACTIVE = "active"
+        const val USED = "used"
 
     }
 }

@@ -28,7 +28,7 @@ class ItemGroupRepositoryImpl @Inject constructor(
 ) : ItemGroupRepository {
 
     override suspend fun insertBulkItemGroup(list: List<ItemGroupEntity>) = withContext(ioDispatcher){
-        itemGroupDao.insertBulk(list)
+        val list = itemGroupDao.insertBulk(list)
     }
 
     override fun getLastesItemGroupList(page : Int): Flow<Resource<List<ItemGroup>>> {
@@ -46,28 +46,25 @@ class ItemGroupRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: ItemGroupResponse) {
+                itemGroupDao.insertSingle(
+                    ItemGroupEntity(
+                        id = -1,
+                        code = "FAVORIT",
+                        name = "Favorit",
+                        level = 1,
+                        upId = 1,
+                        isPos = true
+                    )
+                )
                 itemGroupDao.insertBulk(data.data.map { ItemGroupDataMapper.fromNetworkToDb(it) })
             }
 
         }.getAsFlow()
     }
 
-    override fun getActiveItemGroupList() : Flow<Resource<List<ItemGroup>>> {
-        return flow {
-            emit(Resource.loading())
-            var data : MutableList<ItemGroup> = mutableListOf()
-            withContext(ioDispatcher){
-                itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }.onEach {
-                    data.add(it)
-                }
-            }
-            if(data.isNotEmpty()) {
-                emit(Resource.success(data))
-            } else {
-                emit(Resource.error(null, "Data Kosong"))
-            }
-        }
-    }
+    override fun getActiveItemGroupList() : Flow<List<ItemGroup>> = flow {
+        emit(itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
     override fun getId(id: Int): Flow<Resource<ItemGroup>> {
         return flow {
@@ -89,11 +86,42 @@ class ItemGroupRepositoryImpl @Inject constructor(
             }else{
                 emit(Resource.error(null, "data kosong"))
             }            }
-        }
+    }
 
     override fun getItemgrpAddOn(): Flow<ItemGroup?> = flow<ItemGroup?> {
         val data = itemGroupDao.getItgrpAddOn()
         emit(data?.let { ItemGroupDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
+
+    override fun getItemgrps(): Flow<List<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun addItemgrp(itemGroup: ItemGroup, edit: Boolean) {
+        withContext(ioDispatcher){
+            if (edit){
+                itemGroupDao.update(ItemGroupDataMapper.fromDomainToDb(itemGroup))
+            }else{
+                itemGroupDao.insertSingle(ItemGroupDataMapper.fromDomainToDb(itemGroup))
+            }
+        }
+    }
+
+    override fun getItgrpByKategori(kategori: String): Flow<ItemGroup> {
+        return flow<ItemGroup> {
+            val data = itemGroupDao.getItgrpByKategori(kategori)
+            emit(ItemGroupDataMapper.fromDbToDomain(data))
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getItemgrpByUpId(upid: Int): Flow<List<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getItemgrpByUpId(upid).map { ItemGroupDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
 
 }

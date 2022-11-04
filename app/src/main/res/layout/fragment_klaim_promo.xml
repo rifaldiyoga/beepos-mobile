@@ -5,6 +5,14 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/produk_dipilih"
+        android:layout_margin="@dimen/size16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tvQty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,16 +21,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <View
+        android:id="@+id/view13"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size4"
+        android:layout_marginTop="@dimen/size16"
+        android:background="@color/light_gray"
+        app:layout_constraintTop_toBottomOf="@id/tvQty" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size0"
-        android:layout_marginTop="@dimen/size16"
         android:layout_marginBottom="@dimen/size16"
         app:layout_constraintBottom_toTopOf="@+id/btnBatal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvQty" />
-
+        app:layout_constraintTop_toBottomOf="@+id/view13" />
 
     <Button
         android:id="@+id/btnBatal"
@@ -31,7 +46,7 @@
         android:layout_marginEnd="@dimen/size8"
         android:background="@drawable/btn_rect_secondary"
         android:gravity="center"
-        android:text="@string/batal"
+        android:text="@string/abaikan"
         android:layout_margin="@dimen/size16"
         android:textColor="?colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +59,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rect_primary"
         android:gravity="center_horizontal|center_vertical"
-        android:text="@string/bayar"
+        android:text="@string/ambil_promo"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
         android:textStyle="bold"
