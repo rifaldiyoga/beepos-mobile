@@ -59,6 +59,7 @@ class RekapProdukFragment(
                     when (event) {
                         RekapProdukViewModel.UIEvent.RequestDialogFilter ->{
                             val dialog = RadioListFilterDialog(
+                                requireContext(),
                                 getString(R.string.pilih_tanggal),
                                 pilihTglList,
                                 inilizeTgl(),

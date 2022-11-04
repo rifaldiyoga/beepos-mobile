@@ -55,6 +55,9 @@ class RekapKasFragment(
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_rekap_kas, menu)
 
+        sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc, "")
+        sharedViewModel.loadKasKeluar(sharedViewModel.state.isDesc, "")
+
         val searchItem = menu.findItem(R.id.search_rekap_kas)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Masukan minimal 3 huruf"

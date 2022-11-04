@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.domain.usecase.signup.AddEditProdukUseCase
+import com.bits.bee.bpmc.domain.usecase.signup.GetKategoriProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,16 +18,19 @@ import javax.inject.Inject
 @HiltViewModel
 class TambahProdukViewModel @Inject constructor(
     private val addEditProdukUseCase : AddEditProdukUseCase,
-    private val beePreferenceManager: BeePreferenceManager
+    private val beePreferenceManager: BeePreferenceManager,
+    private val getKategoriPrdUseCase: GetKategoriProdukUseCase
+
 ): BaseViewModel<TambahProdukState, TambahProdukViewModel.UIEvent>() {
 
     init {
         state = TambahProdukState()
+        loadKatPrd()
     }
 
     val modePreferences = beePreferenceManager.modePreferences
 
-    fun onClickTambahSatuan() = viewModelScope.launch {
+        fun onClickTambahSatuan() = viewModelScope.launch {
         if(state.unitList[0].unit.isNotEmpty()) {
             val unit = UnitDummy(
                 id = state.unitList.size
@@ -82,15 +86,30 @@ class TambahProdukViewModel @Inject constructor(
             id = state.itemDummy?.id,
             name = state.nama,
             itemTypeCode = state.tipeProduk,
-            itemGroup = state.kategoriProduk,
             price = state.harga,
             picPath = "",
         )
-        addEditProdukUseCase(itemDummy)
+        addEditProdukUseCase.invoke(itemDummy, state.kategoriProduk!!)
         eventChannel.send(UIEvent.FinsihSubmit)
+    }
+
+    private fun loadKatPrd() = viewModelScope.launch {
+        val listkatPrd = getKategoriPrdUseCase.invoke(-1)
+        updateState(
+            state.copy(
+                listKategoriPrd = listkatPrd
+            )
+        )
+
+
+    }
+
+    fun onShowDialog() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDialog)
     }
 
     sealed class UIEvent {
         object FinsihSubmit : UIEvent()
+        object RequestDialog : UIEvent()
     }
 }

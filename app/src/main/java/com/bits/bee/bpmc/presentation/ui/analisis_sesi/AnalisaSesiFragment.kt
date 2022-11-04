@@ -143,9 +143,9 @@ class AnalisaSesiFragment(
                                 tvModal.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(data.startBal))
                                 tvTotalPendapatan.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(data.total))
+                                    "Rp", CurrencyUtils.formatCurrency(data.total.add(data.startBal)))
                                 tvPemasukan.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(data.totIn ?: bigDecimalZero))
+                                    "Rp", CurrencyUtils.formatCurrency(data.total ?: bigDecimalZero))
                                 tvPengeluaran.text = getString(R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(data.totOut ?: bigDecimalZero))
                                 viewModel.getValueDetail()

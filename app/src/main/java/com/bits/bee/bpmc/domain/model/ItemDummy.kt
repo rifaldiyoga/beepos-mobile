@@ -11,7 +11,7 @@ data class ItemDummy (
     var id : Int? = null,
     var name: String = "",
     var itemTypeCode: String = "",
-    var itemGroup : String = "",
+    var itemGroupId : Int = -1,
     var price : String = "",
     var picPath : String = "",
     var pid : String = "",

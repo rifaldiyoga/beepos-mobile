@@ -107,7 +107,7 @@ class DetailRiwayatSesiFragment(
                                     BPMConstants.DATE_FORMAT_RESPONSE, endTime)
                                 pemasukanTotal.text = getString(
                                     R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(mPosses!!.total))
+                                    "Rp", CurrencyUtils.formatCurrency(mPosses!!.total.add(mPosses!!.startBal)))
                             }
                         }
                         it.user?.let {

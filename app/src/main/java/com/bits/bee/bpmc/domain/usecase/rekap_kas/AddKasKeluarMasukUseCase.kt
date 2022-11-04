@@ -27,6 +27,14 @@ class AddKasKeluarMasukUseCase @Inject constructor(
         activeBranch: Branch?,
         activeCashier: Cashier?,
     ) {
+        var amountNew: BigDecimal = BigDecimal.ZERO
+        if (status.equals("i")){
+            amountNew = balance
+        }else if (status.equals("o")){
+            amountNew = balance.negate()
+        }
+
+
         val newCadj = Cadj(
             cashAId = cash.id!!,
             cashierId = cashierId!!,
@@ -35,7 +43,7 @@ class AddKasKeluarMasukUseCase @Inject constructor(
             note = note,
             refType = reftype,
             autoGen = autogen,
-            amount = balance,
+            amount = amountNew,
             refNo = mPosses!!.trxNo,
             kodeCadj = "",
             trxDate = DateFormatUtils.formatDateToLong(BPMConstants.DATE_FORMAT_RESPONSE, Date()),

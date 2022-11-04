@@ -3,7 +3,7 @@
 
     <item
         android:drawable="@drawable/ic_filter_gry"
-        android:width="@dimen/size20"
+        android:width="@dimen/size18"
         android:height="@dimen/size20"
         />
 

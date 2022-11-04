@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ItemGroup (
-    var id : Int,
+    var id : Int? = null,
     var code : String,
     var name: String,
     var level : Int,

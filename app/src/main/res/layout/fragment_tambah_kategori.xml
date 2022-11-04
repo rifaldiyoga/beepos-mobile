@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/btnSimpan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size0"
+            android:padding="@dimen/size16">
+
+            <LinearLayout
+                android:id="@+id/lL_nama_prd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:orientation="vertical"
+                android:visibility="visible"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    style="@style/TextHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nama_kategori"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etNamaPrd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    android:hint="@string/cth_beestore"
+                    android:editable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView1"
+                    app:layout_constraintTop_toBottomOf="@+id/textView1" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cbSubKategori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/size12"
+                android:text="@string/gunakan_sub_kategori"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lL_nama_prd"
+                tools:ignore="RtlSymmetry" />
+
+            <LinearLayout
+                android:id="@+id/lL_kategori"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/size16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cbSubKategori">
+
+                <TextView
+                    android:id="@+id/txtTipe"
+                    style="@style/TextHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pilih_kategori" />
+
+                <Spinner
+                    android:id="@+id/sp_kategori_prd"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    app:layout_constraintStart_toStartOf="@+id/textView1"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupSatuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="btnTambahSatuan,recyclerView2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/btn_simpan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/size16"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

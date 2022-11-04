@@ -97,16 +97,10 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             val autogen = false
 
             addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-
-//            addKasUseCase.invoke(cash, balance)
-
-//            loadKasMasukUseCase.invoke().collect{
-//                mListCadj = it
-//            }
             addKasUseCase.invoke(cash, balance)
             updateTotalPossesUseCase.invoke(mPosses, balance, cash)
 
-            eventChannel.send(UIEvent.SuccesAddkasMasuk)
+//            eventChannel.send(UIEvent.SuccesAddkasMasuk)
         }
     }
 
@@ -135,20 +129,16 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             val cashierId = mPosses?.cashierId
             val status = "o"
             val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
-            val balance = BigDecimal.valueOf(longStartBal).negate()
+            val balance = BigDecimal.valueOf(longStartBal)
             val note = deskripsi.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
             val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
             val autogen = false
 
             addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-
-//            loadKasMasukUseCase.invoke().collect{
-//                mListCadj = it
-//            }
             addKasUseCase.invoke(cash, balance)
             updateTotalPossesUseCase.invoke(mPosses, balance, cash)
 
-            eventChannel.send(UIEvent.SuccesAddKasKeluar)
+//            eventChannel.send(UIEvent.SuccesAddKasKeluar)
         }
 
     }

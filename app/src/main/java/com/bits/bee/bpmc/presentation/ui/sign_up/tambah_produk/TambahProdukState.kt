@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 
 import com.bits.bee.bpmc.domain.model.ItemDummy
+import com.bits.bee.bpmc.domain.model.ItemGroup
+import com.bits.bee.bpmc.domain.model.KategoriProduk
 import com.bits.bee.bpmc.domain.model.UnitDummy
 
 /**
@@ -11,7 +13,9 @@ data class TambahProdukState (
     var harga : String = "",
     var satuan : String = "",
     var tipeProduk : String = "",
-    var kategoriProduk : String = "",
+    var kategoriProdukId : Int = -1,
     var itemDummy: ItemDummy? = null,
-    var unitList : MutableList<UnitDummy> = mutableListOf()
+    var unitList : MutableList<UnitDummy> = mutableListOf(),
+    var listKategoriPrd: List<KategoriProduk>? = null,
+    var kategoriProduk: String? = null
 )

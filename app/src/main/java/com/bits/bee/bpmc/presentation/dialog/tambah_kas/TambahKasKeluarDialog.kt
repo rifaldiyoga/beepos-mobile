@@ -96,7 +96,7 @@ class TambahKasKeluarDialog(
                             e.stackTrace
                         }
                     }
-
+                    viewModel.validateInput()
                 }
 
             })
@@ -107,6 +107,7 @@ class TambahKasKeluarDialog(
                         deskripsi = etDeskripsi.text.toString().trim()
                     )
                 )
+                viewModel.validateInput()
             }
 
             btnSimpan.setOnClickListener {

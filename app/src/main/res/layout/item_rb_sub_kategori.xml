@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clRadio"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -16,35 +15,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/size40"
-        android:id="@+id/cl_filter"
-        android:layout_width="match_parent"
+    <ImageView
+        android:padding="@dimen/size14"
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
+        android:src="@drawable/ic_edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialRadioButton" >
-
-        <EditText
-            android:visibility="gone"
-            android:id="@+id/etPilih_tgl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:editable="false"
-            android:drawableRight="@drawable/custom_icon_calendar"
-            android:hint="@string/tgl_belum_diatur">
-
-        </EditText>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="@dimen/size0"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/size4"
         android:background="@color/light_gray"
-        app:layout_constraintTop_toBottomOf="@id/cl_filter"
+        app:layout_constraintTop_toBottomOf="@id/materialRadioButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

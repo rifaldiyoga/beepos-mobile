@@ -60,6 +60,10 @@
     <string name="pref_login_user">login_user</string>
     <string name="pref_tablayout">pref_tablayout</string>
     <string name="pref_user_kasir">pref_user_kasir</string>
+    <string name="pref_add_nama_prd">pref_add_nama_prd</string>
+    <string name="pref_add_harga_prd">pref_add_harga_prd</string>
+    <string name="pref_add_tipe_prd">pref_add_tipe_prd</string>
+    <string name="pref_add_list_unit">pref_add_list_unit</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -290,6 +294,11 @@ untuk memperbarui data dapur?</string>
     <string name="informasi_akun">Informasi Akun</string>
     <string name="gagal_login">Gagal Login</string>
     <string name="silahkan_login_email_sinkron">Silahkan login menggunakan Email atau Sinkron data ulang!</string>
+    <string name="kategori_blm_ada">Kategori belum ada, klik untuk tambahkan</string>
+    <string name="nama_kategori">Nama Kategori</string>
+    <string name="pilih_kategori">Pilih Kategori</string>
+    <string name="gunakan_sub_kategori">Gunakan Sub-Kategori Produk</string>
+    <string name="pilih_kategori_prd">Pilih kategori produk</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>
@@ -666,6 +675,9 @@ untuk memperbarui data dapur?</string>
     <string name="cari_produk_dulu">Cari produknya dulu ya, nanti datanya akan muncul disini</string>
     <string name="cari_produk_not_found">Produk yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
     <string name="cari_kas_not_found">Data yang anda cari tidak ada. Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
+    <string name="masukan_deskripsi_masuk">Masukkan deskripsi kas masuk</string>
+    <string name="masukan_deskripsi_keluar">Masukkan deskripsi kas keluar</string>
+    <string name="tgl_belum_diatur">Tanggal belum diatur</string>
     <string name="cth_1234567890123456">Cth. 1234567890123456</string>
     <string name="ubah_nilai_kasir">Ubah Nilai Kasir</string>
     <string name="printer">Printer</string>

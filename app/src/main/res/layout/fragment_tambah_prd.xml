@@ -324,6 +324,19 @@
                     android:layout_height="wrap_content"
                     android:text="@string/kategori_produk" />
 
+                <EditText
+                    android:id="@+id/et_kategori_prd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_chevron_down"
+                    android:drawablePadding="5dp"
+                    android:editable="false"
+                    android:inputType="none"
+                    android:hint="@string/pilih_kategori_prd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
                 <Spinner
                     android:id="@+id/sp_grp_prd"
                     style="@style/Widget.AppCompat.Spinner.Underlined"
@@ -332,6 +345,14 @@
                     android:layout_marginTop="@dimen/size6"
                     app:layout_constraintStart_toStartOf="@+id/textView1"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtKategori"-->
+<!--                    style="@style/TextHeader"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/kategori_blm_ada" />-->
+
 
             </LinearLayout>
 

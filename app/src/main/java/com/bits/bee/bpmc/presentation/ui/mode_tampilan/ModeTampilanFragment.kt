@@ -28,6 +28,7 @@ class ModeTampilanFragment(
 
     override fun initComponents() {
         binding.apply {
+//            viewModel.type = "signup"
             arguments?.let{
                 val type = it.getString("type")
                 viewModel.type = type ?: ""

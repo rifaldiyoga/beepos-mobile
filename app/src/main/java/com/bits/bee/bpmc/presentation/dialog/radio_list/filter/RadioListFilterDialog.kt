@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.presentation.dialog.radio_list.filter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.DialogRadioListFilterBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
@@ -10,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RadioListFilterDialog(
+    val ctx: Context,
     val title : String,
     val stringList: List<String>,
     var posSelected: Int,
@@ -24,11 +27,6 @@ class RadioListFilterDialog(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = title
-//            radioAdapter = RadioListAdapter(stringList, posSelected)
-//            recyclerView.apply {
-//                layoutManager = LinearLayoutManager(requireContext())
-//                adapter = radioAdapter
-//            }
             radioDateAdapter = RadioDateAdapter(childFragmentManager ,requireContext(), stringList, posSelected)
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -42,7 +40,11 @@ class RadioListFilterDialog(
         binding.apply {
             btnSimpan.setOnClickListener {
                 if (radioDateAdapter.getSelectedPosition() == 3){
-                    onSaveClick(radioDateAdapter.getTextDate())
+                    if (radioDateAdapter.getTextDate().isNotEmpty()){
+                        onSaveClick(radioDateAdapter.getTextDate())
+                    }else{
+                        Toast.makeText(ctx, "Pilih tgl terlebih dahulu!!", Toast.LENGTH_SHORT).show()
+                    }
                 }else{
                     onSaveClick(stringList[radioDateAdapter.getSelectedPosition()])
                 }

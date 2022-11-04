@@ -30,4 +30,10 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
     @Query("SELECT * FROM itemgrp WHERE code = 'ADDON'")
     fun getItgrpAddOn() : ItemGroupEntity?
 
+    @Query("SELECT * FROM itemgrp where up_id = :upid")
+    fun getItemgrpByUpId(upid: Int): List<ItemGroupEntity>
+
+    @Query("SELECT * FROM itemgrp where name = :kategori")
+    fun getItgrpByKategori(kategori: String): ItemGroupEntity
+
 }

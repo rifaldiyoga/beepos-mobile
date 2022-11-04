@@ -93,4 +93,35 @@ class ItemGroupRepositoryImpl @Inject constructor(
         emit(data?.let { ItemGroupDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
+    override fun getItemgrps(): Flow<List<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun addItemgrp(itemGroup: ItemGroup, edit: Boolean) {
+        withContext(ioDispatcher){
+            if (edit){
+                itemGroupDao.update(ItemGroupDataMapper.fromDomainToDb(itemGroup))
+            }else{
+                itemGroupDao.insertSingle(ItemGroupDataMapper.fromDomainToDb(itemGroup))
+            }
+        }
+    }
+
+    override fun getItgrpByKategori(kategori: String): Flow<ItemGroup> {
+        return flow<ItemGroup> {
+            val data = itemGroupDao.getItgrpByKategori(kategori)
+            emit(ItemGroupDataMapper.fromDbToDomain(data))
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getItemgrpByUpId(upid: Int): Flow<List<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getItemgrpByUpId(upid).map { ItemGroupDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
 }

@@ -51,7 +51,7 @@ class SettingFavProdukViewModel @Inject constructor(
     }
 
     fun updateActiveItemGroup(itemGroup: ItemGroup) = viewModelScope.launch{
-        activeItgrp.emit(itemGroup.id)
+        activeItgrp.emit(itemGroup.id ?:  -1)
     }
 
     data class QueryWithSort(

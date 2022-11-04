@@ -37,6 +37,11 @@ class KasMasukFragment(
         BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_tablayout), true)
     }
 
+    override fun onResume() {
+        super.onResume()
+//        Toast.makeText(requireContext(), "berhasil simpan kas masuk", Toast.LENGTH_SHORT).show()
+    }
+
     override fun initComponents() {
         parentKasAdapter = ParentKasAdapter(requireContext())
 
@@ -68,25 +73,13 @@ class KasMasukFragment(
                             if (sharedViewModel.state.acrivePosses != null){
                                 val dialog = TambahKasDialog.Builder(requireContext())
                                     .setTitle(getString(R.string.tambah_kas_masuk))
-//                                .setPositiveCallback {
-//                                    sharedViewModel.onSaveKasMasuk(
-//                                        viewModel.state.nominal!!,
-//                                        viewModel.state.deskripsi!!,
-//                                        viewModel.state.posses,
-//                                        viewModel.state.cash)
-//                                }
                                     .build()
                                 dialog.show(parentFragmentManager, TAG)
                             }else{
                                 Toast.makeText(requireContext(), "Pastikan buka kasir terlebih dahulu", Toast.LENGTH_SHORT).show()
                             }
                         }
-                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddkasMasuk ->{
-                            Toast.makeText(requireContext(), "berhasil simpan kas masuk", Toast.LENGTH_SHORT).show()
-                            sharedViewModel.loadKasMasuk(sharedViewModel.state.isDesc, sharedViewModel.state.search)
-                        }
-                        KasKeluarMasukSharedViewModel.UIEvent.RequestAddKasKeluar -> TODO()
-                        KasKeluarMasukSharedViewModel.UIEvent.SuccesAddKasKeluar -> TODO()
+                        else -> {}
                     }
                 }
             }
@@ -110,7 +103,12 @@ class KasMasukFragment(
                                 }else{
                                     sharedViewModel.setListKasIn(data)
                                     it.cashInList?.let {
-                                        parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                                        if (it.size > 0){
+                                            parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+                                        }else{
+                                            imageView17.visibility = View.VISIBLE
+                                            textView91.visibility = View.VISIBLE
+                                        }
                                     }
                                     imgEmpty.visibility = View.VISIBLE
                                     textDetai.visibility = View.VISIBLE

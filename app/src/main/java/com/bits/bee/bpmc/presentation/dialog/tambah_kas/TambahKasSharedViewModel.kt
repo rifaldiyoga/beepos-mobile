@@ -51,6 +51,15 @@ class TambahKasSharedViewModel @Inject constructor(
         )
     }
 
+    fun validateInput() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isValid = state.nominal.isNotEmpty() && state.deskripsi.isNotEmpty()
+            )
+        )
+    }
+
+
     sealed class UIEvent{
         object RequestSaveKasMasuk: UIEvent()
     }
