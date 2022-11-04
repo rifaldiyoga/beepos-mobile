@@ -50,27 +50,27 @@ class ItemPosCariAdapter(
 
                 tvHarga.isVisible = !item.isVariant
 
-                tvQty?.let {
+                tvQty.let {
                     it.text = CurrencyUtils.formatCurrency(qty)
 
                     if(qty > BigDecimal.ZERO){
                         cdContent.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.red))
                         cardView.gone()
-                        llMinus!!.visible()
-                        llQty!!.visible()
+                        llMinus.visible()
+                        llQty.visible()
                         tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.white))
                         tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.white))
                     } else {
                         cdContent.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.white))
                         cardView.visible()
-                        llMinus!!.gone()
-                        llQty!!.gone()
+                        llMinus.gone()
+                        llQty.gone()
                         tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.black))
                         tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.black))
                     }
 
                     llMinus.setOnClickListener {
-//                    item.qty = item.qty.subtract(BigDecimal.ZERO)
+            //                    item.qty = item.qty.subtract(BigDecimal.ZERO)
                         onMinusClick(item)
                         notifyItemChanged(absoluteAdapterPosition)
                     }

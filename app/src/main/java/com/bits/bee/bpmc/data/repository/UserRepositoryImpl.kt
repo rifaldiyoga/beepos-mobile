@@ -41,9 +41,9 @@ class UserRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getUserById(id: Int): Flow<Resource<User>> {
+    override fun getUserById(id: Int): Flow<User> {
         return flow {
-            emit(Resource.success(UserDataMapper.fromDbToDomain(userDao.getUserById(id))))
+            emit(UserDataMapper.fromDbToDomain(userDao.getUserById(id)))
         }.flowOn(defaultDispatcher)
     }
 
@@ -65,10 +65,10 @@ class UserRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getUserPin(user: String): Flow<Resource<List<User>>> {
+    override fun getUserPin(user: String): Flow<List<User>> {
         return flow {
             val data = userDao.getUserPin(user).map { UserDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 

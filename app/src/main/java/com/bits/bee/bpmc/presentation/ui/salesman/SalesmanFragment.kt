@@ -42,7 +42,8 @@ class SalesmanFragment(
                 },
                 onEyeClick = { model ->
                     viewModel.onClickEye(model)
-                }
+                },
+                mainViewModel.activeSrep.value
             )
 
             rvList.apply {

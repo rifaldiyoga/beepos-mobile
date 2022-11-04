@@ -10,4 +10,6 @@ interface SalePromoRepository {
 
     fun getSalePromoBySale(id: Int):Flow<List<SalePromo>>
 
+    fun getPromoBySaledBonus(id: Int, saledId : Int):Flow<List<SalePromo>>
+
 }

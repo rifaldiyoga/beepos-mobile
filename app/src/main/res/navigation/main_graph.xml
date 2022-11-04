@@ -100,7 +100,7 @@
     <fragment
         tools:layout="@layout/fragment_invoice"
         android:id="@+id/invoiceFragment"
-        android:label=""
+        android:label="@string/pesanan"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragment">
         <action
             android:id="@+id/action_invoiceFragment_to_pembayaranFragment"
@@ -344,5 +344,17 @@
         tools:layout="@layout/fragment_kas_keluar"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarFragment"
         android:label="KasKeluarFragment" />
+    <dialog
+        tools:layout="@layout/fragment_hak_akses"
+        android:id="@+id/hakAksesFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
+        android:label="HakAksesFragment" >
+        <argument
+            android:name="acsType"
+            app:argType="string" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_hakAksesFragment"
+        app:destination="@id/hakAksesFragment" />
 
 </navigation>

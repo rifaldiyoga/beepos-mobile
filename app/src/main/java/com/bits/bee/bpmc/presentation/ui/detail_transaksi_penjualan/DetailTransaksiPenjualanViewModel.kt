@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.helper.PrivilegeHelper
 import com.bits.bee.bpmc.domain.model.SaleAddOnD
 import com.bits.bee.bpmc.domain.repository.CrcRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddOnBySaleUseCase
@@ -9,6 +10,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.VoidTransactionUseCase
 import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSalecrcvBySaleUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -24,11 +26,16 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
     private val getSalecrcvBySaleUseCase: GetSalecrcvBySaleUseCase,
     private val voidTransactionUseCase: VoidTransactionUseCase,
-    private val crcRepository: CrcRepository
+    private val crcRepository: CrcRepository,
+    private val privilegeHelper: PrivilegeHelper
 ): BaseViewModel<DetailTransaksiPenjualanState, DetailTransaksiPenjualanViewModel.UIEvent>(){
 
     init {
         state = DetailTransaksiPenjualanState()
+    }
+
+    fun loadData() = viewModelScope.launch {
+        state.isAllowVoid = privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_DEL)
     }
 
     fun onClickVoid() = viewModelScope.launch {

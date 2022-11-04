@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.pembayaran_gopay
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.data.data_source.remote.response.GopayResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.GopayStatusResponse
 import com.bits.bee.bpmc.domain.usecase.pembayaran.CancelPaymentGopayUseCase
@@ -11,6 +12,7 @@ import com.bits.bee.bpmc.domain.usecase.pembayaran.RequestQRGopayUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -30,7 +32,7 @@ class PembayaranGopayViewModel @Inject constructor(
     private var requestGopayResponse: MediatorLiveData<Resource<GopayResponse>> = MediatorLiveData()
     fun observeGopayResponse() = requestGopayResponse as LiveData<Resource<GopayResponse>>
 
-    fun requestQRCode() {
+    fun requestQRCode() = viewModelScope.launch {
         if(state.sale != null || state.bp != null) {
             val source = requestQRGopayUseCase(state.sale!!, state.saledList, state.bp!!).asLiveData()
             requestGopayResponse.addSource(source) {

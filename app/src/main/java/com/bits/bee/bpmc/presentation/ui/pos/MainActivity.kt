@@ -224,9 +224,18 @@ class MainActivity(
     }
 
     private fun setBackgroundToolbar(destinationId : Int){
-        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment
-            || destinationId == R.id.klaimPromoFragment || destinationId == R.id.tambahMemberFragment
-            || destinationId == R.id.memberFragment || destinationId == R.id.salesmanFragment || destinationId == R.id.detailSalesmanFragment) {
+        val dest = listOf(
+            R.id.draftFragment,
+            R.id.transaksiBerhasilFragment,
+            R.id.memberFragment,
+            R.id.klaimPromoFragment,
+            R.id.tambahMemberFragment,
+            R.id.salesmanFragment,
+            R.id.detailSalesmanFragment,
+            R.id.hakAksesFragment
+        )
+
+        if(dest.contains(destinationId)) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(

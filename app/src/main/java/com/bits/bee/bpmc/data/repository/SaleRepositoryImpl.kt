@@ -67,11 +67,15 @@ class SaleRepositoryImpl @Inject constructor(
         emit(saleList.map { SaleDataMapper.fromDbToDomain(it) } )
     }.flowOn(defaultDispatcher)
 
-    override fun getSaleByPosses(id: Int): Flow<Resource<List<Sale>>> {
+    override fun getSaleByPosses(id: Int): Flow<List<Sale>> {
         return flow {
             val data = saleDao.getSaleByPosses(id).map { SaleDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaleByPosses(id: Int, isVoid: Boolean, termType: String): Flow<List<Sale>> {
+        TODO("Not yet implemented")
     }
 
     override fun getTotalNota(id: Int): Flow<BigDecimal> {
@@ -168,6 +172,65 @@ class SaleRepositoryImpl @Inject constructor(
             val data = saleDao.sumQtyByHour(id, hour)
             emit(data)
         }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaleByPossesGroupByBp(id: Int): Flow<List<Sale>> {
+        return flow {
+            val data = saleDao.getSaleByPossesGroupByBp(id).map { SaleDataMapper.fromDbToDomain(it) }
+            emit((data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun sumTotalChannel(id: Int, channelId: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun countTotalChannel(id: Int, channelId: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalPaidAll(id: Long): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalPaidAllChannel(id: Long, channelId: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalRoundingPaidAll(id: Long): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalPaidDebitAll(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalPaidKreditAll(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalPaidGopayAll(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalVoidNonCash(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalRoundingNonCash(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalCash(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalCashRounding(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun sumTotalVoidCash(id: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
     }
 
 

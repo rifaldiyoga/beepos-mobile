@@ -20,7 +20,7 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT * FROM sale WHERE draft = 1 ORDER BY id DESC LIMIT 5")
     fun getLatestDraftList() : List<SaleEntity>
 
-    @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0")
+    @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = 0")
     fun getSaleByPosses(id: Int): List<SaleEntity>
 
     @Query("SELECT COUNT(*) FROM sale WHERE posses_id = :id and isvoid = 0 and draft = 0")
@@ -56,5 +56,17 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("select strftime('%H', datetime(trx_date/1000, 'unixepoch', 'localtime')) as date, sum(a.total) as qty from sale a " +
             "WHERE date = :hour AND a.isvoid = '0' AND a.posses_id = :id group by strftime('%H', datetime(trx_date/1000, 'unixepoch', 'localtime'))")
     fun sumQtyByHour(id: Int, hour: String): LineChartData
+
+    @Query("SELECT sale.*, SUM(total) as 'total' FROM sale WHERE (posses_id = :id AND draft = 0 AND isvoid = 0) GROUP BY bp_id")
+    fun getSaleByPossesGroupByBp(id: Int): List<SaleEntity>
+
+    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id AND isvoid = 0 AND channel_id = :channelId")
+    fun sumTotalChannel(id: Int, channelId : Int): BigDecimal
+
+    @Query("SELECT COUNT(total) FROM sale WHERE posses_id = :id AND isvoid = 0")
+    fun sumTotalPaidAll(id: Int): BigDecimal
+
+//    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id AND isvoid = 0")
+//    fun sumTotalChannel(id: Int, channelId : Int): BigDecimal
 
 }

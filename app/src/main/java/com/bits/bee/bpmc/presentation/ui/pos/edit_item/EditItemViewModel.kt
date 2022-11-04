@@ -1,11 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.helper.PrivilegeHelper
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.usecase.common.GetUnitItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,11 +20,21 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class EditItemViewModel @Inject constructor(
-    private val getUnitItemUseCase: GetUnitItemUseCase
+    private val getUnitItemUseCase: GetUnitItemUseCase,
+    private val privilegeHelper: PrivilegeHelper
 ): BaseViewModel<EditItemState, EditItemViewModel.UIEvent>() {
 
     init {
         state = EditItemState()
+    }
+
+    fun loadData() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isEditPrice = privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_PRICE_EDIT),
+                isEditDisc =  privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_DISC)
+            )
+        )
     }
 
     fun loadUnit(id : Int, unit : Int? = -1) = viewModelScope.launch {
@@ -33,6 +45,18 @@ class EditItemViewModel @Inject constructor(
                     unit = if(it.isNotEmpty()) if(unit != null && unit > 0) it[it.indexOfFirst { it.id == unit }] else it[0] else null
                 )
             )
+        }
+    }
+
+    fun onPriceFocus() = viewModelScope.launch {
+        if(!state.isEditPrice){
+            eventChannel.send(UIEvent.NavigateToHakAkses(BPMConstants.ACS_PRICE_EDIT))
+        }
+    }
+
+    fun onDiscFocus() = viewModelScope.launch {
+        if(!state.isEditDisc){
+            eventChannel.send(UIEvent.NavigateToHakAkses(BPMConstants.ACS_DISC))
         }
     }
 
@@ -163,6 +187,7 @@ class EditItemViewModel @Inject constructor(
         data class RequestSubmit(val saled: Saled) : UIEvent()
         data class RequestAdd(val itemWithUnit: ItemWithUnit) : UIEvent()
         data class NavigateToAddOn(val item: Item, val saled : Saled) : UIEvent()
+        data class NavigateToHakAkses(val accType : String) : UIEvent()
         object ValidateDelete : UIEvent()
     }
 

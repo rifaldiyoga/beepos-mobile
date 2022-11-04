@@ -133,7 +133,7 @@ class LoginOperatorViewModel @Inject constructor(
         var userList: List<User> = mutableListOf()
         var userPin: User? = null
         getUserPinUseCase.invoke(pin).collect {
-            it.data?.let {
+            it.let {
                 userList = it
             }
         }

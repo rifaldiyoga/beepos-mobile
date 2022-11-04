@@ -52,7 +52,8 @@ class MemberFragment(
                 },
                 onEyeClick = { model ->
                     viewModel.onClickEye(model)
-                }
+                },
+                mainViewModel.activeBp.value
             )
             memberAdapter.addLoadStateListener { loadState ->
                 loadState.decideOnState(
@@ -127,6 +128,7 @@ class MemberFragment(
                 }
             }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

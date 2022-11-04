@@ -103,5 +103,11 @@
         <item name="dialogTheme">@style/Widget.Demo.BottomSheet</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.BeeposMobile">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
 
 </resources>

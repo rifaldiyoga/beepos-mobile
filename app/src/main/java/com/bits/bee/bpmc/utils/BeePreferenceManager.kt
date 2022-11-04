@@ -144,6 +144,41 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             SistemPreferences(penyimpanan, batchUpload, periodeUpload, isCloudDapur)
         }
 
+    val notaPreferences = context.dataStore.data
+        .catch {
+            if (it is IOException) {
+                Log.e(TAG, "Error reading preferences", it)
+            } else {
+                throw it
+            }
+        }.map {
+            val isLoadLogo = it[PreferenceKeys.IS_LOAD_LOGO] ?: true
+            val logoPath = it[PreferenceKeys.LOGO_PATH] ?: ""
+            val isHeader = it[PreferenceKeys.IS_HEADER] ?: true
+            val header = it[PreferenceKeys.HEADER] ?: ""
+            val isFooter = it[PreferenceKeys.IS_FOOTER] ?: true
+            val footer = it[PreferenceKeys.FOOTER] ?: ""
+            val isRekapCust = it[PreferenceKeys.IS_REKAP_CUST] ?: true
+            val isRekapItem = it[PreferenceKeys.IS_REKAP_ITEM] ?: true
+            val isRekapItemChannel = it[PreferenceKeys.IS_REKAP_ITEM_CHANNEL] ?: true
+            val isRekapFaktur = it[PreferenceKeys.IS_REKAP_FAKTUR] ?: true
+            val isRekapChannel = it[PreferenceKeys.IS_REKAP_CHANNEL] ?: true
+
+            NotaPreferences(
+                isLoadLogo,
+                logoPath,
+                isHeader,
+                header,
+                isFooter,
+                footer,
+                isRekapCust,
+                isRekapItem,
+                isRekapItemChannel,
+                isRekapFaktur,
+                isRekapChannel,
+            )
+        }
+
     suspend fun updatePosPreferences(posPreferences: PosPreferences) {
         context.dataStore.edit {
             it[PreferenceKeys.UKURAN_FONT] = posPreferences.ukuranFont
@@ -174,6 +209,22 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
         }
     }
 
+    suspend fun updateNotaPreferences(notaPreferences: NotaPreferences) {
+        context.dataStore.edit {
+            it[PreferenceKeys.IS_LOAD_LOGO] = notaPreferences.isLoadLogo
+            it[PreferenceKeys.LOGO_PATH] = notaPreferences.logoPath
+            it[PreferenceKeys.IS_HEADER] = notaPreferences.isHeader
+            it[PreferenceKeys.HEADER] = notaPreferences.header
+            it[PreferenceKeys.IS_FOOTER] = notaPreferences.isFooter
+            it[PreferenceKeys.FOOTER] = notaPreferences.footer
+            it[PreferenceKeys.IS_REKAP_CUST] = notaPreferences.isRekapCust
+            it[PreferenceKeys.IS_REKAP_ITEM] = notaPreferences.isRekapItem
+            it[PreferenceKeys.IS_REKAP_ITEM_CHANNEL] = notaPreferences.isRekapItemChannel
+            it[PreferenceKeys.IS_REKAP_FAKTUR] = notaPreferences.isRekapFaktur
+            it[PreferenceKeys.IS_REKAP_CHANNEL] = notaPreferences.isRekapChannel
+        }
+    }
+
     suspend fun clearPreferences() {
         context.dataStore.edit {
             it.clear()
@@ -199,6 +250,22 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
         val isCloudDapur : Boolean,
     )
 
+    data class NotaPreferences(
+        val isLoadLogo : Boolean,
+        val logoPath : String,
+        val isHeader : Boolean,
+        val header : String,
+        val isFooter : Boolean,
+        val footer : String,
+        val isRekapCust : Boolean,
+        val isRekapItem : Boolean,
+        val isRekapItemChannel : Boolean,
+        val isRekapFaktur : Boolean,
+        val isRekapChannel : Boolean,
+    )
+
+
+
     private object PreferenceKeys {
         // Setting POS
         val UKURAN_FONT = stringPreferencesKey("${DATASTORE_NAME}_UKURAN_FONT")
@@ -217,6 +284,19 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
         val BATCH_UPLOAD = stringPreferencesKey("${DATASTORE_NAME}_BATCH_UPLOAD")
         val PERIODE_UPLOAD = stringPreferencesKey("${DATASTORE_NAME}_PERIODE_UPLOAD")
         val CLOUD_DAPUR = booleanPreferencesKey("${DATASTORE_NAME}_CLOUD_DAPUR")
+
+        //Setting Nota
+        val IS_LOAD_LOGO = booleanPreferencesKey("${DATASTORE_NAME}_IS_LOAD_LOGO")
+        val LOGO_PATH = stringPreferencesKey("${DATASTORE_NAME}_LOGO_PATH")
+        val IS_HEADER = booleanPreferencesKey("${DATASTORE_NAME}_IS_HEADER")
+        val HEADER = stringPreferencesKey("${DATASTORE_NAME}_HEADER")
+        val IS_FOOTER = booleanPreferencesKey("${DATASTORE_NAME}_IS_FOOTER")
+        val FOOTER = stringPreferencesKey("${DATASTORE_NAME}_FOOTER")
+        val IS_REKAP_CUST = booleanPreferencesKey("${DATASTORE_NAME}_IS_REKAP_CUST")
+        val IS_REKAP_ITEM = booleanPreferencesKey("${DATASTORE_NAME}_IS_REKAP_ITEM")
+        val IS_REKAP_ITEM_CHANNEL = booleanPreferencesKey("${DATASTORE_NAME}_IS_REKAP_ITEM_CHANNEL")
+        val IS_REKAP_FAKTUR = booleanPreferencesKey("${DATASTORE_NAME}_IS_REKAP_FAKTUR")
+        val IS_REKAP_CHANNEL = booleanPreferencesKey("${DATASTORE_NAME}_IS_REKAP_CHANNEL")
     }
 
 }

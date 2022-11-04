@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
-import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +24,10 @@ import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.model.Stock
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.gone
@@ -48,15 +49,8 @@ class EditItemFragment(
 
     private val mViewModel : MainViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun initComponents() {
+        viewModel.loadData()
         arguments?.let { bundle ->
             val saled = bundle.getParcelable<Saled>("saled")
             saled?.let {
@@ -125,6 +119,16 @@ class EditItemFragment(
                     }
                 }
             }
+            findNavController().currentBackStackEntry?.savedStateHandle?.apply {
+                getLiveData<Boolean>(BPMConstants.ACS_PRICE_EDIT).observe(viewLifecycleOwner) {
+                    viewModel.state.isEditPrice = it
+                    etHarga.requestFocus()
+                }
+                getLiveData<Boolean>(BPMConstants.ACS_DISC).observe(viewLifecycleOwner) {
+                    viewModel.state.isEditDisc = it
+                    etDiskon.requestFocus()
+                }
+            }
 
             etHarga.addNumberFormatChange()
             etQty.addNumberFormatChange()
@@ -133,6 +137,14 @@ class EditItemFragment(
 
     override fun subscribeListeners() {
         binding.apply {
+            etHarga.setOnFocusChangeListener { _, b ->
+                if(b)
+                    viewModel.onPriceFocus()
+            }
+            etDiskon.setOnFocusChangeListener { _, b ->
+                if(b)
+                    viewModel.onDiscFocus()
+            }
             etDiskon.addTextChangedListener {
                 viewModel.onDiscChange(etDiskon.text.toString().trim())
             }
@@ -204,37 +216,37 @@ class EditItemFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.event.collect {
-                    when(it){
+                viewModel.event.collect { event ->
+                    when(event){
                         is EditItemViewModel.UIEvent.RequestSubmit -> {
                             mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
                                 val saledAddOnList : MutableList<Saled?> = mutableListOf()
                                 for (saleAddOnD in addOnTrans.getListDetail()){
-                                    if(saleAddOnD.upSaled == it.saled)
+                                    if(saleAddOnD.upSaled == event.saled)
                                         saledAddOnList.add(saleAddOnD.saled)
                                 }
 
                                 for(saled in saledAddOnList){
                                     saled?.let { saled ->
-                                        mViewModel.onDeleteAddOnData(it.saled, saled)
+                                        mViewModel.onDeleteAddOnData(event.saled, saled)
                                     }
                                 }
 
-                                mViewModel.onItemAddOn(viewModel.state.addOnList, it.saled)
+                                mViewModel.onItemAddOn(viewModel.state.addOnList, event.saled)
                             }
-                            mViewModel.onEditDetail(it.saled)
+                            mViewModel.onEditDetail(event.saled)
                             findNavController().popBackStack()
                         }
                         is EditItemViewModel.UIEvent.RequestAdd -> {
-                            mViewModel.onAddDetail(it.itemWithUnit, true)
+                            mViewModel.onAddDetail(event.itemWithUnit, true)
                             findNavController().popBackStack(R.id.posFragment, false)
                         }
                         is EditItemViewModel.UIEvent.NavigateToAddOn -> {
                             val bundle = bundleOf(
                                 "addOnList" to (viewModel.state.addOnList as ArrayList<out Parcelable>),
-                                "item" to it.item,
+                                "item" to event.item,
                                 "bp" to mViewModel.state.bp!!,
-                                "saled" to it.saled
+                                "saled" to event.saled
                             )
 //                            val action = EditItemFragmentDirections.actionEditItemDialogToAddOnFragment(it.item, mViewModel.state.bp!!, saled = it.saled)
                             findNavController().navigate(R.id.action_editItemDialog_to_addOnFragment, bundle)
@@ -257,6 +269,15 @@ class EditItemFragment(
                                     it.dismiss()
                                 }
                             )
+                            dialog.show(parentFragmentManager, "")
+                        }
+                        is EditItemViewModel.UIEvent.NavigateToHakAkses -> {
+                            val dialog = TidakAdaAksesDialog {
+                                it.dismiss()
+                                val action = EditItemFragmentDirections.actionGlobalHakAksesFragment(event.accType)
+                                findNavController().navigate(action)
+                            }
+
                             dialog.show(parentFragmentManager, "")
                         }
                     }

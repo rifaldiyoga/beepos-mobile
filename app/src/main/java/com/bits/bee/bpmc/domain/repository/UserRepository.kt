@@ -13,11 +13,11 @@ interface UserRepository {
 
     fun getActiveUser() : Flow<User?>
 
-    fun getUserById(id: Int): Flow<Resource<User>>
+    fun getUserById(id: Int): Flow<User>
 
     fun getBranchUser(): Flow<Resource<Any>>
 
-    fun getUserPin(user: String): Flow<Resource<List<User>>>
+    fun getUserPin(user: String): Flow<List<User>>
 
     fun getUserBySecretSauce(username: String, userapi: String): Flow<Resource<List<User>>>
 

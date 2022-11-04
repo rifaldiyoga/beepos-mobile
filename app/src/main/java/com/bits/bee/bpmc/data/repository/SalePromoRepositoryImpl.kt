@@ -30,4 +30,8 @@ class SalePromoRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getPromoBySaledBonus(id: Int, saledId: Int): Flow<List<SalePromo>> {
+        TODO("Not yet implemented")
+    }
+
 }

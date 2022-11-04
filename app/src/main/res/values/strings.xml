@@ -471,7 +471,7 @@ untuk memperbarui data dapur?</string>
     <string name="cetak_nota">Cetak Nota</string>
     <string name="hapus_transaksi">Hapus Transaksi</string>
     <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no JL12345?</string>
-    <string name="alasan_void">Alasan Void</string>
+    <string name="alasan_void">Alasan Hapus</string>
     <string name="hapus">Hapus</string>
     <string name="pendapatan_sesi_1">Pendapatan Sesi</string>
     <string name="detail_pendapatan">Detail Pendapatan</string>
@@ -511,7 +511,7 @@ untuk memperbarui data dapur?</string>
     <string name="rkp_customer">Rekap per Customer</string>
     <string name="rkp_produk_channel">Rekap per Produk per Channel</string>
     <string name="rkp_faktur">Rekap per Faktur</string>
-    <string name="rkp_channel">Rekap per channel</string>
+    <string name="rkp_channel">Rekap per Channel</string>
     <string name="diskon_nota">Diskon Nota</string>
     <string name="daftar_promo">Daftar Promo</string>
     <string name="selengkapnya">Selengkapnya</string>
@@ -672,5 +672,12 @@ untuk memperbarui data dapur?</string>
     <string name="tambah_printer">Tambah Printer</string>
     <string name="cari_bluetooth_printer">Cari Bluetooth Printer</string>
     <string name="konversi">Konversi</string>
+    <string name="tidak_ada_hak_akses">Tidak Ada Hak Akses</string>
+    <string name="anda_tidak_bisa_mengakses_edit_diskon_karena_anda_tidak_memiliki_hak_akses">Anda tidak bisa mengakses edit diskon karena anda tidak memiliki hak akses.</string>
+    <string name="masukkan_pin_operator_yang_memiliki_akses">Masukkan PIN operator yang memiliki akses</string>
+    <string name="masukkan_pin_operator">Masukkan PIN Operator</string>
+    <string name="minta_persetujuan">Minta Persetujuan</string>
+    <string name="pesanan">Pesanan</string>
+    <string name="rekap_per_produk">Rekap per Produk</string>
 
 </resources>

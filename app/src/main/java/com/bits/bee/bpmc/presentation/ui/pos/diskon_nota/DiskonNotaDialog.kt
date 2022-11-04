@@ -9,9 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.databinding.DialogDiskonNotaBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
+import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.edit_item.EditItemFragmentDirections
+import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,12 +33,23 @@ class DiskonNotaDialog(
     private val mViewModel : MainViewModel by activityViewModels()
 
     override fun initComponents() {
+        viewModel.loadData()
         binding.apply {
+            findNavController().currentBackStackEntry?.savedStateHandle?.apply {
+                getLiveData<Boolean>(BPMConstants.ACS_DISC_MASTER).observe(viewLifecycleOwner) {
+                    viewModel.state.isEditDisc = it
+                    etDiskon.requestFocus()
+                }
+            }
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
+            etDiskon.setOnFocusChangeListener { _, b ->
+                if(b)
+                    viewModel.onDiscFocus()
+            }
             btnBatal.setOnClickListener {
                 dismiss()
             }
@@ -55,6 +70,15 @@ class DiskonNotaDialog(
                         is DiskonNotaViewModel.UIEvent.RequestDiskonNota -> {
                             mViewModel.onUpdateDiskonNota(it.diskon)
                             dismiss()
+                        }
+                        DiskonNotaViewModel.UIEvent.NavigateToHakAkses -> {
+                            val dialog = TidakAdaAksesDialog {
+                                it.dismiss()
+                                val action = DiskonNotaDialogDirections.actionGlobalHakAksesFragment(BPMConstants.ACS_PRICE_EDIT)
+                                findNavController().navigate(action)
+                            }
+
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }

@@ -67,7 +67,7 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         getUserByIdUseCase.invoke(state.activePosses!!.userId).collect {
             updateState(
                 state.copy(
-                    user = it.data
+                    user = it
                 )
             )
         }

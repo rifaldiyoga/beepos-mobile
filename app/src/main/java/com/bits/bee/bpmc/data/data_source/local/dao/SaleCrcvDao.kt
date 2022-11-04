@@ -17,4 +17,7 @@ interface SaleCrcvDao : BaseDao<SaleCrcvEntity>{
     @Query("SELECT * FROM salecrcvs where sale = :id")
     fun getSalecrcvBySale(id: Int): List<SaleCrcvEntity>
 
+    @Query("SELECT a.* FROM salecrcvs a JOIN sale b ON b.id = a.sale where b.posses_id = :id AND a.rcvtype_code = :type AND b.isvoid = 0")
+    fun getSalecrcvBySale(id: Int, type : String): List<SaleCrcvEntity>
+
 }

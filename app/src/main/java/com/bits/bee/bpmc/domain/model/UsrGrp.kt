@@ -9,10 +9,10 @@ import java.util.*
  */
 @Parcelize
 data class UsrGrp (
-    var id : Int,
+    var id : Int?,
     var usrCode : String,
     var disabled : Boolean,
     var grpId : Int,
-    var bpName : String,
+    var usrId : String,
     var updatedAt : Date
 ) : Parcelable

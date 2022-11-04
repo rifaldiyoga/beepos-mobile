@@ -10,5 +10,6 @@ data class DetailTransaksiPenjualanState (
         var saledList : List<Saled> = mutableListOf(),
         var saleAddOnDList : List<SaleAddOnD> = mutableListOf(),
         var saleCrcvList : List<SaleCrcv> = mutableListOf(),
-        var crc: Crc? = null
+        var crc: Crc? = null,
+        var isAllowVoid : Boolean = true
 )

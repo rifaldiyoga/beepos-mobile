@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -58,11 +59,14 @@ class SettingListFragment : AbstractListDetailFragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            val orientasi = viewModel.posPreferences.first().orientasi
+            if(orientasi == BPMConstants.SCREEN_LANDSCAPE)
+                viewModel.isPageChange = true
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, TwoPaneOnBackPressedCallback(slidingPaneLayout))
-            if(viewModel.posPreferences.first().orientasi == BPMConstants.SCREEN_LANDSCAPE) {
-                val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-                toolbar.setNavigationOnClickListener {
-                    if (slidingPaneLayout.isSlideable) {
+            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+            toolbar.setNavigationOnClickListener {
+                if(orientasi == BPMConstants.SCREEN_POTRAIT) {
+                    if (viewModel.isPageChange) {
                         if (map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
                             slidingPaneLayout.closePane()
                         else
@@ -73,10 +77,14 @@ class SettingListFragment : AbstractListDetailFragment() {
                         else
                             detailPaneNavHostFragment.navController.popBackStack()
                     }
+                } else {
+                    if (map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id))
+                        findNavController().popBackStack()
+                    else
+                        detailPaneNavHostFragment.navController.popBackStack()
                 }
             }
         }
-
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
     }
 
@@ -105,12 +113,13 @@ class SettingListFragment : AbstractListDetailFragment() {
         )
         slidingPaneLayout.open()
         viewModel.isPageChange = true
+        setToolbarTitle(map.filterValues { it == destinationId }.keys.first())
     }
 
     inner class TwoPaneOnBackPressedCallback(
         private val slidingPaneLayout: SlidingPaneLayout,
     ) : OnBackPressedCallback(
-        if(!slidingPaneLayout.isSlideable) true else viewModel.isPageChange
+        viewModel.isPageChange
     ), SlidingPaneLayout.PanelSlideListener {
 
         init {
@@ -133,7 +142,6 @@ class SettingListFragment : AbstractListDetailFragment() {
 
         override fun onPanelSlide(panel: View, slideOffset: Float) {
 
-
         }
 
         override fun onPanelOpened(panel: View) {
@@ -144,6 +152,7 @@ class SettingListFragment : AbstractListDetailFragment() {
             if(slidingPaneLayout.isSlideable && map.values.contains(detailPaneNavHostFragment.navController.currentDestination?.id)) {
                 isEnabled = false
                 viewModel.isPageChange = false
+                setToolbarTitle(getString(R.string.pengaturan))
             }
         }
     }
@@ -158,6 +167,10 @@ class SettingListFragment : AbstractListDetailFragment() {
             "Bantuan" to R.id.detailMenuHelpFragment,
             "Keluar" to -1
         )
+    }
+
+    fun setToolbarTitle(title : String){
+        (requireActivity() as AppCompatActivity).supportActionBar?.let{it.title = title}
     }
 
 }

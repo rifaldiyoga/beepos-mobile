@@ -54,6 +54,8 @@ class DownloadViewModel @Inject constructor (
         downloadItemVariant()
         downloadPromo()
         downloadPromoMulti()
+        downloadUsrGrp()
+        downloadGrpPrv()
 //        downloadReg()
         onFinsihDownload()
     }
@@ -701,6 +703,46 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
+    private suspend fun downloadUsrGrp()  {
+        di.getLatestUsrGrpUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Usr Grp")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Usr Grp")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadGrpPrv()  {
+        di.getLatestGrpPrvUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Usr Grp")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Usr Grp")
+                    )
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+        }
+    }
+
     private suspend fun downloadReg()  {
         di.getLatestRegUseCase().collect {
             when(it.status){
@@ -720,7 +762,6 @@ class DownloadViewModel @Inject constructor (
             }
         }
     }
-
 
     fun onFinsihDownload() = viewModelScope.launch{
         eventChannel.send(UIEvent.FinishDownload)

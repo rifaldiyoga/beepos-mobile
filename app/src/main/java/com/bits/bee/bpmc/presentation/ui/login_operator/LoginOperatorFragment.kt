@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginPinBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.info_akun.InfoAkunDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
@@ -40,8 +41,6 @@ class LoginOperatorFragment(
     private val viewModel : LoginOperatorViewModel by viewModels()
     private val mViewModel : InitialViewModel by activityViewModels()
 
-
-    private var loginUser = false
     private var mLoginUserStatus:Int = 2
 
     private lateinit var dialog : LoadingDialogHelper
@@ -128,20 +127,21 @@ class LoginOperatorFragment(
                                 binding.tvPinSalah.visible()
                             }
                             LoginOperatorViewModel.UIEvent.RequetWarningPass ->{
-                                val dialog = CustomDialogBuilder.Builder(requireContext())
-                                    .setTitle(getString(R.string.gagal_login))
-                                    .setMessage(getString(R.string.silahkan_login_email_sinkron))
-                                    .setPositiveCallback {
-                                        requireActivity().actionBar?.displayOptions
-                                        viewModel.updateState(
-                                            viewModel.state.copy(
-                                                mTimesWrong = 0
-                                            )
+                                val dialog = DialogBuilderHelper.showDialogInfo(
+                                    requireActivity(),
+                                    getString(R.string.gagal_login),
+                                    getString(R.string.silahkan_login_email_sinkron)
+                                ){
+                                    requireActivity().actionBar?.displayOptions
+                                    viewModel.updateState(
+                                        viewModel.state.copy(
+                                            mTimesWrong = 0
                                         )
-                                    }.build()
+                                    )
+                                }
+
                                 dialog.show(parentFragmentManager, TAG)
                             }
-                            else -> {}
                         }
                     }
                 }

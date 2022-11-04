@@ -609,6 +609,18 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideGrpPrvRepository(salePromoDao: GrpPrvDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : GrpPrvRepository {
+        return GrpPrvRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUsrGrpRepository(salePromoDao: UsrGrpDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : UsrGrpRepository {
+        return UsrGrpRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
     fun provideGopayRepository(apiUtils: ApiUtils) : GopayRepository {
         return GopayRepositoryImpl(apiUtils)
     }

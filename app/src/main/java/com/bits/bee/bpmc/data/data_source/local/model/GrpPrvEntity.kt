@@ -10,7 +10,7 @@ import java.util.*
 data class GrpPrvEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = UPDATE_AT)
     var updatedAt : Date,
     @ColumnInfo(name = OBJ_CODE)

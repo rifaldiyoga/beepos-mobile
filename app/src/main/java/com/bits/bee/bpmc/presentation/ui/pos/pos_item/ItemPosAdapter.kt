@@ -16,7 +16,6 @@ import com.bits.bee.bpmc.utils.ImageUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 /**
  * Created by aldi on 22/04/22.
@@ -28,7 +27,6 @@ open class ItemPosAdapter constructor(
     private val ukuranFont : String = "",
     private val isMultiline : Boolean = false,
     private val isMuatGambar : Boolean = false,
-    private val regRound : Int = 0
 ) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
 
     fun submitSaledList(list : List<Saled>) {
@@ -66,7 +64,7 @@ open class ItemPosAdapter constructor(
                     }.toFloat()
                 }
 
-                tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,item.crcSymbol, CurrencyUtils.formatCurrency(item.price.setScale(regRound, RoundingMode.HALF_UP)))
+                tvHarga.text = binding.root.context.getString(R.string.mata_uang_nominal,item.crcSymbol, CurrencyUtils.formatCurrency(item.price))
 
                 tvHarga.isVisible = !item.isVariant
 

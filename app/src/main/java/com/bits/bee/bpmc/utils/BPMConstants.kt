@@ -51,8 +51,42 @@ interface BPMConstants {
         const val REG_ROUND_DIGITS_ENB = "ROUND_DIGITS_ENB"
         const val REG_ROUND_DOWN_BLW = "ROUND_DOWN_BLW"
         const val REG_CHANNEL_PRICE = "CHANNEL_PRICE"
-
         const val BPM_TYPE_ROUNDING = "ROUNDING"
+
+        // PRIVILLEGE
+        const val PRVSALE = "815005"
+        const val PRVSO = "815002"
+        const val ACS_ENB = "ENB"
+        const val ACS_NEW = "NEW"
+        const val ACS_OPN = "OPN"
+        const val ACS_UPD = "UPD"
+        const val ACS_DEL = "DEL"
+        const val ACS_PRN = "PRN"
+        const val ACS_DISC = "DISC"
+        const val ACS_DISC_MASTER = "DISC_MASTER"
+        const val ACS_TAXINC = "TAXINC"
+        const val ACS_PRICE_EDIT = "PRICE_EDIT"
+        const val BPM_PRIVILEGE_PRICE = "PRICE_EDIT"
+        const val BPM_PRIVILEGE_DISC = "DISC"
+        const val BPM_PRIVILEGE_DISC_MASTER = "DISC_MASTER"
+        const val BPM_PRIVILEGE_OBJ = "845005"
+
+        const val CHAR_ENTER = "\n"
+        const val CHAR_SPACE = " "
+        const val CHAR_DOUBLE_SPACE = "  "
+        const val CHAR_TRIPLE_SPACE = "   "
+        const val CHAR_LONG_SPACE = "     "
+        const val CHAR_DOUBLE_ENTER = "\n\n"
+
+        const val BPM_TAB_SMALL = 5
+        const val BPM_TAB_NORMAL = 3
+        const val BPM_TAB_LARGE = 1
+        const val BPM_TAB_HEADER_SMALL = 9
+        const val BPM_TAB_HEADER_NORMAL_USB = 6
+        const val BPM_TAB_HEADER_NORMAL = 7
+        const val BPM_TAB_HEADER_LARGE = 5
+        const val BPM_TAB_HEADER_LARGE_USB = 3
+
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

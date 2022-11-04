@@ -1,17 +1,35 @@
 package com.bits.bee.bpmc.presentation.ui.pos.diskon_nota
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.helper.PrivilegeHelper
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.edit_item.EditItemViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Created by aldi on 27/06/22.
  */
-class DiskonNotaViewModel : BaseViewModel<DiskonNotaState, DiskonNotaViewModel.UIEvent>() {
+@HiltViewModel
+class DiskonNotaViewModel @Inject constructor(
+    private val privilegeHelper: PrivilegeHelper
+): BaseViewModel<DiskonNotaState, DiskonNotaViewModel.UIEvent>() {
 
     init {
         state = DiskonNotaState()
+    }
+
+    fun loadData() = viewModelScope.launch {
+        state.isEditDisc = privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_DISC_MASTER)
+    }
+
+    fun onDiscFocus() = viewModelScope.launch {
+        if(!state.isEditDisc){
+            eventChannel.send(UIEvent.NavigateToHakAkses)
+        }
     }
 
     fun onTambahClick() = viewModelScope.launch {
@@ -29,6 +47,7 @@ class DiskonNotaViewModel : BaseViewModel<DiskonNotaState, DiskonNotaViewModel.U
 
     sealed class UIEvent {
         data class RequestDiskonNota(val diskon : String) : UIEvent()
+        object NavigateToHakAkses : UIEvent()
     }
 
 }

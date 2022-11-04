@@ -11,13 +11,13 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Cashier (
-    var id : Int,
-    var code : String,
-    var cashierName: String,
-    var branchId : Long,
-    var cashBranchId : Int,
-    var whId : Long,
-    var cashId : Long,
-    var isActive : Boolean,
-    var status : Boolean,
+    var id : Int = -1,
+    var code : String = "",
+    var cashierName: String = "",
+    var branchId : Long = -1,
+    var cashBranchId : Int = -1,
+    var whId : Long = -1,
+    var cashId : Long = -1,
+    var isActive : Boolean = false,
+    var status : Boolean = false,
 ) : Parcelable

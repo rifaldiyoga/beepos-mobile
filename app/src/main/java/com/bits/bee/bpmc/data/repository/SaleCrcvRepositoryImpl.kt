@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -31,6 +32,39 @@ class SaleCrcvRepositoryImpl @Inject constructor(
             val data = saleCrcvDao.getSalecrcvBySale(id).map { SaleCrcvDataMapper.fromDbToDomain(it) }
             emit(data)
         }.flowOn(defDispatcher)
+    }
+
+    override fun getSalecrcvByPosses(possesId: Int, rcvType: String): Flow<List<SaleCrcv>> {
+        return flow {
+            val data = saleCrcvDao.getSalecrcvBySale(possesId, rcvType).map { SaleCrcvDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defDispatcher)
+    }
+
+    override fun getTotalSurchargeByPossesNonCashAll(
+        possesId: Int,
+        termType: String
+    ): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTotalSurchargeByPossesNonCash(
+        possesId: Int,
+        termType: String
+    ): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTotalSurchargeByPossesVoid(possesId: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTotalSurchargeByPosses(possesId: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSurcamt(possesId: Int): Flow<BigDecimal> {
+        TODO("Not yet implemented")
     }
 
 }

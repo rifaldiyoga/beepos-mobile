@@ -38,4 +38,6 @@ data class DownloadInteractor @Inject constructor(
     val getLatestPromoUseCase: GetLatestPromoUseCase,
     val getLatestPromoMultiUseCase: GetLatestPromoMultiUseCase,
     val getLatestRegUseCase: GetLatestRegUseCase,
+    val getLatestUsrGrpUseCase: GetLatestUsrGrpUseCase,
+    val getLatestGrpPrvUseCase: GetLatestGrpPrvUseCase
 )

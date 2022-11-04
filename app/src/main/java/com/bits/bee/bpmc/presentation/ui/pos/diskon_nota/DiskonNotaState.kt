@@ -7,5 +7,6 @@ import java.math.BigDecimal
  */
 data class DiskonNotaState (
     var diskon : String = "",
-    var subtotal : BigDecimal = BigDecimal.ZERO
+    var subtotal : BigDecimal = BigDecimal.ZERO,
+    var isEditDisc : Boolean = true
 )
