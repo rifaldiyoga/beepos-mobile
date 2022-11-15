@@ -33,8 +33,8 @@ class RbSubKategoriAdapter(
             materialRadioButton.isChecked = selectedPosition == holder.absoluteAdapterPosition
             materialRadioButton.setOnClickListener {
                 selectedPosition = holder.absoluteAdapterPosition
-                return@setOnClickListener
-//                this@RbSubKategoriAdapter.notifyDataSetChanged()
+//                return@setOnClickListener
+                this@RbSubKategoriAdapter.notifyDataSetChanged()
             }
         }
     }

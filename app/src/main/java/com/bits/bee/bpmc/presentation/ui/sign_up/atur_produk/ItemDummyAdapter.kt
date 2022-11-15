@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.atur_produk
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -10,8 +11,11 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemProdukDummyBinding
 import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.FileHandlerUtils
 import com.bits.bee.bpmc.utils.ImageUtils
+import java.io.File
 import java.math.BigDecimal
+
 
 /**
  * Created by aldi on 31/08/22.
@@ -63,12 +67,20 @@ class ItemDummyAdapter(private val onItemClick : (ItemDummy) -> Unit) : ListAdap
                 tvHarga.isVisible = model.id != null
 
                 model.id?.let {
-                    imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, model.name))
                     tvNamaItem.text = model.name
                     tvPid.isVisible = model.pid.isNotEmpty()
-                    tvHarga.text = context.getString(R.string.mata_uang_nominal, "Rp.", CurrencyUtils.formatCurrency(
-                        BigDecimal(model.price)
-                    ))
+                    if (model.price.isEmpty()){
+                        tvHarga.text = "0"
+                    }else{
+                        tvHarga.text = context.getString(R.string.mata_uang_nominal, "Rp.", CurrencyUtils.formatCurrency(
+                            BigDecimal(model.price ?: "0")
+                        ))
+                    }
+                    if (model.picPath.isNotEmpty()){
+                        imageItem.setImageBitmap(FileHandlerUtils.checkDirPath(model.picPath))
+                    }else{
+                        imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, model.name))
+                    }
                 } ?: run {
                     tvNamaItem.text = context.getString(R.string.tambah_baru)
                     imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, "+"))

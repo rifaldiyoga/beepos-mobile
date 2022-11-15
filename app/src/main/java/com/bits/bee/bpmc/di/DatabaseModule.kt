@@ -385,4 +385,10 @@ object DatabaseModule {
     fun provideSrepDao(dbHelper: DbHelper): SrepDao{
         return dbHelper.srepDao
     }
+
+    @Provides
+    @Singleton
+    fun provideBrandDao(dbHelper: DbHelper): BrandDao{
+        return dbHelper.brandDao
+    }
 }

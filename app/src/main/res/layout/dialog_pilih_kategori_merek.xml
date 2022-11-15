@@ -66,6 +66,46 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/imgEmpty"
+                android:visibility="gone"
+                android:layout_width="@dimen/size300"
+                android:layout_height="@dimen/size180"
+                android:src="@drawable/image_content_empty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                style="@style/TextDetail"
+                android:visibility="gone"
+                android:id="@+id/textDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:text="@string/data_kas_masuk"
+                android:textSize="@dimen/font12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgEmpty" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTambah"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/size16"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/size14"
+                android:background="@drawable/btn_rect_primary"
+                android:text="@string/tambah_baru"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textDetail"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="@dimen/size0"

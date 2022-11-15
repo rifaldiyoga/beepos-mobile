@@ -58,7 +58,7 @@ class DetailPendapatanDialog(
                                     "Rp", CurrencyUtils.formatCurrency(it.startBal))
                                 tvPemasukan.text = getString(
                                     R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.total ?: BigDecimal.ZERO))
+                                    "Rp", CurrencyUtils.formatCurrency(it.totIn ?: BigDecimal.ZERO))
                                 tvPengeluaran.text = getString(
                                     R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(it.totOut ?: BigDecimal.ZERO))

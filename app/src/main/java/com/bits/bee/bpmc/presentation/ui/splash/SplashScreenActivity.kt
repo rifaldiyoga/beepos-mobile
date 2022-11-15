@@ -48,7 +48,7 @@ class SplashScreenActivity(
     override fun subscribeObservers() {
         lifecycleScope.launchWhenStarted {
             val ori = Utils.getScreenResolution(viewModel.beePreferenceManager, this@SplashScreenActivity)
-            BeePreferenceManager.ORIENTATION = ori
+            BeePreferenceManager.ORIENTATION = BPMConstants.SCREEN_POTRAIT
         }
     }
 

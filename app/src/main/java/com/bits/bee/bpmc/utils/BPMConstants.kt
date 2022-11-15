@@ -1,5 +1,7 @@
 package com.bits.bee.bpmc.utils
 
+import android.os.Build
+import android.os.Environment
 import java.math.MathContext
 import java.math.RoundingMode
 
@@ -51,6 +53,17 @@ interface BPMConstants {
         const val REG_ROUND_DIGITS_ENB = "ROUND_DIGITS_ENB"
         const val REG_ROUND_DOWN_BLW = "ROUND_DOWN_BLW"
         const val REG_CHANNEL_PRICE = "CHANNEL_PRICE"
+        const val BPM_PARENTPATH = "/BPM"
+        const val BPM_PRODUKPATH = "$BPM_PARENTPATH/PRODUK"
+
+        fun getDatapath(): String{
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    .toString()
+            } else {
+                StringBuilder(Environment.getExternalStorageDirectory().absolutePath.toString()).toString()
+            }
+        }
 
         const val BPM_TYPE_ROUNDING = "ROUNDING"
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)

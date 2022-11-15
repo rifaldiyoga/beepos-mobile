@@ -96,24 +96,30 @@ class KasMasukFragment(
                                     it.cashInList?.let {
                                         parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
                                     }
-                                    imgEmpty.visibility = View.GONE
-                                    textDetai.visibility = View.GONE
-                                    btnTambah.visibility = View.GONE
+                                    group3.visibility = View.GONE
+                                    imageView17.visibility = View.GONE
+                                    txtNotFound.visibility = View.GONE
                                     binding.floatBtnTambah.visibility = View.VISIBLE
                                 }else{
                                     sharedViewModel.setListKasIn(data)
                                     it.cashInList?.let {
-                                        if (it.size > 0){
-                                            parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
-                                        }else{
-                                            imageView17.visibility = View.VISIBLE
-                                            textView91.visibility = View.VISIBLE
-                                        }
+                                        parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+//                                        if (it.size > 0){
+//                                            parentKasAdapter.initList(sharedViewModel.state.cashInList!!)
+//                                        }else{
+//                                            imageView17.visibility = View.VISIBLE
+//                                            textView91.visibility = View.VISIBLE
+//                                        }
                                     }
-                                    imgEmpty.visibility = View.VISIBLE
-                                    textDetai.visibility = View.VISIBLE
-                                    btnTambah.visibility = View.VISIBLE
-                                    binding.floatBtnTambah.visibility = View.GONE
+                                    if (sharedViewModel.state.search.length >= 2){
+                                        imageView17.visibility = View.VISIBLE
+                                        txtNotFound.visibility = View.VISIBLE
+                                        group3.visibility = View.GONE
+                                    }
+//                                    else{
+//                                        group3.visibility = View.VISIBLE
+//                                        binding.floatBtnTambah.visibility = View.GONE
+//                                    }
                                 }
                             }
                         }

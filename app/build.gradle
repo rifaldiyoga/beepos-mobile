@@ -151,5 +151,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
+    //take picture
+//    implementation 'com.github.DJSeokHo:EasyPermissionManager:1.0.9'
+
 
 }

@@ -245,6 +245,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lL_satuan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/lL_harga"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/txtSatuan"
+                    style="@style/TextHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/satuan_prd" />
+
+                <EditText
+                    android:id="@+id/etSatuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    android:hint="@string/masukkan_satuan_produk"
+                    app:layout_constraintStart_toStartOf="@+id/textView1"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/btnTambahSatuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -277,7 +303,7 @@
                 android:layout_marginTop="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lL_harga" />
+                app:layout_constraintTop_toBottomOf="@+id/lL_satuan" />
 
             <LinearLayout
                 android:id="@+id/lL_tipe"
@@ -356,6 +382,40 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/lL_merk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lL_grup"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/txtBrand"
+                    style="@style/TextHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/merk_produk" />
+
+                <EditText
+                    android:id="@+id/et_brand_prd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_chevron_down"
+                    android:drawablePadding="5dp"
+                    android:editable="false"
+                    android:inputType="none"
+                    android:hint="@string/pilih_merk_prd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textView6"
                 style="@style/TextHeader"
@@ -364,8 +424,17 @@
                 android:layout_marginTop="@dimen/size24"
                 android:text="@string/foto_prd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lL_grup"
+                app:layout_constraintTop_toBottomOf="@+id/lL_merk"
                 tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:contentDescription="@string/tambah"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"/>
 
             <LinearLayout
                 android:id="@+id/btnAdd_foto"
@@ -378,7 +447,7 @@
                 android:text="@string/btn_lanjut"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6">
+                app:layout_constraintTop_toBottomOf="@+id/ivImage">
 
                 <ImageView
                     android:layout_width="wrap_content"
