@@ -23,6 +23,9 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = 0")
     fun getSaleByPosses(id: Int): List<SaleEntity>
 
+    @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = :isVoid AND termtype = :termType")
+    fun getSaleByPosses(id: Int, isVoid: Boolean, termType : String): List<SaleEntity>
+
     @Query("SELECT COUNT(*) FROM sale WHERE posses_id = :id and isvoid = 0 and draft = 0")
     fun getTotalNota(id: Int): BigDecimal
 

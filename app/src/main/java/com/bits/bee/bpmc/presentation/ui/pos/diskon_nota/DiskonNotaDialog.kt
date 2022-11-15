@@ -74,7 +74,7 @@ class DiskonNotaDialog(
                         DiskonNotaViewModel.UIEvent.NavigateToHakAkses -> {
                             val dialog = TidakAdaAksesDialog {
                                 it.dismiss()
-                                val action = DiskonNotaDialogDirections.actionGlobalHakAksesFragment(BPMConstants.ACS_PRICE_EDIT)
+                                val action = DiskonNotaDialogDirections.actionDiskonNotaDialogToHakAksesFragment(BPMConstants.ACS_PRICE_EDIT)
                                 findNavController().navigate(action)
                             }
 

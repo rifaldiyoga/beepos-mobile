@@ -11,6 +11,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
 import com.bits.bee.bpmc.databinding.ActivitySplashScreenBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -39,6 +40,8 @@ class SplashScreenActivity(
                 finish()
             }, 3000)
         binding.splashscreenTvVersion.text = BuildConfig.VERSION_NAME
+        BluetoothConnectService.statusPrinter
+        startService(Intent( this, BluetoothConnectService::class.java))
     }
 
     override fun subscribeListeners() {
@@ -49,6 +52,8 @@ class SplashScreenActivity(
         lifecycleScope.launchWhenStarted {
             val ori = Utils.getScreenResolution(viewModel.beePreferenceManager, this@SplashScreenActivity)
             BeePreferenceManager.ORIENTATION = ori
+
+            viewModel.bluetoothConnectService.onEventConnectAllPrinter(0)
         }
     }
 

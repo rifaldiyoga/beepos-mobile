@@ -2,14 +2,18 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import com.bits.bee.bpmc.databinding.ItemBluetoothBinding
 import com.bits.bee.bpmc.domain.model.Printer
+import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
+import javax.inject.Inject
 
 class PrinterAdapter constructor(
     private val listPrinter: List<Printer>,
-    private val mListener: PilihPrinterI
+    private val mListener: PilihPrinterI,
+    private val bluetoothConnectService: BluetoothConnectService
 ): RecyclerView.Adapter<PrinterAdapter.ViewHolder>() {
 
     private var mList: List<Printer> = mutableListOf()
@@ -35,6 +39,9 @@ class PrinterAdapter constructor(
             itemListClPrinter.setOnClickListener {
                 mListener.onItemClick(printer)
             }
+            val isConnected = bluetoothConnectService.getMapPrinterByAddress(printer.address)?.isConnected ?: false
+            clPrinterTidakTerhubung.isVisible = !isConnected
+            clPrinterTerhubung.isVisible = isConnected
         }
     }
 

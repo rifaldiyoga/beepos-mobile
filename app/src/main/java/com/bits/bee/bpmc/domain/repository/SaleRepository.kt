@@ -50,30 +50,5 @@ interface SaleRepository {
 
     fun getSaleByPossesGroupByBp(id: Int): Flow<List<Sale>>
 
-    fun sumTotalChannel(id: Int, channelId : Int): Flow<BigDecimal>
-
-    fun countTotalChannel(id: Int, channelId : Int): Flow<BigDecimal>
-
-    fun sumTotalPaidAll(id: Long): Flow<BigDecimal>
-
-    fun sumTotalPaidAllChannel(id: Long, channelId: Int): Flow<BigDecimal>
-
-    fun sumTotalRoundingPaidAll(id: Long): Flow<BigDecimal>
-
-    fun sumTotalPaidDebitAll(id: Int): Flow<BigDecimal>
-
-    fun sumTotalPaidKreditAll(id: Int): Flow<BigDecimal>
-
-    fun sumTotalPaidGopayAll(id: Int): Flow<BigDecimal>
-
-    fun sumTotalVoidNonCash(id: Int): Flow<BigDecimal>
-
-    fun sumTotalRoundingNonCash(id: Int): Flow<BigDecimal>
-
-    fun sumTotalCash(id: Int): Flow<BigDecimal>
-
-    fun sumTotalCashRounding(id: Int): Flow<BigDecimal>
-
-    fun sumTotalVoidCash(id: Int): Flow<BigDecimal>
 
 }

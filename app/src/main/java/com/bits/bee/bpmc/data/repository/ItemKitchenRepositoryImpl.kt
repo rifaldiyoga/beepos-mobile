@@ -4,6 +4,7 @@ import com.bits.bee.bpmc.data.data_source.local.dao.ItemKitchenDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemKitchenResponse
 import com.bits.bee.bpmc.domain.mapper.ItemKitchenDataMapper
+import com.bits.bee.bpmc.domain.mapper.PrinterDataMapper
 import com.bits.bee.bpmc.domain.model.ItemKitchen
 import com.bits.bee.bpmc.domain.repository.ItemKitchenRepository
 import com.bits.bee.bpmc.utils.ApiResponse
@@ -11,6 +12,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -42,6 +45,11 @@ class ItemKitchenRepositoryImpl @Inject constructor(
 
         }.getAsFlow()
     }
+
+    override fun getByPrinterKitchen(id: Int): Flow<List<ItemKitchen>> = flow {
+        val data = itemKitchenDao.getItemKitchen()
+        emit(data.map { ItemKitchenDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
 
 
 }

@@ -78,6 +78,9 @@ interface ItemDao : BaseDao<ItemEntity> {
     @Query("SELECT * FROM item WHERE active = 1 AND ispos = 1 AND itemgrp1_id = :itemGrpId")
     fun getActiveItemListByItemGrp(itemGrpId: Int) : List<ItemEntity>
 
+    @Query("SELECT a.* from item a JOIN itemgrp b ON a.itemgrp1_id = b.id JOIN printer_kitchend c ON c.kitchen_id = b.id JOIN printer_kitchen d ON d.id = c.printer_kitchen_id WHERE d.id = :id")
+    fun getItemByPrinterKitchen(id: Int) : List<ItemEntity>
+
     @Query("SELECT * FROM item where name1 like '%' || :query || '%' and active = 1")
     fun cariItems(query: String): List<ItemEntity>
 

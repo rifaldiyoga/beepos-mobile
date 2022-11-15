@@ -8,13 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailTransaksiPenjualanBinding
+import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
+import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -25,6 +28,7 @@ import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by aldi on 23/06/22.
@@ -43,6 +47,9 @@ class DetailTransaksiPenjualanFragment(
     private lateinit var detailAdapter : InvoiceAdapter
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+
+    @Inject
+    lateinit var printerHelper: PrinterHelper
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -78,7 +85,11 @@ class DetailTransaksiPenjualanFragment(
     }
 
     override fun subscribeListeners() {
-
+        binding.apply {
+            btnCetak.setOnClickListener {
+                viewModel.onClickPrint()
+            }
+        }
     }
 
     override fun subscribeObservers() {
@@ -136,6 +147,13 @@ class DetailTransaksiPenjualanFragment(
                         viewModel.state.sale?.let {
                             parentViewModel.updateActiveSale(it.copy(isVoid = true))
                         }
+                    }
+                    DetailTransaksiPenjualanViewModel.UIEvent.NavigateToHapusTransaksi -> {
+                        val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+                        findNavController().navigate(action)
+                    }
+                    DetailTransaksiPenjualanViewModel.UIEvent.ReqPrint -> {
+                        printerHelper.printInvoiceDuplicate(requireActivity(), viewModel.state.sale!!)
                     }
                 }
             }

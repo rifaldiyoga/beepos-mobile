@@ -52,6 +52,9 @@ class LoginFragment constructor (
                                 val value = viewModel.state
                                 val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
                                 findNavController().navigate(action)
+                                viewModel.updateState(
+                                    LoginViewState()
+                                )
                             }
                         }
                     }

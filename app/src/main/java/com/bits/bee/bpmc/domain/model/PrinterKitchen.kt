@@ -7,7 +7,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PrinterKitchen(
-    var id : Int = 0,
+    var id : Int? = null,
     var kitchenName : String,
     var printerId: Int = 0,
+    var kitchenList : MutableList<Kitchen> = mutableListOf()
 ): Parcelable

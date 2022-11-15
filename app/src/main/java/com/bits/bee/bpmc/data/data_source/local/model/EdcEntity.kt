@@ -5,12 +5,6 @@ import androidx.room.ForeignKey.CASCADE
 
 @Entity(tableName = EdcEntity.TBL_NAME,
     foreignKeys = [
-        ForeignKey(
-            entity = BranchEntity::class,
-            parentColumns = [BranchEntity.ID],
-            childColumns = [EdcEntity.BRANCH_ID],
-            onDelete = CASCADE
-        )
     ]
 )
 data class EdcEntity(

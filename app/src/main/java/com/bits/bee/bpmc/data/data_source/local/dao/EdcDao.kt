@@ -17,4 +17,7 @@ interface EdcDao : BaseDao<EdcEntity>{
     @Query("SELECT * FROM edc WHERE active = 1 AND (branch_id = :branchId OR branch_id IS NULL)")
     fun getActiveEdc(branchId : Int) : List<EdcEntity>
 
+    @Query("DELETE FROM edc")
+    suspend fun deleteAll()
+
 }

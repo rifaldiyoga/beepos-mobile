@@ -14,7 +14,7 @@ data class CmpEntity (
     @ColumnInfo(name = ID)
     var id : Int?,
     @ColumnInfo(name = CITY_CODE)
-    var cityCode : String,
+    var cityCode : String?,
     @ColumnInfo(name = CRC_ID)
     var crcId : Int,
     @ColumnInfo(name = NAME)
@@ -26,7 +26,7 @@ data class CmpEntity (
     @ColumnInfo(name = FAX)
     var fax : String,
     @ColumnInfo(name = ZIPCODE)
-    var zipCode : String,
+    var zipCode : String?,
     @ColumnInfo(name = STARTDATE)
     var startDate : String,
     @ColumnInfo(name = FISCALYEAR)
@@ -36,11 +36,11 @@ data class CmpEntity (
     @ColumnInfo(name = OWNERTAXREGNO)
     var ownerTaxRegNo : String?,
     @ColumnInfo(name = FORMSERNO)
-    var formSerno : String,
+    var formSerno : String?,
     @ColumnInfo(name = TAXREGNO)
-    var taxRegNo : String,
+    var taxRegNo : String?,
     @ColumnInfo(name = VATREGNO)
-    var vatRegNo : String,
+    var vatRegNo : String?,
     @ColumnInfo(name = COSSTYPE)
     var cossType : String,
 ) {

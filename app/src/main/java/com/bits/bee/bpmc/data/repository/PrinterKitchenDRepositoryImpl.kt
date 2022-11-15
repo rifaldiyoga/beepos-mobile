@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.data.repository
 import com.bits.bee.bpmc.data.data_source.local.dao.PrinterKitchenDDao
 import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenDEntity
 import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDDataMapper
+import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDataMapper
 import com.bits.bee.bpmc.domain.model.PrinterKitchenD
 import com.bits.bee.bpmc.domain.repository.PrinterKitchenDRepository
 import com.bits.bee.bpmc.utils.Resource
@@ -17,10 +18,10 @@ class PrinterKitchenDRepositoryImpl @Inject constructor(
     private val printerKitchenDDao: PrinterKitchenDDao,
     private val ioDispatcher: CoroutineDispatcher
 ): PrinterKitchenDRepository {
-    override fun getPrinterKitchen(id: Int): Flow<Resource<List<PrinterKitchenD>>> {
+    override fun getPrinterKitchen(id: Int): Flow<List<PrinterKitchenD>> {
         return flow{
             val data = printerKitchenDDao.getPrinterKitchen(id).map { PrinterKitchenDDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
 
         }.flowOn(ioDispatcher)
     }
@@ -31,9 +32,11 @@ class PrinterKitchenDRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addUpdatePrinterKitchenD(printerKitchenD: PrinterKitchenDEntity) {
-        withContext(ioDispatcher){
-            printerKitchenDDao.insertSingle(printerKitchenD)
+    override suspend fun addUpdatePrinterKitchenD(printerKitchenD: PrinterKitchenD) : Long{
+        var id : Long
+        withContext(ioDispatcher) {
+            id = printerKitchenDDao.insertSingle(PrinterKitchenDDataMapper.fromDomainToDb(printerKitchenD))
         }
+        return id
     }
 }

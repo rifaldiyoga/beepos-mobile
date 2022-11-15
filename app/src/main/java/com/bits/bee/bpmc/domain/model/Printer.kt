@@ -12,9 +12,9 @@ data class Printer(
     var printerName : String = "",
     var address : String = "",
     var tipe : Int? = null,
-    var size : String = "",
+    var size : String = "58 mm",
     var isReceipt : Boolean = true,
     var isKitchen : Boolean = false,
-    var isReport : Boolean = false,
+    var isReport : Boolean = true,
     var isChecker : Boolean = false,
 ): Parcelable

@@ -75,14 +75,14 @@ class AnalisaSesiViewModel @Inject constructor(
         }
 
         getSaleByPossesUseCase.invoke(state.posses!!.possesId!!).collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        saleList = it
-                    )
+
+            updateState(
+                state.copy(
+                    saleList = it
                 )
-            }
+            )
         }
+
 
         getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(
             state.posses!!.trxDate.time,

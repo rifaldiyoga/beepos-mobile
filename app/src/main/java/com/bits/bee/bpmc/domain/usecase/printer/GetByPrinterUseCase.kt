@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.printer
 
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenEntity
 import com.bits.bee.bpmc.domain.model.PrinterKitchen
 import com.bits.bee.bpmc.domain.repository.PrinterKitchenRepository
 import com.bits.bee.bpmc.utils.Resource
@@ -10,7 +9,7 @@ import javax.inject.Inject
 class GetByPrinterUseCase @Inject constructor(
     private val printerKitchenRepo: PrinterKitchenRepository
 ) {
-    operator fun invoke(id: Int): Flow<Resource<List<PrinterKitchen>>>{
+    operator fun invoke(id: Int): Flow<List<PrinterKitchen>>{
         return printerKitchenRepo.getByIdPrinter(id)
     }
 }

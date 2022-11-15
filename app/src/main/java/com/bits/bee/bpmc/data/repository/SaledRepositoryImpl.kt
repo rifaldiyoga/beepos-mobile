@@ -86,11 +86,17 @@ class SaledRepositoryImpl @Inject constructor(
     }
 
     override fun getSaledByPossesChannel(possesId: Int, channelId: Int): Flow<List<Saled>> {
-        TODO("Not yet implemented")
+        return flow{
+            val data = saledDao.getSaledByPossesChannel(possesId, channelId).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
     }
 
     override fun getSaledByPosses(possesId: Int): Flow<List<Saled>> {
-        TODO("Not yet implemented")
+        return flow{
+            val data = saledDao.getSaledByPosses(possesId).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
     }
 
     override fun getRekapSaledDiskon(
@@ -98,7 +104,10 @@ class SaledRepositoryImpl @Inject constructor(
         itemId: Int,
         channelId: Int
     ): Flow<List<Saled>> {
-        TODO("Not yet implemented")
+        return flow{
+            val data = saledDao.getRekapSaledDiskon(possesId,itemId, channelId).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
     }
 
     override fun getRekapSaledDiskon(
@@ -106,6 +115,9 @@ class SaledRepositoryImpl @Inject constructor(
         itemId: Int,
         total: BigDecimal
     ): Flow<List<Saled>> {
-        TODO("Not yet implemented")
+        return flow{
+            val data = saledDao.getRekapSaledDiskonNumerik(possesId, itemId, total).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
     }
 }

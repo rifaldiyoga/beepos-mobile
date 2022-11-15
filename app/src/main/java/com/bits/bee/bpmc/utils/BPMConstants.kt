@@ -87,6 +87,19 @@ interface BPMConstants {
         const val BPM_TAB_HEADER_LARGE = 5
         const val BPM_TAB_HEADER_LARGE_USB = 3
 
+        const val BPM_FONT_REGULAR = "REGULAR"
+        const val BPM_ALIGN_LEFT = "LEFT"
+        const val BPM_ALIGN_CENTER = "CENTER"
+        const val BPM_ALIGN_RIGHT = "RIGHT"
+
+        const val BPM_DEFAULT_THREAD_TIMEOUT: Long = 100000
+        const val BPM_INIT_DEFAULT_LOGO = "logo_bpmc_01"
+
+        const val BPM_PRINTER_BLUETOOH = 0
+        const val BPM_PRINTER_WIFI = 1
+        const val BPM_PRINTER_USB = 2
+
+
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
     }
 }

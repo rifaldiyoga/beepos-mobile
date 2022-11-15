@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding
 import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingPrinterFragment(
@@ -22,13 +24,10 @@ class SettingPrinterFragment(
 
     private val viewModel : SettingPrinterViewModel by viewModels()
     private lateinit var printerAdapter: PrinterAdapter
+    @Inject
+    lateinit var bluetoothConnectService: BluetoothConnectService
 
     override fun initComponents() {
-//        printerAdapter = PrinterAdapter()
-//        binding.apply {
-//            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
-//            rvListPrinter.adapter = printerAdapter
-//        }
     }
 
     override fun subscribeListeners() {
@@ -59,11 +58,9 @@ class SettingPrinterFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadPrinter.collect {
-                    it.data?.let { data ->
-                        viewModel.loadFromState(data)
-                        initAdapter(viewModel.get())
-                        validateAdapter()
-                    }
+                    viewModel.loadFromState(it)
+                    initAdapter(viewModel.get())
+                    validateAdapter()
                 }
             }
         }
@@ -89,18 +86,11 @@ class SettingPrinterFragment(
                 findNavController().navigate(action)
             }
 
-        })
+        }, bluetoothConnectService)
         binding.apply {
             rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
             rvListPrinter.adapter = printerAdapter
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        validateAdapter()
-////        printerAdapter.setPrinterList(viewModel.get())
-//    }
-
 
 }

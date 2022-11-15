@@ -10,5 +10,4 @@ class PrinterInteractor @Inject constructor(
     val deletePrinterKitchenD: DeletePrinterKitchenDDUseCase,
     val deletePrinterKit: DeletePrinterKitchenUseCase,
     val loadPrinter: LoadPrinterUseCase,
-    val getItemgrpKitchen: GetItemgrpKitchenUseCase
 )

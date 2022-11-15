@@ -94,7 +94,7 @@ object AppModule {
     fun providePrinterRepository(
         printerDao: PrinterDao,
         defaultDispatcher: CoroutineDispatcher
-    ): PrinterRespository {
+    ): PrinterRepository {
         return PrinterRepositoryImpl(printerDao, defaultDispatcher)
     }
 

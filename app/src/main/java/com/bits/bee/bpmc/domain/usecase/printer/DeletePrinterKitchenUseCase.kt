@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.printer
 
-import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDataMapper
 import com.bits.bee.bpmc.domain.model.PrinterKitchen
 import com.bits.bee.bpmc.domain.repository.PrinterKitchenRepository
 import javax.inject.Inject
@@ -8,7 +7,7 @@ import javax.inject.Inject
 class DeletePrinterKitchenUseCase @Inject constructor(
     private val printerKitchenRepo: PrinterKitchenRepository
 ) {
-    suspend operator fun invoke(printerKitchen: PrinterKitchen){
-        printerKitchenRepo.delete(PrinterKitchenDataMapper.fromDomainToDb(printerKitchen))
+    suspend operator fun invoke(printerKitchen: PrinterKitchen) {
+        printerKitchenRepo.delete(printerKitchen)
     }
 }

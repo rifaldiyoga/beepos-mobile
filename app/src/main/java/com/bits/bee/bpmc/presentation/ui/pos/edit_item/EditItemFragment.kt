@@ -50,7 +50,6 @@ class EditItemFragment(
     private val mViewModel : MainViewModel by activityViewModels()
 
     override fun initComponents() {
-        viewModel.loadData()
         arguments?.let { bundle ->
             val saled = bundle.getParcelable<Saled>("saled")
             saled?.let {
@@ -67,6 +66,9 @@ class EditItemFragment(
                 )
                 viewModel.loadUnit(it.itemId, it.unitId)
                 setToolbarTitle(it.name)
+
+                viewModel.loadData()
+                viewModel.loadUnit(it.itemId)
             }
             val stock = bundle.getParcelable<Stock>("pid")
             stock?.let {
@@ -97,7 +99,6 @@ class EditItemFragment(
 
             mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
                 state.saled?.let { saled ->
-
 
                     val addOnAdapter = EditItemAddOnAdapter(saled.qty)
                     rvAddon.apply {
@@ -274,7 +275,7 @@ class EditItemFragment(
                         is EditItemViewModel.UIEvent.NavigateToHakAkses -> {
                             val dialog = TidakAdaAksesDialog {
                                 it.dismiss()
-                                val action = EditItemFragmentDirections.actionGlobalHakAksesFragment(event.accType)
+                                val action = EditItemFragmentDirections.actionEditItemDialogToHakAksesFragment(event.accType)
                                 findNavController().navigate(action)
                             }
 

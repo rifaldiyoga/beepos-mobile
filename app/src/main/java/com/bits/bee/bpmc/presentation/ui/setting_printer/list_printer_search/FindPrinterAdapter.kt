@@ -43,7 +43,7 @@ class FindPrinterAdapter constructor(
 
     class DiffCallback : DiffUtil.ItemCallback<PrinterDevice>(){
         override fun areItemsTheSame(oldItem: PrinterDevice, newItem: PrinterDevice): Boolean {
-            return oldItem == newItem
+            return oldItem.address == newItem.address
         }
 
         override fun areContentsTheSame(

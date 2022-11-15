@@ -9,7 +9,6 @@ import android.content.*
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -87,7 +86,6 @@ class ListPrinterFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.rvListPrinter.isVisible = it.deviceList.isNotEmpty()
-                        binding.clListPBar.isVisible = it.deviceList.isEmpty()
                         binding.tvJmlPrinter.text = "${it.deviceList.size} perangkat ditemukan"
                         findPrinterAdapter.submitList(it.deviceList)
 
@@ -117,7 +115,6 @@ class ListPrinterFragment(
         mBluetoothAdapter.startDiscovery()
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         requireContext().registerReceiver(receiver, filter)
-        binding.clListPBar.visibility = View.VISIBLE
 
         mPairedDevices = mBluetoothAdapter.bondedDevices
         if (mPairedDevices.isNotEmpty()) {
@@ -129,8 +126,6 @@ class ListPrinterFragment(
                     deviceList = pairedList
                 )
             )
-        } else {
-            Toast.makeText(requireContext(), "bluetooth device not found", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -146,18 +141,15 @@ class ListPrinterFragment(
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             Log.d(ContentValues.TAG, "onReceive: ACTION FOUND.")
-            if (BluetoothDevice.ACTION_FOUND == action){
+            if (BluetoothDevice.ACTION_FOUND == action) {
                 val device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-//                checkBTPermission()
+                checkBTPermission()
                 if (device != null && device.bondState != BluetoothDevice.BOND_BONDED){
-                    if (device.name != null) {
-                        val deviceList : MutableList<PrinterDevice> = mutableListOf()
-                        deviceList.addAll(viewModel.state.deviceList)
-                        viewModel.updateState(
-                            viewModel.state.copy(
-                                deviceList = deviceList
-                            )
-                        )
+                    if (device.address != null) {
+                        if(viewModel.state.deviceList.firstOrNull { it.address == device.address } == null) {
+                            Toast.makeText(requireActivity(), "Found printer ${device.name} ${device.address}", Toast.LENGTH_LONG).show()
+                        }
+                        viewModel.addDiscoverPrint(device.name, device.address)
                     }
                     Log.d(ContentValues.TAG,"onReceive device: " + device.name + ": " + device.address+" "+device+"List find: "+mFindPrinterState)
                 }
@@ -196,6 +188,7 @@ class ListPrinterFragment(
 
     override fun onDestroy() {
         super.onDestroy()
+        requireContext().unregisterReceiver(receiver)
         requireContext().unregisterReceiver(receiver2)
     }
 }

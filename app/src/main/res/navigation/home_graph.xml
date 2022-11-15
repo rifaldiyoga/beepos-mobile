@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_transaksiPenjualanFragment_to_detailTransaksiPenjualanFragment"
             app:destination="@id/detailTransaksiPenjualanFragment" />
+        <action
+            android:id="@+id/action_transaksiPenjualanFragment_to_hapusTransaksiDialog"
+            app:destination="@id/hapusTransaksiDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_detail_tutup_kasir"
@@ -238,5 +241,26 @@
         tools:layout="@layout/fragment_insight_kelola_produk"
         android:name="com.bits.bee.bpmc.presentation.ui.insight_kelola_produk.InsightKelolaProdukFragment"
         android:label="@string/kelola_produk" />
+    <dialog
+        tools:layout="@layout/fragment_hak_akses"
+        android:id="@+id/hakAksesFragment2"
+        android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
+        android:label="HakAksesFragment" >
+        <argument
+            android:name="acsType"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        tools:layout="@layout/dialog_hapus_transaksi"
+        android:id="@+id/hapusTransaksiDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.hapus_transaksi.HapusTransaksiDialog"
+        android:label="HapusTransaksiDialog" >
+        <argument
+            android:name="sale"
+            app:argType="com.bits.bee.bpmc.domain.model.Sale" />
+        <action
+            android:id="@+id/action_hapusTransaksiDialog_to_hakAksesFragment2"
+            app:destination="@id/hakAksesFragment2" />
+    </dialog>
 
 </navigation>

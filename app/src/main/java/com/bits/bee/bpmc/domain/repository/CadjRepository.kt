@@ -35,8 +35,4 @@ interface CadjRepository {
 
     fun getCashInOut(cashId : Long) : Flow<List<Cadj>>
 
-    fun getCashInEnd(cashId : Long) : Flow<BigDecimal>
-
-    fun getCashOutEnd(cashId : Long) : Flow<BigDecimal>
-
 }

@@ -1,10 +1,11 @@
 package com.bits.bee.bpmc.domain.model
 
-import androidx.room.ColumnInfo
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenDEntity
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class PrinterKitchenD(
-    var id : Int = 0,
+    var id : Int? = null,
     var printerKitchenId: Int,
     var kitchenId: Int
-)
+) : Parcelable

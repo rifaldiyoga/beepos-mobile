@@ -35,13 +35,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
         android:text="@string/kembali_4_500_dibayar_tunai"
-        app:layout_constraintBottom_toTopOf="@+id/button7"
+        app:layout_constraintBottom_toTopOf="@+id/btnPrint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView43" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/btnPrint"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/size16"

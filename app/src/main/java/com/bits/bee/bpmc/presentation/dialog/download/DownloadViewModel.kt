@@ -23,6 +23,7 @@ class DownloadViewModel @Inject constructor (
 ) : BaseViewModel<DownloadState, DownloadViewModel.UIEvent>() {
 
     private var page : Int = 1
+    private val progressPercent = 100 / 25
 
     init {
         state = DownloadState()
@@ -56,7 +57,6 @@ class DownloadViewModel @Inject constructor (
         downloadPromoMulti()
         downloadUsrGrp()
         downloadGrpPrv()
-//        downloadReg()
         onFinsihDownload()
     }
 
@@ -71,7 +71,10 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     it.data?.let { _ ->
                         updateState(
-                            state.copy(status = "Finish Downloading Item Group")
+                            state.copy(
+                                status = "Finish Downloading Item Group",
+                                progress = state.progress + progressPercent
+                            )
                         )
                     }
                 }
@@ -93,7 +96,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Channel")
+                        state.copy(status = "Finish Downloading Channel",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -114,7 +118,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Bp")
+                        state.copy(status = "Finish Downloading Bp",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -134,7 +139,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Price Lvl")
+                        state.copy(status = "Finish Downloading Price Lvl",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -154,7 +160,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Item")
+                        state.copy(status = "Finish Downloading Item",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -174,7 +181,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading City")
+                        state.copy(status = "Finish Downloading City",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -192,7 +200,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Operator")
+                        state.copy(status = "Finish Downloading Operator",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -244,7 +253,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Crc")
+                        state.copy(status = "Finish Downloading Crc",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -346,7 +356,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Price")
+                        state.copy(status = "Finish Downloading Price",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -366,7 +377,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Item Branch")
+                        state.copy(status = "Finish Downloading Item Branch",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -386,7 +398,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Item Sale Tax")
+                        state.copy(status = "Finish Downloading Item Sale Tax",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -406,7 +419,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Tax")
+                        state.copy(status = "Finish Downloading Tax",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -426,7 +440,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Edc")
+                        state.copy(status = "Finish Downloading Edc",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -446,7 +461,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Edc Surc")
+                        state.copy(status = "Finish Downloading Edc Surc",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -466,7 +482,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Cc Type")
+                        state.copy(status = "Finish Downloading Cc Type",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -486,7 +503,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Pmtd")
+                        state.copy(status = "Finish Downloading Pmtd",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -506,7 +524,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Unit")
+                        state.copy(status = "Finish Downloading Unit",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -528,7 +547,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading AddOn")
+                        state.copy(status = "Finish Downloading AddOn",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -548,7 +568,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Selection")
+                        state.copy(status = "Finish Downloading Selection",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -568,7 +589,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading SelectionD")
+                        state.copy(status = "Finish Downloading SelectionD",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -590,7 +612,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading AddOnD")
+                        state.copy(status = "Finish Downloading AddOnD",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -612,7 +635,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading ItemAddOn")
+                        state.copy(status = "Finish Downloading ItemAddOn",
+                            progress = state.progress + progressPercent)
                     )
                     downloadVariant()
                 }
@@ -633,7 +657,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Variant")
+                        state.copy(status = "Finish Downloading Variant",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -653,7 +678,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading ItemVariant")
+                        state.copy(status = "Finish Downloading Item Variant",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -673,7 +699,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Promo")
+                        state.copy(status = "Finish Downloading Promo",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -693,7 +720,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Promo Multi")
+                        state.copy(status = "Finish Downloading Promo Multi",
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -713,7 +741,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Usr Grp")
+                        state.copy(status = "Finish Downloading Usr Grp",
+                            progress = 100)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -733,7 +762,8 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.SUCCESS -> {
                     updateState(
-                        state.copy(status = "Finish Downloading Usr Grp")
+                        state.copy(status = "Finish Downloading Grp Prv",
+                            progress = 100)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -764,6 +794,9 @@ class DownloadViewModel @Inject constructor (
     }
 
     fun onFinsihDownload() = viewModelScope.launch{
+        updateState(
+            state.copy(progress = 100)
+        )
         eventChannel.send(UIEvent.FinishDownload)
     }
 

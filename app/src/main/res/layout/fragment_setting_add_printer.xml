@@ -131,8 +131,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clLogo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/size10">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView26"
@@ -153,13 +152,13 @@
 
                     <RadioButton
                         android:id="@+id/rbSize1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/kertas58" />
 
                     <RadioButton
                         android:id="@+id/rbSize2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="@string/kertas80" />
@@ -175,6 +174,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_setting"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size10"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -190,7 +190,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clLogoGaleri"
+                android:id="@+id/clPrinterKasir"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -222,7 +222,7 @@
                 android:background="@color/light_gray" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clHeader"
+                android:id="@+id/clPrinterSetoran"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -245,6 +245,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -253,15 +254,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size1"
                 android:background="@color/light_gray" />
-            <!--                    -->
-            <!--                    <View-->
-            <!--                        android:id="@+id/vJumlahMeja"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="@dimen/size1"-->
-            <!--                        android:background="@color/light_gray"/>-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_Footer"
+                android:id="@+id/clPrinterKitchen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -287,8 +282,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-
-                android:id="@+id/cl_qty_dapur"
+                android:id="@+id/llQtyKitchen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -317,7 +311,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/activity_add_printer_llQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -326,7 +319,7 @@
                     android:gravity="center_vertical|end">
 
                     <ImageView
-                        android:id="@+id/add_printerKit_ivMinus"
+                        android:id="@+id/btnKitchenMinus"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/ic_circle_minus" />
@@ -346,11 +339,10 @@
                         android:textSize="@dimen/size16" />
 
                     <ImageView
-                        android:id="@+id/add_printerKit_ivPlus"
+                        android:id="@+id/btnKitchenPlus"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/ic_circle_plus" />
-
 
                 </LinearLayout>
 
@@ -360,41 +352,6 @@
                 android:id="@+id/rvKitchen_printer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size1"
-                android:background="@color/light_gray" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_aturFooter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/textView39"
-                    style="@style/TextHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/atur_footer"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_chevron_right_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size1"
-                android:background="@color/light_gray" />
 
         </LinearLayout>
 

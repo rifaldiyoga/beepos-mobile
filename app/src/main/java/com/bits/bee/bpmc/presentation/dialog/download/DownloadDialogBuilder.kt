@@ -7,8 +7,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogDownloadBinding
 import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -32,7 +34,18 @@ class DownloadDialogBuilder(
     override fun subscribeListeners() {
         binding.apply {
             tvBatal.setOnClickListener {
-                findNavController().popBackStack()
+                val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(),
+                    getString(R.string.batal_perbarui_data),
+                    getString(R.string.msg_batal_perbarui_data),
+                    getString(R.string.lanjut_perbarui),
+                    {
+                        it.dismiss()
+                    },
+                    getString(R.string.batalkan),
+                    {
+                        findNavController().popBackStack()
+                    })
+                dialog.show(parentFragmentManager, "")
             }
         }
     }
@@ -55,6 +68,8 @@ class DownloadDialogBuilder(
                     it?.let {
                         if(it.status.isNotEmpty())
                             binding.tvDownload.text = it.status
+                        binding.progressBar3.progress = it.progress
+                        binding.tvProgress.text = "${it.progress}%"
                     }
                 }
             }

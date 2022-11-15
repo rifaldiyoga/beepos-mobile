@@ -151,5 +151,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation files('libs/btsdk.jar')
+//    implementation files('libs/BixolonPrinter.jar')
+    implementation files('libs/usbsdk.jar')
+    implementation files('libs/p25library.jar')
 
 }

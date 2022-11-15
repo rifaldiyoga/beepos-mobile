@@ -1,14 +1,11 @@
 package com.bits.bee.bpmc.domain.report
 
 import android.content.ContentValues
-import android.content.Context
-import android.graphics.Bitmap
 import android.util.Log
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.domain.usecase.pos.GetItemGroupAddOnUseCase
-import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSalecrcvBySaleUseCase
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
@@ -16,7 +13,6 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 import kotlinx.coroutines.flow.first
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.DecimalFormat
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,7 +31,6 @@ class ReportGeneratorInvoice @Inject constructor(
     private val channelRepository: ChannelRepository,
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
-    private val getSalecrcvBySaleUseCase: GetSalecrcvBySaleUseCase,
     private val salePromoRepository: SalePromoRepository,
     private val cadjRepository: CadjRepository,
     private val getItemGroupAddOnUseCase: GetItemGroupAddOnUseCase,
@@ -43,14 +38,14 @@ class ReportGeneratorInvoice @Inject constructor(
     private val getRegUseCase: GetRegUseCase
 ) {
 
-    suspend fun printRptInvoice(context: Context, sale: Sale, maxChar: Int): String {
+    suspend fun printRptInvoice(sale: Sale, maxChar: Int): String {
         val builder = StringBuilder()
         builder.append(ReportHelper.centerString(printHeader(maxChar), maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(printInvoiceHeader(sale, maxChar, false))
         builder.append(printInvoiceSaled(sale, mutableListOf(), maxChar, false))
-        builder.append(printInvoiceFooter(sale, context, maxChar))
+        builder.append(printInvoiceFooter(sale, maxChar))
         builder.append(ReportHelper.centerString(printFooter(maxChar), maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         println(builder.toString())
@@ -87,7 +82,6 @@ class ReportGeneratorInvoice @Inject constructor(
     }
 
     suspend fun printRptInvoiceBillGopay(
-        bitmap: Bitmap,
         sale: Sale,
         maxChar: Int
     ): String {
@@ -95,7 +89,7 @@ class ReportGeneratorInvoice @Inject constructor(
         builder.append(ReportHelper.centerString(printHeader(maxChar), maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(BPMConstants.CHAR_ENTER)
-        builder.append(printInvoiceHeaderGopay(sale, maxChar, bitmap))
+        builder.append(printInvoiceHeaderGopay(sale, maxChar))
         builder.append(ReportHelper.generateLine("=", maxChar))
         builder.append(ReportHelper.centerString("TAGIHAN", maxChar))
         builder.append(ReportHelper.generateLine("=", maxChar))
@@ -122,23 +116,8 @@ class ReportGeneratorInvoice @Inject constructor(
         return builder.toString()
     }
 
-    fun printBillGopay(context: Context, data: Bitmap, sale: Sale, paperSize: Int) {
-//        PrinterFactory.printHeaderGopay(context)
-//        PrinterFactory.printGopayBill(
-//            printRptInvoiceBillGopay(context, data, sale, paperSize),
-//            BPMConstants.BPM_FONT_REGULAR,
-//            BPMConstants.BPM_ALIGN_LEFT
-//        )
-//        PrinterFactory.printImageGopay(data)
-//        PrinterFactory.printGopayBill(
-//            printRptFooterBillGopay(sale, paperSize),
-//            BPMConstants.BPM_FONT_REGULAR,
-//            BPMConstants.BPM_ALIGN_LEFT
-//        )
-    }
-
     //    untuk cetak struk duplikat
-    suspend fun printRptInvoiceDuplicate(context: Context, sale: Sale, maxChar: Int): String {
+    suspend fun printRptInvoiceDuplicate(sale: Sale, maxChar: Int): String {
         val builder = StringBuilder()
         builder.append(ReportHelper.centerString(printHeader( maxChar), maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
@@ -150,43 +129,19 @@ class ReportGeneratorInvoice @Inject constructor(
         } else {
             builder.append(ReportHelper.centerString(printFooterDuplicate(), maxChar))
         }
-        builder.append(printInvoiceFooter(sale, context, maxChar))
+        builder.append(printInvoiceFooter(sale, maxChar))
         builder.append(ReportHelper.centerString(printFooter(maxChar), maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         return builder.toString()
     }
 
-    suspend fun printRptClosingCashierNew(
-        posses: Posses,
-        totAllCash: BigDecimal,
-        totCash: BigDecimal,
-        totVoid: BigDecimal,
-        totCountVoid: BigDecimal,
-        totCountNote: BigDecimal,
-        listsaled: List<Saled>,
-        possesId: Long,
-        totAllCashDebit: BigDecimal,
-        totKredit: BigDecimal,
-        totGopay: BigDecimal,
-        maxChar: Int
-    ): String {
+    suspend fun printRptClosingCashierNew(posses: Posses, maxChar: Int): String {
         val notaPreferences = beePreferenceManager.notaPreferences.first()
         val builder = StringBuilder()
         builder.append(ReportHelper.centerString("Rekapitulasi Setoran Kasir", maxChar))
         builder.append(printHeaderRekapKasir(posses, maxChar))
         builder.append(ReportHelper.generateLine("-", maxChar))
-        builder.append(
-            printRekapClosingSetoran(
-                posses,
-                totCash,
-                totAllCash,
-                totVoid,
-                totCountVoid,
-                totCountNote,
-                possesId,
-                maxChar
-            )
-        )
+        builder.append(printRekapClosingSetoran(posses, maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(ReportHelper.centerString("Pembayaran Tunai", maxChar))
         builder.append(printRekapClosingPaymentCash(posses, maxChar))
@@ -195,34 +150,25 @@ class ReportGeneratorInvoice @Inject constructor(
         builder.append(printRekapClosingPaymentNonCash(posses, maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(ReportHelper.centerString("Rincian Total Pemasukan", maxChar))
-        builder.append(
-            printRekapClosingPayment(
-                posses,
-                totCash,
-                totAllCashDebit,
-                totKredit,
-                totGopay,
-                maxChar
-            )
-        )
+        builder.append(printRekapClosingPayment(posses, maxChar))
         builder.append(ReportHelper.generateLine("=", maxChar))
         builder.append("*Tidak termasuk nota void")
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(ReportHelper.centerString("Expense", maxChar))
-        builder.append(printRekapClosingCashTotal(possesId, maxChar))
+        builder.append(printRekapClosingCashTotal(posses.possesId!!.toLong(), maxChar))
         builder.append(ReportHelper.generateLine("=", maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(ReportHelper.centerString("Rincian Expense", maxChar))
-        builder.append(printRekapClosingTransaksiCashInOut(possesId, maxChar))
+        builder.append(printRekapClosingTransaksiCashInOut(posses.possesId!!.toLong(), maxChar))
         builder.append(ReportHelper.generateLine("=", maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(ReportHelper.centerString("Pembayaran Kartu Debit", maxChar))
-        builder.append(printRekapClosingTransaksiNonTunai(possesId, maxChar, "DC"))
+        builder.append(printRekapClosingTransaksiNonTunai(posses.possesId!!.toLong(), maxChar, "DC"))
         builder.append(ReportHelper.generateLine("=", maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         builder.append(ReportHelper.centerString("Pembayaran Kartu Kredit", maxChar))
-        builder.append(printRekapClosingTransaksiNonTunai(possesId, maxChar, "CC"))
+        builder.append(printRekapClosingTransaksiNonTunai(posses.possesId!!.toLong(), maxChar, "CC"))
         builder.append(ReportHelper.generateLine("=", maxChar))
         builder.append(BPMConstants.CHAR_ENTER)
         val printRekapPerCust = notaPreferences.isRekapCust
@@ -232,7 +178,7 @@ class ReportGeneratorInvoice @Inject constructor(
         val printRekapItemChannel = notaPreferences.isRekapItemChannel
         if (printRekapChannel) {
             builder.append(ReportHelper.centerString("Rekapitulasi Per Channel", maxChar))
-            builder.append(printRekapClosingTransaksiChannel(possesId, maxChar))
+            builder.append(printRekapClosingTransaksiChannel(posses.possesId!!.toLong(), maxChar))
             builder.append(ReportHelper.generateLine("=", maxChar))
             builder.append(BPMConstants.CHAR_ENTER)
         }
@@ -247,14 +193,14 @@ class ReportGeneratorInvoice @Inject constructor(
             if (printRekapItemChannel) {
                 builder.append(
                     printRekapClosingTransaksiWithDiskonChannel(
-                        possesId,
+                        posses.possesId!!.toLong(),
                         maxChar
                     )
                 )
             } else {
                 builder.append(
                     printRekapClosingTransaksiWithDiskon(
-                        possesId,
+                        posses.possesId!!.toLong(),
                         maxChar
                     )
                 )
@@ -264,7 +210,7 @@ class ReportGeneratorInvoice @Inject constructor(
             builder.append(ReportHelper.generateLine("=", maxChar))
             builder.append(BPMConstants.CHAR_ENTER)
             builder.append(ReportHelper.centerString("Rekapitulasi Per Customer", maxChar))
-            builder.append(printRekapClosingCustomer(possesId, maxChar))
+            builder.append(printRekapClosingCustomer(posses.possesId!!.toLong(), maxChar))
         }
         if (printRekapFaktur) {
             builder.append(
@@ -373,7 +319,7 @@ class ReportGeneratorInvoice @Inject constructor(
     private suspend fun printInvoiceHeader(sale: Sale, maxChar: Int, kitchen: Boolean): String {
         val posPreferences = beePreferenceManager.posPreferences.first()
         var s = ""
-        val trxDate = DateFormatUtils.formatDateToString("dd-MM-yyyy kk:mm", sale.trxDate).toString()
+        val trxDate = DateFormatUtils.formatDateToString("dd-MM-yyyy kk:mm", sale.trxDate)
         val noOrder = sale.trxNo
         val oprName = sale.userName
         val isEnableCust = posPreferences.isKonfirmasiCust
@@ -417,10 +363,10 @@ class ReportGeneratorInvoice @Inject constructor(
         return s
     }
 
-    private fun printInvoiceHeaderGopay(sale: Sale, maxChar: Int, bitmap: Bitmap): String {
-        var s: String = ""
+    private fun printInvoiceHeaderGopay(sale: Sale, maxChar: Int): String {
+        var s = ""
         val trxID: String = sale.gopayTransactionId
-        val noOrder: String = java.lang.String.valueOf(sale.trxNo)
+        val noOrder: String = sale.trxNo
         val trxIdB = StringBuilder(maxChar)
         val noOrderB = StringBuilder(maxChar)
         trxIdB.append("Transaction ID: ")
@@ -438,13 +384,13 @@ class ReportGeneratorInvoice @Inject constructor(
         var s = ""
         val user = userRepository.getUserById(posses.userId).first()
         val trxno: String = posses.trxNo
-        val trxDate: String = DateFormatUtils.formatDateToString("dd-MM-yyyy", posses.trxDate).toString()
-        val startTime: String = DateFormatUtils.formatDateToString("kk:mm:ss", posses.startTime).toString()
+        val trxDate: String = DateFormatUtils.formatDateToString("dd-MM-yyyy", posses.trxDate)
+        val startTime: String = DateFormatUtils.formatDateToString("kk:mm:ss", posses.startTime)
         val endTime: String =
             DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, posses.endTime ?: Date())
         val startDateTime = String.format("%s %s", trxDate, startTime)
         val endDateTime = String.format("%s", endTime)
-        val shift: String = java.lang.String.valueOf(posses.shift)
+        val shift: String = posses.shift.toString()
 
         val lblTrxDate = StringBuilder(maxChar)
         val lblStartTime = StringBuilder(maxChar)
@@ -453,51 +399,29 @@ class ReportGeneratorInvoice @Inject constructor(
         val lblOperator = StringBuilder(maxChar)
         //
         lblTrxDate.append("Posses   ")
-        lblTrxDate.append(
-            ReportHelper.generateTab(
-                lblTrxDate.toString(),
-                trxno,
-                BPMConstants.BPM_TAB_HEADER_LARGE,
-                maxChar
-            )
-        )
+        lblTrxDate.append(ReportHelper.generateTab(lblTrxDate.toString(), trxno, BPMConstants.BPM_TAB_HEADER_LARGE, maxChar))
         lblTrxDate.append(": ")
         lblTrxDate.append(trxno)
         lblTrxDate.append(BPMConstants.CHAR_ENTER)
         lblStartTime.append("Buka     ")
-        lblStartTime.append(
-            ReportHelper.generateTab(
-                lblStartTime.toString(),
-                startDateTime,
-                BPMConstants.BPM_TAB_HEADER_NORMAL,
-                maxChar
-            )
-        )
+        lblStartTime.append(ReportHelper.generateTab(lblStartTime.toString(), startDateTime, BPMConstants.BPM_TAB_HEADER_NORMAL, maxChar))
         lblStartTime.append(": ")
         lblStartTime.append(startDateTime)
         lblStartTime.append(BPMConstants.CHAR_ENTER)
         lblEndTime.append("Tutup    ")
-        lblEndTime.append(
-            ReportHelper.generateTab(
-                lblEndTime.toString(),
-                endDateTime,
-                BPMConstants.BPM_TAB_HEADER_NORMAL,
-                maxChar
-            )
-        )
+        lblEndTime.append(ReportHelper.generateTab(lblEndTime.toString(), endDateTime, BPMConstants.BPM_TAB_HEADER_NORMAL, maxChar))
         lblEndTime.append(": ")
         lblEndTime.append(endDateTime)
         lblEndTime.append(BPMConstants.CHAR_ENTER)
         lblOperator.append("Operator ")
-        //        lblOperator.append(ReportHelper.generateTab(lblOperator.toString(), listOperator.get(0).getOperator(), BPMConstants.BPM_TAB_HEADER_NORMAL, maxChar));
         lblOperator.append(": ")
         lblOperator.append(user.name)
         lblOperator.append(BPMConstants.CHAR_ENTER)
         lblShift.append("Shift    ")
-        //        lblShift.append(ReportHelper.generateTab(lblShift.toString(), shift, BPMConstants.BPM_TAB_HEADER_SMALL, maxChar));
         lblShift.append(": ")
         lblShift.append(shift)
         lblShift.append(BPMConstants.CHAR_ENTER)
+
         s += lblTrxDate
         s += lblStartTime
         s += lblEndTime
@@ -507,50 +431,27 @@ class ReportGeneratorInvoice @Inject constructor(
     }
 
 
-    private suspend fun printInvoiceFooter(sale: Sale, ctx: Context, maxChar: Int): String {
+    private suspend fun printInvoiceFooter(sale: Sale, maxChar: Int): String {
         var s = ""
-        val surcamt = CurrencyUtils.formatCurrency(saleCrcvRepository.getSurcamt(sale.id!!).first())
-        var paidType: String
-        var roundAmt = ""
-        val subTotal: String = java.lang.String.valueOf(
-            CurrencyUtils.formatCurrency(
-                sale.subtotal.setScale(0, RoundingMode.HALF_UP)
-            )
-        )
-        val tax: String = java.lang.String.valueOf(
-            CurrencyUtils.formatCurrency(
-                sale.taxAmt.setScale(0, RoundingMode.HALF_UP)
-            )
-        )
-        roundAmt = java.lang.String.valueOf(CurrencyUtils.formatCurrency(sale.rounding))
+        val saleCrcList = saleCrcvRepository.getSalecrcvBySale(sale.id!!).first()
 
+        val surcamt = if(saleCrcList.isNotEmpty()) CurrencyUtils.formatCurrency(BigDecimal(saleCrcList[0].surcAmt ?: "0")) else ""
+        val subTotal: String = CurrencyUtils.formatCurrency(sale.subtotal.setScale(0, RoundingMode.HALF_UP))
+        val tax = CurrencyUtils.formatCurrency(sale.taxAmt.setScale(0, RoundingMode.HALF_UP))
+        val roundAmt: String = CurrencyUtils.formatCurrency(sale.rounding)
+        val discAmt: String = CurrencyUtils.formatCurrency(sale.discAmt)
 
-        val discAmt: String = java.lang.String.valueOf(
-            CurrencyUtils.formatCurrency(
-                sale.discAmt)
-        )
         var disc2Amt = ""
-        var changeAmt = ""
-        if (sale.discExp.substring(sale.discExp.length - 1).contains("%")) {
-            disc2Amt = java.lang.String.valueOf(
-                CurrencyUtils.formatCurrency(
-                    sale.discAmt
-                )
-            )
-        } else {
-            disc2Amt = java.lang.String.valueOf(
-                CurrencyUtils.formatCurrency(
-                    BigDecimal(sale.discExp)
-                )
-            )
+        if(sale.discExp.isNotEmpty()) {
+            disc2Amt = if (sale.discExp.substring(sale.discExp.length - 1).contains("%")) {
+                CurrencyUtils.formatCurrency(sale.discAmt)
+            } else {
+                CurrencyUtils.formatCurrency(BigDecimal(sale.discExp))
+            }
         }
-        val grandTotal: String = java.lang.String.valueOf(
-            CurrencyUtils.formatCurrency(
-                sale.total.setScale(0, RoundingMode.HALF_UP)
-            )
-        )
-        //        CurrencyUtils.formatCurrency(mInvoiceListP.getSaleTrans().getMaster().subtotal.setScale(0, RoundingMode.HALF_UP))
-        changeAmt = if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
+        val grandTotal = CurrencyUtils.formatCurrency(sale.total.setScale(0, RoundingMode.HALF_UP))
+
+        val changeAmt = if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
             "0"
         } else {
             CurrencyUtils.formatCurrency(sale.totChange.setScale(0, RoundingMode.HALF_UP))
@@ -599,14 +500,9 @@ class ReportGeneratorInvoice @Inject constructor(
                 maxLength = maxLengthArray[i]
             }
         }
-        maxLength++
         //
         subTotalB.replace(0, "Subtotal".length, "Subtotal")
-        subTotalB.replace(
-            subTotalB.capacity() - subTotal.length,
-            subTotalB.capacity(),
-            subTotal + BPMConstants.CHAR_ENTER
-        )
+        subTotalB.replace(subTotalB.capacity() - subTotal.length, subTotalB.capacity(), subTotal + BPMConstants.CHAR_ENTER)
         //
         taxB.replace(0, "Pajak".length, "Pajak")
         taxB.replace(
@@ -643,19 +539,10 @@ class ReportGeneratorInvoice @Inject constructor(
             grandTotalB.capacity(),
             grandTotal + BPMConstants.CHAR_ENTER
         )
-        paidType = if (sale.termType.equals("tunai")) {
-            "Tunai"
-        } else {
-            sale.termType
-
-            //wait
-            //            List<Salecrcvs> listSalecrcvs = new ArrayList<>();
-            //            try {
-            //                 listSalecrcvs = saleCrcvRepository.getSalecrcvs(sale);
-            //            } catch (SQLException e) {
-            //                e.printStackTrace();
-            //            }
-            //            paidType = listSalecrcvs.get(0).getCctype_code();
+        val paidType = when(sale.termType){
+            BPMConstants.BPM_DEFAULT_TYPE_KREDIT -> "Kartu Kredit"
+            BPMConstants.BPM_DEFAULT_TYPE_DEBIT -> "Kartu Debit"
+            else -> BPMConstants.BPM_DEFAULT_TYPE_TUNAI
         }
         paidAmtB.replace(0, paidType.length, paidType)
         paidAmtB.replace(
@@ -678,7 +565,7 @@ class ReportGeneratorInvoice @Inject constructor(
         s += taxB
 
         if (sale.rounding.compareTo(BigDecimal.ZERO) != 0) s += roundAmtB
-        if (!sale.termType.equals("tunai")) {
+        if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
             s += surchargeAmtB
         }
         s += grandTotalB
@@ -689,30 +576,14 @@ class ReportGeneratorInvoice @Inject constructor(
         return s
     }
 
-    private fun printInvoiceKitchen(saledList: List<Saled>, maxChar: Int): String {
-        var s = ""
-        val string = StringBuilder(maxChar)
-        for (saled in saledList) {
-            string.append(saled.qty)
-            string.append(BPMConstants.CHAR_SPACE)
-            string.append(BPMConstants.CHAR_SPACE)
-            string.append(BPMConstants.CHAR_SPACE)
-            string.append(saled.name)
-            string.append(BPMConstants.CHAR_ENTER)
-        }
-        string.append(BPMConstants.CHAR_ENTER)
-        s += string
-        return s
-    }
-
     private suspend fun printInvoiceSaled(
         sale: Sale,
         saledList: List<Saled>,
         maxChar: Int,
         kitchen: Boolean
     ): String {
-        val saledList = if (!kitchen) getSaledBySaleUseCase(sale.id!!).first() else saledList
-        var grpAddOn = getItemGroupAddOnUseCase().first()
+        val saledList1 = if (!kitchen) getSaledBySaleUseCase(sale.id!!).first() else saledList
+        val grpAddOn = getItemGroupAddOnUseCase().first()
 
         var s = ""
         var itemName: String
@@ -730,7 +601,7 @@ class ReportGeneratorInvoice @Inject constructor(
 
 
 //        Collections.reverse(saledList);
-        for (saled in saledList) {
+        for (saled in saledList1) {
             if (grpAddOn == null || (saled.item != null && saled.item!!.itemGrpId != null && saled.item!!.itemGrpId!! != grpAddOn.id)) {
                 var maxQtyAndPriceLength = 0
                 var maxSubTotalLength = 0
@@ -756,26 +627,25 @@ class ReportGeneratorInvoice @Inject constructor(
                 for (j in 0 until itemNoteB.capacity()) {
                     itemNoteB.replace(j, j + 1, BPMConstants.CHAR_SPACE)
                 }
-                itemQty = java.lang.String.valueOf(saled.qty)
+                itemQty = CurrencyUtils.formatCurrency(saled.qty)
                 itemName =
                     if (kitchen) itemQty + BPMConstants.CHAR_SPACE + saled.name else saled.name
-                itemDisc = java.lang.String.valueOf(saled.discExp)
-                itemDiscAmt = java.lang.String.valueOf(
+                itemDisc = saled.discExp
+                itemDiscAmt =
                     CurrencyUtils.formatCurrency(
                         saled.totalDiscAmt
                     )
-                )
-                itemPrice = java.lang.String.valueOf(
+
+                itemPrice =
                     CurrencyUtils.formatCurrency(
                         saled.listPrice
                     )
+
+                itemSubTotal = CurrencyUtils.formatCurrency(
+                    saled.qty.multiply(saled.listPrice)
+                        .setScale(2, RoundingMode.HALF_UP)
                 )
-                itemSubTotal = java.lang.String.valueOf(
-                    CurrencyUtils.formatCurrency(
-                        saled.qty.multiply(saled.listPrice)
-                            .setScale(2, RoundingMode.HALF_UP)
-                    )
-                )
+
                 if (itemName.length > itemNameB.capacity()) {
                     itemName = itemName.substring(0, itemNameB.capacity())
                 }
@@ -797,11 +667,11 @@ class ReportGeneratorInvoice @Inject constructor(
                 for (j in 0 until maxSubTotalLength) {
                     spaceSubTotal += BPMConstants.CHAR_SPACE
                 }
-                qtyAndPrice = BPMConstants.CHAR_SPACE.toString() + spaceQtyAndPrice.substring(
+                qtyAndPrice = BPMConstants.CHAR_SPACE + spaceQtyAndPrice.substring(
                     0,
                     maxQtyAndPriceLength - itemQty.length
                 ) + itemQty + " x " + itemPrice
-                subTotal = BPMConstants.CHAR_SPACE.toString() + spaceSubTotal.substring(
+                subTotal = BPMConstants.CHAR_SPACE + spaceSubTotal.substring(
                     0,
                     maxSubTotalLength - itemSubTotal.length
                 ) + itemSubTotal
@@ -867,22 +737,21 @@ class ReportGeneratorInvoice @Inject constructor(
                             itemQty = CurrencyUtils.formatCurrency(saled1.qty)
                             itemName =
                                 if (kitchen) BPMConstants.CHAR_SPACE + "+" + BPMConstants.CHAR_SPACE + itemQtyPcs + BPMConstants.CHAR_SPACE + saled1.name else BPMConstants.CHAR_SPACE + "+" + BPMConstants.CHAR_SPACE + saled1.name
-                            itemDisc = java.lang.String.valueOf(saled1.disc)
-                            itemDiscAmt = java.lang.String.valueOf(
+                            itemDisc = CurrencyUtils.formatCurrency(saled1.disc)
+                            itemDiscAmt =
                                 CurrencyUtils.formatCurrency(
                                     saled1.discAmt
                                 )
-                            )
-                            itemPrice = java.lang.String.valueOf(
+
+                            itemPrice =
                                 CurrencyUtils.formatCurrency(
                                     saled1.listPrice
                                 )
-                            )
-                            itemSubTotal = java.lang.String.valueOf(
+
+                            itemSubTotal =
                                 CurrencyUtils.formatCurrency(
                                     saled1.subtotal
-                                )
-                            ).toString() + " "
+                                ) + " "
                             if (itemName.length > itemNameB.capacity()) {
                                 itemName = itemName.substring(0, itemNameB.capacity())
                             }
@@ -960,37 +829,32 @@ class ReportGeneratorInvoice @Inject constructor(
         return s
     }
 
-    private suspend fun printRekapClosingSetoran(
-        posses: Posses, totCash: BigDecimal, totAllCash: BigDecimal, totVoid: BigDecimal,
-        totCountVoid: BigDecimal, totCountNote: BigDecimal, possesId: Long, maxChar: Int
-    ): String {
+    private suspend fun printRekapClosingSetoran(posses: Posses, maxChar: Int): String {
         var s = ""
-        var valRounding = "0"
-        var valIncome = ""
-        var valTotExpense = "0"
-        var valExpenseIn = BigDecimal.ZERO
-        var valExpenseOut = ""
+        val saleList = saleRepository.getSaleByPosses(posses.possesId!!).first()
+        val cadjList= cadjRepository.getCashInOut(posses.possesId!!.toLong()).first()
+        val totAllCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI && !it.isVoid }.sumOf { it.total }
+        val totCash = saleList.filter { !it.isVoid }.sumOf { it.total }
+        val totVoid = saleList.filter { it.isVoid }.sumOf { it.total }
+        val rounding = saleList.filter { !it.isVoid }.sumOf { it.rounding }
+        val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
+        val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }
+
+        val valRounding = CurrencyUtils.formatCurrency(rounding)
+        val valIncome = CurrencyUtils.formatCurrency(totCash.subtract(rounding))
+        val valTotExpense = CurrencyUtils.formatCurrency(totExpIn.subtract(totExpOut))
+
         val lblModal = "Modal"
         val lblIncome = "Penjualan"
         val lblExpense = "Expense"
         val lblRounding = "Pembulatan"
         val lblOmset = "Total Setoran"
         val lblVoid = "Void"
-        val lblcountIncome = " ($totCountNote)"
-        val lblcountVoid = "      ($totCountVoid) "
+        val lblcountIncome = " (${saleList.filter { !it.isDraft && it.isVoid }.size})"
+        val lblcountVoid = "      (${saleList.filter { it.isVoid }.size}) "
         val valModal: String = CurrencyUtils.formatCurrency(posses.startBal)
 
-        val rounding: BigDecimal = saleRepository.sumTotalRoundingPaidAll(possesId.toLong()).first()
-        valIncome = CurrencyUtils.formatCurrency(saleRepository.sumTotalPaidAll(possesId).first().subtract(rounding))
-        //            valOmset = CurrencyUtils.formatCurrency(posses.startBal.add(saleRepository.sumTotalPaidAll(possesId)));
-        valExpenseIn = cadjRepository.getCashInEnd(possesId).first()
-        valExpenseOut = CurrencyUtils.formatCurrency(cadjRepository.getCashOutEnd(possesId).first())
-        //            valTotExpense = CurrencyUtils.formatCurrency(cadjRepository.getCashInEnd(possesId));
-        valRounding = CurrencyUtils.formatCurrency(rounding)
 
-        valTotExpense = CurrencyUtils.formatCurrency(
-            valExpenseIn.subtract(BigDecimal(valExpenseOut))
-        )
         val valOmset: String = CurrencyUtils.formatCurrency(totAllCash)
         val valVoid: String = CurrencyUtils.formatCurrency(totVoid)
         s += lblModal
@@ -1038,21 +902,20 @@ class ReportGeneratorInvoice @Inject constructor(
         return s
     }
 
-    private suspend fun printRekapClosingPayment(
-        posses: Posses,
-        totCash: BigDecimal,
-        totDebit: BigDecimal,
-        totKredit: BigDecimal,
-        totGopay: BigDecimal,
-        maxChar: Int
-    ): String {
-        var totDebit = totDebit
-        var totKredit = totKredit
+    private suspend fun printRekapClosingPayment(posses: Posses, maxChar: Int): String {
+        val saleList = saleRepository.getSaleByPosses(posses.possesId!!).first()
+        val cadjList= cadjRepository.getCashInOut(posses.possesId!!.toLong()).first()
+        var totDebit = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && !it.isVoid }.sumOf { it.total }
+        var totKredit = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_KREDIT && !it.isVoid }.sumOf { it.total }
+        val totGopay = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY && !it.isVoid }.sumOf { it.total }
+        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && !it.isVoid }.sumOf { it.total }
+        val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
+        val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }
+
         var s = ""
         val valTotal: String
         val valExpense: String
         val valSurcharge: String
-        val currencyFormat = DecimalFormat("###,###")
         val lblCash = "Cash"
         val lblDebit = "Debit*"
         val lblKredit = "Kredit*"
@@ -1062,17 +925,13 @@ class ReportGeneratorInvoice @Inject constructor(
         val lblSurcharge = "Surcharge"
         val lblExpense = "Expense"
         val lblTotalSetoran = "Total Setoran"
-        var surcKredit = BigDecimal.ZERO
         val surc: BigDecimal
         val expense: BigDecimal
-        val totalSetoran = BigDecimal.ZERO
-        var totCashIn = BigDecimal.ZERO
-        var totCashOut: BigDecimal
+        val totCashIn = totExpIn
+        val totCashOut = totExpOut
 
-        val surcDebit: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesNonCash(posses.possesId!!, "DC").first()
-        surcKredit = saleCrcvRepository.getTotalSurchargeByPossesNonCash(posses.possesId!!, "CC").first()
-        totCashIn = cadjRepository.getCashInEnd(posses.possesId!!.toLong()).first()
-        totCashOut = cadjRepository.getCashOutEnd(posses.possesId!!.toLong()).first()
+        val surcDebit: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesNonCash(posses.possesId!!, "DC").first() ?: BigDecimal.ZERO
+        val surcKredit: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesNonCash(posses.possesId!!, "CC").first() ?: BigDecimal.ZERO
 
         totDebit = totDebit.subtract(surcDebit)
         totKredit = totKredit.subtract(surcKredit)
@@ -1150,16 +1009,19 @@ class ReportGeneratorInvoice @Inject constructor(
     }
 
     private suspend fun printRekapClosingPaymentCash(posses: Posses, maxChar: Int): String {
+
+        val saleList = saleRepository.getSaleByPosses(posses.possesId!!).first()
+        val cadjList= cadjRepository.getCashInOut(posses.possesId!!.toLong()).first()
+        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && !it.isVoid }.sumOf { it.total }
+        val totVoid = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && it.isVoid }.sumOf { it.total }
+        val rounding = saleList.filter { !it.isVoid }.sumOf { it.rounding }
+        val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
+        val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }
         var s = ""
-        var valSaldoAwal: String
-        var valCash: String
-        var valVoid: String
-        var valKasMasuk: String
-        var valKasKeluar: String
-        var valRounding: String
-        var valSetoranKasir: String
-        var valSetorButa: String
-        var valSelisih: String
+        val valSaldoAwal: String
+        val valSetoranKasir: String
+        val valSetorButa: String
+        val valSelisih: String
         val lblSaldoAwal = "Saldo Awal     :"
         val lblCash = "Nota Tunai     :"
         val lblKasMasuk = "Kas Masuk      :"
@@ -1171,23 +1033,17 @@ class ReportGeneratorInvoice @Inject constructor(
         val lblSelisih = "Selisih        :"
 
         val startBal = posses.startBal
-        val totalCash = saleRepository.sumTotalCash(posses.possesId!!).first()
-        val totalRounding = saleRepository.sumTotalCashRounding(posses.possesId!!).first()
-        val totalVoid = saleRepository.sumTotalVoidCash(posses.possesId!!).first()
-        val totalKasKeluar = cadjRepository.getCashOutEnd(posses.possesId!!.toLong()).first()
-        val totalKasMasuk = cadjRepository.getCashInEnd(posses.possesId!!.toLong()).first()
-        val totalSetoranKasir =
-            startBal.add(totalCash).add(totalKasMasuk).subtract(totalVoid).add(totalKasKeluar)
+        val totalSetoranKasir = startBal.add(totCash).add(totExpIn).subtract(totVoid).add(totExpOut)
         val setorButa: BigDecimal = posses.totalActualCash
         val totalSelisih: BigDecimal = posses.totalDiffCash
 
-        var possesRegActualPosses: Reg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).first()!!
+        val possesRegActualPosses: Reg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).first()!!
         valSaldoAwal = CurrencyUtils.formatCurrency(startBal)
-        valCash = CurrencyUtils.formatCurrency(totalCash.subtract(totalRounding))
-        valVoid = "(" + CurrencyUtils.formatCurrency(totalVoid) + ")"
-        valKasMasuk = CurrencyUtils.formatCurrency(totalKasMasuk)
-        valRounding = CurrencyUtils.formatCurrency(totalRounding)
-        valKasKeluar = CurrencyUtils.formatCurrency(totalKasKeluar)
+        val valCash = CurrencyUtils.formatCurrency(totCash.subtract(rounding))
+        val valVoid = "(" + CurrencyUtils.formatCurrency(totVoid) + ")"
+        val valKasMasuk = CurrencyUtils.formatCurrency(totExpIn)
+        val valRounding = CurrencyUtils.formatCurrency(rounding)
+        val valKasKeluar = CurrencyUtils.formatCurrency(totExpOut)
         valSetoranKasir = CurrencyUtils.formatCurrency(totalSetoranKasir)
         valSetorButa = CurrencyUtils.formatCurrency(setorButa)
         valSelisih = "(" + CurrencyUtils.formatCurrency(totalSelisih) + ")"
@@ -1278,14 +1134,21 @@ class ReportGeneratorInvoice @Inject constructor(
 
     private suspend fun printRekapClosingPaymentNonCash(posses: Posses, maxChar: Int): String {
         var s = ""
-        var valDebit: String
-        var valKredit: String
-        var valGopay: String
-        var valVoid: String
-        var valRounding: String
-        var valTotalNonTunai: String
-        var valSurcharge: String
-        var valTotal: String
+        val saleList = saleRepository.getSaleByPosses(posses.possesId!!).first()
+        val totDebit = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT }.sumOf { it.total }
+        val totKredit = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_KREDIT }.sumOf { it.total }
+        val totGopay = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY }.sumOf { it.total }
+        val totVoidNonCash = saleList.filter { it.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI && it.isVoid }.sumOf { it.total }
+        val totRoundVoidNonCash = saleList.filter { it.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI && it.isVoid }.sumOf { it.rounding }
+
+        val valDebit: String
+        val valKredit: String
+        val valGopay: String
+        val valVoid: String
+        val valRounding: String
+        val valTotalNonTunai: String
+        val valSurcharge: String
+        val valTotal: String
         val lblDebit = "Debit*         :"
         val lblKredit = "Kredit*        :"
         val lblGopay = "Gopay          :"
@@ -1295,16 +1158,16 @@ class ReportGeneratorInvoice @Inject constructor(
         val lblSurcharge = "Surcharge      :"
         val lblTotal = "Total          :"
 
-        val surcDebit: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesNonCashAll(posses.possesId!!, "DC").first()
-        val totalDebit: BigDecimal = saleRepository.sumTotalPaidDebitAll(posses.possesId!!).first().subtract(surcDebit)
-        val surcCredit: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesNonCashAll(posses.possesId!!, "CC").first()
-        val totalKredit: BigDecimal = saleRepository.sumTotalPaidKreditAll(posses.possesId!!).first().subtract(surcCredit)
-        val totalGopay: BigDecimal = saleRepository.sumTotalPaidGopayAll(posses.possesId!!).first()
-        val surcVoid: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesVoid(posses.possesId!!).first()
-        val totalVoid: BigDecimal = saleRepository.sumTotalVoidNonCash(posses.possesId!!).first().subtract(surcVoid)
+        val surcDebit = saleCrcvRepository.getTotalSurchargeByPossesNonCashAll(posses.possesId!!, "DC").first() ?: BigDecimal.ZERO
+        val totalDebit: BigDecimal = totDebit.subtract(surcDebit)
+        val surcCredit: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesNonCashAll(posses.possesId!!, "CC").first()  ?: BigDecimal.ZERO
+        val totalKredit: BigDecimal = totKredit.subtract(surcCredit)
+        val totalGopay: BigDecimal = totGopay
+        val surcVoid: BigDecimal = saleCrcvRepository.getTotalSurchargeByPossesVoid(posses.possesId!!).first()  ?: BigDecimal.ZERO
+        val totalVoid: BigDecimal = totVoidNonCash.subtract(surcVoid)
         val totalNonTunai = totalDebit.add(totalKredit).add(totalGopay).subtract(totalVoid)
-        val totalRounding: BigDecimal = saleRepository.sumTotalRoundingNonCash(posses.possesId!!).first()
-        val totalSurcharge: BigDecimal = saleCrcvRepository.getTotalSurchargeByPosses(posses.possesId!!).first()
+        val totalRounding: BigDecimal = totRoundVoidNonCash
+        val totalSurcharge: BigDecimal = saleCrcvRepository.getTotalSurchargeByPosses(posses.possesId!!).first() ?: BigDecimal.ZERO
         val total = totalNonTunai.add(totalSurcharge)
         valDebit = CurrencyUtils.formatCurrency(totalDebit)
         valKredit = CurrencyUtils.formatCurrency(totalKredit)
@@ -1409,23 +1272,18 @@ class ReportGeneratorInvoice @Inject constructor(
         return s
     }
 
-    private suspend fun printRekapClosingCashTotal(cash_id: Long, maxChar: Int): String {
+    private suspend fun printRekapClosingCashTotal(cashId: Long, maxChar: Int): String {
         var s = ""
-        val valCashIn: String
-        val valCashOut: String
-        val totCashIn = cadjRepository.getCashInEnd(cash_id).first()
-        val totCashOutStringConvert = cadjRepository.getCashOutEnd(cash_id).first()
+        val cadjList= cadjRepository.getCashInOut(cashId).first()
+        val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
+        val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }
 
         val lblCashIn = "Kas Masuk"
         val lblCashOut = "Kas Keluar"
-        val totCashString = totCashOutStringConvert.toPlainString().replace("[-,*#!?/|:;'<>@$%&^=]".toRegex(), "")
-        val totCashOut = BigDecimal(totCashString)
-        valCashIn = java.lang.String.valueOf(
-            CurrencyUtils.formatCurrency(
-                totCashIn)
-        )
 
-        valCashOut = "(" + CurrencyUtils.formatCurrency(totCashOut)+ ")"
+        val valCashIn: String = CurrencyUtils.formatCurrency(totExpIn)
+
+        val valCashOut: String = "(" + CurrencyUtils.formatCurrency(totExpOut)+ ")"
 
         s += lblCashIn
         s += ReportHelper.generateTab(lblCashIn, valCashIn, BPMConstants.BPM_TAB_LARGE, maxChar)
@@ -1441,21 +1299,24 @@ class ReportGeneratorInvoice @Inject constructor(
 
     private suspend fun printRekapClosingTransaksiWithDiskon(possesID: Long, maxChar: Int): String {
         var s = ""
+        val saleList = saleRepository.getSaleByPosses(possesID.toInt()).first()
+        val totPaid = saleList.filter { !it.isVoid }.sumOf { it.total }
+
         var valItem: String
         var valQty: String
         var valPrice: String
         var valTotal: String
         var discount: String
         var discountAmt: String
-        val valTotalTrx = CurrencyUtils.formatCurrency(saleRepository.sumTotalPaidAll(possesID).first())
+        val valTotalTrx = CurrencyUtils.formatCurrency(totPaid)
         var detailPlaceholder: String
         val mSaledList = saledRepository.getSaledByPosses(possesID.toInt()).first()
         val lblTotalTrx = "Total Setoran "
 
 
         for (saleds in mSaledList) {
-            valItem = java.lang.String.valueOf(saleds.name)
-            valQty = java.lang.String.valueOf(saleds.qty)
+            valItem = saleds.name
+            valQty = CurrencyUtils.formatCurrency(saleds.qty)
             valPrice = CurrencyUtils.formatCurrency(saleds.listPrice)
             valTotal = CurrencyUtils.formatCurrency(saleds.listPrice.multiply(saleds.qty))
             detailPlaceholder = BPMConstants.CHAR_SPACE + valQty + " x " + valPrice
@@ -1501,6 +1362,7 @@ class ReportGeneratorInvoice @Inject constructor(
 
     private suspend fun printRekapClosingTransaksiWithDiskonChannel(possesID: Long, maxChar: Int): String {
         var s = ""
+
         var valItem: String
         var valQty: String
         var valPrice: String
@@ -1510,12 +1372,12 @@ class ReportGeneratorInvoice @Inject constructor(
         var valNamaMember : String
         var lblTotalTrx: String
         var valTotalTrx: String
-        val salePriceLvl = saleRepository.getSaleByPosses(possesID.toInt()).first()
+        val saleList = saleRepository.getSaleByPosses(possesID.toInt()).first()
         var detailPlaceholder: String
 
-        for (sale in salePriceLvl) {
+        for (sale in saleList) {
             val mSaledList = saledRepository.getSaledByPossesChannel(possesID.toInt(), sale.channelId).first()
-
+            val totPaidChannel = saleList.filter { !it.isVoid && it.channelId == sale.channelId }.sumOf { it.total }
             var namaChannel = "(Tanpa Channel)"
             if (sale.channelId != 0) {
                 val channel = channelRepository.getChannelById(sale.channelId).first()
@@ -1527,7 +1389,7 @@ class ReportGeneratorInvoice @Inject constructor(
 
             lblTotalTrx = "Total Setoran "
 
-            valTotalTrx = CurrencyUtils.formatCurrency(saleRepository.sumTotalPaidAllChannel(possesID, sale.channelId).first())
+            valTotalTrx = CurrencyUtils.formatCurrency(totPaidChannel)
 
             s += ReportHelper.generateLine("-", maxChar)
             s += valNamaMember + BPMConstants.CHAR_ENTER
@@ -1602,6 +1464,7 @@ class ReportGeneratorInvoice @Inject constructor(
 
     private suspend fun printRekapClosingTransaksiChannel(possesID: Long, maxChar: Int): String {
         var s = ""
+        val saleList = saleRepository.getSaleByPosses(possesID.toInt()).first()
         var total: BigDecimal
         var count: BigDecimal
         var totalCount = BigDecimal.ZERO
@@ -1609,20 +1472,16 @@ class ReportGeneratorInvoice @Inject constructor(
         val channelList = channelRepository.getActiveChannelList().first()
 
         for (channel in channelList) {
-            try {
-                total = saleRepository.sumTotalChannel(possesID.toInt(), channel.id).first()
-                count = saleRepository.countTotalChannel(possesID.toInt(), channel.id).first()
-                grandtotal = grandtotal.add(total)
-                totalCount = totalCount.add(count)
-                s += printRekapPerChannelDetail(total, count, channel, maxChar)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            total = saleList.filter { it.channelId == channel.id }.sumOf { it.total }
+            count = saleList.filter { it.channelId == channel.id }.size.toBigDecimal()
+            grandtotal = grandtotal.add(total)
+            totalCount = totalCount.add(count)
+            s += printRekapPerChannelDetail(total, count, channel, maxChar)
         }
 
         // channel kosong
-        total = saleRepository.sumTotalChannel(possesID.toInt(), 0).first()
-        count = saleRepository.countTotalChannel(possesID.toInt(), 0).first()
+        total = saleList.filter { it.channelId == 0 }.sumOf { it.total }
+        count = saleList.filter { it.channelId == 0 }.size.toBigDecimal()
         grandtotal = grandtotal.add(total)
         totalCount = totalCount.add(count)
 
@@ -1652,7 +1511,7 @@ class ReportGeneratorInvoice @Inject constructor(
                 channel.name,
                 count.toString()
             ) else "(Tanpa Channel)"
-        val valTotal = java.lang.String.valueOf(CurrencyUtils.formatCurrency(total))
+        val valTotal = CurrencyUtils.formatCurrency(total)
         s += valItem
         s += ReportHelper.generateTab(valItem, valTotal, BPMConstants.BPM_TAB_LARGE, maxChar)
         s += valTotal

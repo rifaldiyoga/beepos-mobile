@@ -7,7 +7,6 @@ import com.bits.bee.bpmc.domain.repository.CrcRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddOnBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddonDByAddonUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
-import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.VoidTransactionUseCase
 import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSalecrcvBySaleUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -25,7 +24,6 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
     private val getSalecrcvBySaleUseCase: GetSalecrcvBySaleUseCase,
-    private val voidTransactionUseCase: VoidTransactionUseCase,
     private val crcRepository: CrcRepository,
     private val privilegeHelper: PrivilegeHelper
 ): BaseViewModel<DetailTransaksiPenjualanState, DetailTransaksiPenjualanViewModel.UIEvent>(){
@@ -39,8 +37,11 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     }
 
     fun onClickVoid() = viewModelScope.launch {
-        voidTransactionUseCase(state.sale!!)
-        eventChannel.send(UIEvent.SuccessVoid)
+        eventChannel.send(UIEvent.NavigateToHapusTransaksi)
+    }
+
+    fun onClickPrint() = viewModelScope.launch {
+        eventChannel.send(UIEvent.ReqPrint)
     }
 
     fun getSaledList() = viewModelScope.launch {
@@ -68,6 +69,8 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
 
     sealed class UIEvent {
         object SuccessVoid : UIEvent()
+        object NavigateToHapusTransaksi : UIEvent()
+        object ReqPrint : UIEvent()
     }
 
 }
