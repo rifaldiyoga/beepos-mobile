@@ -12,6 +12,11 @@ import androidx.room.PrimaryKey
             entity = ItemGroupEntity::class,
             parentColumns = [ItemGroupEntity.ID],
             childColumns = [ItemDummyEntity.ITEMGROUP_ID],
+        ),
+        ForeignKey(
+            entity = BrandEntity::class,
+            parentColumns = [BrandEntity.ID],
+            childColumns = [ItemDummyEntity.BRAND_ID],
         )
     ]
 )
@@ -25,6 +30,8 @@ data class ItemDummyEntity(
     var itemTypeCode: String,
     @ColumnInfo(name= ITEMGROUP_ID)
     var itemGroupId : Int = -1,
+    @ColumnInfo(name= BRAND_ID)
+    var brandId : Int = -1,
     @ColumnInfo(name= PRICE)
     var price : String,
     @ColumnInfo(name= PID)
@@ -39,6 +46,7 @@ data class ItemDummyEntity(
         const val NAME = "name"
         const val ITEMTYPE = "itemtype_code"
         const val ITEMGROUP_ID = "itemgroup_id"
+        const val BRAND_ID = "brand_id"
         const val PRICE = "price"
         const val UNIT = "unit"
         const val PID = "pid"

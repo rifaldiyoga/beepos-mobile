@@ -40,8 +40,6 @@ class SplashScreenActivity(
                 finish()
             }, 3000)
         binding.splashscreenTvVersion.text = BuildConfig.VERSION_NAME
-        BluetoothConnectService.statusPrinter
-        startService(Intent( this, BluetoothConnectService::class.java))
     }
 
     override fun subscribeListeners() {

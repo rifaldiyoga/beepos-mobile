@@ -15,6 +15,7 @@ object ItemDummyDummyDataMapper : BaseMapper<ItemDummyEntity, ItemDummy, Any>(){
             model.name,
             model.itemTypeCode,
             model.itemGroupId,
+            model.brandId,
             model.price,
             model.picPath,
             model.pid
@@ -27,6 +28,7 @@ object ItemDummyDummyDataMapper : BaseMapper<ItemDummyEntity, ItemDummy, Any>(){
             model.name,
             model.itemTypeCode,
             model.itemGroupId ,
+            model.brandId,
             model.price ,
             model.pid,
             model.picPath ,

@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class TambahKategoriFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTambahKategoriBinding = FragmentTambahKategoriBinding::inflate
@@ -108,7 +109,8 @@ class TambahKategoriFragment(
                         binding.apply {
                             it.itemgrp?.let { data ->
                                 viewModel.state.olId = data.id!!
-//                                etNamaPrd.setText(data.name)
+                                etNamaPrd.setText(data.name)
+                                etNamaPrd.setSelection(etNamaPrd.text.length)
                                 etNamaPrd.addTextChangedListener(object : TextWatcher{
                                     override fun beforeTextChanged(
                                         p0: CharSequence?,
@@ -148,6 +150,7 @@ class TambahKategoriFragment(
 //                                    visibleSub(it.upId)
 //                                }
                             }
+
                         }
                     }
                 }

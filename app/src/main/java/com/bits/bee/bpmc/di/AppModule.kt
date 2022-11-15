@@ -625,4 +625,10 @@ object AppModule {
         return GopayRepositoryImpl(apiUtils)
     }
 
+    @Provides
+    @Singleton
+    fun provideBrandRepository(apiUtils: ApiUtils, brandDao: BrandDao, dispatcher: CoroutineDispatcher) : BrandRepository {
+        return BrandRepositoryImpl(apiUtils, brandDao, dispatcher)
+    }
+
 }

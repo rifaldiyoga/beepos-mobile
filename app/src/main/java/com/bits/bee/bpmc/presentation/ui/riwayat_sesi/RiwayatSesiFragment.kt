@@ -39,7 +39,7 @@ class RiwayatSesiFragment(
 //        viewModel.getListHistory()
         pilihTglList = requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList()
 //        viewModel.getFilterDays(inilizeTgl(), viewModel.state.selectFilter)
-        viewModel.getFilterSorting(desc, inilizeTgl(), viewModel.state.selectFilter)
+        viewModel.getFilterSorting(desc, pilihTglList.indexOf(viewModel.state.selectFilter), viewModel.state.selectFilter)
         parentSesiAdapter = ParentSesiAdapter(requireContext(), listener = object : NestedSesiAdapter.PilihRiwayatSesiI{
             override fun onclick(posses: Posses) {
                 val action = RiwayatSesiFragmentDirections.actionRiwayatSesiFragmentToDetailRiwayatSesiFragment(
@@ -199,7 +199,13 @@ class RiwayatSesiFragment(
                         it.listHistoryPosses?.let { data ->
                             viewModel.setListSesi(data, desc)
                             it.sesiList?.let {
-                                parentSesiAdapter.initList(viewModel.state.sesiList!!)
+                                if (it.size > 0){
+                                    binding.lLRiwayatEmpty.visibility = View.GONE
+                                    parentSesiAdapter.initList(viewModel.state.sesiList!!)
+                                }else{
+                                    binding.lLRiwayatEmpty.visibility = View.VISIBLE
+                                    parentSesiAdapter.initList(mutableListOf())
+                                }
                             }
                         }
                     }

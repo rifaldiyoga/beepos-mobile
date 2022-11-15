@@ -92,19 +92,20 @@ class KasKeluarFragment(
                                     it.cashOutList?.let {
                                         parentKasAdapter.initList(sharedViewModel.state.cashOutList!!)
                                     }
-                                    imgEmpty.visibility = View.GONE
-                                    textDetai.visibility = View.GONE
-                                    btnTambah.visibility = View.GONE
+                                    group3.visibility = View.GONE
+                                    imageView17.visibility = View.GONE
+                                    txtNotFound.visibility = View.GONE
                                     binding.floatBtnTambah.visibility = View.VISIBLE
                                 }else{
                                     sharedViewModel.setListKasOut(data)
                                     it.cashOutList?.let {
                                         parentKasAdapter.initList(sharedViewModel.state.cashOutList!!)
                                     }
-                                    imgEmpty.visibility = View.VISIBLE
-                                    textDetai.visibility = View.VISIBLE
-                                    btnTambah.visibility = View.VISIBLE
-                                    binding.floatBtnTambah.visibility = View.GONE
+                                    if (sharedViewModel.state.search.length >= 2){
+                                        imageView17.visibility = View.VISIBLE
+                                        txtNotFound.visibility = View.VISIBLE
+                                        group3.visibility = View.GONE
+                                    }
                                 }
                             }
                         }

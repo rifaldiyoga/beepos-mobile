@@ -16,10 +16,10 @@ class AddEditKategoriProdukUseCase @Inject constructor(
         edit: Boolean,
         olId: Int
     ) {
-        val itmgrpss = itemGroupRepository.getItgrpByKategori(parentKategori).first()
-        var itmgrp: ItemGroup? = null
 
+        var itmgrp: ItemGroup? = null
         if (parentKategori.isNotEmpty()){
+            val itmgrpss = itemGroupRepository.getItgrpByKategori(parentKategori).first()
             up_id = itmgrpss.id ?: 1
         }
         if (edit){

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -150,6 +151,13 @@ class TambahKasKeluarDialog(
                                     DateFormatUtils.formatDateToString(
                                     BPMConstants.NEW_DATE_FORMAT, it.trxDate))
                                 etTanggal.isEnabled = false
+                            }
+                            btnSimpan.apply {
+                                background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
+                                    true -> R.drawable.btn_rect_primary
+                                    false -> R.drawable.btn_rect_disable
+                                })
+                                isEnabled = it.isValid
                             }
                         }
                     }
