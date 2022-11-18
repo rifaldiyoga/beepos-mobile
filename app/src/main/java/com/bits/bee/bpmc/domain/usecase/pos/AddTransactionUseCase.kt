@@ -22,6 +22,7 @@ class  AddTransactionUseCase @Inject constructor(
     private val saleAddOnRepository: SaleAddOnRepository,
     private val saleAddOnDRepository: SaleAddOnDRepository,
     private val salePromoRepository: SalePromoRepository,
+    private val crcRepository: CrcRepository,
     private val getUnitItemUseCase: GetUnitItemUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
@@ -59,7 +60,8 @@ class  AddTransactionUseCase @Inject constructor(
             val cashier = getActiveCashierUseCase().first()
             val user = getActiveUserUseCase().first()
             val posses = getActivePossesUseCase().first()
-            val crc = getDefaultCrcUseCase().first()
+            val crcId = sale.bp?.bpAccList?.firstOrNull { it.isDefault }?.crcId ?: throw IllegalArgumentException("BpAcc tidak ditemukan!")
+            val crc = crcRepository.getCrcById(crcId).first()
             var total : BigDecimal = sale.total
 
             crc?.let {

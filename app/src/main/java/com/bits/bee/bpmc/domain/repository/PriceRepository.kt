@@ -12,6 +12,6 @@ interface PriceRepository {
 
     fun getLatesPrice() : Flow<Resource<List<Price>>>
 
-    fun getPriceByPriceLvl(priceLvlId : Int, itemId : Int) : Flow<Price?>
+    fun getPriceByPriceLvl(priceLvlId : Int, itemId : Int, crcId : Int) : Flow<Price?>
 
 }

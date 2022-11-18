@@ -54,7 +54,6 @@ class CariItemFragment(
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.state.usePid = mViewModel.posModeState.value is PosModeState.RetailState
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +63,6 @@ class CariItemFragment(
         inflater.inflate(R.menu.menu_search_scan, menu)
         val searchItem = menu.findItem(R.id.menu_search)
         menu.findItem(R.id.menu_scan).isVisible = mViewModel.posModeState.value == PosModeState.RetailState
-
         searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.cari_produk_min_3_karakter)
         searchView.setSearchViewStyle(requireActivity(), R.color.white)
@@ -96,7 +94,6 @@ class CariItemFragment(
 
         searchItem.expandActionView()
 
-        searchView.setIconifiedByDefault(false)
         searchView.requestFocus()
         super.onCreateOptionsMenu(menu, inflater)
     }

@@ -40,7 +40,6 @@ class PilihDbViewModel @Inject constructor(
     private val postLicenseUseCase: PostLicenseUseCase,
     @ApplicationContext val context: Context,
     private val getUserBySecretSauce: GetUserBySecretSauce
-
 ) : BaseViewModel<PilihDbState, PilihDbViewModel.UIEvent>() {
 
     init {

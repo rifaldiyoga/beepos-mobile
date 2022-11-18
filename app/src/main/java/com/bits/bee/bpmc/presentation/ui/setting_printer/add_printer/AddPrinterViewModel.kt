@@ -3,15 +3,12 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.domain.model.PrinterKitchen
-import com.bits.bee.bpmc.domain.usecase.printer.GetKategoriPrinterKitchenUseCase
-import com.bits.bee.bpmc.domain.usecase.printer.GetListKitchenUseCase
+import com.bits.bee.bpmc.domain.usecase.printer.DeletePrinterUseCase
 import com.bits.bee.bpmc.domain.usecase.printer.PrinterInteractor
 import com.bits.bee.bpmc.domain.usecase.printer.SavePrinterUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,19 +16,19 @@ import javax.inject.Inject
 class AddPrinterViewModel @Inject constructor(
     private val printerInteractor: PrinterInteractor,
     private val savePrinterUseCase: SavePrinterUseCase,
-    private val getListKitchenUseCase: GetListKitchenUseCase,
+    private val deletePrinterUseCase: DeletePrinterUseCase,
     val bluetoothConnectService: BluetoothConnectService,
-    private val beePreferenceManager: BeePreferenceManager
 ): BaseViewModel<AddPrinterState, AddPrinterViewModel.UIEvent>() {
 
     init {
         state = AddPrinterState()
     }
 
-    val sistemPreferences = beePreferenceManager.sistemPreferences
-
-    fun loadData() = viewModelScope.launch {
-        val sistemPreferences = sistemPreferences.first()
+    fun onClickDelete() = viewModelScope.launch {
+        state.mPrinter?.let {
+            deletePrinterUseCase(it)
+            eventChannel.send(UIEvent.NavigateBack)
+        }
     }
 
     fun onClickPrinterKasir(b : Boolean) = viewModelScope.launch {
@@ -40,10 +37,6 @@ class AddPrinterViewModel @Inject constructor(
                 mPrinter = state.mPrinter?.copy(isReceipt = b)
             )
         )
-        if(b)
-            onClickAddKitchen()
-        else
-            clearPrinterKitchen()
     }
 
     fun onClickPrinterSetoran(b : Boolean) = viewModelScope.launch {
@@ -60,6 +53,10 @@ class AddPrinterViewModel @Inject constructor(
                 mPrinter = state.mPrinter?.copy(isKitchen = b)
             )
         )
+        if(b)
+            onClickAddPrinterKitchen()
+        else
+            clearPrinterKitchen()
     }
 
     fun onClickTesPrint() = viewModelScope.launch {
@@ -74,19 +71,20 @@ class AddPrinterViewModel @Inject constructor(
         )
     }
 
-    fun onClickAddKitchen() = viewModelScope.launch {
-        val printerKitchen = PrinterKitchen(kitchenName = "Makanan")
+    fun onClickAddPrinterKitchen() {
+        val printerKitchen = PrinterKitchen()
         val printerKitchenList = mutableListOf<PrinterKitchen>()
         printerKitchenList.addAll(state.printerKitchenList)
         printerKitchenList.add(printerKitchen)
         updateState(
             state.copy(
-                printerKitchenList = printerKitchenList
+                printerKitchenList = printerKitchenList,
+                mPrinter = state.mPrinter?.copy(isKitchen = printerKitchenList.isNotEmpty())
             )
         )
     }
 
-    fun onClickMinusKitchen() = viewModelScope.launch {
+    fun onClickMinuPrintersKitchen() = viewModelScope.launch {
         if(state.printerKitchenList.isNotEmpty()) {
             val printerKitchenList = mutableListOf<PrinterKitchen>()
             printerKitchenList.addAll(state.printerKitchenList)
@@ -94,47 +92,51 @@ class AddPrinterViewModel @Inject constructor(
             updateState(
                 state.copy(
                     printerKitchenList = printerKitchenList,
-                    isKitchen = printerKitchenList.isNotEmpty()
+                    mPrinter = state.mPrinter?.copy(isKitchen = printerKitchenList.isNotEmpty())
                 )
             )
         }
     }
 
+    fun onClickAddKitchen(printerKitchen : PrinterKitchen) = viewModelScope.launch {
+        val printerKitchenList = mutableListOf<PrinterKitchen>()
+        printerKitchenList.addAll(state.printerKitchenList)
+        printerKitchenList.first { it == printerKitchen  }.kitchenList = printerKitchen.kitchenList
+        updateState(
+            state.copy(
+                printerKitchenList = printerKitchenList
+            )
+        )
+    }
 
     private fun clearPrinterKitchen() = viewModelScope.launch {
         updateState(
             state.copy(printerKitchenList = mutableListOf())
         )
-
-//        val printerKitchenL = state.printerKitchenList
-//        for (printK in printerKitchenL){
-//            printK.id.let { deletePrinterKitD(it) }
-//            deletePrinterKit(printK)
-//        }
-    }
-
-    private fun deletePrinterKitD(id: Int) = viewModelScope.launch{
-        printerInteractor.deletePrinterKitchenD(id)
-    }
-
-    private fun deletePrinterKit(printK: PrinterKitchen) = viewModelScope.launch{
-        printerInteractor.deletePrinterKit(printK)
     }
 
     fun doSave() = viewModelScope.launch {
         state.mPrinter?.let {
-            savePrinterUseCase(it, state.printerKitchenList)
-            eventChannel.send(UIEvent.RequestSimpan)
+            var isValid = true
+            if(state.printerKitchenList.isNotEmpty()) {
+                state.printerKitchenList.forEach {
+                    isValid = it.kitchenName.isNotEmpty() && it.kitchenList.isNotEmpty()
+                }
+                if(!isValid)
+                    sendMessage("Pastikan nama dapur dan kategori terisi semua!")
+            }
+            if(isValid) {
+                savePrinterUseCase(it, state.printerKitchenList)
+                eventChannel.send(UIEvent.NavigateBack)
+            }
         }
     }
 
     fun setPrinterKitchen(mPrinter: Printer?) = viewModelScope.launch {
         printerInteractor.getPrinterFromPrinterKitchen(mPrinter!!.id!!).collect {
-
             updateState(
                 state.copy(printerKitchenList = it)
             )
-
         }
     }
 
@@ -144,7 +146,7 @@ class AddPrinterViewModel @Inject constructor(
 
     sealed class UIEvent{
         object RequestTipePrinter : UIEvent()
-        object RequestSimpan : UIEvent()
+        object NavigateBack : UIEvent()
         object RequestTesPrint : UIEvent()
     }
 }

@@ -10,12 +10,6 @@ import androidx.room.*
             childColumns = [PrinterKitchenDEntity.PRINTER_KITCHEN_ID],
             onDelete = ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = KitchenEntity::class,
-            parentColumns = [KitchenEntity.ID],
-            childColumns = [PrinterKitchenDEntity.KITCHEN_ID],
-            onDelete = ForeignKey.CASCADE
-        )
     ]
 )
 data class PrinterKitchenDEntity(

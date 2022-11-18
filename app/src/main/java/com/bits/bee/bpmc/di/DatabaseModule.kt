@@ -391,4 +391,10 @@ object DatabaseModule {
     fun provideBrandDao(dbHelper: DbHelper): BrandDao{
         return dbHelper.brandDao
     }
+
+    @Provides
+    @Singleton
+    fun provideBpAccDao(dbHelper: DbHelper): BpAccDao{
+        return dbHelper.bpAccDao
+    }
 }

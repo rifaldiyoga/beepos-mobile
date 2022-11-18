@@ -336,7 +336,7 @@
         android:id="@+id/detailSalesmanFragment"
         tools:layout="@layout/fragment_detail_salesman"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_salesman.DetailSalesmanFragment"
-        android:label="DetailSalesmanFragment" >
+        android:label="Detail Salesman" >
         <argument
             android:name="srep"
             app:argType="com.bits.bee.bpmc.domain.model.Srep" />

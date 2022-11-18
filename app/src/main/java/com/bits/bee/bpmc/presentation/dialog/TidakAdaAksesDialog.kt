@@ -15,7 +15,7 @@ class TidakAdaAksesDialog(
 ) : BaseBottomSheetDialogFragment<DialogTidakAdaAksesBinding>() {
 
     override fun initComponents() {
-
+        isCancelable = false
     }
 
     override fun subscribeListeners() {

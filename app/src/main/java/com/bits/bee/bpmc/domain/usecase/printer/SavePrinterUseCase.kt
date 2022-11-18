@@ -22,8 +22,8 @@ class SavePrinterUseCase @Inject constructor(
             clearPrinterKitchen(id)
 
             for (printerKitchen in printerKitchenList){
+                printerKitchen.printerId = id
                 val idPrinterKit =  printerKitchenRepo.addUpdatePrinterKitchen(printerKitchen)
-
                 for (kitchen in printerKitchen.kitchenList){
                     val printerKitchenD = PrinterKitchenD(printerKitchenId = idPrinterKit.toInt(), kitchenId = kitchen.id)
                     printerKitchenDRepo.addUpdatePrinterKitchenD(printerKitchenD)
@@ -32,7 +32,6 @@ class SavePrinterUseCase @Inject constructor(
 
         } ?: run {
             val id = printerRepo.addUpdatePrinter(mPrinter.let { PrinterDataMapper.fromDomainToDb(it) })
-
             if (printerKitchenList.isNotEmpty()){
                 for ((index, _) in printerKitchenList.withIndex()){
 
@@ -54,10 +53,8 @@ class SavePrinterUseCase @Inject constructor(
 
     private suspend fun clearPrinterKitchen(id: Int) {
         printerKitchenRepo.getByIdPrinter(id).first().forEach {
-            for (printK in it.kitchenList){
-                printerKitchenDRepo.deletePrinterKitchen(printK.id)
-                printerKitchenRepo.delete(it)
-            }
+            printerKitchenDRepo.deleteByPrinterKitchen(it.id!!)
+            printerKitchenRepo.delete(it)
         }
     }
 

@@ -81,12 +81,12 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
+                    android:id="@+id/ivPrinter"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_bluetooth"/>
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_bluetooth" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/linearLayout4"

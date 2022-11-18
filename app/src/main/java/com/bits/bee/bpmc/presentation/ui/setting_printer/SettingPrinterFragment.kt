@@ -28,6 +28,19 @@ class SettingPrinterFragment(
     lateinit var bluetoothConnectService: BluetoothConnectService
 
     override fun initComponents() {
+        binding.apply {
+            printerAdapter = PrinterAdapter(mListener = object : PrinterAdapter.PilihPrinterI{
+                override fun onItemClick(printer: Printer) {
+                    val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(printer)
+                    findNavController().navigate(action)
+                }
+
+            }, bluetoothConnectService)
+            binding.apply {
+                rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
+                rvListPrinter.adapter = printerAdapter
+            }
+        }
     }
 
     override fun subscribeListeners() {
@@ -58,17 +71,16 @@ class SettingPrinterFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadPrinter.collect {
-                    viewModel.loadFromState(it)
-                    initAdapter(viewModel.get())
-                    validateAdapter()
+                    printerAdapter.submitList(it)
+                    validateAdapter(it.isEmpty())
                 }
             }
         }
     }
 
-    private fun validateAdapter(){
+    private fun validateAdapter(isEmpty : Boolean){
         binding.apply {
-            if (viewModel.get().isEmpty()){
+            if (isEmpty){
                 lLBtnEmptyPrinter.visibility = View.VISIBLE
                 floatBtnTambah.visibility = View.GONE
             }else{
@@ -80,17 +92,7 @@ class SettingPrinterFragment(
     }
 
     private fun initAdapter(data: List<Printer>) {
-        printerAdapter = PrinterAdapter(data, mListener = object : PrinterAdapter.PilihPrinterI{
-            override fun onItemClick(printer: Printer) {
-                val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(printer)
-                findNavController().navigate(action)
-            }
 
-        }, bluetoothConnectService)
-        binding.apply {
-            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
-            rvListPrinter.adapter = printerAdapter
-        }
     }
 
 }

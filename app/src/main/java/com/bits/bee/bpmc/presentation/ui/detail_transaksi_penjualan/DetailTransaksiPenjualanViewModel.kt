@@ -63,7 +63,6 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
                     saleCrcvList = saleCrcvList
                 )
             )
-
         }
     }
 

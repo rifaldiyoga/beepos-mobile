@@ -252,6 +252,7 @@ object AppModule {
         crcDao: CrcDao,
         whDao: WhDao,
         srepDao : SrepDao,
+        bpAccDao : BpAccDao,
     ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
@@ -262,7 +263,8 @@ object AppModule {
             grpPrvDao,
             crcDao,
             whDao,
-            srepDao
+            srepDao,
+            bpAccDao
         )
     }
 
@@ -629,6 +631,12 @@ object AppModule {
     @Singleton
     fun provideBrandRepository(apiUtils: ApiUtils, brandDao: BrandDao, dispatcher: CoroutineDispatcher) : BrandRepository {
         return BrandRepositoryImpl(apiUtils, brandDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBpAccRepository(apiUtils: ApiUtils, brandDao: BpAccDao, dispatcher: CoroutineDispatcher) : BpAccRepository {
+        return BpAccRepositoryImpl(brandDao, dispatcher)
     }
 
 }

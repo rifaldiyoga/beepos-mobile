@@ -22,7 +22,7 @@ class PembayaranViewModel @Inject constructor() : BaseViewModel<PembayaranState,
         var isValid = true
         if(state.rekomBayar.isEmpty()) {
             isValid = false
-            msgChannel.send("Maasukkan nominal pembayaran!")
+            msgChannel.send("Masukkan nominal pembayaran!")
         } else if(state.total > BigDecimal(state.rekomBayar.removeSymbol())) {
             isValid = false
             msgChannel.send("Nominal pembayaran kurang dari total bayar!")

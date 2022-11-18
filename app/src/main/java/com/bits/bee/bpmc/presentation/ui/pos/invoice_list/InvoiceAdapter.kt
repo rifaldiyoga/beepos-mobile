@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.invoice_list
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,12 +68,14 @@ class InvoiceAdapter(
     inner class ViewHolderFnb(private val binding : ItemInvoiceBinding) : RecyclerView.ViewHolder(binding.root), ViewHolder{
 
         override fun bind(model : Saled) {
+
             binding.apply {
                 val context = binding.root.context
                 var subtotal = model.subtotal
                 tvNamaItem.text = model.name
                 tvQty.text = CurrencyUtils.formatCurrency(model.qty)
                 tvHargaDiskon.text = context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(model.listPrice * model.qty))
+                tvHargaDiskon.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
                 if(model.discAmt.compareTo(BigDecimal.ZERO) == 0){
                     tvLabelItem.gone()
@@ -142,6 +145,7 @@ class InvoiceAdapter(
                 tvQty.text = "${CurrencyUtils.formatCurrency(model.qty)} ${model.unit}. @${CurrencyUtils.formatCurrency(model.listPrice)}"
                 tvHarga.text =  context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(model.subtotal))
                 tvHargaDiskon.text = context.getString(R.string.mata_uang_nominal, model.crcSymbol, CurrencyUtils.formatCurrency(model.listPrice * model.qty))
+                tvHargaDiskon.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
                 if(model.discAmt.compareTo(BigDecimal.ZERO) == 0){
                     tvLabelItem.gone()
@@ -149,7 +153,7 @@ class InvoiceAdapter(
                 } else {
                     tvLabelItem.visible()
                     tvHargaDiskon.visible()
-                    tvLabelItem.text = context.getString(R.string.diskon)
+                    tvLabelItem.text = context.getString(R.string.diskon_nominal, CurrencyUtils.formatCurrency(model.discAmt))
                 }
                 if(!isDelete){
                     ivDelete.gone()

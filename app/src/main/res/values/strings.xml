@@ -185,7 +185,7 @@
     <string name="cth_smartphone_1">Cth. Smartphone 1</string>
     <string name="lanjutkan">Lanjutkan</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu felis nec orci tincidunt lobortis ut non mi. Suspendisse dolor orci, viverra a odio sed, mollis finibus dolor. Nunc in augue fringilla, consectetur dolor a, feugiat arcu. Sed vel leo sem. In et imperdiet quam, ut mollis libero. Etiam faucibus felis urna, ut porta purus auctor ac.</string>
-    <string name="informasi">Informasi ?</string>
+    <string name="informasi">Informasi</string>
     <string name="konfirmasi_keluar">Anda belum menyelesaikan proses login dan perubahan belum disimpan</string>
     <string name="yakin_akan_keluar">Yakin ingin keluar?</string>
     <string name="pilih_database">Pilih Database</string>
@@ -483,7 +483,7 @@ untuk memperbarui data dapur?</string>
     <string name="rincian_harga">Rincian Harga</string>
     <string name="cetak_nota">Cetak Nota</string>
     <string name="hapus_transaksi">Hapus Transaksi</string>
-    <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no JL12345?</string>
+    <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no %1$s?</string>
     <string name="alasan_void">Alasan Hapus</string>
     <string name="hapus">Hapus</string>
     <string name="pendapatan_sesi_1">Pendapatan Sesi</string>
@@ -701,5 +701,8 @@ untuk memperbarui data dapur?</string>
     <string name="msg_batal_perbarui_data">Apakah anda yakin ingin membatalkan pembaruan data? Hal ini akan menyebabkan beberapa data menjadi tidak sesuai atau tidak terupdate</string>
     <string name="lanjut_perbarui">Lanjut Perbarui</string>
     <string name="cth_jl_garuda_no_1">Cth. JL. Garuda No 1</string>
+    <string name="makanan">Makanan</string>
+    <string name="cth_dapur_makanan">Cth. Dapur Makanan</string>
+    <string name="dihapus">Dihapus</string>
 
 </resources>

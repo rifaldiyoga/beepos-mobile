@@ -43,6 +43,41 @@ class MemberFragment(
 
     private lateinit var memberAdapter: MemberAdapter
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search_member, menu)
+
+        val searchItem = menu.findItem(R.id.search_member)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText?.length == 0){
+                    viewModel.onSearch("")
+                }else if (newText!!.length >= 3){
+                    viewModel.onSearch(newText.toString().trim())
+                }
+                return false
+            }
+
+        })
+
+        searchView.requestFocus()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.search_member ->{
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun initComponents() {
         setHasOptionsMenu(true)
         binding.apply {
@@ -129,39 +164,6 @@ class MemberFragment(
             }
         }
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_search_member, menu)
-
-        val searchItem = menu.findItem(R.id.search_member)
-        val searchView = searchItem.actionView as SearchView
-        searchView.setSearchViewStyle(requireActivity(), R.color.black)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText?.length == 0){
-                    viewModel.onSearch("")
-                }else if (newText!!.length >= 3){
-                    viewModel.onSearch(newText.toString().trim())
-                }
-                return false
-            }
-
-        })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.search_member ->{
-
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun setVisibilityLoading(isLoading : Boolean){

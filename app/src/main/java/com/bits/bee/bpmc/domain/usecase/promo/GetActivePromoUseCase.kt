@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.domain.usecase.printer
+package com.bits.bee.bpmc.domain.usecase.promo
 
 import com.bits.bee.bpmc.domain.model.Promo
 import com.bits.bee.bpmc.domain.repository.PromoRepository

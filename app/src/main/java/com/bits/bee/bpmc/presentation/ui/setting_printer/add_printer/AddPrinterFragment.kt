@@ -1,10 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -37,9 +37,25 @@ class AddPrinterFragment(
     lateinit var printerHelper: PrinterHelper
 
     var isKitchen = false
+    private lateinit var menuDelete : MenuItem
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_delete, menu)
+        menu.findItem(R.id.menu_delete).isVisible = viewModel.state.mPrinter?.id != null
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_delete -> {
+                viewModel.onClickDelete()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun initComponents() {
-        viewModel.loadData()
+        setHasOptionsMenu(true)
         arguments?.let {
             val printer = it.getParcelable<Printer>("printer")
             printer?.let {
@@ -48,6 +64,7 @@ class AddPrinterFragment(
                         mPrinter = printer
                     )
                 )
+                viewModel.setPrinterKitchen(it)
             }
         }
         binding.apply {
@@ -72,16 +89,21 @@ class AddPrinterFragment(
                 viewModel.bluetoothConnectService.onEventConnectPrinter(viewModel.state.mPrinter!!, 0)
             }
             getLiveData<PrinterKitchen>("printerKitchen").observe(viewLifecycleOwner) {
-                Toast.makeText(requireActivity(), "", Toast.LENGTH_LONG).show()
-                isKitchen = true
+                viewModel.onClickAddKitchen(it)
+                sectionKitchenAdapter.notifyDataSetChanged()
             }
         }
-
     }
-
 
     override fun subscribeListeners() {
         binding.apply {
+            etNamaPrinter.addTextChangedListener {
+                viewModel.state.mPrinter?.printerName = etNamaPrinter.text.toString().trim()
+            }
+            etMacAddress.addTextChangedListener {
+                viewModel.state.mPrinter?.address = etMacAddress.text.toString().trim()
+            }
+
             etTipePrinter.setOnClickListener {
                 viewModel.onClickShowPrinter()
             }
@@ -111,10 +133,10 @@ class AddPrinterFragment(
             }
 
             btnKitchenPlus.setOnClickListener {
-                viewModel.onClickAddKitchen()
+                viewModel.onClickAddPrinterKitchen()
             }
             btnKitchenMinus.setOnClickListener {
-                viewModel.onClickMinusKitchen()
+                viewModel.onClickMinuPrintersKitchen()
             }
 
             btnTesPrint.setOnClickListener {
@@ -132,6 +154,11 @@ class AddPrinterFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.msg.collect {
+                showSnackbar(it)
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
@@ -159,9 +186,8 @@ class AddPrinterFragment(
                             }, requireContext())
                             dialog.show(parentFragmentManager, TAG)
                         }
-                        AddPrinterViewModel.UIEvent.RequestSimpan ->{
-                            val action = AddPrinterFragmentDirections.actionAddPrinterFragmentToSettingPrinterFragment()
-                            findNavController().navigate(action)
+                        AddPrinterViewModel.UIEvent.NavigateBack ->{
+                            findNavController().popBackStack()
                         }
                         AddPrinterViewModel.UIEvent.RequestTesPrint -> {
                             val printer = viewModel.state.mPrinter
@@ -182,6 +208,7 @@ class AddPrinterFragment(
                             it.mPrinter?.let {
                                 etNamaPrinter.setText(it.printerName)
                                 etMacAddress.setText(it.address)
+                                etMacAddress.isEnabled = it.tipe != 0
                                 val tipe = when(it.tipe){
                                     0 -> getString(R.string.bluetooth_printer)
                                     else -> getString(R.string.network_printer)
@@ -194,11 +221,14 @@ class AddPrinterFragment(
                                 swcPrinterKitchen.isChecked =  it.isKitchen
                                 swcPrinterSetoran.isChecked =  it.isReport
                             }
-                            btnSimpanEdit.background =
+                            btnSimpanEdit.background = ContextCompat.getDrawable(
+                                requireActivity(),
                                 if(state.mPrinter != null)
-                                    ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
+                                    R.drawable.btn_rect_primary
                                 else
-                                    ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
+                                    R.drawable.btn_rect_disable
+                            )
+
                             btnTesPrint.isVisible = state.mPrinter != null && state.mPrinter!!.printerName.isNotEmpty() && state.mPrinter!!.address.isNotEmpty()
 
                             rvKitchenPrinter.isVisible = state.printerKitchenList.isNotEmpty()
@@ -234,6 +264,5 @@ class AddPrinterFragment(
     private fun getMacAddress(): String{
         return binding.etMacAddress.text.toString()
     }
-
 
 }

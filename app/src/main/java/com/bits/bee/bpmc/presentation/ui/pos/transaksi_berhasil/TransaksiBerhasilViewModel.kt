@@ -15,6 +15,10 @@ class TransaksiBerhasilViewModel @Inject constructor(
     val printerHelper: PrinterHelper
 ) : BaseViewModel<TransaksiBerhasilState, TransaksiBerhasilViewModel.UIEvent>(){
 
+    init {
+        state = TransaksiBerhasilState()
+    }
+
     fun onTutupClick() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToPos)
     }

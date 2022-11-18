@@ -15,23 +15,16 @@ import com.google.android.material.datepicker.MaterialDatePicker
 class RadioDateAdapter(
     private val childFragmentManager: FragmentManager,
     private val ctx: Context,
-    stringList: List<String>,
-    selected: Int
+    private val stringList: List<String>,
+    private var selectedPosition: Int = 0
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var stringList : List<String> = mutableListOf()
-    private var selectedPosition : Int = 0
     private var getDateString: String? = null
-
-    init {
-        this.stringList = stringList
-        this.selectedPosition = selected
-    }
 
     fun getSelectedPosition() : Int = selectedPosition
 
     override fun getItemViewType(position: Int): Int {
-        if (!stringList.get(position).contains("Custom")){
+        if (!stringList[position].contains("Custom")){
             return 0
         }
         return 1
@@ -46,7 +39,7 @@ class RadioDateAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (!stringList.get(position).contains("Custom")){
+        if (!stringList[position].contains("Custom")){
             val holderOne: ViewHolderOne = holder as ViewHolderOne
             holderOne.binding.apply {
                 materialRadioButton.text = getItem(holder.absoluteAdapterPosition)
@@ -58,7 +51,7 @@ class RadioDateAdapter(
                     notifyDataSetChanged()
                 }
             }
-        }else{
+        } else {
             val holderTwo: ViewHolderTwo = holder as ViewHolderTwo
             holderTwo.binding.apply {
                 materialRadioButton.text = getItem(holder.absoluteAdapterPosition)

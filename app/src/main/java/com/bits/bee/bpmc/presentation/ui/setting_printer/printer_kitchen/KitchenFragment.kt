@@ -6,10 +6,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentKitchenListBinding
 import com.bits.bee.bpmc.domain.model.PrinterKitchen
-import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.AddPrinterViewModel
+import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -18,21 +18,29 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class KitchenFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentKitchenListBinding = FragmentKitchenListBinding::inflate
-) : BaseFragment<FragmentKitchenListBinding>() {
+) : BaseDialogFragment<FragmentKitchenListBinding>() {
 
     private val viewModel : KitchenViewModel by viewModels()
-
-    private val parentViewModel : AddPrinterViewModel by viewModels({requireParentFragment()})
 
     private lateinit var kitchenAdapter: KitchenAdapter
     var printerKitchen : PrinterKitchen? = null
 
+    override fun getTheme(): Int = R.style.DialogTheme
+
     override fun initComponents() {
         arguments?.let {
             printerKitchen = it.getParcelable("printerKitchen")
+            viewModel.updateState(
+                viewModel.state.copy(
+                    printerKitchen = printerKitchen
+                )
+            )
         }
         viewModel.loadData()
         binding.apply {
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
             kitchenAdapter = KitchenAdapter {
                 viewModel.onItemClick(it)
             }

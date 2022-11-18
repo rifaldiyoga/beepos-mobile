@@ -71,6 +71,12 @@ class PrinterRepositoryImpl @Inject constructor(
         return id
     }
 
+    override suspend fun delete(printer: Printer) {
+        withContext(ioDispatcher){
+            printerDao.delete(PrinterDataMapper.fromDomainToDb(printer))
+        }
+    }
+
     override suspend fun updatePrinter(printer: PrinterEntity?) {
         withContext(ioDispatcher){
             printer?.let { printerDao.update(it) }

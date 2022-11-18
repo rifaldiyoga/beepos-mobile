@@ -22,32 +22,28 @@ class GetListKitchenUseCase @Inject constructor(
 
     var kitchen: Kitchen? = null
     var itemgrp: ItemGroup? = null
-    var listhashMap : HashMap<Int, MutableList<Kitchen>> = HashMap()
 
-    operator fun invoke(mList: List<PrinterKitchen>, data_kitchen: Boolean): Flow<HashMap<Int, MutableList<Kitchen>>> {
+    operator fun invoke(printerKitchen: PrinterKitchen, data_kitchen: Boolean): Flow<MutableList<Kitchen>> {
         return flow {
-            for((index, printerKitchen) in mList.withIndex()){
-                val mListPrinterKitchenD = printerKitchenDRepo.getPrinterKitchen(printerKitchen.id!!).first()
+            val mListPrinterKitchenD = printerKitchenDRepo.getPrinterKitchen(printerKitchen.id!!).first()
 
-                val kitchenList: MutableList<Kitchen> = mutableListOf()
-                for (printerD in mListPrinterKitchenD){
+            val kitchenList: MutableList<Kitchen> = mutableListOf()
+            for (printerD in mListPrinterKitchenD){
+                if (data_kitchen){
                     val kitchen = kitchenRepo.getKitchenId(printerD.kitchenId).first()
+                    kitchenList.add(kitchen)
+                }else{
+                    val itemGrp = itemGoupRepo.getById(printerD.kitchenId).first()
 
-                    if (data_kitchen){
-                        kitchenList.add(kitchen)
-                    }else{
-                        val itemGrp = itemGoupRepo.getById(printerD.kitchenId).first()
-
-                        val kitchenNew = Kitchen(
-                            id = itemGrp.id!!,
-                            name = itemGrp.name,
-                        )
-                        kitchenList.add(kitchenNew)
-                    }
+                    val kitchenNew = Kitchen(
+                        id = itemGrp.id!!,
+                        name = itemGrp.name,
+                    )
+                    kitchenList.add(kitchenNew)
                 }
-                listhashMap.put(index, kitchenList)
-                emit(listhashMap)
             }
+            emit(kitchenList)
         }.flowOn(defaultDispatcher)
     }
+
 }

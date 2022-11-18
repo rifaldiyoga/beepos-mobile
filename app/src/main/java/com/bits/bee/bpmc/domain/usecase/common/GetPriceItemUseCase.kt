@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.domain.usecase.common
 
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.repository.CrcRepository
 import com.bits.bee.bpmc.domain.repository.ItemSaleTaxRepository
 import com.bits.bee.bpmc.domain.repository.PriceRepository
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -16,15 +17,16 @@ import javax.inject.Inject
 class GetPriceItemUseCase @Inject constructor(
     private val priceRepository: PriceRepository,
     private val itemSaleTaxRepository: ItemSaleTaxRepository,
-    private val getDefaultCrc : GetDefaultCrcUseCase,
+    private val crcRepository: CrcRepository,
     private val getUnitItemUse: GetUnitItemUseCase,
     private val getRegUseCase: GetRegUseCase
 ){
 
     suspend operator fun invoke(item : Item, priceLvlId : Int, bp: Bp) : Item {
-        val price = priceRepository.getPriceByPriceLvl(priceLvlId, item.id).first()
         val tax = itemSaleTaxRepository.getItemTaxByCodeItem(item.code).first()
-        val crc = getDefaultCrc().first()
+        val crcId = bp.bpAccList.firstOrNull { it.isDefault }?.crcId ?: throw IllegalStateException("Bp Acc tidak ditemukan!")
+        val crc = crcRepository.getCrcById(crcId).first()
+        val price = priceRepository.getPriceByPriceLvl(priceLvlId, item.id, crcId).first()
         val reg = getRegUseCase(BPMConstants.REG_ROUND).first()
         val roundVal = if (reg != null && reg.value.isNotEmpty()) reg.value.toInt() else 0
         val saleistaxed = bp.isTaxedOnSale

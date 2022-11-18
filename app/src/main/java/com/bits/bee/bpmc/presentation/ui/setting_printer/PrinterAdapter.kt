@@ -11,15 +11,15 @@ import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import javax.inject.Inject
 
 class PrinterAdapter constructor(
-    private val listPrinter: List<Printer>,
     private val mListener: PilihPrinterI,
     private val bluetoothConnectService: BluetoothConnectService
 ): RecyclerView.Adapter<PrinterAdapter.ViewHolder>() {
 
     private var mList: List<Printer> = mutableListOf()
 
-    init {
-        this.mList = listPrinter
+    fun submitList(list:List<Printer>){
+        mList = list
+        notifyDataSetChanged()
     }
 
     class ViewHolder(val binding : ItemBluetoothBinding) : RecyclerView.ViewHolder(binding.root)

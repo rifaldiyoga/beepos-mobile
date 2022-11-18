@@ -231,7 +231,6 @@ class PrinterFactory @Inject constructor(
                     rawdata?.let {
                         bluetoothConnectService.onEventPrintImage(printer, rawdata)
                     }
-//                    EventBus.getDefault().post(PrintImageBluetoothEvent(printer, rawdata))
                 }
 
                 if (imagesrc == BPMConstants.BPM_INIT_DEFAULT_LOGO && logoValueStatus) {
@@ -241,7 +240,9 @@ class PrinterFactory @Inject constructor(
                     Log.i("TAG_RESOURCES_img", "" + imagesrc)
                     if (data != null) {
                         val rawdata = Utils.decodeBitmap(dataimage)
-//                        EventBus.getDefault().post(PrintImageBluetoothEvent(printer, rawdata))
+                        rawdata?.let {
+                            bluetoothConnectService.onEventPrintImage(printer, rawdata)
+                        }
                     } else
                         Log.e("PRINTERFACTORY", "Read Bitmap File Failed")
                 }
@@ -252,7 +253,6 @@ class PrinterFactory @Inject constructor(
                     rawdata?.let {
                         bluetoothConnectService.onEventPrintImage(printer, rawdata)
                     }
-//                    EventBus.getDefault().post(PrintImageBluetoothEvent(printer, rawdata))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -169,6 +169,9 @@
         <argument
             android:name="sale"
             app:argType="com.bits.bee.bpmc.domain.model.Sale" />
+        <action
+            android:id="@+id/action_detailTransaksiPenjualanFragment_to_hapusTransaksiDialog"
+            app:destination="@id/hapusTransaksiDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_rekap_sesi"

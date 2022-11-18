@@ -102,6 +102,7 @@
         <entry key="app/src/main/res/drawable/btn_react_enable.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/btn_rect_disable.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/btn_rect_primary.xml" value="0.3325" />
+        <entry key="app/src/main/res/drawable/bx_wifi.xml" value="0.3025" />
         <entry key="app/src/main/res/drawable/ic_back_black.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/ic_back_white.xml" value="0.2845" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_white.xml" value="0.2845" />
@@ -110,6 +111,8 @@
         <entry key="app/src/main/res/drawable/ic_cashier.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/ic_cashier_b.xml" value="0.1205" />
         <entry key="app/src/main/res/drawable/ic_cashier_black.xml" value="0.1205" />
+        <entry key="app/src/main/res/drawable/ic_chev_down_background.xml" value="0.3025" />
+        <entry key="app/src/main/res/drawable/ic_chev_right_background.xml" value="0.3025" />
         <entry key="app/src/main/res/drawable/ic_circle_minus.xml" value="0.228" />
         <entry key="app/src/main/res/drawable/ic_circle_plus.xml" value="0.2295" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.241" />
@@ -164,6 +167,7 @@
         <entry key="app/src/main/res/layout-land/fragment_salesman.xml" value="0.27469135802469136" />
         <entry key="app/src/main/res/layout-land/fragment_tambah_member.xml" value="0.27469135802469136" />
         <entry key="app/src/main/res/layout-land/fragment_transaksi_berhasil.xml" value="0.2886142983230362" />
+        <entry key="app/src/main/res/layout-land/fragment_transaksi_penjualan.xml" value="0.28835978835978837" />
         <entry key="app/src/main/res/layout-land/fragment_upload_manual.xml" value="0.21164021164021163" />
         <entry key="app/src/main/res/layout-land/item_pos_menu.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_download.xml" value="0.2994791666666667" />
@@ -174,6 +178,7 @@
         <entry key="app/src/main/res/layout/dialog_atur_headerfooter.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/dialog_atur_modal_kasir.xml" value="0.18" />
         <entry key="app/src/main/res/layout/dialog_channel.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/dialog_channel_filter.xml" value="0.14493373236425822" />
         <entry key="app/src/main/res/layout/dialog_cloud_dapur.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/dialog_detail_member.xml" value="0.4595959595959596" />
         <entry key="app/src/main/res/layout/dialog_detail_pendapatan.xml" value="0.15006412997007268" />
@@ -206,7 +211,7 @@
         <entry key="app/src/main/res/layout/fragment_detail_salesman.xml" value="0.27960666951688756" />
         <entry key="app/src/main/res/layout/fragment_detail_transaksi_penjualan.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_detail_tutup_kasir.xml" value="0.22135416666666666" />
-        <entry key="app/src/main/res/layout/fragment_draft_list.xml" value="0.18170158187259514" />
+        <entry key="app/src/main/res/layout/fragment_draft_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_edit_item.xml" value="0.23596014492753623" />
         <entry key="app/src/main/res/layout/fragment_gopay.xml" value="0.19628286491387126" />
         <entry key="app/src/main/res/layout/fragment_hak_akses.xml" value="0.15006412997007268" />
@@ -257,10 +262,11 @@
         <entry key="app/src/main/res/layout/fragment_tambah_member.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_tambah_prd.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_transaksi_berhasil.xml" value="0.29243266353142366" />
-        <entry key="app/src/main/res/layout/fragment_transaksi_penjualan.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_transaksi_penjualan.xml" value="0.3641025641025641" />
         <entry key="app/src/main/res/layout/fragment_upload_manual.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/item_addon.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/item_bluetooth.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_checkbox_button.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_invoice.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_kitchen.xml" value="0.29243266353142366" />
         <entry key="app/src/main/res/layout/item_member.xml" value="0.5169811320754717" />
@@ -282,15 +288,20 @@
         <entry key="app/src/main/res/layout/item_produk_tambah.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_promo.xml" value="0.29243266353142366" />
         <entry key="app/src/main/res/layout/item_radio_button.xml" value="0.21633176571184268" />
+        <entry key="app/src/main/res/layout/item_radio_datepicker.xml" value="0.14493373236425822" />
         <entry key="app/src/main/res/layout/item_satuan_input.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_section_kitchen.xml" value="0.29243266353142366" />
         <entry key="app/src/main/res/layout/item_selection.xml" value="0.67" />
         <entry key="app/src/main/res/layout/item_sync.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_transaksi_penjualan.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/layout_filter_button.xml" value="0.67" />
         <entry key="app/src/main/res/layout/layout_numpad_payment.xml" value="0.19628286491387126" />
         <entry key="app/src/main/res/layout/layout_numpad_pin.xml" value="0.29243266353142366" />
         <entry key="app/src/main/res/layout/list_pane_row_item.xml" value="0.18982471141513468" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.125" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.20521590423257802" />
+        <entry key="app/src/main/res/menu/menu_analisa_sesi.xml" value="0.27704147071398033" />
+        <entry key="app/src/main/res/menu/menu_delete.xml" value="0.27704147071398033" />
         <entry key="app/src/main/res/menu/menu_hak_akses.xml" value="0.15006412997007268" />
         <entry key="app/src/main/res/menu/menu_login_operator.xml" value="0.13515655965120887" />
         <entry key="app/src/main/res/menu/menu_pos.xml" value="0.340625" />

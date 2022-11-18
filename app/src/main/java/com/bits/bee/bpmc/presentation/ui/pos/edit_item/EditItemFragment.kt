@@ -31,6 +31,7 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.hideKeyboard
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -64,11 +65,10 @@ class EditItemFragment(
                         pid = it.stock
                     )
                 )
+                viewModel.loadData()
                 viewModel.loadUnit(it.itemId, it.unitId)
                 setToolbarTitle(it.name)
 
-                viewModel.loadData()
-                viewModel.loadUnit(it.itemId)
             }
             val stock = bundle.getParcelable<Stock>("pid")
             stock?.let {
@@ -273,6 +273,9 @@ class EditItemFragment(
                             dialog.show(parentFragmentManager, "")
                         }
                         is EditItemViewModel.UIEvent.NavigateToHakAkses -> {
+                            hideKeyboard()
+                            binding.etDiskon.clearFocus()
+                            binding.etHarga.clearFocus()
                             val dialog = TidakAdaAksesDialog {
                                 it.dismiss()
                                 val action = EditItemFragmentDirections.actionEditItemDialogToHakAksesFragment(event.accType)

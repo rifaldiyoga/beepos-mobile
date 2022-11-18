@@ -70,6 +70,7 @@ class HakAksesFragment(
     }
 
     override fun initComponents() {
+
         arguments?.let {
             val acs = it.getString("acsType")
             viewModel.updateState(

@@ -85,8 +85,24 @@ class TransaksiBerhasilFragment(
     }
 
     private fun doPrint() = lifecycleScope.launchWhenStarted {
-        viewModel.printerHelper.printInvoice(requireActivity(), mainViewModel.saleTrans.getMaster(), BPMConstants.BPM_FONT_REGULAR, BPMConstants.BPM_ALIGN_LEFT)
-        viewModel.printerHelper.printKitchen(mainViewModel.saleTrans.getMaster(), BPMConstants.BPM_FONT_REGULAR, BPMConstants.BPM_ALIGN_LEFT)
+        if(!viewModel.state.isPrinted) {
+            viewModel.printerHelper.printInvoice(
+                requireActivity(),
+                mainViewModel.saleTrans.getMaster(),
+                BPMConstants.BPM_FONT_REGULAR,
+                BPMConstants.BPM_ALIGN_LEFT
+            )
+            viewModel.printerHelper.printKitchen(
+                mainViewModel.saleTrans.getMaster(),
+                BPMConstants.BPM_FONT_REGULAR,
+                BPMConstants.BPM_ALIGN_LEFT
+            )
+            viewModel.updateState(
+                viewModel.state.copy(
+                    isPrinted = true
+                )
+            )
+        }
     }
 
 }

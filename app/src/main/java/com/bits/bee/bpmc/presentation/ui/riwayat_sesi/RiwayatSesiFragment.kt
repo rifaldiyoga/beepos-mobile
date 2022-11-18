@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.riwayat_sesi
 
 import android.view.*
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,10 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRiwayatSesiBinding
+import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
+import com.bits.bee.bpmc.utils.FilterUtils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ class RiwayatSesiFragment(
 //        viewModel.getListHistory()
         pilihTglList = requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList()
 //        viewModel.getFilterDays(inilizeTgl(), viewModel.state.selectFilter)
-        viewModel.getFilterSorting(desc, pilihTglList.indexOf(viewModel.state.selectFilter), viewModel.state.selectFilter)
+        viewModel.getFilterSorting(desc, FilterUtils.getFilterDate(0, ""))
         parentSesiAdapter = ParentSesiAdapter(requireContext(), listener = object : NestedSesiAdapter.PilihRiwayatSesiI{
             override fun onclick(posses: Posses) {
                 val action = RiwayatSesiFragmentDirections.actionRiwayatSesiFragmentToDetailRiwayatSesiFragment(
@@ -97,17 +98,17 @@ class RiwayatSesiFragment(
                                 requireContext(),
                                 getString(R.string.pilih_tanggal),
                                 pilihTglList,
-                                inilizeTgl(),
+                                FilterDate(),
                                 { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
-                                        .show()
+//                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
+//                                        .show()
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            selectFilter = data.toString()
+                                            selectFilter = data
                                         )
                                     )
 //                                    viewModel.getFilterDays(inilizeTgl(), viewModel.state.selectFilter)
-                                    viewModel.getFilterSorting(desc, inilizeTgl(), viewModel.state.selectFilter)
+                                    viewModel.getFilterSorting(desc, data)
                                 })
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -191,7 +192,7 @@ class RiwayatSesiFragment(
                 listHistoryPosses = null
             )
         )
-        viewModel.getFilterSorting(desc, inilizeTgl(), viewModel.state.selectFilter)
+        viewModel.getFilterSorting(desc, viewModel.state.selectFilter)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
@@ -221,20 +222,6 @@ class RiwayatSesiFragment(
 ////                }
 //            }
 //        }
-    }
-
-    private fun inilizeTgl(): Int{
-        pilihTgl = viewModel.state.selectFilter
-        if (pilihTgl.equals(getString(R.string.last_1_week)))
-            posFilter = 0
-        else if(pilihTgl.equals(getString(R.string.last_1_month)))
-            posFilter = 1
-        else if (pilihTgl.equals(getString(R.string.last_90_days)))
-            posFilter = 2
-        else
-            posFilter = 3
-
-        return posFilter
     }
 
 }

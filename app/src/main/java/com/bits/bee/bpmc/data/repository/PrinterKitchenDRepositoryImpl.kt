@@ -1,12 +1,9 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.PrinterKitchenDDao
-import com.bits.bee.bpmc.data.data_source.local.model.PrinterKitchenDEntity
 import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDDataMapper
-import com.bits.bee.bpmc.domain.mapper.PrinterKitchenDataMapper
 import com.bits.bee.bpmc.domain.model.PrinterKitchenD
 import com.bits.bee.bpmc.domain.repository.PrinterKitchenDRepository
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,9 +23,9 @@ class PrinterKitchenDRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun deletePrinterKitchen(id: Int) {
+    override suspend fun deleteByPrinterKitchen(id: Int) {
         withContext(ioDispatcher){
-            printerKitchenDDao.deletePrinterKitchen(id)
+            printerKitchenDDao.deleteByPrinterKitchen(id)
         }
     }
 

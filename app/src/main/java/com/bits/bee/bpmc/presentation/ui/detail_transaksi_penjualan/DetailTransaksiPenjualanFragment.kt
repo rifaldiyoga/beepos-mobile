@@ -12,14 +12,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailTransaksiPenjualanBinding
+import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
 import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.gone
@@ -59,13 +62,27 @@ class DetailTransaksiPenjualanFragment(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_void -> {
-                viewModel.onClickVoid()
+                if(!viewModel.state.sale!!.isVoid) {
+                    viewModel.onClickVoid()
+                } else {
+                    val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), getString(R.string.informasi), "Transaksi sudah dibatalkan!", positiveListener = {it.dismiss()})
+                    dialog.show(parentFragmentManager, "")
+                }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun initComponents() {
+        arguments?.let {
+            val sale = it.getParcelable<Sale>("sale")
+            viewModel.updateState(
+                viewModel.state.copy(
+                    sale = sale
+                )
+            )
+            viewModel.getSaledList()
+        }
         setHasOptionsMenu(true)
         detailAdapter = InvoiceAdapter(
             onItemClicK = {},
@@ -80,6 +97,45 @@ class DetailTransaksiPenjualanFragment(
             rvList.apply {
                 adapter = detailAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+            }
+
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Sale>("sale")?.observe(viewLifecycleOwner) { sale ->
+                viewModel.updateState(
+                    viewModel.state.copy(sale = sale)
+                )
+                binding.apply {
+                    setToolbarTitle(sale.trxNo)
+                    tvTotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.total))
+                    tvKasir.text = sale.cashiername
+                    tvMember.text = sale.bpName
+                    tvPajak.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.taxAmt))
+                    tvDiskon.text =  getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.discAmt))
+                    tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
+                    tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
+                    tvTanggal.text = dateFormat.format(sale.trxDate)
+                    tvJenisPembayaran.text = Utils.getTermType(requireActivity(), sale.termType)
+                    tvChannel.text = sale.channel
+                    tvSalesman.text = sale.salesman
+
+                    btnCetak.isEnabled = sale.isVoid
+                    if(sale.isVoid) {
+                        btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
+                    } else {
+                        btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
+                    }
+                    groupSurc.isVisible = sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI
+                    if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
+                        var totalSurc: BigDecimal = BigDecimal.ZERO
+                        viewModel.state.saleCrcvList.forEach {
+                            totalSurc += BigDecimal(it.surcAmt)
+                        }
+                        tvSurcharge.text = getString(
+                            R.string.mata_uang_nominal,
+                            viewModel.state.crc?.symbol,
+                            CurrencyUtils.formatCurrency(totalSurc)
+                        )
+                    }
+                }
             }
         }
     }
@@ -112,7 +168,7 @@ class DetailTransaksiPenjualanFragment(
                                 tvChannel.text = sale.channel
                                 tvSalesman.text = sale.salesman
 
-                                btnCetak.isEnabled = sale.isVoid
+                                btnCetak.isEnabled = !sale.isVoid
                                 if(sale.isVoid) {
                                     btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
                                 } else {
@@ -131,7 +187,6 @@ class DetailTransaksiPenjualanFragment(
                                     )
                                 }
                             }
-
                         }
                         detailAdapter.submitList(it.saledList)
                         if(it.saleAddOnDList.isNotEmpty())
@@ -145,11 +200,19 @@ class DetailTransaksiPenjualanFragment(
                 when(it){
                     DetailTransaksiPenjualanViewModel.UIEvent.SuccessVoid -> {
                         viewModel.state.sale?.let {
-                            parentViewModel.updateActiveSale(it.copy(isVoid = true))
+//                            parentViewModel.updateActiveSale(it.copy(isVoid = true))
                         }
                     }
                     DetailTransaksiPenjualanViewModel.UIEvent.NavigateToHapusTransaksi -> {
-                        val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+//                        val dialog = HapusTransaksiDialog(onFinish = {
+//                            viewModel.updateState(
+//                                viewModel.state.copy(sale = it)
+//                            )
+//                        })
+//                        dialog.show(parentFragmentManager, "")
+                        val action = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+                            TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+                        else DetailTransaksiPenjualanFragmentDirections.actionDetailTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
                         findNavController().navigate(action)
                     }
                     DetailTransaksiPenjualanViewModel.UIEvent.ReqPrint -> {
@@ -158,36 +221,15 @@ class DetailTransaksiPenjualanFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                parentViewModel.activeSale.collect { sale ->
-                    binding.group.isVisible = sale != null
-                    viewModel.updateState(
-                        viewModel.state.copy(sale = sale)
-                    )
-                    viewModel.getSaledList()
-                    binding.apply {
-                        sale?.let {
-                            setToolbarTitle(sale.trxNo)
-                            tvTotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.total))
-                            tvKasir.text = sale.cashiername
-                            tvMember.text = sale.bpName
-                            tvPajak.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.taxAmt))
-                            tvDiskon.text =  getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.discAmt))
-                            tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
-                            tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
-                            tvTanggal.text = dateFormat.format(sale.trxDate)
-                            tvJenisPembayaran.text = sale.termType
-                            tvChannel.text = sale.channelId.toString()
-                            tvSalesman.text = sale.srepId?.toString() ?: ""
-
-                            btnCetak.isEnabled = sale.isVoid
-                            if(sale.isVoid) {
-                                btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
-                            } else {
-                                btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
-                            }
-                        }
+        if (BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    parentViewModel.activeSale.collect { sale ->
+                        binding.group.isVisible = sale != null
+                        viewModel.updateState(
+                            viewModel.state.copy(sale = sale)
+                        )
+                        viewModel.getSaledList()
                     }
                 }
             }

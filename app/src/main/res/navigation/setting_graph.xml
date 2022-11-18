@@ -137,12 +137,12 @@
         android:id="@+id/initialActivity2"
         android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
         android:label="InitialActivity" />
-    <fragment
+    <dialog
         android:id="@+id/kitchenFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.KitchenFragment"
         android:label="KitchenFragment" >
         <argument
             android:name="printerKitchen"
             app:argType="com.bits.bee.bpmc.domain.model.PrinterKitchen" />
-    </fragment>
+    </dialog>
 </navigation>

@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +40,11 @@ class TransaksiPenjualanAdapter(private val onItemClick : (Sale) -> Unit) : Pagi
 
                 tvTotal.text = CurrencyUtils.formatCurrency(model.total)
 
+                tvChannel.text = model.channel
+
                 tvJam.text = hourFormat.format(model.trxDate)
+
+                cvVoid.isVisible = model.isVoid
 
                 clContent.setOnClickListener {
                     onItemClick(model)

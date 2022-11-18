@@ -34,7 +34,7 @@
                 android:layout_marginTop="@dimen/size6"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
-                android:hint="@string/cth_beestore"
+                android:hint="@string/cth_dapur_makanan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvTitleDapur"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleDapur" />
@@ -65,7 +65,7 @@
                 android:editable="false"
                 android:inputType="none"
                 android:layout_height="wrap_content"
-                android:hint="@string/pilih_dapur"
+                android:hint="@string/pilih_kategori"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tV_kitchen_content" />

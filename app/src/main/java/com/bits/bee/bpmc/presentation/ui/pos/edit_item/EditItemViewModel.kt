@@ -29,12 +29,8 @@ class EditItemViewModel @Inject constructor(
     }
 
     fun loadData() = viewModelScope.launch {
-        updateState(
-            state.copy(
-                isEditPrice = privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_PRICE_EDIT),
-                isEditDisc =  privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_DISC)
-            )
-        )
+        state.isEditPrice = privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_PRICE_EDIT)
+        state.isEditDisc =  privilegeHelper.hasAccess(BPMConstants.BPM_PRIVILEGE_OBJ, BPMConstants.ACS_DISC)
     }
 
     fun loadUnit(id : Int, unit : Int? = -1) = viewModelScope.launch {
@@ -62,7 +58,7 @@ class EditItemViewModel @Inject constructor(
 
     fun onPriceChange(price : String) = viewModelScope.launch {
         if(price.isEmpty()){
-            msgChannel.send("Qty tidak boleh kosong!")
+            msgChannel.send("Harga tidak boleh kosong!")
         } else {
             updateState(
                 state.copy(
@@ -140,7 +136,6 @@ class EditItemViewModel @Inject constructor(
 
     fun onClickSubmit() = viewModelScope.launch {
         var isValid = true
-
         if(state.discAmt > state.listPrice) {
             isValid = false
             msgChannel.send("Diskon tidak boleh melebihi harga produk!")

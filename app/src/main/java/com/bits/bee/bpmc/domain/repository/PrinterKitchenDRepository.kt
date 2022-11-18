@@ -7,7 +7,7 @@ interface PrinterKitchenDRepository {
 
     fun getPrinterKitchen(id: Int): Flow<List<PrinterKitchenD>>
 
-    suspend fun deletePrinterKitchen(id: Int)
+    suspend fun deleteByPrinterKitchen(id: Int)
 
     suspend fun addUpdatePrinterKitchenD(printerKitchenD: PrinterKitchenD) : Long
 }

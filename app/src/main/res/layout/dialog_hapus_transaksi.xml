@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView71"
+        android:id="@+id/tvKet"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size16"
@@ -47,8 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size16"
         android:text="@string/alasan_void"
-        app:layout_constraintStart_toStartOf="@+id/textView71"
-        app:layout_constraintTop_toBottomOf="@+id/textView71" />
+        app:layout_constraintStart_toStartOf="@+id/tvKet"
+        app:layout_constraintTop_toBottomOf="@+id/tvKet" />
 
     <EditText
         android:id="@+id/etAlasan"

@@ -53,6 +53,9 @@ class InfoBisnisFragment constructor(
             etNamaPerusahaan.addTextChangedListener {
                 viewModel.state.namaPerusahaan = etNamaPerusahaan.text.toString().trim()
             }
+            acTxtView.addTextChangedListener {
+                viewModel.state.kota = acTxtView.text.toString().trim()
+            }
             spBidangUsaha.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     viewModel.state.tipeUsaha = list[p2]

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.riwayat_sesi
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sesi
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.GetPossesByDateUseCase
@@ -39,33 +40,13 @@ class RiwayatSesiViewModel @Inject constructor(
 //        possesList = getPossesHistoryUseCase.invoke()
     }
 
-    fun getFilterSorting(desc: Boolean, filter: Int, selectFilter: String) = viewModelScope.launch {
-        val startDate = Calendar.getInstance()
-        val endDate = Calendar.getInstance()
-        var startRangeTime: Long? = null
-        var endRangeTime: Long? = null
+    fun getFilterSorting(desc: Boolean, filter : FilterDate) = viewModelScope.launch {
         updateState(
             state.copy(
                 isDesc = desc
             )
         )
-        if (filter == 0){
-            startDate.add(Calendar.DAY_OF_MONTH, -6)
-        }else if (filter == 1){
-            startDate.add(Calendar.MONTH, -1)
-        }else if (filter == 2){
-            startDate.add(Calendar.MONTH, -3)
-        }else if (filter == 3){
-            val rangeDate = selectFilter.split(" - ").toTypedArray()
-            val startRange = rangeDate[0]
-            val endRange = rangeDate[1]
-            val startDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, startRange)
-            val endDateRange = DateFormatUtils.formatStringToDate(BPMConstants.NEW_DATE_FORMAT, endRange)
-            startRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, startDateRange)
-            endRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, endDateRange)
-        }
-        getFilterSortingUseCase.invoke(desc, DateFormatUtils.convertStartDate((if (filter == 3) startRangeTime else startDate.timeInMillis)!!),
-            DateFormatUtils.convertEndDate((if (filter == 3) endRangeTime!! else endDate.timeInMillis))).collect {
+        getFilterSortingUseCase.invoke(desc, filter.startDate, filter.endDate).collect {
                 it.data?.let {
                     updateState(
                         state.copy(

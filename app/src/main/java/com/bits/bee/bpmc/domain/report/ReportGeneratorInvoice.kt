@@ -850,12 +850,12 @@ class ReportGeneratorInvoice @Inject constructor(
         val lblRounding = "Pembulatan"
         val lblOmset = "Total Setoran"
         val lblVoid = "Void"
-        val lblcountIncome = " (${saleList.filter { !it.isDraft && it.isVoid }.size})"
+        val lblcountIncome = " (${saleList.filter { !it.isDraft && !it.isVoid }.size})"
         val lblcountVoid = "      (${saleList.filter { it.isVoid }.size}) "
         val valModal: String = CurrencyUtils.formatCurrency(posses.startBal)
 
 
-        val valOmset: String = CurrencyUtils.formatCurrency(totAllCash)
+        val valOmset = CurrencyUtils.formatCurrency(posses.startBal + (posses.totIn ?: BigDecimal.ZERO) - (posses.totOut ?: BigDecimal.ZERO))
         val valVoid: String = CurrencyUtils.formatCurrency(totVoid)
         s += lblModal
         s += ReportHelper.generateTab(lblModal, valModal, BPMConstants.BPM_TAB_LARGE, maxChar)
@@ -908,7 +908,7 @@ class ReportGeneratorInvoice @Inject constructor(
         var totDebit = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && !it.isVoid }.sumOf { it.total }
         var totKredit = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_KREDIT && !it.isVoid }.sumOf { it.total }
         val totGopay = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY && !it.isVoid }.sumOf { it.total }
-        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && !it.isVoid }.sumOf { it.total }
+        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI && !it.isVoid }.sumOf { it.total }
         val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
         val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }
 
@@ -947,6 +947,7 @@ class ReportGeneratorInvoice @Inject constructor(
         valSurcharge = CurrencyUtils.formatCurrency(surc)
         valExpense = CurrencyUtils.formatCurrency(expense)
         val valTotalSetoran = CurrencyUtils.formatCurrency(posses.endBal)
+
         s += lblCash
         s += ReportHelper.generateTab(lblCash, valCash, BPMConstants.BPM_TAB_LARGE, maxChar)
         s += valCash
@@ -1012,8 +1013,8 @@ class ReportGeneratorInvoice @Inject constructor(
 
         val saleList = saleRepository.getSaleByPosses(posses.possesId!!).first()
         val cadjList= cadjRepository.getCashInOut(posses.possesId!!.toLong()).first()
-        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && !it.isVoid }.sumOf { it.total }
-        val totVoid = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_DEBIT && it.isVoid }.sumOf { it.total }
+        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI && !it.isVoid }.sumOf { it.total }
+        val totVoid = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI && it.isVoid }.sumOf { it.total }
         val rounding = saleList.filter { !it.isVoid }.sumOf { it.rounding }
         val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
         val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }

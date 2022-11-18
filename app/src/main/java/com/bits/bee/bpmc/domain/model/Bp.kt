@@ -26,5 +26,6 @@ data class Bp(
     var updatedAt : Date? = Date(),
     var updatedBy : Int? = -1,
     var isFavorit : Boolean = false,
-    var bpAddr: BpAddr? = null
+    var bpAddr: BpAddr? = null,
+    var bpAccList : List<BpAcc> = mutableListOf()
 ) : Parcelable

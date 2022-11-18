@@ -42,7 +42,7 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rect_primary"
-        android:text="@string/tutup"
+        android:text="@string/minta_persetujuan"
         android:layout_marginTop="@dimen/size24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

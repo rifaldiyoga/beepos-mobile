@@ -46,7 +46,7 @@ class TambahProdukViewModel @Inject constructor(
 
     val modePreferences = beePreferenceManager.modePreferences
 
-        fun onClickTambahSatuan() = viewModelScope.launch {
+    fun onClickTambahSatuan() = viewModelScope.launch {
         if(state.unitList[0].unit.isNotEmpty()) {
             val unit = UnitDummy(
                 id = state.unitList.size
@@ -132,13 +132,13 @@ class TambahProdukViewModel @Inject constructor(
 
     fun loadEditPrd(itemGroupId: Int, brandId: Int) = viewModelScope.launch {
         getItemgrpIdUseCase.invoke(itemGroupId).collect{
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        kategoriProduk = it.name
-                    )
+
+            updateState(
+                state.copy(
+                    kategoriProduk = it.name
                 )
-            }
+            )
+
         }
 
         getBrandByIdUseCase.invoke(brandId).collect{

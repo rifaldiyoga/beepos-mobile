@@ -90,6 +90,10 @@ class AnalisaSesiFragment(
 
     override fun subscribeObservers() {
         loadViewChart()
+//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+//            viewModel.getActivePosses()
+//            viewModel.checkPosses()
+//        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
@@ -117,12 +121,12 @@ class AnalisaSesiFragment(
                                 sVKasirAktif.visibility = View.VISIBLE
                             }else{
                                 it.possesList?.let {
-                                    if (it.size > 0){
+                                    if (it.isNotEmpty()){
                                         viewModel.getActivePosses()
                                         lLAnalisaEmpty.visibility = View.GONE
                                         sVKasirAktif.visibility = View.VISIBLE
 
-                                    }else if(it.size == 0){
+                                    }else if(it.isEmpty()){
                                         lLAnalisaEmpty.visibility = View.VISIBLE
                                         sVKasirAktif.visibility = View.GONE
                                     }
@@ -343,7 +347,7 @@ class AnalisaSesiFragment(
                         return String.format("%d", value.toInt())
                     }
                 })
-                chart1.setData(if (entries != null) data else null)
+                chart1.data = data
             }
         }
     }

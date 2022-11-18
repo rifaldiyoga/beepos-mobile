@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.domain.repository
 
 import androidx.paging.PagingData
 import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
+import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ interface SaleRepository {
 
     suspend fun updateSale(sale : Sale)
 
-    fun getLatestSaleList(query : String, isDraft : Boolean) : Flow<PagingData<Sale>>
+    fun getLatestSaleList(query : String, isDraft : Boolean, channelList : List<Int>, startDate : Long, endDate : Long) : Flow<PagingData<Sale>>
 
     fun getLatestDraftList() : Flow<List<Sale>>
 

@@ -10,6 +10,7 @@
         android:theme="@style/MySearchViewStyleWhite"
         android:layout_height="?actionBarSize"
         android:textAlignment="center"
+        app:contentInsetStartWithNavigation="0dp"
         app:collapseIcon="@drawable/ic_back_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

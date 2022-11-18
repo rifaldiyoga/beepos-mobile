@@ -14,8 +14,13 @@ import java.math.BigDecimal
 @Dao
 interface SaleDao : BaseDao<SaleEntity> {
 
-    @Query("SELECT * FROM sale WHERE draft = :isDraft AND (trx_no LIKE '%' || :query || '%' OR bp_name LIKE '%' || :query || '%') ORDER BY id DESC")
-    fun getLatestSaleList(query : String, isDraft : Boolean) : PagingSource<Int, SaleEntity>
+    @Query("SELECT * FROM sale WHERE draft = :isDraft AND (trx_no LIKE '%' || :query || '%' OR bp_name LIKE '%' || :query || '%')" +
+            " AND channel_id IN (:channelList) AND trx_date BETWEEN :startDate AND :endDate ORDER BY id DESC")
+    fun getLatestSaleList(query : String, isDraft : Boolean, channelList : List<Int>, startDate : Long, endDate : Long) : PagingSource<Int, SaleEntity>
+
+    @Query("SELECT * FROM sale WHERE draft = :isDraft AND (trx_no LIKE '%' || :query || '%' OR bp_name LIKE '%' || :query || '%')" +
+            " AND trx_date BETWEEN :startDate AND :endDate ORDER BY id DESC")
+    fun getLatestSaleList(query : String, isDraft : Boolean,  startDate : Long, endDate : Long) : PagingSource<Int, SaleEntity>
 
     @Query("SELECT * FROM sale WHERE draft = 1 ORDER BY id DESC LIMIT 5")
     fun getLatestDraftList() : List<SaleEntity>

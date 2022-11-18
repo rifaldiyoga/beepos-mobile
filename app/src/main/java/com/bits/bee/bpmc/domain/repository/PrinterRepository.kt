@@ -25,5 +25,7 @@ interface PrinterRepository {
 
     suspend fun addUpdatePrinter(printer: PrinterEntity?) : Long
 
+    suspend fun delete(printer: Printer)
+
     suspend fun updatePrinter(printer : PrinterEntity?)
 }

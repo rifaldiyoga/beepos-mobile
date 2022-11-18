@@ -26,9 +26,22 @@ class KitchenViewModel @Inject constructor (
     val sistemPreferences = beePreferenceManager.sistemPreferences
 
     fun loadData() = viewModelScope.launch {
+        var kitchenList = getKategoriPrinterKitchenUseCase(sistemPreferences.first().isCloudDapur).first()
+        if(!sistemPreferences.first().isCloudDapur){
+            kitchenList =  kitchenList.filter { it.id != -1 && it.id != 1 && it.name != "ADDON" }.toMutableList()
+        }
+
+        state.printerKitchen?.let { printerKitchen ->
+            kitchenList.forEach { kitchen ->
+                printerKitchen.kitchenList.forEach {
+                    if(it.id == kitchen.id)
+                        kitchen.isUsed = true
+                }
+            }
+        }
         updateState(
             state.copy(
-                kitchenList = getKategoriPrinterKitchenUseCase(sistemPreferences.first().isCloudDapur).first()
+                kitchenList = kitchenList
             )
         )
     }
@@ -42,7 +55,7 @@ class KitchenViewModel @Inject constructor (
         }
         updateState(
             state.copy(
-                kitchenList
+                kitchenList = kitchenList
             )
         )
     }

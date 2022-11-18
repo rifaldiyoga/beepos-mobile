@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +17,6 @@ class SectionKitchenAdapter constructor(
 
     private var list: MutableList<MutableList<Kitchen>> = mutableListOf()
 
-    fun submitMap(list: MutableList<MutableList<Kitchen>>) {
-        this.list = list
-    }
-
     inner class ViewHolder(private val binding : ItemSectionKitchenBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model : PrinterKitchen){
@@ -27,8 +24,12 @@ class SectionKitchenAdapter constructor(
                 val pos = absoluteAdapterPosition + 1
                 tvTitleDapur.text = "Nama Dapur $pos"
                 etKitchenDapur.setText(model.kitchenName)
+                etKitchenDapur.addTextChangedListener {
+                    model.kitchenName = etKitchenDapur.text.toString().trim()
+                }
+
                 if(model.kitchenList.isNotEmpty())
-                    etKitchen.setText(model.kitchenList.joinToString { "${it.name}, " })
+                    etKitchen.setText(model.kitchenList.joinToString { "${it.name}" })
 
                 etKitchen.setOnClickListener {
                     onDapurClick(absoluteAdapterPosition)

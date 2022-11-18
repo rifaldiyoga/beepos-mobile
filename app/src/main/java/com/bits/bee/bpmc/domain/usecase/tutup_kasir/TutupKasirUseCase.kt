@@ -29,7 +29,7 @@ class TutupKasirUseCase @Inject constructor (
 
         var endBal = BigDecimal.ZERO
         cashList.onEach {
-            endBal.add(it.amount)
+            endBal = endBal.add(it.amount)
         }
         posses.endBal = endBal
         posses.endTime = Date()

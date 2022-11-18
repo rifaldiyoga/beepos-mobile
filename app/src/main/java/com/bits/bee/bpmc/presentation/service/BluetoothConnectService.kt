@@ -187,6 +187,7 @@ class BluetoothConnectService @Inject constructor(
                 } else {
                     bPrinterDriver.refresh()
                     bPrinterDriver.print(toBePrint!!, fontType, alignMode)
+                    Log.d("print",toBePrint)
                     bPrinterDriver.removeTask(data)
                 }
             }
