@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.rekap_produk
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
@@ -48,15 +49,19 @@ class RekapProdukViewModel @Inject constructor(
             startRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, startDateRange)
             endRangeTime = DateFormatUtils.formatDateToLong(BPMConstants.NEW_DATE_FORMAT, endDateRange)
         }
-        val listItem = queryRekapProdukUseCase.invoke(DateFormatUtils.convertStartDate((if (filter == 3) startRangeTime else startDate.timeInMillis)!!),
-            DateFormatUtils.convertEndDate((if (filter == 3) endRangeTime!! else endDate.timeInMillis)), query)
+        val filterStart = DateFormatUtils.convertStartDate((if (filter == 3) startRangeTime else startDate.timeInMillis)!!)
+        val filterEnd = DateFormatUtils.convertEndDate((if (filter == 3) endRangeTime!! else endDate.timeInMillis))
+        val listItem = queryRekapProdukUseCase.invoke(filterStart, filterEnd, query)
         updateState(
             state.copy(
-                itemList = listItem
+                itemList = listItem,
+                start = filterStart,
+                end = filterEnd
             )
         )
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun cariItems(query: String, prclv: Int, filter: Int, selectFilter: String) = viewModelScope.launch {
         updateState(
             state.copy(

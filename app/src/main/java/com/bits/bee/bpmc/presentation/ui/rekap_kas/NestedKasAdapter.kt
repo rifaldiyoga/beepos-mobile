@@ -40,7 +40,7 @@ class NestedKasAdapter(private  val ctx: Context) : ListAdapter<Cadj, RecyclerVi
                 val backToDate = Date(model.trxDate)
                 val format = SimpleDateFormat("kk:mm")
 
-                tvKasWaktu.text = format.format(backToDate) + "WIB"
+                tvKasWaktu.text = format.format(backToDate) + " WIB"
 
             }
         }

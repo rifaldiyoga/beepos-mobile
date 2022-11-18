@@ -2,16 +2,19 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.merek
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahEditMerkBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
+import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,14 +29,18 @@ class TambahMerekFragment(
         arguments?.let {
             val item = it.getString("itemBrand")
             item?.let {
+                (activity as InitialActivity).supportActionBar?.title = getString(R.string.title_ubah_merek)
                 viewModel.state.isEdit = true
                 viewModel.loadEditData(it)
             }
+
+        } ?: run {
 
         }
     }
 
     override fun subscribeListeners() {
+        setHasOptionsMenu(true)
         binding.apply {
             etMerekPrd.addTextChangedListener {
                 viewModel.updateState(
@@ -54,10 +61,26 @@ class TambahMerekFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
                     when (event) {
-                        TambahUbahMerekViewModel.UIEvent.FinishSave ->{
+                        TambahUbahMerekViewModel.UIEvent.FinishSaveDelete ->{
                             val action = TambahMerekFragmentDirections.actionTambahMerekFragmentToTambahProdukFragment()
                             findNavController().navigate(action)
                         }
+                        TambahUbahMerekViewModel.UIEvent.RequestDialog ->{
+                            val dialog = CustomDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.hapus_merk))
+                                .setMessage(getString(R.string.confirm_hapus_merk))
+                                .setPositiveText(getString(R.string.batal))
+                                .setNegativeText(getString(R.string.hapus))
+                                .setPositiveCallback {
+                                    it.dismiss()
+                                }
+                                .setNegativeCallback {
+                                    requireActivity().actionBar?.displayOptions
+                                    viewModel.doDeleteMerk()
+                                }.build()
+                            dialog.show(parentFragmentManager, TAG)
+                        }
+                        else -> {}
                     }
                 }
             }
@@ -103,5 +126,17 @@ class TambahMerekFragment(
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_ubah_produk, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_edit -> viewModel.onShowDelete()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

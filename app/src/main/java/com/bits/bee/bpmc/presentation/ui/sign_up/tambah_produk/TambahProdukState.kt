@@ -19,5 +19,9 @@ data class TambahProdukState (
     var listBrand: List<Brand>? = null,
     var merekProduk: String? = null,
     var bitmap: Bitmap? = null,
-    var picpath: String =""
+    var picpath: String ="",
+    var isEdit: Boolean = false,
+    var itemId: Int = -1,
+    var isActivePid: Boolean = false,
+    var pid: String = ""
 )

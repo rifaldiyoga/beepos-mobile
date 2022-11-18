@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -35,6 +36,19 @@ class ItemDummyRepositoryImpl @Inject constructor(
 
     override fun postItemDummy(itemDummy: ItemDummy): Flow<Resource<ItemDummyResponse>> {
         TODO("Not yet implemented")
+    }
+
+    override fun getLastId(): Flow<ItemDummy> {
+        return flow<ItemDummy> {
+            val data = itemDummyDao.getLastId()
+            emit(ItemDummyDummyDataMapper.fromDbToDomain(data))
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun deleteItemDummy(itemDummy: ItemDummy) {
+        withContext(ioDispatcher){
+            itemDummyDao.delete(ItemDummyDummyDataMapper.fromDomainToDb(itemDummy))
+        }
     }
 
 //    override fun postItemDummy(itemDummy: ItemDummy): Flow<Resource<ItemDummyResponse>> {

@@ -64,6 +64,7 @@
     <string name="pref_add_harga_prd">pref_add_harga_prd</string>
     <string name="pref_add_tipe_prd">pref_add_tipe_prd</string>
     <string name="pref_add_list_unit">pref_add_list_unit</string>
+    <string name="pref_add_pid">pref_add_pid</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -303,7 +304,10 @@ untuk memperbarui data dapur?</string>
     <string name="pilih_merk_prd">Pilih merek produk</string>
     <string name="pilih_merk">Pilih Merk</string>
     <string name="nama_merk">Nama Merek</string>
-
+    <string name="hapus_merk">Hapus Merek</string>
+    <string name="confirm_hapus_merk">Apakah anda yakin ingin menghapus merek? Merek yang dihapus tidak dapat dikembalikan lagi</string>
+    <string name="hapus_kategori">Hapus Kategori</string>
+    <string name="confirm_hapus_kategori">Apakah anda yakin ingin menghapus kategori? Kategori yang dihapus tidak dapat dikembalikan lagi</string>
     <!--    Setting   -->
     <string name="pos">POS</string>
     <string name="favorit">Favorit</string>
@@ -688,5 +692,12 @@ untuk memperbarui data dapur?</string>
     <string name="tambah_printer">Tambah Printer</string>
     <string name="cari_bluetooth_printer">Cari Bluetooth Printer</string>
     <string name="konversi">Konversi</string>
+    <string name="menampilkan_data_pada">Menampilkan data pada</string>
+    <string name="jml_stok">Jumlah Stok</string>
+
+<!--    title fragment-->
+    <string name="title_ubah_produk">Ubah Produk</string>
+    <string name="title_ubah_kategori">Ubah Kategori</string>
+    <string name="title_ubah_merek">Ubah Merek</string>
 
 </resources>

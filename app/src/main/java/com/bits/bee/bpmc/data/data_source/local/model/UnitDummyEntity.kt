@@ -11,7 +11,7 @@ import java.math.BigDecimal
 data class UnitDummyEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = ITEM_ID,)
     var itemId : Int,
     @ColumnInfo(name = IDX)

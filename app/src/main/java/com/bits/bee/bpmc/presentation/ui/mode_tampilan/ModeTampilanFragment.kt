@@ -28,14 +28,14 @@ class ModeTampilanFragment(
 
     override fun initComponents() {
         binding.apply {
-            viewModel.type = "signup"
-//            arguments?.let{
-//                val type = it.getString("type")
-//                viewModel.type = type ?: ""
-//                val isSignUp = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_is_sign_up), false) as Boolean
-//                if(isSignUp)
-//                    viewModel.type = "signup"
-//            }
+//            viewModel.type = "signup"
+            arguments?.let{
+                val type = it.getString("type")
+                viewModel.type = type ?: ""
+                val isSignUp = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_is_sign_up), false) as Boolean
+                if(isSignUp)
+                    viewModel.type = "signup"
+            }
         }
     }
 

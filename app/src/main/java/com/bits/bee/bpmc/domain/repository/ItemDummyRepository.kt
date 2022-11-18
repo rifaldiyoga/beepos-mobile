@@ -16,4 +16,8 @@ interface ItemDummyRepository {
 
     fun postItemDummy(itemDummy : ItemDummy) : Flow<Resource<ItemDummyResponse>>
 
+    fun getLastId(): Flow<ItemDummy>
+
+    suspend fun deleteItemDummy(itemDummy: ItemDummy)
+
 }

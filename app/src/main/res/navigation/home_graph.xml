@@ -120,7 +120,11 @@
         tools:layout="@layout/fragment_rekap_produk"
         android:id="@+id/rekapProdukFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.RekapProdukFragment"
-        android:label="@string/rekap_produk" />
+        android:label="@string/rekap_produk" >
+        <action
+            android:id="@+id/action_rekapProdukFragment_to_detailProdukFragment"
+            app:destination="@id/detailProdukFragment" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_cek_stok"
         android:id="@+id/cekStokFragment"
@@ -238,5 +242,14 @@
         tools:layout="@layout/fragment_insight_kelola_produk"
         android:name="com.bits.bee.bpmc.presentation.ui.insight_kelola_produk.InsightKelolaProdukFragment"
         android:label="@string/kelola_produk" />
+    <fragment
+        android:id="@+id/detailProdukFragment"
+        tools:layout="@layout/fragment_detail_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.DetailProdukFragment"
+        android:label="DetailProdukFragment" >
+        <argument
+            android:name="item"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

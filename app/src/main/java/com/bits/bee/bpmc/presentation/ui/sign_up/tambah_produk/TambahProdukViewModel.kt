@@ -13,10 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.domain.usecase.printer.GetItemgrpIdUseCase
-import com.bits.bee.bpmc.domain.usecase.signup.AddEditProdukUseCase
-import com.bits.bee.bpmc.domain.usecase.signup.GetBrandByIdUseCase
-import com.bits.bee.bpmc.domain.usecase.signup.GetKategoriProdukUseCase
-import com.bits.bee.bpmc.domain.usecase.signup.GetMerekProdukUseCase
+import com.bits.bee.bpmc.domain.usecase.signup.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,14 +31,16 @@ class TambahProdukViewModel @Inject constructor(
     private val getKategoriPrdUseCase: GetKategoriProdukUseCase,
     private val getMerekProdukUseCase: GetMerekProdukUseCase,
     private val getItemgrpIdUseCase: GetItemgrpIdUseCase,
-    private val getBrandByIdUseCase: GetBrandByIdUseCase
+    private val getBrandByIdUseCase: GetBrandByIdUseCase,
+    private val getUnitDummyByIdUseCase: GetUnitDummyByIdUseCase,
+    private val deleteProdukUseCase: DeleteProdukUseCase
 
 ): BaseViewModel<TambahProdukState, TambahProdukViewModel.UIEvent>() {
 
     init {
         state = TambahProdukState()
-        loadKatPrd()
-        loadMerkPrd()
+//        loadKatPrd()
+//        loadMerkPrd()
     }
 
     val modePreferences = beePreferenceManager.modePreferences
@@ -97,21 +96,22 @@ class TambahProdukViewModel @Inject constructor(
 
     }
 
-    fun onSubmit(nama: String, harga: String) = viewModelScope.launch {
+    fun onSubmit(nama: String, harga: String, pid: String) = viewModelScope.launch {
         val itemDummy = ItemDummy(
             id = state.itemDummy?.id,
             name = nama,
             itemTypeCode = state.tipeProduk,
             price = harga,
-            picPath = state.picpath,
+            picPath = if (state.bitmap != null) state.picpath else "",
+            pid = if (pid.isNotEmpty()) pid else ""
         )
 
 
-        addEditProdukUseCase.invoke(itemDummy, state.kategoriProduk ?: "", state.merekProduk ?: "")
+        addEditProdukUseCase.invoke(itemDummy, state.kategoriProduk ?: "", state.merekProduk ?: "", state.unitList, state.isEdit, state.itemId)
         eventChannel.send(UIEvent.FinsihSubmit)
     }
 
-    private fun loadKatPrd() = viewModelScope.launch {
+    fun loadKatPrd() = viewModelScope.launch {
         val listkatPrd = getKategoriPrdUseCase.invoke(-1)
         updateState(
             state.copy(
@@ -120,7 +120,7 @@ class TambahProdukViewModel @Inject constructor(
         )
     }
 
-    private fun loadMerkPrd() = viewModelScope.launch {
+    fun loadMerkPrd() = viewModelScope.launch {
         getMerekProdukUseCase.invoke().collect{
             updateState(
                 state.copy(
@@ -130,7 +130,7 @@ class TambahProdukViewModel @Inject constructor(
         }
     }
 
-    fun loadEditPrd(itemGroupId: Int, brandId: Int) = viewModelScope.launch {
+    fun loadEditPrd(itemGroupId: Int, brandId: Int, itemid: Int) = viewModelScope.launch {
         getItemgrpIdUseCase.invoke(itemGroupId).collect{
             it.data?.let {
                 updateState(
@@ -145,6 +145,14 @@ class TambahProdukViewModel @Inject constructor(
             updateState(
                 state.copy(
                     merekProduk = it.brandName
+                )
+            )
+        }
+
+        getUnitDummyByIdUseCase.invoke(itemid).collect{
+            updateState(
+                state.copy(
+                    unitList = it.toMutableList()
                 )
             )
         }
@@ -206,6 +214,19 @@ class TambahProdukViewModel @Inject constructor(
 
     }
 
+    fun updateIsPid(b: Boolean) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isActivePid = b
+            )
+        )
+    }
+
+    fun onDeleteProduk() = viewModelScope.launch {
+        deleteProdukUseCase.invoke(state.itemDummy!!, state.unitList)
+        eventChannel.send(UIEvent.FinsihSubmit)
+    }
+
     fun onShowDialog() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestDialogKategori)
     }
@@ -214,9 +235,24 @@ class TambahProdukViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestDialogMerk)
     }
 
+    fun onClickActivePid() = viewModelScope.launch {
+        eventChannel.send(UIEvent.AfterAcivePId)
+    }
+
+    fun OnrequestInsight() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestInisghtPId)
+    }
+
+    fun onShowDelete() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDialogDelete)
+    }
+
     sealed class UIEvent {
         object FinsihSubmit : UIEvent()
         object RequestDialogKategori : UIEvent()
         object RequestDialogMerk : UIEvent()
+        object AfterAcivePId : UIEvent()
+        object RequestInisghtPId : UIEvent()
+        object RequestDialogDelete : UIEvent()
     }
 }

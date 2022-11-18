@@ -37,13 +37,10 @@ class AnalisaSesiViewModel @Inject constructor(
 
     init {
         state = AnalisaSesiState()
-        checkPosses()
-//        getActivePosses()
-//        getActiveBranch()
-//        getCashierActive()
+//        checkPosses()
     }
 
-    private fun checkPosses() = viewModelScope.launch {
+    fun checkPosses() = viewModelScope.launch {
         getActivePossesListUseCase.invoke().collect {
             it.data?.let {
                 updateState(

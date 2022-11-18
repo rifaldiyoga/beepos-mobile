@@ -9,7 +9,7 @@ import java.math.BigDecimal
  */
 @Parcelize
 data class UnitDummy (
-    var id : Int = -1,
+    var id : Int? = null ,
     var itemId : Int = -1,
     var idx: Int = -1,
     var unit: String = "",

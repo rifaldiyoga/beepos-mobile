@@ -124,4 +124,10 @@ class ItemGroupRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override suspend fun deleteItmgrp(itemGroup: ItemGroup) {
+        withContext(ioDispatcher){
+            itemGroupDao.delete(ItemGroupDataMapper.fromDomainToDb(itemGroup))
+        }
+    }
+
 }
