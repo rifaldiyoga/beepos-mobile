@@ -28,4 +28,6 @@ interface ItemGroupRepository {
 
     fun getItemgrpByUpId(upid: Int): Flow<List<ItemGroup>>
 
+    suspend fun deleteItmgrp(itemGroup: ItemGroup)
+
 }

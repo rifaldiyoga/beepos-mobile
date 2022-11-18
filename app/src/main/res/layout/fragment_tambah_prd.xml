@@ -244,31 +244,31 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lL_satuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/lL_harga"
-                tools:ignore="MissingConstraints">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/lL_satuan"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/size16"-->
+<!--                android:orientation="vertical"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/lL_harga"-->
+<!--                tools:ignore="MissingConstraints">-->
 
-                <TextView
-                    android:id="@+id/txtSatuan"
-                    style="@style/TextHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/satuan_prd" />
+<!--                <TextView-->
+<!--                    android:id="@+id/txtSatuan"-->
+<!--                    style="@style/TextHeader"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/satuan_prd" />-->
 
-                <EditText
-                    android:id="@+id/etSatuan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/masukkan_satuan_produk"
-                    app:layout_constraintStart_toStartOf="@+id/textView1"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
-            </LinearLayout>
+<!--                <EditText-->
+<!--                    android:id="@+id/etSatuan"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/size6"-->
+<!--                    android:hint="@string/masukkan_satuan_produk"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/textView1"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/btnTambahSatuan"
@@ -303,7 +303,7 @@
                 android:layout_marginTop="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lL_satuan" />
+                app:layout_constraintTop_toBottomOf="@+id/lL_harga" />
 
             <LinearLayout
                 android:id="@+id/lL_tipe"

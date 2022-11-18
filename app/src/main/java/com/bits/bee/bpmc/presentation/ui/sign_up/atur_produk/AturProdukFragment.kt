@@ -50,7 +50,6 @@ class AturProdukFragment(
     override fun subscribeListeners() {
         binding.apply {
             btntambahPrd.setOnClickListener {
-                clearPref()
                 val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment()
                 findNavController().navigate(action)
             }
@@ -75,6 +74,7 @@ class AturProdukFragment(
                                     constraintLayout9.isVisible = it.isEmpty()
                                 }
                                 if(it.isNotEmpty()) {
+                                    clearPref()
                                     itemDummyAdapter.submitList(it.toMutableList())
                                 }
                             }
@@ -93,6 +93,8 @@ class AturProdukFragment(
         sharedPreferences.remove(getString(R.string.pref_add_nama_prd))
         sharedPreferences.remove(getString(R.string.pref_add_harga_prd))
         sharedPreferences.remove(getString(R.string.pref_add_tipe_prd))
+        sharedPreferences.remove(getString(R.string.pref_add_list_unit))
+        sharedPreferences.remove(getString(R.string.pref_add_pid))
         sharedPreferences.commit()
     }
 }

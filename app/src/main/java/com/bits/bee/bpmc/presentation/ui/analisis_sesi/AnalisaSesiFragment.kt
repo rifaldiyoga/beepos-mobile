@@ -68,6 +68,7 @@ class AnalisaSesiFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
+        viewModel.checkPosses()
         binding.apply {
             itemRankAdapter = ItemRankAdapter()
             rvRankItem.apply {

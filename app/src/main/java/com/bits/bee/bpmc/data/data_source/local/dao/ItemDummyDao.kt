@@ -15,4 +15,7 @@ interface ItemDummyDao : BaseDao<ItemDummyEntity> {
     @Query("SELECT * FROM item_dummy")
     fun getItemList() : List<ItemDummyEntity>
 
+    @Query("SELECT * FROM item_dummy ORDER BY id DESC LIMIT 1")
+    fun getLastId(): ItemDummyEntity
+
 }

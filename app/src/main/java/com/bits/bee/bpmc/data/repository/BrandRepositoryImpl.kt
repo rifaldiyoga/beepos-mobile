@@ -47,4 +47,10 @@ class BrandRepositoryImpl @Inject constructor(
             emit(BrandDataMapper.fromDbToDomain(data))
         }.flowOn(ioDispatcher)
     }
+
+    override suspend fun deleteMerk(brand: Brand) {
+        withContext(ioDispatcher){
+            brandDao.delete(BrandDataMapper.fromDomainToDb(brand))
+        }
+    }
 }

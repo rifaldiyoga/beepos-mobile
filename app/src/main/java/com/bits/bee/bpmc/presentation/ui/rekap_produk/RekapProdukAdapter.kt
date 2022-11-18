@@ -11,7 +11,10 @@ import com.bits.bee.bpmc.databinding.ItemRekapProdukBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.utils.CurrencyUtils
 
-class RekapProdukAdapter(private val ctx: Context) : ListAdapter<Item, RecyclerView.ViewHolder>(Diffcallback()){
+class RekapProdukAdapter(
+    private val ctx: Context,
+    private val mlistener: PilihProdukPidI
+    ) : ListAdapter<Item, RecyclerView.ViewHolder>(Diffcallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -49,5 +52,9 @@ class RekapProdukAdapter(private val ctx: Context) : ListAdapter<Item, RecyclerV
             return oldItem.id == newItem.id
         }
 
+    }
+
+    interface PilihProdukPidI{
+        fun onClick(item: Item)
     }
 }

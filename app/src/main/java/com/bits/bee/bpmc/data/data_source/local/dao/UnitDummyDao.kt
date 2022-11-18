@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.data.data_source.local.dao
 
 import androidx.room.Dao
+import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
+import com.bits.bee.bpmc.data.data_source.local.model.ItemDummyEntity
 import com.bits.bee.bpmc.data.data_source.local.model.UnitDummyEntity
 
 /**
@@ -10,4 +12,9 @@ import com.bits.bee.bpmc.data.data_source.local.model.UnitDummyEntity
 @Dao
 interface UnitDummyDao : BaseDao<UnitDummyEntity>{
 
+    @Query("SELECT * FROM unit_dummy where item_id = :id")
+    fun getUnitById(id: Int) : List<UnitDummyEntity>
+
+    @Query("DELETE FROM unit_dummy where item_id = :id")
+    suspend fun deleteByItem(id: Int)
 }

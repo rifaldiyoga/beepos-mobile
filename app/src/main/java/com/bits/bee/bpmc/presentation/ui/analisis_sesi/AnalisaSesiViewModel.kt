@@ -39,8 +39,6 @@ class AnalisaSesiViewModel @Inject constructor(
         state = AnalisaSesiState()
         checkPosses()
         getActivePosses()
-//        getActiveBranch()
-//        getCashierActive()
     }
 
      fun checkPosses() = viewModelScope.launch {

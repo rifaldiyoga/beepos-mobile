@@ -2,9 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.kategori
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -12,8 +10,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahKategoriBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
+import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,12 +28,16 @@ class TambahKategoriFragment(
     private val viewModel: TambahUbahKategoriViewModel by viewModels()
 
     override fun initComponents() {
+        setHasOptionsMenu(true)
         arguments?.let {
             val item = it.getString("itemKategori")
             item?.let {
+                (activity as InitialActivity).supportActionBar?.title = getString(R.string.title_ubah_kategori)
                 viewModel.state.isEdit = true
                 viewModel.loadEditData(it)
             }
+
+        } ?: run {
 
         }
     }
@@ -93,9 +99,24 @@ class TambahKategoriFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect{ event ->
                     when(event){
-                        TambahUbahKategoriViewModel.UIEvent.FinishSave ->{
+                        TambahUbahKategoriViewModel.UIEvent.FinishSaveDelete ->{
                             val action = TambahKategoriFragmentDirections.actionTambahKategoriFragmentToTambahProdukFragment()
                             findNavController().navigate(action)
+                        }
+                        TambahUbahKategoriViewModel.UIEvent.RequestDialog ->{
+                            val dialog = CustomDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.hapus_kategori))
+                                .setMessage(getString(R.string.confirm_hapus_kategori))
+                                .setPositiveText(getString(R.string.batal))
+                                .setNegativeText(getString(R.string.hapus))
+                                .setPositiveCallback {
+                                    it.dismiss()
+                                }
+                                .setNegativeCallback {
+                                    requireActivity().actionBar?.displayOptions
+                                    viewModel.onDeleteKategori()
+                                }.build()
+                            dialog.show(parentFragmentManager, TAG)
                         }
                     }
                 }
@@ -178,5 +199,17 @@ class TambahKategoriFragment(
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_ubah_produk, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_edit -> viewModel.onShowDelete()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

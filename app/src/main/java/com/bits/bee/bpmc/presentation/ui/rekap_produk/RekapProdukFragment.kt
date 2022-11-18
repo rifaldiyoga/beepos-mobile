@@ -4,17 +4,22 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapProdukBinding
 import com.bits.bee.bpmc.domain.model.FilterDate
+import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,7 +31,7 @@ class RekapProdukFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRekapProdukBinding = FragmentRekapProdukBinding::inflate
 ) : BaseFragment<FragmentRekapProdukBinding>() {
 
-    private val viewModel : RekapProdukViewModel by viewModels()
+    private val viewModel : RekapProdukViewModel by activityViewModels()
     lateinit var rekapProdukAdapter: RekapProdukAdapter
     private var pilihTgl: String = "1 Minggu Terakhir"
     private lateinit var pilihTglList : List<String>
@@ -40,7 +45,14 @@ class RekapProdukFragment(
     override fun initComponents() {
         setHasOptionsMenu(true)
         pilihTglList = requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList()
-        rekapProdukAdapter = RekapProdukAdapter(requireContext())
+        rekapProdukAdapter = RekapProdukAdapter(requireContext(), mlistener = object : RekapProdukAdapter.PilihProdukPidI{
+            override fun onClick(item: Item) {
+                val action = RekapProdukFragmentDirections.actionRekapProdukFragmentToDetailProdukFragment(
+                    Gson().toJson(item))
+                findNavController().navigate(action)
+            }
+
+        })
         binding.apply {
             rvRekapProduk.apply {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -50,7 +62,11 @@ class RekapProdukFragment(
     }
 
     override fun subscribeListeners() {
-
+        binding.apply {
+            etFilter.setOnClickListener {
+                viewModel.showDialog()
+            }
+        }
     }
 
     override fun subscribeObservers() {
@@ -97,6 +113,12 @@ class RekapProdukFragment(
                                     imageView16.visibility = View.VISIBLE
                                     textView90.visibility = View.VISIBLE
                                 }
+                            }
+                            it.start?.let {
+                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
+                                    viewModel.state.start!!
+                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
+                                etFilter.setText(viewModel.state.selectFilter)
                             }
                         }
                     }
@@ -180,9 +202,9 @@ class RekapProdukFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.filter_rekap_produk ->{
-                viewModel.showDialog()
-            }
+//            R.id.filter_rekap_produk ->{
+//                viewModel.showDialog()
+//            }
         }
         return super.onOptionsItemSelected(item)
     }

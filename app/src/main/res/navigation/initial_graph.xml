@@ -187,6 +187,9 @@
         <action
             android:id="@+id/action_tambahProdukFragment_to_aturProdukFragment"
             app:destination="@id/aturProdukFragment" />
+        <action
+            android:id="@+id/action_tambahProdukFragment_to_insightPidFragment"
+            app:destination="@id/insightPidFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_inital"
@@ -257,5 +260,10 @@
             app:nullable="true" />
 
     </fragment>
+    <fragment
+        android:id="@+id/insightPidFragment"
+        tools:layout="@layout/fragment_insight_pid"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.pid.InsightPidFragment"
+        android:label="PID" />
 
 </navigation>

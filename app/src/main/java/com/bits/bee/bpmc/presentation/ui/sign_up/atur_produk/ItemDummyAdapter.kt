@@ -69,6 +69,7 @@ class ItemDummyAdapter(private val onItemClick : (ItemDummy) -> Unit) : ListAdap
                 model.id?.let {
                     tvNamaItem.text = model.name
                     tvPid.isVisible = model.pid.isNotEmpty()
+                    tvPid.text = model.pid
                     if (model.price.isEmpty()){
                         tvHarga.text = "0"
                     }else{
