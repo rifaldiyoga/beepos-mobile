@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/member"
+        android:id="@+id/flash_on"
+        android:icon="@drawable/eva_flash_outline"
+        app:showAsAction="always"/>
+
+</menu>

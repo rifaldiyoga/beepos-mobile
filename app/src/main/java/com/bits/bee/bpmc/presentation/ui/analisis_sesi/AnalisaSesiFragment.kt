@@ -123,7 +123,7 @@ class AnalisaSesiFragment(
                                         lLAnalisaEmpty.visibility = View.GONE
                                         sVKasirAktif.visibility = View.VISIBLE
 
-                                    }else if(it.size == 0){
+                                    }else{
                                         lLAnalisaEmpty.visibility = View.VISIBLE
                                         sVKasirAktif.visibility = View.GONE
                                     }

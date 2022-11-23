@@ -32,7 +32,6 @@
                 android:layout_marginEnd="@dimen/size16"
                 android:layout_weight="1"
                 android:text="CASH"
-                style="@style/TextHeader"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/black"
                 android:text="@string/mata_uang_nominal" />
 
 

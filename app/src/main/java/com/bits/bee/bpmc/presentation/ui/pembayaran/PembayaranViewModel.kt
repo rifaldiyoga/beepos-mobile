@@ -20,10 +20,11 @@ class PembayaranViewModel @Inject constructor() : BaseViewModel<PembayaranState,
 
     fun onTunaiClick() = viewModelScope.launch {
         var isValid = true
+        val rekomByr = state.rekomBayar.replace(".","")
         if(state.rekomBayar.isEmpty()) {
             isValid = false
             msgChannel.send("Maasukkan nominal pembayaran!")
-        } else if(state.total > BigDecimal(state.rekomBayar.removeSymbol())) {
+        } else if(state.total > BigDecimal(rekomByr)) {
             isValid = false
             msgChannel.send("Nominal pembayaran kurang dari total bayar!")
         }

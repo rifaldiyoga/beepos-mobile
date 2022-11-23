@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.pos.cari_item
 
 import android.Manifest
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -14,23 +16,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCariItemBinding
+import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
 import com.bits.bee.bpmc.utils.PermissionUtils
-import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 /**
  * Created by aldi on 21/07/22.
@@ -58,6 +60,12 @@ class CariItemFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.state.usePid = mViewModel.posModeState.value is PosModeState.RetailState
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            if (!it.getString("result").equals("null") && it.getString("result")?.isNotEmpty() == true){
+                val stringss = it.getString("result")
+                Toast.makeText(requireContext(), stringss, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -220,6 +228,15 @@ class CariItemFragment(
                         findNavController().navigate(action)
                     }
                 }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode === 20) {
+            if (resultCode === RESULT_OK && android.R.attr.data != null) {
+                val code: String = ""
             }
         }
     }

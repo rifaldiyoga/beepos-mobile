@@ -11,8 +11,10 @@ import com.bits.bee.bpmc.domain.repository.StockRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class StockRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils,
     private val stockDao: StockDao,
+    private val iodispatcher: CoroutineDispatcher
 ) : StockRepository {
 
     private var mStockList: List<Stock> = mutableListOf()
@@ -48,6 +51,14 @@ class StockRepositoryImpl @Inject constructor(
             }
         }.getAsFlow()
     }
+
+    override fun getPidByItem(id: Int): Flow<List<Stock>> {
+        return flow {
+            val data = stockDao.getStockByItem(id).map { StockDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(iodispatcher)
+    }
+
 
     override fun getItemStock(wh_id: Int): Flow<Resource<List<Stock>>> {
         return object : NetworkDatabaseBoundResource<List<Stock>, StockResponse>(){

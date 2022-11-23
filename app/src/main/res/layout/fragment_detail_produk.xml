@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:textColor="@color/dark_gray"
+                    android:textColor="@color/black"
                     android:text="@string/mata_uang_nominal" />
 
 
@@ -119,7 +119,7 @@
             tools:ignore="MissingConstraints">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_rekap_produk"
+                android:id="@+id/rv_produk_pid"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

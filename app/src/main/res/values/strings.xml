@@ -308,6 +308,9 @@ untuk memperbarui data dapur?</string>
     <string name="confirm_hapus_merk">Apakah anda yakin ingin menghapus merek? Merek yang dihapus tidak dapat dikembalikan lagi</string>
     <string name="hapus_kategori">Hapus Kategori</string>
     <string name="confirm_hapus_kategori">Apakah anda yakin ingin menghapus kategori? Kategori yang dihapus tidak dapat dikembalikan lagi</string>
+    <string name="flash_on">Flash On</string>
+    <string name="flash_off">Flash Off</string>
+
     <!--    Setting   -->
     <string name="pos">POS</string>
     <string name="favorit">Favorit</string>

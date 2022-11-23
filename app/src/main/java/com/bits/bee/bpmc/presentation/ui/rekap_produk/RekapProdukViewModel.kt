@@ -4,15 +4,15 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.usecase.pos.GetPidByItemUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.FilterSearchItemUseCase
+import com.bits.bee.bpmc.domain.usecase.rekap_produk.GetPidUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.LoadCariItemsUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.QueryRekapProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -21,7 +21,8 @@ import javax.inject.Inject
 class RekapProdukViewModel @Inject constructor(
     private val queryRekapProdukUseCase: QueryRekapProdukUseCase,
     private val loadCariItemsUseCase: LoadCariItemsUseCase,
-    private val filterSearchItemUseCase: FilterSearchItemUseCase
+    private val filterSearchItemUseCase: FilterSearchItemUseCase,
+    private val getPidByItemUseCase: GetPidByItemUseCase
 ): BaseViewModel<RekapProdukState, RekapProdukViewModel.UIEvent>() {
 
     init {
@@ -140,6 +141,18 @@ class RekapProdukViewModel @Inject constructor(
             )
         )
 
+    }
+
+    fun getValuePid() = viewModelScope.launch {
+        getPidByItemUseCase.invoke(state.item!!).collect{
+            it.data?.let {
+                updateState(
+                    state.copy(
+                        listPid = it
+                    )
+                )
+            }
+        }
     }
 
     fun showDialog() = viewModelScope.launch {
