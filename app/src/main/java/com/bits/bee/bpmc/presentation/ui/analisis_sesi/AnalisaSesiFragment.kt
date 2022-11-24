@@ -91,10 +91,6 @@ class AnalisaSesiFragment(
 
     override fun subscribeObservers() {
         loadViewChart()
-//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-//            viewModel.getActivePosses()
-//            viewModel.checkPosses()
-//        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
@@ -126,8 +122,7 @@ class AnalisaSesiFragment(
                                         viewModel.getActivePosses()
                                         lLAnalisaEmpty.visibility = View.GONE
                                         sVKasirAktif.visibility = View.VISIBLE
-
-                                    }else if(it.isEmpty()){
+                                    }else{
                                         lLAnalisaEmpty.visibility = View.VISIBLE
                                         sVKasirAktif.visibility = View.GONE
                                     }

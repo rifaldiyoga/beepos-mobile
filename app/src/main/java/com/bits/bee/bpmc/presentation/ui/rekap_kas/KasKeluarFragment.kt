@@ -95,7 +95,7 @@ class KasKeluarFragment(
                                     group3.visibility = View.GONE
                                     imageView17.visibility = View.GONE
                                     txtNotFound.visibility = View.GONE
-                                    binding.floatBtnTambah.visibility = View.VISIBLE
+                                    floatBtnTambah.visibility = View.VISIBLE
                                 }else{
                                     sharedViewModel.setListKasOut(data)
                                     it.cashOutList?.let {
@@ -106,6 +106,7 @@ class KasKeluarFragment(
                                         txtNotFound.visibility = View.VISIBLE
                                         group3.visibility = View.GONE
                                     }
+                                    floatBtnTambah.visibility = View.GONE
                                 }
                             }
                         }

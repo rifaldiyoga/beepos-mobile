@@ -37,6 +37,11 @@ class RekapProdukAdapter(
                 tvSubtotal.text = ctx.getString(
                     R.string.mata_uang_nominal,
                     "Rp", CurrencyUtils.formatCurrency(model.subtotal))
+
+                clRekapProduk.setOnClickListener {
+                    if (model.usePid)
+                        mlistener.onClick(model)
+                }
             }
         }
 

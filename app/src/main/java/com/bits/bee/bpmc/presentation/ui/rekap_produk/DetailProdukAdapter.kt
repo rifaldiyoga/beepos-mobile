@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemDetailProdukBinding
 import com.bits.bee.bpmc.domain.model.Stock
+import java.math.BigDecimal
 
 class DetailProdukAdapter(private val ctx: Context): ListAdapter<Stock, RecyclerView.ViewHolder>(Diffcallback()) {
 
@@ -28,7 +29,7 @@ class DetailProdukAdapter(private val ctx: Context): ListAdapter<Stock, Recycler
         fun bind(model : Stock) {
             binding.apply {
                 tvPid.text = model.pid
-                tvQty.text = model.qty.toString() + " "
+                tvQty.text = BigDecimal(model.qty.toDouble()).toString()
             }
         }
 

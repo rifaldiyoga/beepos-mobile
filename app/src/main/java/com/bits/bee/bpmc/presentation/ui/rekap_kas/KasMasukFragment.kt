@@ -116,6 +116,7 @@ class KasMasukFragment(
                                         txtNotFound.visibility = View.VISIBLE
                                         group3.visibility = View.GONE
                                     }
+                                    floatBtnTambah.visibility = View.GONE
 //                                    else{
 //                                        group3.visibility = View.VISIBLE
 //                                        binding.floatBtnTambah.visibility = View.GONE

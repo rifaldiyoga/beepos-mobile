@@ -15,7 +15,7 @@ interface StockDao : BaseDao<StockEntity> {
     fun getStockByItemAndWh(itemId : Int, whId : Int) : List<StockEntity>
 
     @Query("SELECT * FROM stock WHERE item_id = :itemId")
-    fun getStockByItem(itemId : String) : List<StockEntity>
+    fun getStockByItem(itemId : Int) : List<StockEntity>
 
     @Query("DELETE FROM stock WHERE item_id = :itemId AND wh_id = :whId")
     fun deleteStockByItemAndWh(itemId : Int, whId : Int)
