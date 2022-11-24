@@ -13,11 +13,6 @@ import androidx.room.PrimaryKey
             parentColumns = [ItemGroupEntity.ID],
             childColumns = [ItemDummyEntity.ITEMGROUP_ID],
         ),
-        ForeignKey(
-            entity = BrandEntity::class,
-            parentColumns = [BrandEntity.ID],
-            childColumns = [ItemDummyEntity.BRAND_ID],
-        )
     ]
 )
 data class ItemDummyEntity(
@@ -31,7 +26,7 @@ data class ItemDummyEntity(
     @ColumnInfo(name= ITEMGROUP_ID)
     var itemGroupId : Int = -1,
     @ColumnInfo(name= BRAND_ID)
-    var brandId : Int = -1,
+    var brandId : Int? = -1,
     @ColumnInfo(name= PRICE)
     var price : String,
     @ColumnInfo(name= PID)

@@ -32,6 +32,7 @@ class PilihCabangFragment(
     private lateinit var adapter: PilihCabangAdapter
 
     override fun initComponents() {
+        viewModel.loadBranch()
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(R.string.page_pilih_cabang))
         setHasOptionsMenu(true)
         binding.apply {

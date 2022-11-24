@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 /**
@@ -38,14 +41,15 @@ class ItemDummyRepositoryImpl @Inject constructor(
     }.flowOn(ioDispatcher)
 
     override fun postItemDummy(itemDummy: ItemDummy): Flow<Resource<ItemDummyResponse>> {
-        val name = RequestBody.create(MediaType.parse("text/plain"), itemDummy.name)
-        val itemtype = RequestBody.create(MediaType.parse("text/plain"), itemDummy.itemTypeCode)
-        val itemgroup = RequestBody.create(MediaType.parse("text/plain"), "")
-        val price = RequestBody.create(MediaType.parse("text/plain"), itemDummy.price)
-        val unit = RequestBody.create(MediaType.parse("text/plain"), "PCS")
+        val name = itemDummy.name.toRequestBody("text/plain".toMediaTypeOrNull())
+        val itemtype = itemDummy.itemTypeCode.toRequestBody("text/plain".toMediaTypeOrNull())
+        val itemgroup = ("Makanan").toRequestBody("text/plain".toMediaTypeOrNull())
+        val price = itemDummy.price.toRequestBody("text/plain".toMediaTypeOrNull())
+        val unit = ("PCS").toRequestBody("text/plain".toMediaTypeOrNull())
+        val body : MultipartBody.Part? = null
         return object : NetworkBoundResource<ItemDummyResponse>(){
             override fun createCall(): Flow<ApiResponse<ItemDummyResponse>> {
-                return apiUtils.getItemDummyApiService().postItemDummy(name, itemtype, itemgroup, price, unit, null)
+                return apiUtils.getItemDummyApiService().postItemDummy(name, itemtype, itemgroup, price, unit, body)
             }
         }.getAsFlow()
     }

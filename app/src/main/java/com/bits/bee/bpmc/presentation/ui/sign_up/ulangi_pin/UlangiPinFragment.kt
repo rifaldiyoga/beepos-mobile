@@ -30,10 +30,12 @@ class UlangiPinFragment constructor(
 
     override fun initComponents() {
         dialog = LoadingDialogHelper(requireActivity())
+        val email = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_email), "") as String
         val pass = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_password), "") as String
         val auth = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_auth_key), "") as String
         viewModel.updateState(
             viewModel.state.copy(
+                email = email,
                 password = pass,
                 authKey = auth
             )
@@ -67,9 +69,12 @@ class UlangiPinFragment constructor(
                 Resource.Status.SUCCESS -> {
                     dialog.hide()
                     it.data?.let {
-                        if(it.status)
-                            viewModel.onSuccess()
-                        else
+                        if(it.status) {
+                            val apiKey = it.responses
+                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.api_key), apiKey)
+                            RetrofitClient.API_KEY = apiKey
+                            viewModel.login()
+                        }else
                             showSnackbar(it.responses)
                     }
 
@@ -95,7 +100,7 @@ class UlangiPinFragment constructor(
                 Resource.Status.SUCCESS -> {
                     dialog.hide()
                     it.data?.let { data ->
-                        if(data.status == "success"){
+                        if(data.status == "ok"){
                             if(data.db != null && data.db!!.isNotEmpty()) {
                                 viewModel.postDb(data.db!!.first().dbName)
                             }

@@ -59,12 +59,6 @@ class CariItemFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.state.usePid = mViewModel.posModeState.value is PosModeState.RetailState
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let {
-            if (!it.getString("result").equals("null") && it.getString("result")?.isNotEmpty() == true){
-                val stringss = it.getString("result")
-                Toast.makeText(requireContext(), stringss, Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,6 +97,11 @@ class CariItemFragment(
         searchItem.expandActionView()
 
         searchView.requestFocus()
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
+            viewModel.onSearch(it)
+            searchView.setQuery(it, true)
+            showSnackbar(it)
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -146,11 +145,7 @@ class CariItemFragment(
                 layoutManager = LinearLayoutManager(requireActivity())
             }
 
-            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
-                viewModel.onSearch(it)
-                searchView.setQuery(it, false)
-                showSnackbar(it)
-            }
+
         }
     }
 

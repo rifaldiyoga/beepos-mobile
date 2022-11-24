@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAturProdukBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
@@ -33,7 +34,11 @@ class AturProdukFragment(
 
     private lateinit var itemDummyAdapter: ItemDummyAdapter
 
+    private lateinit var dialog : LoadingDialogHelper
+
     override fun initComponents() {
+        dialog = LoadingDialogHelper(requireActivity())
+        viewModel.loadData(requireActivity())
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
             R.string.page_atur_produk))
         binding.apply {
@@ -102,16 +107,20 @@ class AturProdukFragment(
                             findNavController().navigate(action)
                         }
                         AturProdukViewModel.UIEvent.HideLoading -> {
-
+                            dialog.hide()
                         }
                         is AturProdukViewModel.UIEvent.ShowLoading -> {
-
+                            if(it.msg.isNotEmpty())
+                                dialog.show(message = it.msg)
+                            else
+                                dialog.show()
                         }
                         AturProdukViewModel.UIEvent.NavigateToDownload -> {
                             val dialog = DownloadDialogBuilder(false, {
+                                it.dismiss()
                                 viewModel.onFinsihDownload()
                             })
-                            dialog.dismiss()
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }
