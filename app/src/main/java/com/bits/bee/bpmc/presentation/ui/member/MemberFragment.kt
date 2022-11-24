@@ -110,6 +110,9 @@ class MemberFragment(
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = memberAdapter
             }
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>("isUse")?.observe(viewLifecycleOwner){
+                findNavController().popBackStack()
+            }
         }
     }
 

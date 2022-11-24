@@ -74,6 +74,7 @@ class HapusTransaksiViewModel @Inject constructor(
                 Resource.Status.ERROR -> {
 
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
     }

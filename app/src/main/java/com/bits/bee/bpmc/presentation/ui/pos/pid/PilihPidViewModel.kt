@@ -55,6 +55,9 @@ class PilihPidViewModel @Inject constructor(
                             )
                         )
                     }
+                    Resource.Status.NOINTERNET -> {
+
+                    }
                 }
             }
         }

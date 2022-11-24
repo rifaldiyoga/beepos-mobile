@@ -7,10 +7,8 @@ import com.bits.bee.bpmc.data.data_source.remote.post.VerifSmsPost
 import com.bits.bee.bpmc.data.data_source.remote.response.*
 import com.bits.bee.bpmc.utils.ApiResponse
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 
 /**
@@ -34,6 +32,6 @@ interface SignUpApiService {
     fun postSetupPassword(@Body setupPasswordPost: SetupPasswordPost): Flow<ApiResponse<SetupPasswordResponse>>
 
     @POST("/rest/trial/check-db")
-    fun postVerifDb(@Body verifDbPost: VerifDbPost): Flow<ApiResponse<SetupPasswordResponse>>
+    fun postVerifDb(@Body verifDbPost: VerifDbPost): Flow<ApiResponse<CheckDbResponse>>
 
 }

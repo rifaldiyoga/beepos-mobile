@@ -28,12 +28,12 @@ class  AddTransactionUseCase @Inject constructor(
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveUserUseCase: GetActiveUserUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
-    private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val addCashAUseCase: AddCashAUseCase,
     private val addTotalPossesUseCase: AddTotalPossesUseCase,
     private val addPaymentUseCase: AddPaymentUseCase,
     private val defDispatcher: CoroutineDispatcher,
-    private val getRegUseCase: GetRegUseCase
+    private val getRegUseCase: GetRegUseCase,
+    private val currencyConvUseCase: CurrencyConvUseCase
 ) {
 
     suspend operator fun invoke(
@@ -93,7 +93,7 @@ class  AddTransactionUseCase @Inject constructor(
                 sale.total = sale.total.add(surc)
             }
 
-            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, branch!!, cashier)
+            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, cashier)
             sale.trxOrderNum = counter
             sale.trxDate = Date()
             sale.totPaid = paymentAmt
@@ -149,6 +149,7 @@ class  AddTransactionUseCase @Inject constructor(
                 salePromoRepository.addSalePromo(salePromoList)
             }
             if(!sale.isDraft) {
+                val totalConv = currencyConvUseCase(crcId, sale.total).first()
                 /** For input transaction to table casha for history cash in or out in active session cashier */
                 addCashAUseCase(
                     refId = id,
@@ -156,7 +157,7 @@ class  AddTransactionUseCase @Inject constructor(
                     cashId = posses.possesId ?: throw Exception(""),
                     cashierId = cashier.id,
                     userId = user.id,
-                    amt = sale.total
+                    amt = totalConv ?: sale.total
                 )
 
                 /** For input transaction to table salecrcv for like change and edc */
@@ -172,7 +173,7 @@ class  AddTransactionUseCase @Inject constructor(
 
                 /** For update totin for active session cashier */
                 addTotalPossesUseCase(
-                    amt = sale.total
+                    amt = totalConv ?: sale.total
                 )
             }
 

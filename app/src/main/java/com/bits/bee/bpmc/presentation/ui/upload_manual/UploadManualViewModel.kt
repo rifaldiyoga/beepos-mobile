@@ -8,14 +8,10 @@ import com.bits.bee.bpmc.data.data_source.remote.post.BpPost
 import com.bits.bee.bpmc.data.data_source.remote.response.BpReturn
 import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.domain.model.*
-import com.bits.bee.bpmc.domain.repository.CadjRepository
-import com.bits.bee.bpmc.domain.repository.CstrRepository
-import com.bits.bee.bpmc.domain.repository.PossesRepository
-import com.bits.bee.bpmc.domain.repository.SaleRepository
+import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveUserUseCase
 import com.bits.bee.bpmc.domain.usecase.manual_upload.GetDataSyncUseCase
-import com.bits.bee.bpmc.domain.usecase.member.AddUpdateMemberUseCase
 import com.bits.bee.bpmc.domain.usecase.upload_manual.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
@@ -34,7 +30,7 @@ class UploadManualViewModel @Inject constructor(
     private val postBpClientUseCase: PostBpClientUseCase,
     private val getBpByCodeUseCase: GetBpByCodeUseCase,
     private val getBpByIdUseCase: GetBpByIdUseCase,
-    private val addUpdateMemberUseCase: AddUpdateMemberUseCase,
+    private val bpRepository: BpRepository,
     private val updateBpUseCase: UpdateBpUseCase,
     private val updateIDBpUseCase: UpdateIDBpUseCase,
     private val deleteBpUseCase: DeleteBpUseCase,
@@ -185,12 +181,12 @@ class UploadManualViewModel @Inject constructor(
                 if (checkBp != null){
                     updateBpUseCase.invoke(newBp)
                 }else{
-                    addUpdateMemberUseCase.invoke(newBp)
+                    bpRepository.addUpdateBp(newBp)
                 }
 
-                updateIDBpUseCase.invoke(mBp!!.id!!, Integer.valueOf(dataBpCode.id!!))
+                updateIDBpUseCase.invoke(mBp.id!!, Integer.valueOf(dataBpCode.id!!))
 
-                deleteBpUseCase.invoke(mBp!!)
+                deleteBpUseCase.invoke(mBp)
             }
         }
     }

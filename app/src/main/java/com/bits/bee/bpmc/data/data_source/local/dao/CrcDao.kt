@@ -14,7 +14,7 @@ interface CrcDao : BaseDao<CrcEntity> {
     @Query("DELETE FROM crc")
     fun deleteAll()
 
-    @Query("SELECT * FROM crc WHERE id = (SELECT crc_id FROM cmp LIMIT 1)")
+    @Query("SELECT * FROM crc WHERE isdefault = 1")
     fun getDefaultCrc() : CrcEntity?
 
 

@@ -3,10 +3,9 @@ package com.bits.bee.bpmc.presentation.ui.tambah_member
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
-import com.bits.bee.bpmc.domain.usecase.member.AddUpdateMemberUseCase
+import com.bits.bee.bpmc.domain.usecase.member.AddBpUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetActivePriceLvlUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
-import com.bits.bee.bpmc.domain.usecase.member.SaveBpAddrUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
@@ -20,9 +19,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TambahMemberViewModel @Inject constructor(
-    private val addUpdateMemberUseCase: AddUpdateMemberUseCase,
     private val getActivePriceLvlUseCase: GetActivePriceLvlUseCase,
-    private val saveBpAddrUseCase: SaveBpAddrUseCase,
+    private val addBpUseCase: AddBpUseCase,
     private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase,
     private val getRegUseCase: GetRegUseCase
 ): BaseViewModel<TambahMemberState, TambahMemberViewModel.UIEvent >() {
@@ -35,6 +33,7 @@ class TambahMemberViewModel @Inject constructor(
 
     val regSaleTaxed = getRegUseCase(BPMConstants.REG_SALE_TAXED)
     val regSaleTaxInc = getRegUseCase(BPMConstants.REG_SALE_TAXINC)
+    val regDefPriceLvl = getRegUseCase(BPMConstants.REG_PRCLVL_DEFAULT)
 
     fun onClickSimpan() = viewModelScope.launch {
         var errorNamaMember = ""
@@ -82,7 +81,7 @@ class TambahMemberViewModel @Inject constructor(
                 createdAt = Date()
             )
 //            addUpdateMemberUseCase(bp)
-            saveBpAddrUseCase.invoke(state.kota, bp, state.noTelp, state.email, bp.alamat)
+            addBpUseCase.invoke(state.kota, bp, state.noTelp, state.email, bp.alamat)
 //            state.city.
             eventChannel.send(UIEvent.SuccessAddMember)
         }

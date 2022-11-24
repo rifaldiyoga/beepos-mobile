@@ -45,7 +45,7 @@ class AddCstrUseCase @Inject constructor(
 
         val lastCstr = cstrRepository.getLastId().first()
 
-        val code = TrxNoGeneratorUtils.counterNoTrxCstr(lastCstr?.id ?: 1, branch, cashier)
+        val code = TrxNoGeneratorUtils.counterNoTrxCstr(lastCstr?.id ?: 1, cashier)
 
         cstrRepository.updateCode(code, lastCstr?.id?:1)
     }

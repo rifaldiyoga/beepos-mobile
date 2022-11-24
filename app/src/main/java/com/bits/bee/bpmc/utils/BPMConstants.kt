@@ -52,6 +52,7 @@ interface BPMConstants {
         const val REG_ROUND_DIGITS = "ROUND_DIGITS"
         const val REG_ROUND_DIGITS_ENB = "ROUND_DIGITS_ENB"
         const val REG_ROUND_DOWN_BLW = "ROUND_DOWN_BLW"
+        const val REG_PRCLVL_DEFAULT = "PRCLVL_DEFAULT"
         const val REG_CHANNEL_PRICE = "CHANNEL_PRICE"
         const val BPM_PARENTPATH = "/BPM"
         const val BPM_PRODUKPATH = "$BPM_PARENTPATH/PRODUK"

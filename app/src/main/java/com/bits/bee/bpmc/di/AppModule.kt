@@ -253,6 +253,8 @@ object AppModule {
         whDao: WhDao,
         srepDao : SrepDao,
         bpAccDao : BpAccDao,
+        branchDao: BranchDao,
+        cashierDao: CashierDao,
     ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
@@ -264,7 +266,8 @@ object AppModule {
             crcDao,
             whDao,
             srepDao,
-            bpAccDao
+            bpAccDao,
+            branchDao, cashierDao
         )
     }
 

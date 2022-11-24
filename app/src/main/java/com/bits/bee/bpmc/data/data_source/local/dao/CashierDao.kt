@@ -25,4 +25,8 @@ interface CashierDao : BaseDao<CashierEntity>{
 
     @Query("SELECT * FROM cashier WHERE id = :id")
     fun getCashierById(id: Int) : CashierEntity
+
+    @Query("DELETE FROM cashier ")
+    suspend fun deleteAll()
+
 }

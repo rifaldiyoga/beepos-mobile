@@ -20,9 +20,9 @@ class BpAccRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ): BpAccRepository {
 
-    override suspend fun addUpdateBpAcc(bpaddr: BpAccEntity) {
+    override suspend fun addUpdateBpAcc(bpaddr: BpAcc) {
         withContext(ioDispatcher){
-            bpAddrDao.insertSingle(bpaddr)
+            bpAddrDao.insertSingle(BpAccDataMapper.fromDomainToDb(bpaddr))
         }
     }
 

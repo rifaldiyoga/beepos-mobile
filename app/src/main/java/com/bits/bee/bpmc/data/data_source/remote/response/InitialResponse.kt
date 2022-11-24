@@ -37,6 +37,10 @@ data class InitialResponse (
         var srep : List<SrepModel> = mutableListOf(),
         @SerializedName("bpaccount")
         var bpAcc : List<BpAccModel> = mutableListOf(),
+        @SerializedName("branch")
+        var branch : List<BranchResponse.BranchModel> = mutableListOf(),
+        @SerializedName("cashier")
+        var cashier : List<CashierResponse.CashierModel> = mutableListOf(),
     ) : Parcelable
 
 

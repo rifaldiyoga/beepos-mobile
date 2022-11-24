@@ -5,5 +5,8 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.ulangi_pin
  */
 data class UlangiPinState(
     var pinBefore : String = "",
-    var pin : String = ""
+    var pin : String = "",
+    var email : String = "",
+    var password : String = "",
+    var authKey : String = ""
 )

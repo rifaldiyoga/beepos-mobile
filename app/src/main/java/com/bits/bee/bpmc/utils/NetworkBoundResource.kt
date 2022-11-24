@@ -2,6 +2,8 @@ package com.bits.bee.bpmc.utils
 
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -44,6 +46,9 @@ abstract class NetworkDatabaseBoundResource<ResultType, RequestType> @MainThread
             is ApiEmptyResponse -> {
 
             }
+            is ApiNoNetworkResponse -> {
+                send(Resource.noInternet(null, apiResponse.errorMessage, 505))
+            }
         }
     }
 
@@ -81,7 +86,6 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
                 val a = processResponse(apiResponse)
                 saveCallResult(a)
                 emit(Resource.success(a))
-
             }
             is ApiTimeoutResponse -> {
                 emit(Resource.timeout(null, apiResponse.errorMessage))
@@ -90,6 +94,9 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
                 emit(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
             }
             is ApiEmptyResponse -> {}
+            is ApiNoNetworkResponse -> {
+                emit(Resource.noInternet(null, apiResponse.errorMessage, 505))
+            }
         }
     }
 

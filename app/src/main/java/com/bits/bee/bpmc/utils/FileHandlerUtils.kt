@@ -122,7 +122,7 @@ class FileHandlerUtils {
             val dir = File(path)
             var myBitmap: Bitmap? = null
             if (dir.exists()){
-                myBitmap = BitmapFactory.decodeFile(dir.getAbsolutePath())
+                myBitmap = BitmapFactory.decodeFile(dir.absolutePath)
             }
             return myBitmap!!
         }

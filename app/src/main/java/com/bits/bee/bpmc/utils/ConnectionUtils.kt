@@ -20,10 +20,7 @@ class ConnectionUtils {
                 Toast.makeText(requireContext, requireContext.getText(R.string.cek_koneksi_internet), Toast.LENGTH_SHORT).show()
                 isConnected = false
             }else if (isNetworkAvailable(requireContext)){
-                if (!isInternetAvailable()){
-                    isConnected = false
-                }else
-                isConnected = true
+                isConnected = isInternetAvailable()
             }
             return isConnected
         }

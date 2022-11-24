@@ -10,12 +10,6 @@ import java.util.*
 @Entity(tableName = PossesEntity.TBL_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [PossesEntity.USER_ID],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = CashierEntity::class,
             parentColumns = [CashierEntity.ID],
             childColumns = [PossesEntity.CASHIER_ID]

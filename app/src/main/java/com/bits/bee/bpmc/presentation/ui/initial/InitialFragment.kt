@@ -28,7 +28,6 @@ class InitialFragment(
             btnMasuk.setOnClickListener {
                 val action = InitialFragmentDirections.actionInitialFragmentToLoginFragment()
                 findNavController().navigate(action)
-//                findNavController().navigate(R.id.modeTampilanFragment)
             }
         }
     }
@@ -74,6 +73,9 @@ class InitialFragment(
             }
             getString(R.string.page_login) ->{
                 findNavController().navigate(R.id.loginFragment)
+            }
+            getString(R.string.page_cek_db) ->{
+                findNavController().navigate(R.id.cekDbFragment)
             }
             else -> {
 

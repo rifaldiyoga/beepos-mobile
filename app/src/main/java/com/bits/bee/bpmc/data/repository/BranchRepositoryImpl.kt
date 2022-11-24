@@ -38,7 +38,16 @@ class BranchRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: BranchResponse) {
-                    branchDao.insertBulk(data.data.map { BranchDataMapper.fromNetworkToDb(it) })
+                val branch = branchDao.getActiveBranch()
+                branch?.let {
+                    data.data.forEach {
+                        if(it.id == branch.id)
+                            it.active = branch.active
+                        else
+                            it.active = false
+                    }
+                }
+                branchDao.insertBulk(data.data.map { BranchDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }

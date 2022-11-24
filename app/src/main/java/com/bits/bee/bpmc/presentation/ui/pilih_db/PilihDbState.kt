@@ -5,5 +5,6 @@ package com.bits.bee.bpmc.presentation.ui.pilih_db
  */
 data class PilihDbState (
     var inputEmail : String = "",
-    var inputPassword : String = ""
+    var inputPassword : String = "",
+    var dbName : String = ""
 )

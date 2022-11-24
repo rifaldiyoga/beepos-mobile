@@ -24,7 +24,9 @@ class InitialRepositoryImpl @Inject constructor(
     private val crcDao: CrcDao,
     private val whDao: WhDao,
     private val srepDao: SrepDao,
-    private val bpAccDao: BpAccDao
+    private val bpAccDao: BpAccDao,
+    private val branchDao: BranchDao,
+    private val cashierDao: CashierDao
 ) : InitialRepository {
 
     override fun getInitialData(): Flow<Resource<Any>> {
@@ -39,6 +41,13 @@ class InitialRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: InitialResponse) {
                 val datas = data.data
+                val user = userDao.getDefaultUser()
+                user?.let {
+                    data.data.usr.forEach {
+                        if(it.id.toInt() == user.id)
+                            it.used = user.used
+                    }
+                }
                 cmpDao.insertBulk(datas.cmp.map { CmpDataMapper.fromNetworkToDb(it) })
                 regDao.insertBulk(datas.reg.map { RegDataMapper.fromNetworkToDb(it) })
                 userDao.insertBulk(datas.usr.map { UserDataMapper.fromNetworkToDb(it) })

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAturProdukBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
@@ -50,8 +51,7 @@ class AturProdukFragment(
     override fun subscribeListeners() {
         binding.apply {
             btntambahPrd.setOnClickListener {
-                val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment()
-                findNavController().navigate(action)
+                viewModel.onClickTambah()
             }
         }
     }
@@ -75,12 +75,43 @@ class AturProdukFragment(
                                 }
                                 if(it.isNotEmpty()) {
                                     clearPref()
+                                    viewModel.state.itemList = it
                                     itemDummyAdapter.submitList(it.toMutableList())
                                 }
                             }
                         }
                         Resource.Status.ERROR -> {
                             binding.progressBar.gone()
+                        }
+                        Resource.Status.NOINTERNET -> TODO()
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.event.collect {
+                    when(it){
+                        AturProdukViewModel.UIEvent.FinishTambahProduk -> {
+                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_is_sign_up), false)
+                            val action = AturProdukFragmentDirections.actionAturProdukFragmentToHomeActivity()
+                            findNavController().navigate(action)
+                        }
+                        AturProdukViewModel.UIEvent.NavigateToTambahProduk -> {
+                            val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment()
+                            findNavController().navigate(action)
+                        }
+                        AturProdukViewModel.UIEvent.HideLoading -> {
+
+                        }
+                        is AturProdukViewModel.UIEvent.ShowLoading -> {
+
+                        }
+                        AturProdukViewModel.UIEvent.NavigateToDownload -> {
+                            val dialog = DownloadDialogBuilder(false, {
+                                viewModel.onFinsihDownload()
+                            })
+                            dialog.dismiss()
                         }
                     }
                 }

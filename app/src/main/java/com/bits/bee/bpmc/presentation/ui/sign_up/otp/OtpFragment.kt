@@ -12,6 +12,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentOtpBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,9 +33,9 @@ class OtpFragment constructor(
             arguments?.let {
 
                 val noWa = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_wa), "") as String
-                val regId = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_regid), 0) as Int
+                val regId = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_regid), "") as String
 
-                viewModel.state.regId = regId
+                viewModel.state.regId = regId.toInt()
 
                 pinView.requestFocus()
                 tvDesc.text = getString(R.string.kami_telah_mengirimkan, if (noWa.isNotEmpty() && noWa.length in 10..12) noWa.replaceRange(4, 8, "*") else noWa)
@@ -64,7 +65,7 @@ class OtpFragment constructor(
             viewModel.event.collect {
                 when(it){
                     OtpViewModel.UIEvent.NavigateToAturPin -> {
-                        val action = OtpFragmentDirections.actionOtpFragmentToAturPinFragment()
+                        val action = OtpFragmentDirections.actionOtpFragmentToCekDbFragment()
                         findNavController().navigate(action)
                     }
                 }
@@ -78,10 +79,22 @@ class OtpFragment constructor(
                 }
                 Resource.Status.SUCCESS -> {
                     dialog.hide()
-                    viewModel.onSuccess()
+                    it.data?.let {
+                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_serial_number), it.userData.serialNumber)
+                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_auth_key), it.userData.myauthkey ?: "")
+                        viewModel.onSuccess()
+                    }
                 }
                 Resource.Status.ERROR -> {
+                    showSnackbar("Kode Salah!")
                     dialog.hide()
+                }
+                Resource.Status.NOINTERNET -> {
+                    dialog.hide()
+                    val dialog = NoInternetDialogBuilder({
+                        viewModel.onInputPin(viewModel.state.pin)
+                    })
+                    dialog.show(parentFragmentManager, "")
                 }
             }
         }

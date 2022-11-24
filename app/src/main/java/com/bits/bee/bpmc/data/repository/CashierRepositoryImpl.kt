@@ -44,11 +44,7 @@ class CashierRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: CashierResponse) {
-                val dataList : MutableList<CashierResponse.CashierModel> = mutableListOf()
-//                for (datanew in data.data){
-//                    datanew.isActive = false
-//                    dataList.add(datanew)
-//                }
+                cashierDao.deleteAll()
                 cashierDao.insertBulk(data.data.map { CashierDataMapper.fromNetworkToDb(it) })
             }
 

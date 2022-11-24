@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_pilihDbFragment_to_modeTampilanFragment"
             app:destination="@id/modeTampilanFragment" />
+        <action
+            android:id="@+id/action_pilihDbFragment_to_downloadDialogBuilder2"
+            app:destination="@id/downloadDialogBuilder2" />
     </fragment>
 
     <fragment
@@ -118,6 +121,9 @@
         <action
             android:id="@+id/action_otpFragment_to_aturPinFragment"
             app:destination="@id/aturPinFragment" />
+        <action
+            android:id="@+id/action_otpFragment_to_cekDbFragment"
+            app:destination="@id/cekDbFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoBisnisFragment"
@@ -167,6 +173,9 @@
         <action
             android:id="@+id/action_aturProdukFragment_to_tambahProdukFragment"
             app:destination="@id/tambahProdukFragment" />
+        <action
+            android:id="@+id/action_aturProdukFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
     <fragment
         android:id="@+id/tambahProdukFragment"
@@ -265,5 +274,23 @@
         tools:layout="@layout/fragment_insight_pid"
         android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.pid.InsightPidFragment"
         android:label="PID" />
+    <dialog
+        android:id="@+id/downloadDialogBuilder2"
+        android:name="com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder"
+        android:label="DownloadDialogBuilder" >
+        <argument
+            android:name="isCancelable"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
+    <fragment
+        tools:layout="@layout/fragment_cek_db"
+        android:id="@+id/cekDbFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.sign_up.cek_db.CekDbFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_cekDbFragment_to_aturPinFragment"
+            app:destination="@id/aturPinFragment" />
+    </fragment>
 
 </navigation>

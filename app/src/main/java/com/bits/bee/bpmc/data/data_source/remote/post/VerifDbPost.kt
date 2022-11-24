@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class VerifDbPost (
     @SerializedName("status")
     @Expose
-    var status: Boolean,
+    var status: Boolean = true,
     @SerializedName("serial_number")
     @Expose
     var serial: String,

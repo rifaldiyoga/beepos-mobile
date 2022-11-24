@@ -31,4 +31,7 @@ data class UsrModel (
     @SerializedName("ipos")
     @Expose
     var isPos: Boolean = true,
+    @SerializedName("used")
+    @Expose
+    var used: Boolean = false,
 ) : Parcelable

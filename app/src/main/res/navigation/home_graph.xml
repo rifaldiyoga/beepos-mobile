@@ -29,9 +29,6 @@
         <action
             android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
             app:destination="@id/detailBukaKasirFragment" />
-        <action
-            android:id="@+id/action_berandaFragment_to_downloadDialogBuilder"
-            app:destination="@id/downloadDialogBuilder" />
     </fragment>
     <activity
         tools:layout="@layout/activity_main"
@@ -102,9 +99,6 @@
         <action
             android:id="@+id/action_lainnyaFragment_to_cekStokFragment"
             app:destination="@id/cekStokFragment" />
-        <action
-            android:id="@+id/action_lainnyaFragment_to_downloadDialogBuilder"
-            app:destination="@id/downloadDialogBuilder" />
         <action
             android:id="@+id/action_lainnyaFragment_to_insightKelolaProdukFragment"
             app:destination="@id/insightKelolaProdukFragment" />
@@ -229,11 +223,6 @@
             android:id="@+id/action_detailRiwayatSesiFragment_to_analasisiSesiFragment"
             app:destination="@id/analasisiSesiFragment" />
     </fragment>
-    <dialog
-        tools:layout="@layout/dialog_download"
-        android:id="@+id/downloadDialogBuilder"
-        android:name="com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder"
-        android:label="DownloadDialogBuilder" />
     <activity
         android:id="@+id/initialActivity"
         android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"

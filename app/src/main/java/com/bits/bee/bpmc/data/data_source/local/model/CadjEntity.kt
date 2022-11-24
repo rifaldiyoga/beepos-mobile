@@ -13,17 +13,6 @@ import java.util.*
             childColumns = [CadjEntity.CASH_ID],
             onDelete = CASCADE
         ),
-        ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [CadjEntity.USER_ID],
-            onDelete = CASCADE
-        ),
-        ForeignKey(
-            entity = CashierEntity::class,
-            parentColumns = [CashierEntity.ID],
-            childColumns = [CadjEntity.CASHIER_ID]
-        )
     ]
 )
 data class CadjEntity(

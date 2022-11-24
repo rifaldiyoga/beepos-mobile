@@ -3,12 +3,15 @@ package com.bits.bee.bpmc.data.repository
 import com.bits.bee.bpmc.data.data_source.local.dao.ItemDummyDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemDummyResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.VerifSmsResponse
 import com.bits.bee.bpmc.domain.mapper.ItemDummyDummyDataMapper
 import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.repository.ItemDummyRepository
 import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.Resource
+import com.squareup.okhttp.MediaType
+import com.squareup.okhttp.RequestBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,7 +38,16 @@ class ItemDummyRepositoryImpl @Inject constructor(
     }.flowOn(ioDispatcher)
 
     override fun postItemDummy(itemDummy: ItemDummy): Flow<Resource<ItemDummyResponse>> {
-        TODO("Not yet implemented")
+        val name = RequestBody.create(MediaType.parse("text/plain"), itemDummy.name)
+        val itemtype = RequestBody.create(MediaType.parse("text/plain"), itemDummy.itemTypeCode)
+        val itemgroup = RequestBody.create(MediaType.parse("text/plain"), "")
+        val price = RequestBody.create(MediaType.parse("text/plain"), itemDummy.price)
+        val unit = RequestBody.create(MediaType.parse("text/plain"), "PCS")
+        return object : NetworkBoundResource<ItemDummyResponse>(){
+            override fun createCall(): Flow<ApiResponse<ItemDummyResponse>> {
+                return apiUtils.getItemDummyApiService().postItemDummy(name, itemtype, itemgroup, price, unit, null)
+            }
+        }.getAsFlow()
     }
 
     override fun getLastId(): Flow<ItemDummy> {

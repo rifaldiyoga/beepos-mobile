@@ -107,6 +107,9 @@ class AddOnViewModel @Inject constructor(
                 Resource.Status.ERROR -> {
                     showLoading(false)
                 }
+                Resource.Status.NOINTERNET -> {
+
+                }
             }
 
         }

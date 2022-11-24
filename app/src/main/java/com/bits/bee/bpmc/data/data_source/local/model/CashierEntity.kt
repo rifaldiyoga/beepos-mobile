@@ -7,14 +7,6 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity(tableName = CashierEntity.TBL_NAME,
-    foreignKeys = [
-        ForeignKey(
-            entity = BranchEntity::class,
-            parentColumns = [BranchEntity.ID],
-            childColumns = [CashierEntity.BRANCH_ID],
-            onDelete = CASCADE
-        ),
-    ]
 )
 data class CashierEntity(
     @PrimaryKey(autoGenerate = false)

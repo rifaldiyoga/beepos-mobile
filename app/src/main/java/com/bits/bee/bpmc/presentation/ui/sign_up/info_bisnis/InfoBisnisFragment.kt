@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.info_bisnis
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.bits.bee.bpmc.databinding.FragmentInfoBisnisBinding
 import com.bits.bee.bpmc.domain.model.SignUp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,6 +88,13 @@ class InfoBisnisFragment constructor(
                     Resource.Status.ERROR -> {
                         dialog.hide()
                     }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            onClickSignUp()
+                        })
+                        dialog.show(parentFragmentManager, "")
+                    }
                 }
             }
 
@@ -123,6 +132,13 @@ class InfoBisnisFragment constructor(
                     Resource.Status.ERROR -> {
                         dialog.hide()
                     }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            onClickSignUp()
+                        })
+                        dialog.show(parentFragmentManager, "")
+                    }
                 }
             }
         }
@@ -140,6 +156,9 @@ class InfoBisnisFragment constructor(
                         it.data?.let {
                             if(it.status){
                                 BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_is_sign_up), true)
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_nama_device), Build.MANUFACTURER + Build.ID + "-"+viewModel.state.signUp?.nama)
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_email), viewModel.state.signUp?.email ?: "")
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_password), viewModel.state.signUp?.password ?: "")
                                 findNavController().navigate(InfoBisnisFragmentDirections.actionInfoBisnisFragmentToOtpFragment(viewModel.state.signUp!!))
                             } else if(it.errorData.isNotEmpty()){
                                 for (data in it.errorData){
@@ -167,6 +186,13 @@ class InfoBisnisFragment constructor(
                     }
                     Resource.Status.ERROR -> {
                         dialog.hide()
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            onClickSignUp()
+                        })
+                        dialog.show(parentFragmentManager, "")
                     }
                 }
             }

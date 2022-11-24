@@ -7,24 +7,18 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
-import androidx.lifecycle.*
-import com.bits.bee.bpmc.data.data_source.remote.post.LicPost
-import com.bits.bee.bpmc.data.data_source.remote.response.DbResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
-import com.bits.bee.bpmc.domain.model.User
 import com.bits.bee.bpmc.domain.usecase.common.InitialUseCase
 import com.bits.bee.bpmc.domain.usecase.common.PostLicenseUseCase
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
 import com.bits.bee.bpmc.domain.usecase.login.PostDbUseCase
+import com.bits.bee.bpmc.domain.usecase.pilih_db.GetUserBySecretSauce
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.domain.usecase.pilih_db.GetUserBySecretSauce
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,14 +45,6 @@ class PilihDbViewModel @Inject constructor(
     private var loginResponse: MediatorLiveData<Resource<LoginResponse>> = MediatorLiveData()
     fun observeLoginResponse() = loginResponse as LiveData<Resource<LoginResponse>>
 
-
-
-//    private var dbResponse: MediatorLiveData<Resource<DbResponse>> = MediatorLiveData()
-//    fun observeDbResponse() = dbResponse as LiveData<Resource<DbResponse>>
-
-    private var licResponse: MediatorLiveData<Resource<Any>> = MediatorLiveData()
-    fun observeLicResponse() = licResponse as LiveData<Resource<Any>>
-
     fun login() {
         val source = loginUseCase(state.inputEmail, state.inputPassword).asLiveData()
         loginResponse.addSource(source){
@@ -73,24 +59,8 @@ class PilihDbViewModel @Inject constructor(
         }
     }
 
-    fun initialData() = viewModelScope.launch{
-        initialUseCase().collect {
-            when(it.status){
-                Resource.Status.LOADING -> {
-                    showDialog("Inisialisasi Data")
-                }
-                Resource.Status.SUCCESS -> {
-                    hideDialog()
-                    onSuccessDb()
-                }
-                Resource.Status.ERROR -> {
-                    hideDialog()
-                }
-            }
-        }
-    }
-
     fun postDb(dbName : String) = viewModelScope.launch {
+        state.dbName = dbName
         postDbUseCase(state.inputEmail, dbName).collect{
             when(it.status){
                 Resource.Status.LOADING -> {
@@ -116,6 +86,9 @@ class PilihDbViewModel @Inject constructor(
                 Resource.Status.ERROR -> {
                     hideDialog()
                 }
+                Resource.Status.NOINTERNET -> {
+                    showNoInternet()
+                }
             }
         }
     }
@@ -131,79 +104,17 @@ class PilihDbViewModel @Inject constructor(
                 Resource.Status.SUCCESS -> {
                     hideDialog()
                     it.data?.let {
-                        initialData()
+                        eventChannel.send(UIEvent.NavigateToDownload)
                     }
                 }
                 Resource.Status.ERROR -> {
                     hideDialog()
                 }
+                Resource.Status.NOINTERNET -> {
+                    showNoInternet()
+                }
             }
         }
-    }
-
-    fun doLincensing(authKey: String, deviceName: String) = viewModelScope.launch {
-        var mUserList: List<User> = mutableListOf()
-        var mUser: User? = null
-
-        getUserBySecretSauce.invoke(state.inputEmail, authKey).collect {
-            it.data?.let {
-                mUserList = it
-            }
-        }
-
-        if (mUserList.isEmpty()){
-            mUser = User(
-                username = state.inputEmail,
-                userApiKey = "Bearer $authKey",
-                pin = "",
-                active = false,
-                name = "",
-                id = -1
-            )
-        }else{
-            mUser = mUserList[0]
-        }
-
-        var lic = LicPost(
-            email = mUser.username,
-            deviceinfo = deviceName,
-            type = BPMConstants.BPM_DEFAULT_LICENSE_TYPE,
-            reactive = false,
-            version = ""
-        )
-
-//        val source = postLicenseUseCase.invoke(lic).asLiveData()
-//        licResponse.addSource(source){
-//            if (it != null) {
-//                licResponse.value = it
-//                if (it.status !== Resource.Status.LOADING) {
-//                    licResponse.removeSource(source)
-//                }
-//            } else {
-//                licResponse.removeSource(source)
-//            }
-//        }
-
-    }
-
-//    fun onClickDb(dbName: LoginResponse.Db) = viewModelScope.launch {
-//        val source = postDbUseCase(state.inputEmail, dbName.dbName).asLiveData()
-//        dbResponse.addSource(source){
-//            if (it != null) {
-//                dbResponse.value = it
-//                if (it.status !== Resource.Status.LOADING) {
-//                    dbResponse.removeSource(source)
-//                }
-//            } else {
-//                dbResponse.removeSource(source)
-//            }
-//        }
-//
-////        eventChannel.send(UIEvent.RequestDb)
-//    }
-
-    fun requestDb() = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestDb)
     }
 
     fun onSuccessDb() = viewModelScope.launch {
@@ -218,9 +129,15 @@ class PilihDbViewModel @Inject constructor(
         eventChannel.send(UIEvent.ShowLoading(false))
     }
 
+    fun showNoInternet() = viewModelScope.launch {
+        eventChannel.send(UIEvent.ShowNoInternet)
+    }
+
     sealed class UIEvent {
         data class ShowLoading(val isShow : Boolean, val msg : String = "") : UIEvent()
+        object ShowNoInternet : UIEvent()
         object NavigateToPilihMode : UIEvent()
+        object NavigateToDownload : UIEvent()
         object RequestDb : UIEvent()
     }
 

@@ -28,7 +28,8 @@ class OtpViewModel @Inject constructor(
 
     fun onInputPin(pin : String) = viewModelScope.launch {
         if(pin.length == 4){
-            delay(500)
+            state.pin = pin
+            delay(300)
             postVerifSms()
         }
     }

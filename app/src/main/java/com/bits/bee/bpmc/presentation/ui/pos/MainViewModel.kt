@@ -336,7 +336,7 @@ class MainViewModel @Inject constructor(
 
     fun getTrxNo(context: Context) : String{
         val trxOrderNum = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 0) as Int + 1
-        val trxNo = TrxNoGeneratorUtils.counterNoTrx(trxOrderNum, state.activeBranch!!, state.activeCashier!!)
+        val trxNo = TrxNoGeneratorUtils.counterNoTrx(trxOrderNum, state.activeCashier!!)
         saleTrans.getMaster().trxOrderNum = trxOrderNum
         saleTrans.getMaster().trxNo = trxNo
         return trxNo

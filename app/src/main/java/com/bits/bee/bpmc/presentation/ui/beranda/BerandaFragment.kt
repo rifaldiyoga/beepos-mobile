@@ -49,8 +49,8 @@ class BerandaFragment(
         val isFirstRun = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.is_first_run), true) as Boolean
 
         if(isFirstRun){
-            val action = BerandaFragmentDirections.actionBerandaFragmentToDownloadDialogBuilder()
-            findNavController().navigate(action)
+//            val action = BerandaFragmentDirections.actionBerandaFragmentToDownloadDialogBuilder()
+//            findNavController().navigate(action)
             BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.is_first_run), false)
         }
     }

@@ -114,6 +114,7 @@ class PembayaranGopayFragment(
                 Resource.Status.ERROR -> {
                     binding.progressBar.gone()
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
         viewModel.observeGopayStatusResponse().removeObservers(viewLifecycleOwner)
@@ -161,6 +162,7 @@ class PembayaranGopayFragment(
                 }
                 Resource.Status.ERROR -> {
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
         viewModel.observeCancelGopayResponse().removeObservers(viewLifecycleOwner)
@@ -178,6 +180,7 @@ class PembayaranGopayFragment(
                 }
                 Resource.Status.ERROR -> {
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {

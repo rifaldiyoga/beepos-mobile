@@ -16,7 +16,7 @@ interface UserDao : BaseDao<UserEntity>{
     fun geActiveUser() : UserEntity
 
     @Query("SELECT * FROM user WHERE used = 1")
-    fun getDefaultUser() : UserEntity
+    fun getDefaultUser() : UserEntity?
 
     @Query("DELETE FROM user")
     fun deleteAll()

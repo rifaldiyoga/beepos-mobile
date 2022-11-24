@@ -3,11 +3,14 @@ package com.bits.bee.bpmc.presentation.dialog.download
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
+import com.bits.bee.bpmc.domain.repository.InitialRepository
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,45 +22,132 @@ import javax.inject.Inject
 @HiltViewModel
 class DownloadViewModel @Inject constructor (
     private val districtRepository: DistrictRepository,
+    private val initialRepository: InitialRepository,
     private val di: DownloadInteractor,
 ) : BaseViewModel<DownloadState, DownloadViewModel.UIEvent>() {
 
     private var page : Int = 1
-    private val progressPercent = 100 / 25
+    private val progressPercent = 100 / 27
 
     init {
         state = DownloadState()
         downloadAll()
     }
 
-    private fun downloadAll() = viewModelScope.launch(Dispatchers.Main) {
-        downloadItemGroup()
-        downloadPriceLvl()
-        downloadChannel()
-        downloadBp()
-        downloadItem()
-        downloadCity()
-        downloadPrice()
-        downloadItemBranch()
-        downloadItemSaleTax()
-        downloadTax()
-        downloadEdc()
-        downloadEdcSurc()
-        downloadCcType()
-        downloadPmtd()
-        downloadUnit()
-        downloadAddOn()
-        downloadSelection()
-        downloadSelectionD()
-        downloadAddOnD()
-        downloadItemAddOn()
-        downloadVariant()
-        downloadItemVariant()
-        downloadPromo()
-        downloadPromoMulti()
-        downloadUsrGrp()
-        downloadGrpPrv()
-        onFinsihDownload()
+    var job : Job? = null
+
+    fun downloadAll()  {
+        job = viewModelScope.launch(Dispatchers.Main) {
+            state = DownloadState()
+            downloadInitial()
+            downloadBranch()
+            downloadItemGroup()
+            downloadPriceLvl()
+            downloadChannel()
+            downloadBp()
+            downloadItem()
+            downloadCity()
+            downloadPrice()
+            downloadItemBranch()
+            downloadItemSaleTax()
+            downloadTax()
+            downloadEdc()
+            downloadEdcSurc()
+            downloadCcType()
+            downloadPmtd()
+            downloadUnit()
+            downloadAddOn()
+            downloadSelection()
+            downloadSelectionD()
+            downloadAddOnD()
+            downloadItemAddOn()
+            downloadVariant()
+            downloadItemVariant()
+            downloadPromo()
+            downloadPromoMulti()
+            downloadUsrGrp()
+            downloadGrpPrv()
+            onFinsihDownload()
+        }
+    }
+
+
+    private suspend fun downloadInitial()  {
+        initialRepository.getInitialData().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Download Initial Data")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let { _ ->
+                        updateState(
+                            state.copy(
+                                status = "Finish Downloading Initial Data",
+                                progress = state.progress + progressPercent
+                            )
+                        )
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    onErrorDialog(it.message ?: "")
+                }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
+            }
+        }
+    }
+
+    private suspend fun downloadBranch()  {
+        di.getLatestBranchUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Cabang")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let { _ ->
+                        updateState(
+                            state.copy(
+                                status = "Finish Downloading Cabang",
+                                progress = state.progress + progressPercent
+                            )
+                        )
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    onErrorDialog(it.message ?: "")
+                }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
+            }
+        }
+    }
+
+    private suspend fun downloadCashier()  {
+        di.getLatestCashierUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Kasir")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let { _ ->
+                        updateState(
+                            state.copy(
+                                status = "Finish Downloading Kasir",
+                                progress = state.progress + progressPercent
+                            )
+                        )
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    onErrorDialog(it.message ?: "")
+                }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
+            }
+        }
     }
 
     private suspend fun downloadItemGroup()  {
@@ -79,8 +169,9 @@ class DownloadViewModel @Inject constructor (
                     }
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -101,8 +192,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -123,8 +215,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -144,8 +237,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -165,8 +259,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -186,8 +281,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -206,6 +302,7 @@ class DownloadViewModel @Inject constructor (
                 }
                 Resource.Status.ERROR -> {
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -258,8 +355,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -313,8 +411,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -342,6 +441,7 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.ERROR -> {
                     downloadPrice()
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -361,8 +461,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -382,8 +483,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -403,8 +505,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -424,8 +527,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -445,8 +549,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -466,8 +571,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -487,8 +593,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -508,8 +615,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -529,8 +637,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -552,8 +661,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -573,8 +683,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -594,8 +705,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -617,8 +729,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -641,8 +754,9 @@ class DownloadViewModel @Inject constructor (
                     downloadVariant()
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -662,8 +776,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -683,8 +798,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -704,8 +820,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -725,8 +842,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -746,8 +864,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -767,8 +886,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -787,8 +907,9 @@ class DownloadViewModel @Inject constructor (
                     )
                 }
                 Resource.Status.ERROR -> {
-
+                    onErrorDialog(it.message ?: "")
                 }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
             }
         }
     }
@@ -800,8 +921,20 @@ class DownloadViewModel @Inject constructor (
         eventChannel.send(UIEvent.FinishDownload)
     }
 
+    suspend fun onShowNoInternet() {
+        eventChannel.send(UIEvent.ShowNoInternet)
+        job?.cancelAndJoin()
+    }
+
+    suspend fun onErrorDialog(msg : String) {
+        eventChannel.send(UIEvent.ShowError(msg))
+        job?.cancelAndJoin()
+    }
+
     sealed class UIEvent {
         object FinishDownload : UIEvent()
+        data class ShowError(val msg : String) : UIEvent()
+        object ShowNoInternet : UIEvent()
     }
 
 }

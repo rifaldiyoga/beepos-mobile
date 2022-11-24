@@ -9,6 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.databinding.FragmentLainnyaBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -83,8 +84,10 @@ class LainnyaFragment(
                             findNavController().navigate(action)
                         }
                         LainnyaViewModel.UIEvent.NavigateToDownload -> {
-                            val action = LainnyaFragmentDirections.actionLainnyaFragmentToDownloadDialogBuilder()
-                            findNavController().navigate(action)
+                            val dialog = DownloadDialogBuilder(onFinishDownload = {
+                                it.dismiss()
+                            })
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }

@@ -385,7 +385,7 @@ class TambahProdukFragment(
                             PosModeState.FnBState -> {
                                 cvPid.gone()
                                 groupSatuan.gone()
-
+                                grpList = resources.getStringArray(R.array.list_itgrp)
                                 val adapterGrp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, grpList)
                                 spGrpPrd.adapter = adapterGrp
                                 etKategoriPrd.visibility = View.GONE
