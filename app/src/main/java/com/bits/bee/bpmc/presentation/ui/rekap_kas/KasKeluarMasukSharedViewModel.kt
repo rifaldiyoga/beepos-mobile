@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_kas.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -134,11 +135,16 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
             val autogen = false
 
-            addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-            addKasUseCase.invoke(cash, balance)
-            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
-
-//            eventChannel.send(UIEvent.SuccesAddKasKeluar)
+            if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
+                    ?: BigDecimal.ZERO.add(balance))
+            ){
+                // blocking
+                msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
+            }else{
+                addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
+                addKasUseCase.invoke(cash, balance)
+                updateTotalPossesUseCase.invoke(mPosses, balance, cash)
+            }
         }
 
     }

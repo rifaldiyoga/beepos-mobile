@@ -51,6 +51,11 @@ class AnalisaSesiFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.updateState(
+            viewModel.state.copy(
+                possesList = null
+            )
+        )
         arguments?.let {
             isRiwayat = it.getBoolean("isRiwayat")
             if (isRiwayat){

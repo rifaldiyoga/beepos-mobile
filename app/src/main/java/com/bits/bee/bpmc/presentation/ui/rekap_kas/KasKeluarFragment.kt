@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentKasKeluarBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.tambah_kas.TambahKasDialog
 import com.bits.bee.bpmc.presentation.dialog.tambah_kas.TambahKasKeluarDialog
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
@@ -62,6 +63,13 @@ class KasKeluarFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                sharedViewModel.msg.collect{
+                    showSnackbar(it)
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sharedViewModel.event.collect { event ->

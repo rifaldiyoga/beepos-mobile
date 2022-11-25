@@ -63,17 +63,19 @@ class AnalisaSesiViewModel @Inject constructor(
     }
 
     fun getValueDetail() = viewModelScope.launch {
-        getUserByIdUseCase.invoke(state.posses!!.userId).collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        user = it
+        state.posses?.let {
+            getUserByIdUseCase.invoke(it.userId).collect {
+                it.data?.let {
+                    updateState(
+                        state.copy(
+                            user = it
+                        )
                     )
-                )
+                }
             }
         }
 
-        getSaleByPossesUseCase.invoke(state.posses!!.possesId!!).collect {
+        getSaleByPossesUseCase.invoke(state.posses?.possesId!!).collect {
             it.data?.let {
                 updateState(
                     state.copy(
