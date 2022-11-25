@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetUserPinUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    operator fun invoke(user: String): Flow<Resource<List<User>>>{
+    operator fun invoke(user: String): Flow<List<User>>{
        return userRepository.getUserPin(user)
     }
 }

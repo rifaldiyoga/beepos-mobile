@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.domain.usecase.signup.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class TambahProdukViewModel @Inject constructor(
 
     val modePreferences = beePreferenceManager.modePreferences
 
-        fun onClickTambahSatuan() = viewModelScope.launch {
+    fun onClickTambahSatuan() = viewModelScope.launch {
         if(state.unitList[0].unit.isNotEmpty()) {
             val unit = UnitDummy(
                 id = state.unitList.size
@@ -89,13 +90,6 @@ class TambahProdukViewModel @Inject constructor(
         )
     }
 
-    fun deploy() {
-        val unitList = mutableListOf<UnitDummy>()
-        unitList.addAll(state.unitList.map { it.copy() })
-
-
-    }
-
     fun onSubmit(nama: String, harga: String, pid: String) = viewModelScope.launch {
         val itemDummy = ItemDummy(
             id = state.itemDummy?.id,
@@ -103,11 +97,11 @@ class TambahProdukViewModel @Inject constructor(
             itemTypeCode = state.tipeProduk,
             price = harga,
             picPath = if (state.bitmap != null) state.picpath else "",
-            pid = if (pid.isNotEmpty()) pid else ""
+            pid = pid.ifEmpty { "" },
+            brandId = state.brand?.id
         )
 
-
-        addEditProdukUseCase.invoke(itemDummy, state.kategoriProduk ?: "", state.merekProduk ?: "", state.unitList, state.isEdit, state.itemId)
+        addEditProdukUseCase.invoke(itemDummy, state.kategoriProduk ?: "",  state.unitList, state.isEdit)
         eventChannel.send(UIEvent.FinsihSubmit)
     }
 
@@ -130,32 +124,14 @@ class TambahProdukViewModel @Inject constructor(
         }
     }
 
-    fun loadEditPrd(itemGroupId: Int, brandId: Int, itemid: Int) = viewModelScope.launch {
-        getItemgrpIdUseCase.invoke(itemGroupId).collect{
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        kategoriProduk = it.name
-                    )
-                )
-            }
-        }
-
-        getBrandByIdUseCase.invoke(brandId).collect{
-            updateState(
-                state.copy(
-                    merekProduk = it.brandName
-                )
+    fun loadEditPrd(itemGroupId: Int, brandId: Int?, itemid: Int) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                itemGrp = getItemgrpIdUseCase.invoke(itemGroupId).first(),
+                brand = brandId?.let { getBrandByIdUseCase.invoke(brandId).first() } ,
+                unitList = getUnitDummyByIdUseCase.invoke(itemid).first().toMutableList()
             )
-        }
-
-        getUnitDummyByIdUseCase.invoke(itemid).collect{
-            updateState(
-                state.copy(
-                    unitList = it.toMutableList()
-                )
-            )
-        }
+        )
     }
 
     fun launchCamera(requireActivity: FragmentActivity): Intent {

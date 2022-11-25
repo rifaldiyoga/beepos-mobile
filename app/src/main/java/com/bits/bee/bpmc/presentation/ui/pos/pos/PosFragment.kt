@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPosBinding
 import com.bits.bee.bpmc.domain.model.Saled
@@ -49,8 +50,7 @@ class PosFragment(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
-            inflater.inflate(R.menu.menu_pos, menu)
+        inflater.inflate(R.menu.menu_pos, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -136,6 +136,7 @@ class PosFragment(
                 mainViewModel.viewStates().collect { state ->
                     state?.let {
                         if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
+                            TransitionManager.beginDelayedTransition(binding.clSubtotal!!)
                             binding.tvQty!!.text = getString(
                                 R.string._1_produk,
                                 CurrencyUtils.formatCurrency(getQtyDetail(state.saledList))

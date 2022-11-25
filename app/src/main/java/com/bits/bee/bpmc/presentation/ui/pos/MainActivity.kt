@@ -22,6 +22,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
@@ -29,6 +30,7 @@ import com.facebook.stetho.Stetho
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Created by aldi on 07/04/22.
@@ -43,6 +45,16 @@ class MainActivity(
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+
+    @Inject
+    lateinit var bluetoothConnectService: BluetoothConnectService
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launchWhenStarted {
+            bluetoothConnectService.onEventConnectAllPrinter(0)
+        }
+    }
 
     override fun initComponents() {
         viewModel.saleTrans.newTrans()
@@ -224,9 +236,18 @@ class MainActivity(
     }
 
     private fun setBackgroundToolbar(destinationId : Int){
-        if(destinationId == R.id.draftFragment || destinationId == R.id.transaksiBerhasilFragment
-            || destinationId == R.id.klaimPromoFragment || destinationId == R.id.tambahMemberFragment
-            || destinationId == R.id.memberFragment || destinationId == R.id.salesmanFragment || destinationId == R.id.detailSalesmanFragment) {
+        val dest = listOf(
+            R.id.draftFragment,
+            R.id.transaksiBerhasilFragment,
+            R.id.memberFragment,
+            R.id.klaimPromoFragment,
+            R.id.tambahMemberFragment,
+            R.id.salesmanFragment,
+            R.id.detailSalesmanFragment,
+            R.id.hakAksesFragment
+        )
+
+        if(dest.contains(destinationId)) {
             supportActionBar?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(

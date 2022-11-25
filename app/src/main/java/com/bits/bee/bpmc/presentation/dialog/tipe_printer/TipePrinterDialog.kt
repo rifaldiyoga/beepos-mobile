@@ -48,7 +48,7 @@ class TipePrinterDialog(
 
     fun getTipe(){
         list.add(ListTipe(R.drawable.bx_bluetooth, resources.getString(R.string.bluetooth_printer)))
-        list.add(ListTipe(R.drawable.bx_wifi, resources.getString(R.string.network_printer)))
+        list.add(ListTipe(R.drawable.ic_baseline_wifi, resources.getString(R.string.network_printer)))
     }
 
 

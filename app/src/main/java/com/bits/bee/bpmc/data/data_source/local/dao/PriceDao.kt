@@ -15,7 +15,7 @@ interface PriceDao : BaseDao<PriceEntity> {
     @Query("DELETE FROM price")
     fun deleteAll()
 
-    @Query("SELECT * FROM price WHERE pricelvl_id = :priceLvlId AND itemid = :itemId")
-    fun getPriceByPriceLvlItem(priceLvlId : Int, itemId : Int) : PriceEntity?
+    @Query("SELECT * FROM price WHERE pricelvl_id = :priceLvlId AND itemid = :itemId AND crc_id = :crcId")
+    fun getPriceByPriceLvlItem(priceLvlId : Int, itemId : Int, crcId : Int) : PriceEntity?
 
 }

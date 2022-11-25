@@ -54,7 +54,7 @@ class AddKasKeluarMasukUseCase @Inject constructor(
 
         val cadj_ = cadjRepository.getCadjLastRow().first()
 
-        val code = TrxNoGeneratorUtils.counterNoTrxCadj(cadj_.id?.toLong() ?: 1, activeBranch!!, activeCashier!!)
+        val code = TrxNoGeneratorUtils.counterNoTrxCadj(cadj_.id?.toLong() ?: 1, activeCashier!!)
 
         cadjRepository.updateCode(code ?: "KodeTes", cadj_.id ?: 1)
     }

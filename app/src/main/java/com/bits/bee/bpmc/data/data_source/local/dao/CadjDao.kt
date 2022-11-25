@@ -39,4 +39,9 @@ interface CadjDao: BaseDao<CadjEntity> {
 
     @Query("SELECT * FROM cadj where inout = 'o' and trxdate between :startDate and :endDate")
     fun getJmlCadjOutByDate(startDate: Long, endDate: Long): List<CadjEntity>
+
+    @Query("SELECT * FROM cadj where cash_id = :cashId AND autogen = 0")
+    fun getCashInOut(cashId : Long): List<CadjEntity>
+
+
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                 android:layout_marginTop="@dimen/size6"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
-                android:hint="@string/cth_beestore"
+                android:hint="@string/cth_dapur_makanan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvTitleDapur"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleDapur" />
@@ -58,33 +59,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:id="@+id/spinner_Kategori"
-                android:paddingBottom="@dimen/size10"
-                android:paddingTop="@dimen/size10"
-                style="@style/SpinnerTheme"
+            <EditText
+                android:id="@+id/et_kitchen"
+                android:layout_width="@dimen/size0"
+                android:editable="false"
+                android:inputType="none"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tV_kitchen_content"/>
-
-            <View
-                android:layout_marginTop="@dimen/size2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size1"
-                android:background="@color/light_gray"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_Kategori"/>
-
-<!--            <EditText-->
-<!--                android:id="@+id/et_kategori_dapur"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:drawableEnd="@drawable/ic_chevron_down"-->
-<!--                android:drawablePadding="5dp"-->
-<!--                android:hint="@string/cth_beestore"-->
-<!--                android:inputType="textPersonName"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tV_kitchen_content"-->
-<!--                tools:ignore="MissingConstraints" />-->
+                android:hint="@string/pilih_kategori"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tV_kitchen_content" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

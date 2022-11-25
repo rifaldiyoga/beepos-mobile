@@ -1,12 +1,16 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
 import com.bits.bee.bpmc.domain.usecase.common.GetLatestCityUseCase
+import com.bits.bee.bpmc.domain.usecase.pilih_cabang.GetLatestBranchUseCase
+import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
 import javax.inject.Inject
 
 /**
  * Created by aldi on 22/04/22.
  */
 data class DownloadInteractor @Inject constructor(
+    val getLatestBranchUseCase: GetLatestBranchUseCase,
+    val getLatestCashierUseCase : GetLatestCashierUseCase,
     val getLatestChannelUseCase: GetLatestChannelUseCase,
     val getLatestItemGroupUseCase: GetLatestItemGroupUseCase,
     val getLatestItemUseCase: GetLatestItemUseCase,
@@ -38,4 +42,6 @@ data class DownloadInteractor @Inject constructor(
     val getLatestPromoUseCase: GetLatestPromoUseCase,
     val getLatestPromoMultiUseCase: GetLatestPromoMultiUseCase,
     val getLatestRegUseCase: GetLatestRegUseCase,
+    val getLatestUsrGrpUseCase: GetLatestUsrGrpUseCase,
+    val getLatestGrpPrvUseCase: GetLatestGrpPrvUseCase
 )

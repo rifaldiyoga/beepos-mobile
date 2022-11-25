@@ -17,7 +17,7 @@ object UsrGrpDataMapper : BaseMapper<UsrGrpEntity, UsrGrp, UsrGrpModel>(){
             model.usrCode ,
             model.disabled ,
             model.grpId ,
-            model.bpName ,
+            model.usrId ,
             model.updatedAt
         )
     }
@@ -28,18 +28,18 @@ object UsrGrpDataMapper : BaseMapper<UsrGrpEntity, UsrGrp, UsrGrpModel>(){
             model.usrCode ,
             model.disabled ,
             model.grpId ,
-            model.bpName ,
+            model.usrId ,
             model.updatedAt
         )
     }
 
     override fun fromNetworkToDb(model: UsrGrpModel): UsrGrpEntity {
         return UsrGrpEntity(
-            model.id ,
+            null,
             model.usrCode ,
             model.isDisabled ,
             model.grpId.toInt(),
-            "",
+            model.usrId,
             DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE,model.updatedAt)
         )
     }

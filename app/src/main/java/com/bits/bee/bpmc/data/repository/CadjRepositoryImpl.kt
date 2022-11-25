@@ -2,20 +2,16 @@ package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.CadjDao
 import com.bits.bee.bpmc.data.data_source.local.model.CadjEntity
-import com.bits.bee.bpmc.data.data_source.local.model.CashEntity
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.domain.mapper.CadjDataMapper
 import com.bits.bee.bpmc.domain.model.Cadj
 import com.bits.bee.bpmc.domain.repository.CadjRepository
-import com.bits.bee.bpmc.utils.ApiResponse
-import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -107,4 +103,10 @@ class CadjRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getCashInOut(cashId: Long): Flow<List<Cadj>> {
+        return flow {
+            val data = cadjDao.getCashInOut(cashId).map { CadjDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
 }

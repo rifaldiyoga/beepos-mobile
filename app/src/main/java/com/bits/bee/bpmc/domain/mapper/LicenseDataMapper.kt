@@ -4,6 +4,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.LicenseEntity
 import com.bits.bee.bpmc.data.data_source.remote.response.LicenseResponse
 import com.bits.bee.bpmc.domain.model.License
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import java.util.*
 
 /**
  * Created by aldi on 06/09/22
@@ -34,7 +35,7 @@ object LicenseDataMapper : BaseMapper<LicenseEntity, License, LicenseResponse.Da
             name = model.cmpname,
             licNumber = model.serialNumber,
             item = model.item,
-            licExp = DateFormatUtils.formatStringToDate("yyyy-MM-dd", model.expdate)
+            licExp = if(model.expdate.isNotEmpty()) DateFormatUtils.formatStringToDate("yyyy-MM-dd", model.expdate) else Date()
         )
     }
 }

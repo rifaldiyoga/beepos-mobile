@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.domain.mapper
 
 import com.bits.bee.bpmc.data.data_source.local.model.CmpEntity
 import com.bits.bee.bpmc.data.data_source.remote.model.CmpModel
-import com.bits.bee.bpmc.data.data_source.remote.response.CmpResponse
 import com.bits.bee.bpmc.domain.model.Cmp
 
 /**
@@ -51,7 +50,6 @@ object CmpDataMapper : BaseMapper<CmpEntity, Cmp, CmpModel>() {
             cossType = model.cossType,
         )
     }
-
 
     override fun fromNetworkToDb(model: CmpModel): CmpEntity {
         return CmpEntity(

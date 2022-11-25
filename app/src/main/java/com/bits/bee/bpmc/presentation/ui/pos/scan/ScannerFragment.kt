@@ -109,18 +109,16 @@ class ScannerFragment(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.flash_on ->{
-                if (requireContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
+                if (requireContext().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
                     if (flashOn){
                         mMenu!!.getItem(0).icon =
                             ContextCompat.getDrawable(requireContext(), R.drawable.eva_flash_off_outline)
                         flashOn = false
-                        flashOff()
                         Toast.makeText(requireContext(), "Off", Toast.LENGTH_SHORT).show()
                     }else{
                         mMenu!!.getItem(0).icon =
                             ContextCompat.getDrawable(requireContext(), R.drawable.eva_flash_outline)
                         flashOn = true
-                        flashOn()
                         Toast.makeText(requireContext(), "On", Toast.LENGTH_SHORT).show()
                     }
                 }else{
@@ -131,21 +129,7 @@ class ScannerFragment(
         return super.onOptionsItemSelected(item)
     }
 
-    private fun flashOn(){
-
-    }
-
-    private fun flashOff(){
-
-    }
-
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
-//
-//        if (isDestroyed || isFinishing) {
-//            //This check is to avoid an exception when trying to re-bind use cases but user closes the activity.
-//            //java.lang.IllegalArgumentException: Trying to create use case mediator with destroyed lifecycle.
-//            return
-//        }
 
         cameraProvider?.unbindAll()
 
@@ -184,15 +168,8 @@ class ScannerFragment(
                     cameraProvider?.unbindAll()
 
                     findNavController().previousBackStackEntry?.savedStateHandle?.set("scan", result)
-                    Toast.makeText(requireContext(), "Scan result: ${result}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Scan result: $result", Toast.LENGTH_LONG).show()
                     findNavController().popBackStack()
-//                    ScannerResultDialog.newInstance(
-//                        result,
-//                        object : ScannerResultDialog.DialogDismissListener {
-//                            override fun onDismiss() {
-//                                bindPreview(cameraProvider)
-//                            }
-//                        })show(supportFragmentManager, ScannerResultDialog::class.java.simpleName)
                 }
             }
         }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetSaleByPossesUseCase @Inject constructor(
     private val saleRepository: SaleRepository
 ) {
-    operator fun invoke(id: Int): Flow<Resource<List<Sale>>>{
+    operator fun invoke(id: Int): Flow<List<Sale>>{
         return saleRepository.getSaleByPosses(id)
     }
 }

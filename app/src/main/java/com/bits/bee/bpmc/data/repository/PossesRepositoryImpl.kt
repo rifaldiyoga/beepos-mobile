@@ -58,7 +58,7 @@ class PossesRepositoryImpl @Inject constructor(
                 startBal = startBal,
                 trxDate = date,
                 cashierId = cashier.id,
-                trxNo = TrxNoGeneratorUtils.generatePossesTrxNo(shift, branch, cashier),
+                trxNo = TrxNoGeneratorUtils.generatePossesTrxNo(shift, cashier),
                 startTime = date,
                 shift = shift,
                 total = BigDecimal.ZERO,

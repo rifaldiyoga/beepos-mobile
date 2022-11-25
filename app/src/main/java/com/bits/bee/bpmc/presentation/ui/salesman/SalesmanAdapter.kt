@@ -15,7 +15,8 @@ import com.bits.bee.bpmc.utils.extension.gone
  */
 class SalesmanAdapter constructor(
     private val onMemberClick : (Srep) -> Unit,
-    private val onEyeClick: (Srep) -> Unit
+    private val onEyeClick: (Srep) -> Unit,
+    private val activeSalesman : Srep? = null
 ) : ListAdapter<Srep, RecyclerView.ViewHolder>(Diffcallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -42,6 +43,9 @@ class SalesmanAdapter constructor(
                 llDetailMember.setOnClickListener {
                     onEyeClick(model)
                 }
+
+                rbMember.isChecked = activeSalesman != null && activeSalesman.id == model.id
+                rbMember.isSelected = activeSalesman != null && activeSalesman.id == model.id
             }
         }
 

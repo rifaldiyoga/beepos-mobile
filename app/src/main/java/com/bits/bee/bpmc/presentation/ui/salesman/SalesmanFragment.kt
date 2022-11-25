@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.domain.model.Srep
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -42,7 +43,8 @@ class SalesmanFragment(
                 },
                 onEyeClick = { model ->
                     viewModel.onClickEye(model)
-                }
+                },
+                mainViewModel.activeSrep.value
             )
 
             rvList.apply {
@@ -86,14 +88,13 @@ class SalesmanFragment(
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search_member, menu)
 
 //        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE)
 
         val searchItem = menu.findItem(R.id.search_member)
         val searchView = searchItem.actionView as SearchView
-
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -108,6 +109,7 @@ class SalesmanFragment(
                 return false
             }
         })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

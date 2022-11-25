@@ -13,7 +13,8 @@ import com.bits.bee.bpmc.domain.model.Bp
  */
 class MemberAdapter constructor(
     private val onMemberClick : (Bp) -> Unit,
-    private val onEyeClick: (Bp) -> Unit
+    private val onEyeClick: (Bp) -> Unit,
+    private var activeMember : Bp? = null
 ) : PagingDataAdapter<Bp, RecyclerView.ViewHolder>(Diffcallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -42,6 +43,9 @@ class MemberAdapter constructor(
                 llDetailMember.setOnClickListener {
                     onEyeClick(model)
                 }
+
+                rbMember.isChecked = activeMember != null && activeMember!!.id == model.id
+                rbMember.isSelected = activeMember != null && activeMember!!.id == model.id
             }
         }
 
@@ -58,5 +62,4 @@ class MemberAdapter constructor(
         }
 
     }
-
 }

@@ -11,17 +11,25 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAturPinBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import kotlinx.coroutines.flow.collect
+import com.bits.bee.bpmc.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AturPinFragment constructor(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAturPinBinding = FragmentAturPinBinding::inflate
 ): BaseFragment<FragmentAturPinBinding>() {
 
     private val viewModel : AturPinViewModel by viewModels()
 
+
+    private lateinit var dialog: LoadingDialogHelper
+
     override fun initComponents() {
+        dialog = LoadingDialogHelper(requireActivity())
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(R.string.page_atur_pin))
         binding.apply {
 

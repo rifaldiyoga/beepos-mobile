@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDetailTutupKasirBinding
+import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
@@ -21,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.sql.Date
+import javax.inject.Inject
 
 /**
  * Created by aldi on 13/04/22.
@@ -33,6 +35,9 @@ class DetailTutupKasirFragment(
     private val viewModel : DetailTutupKasirViewModel by viewModels()
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
     private var mCounter: Int = 0
+
+    @Inject
+    lateinit var printerHelper: PrinterHelper
 
     override fun initComponents() {
 //        setHasOptionsMenu(true)
@@ -65,6 +70,8 @@ class DetailTutupKasirFragment(
                             mCounter++
                             BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), mCounter)
                             sharedViewModel.doTutupKasir()
+                            printerHelper.printClosingCashier(sharedViewModel.state.activePosses!!, BPMConstants.BPM_FONT_REGULAR, BPMConstants.BPM_ALIGN_LEFT)
+                            sharedViewModel.resetActivePosses()
                         }
                         DetailTutupKasirViewModel.UIEvent.RequestRekapSesi ->{
                             val action = DetailTutupKasirFragmentDirections.actionDetailTutupKasirFragmentToRekapSesiFragment()

@@ -46,8 +46,8 @@ class PriceRepositoryImpl @Inject constructor(
         }.getAsFlow()
     }
 
-    override fun getPriceByPriceLvl(priceLvlId: Int, itemId : Int): Flow<Price?> = flow {
-        val price = priceDao.getPriceByPriceLvlItem(priceLvlId, itemId)
+    override fun getPriceByPriceLvl(priceLvlId: Int, itemId : Int, crcId : Int): Flow<Price?> = flow {
+        val price = priceDao.getPriceByPriceLvlItem(priceLvlId, itemId, crcId)
         emit(price?.let { PriceDataMapper.fromDbToDomain(it) })
     }.flowOn(defDispatcher)
 

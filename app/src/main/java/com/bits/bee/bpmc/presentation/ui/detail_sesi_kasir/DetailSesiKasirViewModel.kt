@@ -54,13 +54,11 @@ class DetailSesiKasirViewModel @Inject constructor(
 
     fun getValueDetail() = viewModelScope.launch {
         getUserByIdUseCase.invoke(state.posses!!.userId).collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        user = it
-                    )
+            updateState(
+                state.copy(
+                    user = it
                 )
-            }
+            )
         }
     }
 

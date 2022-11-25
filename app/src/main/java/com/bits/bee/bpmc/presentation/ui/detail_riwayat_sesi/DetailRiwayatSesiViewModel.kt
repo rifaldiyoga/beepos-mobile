@@ -3,13 +3,10 @@ package com.bits.bee.bpmc.presentation.ui.detail_riwayat_sesi
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.GetCashierByIdUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.detail_sesi_kasir.DetailSesiKasirViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,13 +34,11 @@ class DetailRiwayatSesiViewModel @Inject constructor(
 
     fun detailValue() = viewModelScope.launch {
         getUserByIdUseCase.invoke(state.posses!!.userId).collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        user = it
-                    )
+            updateState(
+                state.copy(
+                    user = it
                 )
-            }
+            )
         }
         getCashierByIdUseCase.invoke(state.posses!!.cashierId).collect {
             it?.let {

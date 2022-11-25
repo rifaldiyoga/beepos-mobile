@@ -23,5 +23,7 @@ data class EditItemState (
     var pid : Stock? = null,
     var modePos : PosModeState = PosModeState.FnBState,
     var addOnList : List<Item?> = mutableListOf(),
-    var diskonMsg : String = ""
+    var diskonMsg : String = "",
+    var isEditPrice : Boolean = true,
+    var isEditDisc : Boolean = true
 )

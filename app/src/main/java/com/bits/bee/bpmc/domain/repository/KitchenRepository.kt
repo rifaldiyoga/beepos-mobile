@@ -1,14 +1,12 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.data.data_source.local.model.KitchenEntity
 import com.bits.bee.bpmc.domain.model.Kitchen
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface KitchenRepository {
-    fun getKitchenId(id: Int): Flow<Resource<Kitchen>>
+    fun getKitchenId(id: Int): Flow<Kitchen>
 
-    fun getLastKitchen(): Flow<Resource<Kitchen>>
+    fun getLastKitchen(): Flow<Kitchen>
 
-    fun readKitchen(): Flow<Resource<MutableList<Kitchen>>>
+    fun readKitchen(): Flow<MutableList<Kitchen>>
 }

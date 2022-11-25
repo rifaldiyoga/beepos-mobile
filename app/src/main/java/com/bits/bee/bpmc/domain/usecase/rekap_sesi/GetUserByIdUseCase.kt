@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetUserByIdUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    operator fun invoke(operatorId: Int): Flow<Resource<User>>{
+    operator fun invoke(operatorId: Int): Flow<User>{
         return userRepository.getUserById(operatorId)
     }
 }

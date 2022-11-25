@@ -11,4 +11,6 @@ interface ItemKitchenRepository {
 
     fun getLatestItemKitchen() : Flow<Resource<List<ItemKitchen>>>
 
+    fun getByPrinterKitchen(id : Int) : Flow<List<ItemKitchen>>
+
 }

@@ -59,7 +59,7 @@ object BranchDataMapper : BaseMapper<BranchEntity, Branch, BranchResponse.Branch
             model.version,
             model.cmpName,
             model.cmpPhone,
-            false,
+            model.active,
             model.active,
             model.cmpAddress,
             model.noFax,

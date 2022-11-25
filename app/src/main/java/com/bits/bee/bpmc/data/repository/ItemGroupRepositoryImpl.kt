@@ -66,26 +66,11 @@ class ItemGroupRepositoryImpl @Inject constructor(
         emit(itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
-    override fun getId(id: Int): Flow<Resource<ItemGroup>> {
+    override fun getById(id: Int): Flow<ItemGroup>{
         return flow {
             val data = itemGroupDao.getId(id)
-            emit((Resource.success(ItemGroupDataMapper.fromDbToDomain(data))))
+            emit(ItemGroupDataMapper.fromDbToDomain(data))
         }.flowOn(ioDispatcher)
-    }
-
-    override fun getItemgrpKitchen(): Flow<Resource<List<ItemGroup>>> {
-        return flow {
-            var data = mutableListOf<ItemGroup>()
-            withContext(ioDispatcher){
-                itemGroupDao.getItemgrpKitchen().map { ItemGroupDataMapper.fromDbToDomain(it) }.onEach {
-                    data.add(it)
-                }
-            }
-            if (data.isNotEmpty()){
-                emit(Resource.success(data))
-            }else{
-                emit(Resource.error(null, "data kosong"))
-            }            }
     }
 
     override fun getItemgrpAddOn(): Flow<ItemGroup?> = flow<ItemGroup?> {

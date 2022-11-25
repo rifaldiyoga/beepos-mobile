@@ -12,4 +12,5 @@ interface ItemKitchenDao : BaseDao<ItemKitchenEntity> {
     @Query("SELECT * FROM item_kitchen")
     fun getItemKitchen() : List<ItemKitchenEntity>
 
+
 }

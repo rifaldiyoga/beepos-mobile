@@ -22,7 +22,6 @@ class SaledRepositoryImpl @Inject constructor(
     private val saledDao: SaledDao
 ) : SaledRepository {
 
-    private lateinit var mSubtotal: BigDecimal
 
     override suspend fun addSaled(saledList: List<Saled>) : List<Long> {
         var list : List<Long> = mutableListOf()
@@ -76,13 +75,49 @@ class SaledRepositoryImpl @Inject constructor(
     }
 
     override fun getStokByItem(id: Int, startDate: Long, endDate: Long): Flow<BigDecimal> {
-        var qty = BigDecimal.ZERO
+        val qty = BigDecimal.ZERO
         return flow<BigDecimal> {
             val data = saledDao.sumStokByItem(id, startDate, endDate).map { SaledDataMapper.fromDbToDomain(it) }
             for (saled in data){
                 qty.add(saled.qty)
             }
             emit(qty)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaledByPossesChannel(possesId: Int, channelId: Int): Flow<List<Saled>> {
+        return flow{
+            val data = saledDao.getSaledByPossesChannel(possesId, channelId).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaledByPosses(possesId: Int): Flow<List<Saled>> {
+        return flow{
+            val data = saledDao.getSaledByPosses(possesId).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getRekapSaledDiskon(
+        possesId: Int,
+        itemId: Int,
+        channelId: Int
+    ): Flow<List<Saled>> {
+        return flow{
+            val data = saledDao.getRekapSaledDiskon(possesId,itemId, channelId).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getRekapSaledDiskon(
+        possesId: Int,
+        itemId: Int,
+        total: BigDecimal
+    ): Flow<List<Saled>> {
+        return flow{
+            val data = saledDao.getRekapSaledDiskonNumerik(possesId, itemId, total).map { SaledDataMapper.fromDbToDomain(it) }
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 }

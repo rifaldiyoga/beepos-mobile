@@ -14,7 +14,7 @@ class BSmartPay {
         fun genSmartPay(total: BigDecimal): HashMap<String, String> {
             val returnHash = HashMap<String, String>()
             val totalRounded: String = total.setScale(0, RoundingMode.UP).toString()
-            returnHash[total.toString()] = total.toString()
+            returnHash[totalRounded] = totalRounded
             returnHash[spawnFiftyThousand(totalRounded)] = spawnFiftyThousand(totalRounded)
             returnHash[spawnTwentyThousandFromZero(totalRounded)] = spawnTwentyThousandFromZero(totalRounded)
             returnHash[spawnOneHundredThousand(totalRounded)] = spawnOneHundredThousand(totalRounded)

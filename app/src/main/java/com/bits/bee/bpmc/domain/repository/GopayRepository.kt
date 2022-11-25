@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
+import com.bits.bee.bpmc.data.data_source.remote.model.GopayPost
 import com.bits.bee.bpmc.data.data_source.remote.model.GopayRefundPost
 import com.bits.bee.bpmc.data.data_source.remote.response.GopayRefundResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.GopayResponse
@@ -19,7 +20,7 @@ interface GopayRepository {
 
     fun getGopayCancel( transactionID: String): Flow<Resource<GopayStatusResponse>>
 
-    fun postGoPay(trxNo : String, total : String, saledList : List<Saled>, bp : Bp, rounding : BigDecimal?): Flow<Resource<GopayResponse>>
+    fun postGoPay(gopayPost: GopayPost): Flow<Resource<GopayResponse>>
 
     fun postGopayRefund(
         transactionID: String,

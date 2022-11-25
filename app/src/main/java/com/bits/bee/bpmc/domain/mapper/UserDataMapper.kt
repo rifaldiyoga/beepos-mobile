@@ -41,7 +41,7 @@ object UserDataMapper : BaseMapper<UserEntity, User, UsrModel>(){
             userApiKey = model.authKey,
             pin = model.pin,
             active = model.active,
-            used = false
+            used = model.used
         )
     }
 

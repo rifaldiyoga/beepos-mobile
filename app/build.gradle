@@ -152,6 +152,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //barcode scanner
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation 'com.google.zxing:core:3.4.1'
@@ -172,19 +173,9 @@ dependencies {
     // CameraX Extensions library
      implementation "androidx.camera:camera-extensions:$camerax_version"
 
-    //WindowManager
-    implementation ("androidx.window:window:1.1.0-alpha01")
-    // For Java-friendly APIs to register and unregister callbacks
-    implementation("androidx.window:window-java:1.0.0")
-
-    // For RxJava2 integration
-    implementation("androidx.window:window-rxjava2:1.0.0")
-
-    // For RxJava3 integration
-    implementation("androidx.window:window-rxjava3:1.0.0")
-
-    // For testing
-    implementation("androidx.window:window-testing:1.0.0")
-
+    implementation files('libs/btsdk.jar')
+//    implementation files('libs/BixolonPrinter.jar')
+    implementation files('libs/usbsdk.jar')
+    implementation files('libs/p25library.jar')
 
 }

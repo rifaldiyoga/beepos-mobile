@@ -1,6 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.promo
 
-import com.bits.bee.bpmc.domain.usecase.printer.GetActivePromoUseCase
+import com.bits.bee.bpmc.domain.usecase.promo.GetActivePromoUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

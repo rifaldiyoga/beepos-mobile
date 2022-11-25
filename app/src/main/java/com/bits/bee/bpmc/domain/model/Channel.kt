@@ -20,4 +20,5 @@ data class Channel (
     var updatedAt : Date?,
     var color : String?,
     var priceLvlId : Int?,
+    var isSelected : Boolean = false
 ) : Parcelable

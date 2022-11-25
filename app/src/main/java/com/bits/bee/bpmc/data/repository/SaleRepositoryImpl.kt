@@ -7,10 +7,10 @@ import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.SaleDao
 import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
 import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
+import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.repository.SaleRepository
 import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -49,14 +49,18 @@ class SaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLatestSaleList(query : String, isDraft: Boolean): Flow<PagingData<Sale>> =  Pager(
+    override fun getLatestSaleList(query : String, isDraft: Boolean, channelList : List<Int>, startDate : Long, endDate : Long): Flow<PagingData<Sale>> =  Pager(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = true
+            enablePlaceholders = true,
+            initialLoadSize = BPMConstants.BPM_MAX_PAGINATION
         ),
         pagingSourceFactory = {
-            saleDao.getLatestSaleList(query, isDraft)
+            if(channelList.isNotEmpty())
+                saleDao.getLatestSaleList(query, isDraft, channelList, startDate, endDate)
+            else
+                saleDao.getLatestSaleList(query, isDraft, startDate, endDate)
         }
     ).flow.mapLatest {
         it.map { SaleDataMapper.fromDbToDomain(it) }
@@ -67,10 +71,17 @@ class SaleRepositoryImpl @Inject constructor(
         emit(saleList.map { SaleDataMapper.fromDbToDomain(it) } )
     }.flowOn(defaultDispatcher)
 
-    override fun getSaleByPosses(id: Int): Flow<Resource<List<Sale>>> {
+    override fun getSaleByPosses(id: Int): Flow<List<Sale>> {
         return flow {
             val data = saleDao.getSaleByPosses(id).map { SaleDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getSaleByPosses(id: Int, isVoid: Boolean, termType: String): Flow<List<Sale>> {
+        return flow {
+            val data = saleDao.getSaleByPosses(id, isVoid, termType).map { SaleDataMapper.fromDbToDomain(it) }
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 
@@ -127,7 +138,7 @@ class SaleRepositoryImpl @Inject constructor(
             if (data != null)
                 emit(data)
             else
-            emit(BigDecimal.ZERO)
+                emit(BigDecimal.ZERO)
         }.flowOn(defaultDispatcher)
     }
 
@@ -170,5 +181,11 @@ class SaleRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getSaleByPossesGroupByBp(id: Int): Flow<List<Sale>> {
+        return flow {
+            val data = saleDao.getSaleByPossesGroupByBp(id).map { SaleDataMapper.fromDbToDomain(it) }
+            emit((data))
+        }.flowOn(defaultDispatcher)
+    }
 
 }

@@ -13,7 +13,7 @@ object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvModel>(){
 
     override fun fromDbToDomain(model: GrpPrvEntity): GrpPrv {
         return GrpPrv(
-            model.id ,
+            null ,
             model.updatedAt ,
             model.objCode ,
             model.acsType ,
@@ -49,7 +49,7 @@ object GrpPrvDataMapper : BaseMapper<GrpPrvEntity, GrpPrv, GrpPrvModel>(){
 
     override fun fromNetworkToDb(model: GrpPrvModel): GrpPrvEntity {
         return GrpPrvEntity(
-            model.id ,
+            null ,
             DateFormatUtils.formatStringToDate(BPMConstants.DATE_FORMAT_RESPONSE, model.updatedAt),
             model.objCode ,
             model.acsType ,

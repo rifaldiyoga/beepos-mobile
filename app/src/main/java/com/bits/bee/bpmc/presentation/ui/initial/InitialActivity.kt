@@ -161,6 +161,7 @@ class InitialActivity (
                 Resource.Status.ERROR -> {
                     Toast.makeText(this@InitialActivity, "${it.message}", Toast.LENGTH_SHORT).show()
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
     }

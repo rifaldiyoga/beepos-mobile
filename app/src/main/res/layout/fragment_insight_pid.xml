@@ -8,38 +8,42 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/btnSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size160"
+                android:background="@drawable/bg_insight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                android:background="@color/orange">
+                tools:ignore="MissingConstraints">
 
             </View>
 
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:id="@+id/rL_top"
-                android:background="@color/orange"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/size24"
                 tools:ignore="MissingConstraints">
+
                 <TextView
                     android:id="@+id/textView2"
+                    style="@style/TextHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/apa_sih_pid_itu_dan_gunanya_untuk_apa"
-                    style="@style/TextHeader"
-                    android:textSize="@dimen/font20"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font20" />
 
             </LinearLayout>
 
@@ -49,16 +53,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@+id/rL_top"
                 android:paddingLeft="@dimen/size16"
-                android:paddingRight="@dimen/size16">
+                android:paddingRight="@dimen/size16"
+                app:layout_constraintTop_toBottomOf="@+id/rL_top"
+                tools:ignore="MissingConstraints">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="@dimen/size10">
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,24 +72,24 @@
 
                         <TextView
                             android:id="@+id/txtTitle"
+                            style="@style/TextHeader"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size0"
-                            android:text="@string/definisi"
-                            style="@style/TextHeader"
-                            android:textColor="@color/dark_gray"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/definisi"
+                            android:textColor="@color/dark_gray" />
 
                         <TextView
                             android:id="@+id/txtDefine"
-                            android:layout_marginTop="@dimen/size8"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/product_id_atau_pid_adalah_fitur"
-                            android:textColor="@color/black"
+                            android:layout_marginTop="@dimen/size8"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/product_id_atau_pid_adalah_fitur"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -96,46 +100,46 @@
                 android:id="@+id/rL_fungsi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
                 android:orientation="vertical"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@+id/rL_define"
                 android:paddingLeft="@dimen/size16"
                 android:paddingRight="@dimen/size16"
-                android:layout_marginTop="@dimen/size16">
+                app:layout_constraintTop_toBottomOf="@+id/rL_define"
+                tools:ignore="MissingConstraints">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="@dimen/size10">
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:weightSum="2"
-                        android:padding="@dimen/size16">
+                        android:padding="@dimen/size16"
+                        android:weightSum="2">
 
                         <TextView
                             android:id="@+id/txtTitle2"
+                            style="@style/TextHeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/fungsi"
-                            style="@style/TextHeader"
-                            android:textColor="@color/dark_gray"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/fungsi"
+                            android:textColor="@color/dark_gray" />
 
                         <TextView
                             android:id="@+id/txtFungsi"
-                            android:layout_marginTop="@dimen/size8"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/pid_dapat_memangkas_jumlah_stock"
-                            android:textColor="@color/black"
+                            android:layout_marginTop="@dimen/size8"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/pid_dapat_memangkas_jumlah_stock"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -146,46 +150,46 @@
                 android:id="@+id/rL_cocok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
                 android:orientation="vertical"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@+id/rL_fungsi"
                 android:paddingLeft="@dimen/size16"
                 android:paddingRight="@dimen/size16"
-                android:layout_marginTop="@dimen/size16">
+                app:layout_constraintTop_toBottomOf="@+id/rL_fungsi"
+                tools:ignore="MissingConstraints">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="@dimen/size10">
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:weightSum="2"
-                        android:padding="@dimen/size16">
+                        android:padding="@dimen/size16"
+                        android:weightSum="2">
 
                         <TextView
                             android:id="@+id/txtTitle3"
+                            style="@style/TextHeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/cocok_untuk"
-                            style="@style/TextHeader"
-                            android:textColor="@color/dark_gray"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/cocok_untuk"
+                            android:textColor="@color/dark_gray" />
 
                         <TextView
                             android:id="@+id/txtCocok"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/pid_cocok_digunakan"
-                            android:textColor="@color/black"
                             android:layout_marginTop="@dimen/size8"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/pid_cocok_digunakan"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -196,53 +200,53 @@
                 android:id="@+id/rL_anda_tertarik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
                 android:orientation="vertical"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@+id/rL_cocok"
                 android:paddingLeft="@dimen/size16"
                 android:paddingRight="@dimen/size16"
-                android:layout_marginTop="@dimen/size16">
+                app:layout_constraintTop_toBottomOf="@+id/rL_cocok"
+                tools:ignore="MissingConstraints">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="@dimen/size10">
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:weightSum="3"
-                        android:padding="@dimen/size16">
+                        android:padding="@dimen/size16"
+                        android:weightSum="3">
 
                         <TextView
                             android:id="@+id/txtTitle4"
+                            style="@style/TextHeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/apakah_anda"
-                            style="@style/TextHeader"
-                            android:textColor="@color/dark_gray"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/apakah_anda"
+                            android:textColor="@color/dark_gray" />
 
                         <TextView
                             android:id="@+id/txtTertarik"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/baca_artikel_pid_selengkapnya_disini"
-                            android:textColor="@color/black"
                             android:gravity="center_vertical"
-                            android:singleLine="false"/>
+                            android:singleLine="false"
+                            android:text="@string/baca_artikel_pid_selengkapnya_disini"
+                            android:textColor="@color/black" />
 
                         <CheckBox
                             android:id="@+id/bp_cbPajak"
-                            android:padding="0dp"
-                            android:text="@string/saya_tertarik_pid"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:padding="0dp"
+                            android:text="@string/saya_tertarik_pid" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>

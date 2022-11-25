@@ -17,7 +17,9 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.FilterUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
@@ -96,7 +98,22 @@ class DraftFragment(
 
     override fun subscribeListeners() {
         binding.apply {
+            tilPeriode.root.setOnClickListener {
+                val dialog = RadioListFilterDialog(
+                    requireActivity(),
+                    "Pilih Periode",
+                    requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList(),
+                    viewModel.filterDate.value,
+                    onSaveClick = {
+                        viewModel.onFilterPeriode(it)
+                    }
+                )
+                dialog.show(parentFragmentManager, "")
+            }
 
+            tvReset.setOnClickListener {
+                viewModel.onResetFilter()
+            }
         }
     }
 
@@ -130,6 +147,12 @@ class DraftFragment(
                 viewModel.draftList.collectLatest {
                     draftAdapter.submitData(it)
                 }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.filterDate.collectLatest {
+                val channel = FilterUtils.getFilterDateLabel(it.selectedPos)
+                binding.tilPeriode.tvTitle.text = channel
             }
         }
     }

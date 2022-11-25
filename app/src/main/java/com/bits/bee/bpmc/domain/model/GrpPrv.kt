@@ -11,7 +11,7 @@ import java.util.*
  */
 @Parcelize
 data class GrpPrv (
-    var id : Int,
+    var id : Int?,
     var updatedAt : Date,
     var objCode : String,
     var acsType : String,

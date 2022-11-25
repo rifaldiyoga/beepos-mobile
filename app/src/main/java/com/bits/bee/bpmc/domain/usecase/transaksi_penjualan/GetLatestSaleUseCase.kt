@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.domain.usecase.transaksi_penjualan
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.repository.ChannelRepository
 import com.bits.bee.bpmc.domain.repository.SaleRepository
@@ -20,8 +21,8 @@ class GetLatestSaleUseCase @Inject constructor(
     private val srepRepository: SrepRepository
 ){
 
-    operator fun invoke(query : String, isDraft : Boolean) : Flow<PagingData<Sale>> =
-        saleRepository.getLatestSaleList(query, isDraft).map { data ->
+    operator fun invoke(query : String, isDraft : Boolean, channelList: List<Channel>, startDate : Long, endDate : Long) : Flow<PagingData<Sale>> =
+        saleRepository.getLatestSaleList(query, isDraft, channelList.map { it.id }, startDate, endDate).map { data ->
             data.map { sale ->
                 val channel = channelRepository.getChannelById(sale.channelId).first()
                 sale.channel = channel?.name ?: ""

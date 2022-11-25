@@ -87,11 +87,9 @@ class UploadManualFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         UploadManualViewModel.UIEvent.RequeatDialog ->{
-                            val dialog = NoInternetDialogBuilder.Builder(requireContext())
-                                .setPositiveCallback {
-
-                                }.build()
-
+                            val dialog = NoInternetDialogBuilder({
+                                viewModel.onClickUpload()
+                            })
                             dialog.show(parentFragmentManager, TAG)
                         }
                         UploadManualViewModel.UIEvent.RequestUpload ->{
@@ -119,6 +117,10 @@ class UploadManualFragment(
                         DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
                             it.dismiss()
                         }.show(parentFragmentManager, TAG)
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        loadingDialog.hide()
+                        viewModel.showDialogNoInternet()
                     }
                 }
             }
@@ -150,6 +152,10 @@ class UploadManualFragment(
                             it.dismiss()
                         }.show(parentFragmentManager, TAG)
                     }
+                    Resource.Status.NOINTERNET -> {
+                        loadingDialog.hide()
+                        viewModel.showDialogNoInternet()
+                    }
                 }
             }
         }
@@ -162,7 +168,6 @@ class UploadManualFragment(
         if (ConnectionUtils.checkInternet(requireContext())){
             mMenu!!.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_green)
         }else{
-            viewModel.showDialogNoInternet()
             mMenu!!.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_red)
         }
     }

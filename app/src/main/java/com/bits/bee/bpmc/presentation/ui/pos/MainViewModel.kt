@@ -9,6 +9,7 @@ import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.repository.ChannelRepository
+import com.bits.bee.bpmc.domain.repository.CrcRepository
 import com.bits.bee.bpmc.domain.repository.SrepRepository
 import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.common.*
@@ -48,6 +49,7 @@ class MainViewModel @Inject constructor(
     private val getDefaultSalesmanUseCase: GetDefaultSalesmanUseCase,
     private val promoCalc: PromoCalc,
     private val channelRepository: ChannelRepository,
+    private val crcRepository: CrcRepository,
     private val srepRepository: SrepRepository,
     private val beePreferenceManager: BeePreferenceManager,
     private val getRegUseCase: GetRegUseCase
@@ -334,7 +336,7 @@ class MainViewModel @Inject constructor(
 
     fun getTrxNo(context: Context) : String{
         val trxOrderNum = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.trx_ordernum), 0) as Int + 1
-        val trxNo = TrxNoGeneratorUtils.counterNoTrx(trxOrderNum, state.activeBranch!!, state.activeCashier!!)
+        val trxNo = TrxNoGeneratorUtils.counterNoTrx(trxOrderNum, state.activeCashier!!)
         saleTrans.getMaster().trxOrderNum = trxOrderNum
         saleTrans.getMaster().trxNo = trxNo
         return trxNo
@@ -470,6 +472,8 @@ class MainViewModel @Inject constructor(
     fun updateActiveBp(bp : Bp) = viewModelScope.launch {
         _activeBp.emit(bp)
         saleTrans.setBp(bp)
+        val id = bp.bpAccList.firstOrNull { it.isDefault }?.crcId ?: throw Exception("BpAcc tidak ditemukan!")
+        state.crc = crcRepository.getCrcById(id).first()
         deployData()
     }
 

@@ -37,10 +37,11 @@ class AnalisaSesiViewModel @Inject constructor(
 
     init {
         state = AnalisaSesiState()
-//        checkPosses()
+        checkPosses()
+        getActivePosses()
     }
 
-    fun checkPosses() = viewModelScope.launch {
+     fun checkPosses() = viewModelScope.launch {
         getActivePossesListUseCase.invoke().collect {
             it.data?.let {
                 updateState(
@@ -63,110 +64,108 @@ class AnalisaSesiViewModel @Inject constructor(
     }
 
     fun getValueDetail() = viewModelScope.launch {
-        state.posses?.let {
-            getUserByIdUseCase.invoke(it.userId).collect {
-                it.data?.let {
-                    updateState(
-                        state.copy(
-                            user = it
+        state.posses?.let { data ->
+            getUserByIdUseCase.invoke(data.userId).collect {
+                updateState(
+                    state.copy(
+                        user = it
                         )
                     )
                 }
-            }
-        }
 
-        getSaleByPossesUseCase.invoke(state.posses?.possesId!!).collect {
-            it.data?.let {
+            getSaleByPossesUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        saleList = it
-                    )
+                        state.copy(
+                                saleList = it
+                        )
                 )
             }
-        }
 
-        getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(
-            state.posses!!.trxDate.time,
-        ), DateFormatUtils.convertEndDate(state.posses!!.trxDate.time)).collect {
-            it.data?.let {
+
+            getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(
+                    data.trxDate.time,
+            ), DateFormatUtils.convertEndDate(data.trxDate.time)).collect {
+                it.data?.let {
+                    updateState(
+                            state.copy(
+                                    bpDateList = it
+                            )
+                    )
+                }
+            }
+
+            getCountNotaUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        bpDateList = it
-                    )
+                        state.copy(
+                                notaSucces = it
+                        )
                 )
             }
-        }
 
-        getCountNotaUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    notaSucces = it
+            getCountNotaVoidUseCase.invoke(data.possesId!!).collect {
+                updateState(
+                        state.copy(
+                                notaVoid = it
+                        )
                 )
-            )
-        }
+            }
 
-        getCountNotaVoidUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    notaVoid = it
+            getTotalPaidTunaiUseCase.invoke(data.possesId!!).collect {
+                updateState(
+                        state.copy(
+                                totalTunai = it
+                        )
                 )
-            )
-        }
+            }
 
-        getTotalPaidTunaiUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    totalTunai = it
+            getTotalPaidDebitUseCase.invoke(data.possesId!!).collect {
+                updateState(
+                        state.copy(
+                                totalDebit = it
+                        )
                 )
-            )
-        }
+            }
 
-        getTotalPaidDebitUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    totalDebit = it
+            getTotalPaidKreditUseCase.invoke(data.possesId!!).collect {
+                updateState(
+                        state.copy(
+                                totalKredit = it
+                        )
                 )
-            )
-        }
+            }
 
-        getTotalPaidKreditUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    totalKredit = it
+            getTotalPaidGopayUseCase.invoke(data.possesId!!).collect {
+                updateState(
+                        state.copy(
+                                totalGopay = it
+                        )
                 )
-            )
-        }
+            }
 
-        getTotalPaidGopayUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    totalGopay = it
+            getRankItemUseCase.invoke(data.possesId!!).collect {
+                updateState(
+                        state.copy(
+                                rankItem = it
+                        )
                 )
-            )
-        }
+            }
 
-        getRankItemUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    rankItem = it
+            getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
+                updateState(
+                        state.copy(
+                                reg = it
+                        )
                 )
-            )
-        }
+            }
 
-        getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
+            val chart = getSumByHourUseCase.invoke(data)
             updateState(
-                state.copy(
-                    reg = it
-                )
+                    state.copy(
+                            listEntry = chart
+                    )
             )
-        }
 
-        val chart = getSumByHourUseCase.invoke(state.posses!!)
-        updateState(
-            state.copy(
-                listEntry = chart
-            )
-        )
+        }
 
     }
 

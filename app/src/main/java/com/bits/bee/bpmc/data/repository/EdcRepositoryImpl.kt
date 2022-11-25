@@ -39,6 +39,7 @@ class EdcRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: EdcResponse) {
+                edcDao.deleteAll()
                 edcDao.insertBulk(data.data.map { EdcDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()

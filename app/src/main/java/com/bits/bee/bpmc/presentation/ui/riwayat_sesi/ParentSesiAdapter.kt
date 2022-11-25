@@ -4,18 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.ItemNestedSesiBinding
 import com.bits.bee.bpmc.databinding.ItemParentSesiAdptBinding
-import com.bits.bee.bpmc.databinding.ItemSectionKitchenBinding
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sesi
-import com.bits.bee.bpmc.presentation.ui.setting_printer.printer_kitchen.SectionKitchenAdapter
-import com.bits.bee.bpmc.utils.DateFormatUtils
 import java.text.SimpleDateFormat
 import java.util.*
 

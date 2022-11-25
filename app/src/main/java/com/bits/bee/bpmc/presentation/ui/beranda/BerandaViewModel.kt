@@ -42,9 +42,16 @@ class BerandaViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToDialogBukaKasir)
     }
 
+    fun onTutupKasirClick() = viewModelScope.launch {
+        eventChannel.send(UIEvent.ReqTutupKasir)
+    }
+
+
+
     sealed class UIEvent {
         object NavigateToBukaKasir : UIEvent()
         object NavigateToTutupKasir : UIEvent()
         object NavigateToDialogBukaKasir : UIEvent()
+        object ReqTutupKasir : UIEvent()
     }
 }

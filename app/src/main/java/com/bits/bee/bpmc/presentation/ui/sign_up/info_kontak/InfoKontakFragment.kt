@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.databinding.FragmentInfoKontakBinding
 import com.bits.bee.bpmc.domain.model.SignUp
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -151,6 +152,13 @@ class InfoKontakFragment constructor(
                         dialog.hide()
                         Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
                             .show()
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            onClickSignUp()
+                        })
+                        dialog.show(parentFragmentManager, "")
                     }
                 }
             }

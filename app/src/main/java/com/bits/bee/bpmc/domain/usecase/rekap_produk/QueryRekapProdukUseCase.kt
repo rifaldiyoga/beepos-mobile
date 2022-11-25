@@ -21,7 +21,7 @@ class QueryRekapProdukUseCase @Inject constructor(
          val listSaled = saledRepository.queryByPenjualan().first()
          for (saled in listSaled){
              val item = itemRepository.getItemById(saled.itemId).first()
-             item!!.price = if (saled.listPrice == null) BigDecimal.ZERO else saled.listPrice
+             item!!.price = saled.listPrice
              val saledList = saledRepository.getSaledTotal(item.id, startDate, endDate).first()
              for (items in saledList){
                  item.subtotal = items.subtotal

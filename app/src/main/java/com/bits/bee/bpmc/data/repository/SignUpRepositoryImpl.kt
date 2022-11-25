@@ -1,10 +1,10 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.post.SetupPasswordPost
+import com.bits.bee.bpmc.data.data_source.remote.post.VerifDbPost
 import com.bits.bee.bpmc.data.data_source.remote.post.VerifSmsPost
-import com.bits.bee.bpmc.data.data_source.remote.response.BidangUsahaResponse
-import com.bits.bee.bpmc.data.data_source.remote.response.SignUpResponse
-import com.bits.bee.bpmc.data.data_source.remote.response.VerifSmsResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.*
 import com.bits.bee.bpmc.domain.mapper.SignUpDataMapper
 import com.bits.bee.bpmc.domain.model.SignUp
 import com.bits.bee.bpmc.domain.repository.SignUpRepository
@@ -34,6 +34,28 @@ class SignUpRepositoryImpl @Inject constructor(
         return object : NetworkBoundResource<VerifSmsResponse>(){
             override fun createCall(): Flow<ApiResponse<VerifSmsResponse>> {
                 return apiUtils.getSignUpApiService().postVerifSms(verifSmsPost)
+            }
+        }.getAsFlow()
+    }
+
+    override fun postVerifDb(serial: String): Flow<Resource<CheckDbResponse>> {
+        val verifSmsPost = VerifDbPost(serial = serial)
+        return object : NetworkBoundResource<CheckDbResponse>(){
+            override fun createCall(): Flow<ApiResponse<CheckDbResponse>> {
+                return apiUtils.getSignUpApiService().postVerifDb(verifSmsPost)
+            }
+        }.getAsFlow()
+    }
+
+    override fun postSetupPassword(
+        authKey : String,
+        password: String,
+        pin: String
+    ): Flow<Resource<SetupPasswordResponse>> {
+        val post = SetupPasswordPost(true, authKey, password, pin)
+        return object : NetworkBoundResource<SetupPasswordResponse>(){
+            override fun createCall(): Flow<ApiResponse<SetupPasswordResponse>> {
+                return apiUtils.getSignUpApiService().postSetupPassword(post)
             }
         }.getAsFlow()
     }

@@ -29,7 +29,9 @@ class PmtdRepositoryImpl @Inject constructor(
 ) : PmtdRepository {
 
     override fun getLatestPmtdList(): Flow<Resource<List<Pmtd>>> {
+/**
 //        return object : NetworkDatabaseBoundResource<List<PmtdEntity>, PmtdResponse>(){
+
 //            override suspend fun loadFormDB(): List<PmtdEntity>? {
 //                return pmtdDao.getPmtdList()
 //            }
@@ -45,7 +47,7 @@ class PmtdRepositoryImpl @Inject constructor(
 //            override suspend fun saveCallResult(data: PmtdResponse) {
 //                pmtdDao.insertBulk(data.data.data.map { it.toPmtd() })
 //            }
-//        }.getAsFlow()
+//        }.getAsFlow() */
         return flow {
             val edcList = edcDao.getEdcList()
             var pmtNewList = mutableListOf<PmtdEntity>()

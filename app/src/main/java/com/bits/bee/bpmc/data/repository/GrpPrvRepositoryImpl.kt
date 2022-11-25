@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -37,8 +39,13 @@ class GrpPrvRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: GrpPrvResponse) {
+                grpPrvDao.deleteAll()
                 grpPrvDao.insertBulk(data.data.map { GrpPrvDataMapper.fromNetworkToDb(it) })
             }
         }.getAsFlow()
     }
+
+    override fun getGrpPrvByGrpId(id: Int): Flow<List<GrpPrv>> = flow {
+        emit(grpPrvDao.getGrpPrvByGrpId(id).map { GrpPrvDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 }

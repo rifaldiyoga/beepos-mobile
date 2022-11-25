@@ -22,17 +22,18 @@ class  AddTransactionUseCase @Inject constructor(
     private val saleAddOnRepository: SaleAddOnRepository,
     private val saleAddOnDRepository: SaleAddOnDRepository,
     private val salePromoRepository: SalePromoRepository,
+    private val crcRepository: CrcRepository,
     private val getUnitItemUseCase: GetUnitItemUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveUserUseCase: GetActiveUserUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
-    private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
     private val addCashAUseCase: AddCashAUseCase,
     private val addTotalPossesUseCase: AddTotalPossesUseCase,
     private val addPaymentUseCase: AddPaymentUseCase,
     private val defDispatcher: CoroutineDispatcher,
-    private val getRegUseCase: GetRegUseCase
+    private val getRegUseCase: GetRegUseCase,
+    private val currencyConvUseCase: CurrencyConvUseCase
 ) {
 
     suspend operator fun invoke(
@@ -59,7 +60,8 @@ class  AddTransactionUseCase @Inject constructor(
             val cashier = getActiveCashierUseCase().first()
             val user = getActiveUserUseCase().first()
             val posses = getActivePossesUseCase().first()
-            val crc = getDefaultCrcUseCase().first()
+            val crcId = sale.bp?.bpAccList?.firstOrNull { it.isDefault }?.crcId ?: throw IllegalArgumentException("BpAcc tidak ditemukan!")
+            val crc = crcRepository.getCrcById(crcId).first()
             var total : BigDecimal = sale.total
 
             crc?.let {
@@ -91,7 +93,7 @@ class  AddTransactionUseCase @Inject constructor(
                 sale.total = sale.total.add(surc)
             }
 
-            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, branch!!, cashier)
+            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, cashier)
             sale.trxOrderNum = counter
             sale.trxDate = Date()
             sale.totPaid = paymentAmt
@@ -147,6 +149,7 @@ class  AddTransactionUseCase @Inject constructor(
                 salePromoRepository.addSalePromo(salePromoList)
             }
             if(!sale.isDraft) {
+                val totalConv = currencyConvUseCase(crcId, sale.total).first()
                 /** For input transaction to table casha for history cash in or out in active session cashier */
                 addCashAUseCase(
                     refId = id,
@@ -154,7 +157,7 @@ class  AddTransactionUseCase @Inject constructor(
                     cashId = posses.possesId ?: throw Exception(""),
                     cashierId = cashier.id,
                     userId = user.id,
-                    amt = sale.total
+                    amt = totalConv ?: sale.total
                 )
 
                 /** For input transaction to table salecrcv for like change and edc */
@@ -170,7 +173,7 @@ class  AddTransactionUseCase @Inject constructor(
 
                 /** For update totin for active session cashier */
                 addTotalPossesUseCase(
-                    amt = sale.total
+                    amt = totalConv ?: sale.total
                 )
             }
 

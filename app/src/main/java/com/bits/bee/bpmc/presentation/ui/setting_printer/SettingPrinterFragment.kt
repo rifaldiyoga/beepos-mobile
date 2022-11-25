@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentSettingPrinterBinding
 import com.bits.bee.bpmc.domain.model.Printer
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingPrinterFragment(
@@ -22,13 +24,23 @@ class SettingPrinterFragment(
 
     private val viewModel : SettingPrinterViewModel by viewModels()
     private lateinit var printerAdapter: PrinterAdapter
+    @Inject
+    lateinit var bluetoothConnectService: BluetoothConnectService
 
     override fun initComponents() {
-//        printerAdapter = PrinterAdapter()
-//        binding.apply {
-//            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
-//            rvListPrinter.adapter = printerAdapter
-//        }
+        binding.apply {
+            printerAdapter = PrinterAdapter(mListener = object : PrinterAdapter.PilihPrinterI{
+                override fun onItemClick(printer: Printer) {
+                    val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(printer)
+                    findNavController().navigate(action)
+                }
+
+            }, bluetoothConnectService)
+            binding.apply {
+                rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
+                rvListPrinter.adapter = printerAdapter
+            }
+        }
     }
 
     override fun subscribeListeners() {
@@ -59,19 +71,16 @@ class SettingPrinterFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadPrinter.collect {
-                    it.data?.let { data ->
-                        viewModel.loadFromState(data)
-                        initAdapter(viewModel.get())
-                        validateAdapter()
-                    }
+                    printerAdapter.submitList(it)
+                    validateAdapter(it.isEmpty())
                 }
             }
         }
     }
 
-    private fun validateAdapter(){
+    private fun validateAdapter(isEmpty : Boolean){
         binding.apply {
-            if (viewModel.get().isEmpty()){
+            if (isEmpty){
                 lLBtnEmptyPrinter.visibility = View.VISIBLE
                 floatBtnTambah.visibility = View.GONE
             }else{
@@ -83,24 +92,7 @@ class SettingPrinterFragment(
     }
 
     private fun initAdapter(data: List<Printer>) {
-        printerAdapter = PrinterAdapter(data, mListener = object : PrinterAdapter.PilihPrinterI{
-            override fun onItemClick(printer: Printer) {
-                val action = SettingPrinterFragmentDirections.actionSettingPrinterFragmentToAddPrinterFragment(printer)
-                findNavController().navigate(action)
-            }
 
-        })
-        binding.apply {
-            rvListPrinter.layoutManager = LinearLayoutManager(requireContext())
-            rvListPrinter.adapter = printerAdapter
-        }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        validateAdapter()
-////        printerAdapter.setPrinterList(viewModel.get())
-//    }
-
 
 }

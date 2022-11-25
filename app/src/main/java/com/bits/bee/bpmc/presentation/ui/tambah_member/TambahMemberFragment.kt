@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahMemberBinding
 import com.bits.bee.bpmc.domain.model.District
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -134,9 +135,22 @@ class TambahMemberFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         TambahMemberViewModel.UIEvent.SuccessAddMember -> {
-                            val action = TambahMemberFragmentDirections.actionTambahMemberFragmentToMemberFragment()
-                            findNavController().navigate(action)
-                            showToast(R.string.berhasil_membuat_member)
+                            val dialog = DialogBuilderHelper.showDialogYesNo(
+                                requireActivity(),
+                                "Berhasil Tambah Member",
+                                "Member berhasil ditambahkan, Gunakan member sekarang?",
+                                positiveListener = {
+                                    it.dismiss()
+                                    findNavController().previousBackStackEntry?.savedStateHandle?.set("isUse", true)
+                                    showToast(R.string.berhasil_membuat_member)
+                                    findNavController().popBackStack()
+                                },
+                                negativeListener = {
+                                    it.dismiss()
+                                    findNavController().popBackStack()
+                                }
+                            )
+                            dialog.show(parentFragmentManager, "")
                         }
                         TambahMemberViewModel.UIEvent.RequestKota -> {
                             val action = TambahMemberFragmentDirections.actionTambahMemberFragmentToCariKotaFragment()
@@ -196,13 +210,16 @@ class TambahMemberFragment(
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             val regTaxed = viewModel.regSaleTaxed.first()
             val regTaxInc = viewModel.regSaleTaxInc.first()
+            val regDefPriceLvl = viewModel.regDefPriceLvl.first()
 
             binding.apply {
                 cbTax.isChecked = regTaxed?.value == "1"
                 cbTaxInc.isChecked = regTaxInc?.value == "1"
+                spPriceLvl.setSelection(viewModel.state.priceLvlList.indexOfLast {
+                    it.id == (regDefPriceLvl?.value?.toInt() ?: -1)
+                })
             }
         }
     }
-
 
 }

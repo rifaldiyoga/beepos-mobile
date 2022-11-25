@@ -9,7 +9,7 @@ import java.util.*
 data class UsrGrpEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)  
-    var id : Int,
+    var id : Int?,
     @ColumnInfo(name = USR_CODE)
     var usrCode : String,
     @ColumnInfo(name = DISABLED)
@@ -17,7 +17,7 @@ data class UsrGrpEntity(
     @ColumnInfo(name = GRP_ID)
     var grpId : Int,
     @ColumnInfo(name = USR_ID)
-    var bpName : String,
+    var usrId : String,
     @ColumnInfo(name = UPDATED_AT)
     var updatedAt : Date
 ) {

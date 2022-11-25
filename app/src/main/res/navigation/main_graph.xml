@@ -100,7 +100,7 @@
     <fragment
         tools:layout="@layout/fragment_invoice"
         android:id="@+id/invoiceFragment"
-        android:label=""
+        android:label="@string/pesanan"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragment">
         <action
             android:id="@+id/action_invoiceFragment_to_pembayaranFragment"
@@ -165,6 +165,9 @@
         <action
             android:id="@+id/action_editItemDialog_to_addOnFragment"
             app:destination="@id/addOnFragment" />
+        <action
+            android:id="@+id/action_editItemDialog_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
 
     </fragment>
     <fragment
@@ -233,7 +236,11 @@
         tools:layout="@layout/dialog_diskon_nota"
         android:id="@+id/diskonNotaDialog"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.diskon_nota.DiskonNotaDialog"
-        android:label="DiskonNotaDialog" />
+        android:label="DiskonNotaDialog" >
+        <action
+            android:id="@+id/action_diskonNotaDialog_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
+    </dialog>
     <fragment
         tools:layout="@layout/fragment_cari_kecamatan"
         android:id="@+id/cariKecamatanFragment"
@@ -329,7 +336,7 @@
         android:id="@+id/detailSalesmanFragment"
         tools:layout="@layout/fragment_detail_salesman"
         android:name="com.bits.bee.bpmc.presentation.ui.detail_salesman.DetailSalesmanFragment"
-        android:label="DetailSalesmanFragment" >
+        android:label="Detail Salesman" >
         <argument
             android:name="srep"
             app:argType="com.bits.bee.bpmc.domain.model.Srep" />
@@ -344,5 +351,13 @@
         tools:layout="@layout/fragment_kas_keluar"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarFragment"
         android:label="KasKeluarFragment" />
+    <dialog
+        android:id="@+id/hakAksesFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
+        android:label="HakAksesFragment" >
+        <argument
+            android:name="acsType"
+            app:argType="string" />
+    </dialog>
 
 </navigation>

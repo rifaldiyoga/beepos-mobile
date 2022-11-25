@@ -4,8 +4,7 @@ import com.bits.bee.bpmc.data.data_source.local.dao.PrinterDao
 import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 import com.bits.bee.bpmc.domain.mapper.PrinterDataMapper
 import com.bits.bee.bpmc.domain.model.Printer
-import com.bits.bee.bpmc.domain.repository.PrinterRespository
-import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.domain.repository.PrinterRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,52 +15,65 @@ import javax.inject.Inject
 class PrinterRepositoryImpl @Inject constructor(
     private val printerDao: PrinterDao,
     private val ioDispatcher: CoroutineDispatcher
+): PrinterRepository {
 
-): PrinterRespository {
-    override fun getAddressPrinterList(address: String): Flow<Resource<List<Printer>>> {
+    override fun getByAddress(address: String): Flow<Printer?> {
         return flow {
-            val data: List<Printer> = printerDao.readByAddress(address).map { PrinterDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            val data = printerDao.readByAddress(address)
+            emit(data?.let { PrinterDataMapper.fromDbToDomain(data) })
         }.flowOn(ioDispatcher)
     }
 
-    override fun getActiveReceiptList(): Flow<Resource<List<Printer>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getActiveReceiptList(): Flow<List<Printer>> = flow {
+        val data = printerDao.readByActiveReceipt()
+        emit(data.map { PrinterDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
-    override fun getActiveReportList(): Flow<Resource<List<Printer>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getActiveReportList(): Flow<List<Printer>> = flow {
+        val data = printerDao.readByActiveReport()
+        emit(data.map { PrinterDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
-    override fun getActiveKitchenList(): Flow<Resource<List<Printer>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getActiveKitchenList(): Flow<List<Printer>> = flow {
+        val data = printerDao.readByActiveKitchen()
+        emit(data.map { PrinterDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
-    override fun getActiveCheckerList(): Flow<Resource<List<Printer>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getActiveCheckerList(): Flow<List<Printer>> = flow {
+        val data = printerDao.readByActiveChecker()
+        emit(data.map { PrinterDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
-    override fun getPrinterTipe(): Flow<Resource<List<Printer>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getPrinterTipe(type : Int): Flow<List<Printer>> = flow {
+        val data = printerDao.readByTipe(type)
+        emit(data.map { PrinterDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
-    override fun getLastId(): Flow<Resource<Printer>> {
+    override fun getLastId(): Flow<Printer> {
         return flow {
             val data = printerDao.getLastId()
-            emit(Resource.success(PrinterDataMapper.fromDbToDomain(data)))
+            emit(PrinterDataMapper.fromDbToDomain(data))
         }.flowOn(ioDispatcher)
     }
 
-    override fun readPrinter(): Flow<Resource<List<Printer>>> {
+    override fun readPrinter(): Flow<List<Printer>> {
         return flow {
             val data = printerDao.readPrinter().map { PrinterDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun addUpdatePrinter(printer: PrinterEntity?){
+    override suspend fun addUpdatePrinter(printer: PrinterEntity?) : Long{
+        var id: Long
         withContext(ioDispatcher){
-            printerDao.insertSingle(printer!!)
+           id =  printerDao.insertSingle(printer!!)
+        }
+        return id
+    }
+
+    override suspend fun delete(printer: Printer) {
+        withContext(ioDispatcher){
+            printerDao.delete(PrinterDataMapper.fromDomainToDb(printer))
         }
     }
 
@@ -70,10 +82,5 @@ class PrinterRepositoryImpl @Inject constructor(
             printer?.let { printerDao.update(it) }
         }
     }
-
-
-//    override suspend fun addUpdatePrinter(printer: Printer) = withContext(ioDispatcher) {
-//        printerDao.insertSingle(printer)
-//    }
 
 }

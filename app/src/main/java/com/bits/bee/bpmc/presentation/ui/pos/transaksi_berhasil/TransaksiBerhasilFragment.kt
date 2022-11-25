@@ -44,6 +44,9 @@ class TransaksiBerhasilFragment(
             btnTutup.setOnClickListener {
                 viewModel.onTutupClick()
             }
+            btnPrint.setOnClickListener {
+                viewModel.onReprintClick()
+            }
         }
     }
 
@@ -53,9 +56,11 @@ class TransaksiBerhasilFragment(
                 viewModel.event.collect {
                     when(it){
                         TransaksiBerhasilViewModel.UIEvent.NavigateToPos -> {
-//                            val action = TransaksiBerhasilFragmentDirections.actionTransaksiBerhasilFragmentToPosFragment()
                             findNavController().popBackStack(R.id.posFragment, false)
                             mainViewModel.resetState()
+                        }
+                        TransaksiBerhasilViewModel.UIEvent.RequestPrint -> {
+                            viewModel.printerHelper.printInvoiceDuplicate(requireActivity(), mainViewModel.saleTrans.getMaster(), BPMConstants.BPM_FONT_REGULAR, BPMConstants.BPM_ALIGN_LEFT)
                         }
                     }
                 }
@@ -74,5 +79,30 @@ class TransaksiBerhasilFragment(
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        doPrint()
+    }
+
+    private fun doPrint() = lifecycleScope.launchWhenStarted {
+        if(!viewModel.state.isPrinted) {
+            viewModel.printerHelper.printInvoice(
+                requireActivity(),
+                mainViewModel.saleTrans.getMaster(),
+                BPMConstants.BPM_FONT_REGULAR,
+                BPMConstants.BPM_ALIGN_LEFT
+            )
+            viewModel.printerHelper.printKitchen(
+                mainViewModel.saleTrans.getMaster(),
+                BPMConstants.BPM_FONT_REGULAR,
+                BPMConstants.BPM_ALIGN_LEFT
+            )
+            viewModel.updateState(
+                viewModel.state.copy(
+                    isPrinted = true
+                )
+            )
+        }
+    }
 
 }

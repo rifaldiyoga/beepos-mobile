@@ -11,4 +11,6 @@ interface GrpPrvRepository {
 
     fun getLatestGrpPrvList() : Flow<Resource<List<GrpPrv>>>
 
+    fun getGrpPrvByGrpId(id : Int) : Flow<List<GrpPrv>>
+
 }

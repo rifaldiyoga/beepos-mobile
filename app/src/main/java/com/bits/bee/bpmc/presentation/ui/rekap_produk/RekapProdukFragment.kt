@@ -5,7 +5,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapProdukBinding
+import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
@@ -79,7 +79,7 @@ class RekapProdukFragment(
                                 requireContext(),
                                 getString(R.string.pilih_tanggal),
                                 pilihTglList,
-                                inilizeTgl(),
+                                FilterDate(),
                                 { data ->
                                     Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
                                         .show()

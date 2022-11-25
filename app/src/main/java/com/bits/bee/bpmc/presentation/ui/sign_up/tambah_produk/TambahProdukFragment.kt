@@ -7,7 +7,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.*
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
@@ -77,7 +76,6 @@ class TambahProdukFragment(
 
             val tipeAdapter = SpinnerAdapter(requireContext(), tipeList)
             spTipePrd.adapter = tipeAdapter
-//            viewModel.state.kategoriProduk = tipeProdList[0]
 
             arguments?.let {
                 val item = it.getParcelable<ItemDummy>("itemDummy")
@@ -97,7 +95,6 @@ class TambahProdukFragment(
                     etHarga.setText(it.price)
                     spTipePrd.setSelection(tipeProdList.indexOf(it.itemTypeCode))
                     etNamaPid.setText(it.pid)
-//                    spGrpPrd.setSelection(grpList.indexOf(it.itemGroup))
                     if (it.picPath.isNotEmpty()){
                         ivImage.visibility = View.VISIBLE
                         ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it.picPath))
@@ -112,18 +109,15 @@ class TambahProdukFragment(
                 state.kategoriProduk = ""
                 state.merekProduk =""
                 state.bitmap = null
-//                state.unitList = mutableListOf(UnitDummy(
-////                    id = 1
-//                ))
                 state.isEdit = false
                 etNamaPrd.setText((BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_nama_prd), "") as String))
                 etHarga.setText((BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_harga_prd), "") as String))
                 etNamaPid.setText((BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_pid), "") as String))
-                state.kategoriProduk?.let {
-                    etKategoriPrd.setText(viewModel.state.kategoriProduk)
+                state.itemGrp?.let {
+                    etKategoriPrd.setText(it.name)
                 }
-                state.merekProduk?.let {
-                    etBrandPrd.setText(viewModel.state.merekProduk)
+                state.brand?.let {
+                    etBrandPrd.setText(it.brandName)
                 }
                 ivImage.visibility = View.GONE
                 btnAddFoto.visibility = View.VISIBLE
@@ -184,28 +178,11 @@ class TambahProdukFragment(
                 viewModel.state.pid = etNamaPid.text.toString().trim()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_pid), viewModel.state.pid)
             }
-//            etSatuan.addTextChangedListener {
-//                viewModel.state.satuan = etSatuan.text.toString().trim()
-//            }
-//            spGrpPrd.setOnClickListener {
-
-//            }
             etKategoriPrd.setOnClickListener {
                 viewModel.onShowDialog()
             }
             etBrandPrd.setOnClickListener {
                 viewModel.onShowDialogMerk()
-            }
-
-            spGrpPrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.state.kategoriProduk = grpList[p2]
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
             }
             spTipePrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -321,7 +298,7 @@ class TambahProdukFragment(
                             val dialog = PilihMerekDialog(
                                 getString(R.string.pilih_merk),
                                 viewModel.state.listBrand ?: mutableListOf(),
-                                viewModel.state.merekProduk ?: "",
+                                viewModel.state.brand,
                                 { data ->
                                     Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
                                         .show()
@@ -385,18 +362,11 @@ class TambahProdukFragment(
                             PosModeState.FnBState -> {
                                 cvPid.gone()
                                 groupSatuan.gone()
-
-                                val adapterGrp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, grpList)
-                                spGrpPrd.adapter = adapterGrp
-                                etKategoriPrd.visibility = View.GONE
                                 lLMerk.visibility = View.GONE
-//                                viewModel.state.kategoriProduk = grpList[0]
-
                             }
                             PosModeState.RetailState -> {
                                 cvPid.visible()
                                 groupSatuan.visible()
-                                spGrpPrd.visibility = View.GONE
                             }
                         }
                     }

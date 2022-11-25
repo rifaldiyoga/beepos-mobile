@@ -25,7 +25,6 @@ class ModeTampilanFragment(
 
     private val viewModel : ModeTampilanViewModel by viewModels()
 
-
     override fun initComponents() {
         binding.apply {
 //            viewModel.type = "signup"
@@ -56,15 +55,11 @@ class ModeTampilanFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
-                    when(event){
+                    when(event) {
                         is ModeTampilanViewModel.UIEvent.RequestClickItem -> {
                             val action = when (viewModel.type) {
-                                "signup" -> {
-                                    ModeTampilanFragmentDirections.actionModeTampilanFragmentToAturProdukFragment()
-                                }
-                                else -> {
-                                    ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
-                                }
+                                "signup" -> ModeTampilanFragmentDirections.actionModeTampilanFragmentToAturProdukFragment()
+                                else -> ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
                             }
                             findNavController().navigate(action)
                         }
@@ -73,6 +68,5 @@ class ModeTampilanFragment(
             }
         }
     }
-
 
 }

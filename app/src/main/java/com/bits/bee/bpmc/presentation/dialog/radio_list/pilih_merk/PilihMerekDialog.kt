@@ -9,9 +9,9 @@ import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 
 class PilihMerekDialog(
     val title: String,
-    val merkList: List<Brand>?,
-    var valueSelected: String,
-    val onSaveClick: (Any) -> Unit,
+    val merkList: List<Brand> = mutableListOf(),
+    var valueSelected: Brand?,
+    val onSaveClick: (Brand) -> Unit,
     val onAddClick: (String) -> Unit,
     val onEditClick: (Any) -> Unit,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogPilihKategoriMerekBinding = DialogPilihKategoriMerekBinding::inflate
@@ -24,7 +24,7 @@ class PilihMerekDialog(
         parseBrand()
         binding.apply {
             tvTitle.text = title
-            rbPilihMerkAdapter = RbPilihMerkAdapter(stringList.indexOf(valueSelected), stringList, object : RbPilihMerkAdapter.EditMerkAdapterI{
+            rbPilihMerkAdapter = RbPilihMerkAdapter(merkList.indexOf(valueSelected), stringList, object : RbPilihMerkAdapter.EditMerkAdapterI{
                 override fun onClick(pos: Int) {
                     onEditClick(stringList[pos])
                     dismiss()
@@ -50,7 +50,7 @@ class PilihMerekDialog(
                dismiss()
            }
            btnSimpan.setOnClickListener {
-               onSaveClick(stringList[rbPilihMerkAdapter.getSelectedPosition()])
+               onSaveClick(merkList[rbPilihMerkAdapter.getSelectedPosition()])
                dismiss()
            }
            imageView2.setOnClickListener {

@@ -17,6 +17,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvVoid"
+            android:layout_width="wrap_content"
+            app:cardElevation="@dimen/size0"
+            android:layout_marginBottom="@dimen/size6"
+            app:cardCornerRadius="@dimen/size3"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:paddingEnd="@dimen/size8"
+                android:paddingStart="@dimen/size8"
+                android:paddingTop="@dimen/size4"
+                android:paddingBottom="@dimen/size4"
+                android:background="@color/soft_red"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:textSize="@dimen/font10"
+                    android:textColor="?colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dihapus"/>
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"

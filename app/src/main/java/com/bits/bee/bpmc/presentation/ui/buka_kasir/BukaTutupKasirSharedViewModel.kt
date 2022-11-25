@@ -67,7 +67,7 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         getUserByIdUseCase.invoke(state.activePosses!!.userId).collect {
             updateState(
                 state.copy(
-                    user = it.data
+                    user = it
                 )
             )
         }
@@ -135,17 +135,20 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         }
     }
 
-    fun doTutupKasir() = viewModelScope.launch {
+    suspend fun doTutupKasir() {
         state.activePosses?.let {
             tutupKasirUseCase(
                 posses = it
             )
-            updateState(
-                state.copy(
-                    null
-                )
-            )
         }
+    }
+
+    fun resetActivePosses() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                activePosses = null
+            )
+        )
     }
 
     sealed class UIEvent {

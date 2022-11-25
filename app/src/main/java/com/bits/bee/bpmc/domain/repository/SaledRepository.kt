@@ -28,4 +28,12 @@ interface SaledRepository {
 
     fun getStokByItem(id: Int, startDate: Long, endDate: Long): Flow<BigDecimal>
 
+    fun getSaledByPossesChannel(possesId : Int, channelId : Int) : Flow<List<Saled>>
+
+    fun getSaledByPosses(possesId : Int) : Flow<List<Saled>>
+
+    fun getRekapSaledDiskon(possesId : Int, itemId : Int, channelId : Int) : Flow<List<Saled>>
+
+    fun getRekapSaledDiskon(possesId : Int, itemId : Int, total : BigDecimal) : Flow<List<Saled>>
+
 }

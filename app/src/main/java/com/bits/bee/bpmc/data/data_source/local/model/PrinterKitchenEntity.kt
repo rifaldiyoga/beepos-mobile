@@ -4,18 +4,12 @@ import androidx.room.*
 
 @Entity(tableName = PrinterKitchenEntity.TBL_NAME,
     foreignKeys = [
-        ForeignKey(
-            entity = PrinterEntity::class,
-            parentColumns = [PrinterEntity.ID],
-            childColumns = [PrinterKitchenEntity.PRINTER_ID],
-            onDelete = ForeignKey.CASCADE
-        )
     ]
 )
 data class PrinterKitchenEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    var id : Int = 0,
+    var id : Int?,
     @ColumnInfo(name = KITCHEN_NAME)
     var kitchenName : String,
     @ColumnInfo(name = PRINTER_ID, index = true)

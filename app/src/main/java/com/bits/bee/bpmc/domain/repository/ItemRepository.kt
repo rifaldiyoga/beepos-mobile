@@ -29,6 +29,8 @@ interface ItemRepository {
 
     fun getActiveItemListByItemGrp(itemGrpId: Int) : Flow<List<Item>>
 
+    fun getItemByPrinterKitchen(id: Int) : Flow<List<Item>>
+
     suspend fun addUpdateItem(item : Item)
 
     fun cariItems(query: String): Flow<List<Item>>

@@ -15,4 +15,10 @@ interface GrpPrvDao : BaseDao<GrpPrvEntity>{
     @Query("SELECT * FROM grpprv")
     fun getGrpPrvList() : List<GrpPrvEntity>
 
+    @Query("DELETE FROM grpprv")
+    fun deleteAll()
+
+    @Query("SELECT * FROM grpprv WHERE grp_id = :id")
+    fun getGrpPrvByGrpId(id : Int) : List<GrpPrvEntity>
+
 }

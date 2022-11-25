@@ -15,8 +15,9 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginPinBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.info_akun.InfoAkunDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.initial.InitialViewModel
@@ -40,8 +41,6 @@ class LoginOperatorFragment(
     private val viewModel : LoginOperatorViewModel by viewModels()
     private val mViewModel : InitialViewModel by activityViewModels()
 
-
-    private var loginUser = false
     private var mLoginUserStatus:Int = 2
 
     private lateinit var dialog : LoadingDialogHelper
@@ -99,53 +98,6 @@ class LoginOperatorFragment(
             R.string.page_pilih_operator))
         binding.apply {
             numpad.setInputConnection(pinView.onCreateInputConnection(EditorInfo())!!)
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.event.collect { event ->
-                        when(event) {
-                            LoginOperatorViewModel.UIEvent.RequestLoginEmail ->{
-                                viewModel.loginEmail()
-                            }
-                            LoginOperatorViewModel.UIEvent.RequestDoSync ->{
-                                viewModel.menuSinkron()
-                            }
-                            LoginOperatorViewModel.UIEvent.NavigateToHome ->{
-                                val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToHomeActivity()
-                                findNavController().navigate(action)
-                                (activity as InitialActivity).finish()
-                            }
-                            LoginOperatorViewModel.UIEvent.RequestDialogInfo ->{
-                                val dialog = InfoAkunDialogBuilder()
-                                dialog.show(parentFragmentManager, TAG)
-                            }
-                            LoginOperatorViewModel.UIEvent.RequestPilihKasir ->{
-                                val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToPilihKasirFragment()
-                                findNavController().navigate(action)
-                            }
-                            LoginOperatorViewModel.UIEvent.ClearPIn ->{
-                                Toast.makeText(requireContext(), "User Tidak Valid", Toast.LENGTH_SHORT).show()
-                                pinView.setText("")
-                                binding.tvPinSalah.visible()
-                            }
-                            LoginOperatorViewModel.UIEvent.RequetWarningPass ->{
-                                val dialog = CustomDialogBuilder.Builder(requireContext())
-                                    .setTitle(getString(R.string.gagal_login))
-                                    .setMessage(getString(R.string.silahkan_login_email_sinkron))
-                                    .setPositiveCallback {
-                                        requireActivity().actionBar?.displayOptions
-                                        viewModel.updateState(
-                                            viewModel.state.copy(
-                                                mTimesWrong = 0
-                                            )
-                                        )
-                                    }.build()
-                                dialog.show(parentFragmentManager, TAG)
-                            }
-                            else -> {}
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -206,46 +158,54 @@ class LoginOperatorFragment(
             }
         }
 
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.event.collect { event ->
-//                    when(event) {
-//                        LoginOperatorViewModel.UIEvent.RequestLoginEmail ->{
-//                            viewModel.loginEmail()
-//                        }
-//                        LoginOperatorViewModel.UIEvent.RequestDoSync ->{
-//                            viewModel.menuSinkron()
-//                        }
-//                        LoginOperatorViewModel.UIEvent.RequestConfirmKasir ->{
-//                            val dialog = CustomDialogBuilder.Builder(requireContext())
-//                                .setTitle(getString(R.string.konfirmasi))
-//                                .setMessage(getString(R.string.yakin_ganti_kasir))
-//                                .setPositiveCallback {
-//                                    if (ConnectionUtils.checkInternet(requireContext())){
-//                                        viewModel.deActiveStatusKasir()
-//                                    }
-//                                }.build()
-//                            dialog.show(parentFragmentManager, TAG)
-//                        }
-//                        LoginOperatorViewModel.UIEvent.NavigateToHome ->{
-//                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToHomeActivity()
-//                            findNavController().navigate(action)
-//                            (activity as InitialActivity).finish()
-//                        }
-//                        LoginOperatorViewModel.UIEvent.RequestDialogInfo ->{
-//                            val dialog = InfoAkunDialogBuilder()
-//                            dialog.show(parentFragmentManager, TAG)
-//                        }
-//                        LoginOperatorViewModel.UIEvent.RequestPilihKasir ->{
-//                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToPilihKasirFragment()
-//                            findNavController().navigate(action)
-//                        }
-//                        else -> {}
-//                    }
-//                }
-//            }
-//        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collect { event ->
+                    when(event) {
+                        LoginOperatorViewModel.UIEvent.RequestLoginEmail ->{
+                            viewModel.loginEmail()
+                        }
+                        LoginOperatorViewModel.UIEvent.RequestDoSync ->{
+                            viewModel.menuSinkron()
+                        }
+                        LoginOperatorViewModel.UIEvent.NavigateToHome ->{
+                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToHomeActivity()
+                            findNavController().navigate(action)
+                            (activity as InitialActivity).finish()
+                        }
+                        LoginOperatorViewModel.UIEvent.RequestDialogInfo ->{
+                            val dialog = InfoAkunDialogBuilder()
+                            dialog.show(parentFragmentManager, TAG)
+                        }
+                        LoginOperatorViewModel.UIEvent.RequestPilihKasir ->{
+                            val action = LoginOperatorFragmentDirections.actionLoginOperatorFragmentToPilihKasirFragment()
+                            findNavController().navigate(action)
+                        }
+                        LoginOperatorViewModel.UIEvent.ClearPIn ->{
+                            Toast.makeText(requireContext(), "User Tidak Valid", Toast.LENGTH_SHORT).show()
+                            binding.pinView.setText("")
+                            binding.tvPinSalah.visible()
+                        }
+                        LoginOperatorViewModel.UIEvent.RequetWarningPass ->{
+                            val dialog = DialogBuilderHelper.showDialogInfo(
+                                requireActivity(),
+                                getString(R.string.gagal_login),
+                                getString(R.string.silahkan_login_email_sinkron)
+                            ){
+                                requireActivity().actionBar?.displayOptions
+                                viewModel.updateState(
+                                    viewModel.state.copy(
+                                        mTimesWrong = 0
+                                    )
+                                )
+                            }
 
+                            dialog.show(parentFragmentManager, TAG)
+                        }
+                    }
+                }
+            }
+        }
         viewModel.observeLoginResponse().removeObservers(viewLifecycleOwner)
         viewModel.observeLoginResponse().observe(viewLifecycleOwner) {
             when (it.status) {
@@ -270,6 +230,13 @@ class LoginOperatorFragment(
                     Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
                         .show()
                 }
+                Resource.Status.NOINTERNET -> {
+                    dialog.hide()
+                    val dialog = NoInternetDialogBuilder({
+                        viewModel.onClickLogin()
+                    })
+                    dialog.show(parentFragmentManager, "")
+                }
             }
         }
 
@@ -278,13 +245,21 @@ class LoginOperatorFragment(
             it.let {
                 when(it.status){
                     Resource.Status.LOADING -> {
-
+                        dialog.show()
                     }
                     Resource.Status.SUCCESS -> {
+                        dialog.hide()
                         Toast.makeText(requireContext(), "Berhasil Sinkron Data", Toast.LENGTH_SHORT).show()
                     }
                     Resource.Status.ERROR -> {
-
+                        dialog.hide()
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            viewModel.menuSinkron()
+                        })
+                        dialog.show(parentFragmentManager, "")
                     }
                 }
             }

@@ -12,6 +12,6 @@ interface PrinterKitchenDDao: BaseDao<PrinterKitchenDEntity> {
     @Query("SELECT * FROM printer_kitchend where printer_kitchen_id = :id")
     fun getPrinterKitchen(id: Int): List<PrinterKitchenDEntity>
 
-    @Query("DELETE FROM printer_kitchend where printer_kitchen_id = :id")
-    fun deletePrinterKitchen(id: Int)
+    @Query("DELETE FROM printer_kitchend WHERE printer_kitchen_id = :id")
+    suspend fun deleteByPrinterKitchen(id: Int)
 }

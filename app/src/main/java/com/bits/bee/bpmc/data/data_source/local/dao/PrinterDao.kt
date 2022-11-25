@@ -7,20 +7,21 @@ import com.bits.bee.bpmc.data.data_source.local.model.PrinterEntity
 
 @Dao
 interface PrinterDao: BaseDao<PrinterEntity> {
+
     @Query("SELECT * FROM printer where address = :id ")
-    fun readByAddress(id: String) : List<PrinterEntity>
+    fun readByAddress(id: String) : PrinterEntity?
 
-    @Query("SELECT * FROM printer where is_receipt = :isReceipt ")
-    fun readByActiveReceipt(isReceipt: Boolean) : List<PrinterEntity>
+    @Query("SELECT * FROM printer where is_receipt = 1 ")
+    fun readByActiveReceipt() : List<PrinterEntity>
 
-    @Query("SELECT * FROM printer where is_report = :isReport ")
-    fun readByActiveReport(isReport: Boolean) : List<PrinterEntity>
+    @Query("SELECT * FROM printer where is_report = 1 ")
+    fun readByActiveReport() : List<PrinterEntity>
 
-    @Query("SELECT * FROM printer where is_kitchen = :isKitchen ")
-    fun readByActiveKitchen(isKitchen: Boolean) : List<PrinterEntity>
+    @Query("SELECT * FROM printer where is_kitchen = 1 ")
+    fun readByActiveKitchen() : List<PrinterEntity>
 
-    @Query("SELECT * FROM printer where is_checker = :isChecker ")
-    fun readByActiveChecker(isChecker: Boolean) : List<PrinterEntity>
+    @Query("SELECT * FROM printer where is_checker = 1 ")
+    fun readByActiveChecker() : List<PrinterEntity>
 
     @Query("SELECT * FROM printer where tipe = :tipe")
     fun readByTipe(tipe: Int): List<PrinterEntity>

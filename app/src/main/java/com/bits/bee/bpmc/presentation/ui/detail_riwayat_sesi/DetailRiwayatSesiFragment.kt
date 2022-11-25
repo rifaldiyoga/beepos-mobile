@@ -93,7 +93,7 @@ class DetailRiwayatSesiFragment(
                         it.cashier?.let { cashier ->
                             binding.tvKasir.text = cashier.cashierName
                         }
-                        if (mPosses != null){
+                        if (mPosses != null) {
                             binding.apply {
                                 tvPendapatanSesi.text = "Pendapatan Sesi"
                                 tvShift.text = mPosses!!.shift.toString()
@@ -102,9 +102,9 @@ class DetailRiwayatSesiFragment(
                                 val endTime = Date(mPosses!!.endTime?.time ?: 0)
 
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
-                                    BPMConstants.DATE_FORMAT_RESPONSE, startTime)
+                                    BPMConstants.DEFAULT_DATE_FORMAT, startTime)
                                 tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(
-                                    BPMConstants.DATE_FORMAT_RESPONSE, endTime)
+                                    BPMConstants.DEFAULT_DATE_FORMAT, endTime)
                                 pemasukanTotal.text = getString(
                                     R.string.mata_uang_nominal,
                                     "Rp", CurrencyUtils.formatCurrency(mPosses!!.total.add(mPosses!!.startBal)))

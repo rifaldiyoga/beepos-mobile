@@ -25,6 +25,7 @@ import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -58,6 +59,7 @@ class TambahKasDialog(
             tvTitle.text = builder.title
             etNominal.setText(builder.nominal)
             etDeskripsi.setText(builder.deskripsi)
+            etNominal.addNumberFormatChange()
         }
     }
 
@@ -82,21 +84,16 @@ class TambahKasDialog(
                             originalString = originalString.replace(",".toRegex(), "")
                         }
                         longval = originalString.toLong()
-                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
-                        formatter.applyPattern("#,###,###,###")
-                        val formattedString = formatter.format(longval)
 
                         //setting text after format to EditText
-                        etNominal.setText(formattedString)
                         etNominal.setSelection(etNominal.getText().length)
                     } catch (nfe: NumberFormatException) {
                         nfe.printStackTrace()
                     }
                     etNominal.addTextChangedListener(this)
-                    if (p0.toString().length > 0) {
+                    if (p0.toString().isNotEmpty()) {
                         try {
-                            val nominalUang: String
-                            nominalUang = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
+                            val nominalUang: String = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
                             viewModel.updateState(
                                 viewModel.state.copy(
                                     nominal = nominalUang

@@ -45,6 +45,7 @@ class CekStokViewModel @Inject constructor(
                 Resource.Status.ERROR -> {
                     it.message
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
     }

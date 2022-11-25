@@ -125,6 +125,10 @@ class ItemRepositoryImpl @Inject constructor(
         emit(itemDao.getActiveItemListByItemGrp(itemGrpId).map { ItemDataMapper.fromDbToDomain(it) })
     }.flowOn(defaultDispatcher)
 
+    override fun getItemByPrinterKitchen(id: Int): Flow<List<Item>> = flow {
+        emit(itemDao.getItemByPrinterKitchen(id).map { ItemDataMapper.fromDbToDomain(it) })
+    }.flowOn(defaultDispatcher)
+
     override suspend fun addUpdateItem(item: Item) {
         withContext(defaultDispatcher){
             itemDao.insertSingle(ItemDataMapper.fromDomainToDb(item))

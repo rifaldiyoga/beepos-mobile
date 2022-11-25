@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.data.data_source.remote.response
 
 import android.os.Parcelable
 import com.bits.bee.bpmc.data.data_source.remote.model.*
+import com.bits.bee.bpmc.domain.model.BpAcc
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -34,6 +35,12 @@ data class InitialResponse (
         var wh : List<WhModel> = mutableListOf(),
         @SerializedName("srep")
         var srep : List<SrepModel> = mutableListOf(),
+        @SerializedName("bpaccount")
+        var bpAcc : List<BpAccModel> = mutableListOf(),
+        @SerializedName("branch")
+        var branch : List<BranchResponse.BranchModel> = mutableListOf(),
+        @SerializedName("cashier")
+        var cashier : List<CashierResponse.CashierModel> = mutableListOf(),
     ) : Parcelable
 
 

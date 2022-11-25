@@ -136,6 +136,7 @@ class SettingLisensiFragment(
                     loadingDialogHelper.hide()
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
 
@@ -162,6 +163,7 @@ class SettingLisensiFragment(
                     loadingDialogHelper.hide()
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
                 }
+                Resource.Status.NOINTERNET -> TODO()
             }
         }
     }

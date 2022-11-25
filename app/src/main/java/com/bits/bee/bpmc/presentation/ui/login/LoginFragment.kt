@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -52,6 +53,9 @@ class LoginFragment constructor (
                                 val value = viewModel.state
                                 val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
                                 findNavController().navigate(action)
+                                viewModel.updateState(
+                                    LoginViewState()
+                                )
                             }
                         }
                     }
@@ -121,15 +125,22 @@ class LoginFragment constructor (
                                     .show()
                                 viewModel.onSuccessLogin()
                             } else {
-                                Toast.makeText(requireContext(), "Error : ${it.msg}", Toast.LENGTH_LONG)
+                                Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
                                     .show()
                             }
                         }
                     }
                     Resource.Status.ERROR -> {
                         dialog.hide()
-                        Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
+                        Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
                             .show()
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            onClickLogin()
+                        })
+                        dialog.show(parentFragmentManager, "")
                     }
                 }
             }

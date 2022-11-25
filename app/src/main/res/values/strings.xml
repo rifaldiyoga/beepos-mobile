@@ -15,6 +15,8 @@
     <string name="pref_tes_String">pref_tes</string>
     <string name="pref_info_kontak_lanjut">pref_lanjut</string>
     <string name="pref_regid">str_regid</string>
+    <string name="pref_serial_number">serial_number</string>
+    <string name="pref_auth_key">auth_key</string>
     <string name="pref_wa">str_wa</string>
     <string name="pref_value_selected">pref_value_selected</string>
     <string name="pref_switch_dapur">pref_switch_dapur</string>
@@ -26,6 +28,8 @@
     <string name="pref_preset_buka_kasir">pref_preset_buka_kasir</string>
     <string name="pref_gambar_produk">pref_gambar_produk</string>
     <string name="pref_is_sign_up">pref_is_sign_up</string>
+    <string name="pref_email">pref_email</string>
+    <string name="pref_password">pref_password</string>
     <string name="pref_rekap_per_channel">pref_rekap_per_channel</string>
     <string name="pref_rekap_per_produk_perchannel">pref_rekap_per_produk_perchannel</string>
     <string name="pref_rekap_per_faktur">pref_rekap_per_faktur</string>
@@ -72,6 +76,7 @@
     <string name="page_atur_pin">page_atur_pin</string>
     <string name="page_otp">page_otp</string>
     <string name="page_atur_produk">page_atur_produk</string>
+    <string name="page_cek_db">page_cek_db</string>
     <string name="page_pilih_operator">page_login_operator</string>
     <string name="page_home">page_home</string>
     <string name="page_login">page_login</string>
@@ -153,6 +158,7 @@
     </string-array>
 
     <string-array name="list_tipe_produk">
+        <item>-</item>
         <item>GOOD</item>
         <item>SERV</item>
     </string-array>
@@ -186,7 +192,7 @@
     <string name="cth_smartphone_1">Cth. Smartphone 1</string>
     <string name="lanjutkan">Lanjutkan</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu felis nec orci tincidunt lobortis ut non mi. Suspendisse dolor orci, viverra a odio sed, mollis finibus dolor. Nunc in augue fringilla, consectetur dolor a, feugiat arcu. Sed vel leo sem. In et imperdiet quam, ut mollis libero. Etiam faucibus felis urna, ut porta purus auctor ac.</string>
-    <string name="informasi">Informasi ?</string>
+    <string name="informasi">Informasi</string>
     <string name="konfirmasi_keluar">Anda belum menyelesaikan proses login dan perubahan belum disimpan</string>
     <string name="yakin_akan_keluar">Yakin ingin keluar?</string>
     <string name="pilih_database">Pilih Database</string>
@@ -490,8 +496,8 @@ untuk memperbarui data dapur?</string>
     <string name="rincian_harga">Rincian Harga</string>
     <string name="cetak_nota">Cetak Nota</string>
     <string name="hapus_transaksi">Hapus Transaksi</string>
-    <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no JL12345?</string>
-    <string name="alasan_void">Alasan Void</string>
+    <string name="apakah_anda_yakin_ingin_menghapus_transaksi_no_jl12345">Apakah anda yakin ingin menghapus transaksi no %1$s?</string>
+    <string name="alasan_void">Alasan Hapus</string>
     <string name="hapus">Hapus</string>
     <string name="pendapatan_sesi_1">Pendapatan Sesi</string>
     <string name="detail_pendapatan">Detail Pendapatan</string>
@@ -531,7 +537,7 @@ untuk memperbarui data dapur?</string>
     <string name="rkp_customer">Rekap per Customer</string>
     <string name="rkp_produk_channel">Rekap per Produk per Channel</string>
     <string name="rkp_faktur">Rekap per Faktur</string>
-    <string name="rkp_channel">Rekap per channel</string>
+    <string name="rkp_channel">Rekap per Channel</string>
     <string name="diskon_nota">Diskon Nota</string>
     <string name="daftar_promo">Daftar Promo</string>
     <string name="selengkapnya">Selengkapnya</string>
@@ -695,6 +701,22 @@ untuk memperbarui data dapur?</string>
     <string name="tambah_printer">Tambah Printer</string>
     <string name="cari_bluetooth_printer">Cari Bluetooth Printer</string>
     <string name="konversi">Konversi</string>
+    <string name="tidak_ada_hak_akses">Tidak Ada Hak Akses</string>
+    <string name="anda_tidak_bisa_mengakses_edit_diskon_karena_anda_tidak_memiliki_hak_akses">Anda tidak bisa mengakses edit diskon karena anda tidak memiliki hak akses.</string>
+    <string name="masukkan_pin_operator_yang_memiliki_akses">Masukkan PIN operator yang memiliki akses</string>
+    <string name="masukkan_pin_operator">Masukkan PIN Operator</string>
+    <string name="minta_persetujuan">Minta Persetujuan</string>
+    <string name="pesanan">Pesanan</string>
+    <string name="rekap_per_produk">Rekap per Produk</string>
+    <string name="pilih_dapur">Pilih Dapur</string>
+    <string name="batal_perbarui">Batal Perbarui</string>
+    <string name="batal_perbarui_data">Batal Perbarui Data</string>
+    <string name="msg_batal_perbarui_data">Apakah anda yakin ingin membatalkan pembaruan data? Hal ini akan menyebabkan beberapa data menjadi tidak sesuai atau tidak terupdate</string>
+    <string name="lanjut_perbarui">Lanjut Perbarui</string>
+    <string name="cth_jl_garuda_no_1">Cth. JL. Garuda No 1</string>
+    <string name="makanan">Makanan</string>
+    <string name="cth_dapur_makanan">Cth. Dapur Makanan</string>
+    <string name="dihapus">Dihapus</string>
     <string name="menampilkan_data_pada">Menampilkan data pada</string>
     <string name="jml_stok">Jumlah Stok</string>
 
@@ -702,5 +724,6 @@ untuk memperbarui data dapur?</string>
     <string name="title_ubah_produk">Ubah Produk</string>
     <string name="title_ubah_kategori">Ubah Kategori</string>
     <string name="title_ubah_merek">Ubah Merek</string>
+    <string name="pref_pin">pref_pin</string>
 
 </resources>

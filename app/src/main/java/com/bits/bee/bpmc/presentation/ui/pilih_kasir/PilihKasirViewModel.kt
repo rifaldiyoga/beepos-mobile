@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_kasir
 
 import androidx.lifecycle.*
+import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.ActivateCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
@@ -21,6 +22,10 @@ class PilihKasirViewModel @Inject constructor(
     private val activateCashierUseCase: ActivateCashierUseCase
 ) : BaseViewModel<PilihKasirState, PilihKasirViewModel.UIEvent>() {
 
+    init {
+        state = PilihKasirState()
+    }
+
     private var cashierEntityResponse: MediatorLiveData<Resource<List<Cashier>>> = MediatorLiveData()
     fun observeCashierResponse() = cashierEntityResponse as LiveData<Resource<List<Cashier>>>
 
@@ -39,6 +44,11 @@ class PilihKasirViewModel @Inject constructor(
     }
 
     fun onItemClick(cashier: Cashier, deviceName : String) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                cashier = cashier
+            )
+        )
         activateCashierUseCase(cashier, deviceName).collect {
             when (it.status) {
                 Resource.Status.LOADING -> {
@@ -52,6 +62,10 @@ class PilihKasirViewModel @Inject constructor(
                 }
                 Resource.Status.ERROR -> {
                     hideDialog()
+                }
+                Resource.Status.NOINTERNET -> {
+                    hideDialog()
+                    eventChannel.send(UIEvent.ShowNoInternet)
                 }
             }
         }
@@ -68,5 +82,6 @@ class PilihKasirViewModel @Inject constructor(
     sealed class UIEvent {
         object NavigateToPin : UIEvent()
         data class ShowDialog(val isShowDialog: Boolean) : UIEvent()
+        object ShowNoInternet : UIEvent()
     }
 }

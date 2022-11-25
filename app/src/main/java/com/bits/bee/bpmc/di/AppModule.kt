@@ -94,7 +94,7 @@ object AppModule {
     fun providePrinterRepository(
         printerDao: PrinterDao,
         defaultDispatcher: CoroutineDispatcher
-    ): PrinterRespository {
+    ): PrinterRepository {
         return PrinterRepositoryImpl(printerDao, defaultDispatcher)
     }
 
@@ -252,6 +252,9 @@ object AppModule {
         crcDao: CrcDao,
         whDao: WhDao,
         srepDao : SrepDao,
+        bpAccDao : BpAccDao,
+        branchDao: BranchDao,
+        cashierDao: CashierDao,
     ): InitialRepository{
         return InitialRepositoryImpl(
             apiUtils,
@@ -262,7 +265,9 @@ object AppModule {
             grpPrvDao,
             crcDao,
             whDao,
-            srepDao
+            srepDao,
+            bpAccDao,
+            branchDao, cashierDao
         )
     }
 
@@ -609,6 +614,18 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideGrpPrvRepository(salePromoDao: GrpPrvDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : GrpPrvRepository {
+        return GrpPrvRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUsrGrpRepository(salePromoDao: UsrGrpDao, dispatcher: CoroutineDispatcher, apiUtils: ApiUtils) : UsrGrpRepository {
+        return UsrGrpRepositoryImpl(apiUtils, salePromoDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
     fun provideGopayRepository(apiUtils: ApiUtils) : GopayRepository {
         return GopayRepositoryImpl(apiUtils)
     }
@@ -617,6 +634,12 @@ object AppModule {
     @Singleton
     fun provideBrandRepository(apiUtils: ApiUtils, brandDao: BrandDao, dispatcher: CoroutineDispatcher) : BrandRepository {
         return BrandRepositoryImpl(apiUtils, brandDao, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBpAccRepository(apiUtils: ApiUtils, brandDao: BpAccDao, dispatcher: CoroutineDispatcher) : BpAccRepository {
+        return BpAccRepositoryImpl(brandDao, dispatcher)
     }
 
 }

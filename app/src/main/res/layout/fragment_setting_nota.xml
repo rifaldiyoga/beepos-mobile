@@ -124,7 +124,6 @@
             android:id="@+id/cl_aturHeader"
             android:layout_width="match_parent"
             android:padding="@dimen/size16"
-            android:visibility="gone"
             android:layout_height="wrap_content">
 
             <TextView
@@ -136,7 +135,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tvHeader"
+                style="@style/TextDetail"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/font12"
+                android:layout_marginTop="@dimen/size4"
+                app:layout_constraintEnd_toStartOf="@+id/imageView24"
+                app:layout_constraintStart_toStartOf="@+id/textView38"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
             <ImageView
+                android:id="@+id/imageView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_chevron_right_gray"
@@ -201,7 +213,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tvFooter"
+                style="@style/TextDetail"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/font12"
+                android:layout_marginTop="@dimen/size4"
+                app:layout_constraintEnd_toStartOf="@+id/imageView25"
+                app:layout_constraintStart_toStartOf="@+id/textView39"
+                app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
             <ImageView
+                android:id="@+id/imageView25"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_chevron_right_gray"
@@ -234,6 +259,38 @@
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/swc_rkp_customer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_chevron_right_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size1"
+            android:background="@color/light_gray"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_rekap_item"
+            android:layout_width="match_parent"
+            android:padding="@dimen/size16"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView89"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rekap_per_produk"
+                style="@style/TextHeader"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swc_rkp_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_chevron_right_gray"
@@ -290,7 +347,7 @@
                 android:id="@+id/textView35"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rkp_customer"
+                android:text="@string/rkp_faktur"
                 style="@style/TextHeader"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -322,7 +379,7 @@
                 android:id="@+id/textView40"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rkp_customer"
+                android:text="@string/rkp_channel"
                 style="@style/TextHeader"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
