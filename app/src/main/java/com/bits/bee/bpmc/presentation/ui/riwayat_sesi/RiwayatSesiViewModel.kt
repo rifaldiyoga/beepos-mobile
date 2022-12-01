@@ -9,7 +9,9 @@ import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.FilterUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -26,21 +28,16 @@ class RiwayatSesiViewModel @Inject constructor(
 //    private var possesMap : HashMap<Long, MutableList<Posses>>
 //            = HashMap()
 //    private var sesi: MutableList<Sesi> = mutableListOf()
+    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(0, ""))
 
     init {
         state = RiwayatSesiState()
     }
 
-//    var possesList : Flow<PagingData<Posses>> = MutableSharedFlow(1)
-//    var possesSort : Flow<PagingData<Posses>> = MutableSharedFlow(1)
-//    var possesFilter: Flow<PagingData<Posses>> = MutableSharedFlow(1)
-//    val getListHistory = getListPossesHistoryUseCase.invoke()
 
-    fun getHistory() = viewModelScope.launch {
-//        possesList = getPossesHistoryUseCase.invoke()
-    }
 
     fun getFilterSorting(desc: Boolean, filter : FilterDate) = viewModelScope.launch {
+        filterDate.value = filter
         updateState(
             state.copy(
                 isDesc = desc

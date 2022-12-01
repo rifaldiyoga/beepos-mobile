@@ -3,18 +3,20 @@ package com.bits.bee.bpmc.presentation.ui.rekap_produk
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemRekapProdukBinding
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.CurrencyUtils
 
 class RekapProdukAdapter(
     private val ctx: Context,
     private val mlistener: PilihProdukPidI
-    ) : ListAdapter<Item, RecyclerView.ViewHolder>(Diffcallback()){
+    ) : PagingDataAdapter<Saled, RecyclerView.ViewHolder>(Diffcallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -24,36 +26,38 @@ class RekapProdukAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val viewHolder = holder as RekapProdukAdapter.ViewHolder
-        viewHolder.bind(getItem(viewHolder.absoluteAdapterPosition))
+        val viewHolder = holder as ViewHolder
+        getItem(position)?.let {
+            viewHolder.bind(it)
+        }
     }
 
     inner class ViewHolder(private val binding : ItemRekapProdukBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(model : Item) {
+        fun bind(model : Saled) {
             binding.apply {
-                tvBarang.text = model.name1
+                tvBarang.text = model.name
                 tvQty.text = model.qty.toString() + " "
                 tvSubtotal.text = ctx.getString(
                     R.string.mata_uang_nominal,
                     "Rp", CurrencyUtils.formatCurrency(model.subtotal))
 
-                clRekapProduk.setOnClickListener {
-                    if (model.usePid)
-                        mlistener.onClick(model)
-                }
+//                clRekapProduk.setOnClickListener {
+//                    if (model.usePid)
+//                        mlistener.onClick(model)
+//                }
             }
         }
 
     }
 
-    class Diffcallback : DiffUtil.ItemCallback<Item>(){
+    class Diffcallback : DiffUtil.ItemCallback<Saled>(){
 
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+        override fun areItemsTheSame(oldItem: Saled, newItem: Saled): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+        override fun areContentsTheSame(oldItem: Saled, newItem: Saled): Boolean {
             return oldItem.id == newItem.id
         }
 

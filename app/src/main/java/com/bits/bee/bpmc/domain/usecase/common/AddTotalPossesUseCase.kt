@@ -31,7 +31,7 @@ class AddTotalPossesUseCase @Inject constructor(
             val cash = cashRepository.getLastId().first()
             cash!!.balance = posses.total
 
-            cashRepository.addCash(CashDataMapper.fromDomainToDb(cash))
+            cashRepository.updateCash(cash)
 
         } ?: throw Exception("")
     }

@@ -12,5 +12,6 @@ data class RekapProdukState(
     var start: Long? = null,
     var end: Long?= null,
     var item: Item? = null,
-    var listPid: List<Stock>? = null
+    var listPid: List<Stock>? = null,
+    var selectPos: Int = 0
 )

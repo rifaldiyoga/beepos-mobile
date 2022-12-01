@@ -135,7 +135,7 @@ class TambahMerekFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_edit -> viewModel.onShowDelete()
+            R.id.opsi_delete -> viewModel.onShowDelete()
         }
         return super.onOptionsItemSelected(item)
     }

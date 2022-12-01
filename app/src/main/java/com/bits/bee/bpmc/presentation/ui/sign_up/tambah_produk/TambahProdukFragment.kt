@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
@@ -30,6 +32,7 @@ import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -37,6 +40,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
 import java.lang.reflect.Type
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 
@@ -53,7 +58,7 @@ class TambahProdukFragment(
     private lateinit var unitAdapter : SatuanAdapter
     private lateinit var grpList : Array<String>
     private lateinit var tipeProdList : Array<String>
-    private var tipeList = listOf("Pilih Tipe Adapter", "Barang Jadi (di stok)", "Jasa (tidak distok)")
+    private var tipeList = listOf("Pilih Tipe Produk", "Barang Jadi (di stok)", "Jasa (tidak distok)")
     var gson = Gson()
     var tempUri: Uri? = null
     var tempFilePath =""
@@ -127,7 +132,6 @@ class TambahProdukFragment(
                 val type: Type = object : TypeToken<MutableList<UnitDummy?>?>() {}.type
                 val unDummyList: MutableList<UnitDummy>? = gson.fromJson<Any>(json, type) as MutableList<UnitDummy>?
                 if (unDummyList == null){
-                    Toast.makeText(requireContext(), "kosong", Toast.LENGTH_SHORT).show()
                     state.unitList = mutableListOf(UnitDummy())
                 }else{
                     viewModel.updateState(
@@ -170,10 +174,48 @@ class TambahProdukFragment(
                 viewModel.state.nama = etNamaPrd.text.toString().trim()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_nama_prd), viewModel.state.nama)
             }
-            etHarga.addTextChangedListener {
-                viewModel.state.harga = etHarga.text.toString().trim()
-                BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_harga_prd), viewModel.state.harga)
-            }
+            etHarga.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    etHarga.removeTextChangedListener(this)
+
+                    try {
+                        var originalString: String = p0.toString()
+                        val longval: Long
+                        if (originalString.contains(",")) {
+                            originalString = originalString.replace(",".toRegex(), "")
+                        }
+                        longval = originalString.toLong()
+                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+                        formatter.applyPattern("#,###,###,###")
+                        val formattedString = formatter.format(longval)
+
+                        //setting text after format to EditText
+                        etHarga.setText(formattedString)
+                        etHarga.setSelection(etHarga.getText().length)
+                    } catch (nfe: NumberFormatException) {
+                        nfe.printStackTrace()
+                    }
+                    etHarga.addTextChangedListener(this)
+                    if (p0.toString().isNotEmpty()) {
+                        try {
+                            val nominalUang: String = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
+                            viewModel.state.harga = nominalUang
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_harga_prd), viewModel.state.harga)
+                        } catch (e: Exception) {
+                            e.stackTrace
+                        }
+                    }
+                }
+
+            })
             etNamaPid.addTextChangedListener {
                 viewModel.state.pid = etNamaPid.text.toString().trim()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_pid), viewModel.state.pid)
@@ -300,11 +342,11 @@ class TambahProdukFragment(
                                 viewModel.state.listBrand ?: mutableListOf(),
                                 viewModel.state.brand,
                                 { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
+                                    Toast.makeText(requireContext(), data.brandName, Toast.LENGTH_LONG)
                                         .show()
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            merekProduk = data.toString()
+                                            merekProduk = data.brandName
                                         )
                                     )
                                 },
@@ -413,7 +455,7 @@ class TambahProdukFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_edit -> viewModel.onShowDelete()
+            R.id.opsi_delete -> viewModel.onShowDelete()
         }
         return super.onOptionsItemSelected(item)
     }

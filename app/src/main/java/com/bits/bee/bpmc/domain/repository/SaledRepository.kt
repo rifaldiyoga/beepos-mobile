@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
+import androidx.paging.PagingData
 import com.bits.bee.bpmc.domain.model.RankItem
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
@@ -35,5 +36,7 @@ interface SaledRepository {
     fun getRekapSaledDiskon(possesId : Int, itemId : Int, channelId : Int) : Flow<List<Saled>>
 
     fun getRekapSaledDiskon(possesId : Int, itemId : Int, total : BigDecimal) : Flow<List<Saled>>
+
+    fun getRekapProduk(startDate: Long, endDate: Long): Flow<PagingData<Saled>>
 
 }

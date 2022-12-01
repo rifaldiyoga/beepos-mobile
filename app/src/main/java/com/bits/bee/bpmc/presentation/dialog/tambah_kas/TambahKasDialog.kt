@@ -45,8 +45,6 @@ class TambahKasDialog(
 //    private val sharedViewModel: TambahKasSharedViewModel by activityViewModels()
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private val viewModel : TambahKasSharedViewModel by viewModels()
-    private var iskasMasuk = false
-    private var thousandSeparator = "#,###.##"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,7 +57,7 @@ class TambahKasDialog(
             tvTitle.text = builder.title
             etNominal.setText(builder.nominal)
             etDeskripsi.setText(builder.deskripsi)
-            etNominal.addNumberFormatChange()
+//            etNominal.addNumberFormatChange()
         }
     }
 
@@ -84,8 +82,12 @@ class TambahKasDialog(
                             originalString = originalString.replace(",".toRegex(), "")
                         }
                         longval = originalString.toLong()
+                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+                        formatter.applyPattern("#,###,###,###")
+                        val formattedString = formatter.format(longval)
 
                         //setting text after format to EditText
+                        etNominal.setText(formattedString)
                         etNominal.setSelection(etNominal.getText().length)
                     } catch (nfe: NumberFormatException) {
                         nfe.printStackTrace()

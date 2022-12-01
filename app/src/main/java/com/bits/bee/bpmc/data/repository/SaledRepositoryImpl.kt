@@ -1,15 +1,23 @@
 package com.bits.bee.bpmc.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.SaledDao
 import com.bits.bee.bpmc.domain.mapper.RankItemDataMapper
+import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
 import com.bits.bee.bpmc.domain.mapper.SaledDataMapper
 import com.bits.bee.bpmc.domain.model.RankItem
+import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaledRepository
+import com.bits.bee.bpmc.utils.BPMConstants
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -59,6 +67,20 @@ class SaledRepositoryImpl @Inject constructor(
             emit(data?.let { SaledDataMapper.fromDbToDomain(it) })
         }.flowOn(defaultDispatcher)
     }
+
+//    override fun queryByPenjualan(): Flow<PagingData<Saled>> = Pager(
+//            config = PagingConfig(
+//                    pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+//                    maxSize = BPMConstants.BPM_MAX_PAGINATION,
+//                    enablePlaceholders = true,
+//                    initialLoadSize = BPMConstants.BPM_MAX_PAGINATION
+//            ),
+//            pagingSourceFactory = {
+//                saledDao.queryByPenjualan()
+//            }
+//    ).flow.mapLatest {
+//        it.map { SaledDataMapper.fromDbToDomain(it) }
+//    }.flowOn(defaultDispatcher)
 
     override fun queryByPenjualan(): Flow<List<Saled>> {
         return flow {
@@ -120,4 +142,18 @@ class SaledRepositoryImpl @Inject constructor(
             emit(data)
         }.flowOn(defaultDispatcher)
     }
+
+    override fun getRekapProduk(startDate: Long, endDate: Long): Flow<PagingData<Saled>> = Pager(
+            config = PagingConfig(
+                    pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
+                    maxSize = BPMConstants.BPM_MAX_PAGINATION,
+                    enablePlaceholders = true,
+                    initialLoadSize = BPMConstants.BPM_MAX_PAGINATION
+            ),
+            pagingSourceFactory = {
+                saledDao.getRekapProduk(startDate, endDate)
+            }
+    ).flow.mapLatest {
+        it.map { SaledDataMapper.fromDbToDomain(it)}
+    }.flowOn(defaultDispatcher)
 }
