@@ -18,6 +18,7 @@ import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.FilterUtils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -40,7 +41,7 @@ class RiwayatSesiFragment(
 //        viewModel.getListHistory()
         pilihTglList = requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList()
 //        viewModel.getFilterDays(inilizeTgl(), viewModel.state.selectFilter)
-        viewModel.getFilterSorting(desc, FilterUtils.getFilterDate(0, ""))
+        viewModel.getFilterSorting(desc, viewModel.filterDate.value)
         parentSesiAdapter = ParentSesiAdapter(requireContext(), listener = object : NestedSesiAdapter.PilihRiwayatSesiI{
             override fun onclick(posses: Posses) {
                 val action = RiwayatSesiFragmentDirections.actionRiwayatSesiFragmentToDetailRiwayatSesiFragment(
@@ -85,69 +86,27 @@ class RiwayatSesiFragment(
     }
 
     override fun subscribeListeners() {
-
+        binding.apply {
+            tilPeriode.root.setOnClickListener {
+                val dialog = RadioListFilterDialog(
+                        requireContext(),
+                        getString(R.string.pilih_tanggal),
+                        pilihTglList,
+                        viewModel.filterDate.value,
+                        onSaveClick = {
+                            viewModel.getFilterSorting(desc, it)
+                        }
+                )
+                dialog.show(parentFragmentManager, "")
+            }
+        }
     }
 
     override fun subscribeObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.event.collect { event ->
-                    when(event){
-                        RiwayatSesiViewModel.UIEvent.RequestDialogFilter ->{
-                            val dialog = RadioListFilterDialog(
-                                requireContext(),
-                                getString(R.string.pilih_tanggal),
-                                pilihTglList,
-                                FilterDate(),
-                                { data ->
-//                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
-//                                        .show()
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            selectFilter = data
-                                        )
-                                    )
-//                                    viewModel.getFilterDays(inilizeTgl(), viewModel.state.selectFilter)
-                                    viewModel.getFilterSorting(desc, data)
-                                })
-                            dialog.show(parentFragmentManager, TAG)
-                        }
-                    }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-//                viewModel.possesList.collect {
-//                    riwayatSesiAdapter.submitData(it)
-//                }
-//                viewModel.getListHistory.collect {
-//                    it.data?.let {
-//                        viewModel.updateState(
-//                            viewModel.state.copy(
-//                                listHistoryPosses = it
-//                            )
-//                        )
-//                    }
-//                }
-//                var mutableList: MutableList<Sesi> = mutableListOf()
-//                parentSesiAdapter.submitList(mutableList)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
-                    it?.let {
-//                        it.listHistoryPosses?.let { data ->
-//                            viewModel.setListSesi(data)
-//                            it.sesiList?.let {
-//                                parentSesiAdapter.initList(viewModel.state.sesiList!!)
-//                            }
-//                        }
-                    }
-                }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.filterDate.collectLatest {
+                val filter = FilterUtils.getFilterDateLabel(it.selectedPos)
+                binding.tilPeriode.tvTitle.text = filter
             }
         }
     }
@@ -157,7 +116,7 @@ class RiwayatSesiFragment(
         inflater.inflate(R.menu.menu_riwayat_sesi, menu)
         OnClickSort(desc)
         if (!desc) {
-            menu.getItem(1).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
+            menu.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
             desc = false
         }
         this.mMenu = menu
@@ -165,16 +124,16 @@ class RiwayatSesiFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.filter__riwayat_sesi ->{
-                viewModel.showDialog()
-            }
+//            R.id.filter__riwayat_sesi ->{
+//                viewModel.showDialog()
+//            }
             R.id.sort__riwayat_sesi ->{
                 if (desc){
-                    mMenu!!.getItem(1).icon =
+                    mMenu!!.getItem(0).icon =
                         ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
                     desc = false
                 }else{
-                    mMenu!!.getItem(1).icon =
+                    mMenu!!.getItem(0).icon =
                         ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_ascending)
                     desc = true
                 }
@@ -192,7 +151,7 @@ class RiwayatSesiFragment(
                 listHistoryPosses = null
             )
         )
-        viewModel.getFilterSorting(desc, viewModel.state.selectFilter)
+        viewModel.getFilterSorting(desc, viewModel.filterDate.value)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {

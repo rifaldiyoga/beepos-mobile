@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -74,7 +75,7 @@ class TambahKategoriFragment(
 
             spKategoriPrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.state.subKategori = viewModel.state.kategoriList?.get(p2) ?: "Kosong"
+                    viewModel.state.subKategori = viewModel.state.kategoriList?.get(p2) ?: ""
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -84,7 +85,11 @@ class TambahKategoriFragment(
             }
 
             btnSimpan.setOnClickListener {
-                viewModel.onSaveKategori(viewModel.state.namaKategori, viewModel.state.subKategori, viewModel.state.isEdit, viewModel.state.olId)
+                if (viewModel.state.namaKategori.isNotEmpty()){
+                    viewModel.onSaveKategori(viewModel.state.namaKategori, viewModel.state.subKategori, viewModel.state.isEdit, viewModel.state.olId)
+                }else{
+                    Toast.makeText(requireContext(), "Nama kategor i tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

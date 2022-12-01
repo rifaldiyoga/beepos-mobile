@@ -30,6 +30,7 @@ import com.bits.bee.bpmc.presentation.dialog.pilih_merk.PilihMerekDialog
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
+import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
@@ -51,7 +52,7 @@ class TambahProdukFragment(
 
     private lateinit var unitAdapter : SatuanAdapter
     private lateinit var tipeProdList : Array<String>
-    private var tipeList = listOf("Pilih Tipe", "Barang Jadi (di stok)", "Jasa (tidak distok)")
+    private var tipeList = listOf("Pilih Tipe Produk", "Barang Jadi (di stok)", "Jasa (tidak distok)")
     var gson = Gson()
     var tempUri: Uri? = null
     var tempFilePath =""
@@ -128,6 +129,7 @@ class TambahProdukFragment(
                 layoutManager = LinearLayoutManager(requireActivity())
                 adapter = unitAdapter
             }
+            etHarga.addNumberFormatChange()
         }
     }
 

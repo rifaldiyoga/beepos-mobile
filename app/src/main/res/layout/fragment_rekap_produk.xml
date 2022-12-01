@@ -61,21 +61,13 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
-            <EditText
-                android:id="@+id/et_filter"
+            <include
+                android:id="@+id/tilPeriode"
+                layout="@layout/layout_filter_button"
                 android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_chevron_down"
-                android:drawablePadding="5dp"
-                android:textColor="@color/black"
-                android:editable="false"
-                android:inputType="none"
-                android:hint="@string/pilih_kategori_prd"
-                android:background="@drawable/custom_edtext"
-                android:padding="@dimen/size10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"/>
+                android:layout_height="@dimen/size45"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,15 +77,39 @@
             android:id="@+id/cl_list_printer"
             android:padding="@dimen/size16"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:ignore="MissingConstraints">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_rekap_produk"
                 android:layout_width="@dimen/size0"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/imageView17"
+                android:visibility="gone"
+                android:layout_width="@dimen/size270"
+                android:layout_height="@dimen/size200"
+                android:src="@drawable/ic_rekap_produk_notfound"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:visibility="gone"
+                style="@style/TextDetail"
+                android:paddingLeft="@dimen/size40"
+                android:paddingRight="@dimen/size40"
+                android:id="@+id/textView91"
+                android:layout_width="wrap_content"
+                android:textAlignment="center"
+                android:textSize="@dimen/font12"
+                android:layout_height="wrap_content"
+                android:text="@string/cari_produk_not_found"
+                app:layout_constraintTop_toBottomOf="@+id/imageView17"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -155,35 +171,5 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView16"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
         app:layout_constraintTop_toBottomOf="@+id/imageView16" />
-
-    <ImageView
-        android:id="@+id/imageView17"
-        android:visibility="gone"
-        android:layout_width="@dimen/size270"
-        android:layout_height="@dimen/size200"
-        android:src="@drawable/ic_rekap_produk_notfound"
-        app:layout_constraintBottom_toTopOf="@+id/textView91"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <TextView
-        android:visibility="gone"
-        style="@style/TextDetail"
-        android:paddingLeft="@dimen/size40"
-        android:paddingRight="@dimen/size40"
-        android:id="@+id/textView91"
-        android:layout_width="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginTop="@dimen/size16"
-        android:textSize="@dimen/font12"
-        android:layout_height="wrap_content"
-        android:text="@string/cari_produk_not_found"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView17"
-        app:layout_constraintStart_toStartOf="@+id/imageView17"
-        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,6 +56,7 @@ class AturProdukFragment(
     override fun subscribeListeners() {
         binding.apply {
             btntambahPrd.setOnClickListener {
+                clearPref()
                 viewModel.onClickTambah()
             }
         }

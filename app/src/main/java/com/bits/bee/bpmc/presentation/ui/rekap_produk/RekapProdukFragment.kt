@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapProdukBinding
@@ -19,8 +20,12 @@ import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDi
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.FilterUtils
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -32,13 +37,12 @@ class RekapProdukFragment(
 ) : BaseFragment<FragmentRekapProdukBinding>() {
 
     private val viewModel : RekapProdukViewModel by activityViewModels()
-    lateinit var rekapProdukAdapter: RekapProdukAdapter
-    private var pilihTgl: String = "1 Minggu Terakhir"
+    private lateinit var rekapProdukAdapter: RekapProdukAdapter
     private lateinit var pilihTglList : List<String>
-    private var posFilter: Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.onFilterPeriode(viewModel.filterDate.value, viewModel.state.searchQuery)
 //        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
     }
 
@@ -63,66 +67,67 @@ class RekapProdukFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-            etFilter.setOnClickListener {
-                viewModel.showDialog()
+            tilPeriode.root.setOnClickListener {
+                val dialog = RadioListFilterDialog(
+                        requireContext(),
+                        getString(R.string.pilih_tanggal),
+                        pilihTglList,
+                        viewModel.filterDate.value,
+                        onSaveClick = {
+                            viewModel.onFilterPeriode(it, viewModel.state.searchQuery)
+                        }
+                )
+                dialog.show(parentFragmentManager, "")
             }
         }
     }
 
     override fun subscribeObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.event.collect { event ->
-                    when (event) {
-                        RekapProdukViewModel.UIEvent.RequestDialogFilter ->{
-                            val dialog = RadioListFilterDialog(
-                                requireContext(),
-                                getString(R.string.pilih_tanggal),
-                                pilihTglList,
-                                FilterDate(),
-                                { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
-                                        .show()
-//                                    viewModel.updateState(
-//                                        viewModel.state.copy(
-//                                            selectFilter = data.toString()
-//                                        )
-//                                    )
-//                                    viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
-                                })
-                            dialog.show(parentFragmentManager, TAG)
-                        }
-                    }
-                }
-            }
-        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
-                            it.itemList?.let { data ->
-                                if (data.size > 0){
-                                    imageView16.visibility = View.GONE
-                                    textView90.visibility = View.GONE
-//                                    viewModel.checkListItem(data)
-                                    rekapProdukAdapter.submitList(data)
-                                }else{
-                                    rekapProdukAdapter.submitList(data)
-                                    imageView16.visibility = View.VISIBLE
-                                    textView90.visibility = View.VISIBLE
-                                }
-                            }
-//                            it.start?.let {
-//                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
-//                                    viewModel.state.start!!
-//                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
-//                                etFilter.setText(viewModel.state.selectFilter)
+//                            it.itemList?.let { data ->
+//                                if (data.size > 0){
+//                                    imageView16.visibility = View.GONE
+//                                    textView90.visibility = View.GONE
+////                                    viewModel.checkListItem(data)
+//                                    rekapProdukAdapter.submitList(data)
+//                                }else{
+//                                    rekapProdukAdapter.submitList(data)
+//                                    imageView16.visibility = View.VISIBLE
+//                                    textView90.visibility = View.VISIBLE
+//                                }
 //                            }
+                            it.start?.let {
+                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
+                                    viewModel.state.start!!
+                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
+                            }
                         }
                     }
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            rekapProdukAdapter.loadStateFlow.collectLatest {
+                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                    setVisibilityList(rekapProdukAdapter.itemCount != 0)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.itemList.collectLatest {
+                rekapProdukAdapter.submitData(it)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.filterDate.collectLatest {
+                val filter = FilterUtils.getFilterDateLabel(it.selectedPos)
+                binding.tilPeriode.tvTitle.text = filter
             }
         }
     }
@@ -130,7 +135,6 @@ class RekapProdukFragment(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_rekap_produk, menu)
-//        onView()
 
         val searchItem = menu.findItem(R.id.search_rekap_produk)
         val searchView = searchItem.actionView as SearchView
@@ -154,9 +158,9 @@ class RekapProdukFragment(
                                                 textView90.visibility = View.GONE
                                                 imageView17.visibility = View.GONE
                                                 textView91.visibility = View.GONE
-                                                rekapProdukAdapter.submitList(data)
+//                                                rekapProdukAdapter.submitList(data)
                                             }else{
-                                                rekapProdukAdapter.submitList(data)
+//                                                rekapProdukAdapter.submitList(data)
                                                 imageView16.visibility = View.VISIBLE
                                                 textView90.visibility = View.VISIBLE
                                                 imageView17.visibility = View.GONE
@@ -169,25 +173,25 @@ class RekapProdukFragment(
 //                                                itemList = null
 //                                            )
 //                                        )
-//                                        viewModel.cariItems(newText.toString().trim(), 1, inilizeTgl(), viewModel.state.selectFilter)
-//                                        it.itemListResult?.let { data->
-//                                            viewModel.filterItems(data, inilizeTgl(), viewModel.state.selectFilter)
-//                                            it.resultFilteritem?.let { resultFilter ->
-//                                                if (resultFilter.size > 0){
-//                                                    imageView16.visibility = View.GONE
-//                                                    textView90.visibility = View.GONE
-//                                                    imageView17.visibility = View.GONE
-//                                                    textView91.visibility = View.GONE
+                                        viewModel.cariItems(newText.toString().trim(), 1, viewModel.filterDate.value)
+                                        it.itemListResult?.let { data->
+                                            viewModel.filterItems(data, viewModel.filterDate.value)
+                                            it.resultFilteritem?.let { resultFilter ->
+                                                if (resultFilter.size > 0){
+                                                    imageView16.visibility = View.GONE
+                                                    textView90.visibility = View.GONE
+                                                    imageView17.visibility = View.GONE
+                                                    textView91.visibility = View.GONE
 //                                                    rekapProdukAdapter.submitList(resultFilter)
-//                                                }else{
+                                                }else{
 //                                                    rekapProdukAdapter.submitList(resultFilter)
-//                                                    imageView16.visibility = View.GONE
-//                                                    textView90.visibility = View.GONE
-//                                                    imageView17.visibility = View.VISIBLE
-//                                                    textView91.visibility = View.VISIBLE
-//                                                }
-//                                            }
-//                                        }
+                                                    imageView16.visibility = View.GONE
+                                                    textView90.visibility = View.GONE
+                                                    imageView17.visibility = View.VISIBLE
+                                                    textView91.visibility = View.VISIBLE
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -209,52 +213,18 @@ class RekapProdukFragment(
         return super.onOptionsItemSelected(item)
     }
 
-    private fun inilizeTgl(): Int{
-//        pilihTgl = viewModel.state.selectFilter
-        if (pilihTgl.equals(getString(R.string.last_1_week)))
-            posFilter = 0
-        else if(pilihTgl.equals(getString(R.string.last_1_month)))
-            posFilter = 1
-        else if (pilihTgl.equals(getString(R.string.last_90_days)))
-            posFilter = 2
-        else
-            posFilter = 3
-
-        return posFilter
-    }
-
-    private fun onView() {
-        viewModel.updateState(
-            viewModel.state.copy(
-                itemList = null
-            )
-        )
-//        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewStates().collect {
-                    it?.let {
-                        binding.apply {
-                            it.itemList?.let { data ->
-                                if (data.size > 0){
-                                    imageView16.visibility = View.GONE
-                                    textView90.visibility = View.GONE
-//                                    viewModel.checkListItem(data)
-                                    rekapProdukAdapter.submitList(data)
-                                }else{
-                                    rekapProdukAdapter.submitList(data)
-                                    imageView16.visibility = View.VISIBLE
-                                    textView90.visibility = View.VISIBLE
-                                }
-                            }
-                        }
-                    }
-                }
+    private fun setVisibilityList(isVisible : Boolean) {
+        binding.apply {
+            if(isVisible){
+                rvRekapProduk.visible()
+                imageView16.gone()
+                textView90.gone()
+            } else {
+                rvRekapProduk.gone()
+                textView90.visible()
+                imageView16.visible()
             }
         }
     }
 
-    private fun searchEvent(){
-
-    }
 }

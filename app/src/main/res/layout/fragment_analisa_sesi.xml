@@ -276,7 +276,7 @@
                         android:id="@+id/tvTotalNonTunai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tunai"
+                        android:text="@string/non_tunai"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

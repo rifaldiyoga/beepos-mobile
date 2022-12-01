@@ -74,7 +74,7 @@ class ItemDummyAdapter(
                         tvHarga.text = "0"
                     }else{
                         tvHarga.text = context.getString(R.string.mata_uang_nominal, "Rp.", CurrencyUtils.formatCurrency(
-                            BigDecimal(model.price ?: "0")
+                            BigDecimal(model.price.replace(",", "") ?: "0")
                         ))
                     }
                     if (model.picPath.isNotEmpty()){

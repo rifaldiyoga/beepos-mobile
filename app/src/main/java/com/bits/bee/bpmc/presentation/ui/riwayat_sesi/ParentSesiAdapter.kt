@@ -52,7 +52,7 @@ class ParentSesiAdapter constructor(
                 imgChevron.setImageResource(R.drawable.ic_cv_down);
             }
 
-            nestedSesiAdapter = NestedSesiAdapter(listener)
+            nestedSesiAdapter = NestedSesiAdapter(listener, ctx)
 
             rvChildSesi.apply {
                 layoutManager = LinearLayoutManager(ctx)

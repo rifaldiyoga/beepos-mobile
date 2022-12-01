@@ -70,14 +70,48 @@
 
 <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_riwayat_sesi"
-        android:layout_width="@dimen/size0"
-        android:layout_height="@dimen/size0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="@dimen/size16"
+            android:layout_marginTop="@dimen/size2"
+            android:id="@+id/cl_sp_filter"
+            android:layout_width="@dimen/size200"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <include
+                android:id="@+id/tilPeriode"
+                layout="@layout/layout_filter_button"
+                android:layout_width="@dimen/size0"
+                android:layout_height="@dimen/size45"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/size16"
+            android:id="@+id/cl_rv_List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_riwayat_sesi"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lL_riwayat_empty"

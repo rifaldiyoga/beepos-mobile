@@ -3,9 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_edit"
+        android:id="@+id/menu_opsi"
         android:icon="@drawable/ic_baseline_more_black"
         app:showAsAction="always"
-        android:title="TODO" />
+        android:title="TODO">
+        <menu>
+            <item
+                android:id="@+id/opsi_delete"
+                android:title="@string/hapus"
+                android:icon="@drawable/ic_trash"
+                app:showAsAction="ifRoom|withText" />
+        </menu>
+
+    </item>
 
 </menu>

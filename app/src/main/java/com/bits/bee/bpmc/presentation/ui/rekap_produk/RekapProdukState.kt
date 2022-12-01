@@ -9,5 +9,6 @@ data class RekapProdukState(
     var searchQuery: String = "",
     var resultFilteritem: List<Item>? = null,
     var item: Item? = null,
-    var listPid: List<Stock>? = null
+    var listPid: List<Stock>? = null,
+    var selectPos: Int = 0
 )

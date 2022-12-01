@@ -64,106 +64,107 @@ class AnalisaSesiViewModel @Inject constructor(
     }
 
     fun getValueDetail() = viewModelScope.launch {
-        state.posses?.let {
-            getUserByIdUseCase.invoke(it.userId).collect {
+        state.posses?.let { data ->
+            getUserByIdUseCase.invoke(data.userId).collect {
                 updateState(
                     state.copy(
                         user = it
+                        )
                     )
-                )
-            }
+                }
 
-            getSaleByPossesUseCase.invoke(it.possesId!!).collect {
+            getSaleByPossesUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        saleList = it
-                    )
+                        state.copy(
+                                saleList = it
+                        )
                 )
             }
 
 
             getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(
-                it.trxDate.time,
-            ), DateFormatUtils.convertEndDate(it.trxDate.time)).collect {
+                    data.trxDate.time,
+            ), DateFormatUtils.convertEndDate(data.trxDate.time)).collect {
                 it.data?.let {
                     updateState(
-                        state.copy(
-                            bpDateList = it
-                        )
+                            state.copy(
+                                    bpDateList = it
+                            )
                     )
                 }
             }
 
-            getCountNotaUseCase.invoke(it.possesId!!).collect {
+            getCountNotaUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        notaSucces = it
-                    )
+                        state.copy(
+                                notaSucces = it
+                        )
                 )
             }
 
-            getCountNotaVoidUseCase.invoke(it.possesId!!).collect {
+            getCountNotaVoidUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        notaVoid = it
-                    )
+                        state.copy(
+                                notaVoid = it
+                        )
                 )
             }
 
-            getTotalPaidTunaiUseCase.invoke(it.possesId!!).collect {
+            getTotalPaidTunaiUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        totalTunai = it
-                    )
+                        state.copy(
+                                totalTunai = it
+                        )
                 )
             }
 
-            getTotalPaidDebitUseCase.invoke(it.possesId!!).collect {
+            getTotalPaidDebitUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        totalDebit = it
-                    )
+                        state.copy(
+                                totalDebit = it
+                        )
                 )
             }
 
-            getTotalPaidKreditUseCase.invoke(it.possesId!!).collect {
+            getTotalPaidKreditUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        totalKredit = it
-                    )
+                        state.copy(
+                                totalKredit = it
+                        )
                 )
             }
 
-            getTotalPaidGopayUseCase.invoke(it.possesId!!).collect {
+            getTotalPaidGopayUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        totalGopay = it
-                    )
+                        state.copy(
+                                totalGopay = it
+                        )
                 )
             }
 
-            getRankItemUseCase.invoke(it.possesId!!).collect {
+            getRankItemUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                    state.copy(
-                        rankItem = it
-                    )
+                        state.copy(
+                                rankItem = it
+                        )
                 )
             }
 
             getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
                 updateState(
-                    state.copy(
-                        reg = it
-                    )
+                        state.copy(
+                                reg = it
+                        )
                 )
             }
 
-            val chart = getSumByHourUseCase.invoke(it)
+            val chart = getSumByHourUseCase.invoke(data)
             updateState(
-                state.copy(
-                    listEntry = chart
-                )
+                    state.copy(
+                            listEntry = chart
+                    )
             )
+
         }
 
     }
