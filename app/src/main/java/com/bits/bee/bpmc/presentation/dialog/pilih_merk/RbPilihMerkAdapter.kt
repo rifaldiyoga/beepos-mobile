@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemRbPilihMerkBinding
+import com.bits.bee.bpmc.domain.model.Brand
 
 class RbPilihMerkAdapter(
     value: Int,
-    val stringList: List<String>,
+    val brandList: List<Brand>,
     private val mListener: EditMerkAdapterI
 ): RecyclerView.Adapter<RbPilihMerkAdapter.ViewHolder>() {
 
@@ -17,7 +18,7 @@ class RbPilihMerkAdapter(
         this.selectedPosition = value
     }
 
-    fun getSelectedPosition() : Int = selectedPosition
+    fun getSelectedPosition() : Brand = brandList[selectedPosition]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,7 +29,7 @@ class RbPilihMerkAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-            materialRadioButton.text = getItem(holder.absoluteAdapterPosition)
+            materialRadioButton.text = getItem(holder.absoluteAdapterPosition).brandName
 
             materialRadioButton.isChecked = selectedPosition == holder.absoluteAdapterPosition
 
@@ -43,10 +44,10 @@ class RbPilihMerkAdapter(
     }
 
     override fun getItemCount(): Int {
-        return stringList.size
+        return brandList.size
     }
 
-    fun getItem(i : Int) = stringList[i]
+    fun getItem(i : Int) = brandList[i]
 
     class ViewHolder(val binding : ItemRbPilihMerkBinding) : RecyclerView.ViewHolder(binding.root)
 

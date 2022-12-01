@@ -1,10 +1,15 @@
 package com.bits.bee.bpmc.presentation.ui.setting_nota
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,6 +19,8 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingNotaBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.AturDialogBuilder
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.PermissionUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,13 +30,32 @@ private const val TAG = "SettingNotaFragment"
 class SettingNotaFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingNotaBinding =  FragmentSettingNotaBinding::inflate
 ) : BaseFragment<FragmentSettingNotaBinding>() {
+
     private val viewModel: SettingNotaViewModel by viewModels()
-    private val IMG_RESULT = 1
-    private lateinit var mImagePath: String
-    private var mPilihLogo: Boolean = false
+
+    private val imagePickerActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+
+        if (it.resultCode == Activity.RESULT_OK){
+            if (it.data != null){
+                val uri = it.data!!.data
+                val file = arrayOf(MediaStore.Images.Media.DATA)
+
+                viewModel.onUpdateLogoGaleri(getContentImg(uri, file, requireContext()))
+            }
+        }else{
+            viewModel.onUpdateLogoGaleri(BPMConstants.BPM_INIT_DEFAULT_LOGO)
+            binding.swcLogoGaleri.isChecked = false
+        }
+
+    }
+
+    private val requestPermissionStorage = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted ->
+        if(!isGranted){
+            Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+        }
+    }
 
     override fun initComponents() {
-        binding.swcLogoGaleri.isChecked = mPilihLogo
     }
 
     override fun subscribeListeners() {
@@ -48,22 +74,15 @@ class SettingNotaFragment(
                 viewModel.onClickLogo(b)
             }
 
+            clLogoGaleri.setOnClickListener {
+                swcLogoGaleri.isChecked = !swcLogoGaleri.isChecked
+            }
             swcLogoGaleri.setOnCheckedChangeListener { _, b ->
-//                if (compoundButton == swcLogoGaleri){
-//                    if (b){
-//                        BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), true)
-//                        onShowGaleri()
-//                    }else{
-//                        BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_logo_galeri), false)
-//                        BeePreferenceManager.saveToPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, BPMConstants.INIT_DEFAULT_LOGO)
-//                        viewModel.updateState(
-//                            viewModel.state.copy(
-//                                isLogo = false,
-//                                filePath = BeePreferenceManager.getDataFromPreferences(requireContext(), BPMConstants.NOTASETTING_LOGOPATH, "") as String
-//                            )
-//                        )
-//                    }
-//                }
+                if (b){
+                    onShowGaleri()
+                } else {
+                    viewModel.onUpdateLogoGaleri(BPMConstants.BPM_INIT_DEFAULT_LOGO)
+                }
             }
 
             clHeader.setOnClickListener {
@@ -119,11 +138,14 @@ class SettingNotaFragment(
     }
 
     fun onShowGaleri(){
-//        BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pilih_logo), true)
-//        Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-//            type = "image/*"
-////            startActivityForResult(this, IMG_RESULT)
-//        }
+        if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+                type = "image/*"
+                imagePickerActivityResult.launch(this)
+            }
+        } else {
+            requestPermissionStorage.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 
     override fun subscribeObservers() {
@@ -208,16 +230,21 @@ class SettingNotaFragment(
         }
     }
 
-    fun getContentImg(uri: Uri, file: Array<String>, context: Context){
+    fun getContentImg(uri: Uri?, file: Array<String>, context: Context) : String{
+
+        if(uri == null)
+            return ""
+
         val cursor = context.contentResolver.query(uri, file, null, null, null)
         if (cursor != null) {
             cursor.moveToFirst()
         }else{
-            return
+            return ""
         }
 
         val intColumnIndex: Int = cursor.getColumnIndex(file[0])
-        mImagePath = cursor.getString(intColumnIndex)
+        val mImagePath = cursor.getString(intColumnIndex)
         cursor.close()
+        return mImagePath
     }
 }

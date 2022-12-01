@@ -135,7 +135,7 @@ class SettingLisensiViewModel @Inject constructor(
     }
 
     fun perpanjangLisensi() = viewModelScope.launch {
-
+        eventChannel.send(UIEvent.RequestPerpanjang)
     }
 
     fun manualSync(){
@@ -153,6 +153,7 @@ class SettingLisensiViewModel @Inject constructor(
     sealed class UIEvent {
         object RequestInfoTutupKasir : UIEvent()
         object RequestSyncData : UIEvent()
+        object RequestPerpanjang : UIEvent()
         object ConfirmDetachLicense : UIEvent()
         object NavigateToLogin : UIEvent()
     }

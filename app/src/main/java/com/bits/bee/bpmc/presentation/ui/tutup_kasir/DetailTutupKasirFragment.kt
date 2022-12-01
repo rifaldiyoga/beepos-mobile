@@ -53,7 +53,6 @@ class DetailTutupKasirFragment(
                     getString(R.string.tutup_kasir), getString(R.string.msg_validasi_tutup_kasir), {
                         it.dismiss()
                         viewModel.onTutupKasir()
-                        findNavController().popBackStack()
                     })
                 dialog.show(parentFragmentManager, "DetailTutupKasirFragment")
             }
@@ -70,8 +69,9 @@ class DetailTutupKasirFragment(
                             mCounter++
                             BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_counter_sesi), mCounter)
                             sharedViewModel.doTutupKasir()
-                            printerHelper.printClosingCashier(sharedViewModel.state.activePosses!!, BPMConstants.BPM_FONT_REGULAR, BPMConstants.BPM_ALIGN_LEFT)
+                            printerHelper.printClosingCashier(sharedViewModel.state.activePosses!!)
                             sharedViewModel.resetActivePosses()
+                            findNavController().popBackStack()
                         }
                         DetailTutupKasirViewModel.UIEvent.RequestRekapSesi ->{
                             val action = DetailTutupKasirFragmentDirections.actionDetailTutupKasirFragmentToRekapSesiFragment()

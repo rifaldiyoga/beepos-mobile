@@ -96,6 +96,8 @@ class InitialActivity (
                 )
                 dialog.show(supportFragmentManager, TAG)
             }
+            R.id.ulangiPinFragment -> onBack(R.id.ulangiPinFragment, R.id.aturPinFragment)
+            R.id.tambahProdukFragment -> onBack(R.id.tambahProdukFragment, R.id.aturProdukFragment)
             else -> super.onBackPressed()
         }
     }

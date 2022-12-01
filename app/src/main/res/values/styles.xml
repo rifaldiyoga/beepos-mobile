@@ -87,10 +87,25 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="CustomTextInputLayout" >
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="hintEnabled">false</item>
+        <item name="android:paddingStart">@dimen/size0</item>
+        <item name="paddingStart">@dimen/size0</item>
         <item name="hintAnimationEnabled">false</item>
         <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomDropDownTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+        <item name="hintEnabled">false</item>
+        <item name="paddingStart">@dimen/size0</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomEditTextLayout">
+        <item name="android:paddingStart">@dimen/size0</item>
+        <item name="android:paddingEnd">@dimen/size0</item>
+        <item name="android:paddingBottom">@dimen/size4</item>
+        <item name="android:paddingTop">@dimen/size12</item>
     </style>
 
     <style name="ShapeDialogAppearanceOverlay">

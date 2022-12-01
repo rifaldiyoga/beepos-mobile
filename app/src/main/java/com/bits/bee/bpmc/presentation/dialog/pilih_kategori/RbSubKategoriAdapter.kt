@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.dialog.radio_list.pilih_kategori
+package com.bits.bee.bpmc.presentation.dialog.pilih_kategori
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

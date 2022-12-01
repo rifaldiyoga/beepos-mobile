@@ -8,38 +8,25 @@ import javax.inject.Inject
 class AddEditKategoriProdukUseCase @Inject constructor(
     private val itemGroupRepository: ItemGroupRepository
 ) {
-    private var up_id = -1
 
-    suspend operator fun invoke(
-        namaKategori: String,
-        parentKategori: String,
-        edit: Boolean,
-        olId: Int
-    ) {
+    suspend operator fun invoke(namaKategori: String, parentKategori: String, edit: Boolean, olId: Int) {
+        var upId : Int? = null
+        val itmgrp: ItemGroup?
 
-        var itmgrp: ItemGroup? = null
         if (parentKategori.isNotEmpty()){
             val itmgrpss = itemGroupRepository.getItgrpByKategori(parentKategori).first()
-            up_id = itmgrpss.id ?: 1
+            upId = itmgrpss.id
         }
-        if (edit){
-            itmgrp = ItemGroup(
-                id = olId,
-                code = "",
-                name = namaKategori,
-                level = -1,
-                upId = up_id,
-                isPos = false
-            )
-        }else{
-            itmgrp = ItemGroup(
-                code = "",
-                name = namaKategori,
-                level = -1,
-                upId = up_id,
-                isPos = false
-            )
-        }
+
+        itmgrp = ItemGroup(
+            id =  if (edit) olId else null,
+            code = "",
+            name = namaKategori,
+            level = if(upId != null) 2 else 1,
+            upId = upId,
+            isPos = true
+        )
+
         itemGroupRepository.addItemgrp(itmgrp, edit)
     }
 }

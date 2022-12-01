@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.detail_riwayat_sesi
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Posses
+import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.GetCashierByIdUseCase
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class DetailRiwayatSesiViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val getCashierByIdUseCase: GetCashierByIdUseCase
+    private val getCashierByIdUseCase: GetCashierByIdUseCase,
+    private val printerHelper: PrinterHelper
 ): BaseViewModel<DetailRiwayatSesiState, DetailRiwayatSesiViewModel.UIEvent>() {
 
     init {
@@ -51,8 +53,16 @@ class DetailRiwayatSesiViewModel @Inject constructor(
         }
     }
 
-    fun onClickDetail(model: Posses) = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestDetailPendapatan(model))
+    fun onClickDetail() = viewModelScope.launch {
+        state.posses?.let {
+            eventChannel.send(UIEvent.RequestDetailPendapatan(it))
+        }
+    }
+
+    fun onClickPrint() = viewModelScope.launch {
+        state.posses?.let {
+            printerHelper.printClosingCashier(it)
+        }
     }
 
     fun detailAnalisaSesi() = viewModelScope.launch {

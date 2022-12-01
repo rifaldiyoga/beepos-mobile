@@ -6,7 +6,6 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.usecase.pos.GetPidByItemUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.FilterSearchItemUseCase
-import com.bits.bee.bpmc.domain.usecase.rekap_produk.GetPidUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.LoadCariItemsUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.QueryRekapProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
@@ -56,8 +55,6 @@ class RekapProdukViewModel @Inject constructor(
         updateState(
             state.copy(
                 itemList = listItem,
-                start = filterStart,
-                end = filterEnd
             )
         )
     }

@@ -169,6 +169,7 @@ class DetailTransaksiPenjualanFragment(
                                 tvSalesman.text = sale.salesman
 
                                 btnCetak.isEnabled = !sale.isVoid
+                                llVoid.isVisible = sale.isVoid
                                 if(sale.isVoid) {
                                     btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
                                 } else {

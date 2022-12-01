@@ -34,7 +34,8 @@
         android:itemBackground="@drawable/bg_rect_light_gray"
         app:itemCount="6"
         app:itemWidth="@dimen/size45"
-        android:inputType="numberPassword"
+        android:textSize="@dimen/font16"
+        android:inputType="number"
         style="@style/PinWidget.PinView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,29 +43,26 @@
         app:lineColor="@color/light_gray"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout17"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/pinView"
-        android:weightSum="2">
+        android:layout_marginTop="@dimen/size16"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pinView">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/eye_pin"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/size50"
-            android:layout_marginTop="32dp"
-            android:layout_weight="1"
-            app:layout_constraintTop_toBottomOf="@+id/pinView"
-            app:passwordToggleEnabled="true">
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/ivEye"
+            android:layout_width="@dimen/size24"
+            android:layout_height="@dimen/size24"
+            android:src="@drawable/ic_eye_slash" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="0dp"
             android:layout_height="21dp"
-            android:layout_marginTop="@dimen/size45"
+            android:layout_marginStart="@dimen/size8"
             android:layout_weight="1"
             android:gravity="left"
             android:text="@string/tampil_pin"
@@ -74,6 +72,16 @@
 
     </LinearLayout>
 
+    <com.bits.bee.bpmc.presentation.custom.CustomNumpadPin
+        android:id="@+id/numpad"
+        android:layout_width="@dimen/size0"
+        android:layout_marginTop="@dimen/size45"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/btn_simpan_pin"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/size16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
 
     <Button
         android:id="@+id/btn_simpan_pin"

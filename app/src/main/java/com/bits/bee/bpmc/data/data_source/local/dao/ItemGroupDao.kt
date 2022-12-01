@@ -15,7 +15,7 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
     @Query("DELETE FROM itemgrp")
     fun deleteAll()
 
-    @Query("SELECT * FROM itemgrp WHERE ispos = 1")
+    @Query("SELECT * FROM itemgrp WHERE ispos = 1 ORDER BY COALESCE(up_id, id)")
     fun getActiveItemGroupList() : List<ItemGroupEntity>
 
     @Query("SELECT * FROM itemgrp WHERE code = 'ADDON' AND ispos = :ispos ")
@@ -28,7 +28,11 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
     fun getItgrpAddOn() : ItemGroupEntity?
 
     @Query("SELECT * FROM itemgrp where up_id = :upid")
-    fun getItemgrpByUpId(upid: Int): List<ItemGroupEntity>
+    fun getItemgrpByUpId(upid: Int?): List<ItemGroupEntity>
+
+
+    @Query("SELECT * FROM itemgrp where up_id is null")
+    fun getItemgrpParent(): List<ItemGroupEntity>
 
     @Query("SELECT * FROM itemgrp where name = :kategori")
     fun getItgrpByKategori(kategori: String): ItemGroupEntity

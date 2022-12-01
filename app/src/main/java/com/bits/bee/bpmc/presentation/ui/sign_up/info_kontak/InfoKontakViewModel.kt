@@ -8,6 +8,9 @@ import com.bits.bee.bpmc.domain.model.SignUp
 import com.bits.bee.bpmc.domain.usecase.signup.PostSignUpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.isContainsNumber
+import com.bits.bee.bpmc.utils.extension.isContainsUpperCase
+import com.bits.bee.bpmc.utils.extension.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -30,14 +33,25 @@ class InfoKontakViewModel @Inject constructor(
          return postSignUpUseCase(signUp)
     }
 
+    fun onPasswordChange(string : String) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                password = string
+            )
+        )
+    }
+
     fun validateInput() = viewModelScope.launch {
         updateState(
             state.copy(isValid = state.nama.isNotEmpty()
-                    && state.noWa.isNotEmpty()
-                    && state.email.isNotEmpty()
+                    && (state.noWa.isNotEmpty() && state.noWa.length >= 11)
+                    && (state.email.isNotEmpty() && state.email.isValidEmail())
                     && state.password.isNotEmpty()
                     && state.confPassword.isNotEmpty()
                     && state.password == state.confPassword
+                    && state.password.length > 7
+                    && state.password.isContainsUpperCase()
+                    && state.password.isContainsNumber()
             )
         )
     }

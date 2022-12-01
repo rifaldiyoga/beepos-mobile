@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.otp
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -31,14 +32,14 @@ class OtpFragment constructor(
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(R.string.page_otp))
         binding.apply {
             arguments?.let {
-
                 val noWa = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_wa), "") as String
                 val regId = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_regid), "") as String
 
                 viewModel.state.regId = regId.toInt()
 
                 pinView.requestFocus()
-                tvDesc.text = getString(R.string.kami_telah_mengirimkan, if (noWa.isNotEmpty() && noWa.length in 10..12) noWa.replaceRange(4, 8, "*") else noWa)
+
+                tvDesc.text = getString(R.string.kami_telah_mengirimkan, noWa.toList().mapIndexed { i, char -> if(i in 4..7) '*' else char }.joinToString(separator = ""))
             }
         }
     }
@@ -48,6 +49,9 @@ class OtpFragment constructor(
             pinView.addTextChangedListener {
                 viewModel.onInputPin(pinView.text.toString().trim())
             }
+            tvKirimUlang.setOnClickListener {
+                viewModel.postSendOtp()
+            }
         }
     }
 
@@ -56,7 +60,15 @@ class OtpFragment constructor(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let {
-
+                        binding.apply {
+                            if(!it.isSendOtp) {
+                                tvKirimUlang.text = "Kirim ulang kode (${it.countDown / 1000})"
+                                tvKirimUlang.setTextColor(ContextCompat.getColor(requireActivity(), R.color.dark_gray))
+                            } else {
+                                tvKirimUlang.text = "Kirim ulang kode"
+                                tvKirimUlang.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red))
+                            }
+                        }
                     }
                 }
             }
@@ -69,7 +81,6 @@ class OtpFragment constructor(
                         findNavController().navigate(action)
                     }
                 }
-
             }
         }
         viewModel.observeVerifSmsResponse().observe(viewLifecycleOwner){
@@ -91,6 +102,27 @@ class OtpFragment constructor(
                 }
                 Resource.Status.NOINTERNET -> {
                     dialog.hide()
+                    val dialog = NoInternetDialogBuilder({
+                        viewModel.onInputPin(viewModel.state.pin)
+                    })
+                    dialog.show(parentFragmentManager, "")
+                }
+            }
+        }
+        viewModel.observeSendOtpResponse().observe(viewLifecycleOwner){
+            when(it.status){
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let {
+                        BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_regid), it.regId)
+                    }
+                }
+                Resource.Status.ERROR -> {
+
+                }
+                Resource.Status.NOINTERNET -> {
                     val dialog = NoInternetDialogBuilder({
                         viewModel.onInputPin(viewModel.state.pin)
                     })

@@ -118,13 +118,13 @@ class FileHandlerUtils {
             return result
         }
 
-        fun checkDirPath(path: String): Bitmap{
+        fun checkDirPath(path: String): Bitmap?{
             val dir = File(path)
             var myBitmap: Bitmap? = null
             if (dir.exists()){
                 myBitmap = BitmapFactory.decodeFile(dir.absolutePath)
             }
-            return myBitmap!!
+            return myBitmap
         }
 
         private fun Bitmap.rotate(degrees: Float): Bitmap {

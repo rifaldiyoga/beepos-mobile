@@ -39,7 +39,7 @@ class RekapProdukFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
+//        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
     }
 
     override fun initComponents() {
@@ -83,12 +83,12 @@ class RekapProdukFragment(
                                 { data ->
                                     Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
                                         .show()
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            selectFilter = data.toString()
-                                        )
-                                    )
-                                    viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
+//                                    viewModel.updateState(
+//                                        viewModel.state.copy(
+//                                            selectFilter = data.toString()
+//                                        )
+//                                    )
+//                                    viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
                                 })
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -114,12 +114,12 @@ class RekapProdukFragment(
                                     textView90.visibility = View.VISIBLE
                                 }
                             }
-                            it.start?.let {
-                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
-                                    viewModel.state.start!!
-                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
-                                etFilter.setText(viewModel.state.selectFilter)
-                            }
+//                            it.start?.let {
+//                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
+//                                    viewModel.state.start!!
+//                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
+//                                etFilter.setText(viewModel.state.selectFilter)
+//                            }
                         }
                     }
                 }
@@ -169,25 +169,25 @@ class RekapProdukFragment(
 //                                                itemList = null
 //                                            )
 //                                        )
-                                        viewModel.cariItems(newText.toString().trim(), 1, inilizeTgl(), viewModel.state.selectFilter)
-                                        it.itemListResult?.let { data->
-                                            viewModel.filterItems(data, inilizeTgl(), viewModel.state.selectFilter)
-                                            it.resultFilteritem?.let { resultFilter ->
-                                                if (resultFilter.size > 0){
-                                                    imageView16.visibility = View.GONE
-                                                    textView90.visibility = View.GONE
-                                                    imageView17.visibility = View.GONE
-                                                    textView91.visibility = View.GONE
-                                                    rekapProdukAdapter.submitList(resultFilter)
-                                                }else{
-                                                    rekapProdukAdapter.submitList(resultFilter)
-                                                    imageView16.visibility = View.GONE
-                                                    textView90.visibility = View.GONE
-                                                    imageView17.visibility = View.VISIBLE
-                                                    textView91.visibility = View.VISIBLE
-                                                }
-                                            }
-                                        }
+//                                        viewModel.cariItems(newText.toString().trim(), 1, inilizeTgl(), viewModel.state.selectFilter)
+//                                        it.itemListResult?.let { data->
+//                                            viewModel.filterItems(data, inilizeTgl(), viewModel.state.selectFilter)
+//                                            it.resultFilteritem?.let { resultFilter ->
+//                                                if (resultFilter.size > 0){
+//                                                    imageView16.visibility = View.GONE
+//                                                    textView90.visibility = View.GONE
+//                                                    imageView17.visibility = View.GONE
+//                                                    textView91.visibility = View.GONE
+//                                                    rekapProdukAdapter.submitList(resultFilter)
+//                                                }else{
+//                                                    rekapProdukAdapter.submitList(resultFilter)
+//                                                    imageView16.visibility = View.GONE
+//                                                    textView90.visibility = View.GONE
+//                                                    imageView17.visibility = View.VISIBLE
+//                                                    textView91.visibility = View.VISIBLE
+//                                                }
+//                                            }
+//                                        }
                                     }
                                 }
                             }
@@ -210,7 +210,7 @@ class RekapProdukFragment(
     }
 
     private fun inilizeTgl(): Int{
-        pilihTgl = viewModel.state.selectFilter
+//        pilihTgl = viewModel.state.selectFilter
         if (pilihTgl.equals(getString(R.string.last_1_week)))
             posFilter = 0
         else if(pilihTgl.equals(getString(R.string.last_1_month)))
@@ -229,7 +229,7 @@ class RekapProdukFragment(
                 itemList = null
             )
         )
-        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
+//        viewModel.loadRekapProduk(inilizeTgl(), viewModel.state.selectFilter, viewModel.state.searchQuery)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {

@@ -8,5 +8,6 @@ data class UlangiPinState(
     var pin : String = "",
     var email : String = "",
     var password : String = "",
-    var authKey : String = ""
+    var authKey : String = "",
+    var isPassVisible : Boolean = false
 )

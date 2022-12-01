@@ -113,13 +113,16 @@ class MainActivity(
     }
 
     override fun subscribeObservers() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.msg.collect {
+                showSnackbar(it)
+            }
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.activeSrep.collect {
                     binding.apply {
                         it?.let {
-//                            viewModel.state.sale.bpId = it.id!!
-//                            viewModel.state.sale.bpName = it.name
                             tvSalesman.text = it.name
                         }
                     }

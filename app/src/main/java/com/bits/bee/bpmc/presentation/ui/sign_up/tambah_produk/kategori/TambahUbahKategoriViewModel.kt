@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.kategori
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.model.KategoriProduk
 import com.bits.bee.bpmc.domain.usecase.signup.AddEditKategoriProdukUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.DeleteKategoriUseCase
@@ -16,13 +17,12 @@ import javax.inject.Inject
 class TambahUbahKategoriViewModel @Inject constructor(
     private val addEditKategoriProdukUseCase: AddEditKategoriProdukUseCase,
     private val getKategoriProdukUseCase: GetKategoriProdukUseCase,
-    private val getItemgrpByKategoriUseCase: GetItemgrpByKategoriUseCase,
     private val deleteKategoriUseCase: DeleteKategoriUseCase
 ): BaseViewModel<TambahUbahKategoriState, TambahUbahKategoriViewModel.UIEvent>() {
 
     init {
         state = TambahUbahKategoriState()
-        loadItemgrp("")
+        loadItemgrp()
     }
 
     private var listSubkategori: MutableList<String> = mutableListOf()
@@ -32,8 +32,8 @@ class TambahUbahKategoriViewModel @Inject constructor(
         eventChannel.send(UIEvent.FinishSaveDelete)
     }
 
-    fun loadItemgrp(item: String) = viewModelScope.launch {
-       val list = getKategoriProdukUseCase.invoke(-1)
+    fun loadItemgrp() = viewModelScope.launch {
+        val list = getKategoriProdukUseCase()
         updateState(
             state.copy(
                 katPrdList = list
@@ -53,18 +53,12 @@ class TambahUbahKategoriViewModel @Inject constructor(
         )
     }
 
-    fun loadEditData(kategori: String) = viewModelScope.launch{
-        getItemgrpByKategoriUseCase.invoke(kategori).collect{
-            updateState(
-                state.copy(
-                    itemgrp = it
-                )
+    fun loadEditData(kategori: ItemGroup) = viewModelScope.launch{
+        updateState(
+            state.copy(
+                itemgrp = kategori
             )
-        }
-    }
-
-    fun loadSubEditData(upId: Int) = viewModelScope.launch {
-
+        )
     }
 
     fun onDeleteKategori() = viewModelScope.launch {

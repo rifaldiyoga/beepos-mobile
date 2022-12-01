@@ -441,7 +441,7 @@ class MainViewModel @Inject constructor(
             )
         }
             .onSuccess {
-                sendMessage("Berhasil simpan draft")
+                sendMessage("Berhasil simpan sebagai draft")
                 resetState()
             }
             .onFailure {

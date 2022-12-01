@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.utils.extension
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -118,3 +119,18 @@ fun Context.hideKeyboard(view: View) {
     val im = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     im.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun String.isContainsUpperCase() : Boolean {
+    return contains(Regex("[A-Z]"))
+}
+
+fun String.isContainsNumber() : Boolean {
+    return contains(Regex("[0-9]"))
+}
+
+fun String.isValidEmail() : Boolean {
+    val patterns = Patterns.EMAIL_ADDRESS
+    return patterns.matcher(this).matches()
+}
+
+

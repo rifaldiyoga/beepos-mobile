@@ -220,14 +220,14 @@ class LoginOperatorFragment(
                                 .show()
                             viewModel.onSuccessLogin()
                         } else {
-                            Toast.makeText(requireContext(), "Error : ${it.msg}", Toast.LENGTH_LONG)
+                            Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
                                 .show()
                         }
                     }
                 }
                 Resource.Status.ERROR -> {
                     dialog.hide()
-                    Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
+                    Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
                         .show()
                 }
                 Resource.Status.NOINTERNET -> {

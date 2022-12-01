@@ -6,5 +6,6 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.atur_pin
 data class AturPinState (
     var pin : String = "",
     var password : String = "",
-    var authKey : String = ""
+    var authKey : String = "",
+    var isPassVisible : Boolean = false
 )

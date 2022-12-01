@@ -102,7 +102,14 @@ class ItemGroupRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override fun getItemgrpByUpId(upid: Int): Flow<List<ItemGroup>> {
+    override fun getItemgrpParent(): Flow<List<ItemGroup>> {
+        return flow {
+            val data = itemGroupDao.getItemgrpParent().map { ItemGroupDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getItemgrpByUpId(upid: Int?): Flow<List<ItemGroup>> {
         return flow {
             val data = itemGroupDao.getItemgrpByUpId(upid).map { ItemGroupDataMapper.fromDbToDomain(it) }
             emit(data)

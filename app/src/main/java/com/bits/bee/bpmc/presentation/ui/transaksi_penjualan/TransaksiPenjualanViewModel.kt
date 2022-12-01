@@ -24,7 +24,7 @@ class TransaksiPenjualanViewModel @Inject constructor(
     private val getLatestSaleUseCase: GetLatestSaleUseCase
 ) : BaseViewModel<TransaksiPenjualanState, TransaksiPenjualanViewModel.UIEvent>() {
 
-    private var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
+    var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
 
     var channelList : MutableStateFlow<List<Channel>> = MutableStateFlow(mutableListOf())
 

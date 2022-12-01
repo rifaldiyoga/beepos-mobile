@@ -9,6 +9,6 @@ data class ItemGroup (
     var code : String,
     var name: String,
     var level : Int,
-    var upId : Int,
+    var upId : Int?,
     var isPos : Boolean,
 ) : Parcelable

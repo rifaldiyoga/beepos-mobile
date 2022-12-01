@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahKategoriBinding
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
@@ -30,14 +31,12 @@ class TambahKategoriFragment(
     override fun initComponents() {
         setHasOptionsMenu(true)
         arguments?.let {
-            val item = it.getString("itemKategori")
+            val item = it.getParcelable<ItemGroup>("itemGrp")
             item?.let {
                 (activity as InitialActivity).supportActionBar?.title = getString(R.string.title_ubah_kategori)
                 viewModel.state.isEdit = true
                 viewModel.loadEditData(it)
             }
-
-        } ?: run {
 
         }
     }
@@ -51,10 +50,6 @@ class TambahKategoriFragment(
                     )
                 )
             }
-
-//            cbSubKategori.setOnClickListener {
-//                viewModel.state.useSubKategori = cbSubKategori.isChecked
-//            }
             cbSubKategori.setOnCheckedChangeListener { compoundButton, b ->
                 if (b){
                     viewModel.updateState(
@@ -100,8 +95,7 @@ class TambahKategoriFragment(
                 viewModel.event.collect{ event ->
                     when(event){
                         TambahUbahKategoriViewModel.UIEvent.FinishSaveDelete ->{
-                            val action = TambahKategoriFragmentDirections.actionTambahKategoriFragmentToTambahProdukFragment()
-                            findNavController().navigate(action)
+                            findNavController().popBackStack()
                         }
                         TambahUbahKategoriViewModel.UIEvent.RequestDialog ->{
                             val dialog = CustomDialogBuilder.Builder(requireContext())
@@ -203,12 +197,17 @@ class TambahKategoriFragment(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_ubah_produk, menu)
+        arguments?.let {
+            val item = it.getParcelable<ItemGroup>("itemGrp")
+            item?.let {
+                inflater.inflate(R.menu.menu_void, menu)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_edit -> viewModel.onShowDelete()
+            R.id.menu_void -> viewModel.onShowDelete()
         }
         return super.onOptionsItemSelected(item)
     }

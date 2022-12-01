@@ -77,6 +77,9 @@ class AturProdukFragment(
                                 binding.apply {
                                     rvList.isVisible = it.isNotEmpty()
                                     constraintLayout9.isVisible = it.isEmpty()
+                                    if(it.isNotEmpty()){
+                                        btntambahPrd.text = "Mulai Jualan"
+                                    }
                                 }
                                 if(it.isNotEmpty()) {
                                     clearPref()
@@ -88,7 +91,9 @@ class AturProdukFragment(
                         Resource.Status.ERROR -> {
                             binding.progressBar.gone()
                         }
-                        Resource.Status.NOINTERNET -> TODO()
+                        Resource.Status.NOINTERNET -> {
+
+                        }
                     }
                 }
             }

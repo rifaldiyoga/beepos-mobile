@@ -10,8 +10,9 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,20 +24,18 @@ import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.radio_list.pilih_kategori.PilihKategoriDialog
-import com.bits.bee.bpmc.presentation.dialog.radio_list.pilih_merk.PilihMerekDialog
-import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.pilih_kategori.PilihKategoriDialog
+import com.bits.bee.bpmc.presentation.dialog.pilih_merk.PilihMerekDialog
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.reflect.Type
 import java.util.*
 
 
@@ -48,19 +47,20 @@ class TambahProdukFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTambahPrdBinding = FragmentTambahPrdBinding::inflate
 ) : BaseFragment<FragmentTambahPrdBinding>() {
 
-    private val viewModel : TambahProdukViewModel by activityViewModels()
+    private val viewModel : TambahProdukViewModel by viewModels()
 
     private lateinit var unitAdapter : SatuanAdapter
-    private lateinit var grpList : Array<String>
     private lateinit var tipeProdList : Array<String>
-    private var tipeList = listOf("Pilih Tipe Adapter", "Barang Jadi (di stok)", "Jasa (tidak distok)")
+    private var tipeList = listOf("Pilih Tipe", "Barang Jadi (di stok)", "Jasa (tidak distok)")
     var gson = Gson()
     var tempUri: Uri? = null
     var tempFilePath =""
 
-    private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted ->
-        if(!isGranted){
-            Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+    private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ data ->
+        data.forEach {
+            if(it.value){
+                Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -68,82 +68,39 @@ class TambahProdukFragment(
         setHasOptionsMenu(true)
         FileHandlerUtils.createFolder(BPMConstants.getDatapath() + BPMConstants.BPM_PARENTPATH)
         FileHandlerUtils.createFolder(BPMConstants.getDatapath() + BPMConstants.BPM_PRODUKPATH)
-        viewModel.loadMerkPrd()
-        viewModel.loadKatPrd()
 
         tipeProdList = resources.getStringArray(R.array.list_tipe_produk)
         binding.apply {
-
             val tipeAdapter = SpinnerAdapter(requireContext(), tipeList)
-            spTipePrd.adapter = tipeAdapter
+            spTipePrd.setAdapter(tipeAdapter)
 
             arguments?.let {
                 val item = it.getParcelable<ItemDummy>("itemDummy")
-                val state = viewModel.state
-                state.itemDummy = item
                 item?.let {
-                    (activity as InitialActivity).supportActionBar?.title = getString(R.string.title_ubah_produk)
-                    state.isActivePid = it.pid.isNotEmpty()
-                    viewModel.loadEditPrd(it.itemGroupId, it.brandId, it.id!!)
-                    state.nama = it.name
-                    state.harga = it.price
-//                    state.unitList = it.unitList.toMutableList()
-                    state.isEdit = true
-                    state.itemId = it.id!!
-                    state.pid = it.pid
-                    etNamaPrd.setText(it.name)
-                    etHarga.setText(it.price)
-                    spTipePrd.setSelection(tipeProdList.indexOf(it.itemTypeCode))
-                    etNamaPid.setText(it.pid)
-                    if (it.picPath.isNotEmpty()){
-                        ivImage.visibility = View.VISIBLE
-                        ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it.picPath))
-                    }else{
-                        ivImage.visibility = View.GONE
-                    }
-                    btnAddFoto.visibility = View.GONE
-
-                }
-            } ?: run {
-                val state = viewModel.state
-                state.kategoriProduk = ""
-                state.merekProduk =""
-                state.bitmap = null
-                state.isEdit = false
-                etNamaPrd.setText((BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_nama_prd), "") as String))
-                etHarga.setText((BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_harga_prd), "") as String))
-                etNamaPid.setText((BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_pid), "") as String))
-                state.itemGrp?.let {
-                    etKategoriPrd.setText(it.name)
-                }
-                state.brand?.let {
-                    etBrandPrd.setText(it.brandName)
-                }
-                ivImage.visibility = View.GONE
-                btnAddFoto.visibility = View.VISIBLE
-
-//                 retrive
-                val json = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_list_unit), "") as String
-                val type: Type = object : TypeToken<MutableList<UnitDummy?>?>() {}.type
-                val unDummyList: MutableList<UnitDummy>? = gson.fromJson<Any>(json, type) as MutableList<UnitDummy>?
-                if (unDummyList == null){
-                    Toast.makeText(requireContext(), "kosong", Toast.LENGTH_SHORT).show()
-                    state.unitList = mutableListOf(UnitDummy())
-                }else{
                     viewModel.updateState(
                         viewModel.state.copy(
-                            unitList = unDummyList
+                            itemDummy = item,
+                            nama = item.name,
+                            harga = item.price,
+                            isEdit = true,
+                            itemId = item.id ?: -1,
+                            pid = item.pid,
+                            isActivePid = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_active_pid), false) as Boolean,
+                            tipeProduk = item.itemTypeCode,
+                            picPath = item.picPath,
+                            bitmap = item.picPath.let { FileHandlerUtils.checkDirPath(item.picPath) }
                         )
                     )
+                    viewModel.loadEditPrd(it.itemGroupId, it.brandId, it.id!!)
+                    setToolbarTitle(getString(R.string.title_ubah_produk))
                 }
-
-                val prefTipe = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_add_tipe_prd), "") as String
-                if (prefTipe.isEmpty()){
-                    spTipePrd.setSelection(0)
-                }else{
-                    spTipePrd.setSelection(tipeProdList.indexOf(prefTipe))
-                }
-
+            } ?: run {
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        unitList = mutableListOf(UnitDummy()),
+                        isActivePid  = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_active_pid), false) as Boolean,
+                    )
+                )
             }
 
             unitAdapter = SatuanAdapter(
@@ -153,8 +110,18 @@ class TambahProdukFragment(
                 onQtyChange = {pos, value ->
                     viewModel.onQtyChange(pos, value)
                 },
-                onDelete = {
-                    viewModel.onDelete(it)
+                onDelete = { pos ->
+                    val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(), getString(R.string.informasi),
+                        "Apakah anda yakin ingin menghapus satuan ${pos + 1}? Satuan ${pos + 1} yang dihapus tidak dapat dikembalikan lagi",
+                        getString(R.string.batal),
+                        {
+                            it.dismiss()
+                        },
+                        getString(R.string.hapus),{
+                            it.dismiss()
+                            viewModel.onDelete(pos)
+                        })
+                    dialog.show(parentFragmentManager, "")
                 }
             )
             recyclerView2.apply {
@@ -178,29 +145,22 @@ class TambahProdukFragment(
                 viewModel.state.pid = etNamaPid.text.toString().trim()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_pid), viewModel.state.pid)
             }
-            etKategoriPrd.setOnClickListener {
+            etKategoriProduk.setOnClickListener {
                 viewModel.onShowDialog()
             }
             etBrandPrd.setOnClickListener {
                 viewModel.onShowDialogMerk()
             }
-            spTipePrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.state.tipeProduk = tipeProdList[p2]
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
+            spTipePrd.onItemClickListener = AdapterView.OnItemClickListener { _, _, p2, _ ->
+                viewModel.state.tipeProduk = tipeProdList[p2]
             }
             btnLanjut.setOnClickListener {
-                if (viewModel.state.bitmap != null){
+                if (viewModel.state.bitmap != null) {
                     val tglTrx = DateFormatUtils.formatDateToString("yyMMddHHmm", Date())
                     val valpicpath = FileHandlerUtils.saveBitmap(requireContext(), viewModel.state.bitmap!!, BPMConstants.BPM_PRODUKPATH, etNamaPrd.text.toString().trim()+tglTrx)
                     viewModel.updateState(
                         viewModel.state.copy(
-                            picpath = valpicpath
+                            picPath = valpicpath
                         )
                     )
                 }
@@ -210,6 +170,9 @@ class TambahProdukFragment(
                 viewModel.onClickTambahSatuan()
             }
             btnAddFoto.setOnClickListener {
+                openCamera()
+            }
+            llImage.setOnClickListener {
                 openCamera()
             }
             cvPid.setOnClickListener {
@@ -226,22 +189,53 @@ class TambahProdukFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.modePreferences.collect {
+                    binding.apply {
+                        when(it){
+                            PosModeState.FnBState -> {
+                                cvPid.gone()
+                                groupSatuan.gone()
+                                lLMerk.visibility = View.GONE
+                            }
+                            PosModeState.RetailState -> {
+                                cvPid.visible()
+                                groupSatuan.visible()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
                     it?.let { state ->
                         unitAdapter.submitList(state.unitList)
 
                         binding.apply {
-                            state.kategoriProduk?.let {
-                                etKategoriPrd.setText(viewModel.state.kategoriProduk)
+                            etNamaPrd.setText(state.nama)
+                            etHarga.setText(state.harga)
+                            if(state.tipeProduk.isNotEmpty())
+                                spTipePrd.setText(tipeList[tipeProdList.indexOf(state.tipeProduk)], false)
+                            etNamaPid.setText(state.pid)
+                            btnAddFoto.isVisible = state.bitmap == null
+                            ivImage.isVisible = state.bitmap != null
+                            tvUbahFotoProduk.isVisible = state.bitmap != null
+                            state.bitmap?.let {
+                                ivImage.setImageBitmap(it)
                             }
-                            state.merekProduk?.let {
-                                etBrandPrd.setText(viewModel.state.merekProduk)
+                            state.picPath?.let {
+                                ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it))
                             }
-                            if (viewModel.state.isActivePid){
-                                lLPid.visibility = View.VISIBLE
-                            }else{
-                                lLPid.visibility = View.GONE
+
+                            state.itemGrp?.let {
+                                etKategoriProduk.setText(it.name)
                             }
+                            state.brand?.let {
+                                etBrandPrd.setText(it.brandName)
+                            }
+                            lLPid.isVisible = state.isActivePid
+                            cvPid.isVisible = !state.isActivePid
                         }
                     }
                 }
@@ -253,39 +247,32 @@ class TambahProdukFragment(
                 viewModel.event.collect {
                     when(it){
                         TambahProdukViewModel.UIEvent.FinsihSubmit -> {
-                            val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToAturProdukFragment()
-                            findNavController().navigate(action)
-//                            findNavController().popBackStack()
+//                            val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToAturProdukFragment()
+//                            findNavController().navigate(action)
+                            findNavController().popBackStack()
                         }
                         TambahProdukViewModel.UIEvent.RequestDialogKategori ->{
                             val dialog = PilihKategoriDialog(
                                 getString(R.string.pilih_kategori),
-                                viewModel.state.listKategoriPrd ?: mutableListOf(),
-                                viewModel.state.kategoriProduk ?: "",
-                                { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
-                                        .show()
+                                viewModel.state.itemGrp,
+                                { dialog, data ->
+                                    dialog.dismiss()
+                                    Toast.makeText(requireContext(), data.name, Toast.LENGTH_LONG).show()
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            kategoriProduk = data.toString()
+                                            itemGrp = data
                                         )
                                     )
                                 },
-                                { onAdd ->
-                                    Toast.makeText(requireContext(), onAdd.toString(), Toast.LENGTH_SHORT).show()
-                                    if (onAdd.equals(getString(R.string.pilih_kategori))){
-                                        val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToTambahKategoriFragment(null)
-                                        findNavController().navigate(action)
-                                        return@PilihKategoriDialog
-                                    }else{
-                                        return@PilihKategoriDialog
-                                    }
-                                },
-                                { edit ->
-                                    Toast.makeText(requireContext(), edit.toString(), Toast.LENGTH_LONG).show()
-                                    val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToTambahKategoriFragment(edit.toString())
+                                { dialog, data ->
+                                    dialog.dismiss()
+                                    val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToTambahKategoriFragment()
                                     findNavController().navigate(action)
-                                    return@PilihKategoriDialog
+                                },
+                                { dialog, data ->
+                                    dialog.dismiss()
+                                    val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToTambahKategoriFragment(data)
+                                    findNavController().navigate(action)
                                 }
                             )
                             // save
@@ -297,19 +284,15 @@ class TambahProdukFragment(
                         TambahProdukViewModel.UIEvent.RequestDialogMerk ->{
                             val dialog = PilihMerekDialog(
                                 getString(R.string.pilih_merk),
-                                viewModel.state.listBrand ?: mutableListOf(),
                                 viewModel.state.brand,
                                 { data ->
-                                    Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG)
-                                        .show()
                                     viewModel.updateState(
                                         viewModel.state.copy(
-                                            merekProduk = data.toString()
+                                            brand = data
                                         )
                                     )
                                 },
                                 { onAdd ->
-                                    Toast.makeText(requireContext(), onAdd.toString(), Toast.LENGTH_SHORT).show()
                                     if (onAdd.equals(getString(R.string.pilih_merk))){
                                         val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToTambahMerekFragment(null)
                                         findNavController().navigate(action)
@@ -319,7 +302,6 @@ class TambahProdukFragment(
                                     }
                                 },
                                 { edit ->
-                                    Toast.makeText(requireContext(), edit.toString(), Toast.LENGTH_LONG).show()
                                     val action = TambahProdukFragmentDirections.actionTambahProdukFragmentToTambahMerekFragment(edit.toString())
                                     findNavController().navigate(action)
                                     return@PilihMerekDialog
@@ -354,66 +336,46 @@ class TambahProdukFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.modePreferences.collect {
-                    binding.apply {
-                        when(it){
-                            PosModeState.FnBState -> {
-                                cvPid.gone()
-                                groupSatuan.gone()
-                                lLMerk.visibility = View.GONE
-                            }
-                            PosModeState.RetailState -> {
-                                cvPid.visible()
-                                groupSatuan.visible()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
     }
 
-    fun openCamera(){
-        if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)) {
+    fun openCamera() {
+        if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)
+            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
                 tempFilePath = it.absolutePath
             })
             resultLauncherContract.launch(tempUri)
         } else {
-            requestPermissionCamera.launch(Manifest.permission.CAMERA)
+            requestPermissionCamera.launch(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
         }
     }
 
-    private fun createImg(): File{
+    private fun createImg(): File {
         val dir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("temp_image", ".jpg", dir)
     }
 
-    private val resultLauncherContract = registerForActivityResult(ActivityResultContracts.TakePicture()){ sukses ->
+    private val resultLauncherContract = registerForActivityResult(ActivityResultContracts.TakePicture()){ sukses  ->
         if (sukses){
-            binding.apply {
-                ivImage.visibility = View.VISIBLE
-                ivImage.setImageURI(tempUri)
-            }
-            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), Uri.parse(
+            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, Uri.parse(
                 tempUri.toString()
             ))
-            viewModel.getDataFromIntent(bitmap, requireActivity(), tempUri)
+            viewModel.getDataFromIntent(bitmap, requireActivity(), tempUri, tempFilePath)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         if (viewModel.state.isEdit){
-            inflater.inflate(R.menu.menu_ubah_produk, menu)
+            inflater.inflate(R.menu.menu_void, menu)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_edit -> viewModel.onShowDelete()
+            R.id.menu_void -> viewModel.onShowDelete()
         }
         return super.onOptionsItemSelected(item)
     }

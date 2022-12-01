@@ -45,7 +45,9 @@ class CekStokViewModel @Inject constructor(
                 Resource.Status.ERROR -> {
                     it.message
                 }
-                Resource.Status.NOINTERNET -> TODO()
+                Resource.Status.NOINTERNET -> {
+                    eventChannel.send(UIEvent.NoInternetDialog)
+                }
             }
         }
     }
@@ -125,5 +127,6 @@ class CekStokViewModel @Inject constructor(
     sealed class UIEvent{
         object RequestWaitDialog : UIEvent()
         object HideDialog : UIEvent()
+        object NoInternetDialog : UIEvent()
     }
 }

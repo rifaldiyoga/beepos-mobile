@@ -25,6 +25,12 @@ class SettingNotaViewModel @Inject constructor(
         ))
     }
 
+    fun onUpdateLogoGaleri(value: String) = viewModelScope.launch {
+        onUpdateNotaPreferences(notaPreferences.first().copy(
+             logoPath = value
+        ))
+    }
+
     fun onClickHeader(value: Boolean) = viewModelScope.launch {
         onUpdateNotaPreferences(notaPreferences.first().copy(
             isHeader = value

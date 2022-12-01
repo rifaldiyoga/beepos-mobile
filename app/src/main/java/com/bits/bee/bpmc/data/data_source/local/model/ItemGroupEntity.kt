@@ -19,7 +19,7 @@ data class ItemGroupEntity(
     @ColumnInfo(name = LEVEL)
     var level : Int,
     @ColumnInfo(name = UP_ID)
-    var upId : Int,
+    var upId : Int? = null,
     @ColumnInfo(name = IS_POS)
     var isPos : Boolean,
 ) : Parcelable {

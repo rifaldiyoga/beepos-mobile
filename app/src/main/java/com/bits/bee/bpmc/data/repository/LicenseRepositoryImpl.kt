@@ -28,7 +28,7 @@ class LicenseRepositoryImpl @Inject constructor(
 
     override fun postLicense(licensePost: LicensePost): Flow<Resource<License>> {
         return object : NetworkDatabaseBoundResource<License,LicenseResponse>(){
-            override suspend fun loadFormDB(): License? {
+            override suspend fun loadFormDB(): License {
                 return licDao.getLicense().map { LicenseDataMapper.fromDbToDomain(it) }.first()
             }
 
@@ -39,6 +39,7 @@ class LicenseRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: LicenseResponse) {
+                licDao.deleteAll()
                 licDao.insertSingle(LicenseDataMapper.fromNetworkToDb(data.data))
             }
 

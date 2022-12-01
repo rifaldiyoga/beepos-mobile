@@ -12,5 +12,7 @@ interface LicenseDao: BaseDao<LicenseEntity> {
     @Query("SELECT * FROM license")
     fun getLicense() : List<LicenseEntity>
 
+    @Query("DELETE FROM license")
+    suspend fun deleteAll()
 
 }

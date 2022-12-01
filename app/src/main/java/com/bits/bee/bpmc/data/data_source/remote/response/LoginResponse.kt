@@ -15,7 +15,7 @@ data class LoginResponse (
     @SerializedName("msg")
     var msg : Msg?,
     @SerializedName("db")
-    var db : List<Db>?
+    var db : List<Db> = mutableListOf()
 ) : Parcelable {
 
     @Parcelize

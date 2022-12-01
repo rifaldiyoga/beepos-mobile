@@ -78,6 +78,7 @@ class AturProdukViewModel @Inject constructor(
 
                     }
                     Resource.Status.SUCCESS -> {
+
                     }
                     Resource.Status.ERROR -> {
                         Log.i("Error Post Produk", it.message ?: "")

@@ -46,7 +46,7 @@
         app:lineColor="@color/light_gray"/>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvKirimUlang"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"

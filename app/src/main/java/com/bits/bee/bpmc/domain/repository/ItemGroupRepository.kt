@@ -26,7 +26,9 @@ interface ItemGroupRepository {
 
     fun getItgrpByKategori(kategori: String): Flow<ItemGroup>
 
-    fun getItemgrpByUpId(upid: Int): Flow<List<ItemGroup>>
+    fun getItemgrpParent(): Flow<List<ItemGroup>>
+
+    fun getItemgrpByUpId(upid: Int?): Flow<List<ItemGroup>>
 
     suspend fun deleteItmgrp(itemGroup: ItemGroup)
 

@@ -1,43 +1,42 @@
-package com.bits.bee.bpmc.presentation.dialog.radio_list.pilih_kategori
+package com.bits.bee.bpmc.presentation.dialog.pilih_kategori
 
+import android.app.Dialog
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogPilihKategoriMerekBinding
-import com.bits.bee.bpmc.domain.model.KategoriProduk
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PilihKategoriDialog(
     val title: String,
-    val katPrdList: List<KategoriProduk>?,
-    var valueSelected: String,
-    val onSaveClick: (Any) -> Unit,
-    val onAddClick: (String) -> Unit,
-    val onEditClick: (Any) -> Unit,
+    var valueSelected: ItemGroup?,
+    val onSaveClick: (Dialog, ItemGroup) -> Unit,
+    val onAddClick: (Dialog, String) -> Unit,
+    val onEditClick: (Dialog, ItemGroup) -> Unit,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogPilihKategoriMerekBinding = DialogPilihKategoriMerekBinding::inflate
 ): BaseBottomSheetDialogFragment<DialogPilihKategoriMerekBinding>() {
 
+    private val viewModel : PilihKategoriViewModel by viewModels()
+
     private lateinit var rbPilihKategoriAdapter: RbPilihKategoriAdapter
-    private var stringList = mutableListOf<String>()
 
     override fun initComponents() {
-        parseItemgrp()
         binding.apply {
             tvTitle.text = title
-            rbPilihKategoriAdapter = RbPilihKategoriAdapter(stringList.indexOf(valueSelected), requireContext(), object : RbPilihKategoriAdapter.EditKategoriAdapterI{
-                override fun onClick(pos: Int) {
-                    onEditClick(stringList[pos])
-                    dismiss()
+            rbPilihKategoriAdapter = RbPilihKategoriAdapter(mListener = object : RbPilihKategoriAdapter.EditKategoriAdapterI{
+                override fun onClick(itemGrp: ItemGroup) {
+                    onEditClick(dialog!!, itemGrp)
                 }
-
             })
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -49,15 +48,15 @@ class PilihKategoriDialog(
     override fun subscribeListeners() {
         binding.apply {
             btnTambahKategori.setOnClickListener {
-                onAddClick(title)
+                onAddClick(dialog!!,title)
                 dismiss()
             }
             btnTambah.setOnClickListener {
-                onAddClick(title)
+                onAddClick(dialog!!, title)
                 dismiss()
             }
             btnSimpan.setOnClickListener {
-                onSaveClick(stringList[rbPilihKategoriAdapter.getSelectedPosition()])
+                onSaveClick(dialog!!, rbPilihKategoriAdapter.getSelectedPosition())
                 dismiss()
             }
             imageView2.setOnClickListener {
@@ -68,28 +67,27 @@ class PilihKategoriDialog(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.grpList.collect {
+                    rbPilihKategoriAdapter.submitList(it)
+                    binding.apply {
+                        imgEmpty.isVisible = it.isEmpty()
+                        textDetail.isVisible = it.isEmpty()
+                        btnTambah.isVisible = it.isEmpty()
+                        btnTambahKategori.isVisible = it.isNotEmpty()
+                        btnSimpan.isVisible = it.isNotEmpty()
+                        textDetail.text = getString(R.string.kategori_blm_ada)
+                    }
+                }
+                rbPilihKategoriAdapter.setSelected(valueSelected)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 binding.apply {
-                    katPrdList?.let {
-                        if (it.size > 0){
-                            rbPilihKategoriAdapter.initList(it)
-                        }else{
-                            imgEmpty.visibility = View.VISIBLE
-                            textDetail.visibility = View.VISIBLE
-                            btnTambah.visibility = View.VISIBLE
-                            btnTambahKategori.visibility = View.GONE
-                            btnSimpan.visibility = View.GONE
-                        }
-                    }
+
                 }
             }
         }
     }
-
-    private fun parseItemgrp(){
-        for (igrp in katPrdList!!){
-            stringList.add(igrp.name)
-        }
-    }
-
 }

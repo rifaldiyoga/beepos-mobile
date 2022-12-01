@@ -10,10 +10,10 @@ class GetKategoriProdukUseCase @Inject constructor(
 ) {
     val listKategoriPrd: MutableList<KategoriProduk> = mutableListOf()
 
-    suspend operator fun invoke(upid: Int): List<KategoriProduk>{
+    suspend operator fun invoke(): List<KategoriProduk>{
         listKategoriPrd.clear()
-        val itgrpList = itemGroupRepository.getItemgrpByUpId(-1).first()
-        for (kategoriprd in itgrpList){
+        val itgrpList = itemGroupRepository.getItemgrpParent().first()
+        for (kategoriprd in itgrpList) {
             val valueSubKat = itemGroupRepository.getItemgrpByUpId(kategoriprd.id!!).first()
             listKategoriPrd.add(KategoriProduk(kategoriprd.name, valueSubKat))
         }

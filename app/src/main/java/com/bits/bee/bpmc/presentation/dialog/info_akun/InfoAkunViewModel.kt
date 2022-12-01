@@ -1,10 +1,13 @@
 package com.bits.bee.bpmc.presentation.dialog.info_akun
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveUserUseCase
 import com.bits.bee.bpmc.domain.usecase.download.GetLatestCmpUseCase
 import com.bits.bee.bpmc.domain.usecase.login.operator.GetCmpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -21,37 +24,17 @@ class InfoAkunViewModel @Inject constructor(
         state = InfoAkunState()
     }
 
-    fun getCmp() = viewModelScope.launch {
-        getCmpUseCase.invoke().collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        perusahaan = it.name
-                    )
-                )
-            }
-        }
-
-        val user = getActiveUserUseCase().first()
-        user.let {
-            updateState(
-                state.copy(
-                    email = it!!.username
-                )
+    fun getCmp(context: Context) = viewModelScope.launch {
+        updateState(
+            state.copy(
+                perusahaan = getCmpUseCase.invoke().first().name,
+                email = getActiveUserUseCase().first()?.username
+                    ?: BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_email), "") as String
             )
-        }
-
-//        val data = getActiveOperatorUseCase.invoke().first()
-//        data?.let {
-//            updateState(
-//                state.copy(
-//                    email = it.username
-//                )
-//            )
-//        }
+        )
     }
 
     sealed class UIEvent {
-        object RequestInfoTax : UIEvent()
     }
+
 }

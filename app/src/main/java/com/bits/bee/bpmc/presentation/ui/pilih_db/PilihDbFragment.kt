@@ -12,9 +12,11 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
 import com.bits.bee.bpmc.databinding.FragmentPilihDbBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -81,7 +83,11 @@ class PilihDbFragment constructor(
                     Resource.Status.SUCCESS -> {
                         setVisibilityComponent(false)
                         it.data?.let {
+                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_email), viewModel.state.inputEmail)
                             adapter.submitList(it.db)
+                            if(it.db.isNotEmpty() && it.db.size == 1){
+                                viewModel.postDb(it.db[0].dbName)
+                            }
                         }
                     }
                     Resource.Status.ERROR -> {
@@ -93,6 +99,53 @@ class PilihDbFragment constructor(
                         })
                         dialog.show(parentFragmentManager, "")
                     }
+                }
+            }
+        }
+
+        viewModel.observeLicense().removeObservers(viewLifecycleOwner)
+        viewModel.observeLicense().observe(viewLifecycleOwner){
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    viewModel.showDialog("Validasi Lisensi")
+                }
+                Resource.Status.SUCCESS -> {
+                    viewModel.hideDialog()
+                    it.data?.let {
+                        if(it.licNumber.isNotEmpty()){
+                            viewModel.onSuccessLicense()
+                        } else {
+                            val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(), "Informasi",
+                                "Lisensi telah digunakan semua!\nUlangi proses verifikasi lisensi?",
+                                "Ulangi",
+                                {
+                                    it.dismiss()
+                                    viewModel.postDb(viewModel.state.dbName)
+                                },
+                                "Tidak"
+                            )
+                            dialog.show(parentFragmentManager, "")
+                        }
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    viewModel.hideDialog()
+                    val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(), "Informasi",
+                        "Lisensi telah digunakan semua!\nUlangi proses verifikasi lisensi?",
+                        "Ulangi",
+                        {
+                            it.dismiss()
+                            viewModel.postDb(viewModel.state.dbName)
+                        },
+                        "Tidak"
+                    )
+                    dialog.show(parentFragmentManager, "")
+                }
+                Resource.Status.NOINTERNET -> {
+                    val dialog = NoInternetDialogBuilder({
+                        viewModel.postDb(viewModel.state.dbName)
+                    })
+                    dialog.show(parentFragmentManager, "")
                 }
             }
         }
@@ -117,7 +170,7 @@ class PilihDbFragment constructor(
                         }
                         PilihDbViewModel.UIEvent.NavigateToDownload -> {
                             val dialog = DownloadDialogBuilder(isCancel = false, onFinishDownload = {
-                              viewModel.onSuccessDb()
+                                viewModel.onSuccessDb()
                             })
                             dialog.show(parentFragmentManager, "")
                         }

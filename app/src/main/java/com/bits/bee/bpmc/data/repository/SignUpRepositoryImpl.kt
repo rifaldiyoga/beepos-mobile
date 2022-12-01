@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.post.SendOtpPost
 import com.bits.bee.bpmc.data.data_source.remote.post.SetupPasswordPost
 import com.bits.bee.bpmc.data.data_source.remote.post.VerifDbPost
 import com.bits.bee.bpmc.data.data_source.remote.post.VerifSmsPost
@@ -34,6 +35,15 @@ class SignUpRepositoryImpl @Inject constructor(
         return object : NetworkBoundResource<VerifSmsResponse>(){
             override fun createCall(): Flow<ApiResponse<VerifSmsResponse>> {
                 return apiUtils.getSignUpApiService().postVerifSms(verifSmsPost)
+            }
+        }.getAsFlow()
+    }
+
+    override fun postSendOtp(otpTipe: String, regId: Int): Flow<Resource<SendOtpResponse>> {
+        val verifSmsPost = SendOtpPost(otpTipe, regId.toString())
+        return object : NetworkBoundResource<SendOtpResponse>(){
+            override fun createCall(): Flow<ApiResponse<SendOtpResponse>> {
+                return apiUtils.getSignUpApiService().postSendOtp(verifSmsPost)
             }
         }.getAsFlow()
     }

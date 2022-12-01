@@ -1,6 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.setting_lisensi
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -89,6 +92,9 @@ class SettingLisensiFragment(
                             Utils.deleteApplicationData(requireActivity())
                             requireActivity().finish()
                         }
+                        SettingLisensiViewModel.UIEvent.RequestPerpanjang -> {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://my.beecloud.id/")))
+                        }
                     }
                 }
             }
@@ -102,12 +108,12 @@ class SettingLisensiFragment(
                             it.lisensi?.let {
                                 tvNamaDb.text = it.name
                                 tvJenisLisensi.text = it.item
-                                tVSerialLisensi.text = it.licNumber
+                                tvNoLisensi.text = it.licNumber
                                 tvTglBerakhir.text = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, it.licExp)
-//                                Settings.Secure.getString(
-//                                    getApplicationContext().getContentResolver(),
-//                                    Settings.Secure.ANDROID_ID
-//                                ) + "-" + Build.SERIAL
+                                tVSerialLisensi.text = Settings.Secure.getString(
+                                    requireActivity().contentResolver,
+                                    Settings.Secure.ANDROID_ID
+                                ) + "-" + Build.SERIAL
                             }
                         }
                     }

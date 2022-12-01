@@ -72,6 +72,13 @@ class UserRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getUserByUsername(user: String): Flow<List<User>> {
+        return flow {
+            val data = userDao.getUserByUsername(user).map { UserDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
     override fun getUserBySecretSauce(
         username: String,
         userapi: String

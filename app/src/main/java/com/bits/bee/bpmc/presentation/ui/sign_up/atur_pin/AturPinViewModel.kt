@@ -24,6 +24,14 @@ class AturPinViewModel @Inject constructor(
         state = AturPinState()
     }
 
+    fun onClickPin() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isPassVisible = !state.isPassVisible
+            )
+        )
+    }
+
     fun onPinInput(pin : String) = viewModelScope.launch {
         updateState(
             state.copy(

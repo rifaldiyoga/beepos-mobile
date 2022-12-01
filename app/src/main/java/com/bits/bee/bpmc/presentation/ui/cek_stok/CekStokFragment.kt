@@ -12,6 +12,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCekStokBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +61,12 @@ class CekStokFragment(
                         }
                         CekStokViewModel.UIEvent.HideDialog ->{
                             dialog.hide()
+                        }
+                        CekStokViewModel.UIEvent.NoInternetDialog -> {
+                            val dialog = NoInternetDialogBuilder({
+                                viewModel.loadStock()
+                            })
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }

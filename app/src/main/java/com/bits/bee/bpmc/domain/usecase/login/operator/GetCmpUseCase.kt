@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCmpUseCase @Inject constructor(
     private val cmpRepository: CmpRepository
 ) {
-    operator fun invoke(): Flow<Resource<Cmp>>{
+    operator fun invoke(): Flow<Cmp>{
         return cmpRepository.getCmp()
     }
 }

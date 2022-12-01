@@ -3,7 +3,6 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -13,7 +12,10 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.domain.usecase.printer.GetItemgrpIdUseCase
-import com.bits.bee.bpmc.domain.usecase.signup.*
+import com.bits.bee.bpmc.domain.usecase.signup.AddEditProdukUseCase
+import com.bits.bee.bpmc.domain.usecase.signup.DeleteProdukUseCase
+import com.bits.bee.bpmc.domain.usecase.signup.GetBrandByIdUseCase
+import com.bits.bee.bpmc.domain.usecase.signup.GetUnitDummyByIdUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,19 +31,14 @@ import javax.inject.Inject
 class TambahProdukViewModel @Inject constructor(
     private val addEditProdukUseCase : AddEditProdukUseCase,
     private val beePreferenceManager: BeePreferenceManager,
-    private val getKategoriPrdUseCase: GetKategoriProdukUseCase,
-    private val getMerekProdukUseCase: GetMerekProdukUseCase,
     private val getItemgrpIdUseCase: GetItemgrpIdUseCase,
     private val getBrandByIdUseCase: GetBrandByIdUseCase,
     private val getUnitDummyByIdUseCase: GetUnitDummyByIdUseCase,
     private val deleteProdukUseCase: DeleteProdukUseCase
-
 ): BaseViewModel<TambahProdukState, TambahProdukViewModel.UIEvent>() {
 
     init {
         state = TambahProdukState()
-//        loadKatPrd()
-//        loadMerkPrd()
     }
 
     val modePreferences = beePreferenceManager.modePreferences
@@ -96,33 +93,18 @@ class TambahProdukViewModel @Inject constructor(
             name = nama,
             itemTypeCode = state.tipeProduk,
             price = harga,
-            picPath = if (state.bitmap != null) state.picpath else "",
+            picPath = if (state.bitmap != null) state.picPath ?: "" else "",
             pid = pid.ifEmpty { "" },
-            brandId = state.brand?.id
+            brandId = state.brand?.id,
+            itemGroupId = state.itemGrp!!.id!!,
+            itemGroup = state.itemGrp?.name ?: "",
+            unit = state.unitList.firstOrNull()?.unit ?: ""
         )
 
-        addEditProdukUseCase.invoke(itemDummy, state.kategoriProduk ?: "",  state.unitList, state.isEdit)
+        addEditProdukUseCase(itemDummy, state.unitList, state.isEdit)
         eventChannel.send(UIEvent.FinsihSubmit)
     }
 
-    fun loadKatPrd() = viewModelScope.launch {
-        val listkatPrd = getKategoriPrdUseCase.invoke(-1)
-        updateState(
-            state.copy(
-                listKategoriPrd = listkatPrd
-            )
-        )
-    }
-
-    fun loadMerkPrd() = viewModelScope.launch {
-        getMerekProdukUseCase.invoke().collect{
-            updateState(
-                state.copy(
-                    listBrand = it
-                )
-            )
-        }
-    }
 
     fun loadEditPrd(itemGroupId: Int, brandId: Int?, itemid: Int) = viewModelScope.launch {
         updateState(
@@ -159,22 +141,18 @@ class TambahProdukViewModel @Inject constructor(
         return captureIntent
     }
 
-    fun getDataFromIntent(btmap: Bitmap, requireActivity: FragmentActivity, tempUri: Uri?) {
+    fun getDataFromIntent(btmap: Bitmap, requireActivity: FragmentActivity, tempUri: Uri?, path : String) {
         try {
             updateState(
                 state.copy(
-                    bitmap = btmap
+                    bitmap = btmap,
+                    picPath = path
                 )
             )
-        }catch (e: Exception){
+        } catch (e: Exception) {
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-            val cursor: Cursor? = tempUri?.let {
-                requireActivity.getContentResolver().query(
-                    it,
-                    filePathColumn, null, null, null
-                )
-            }
+            val cursor = tempUri?.let { requireActivity.contentResolver.query(it, filePathColumn, null, null, null) }
             cursor?.moveToFirst()
 
             val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
@@ -183,7 +161,8 @@ class TambahProdukViewModel @Inject constructor(
 
             updateState(
                 state.copy(
-                    bitmap = BitmapFactory.decodeFile(filePath)
+                    bitmap = BitmapFactory.decodeFile(filePath),
+                    picPath = filePath
                 )
             )
         }

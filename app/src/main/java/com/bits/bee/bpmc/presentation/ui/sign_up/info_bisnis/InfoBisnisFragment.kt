@@ -58,7 +58,7 @@ class InfoBisnisFragment constructor(
             acTxtView.addTextChangedListener {
                 viewModel.state.kota = acTxtView.text.toString().trim()
             }
-            spBidangUsaha.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            actBidangUsaha.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     viewModel.state.tipeUsaha = list[p2]
                 }
@@ -66,7 +66,6 @@ class InfoBisnisFragment constructor(
                 override fun onNothingSelected(p0: AdapterView<*>?) {
 
                 }
-
             }
         }
     }
@@ -124,7 +123,7 @@ class InfoBisnisFragment constructor(
                                 }
                                 list.add("Lainnya")
                                 val adapter = CustomArrayAdapter(requireContext(), list, kategoriList)
-                                binding.spBidangUsaha.setAdapter(adapter)
+                                binding.actBidangUsaha.setAdapter(adapter)
                                 viewModel.kategoriList = kategoriList
                             }
                         }

@@ -1,39 +1,35 @@
-package com.bits.bee.bpmc.presentation.dialog.radio_list.pilih_kategori
+package com.bits.bee.bpmc.presentation.dialog.pilih_kategori
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemRbPilihKategoriBinding
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.model.KategoriProduk
-import com.bits.bee.bpmc.presentation.dialog.tipe_printer.TipePrinterAdapter
 
 class RbPilihKategoriAdapter(
-    selected: Int,
-    val ctx: Context,
+    private var selectedPosition : Int = 0,
     private val mListener: EditKategoriAdapterI
-): RecyclerView.Adapter<RbPilihKategoriAdapter.ViewHolder>() {
+): ListAdapter<ItemGroup, RbPilihKategoriAdapter.ViewHolder>(DiffCallback()) {
 
-    private var mSubKatList : MutableList<String> = mutableListOf()
-    private var mStrKatList: MutableList<String> = mutableListOf()
-    private var mKatPrdList : List<KategoriProduk> = mutableListOf()
-    private var selectedPosition : Int = 0
-    private lateinit var rbSubKategoriAdapter: RbSubKategoriAdapter
-    private var subKatPosition: Int = 0
+    fun getSelectedPosition() : ItemGroup = getItem(selectedPosition)
 
-    init {
-        this.selectedPosition = selected
+    fun setSelected(itemGrp: ItemGroup?) {
+        itemGrp?.let {
+            currentList.forEachIndexed { index, itemGroup ->
+                if(itemGrp.id == itemGroup.id) {
+                    selectedPosition = index
+                    return
+                }
+            }
+            notifyDataSetChanged()
+        }
     }
-
-    fun initList(list: List<KategoriProduk>){
-        this.mKatPrdList = list
-    }
-
-    fun getSelectedPosition() : Int = selectedPosition
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        parseStrKat(mKatPrdList)
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
             ItemRbPilihKategoriBinding.inflate(inflater, parent, false)
@@ -41,53 +37,43 @@ class RbPilihKategoriAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val katPrd = mKatPrdList.get(position)
         holder.binding.apply {
-            materialRadioButton.text = getItem(holder.absoluteAdapterPosition)
+            val itemGroup = getItem(position)
+            materialRadioButton.text = itemGroup.name
+
+            viewLeft.isVisible = itemGroup.upId != null
 
             materialRadioButton.isChecked = selectedPosition == holder.absoluteAdapterPosition
 
             materialRadioButton.setOnClickListener {
-                selectedPosition = holder.absoluteAdapterPosition
+                if(selectedPosition == holder.absoluteAdapterPosition){
+                    selectedPosition = -1
+                } else {
+                    selectedPosition = holder.absoluteAdapterPosition
+                }
                 this@RbPilihKategoriAdapter.notifyDataSetChanged()
             }
             imgEdit.setOnClickListener {
-                mListener.onClick(holder.absoluteAdapterPosition)
+                mListener.onClick(itemGroup)
             }
 
-            mSubKatList.clear()
-            for (str in katPrd.subKategori!!){
-                mSubKatList.add(str.name)
-            }
-
-//            if (materialRadioButton.isChecked){
-//                subKatPosition = 0
-//            }else{
-//                subKatPosition = 1
-//            }
-
-            rbSubKategoriAdapter = RbSubKategoriAdapter(mSubKatList)
-            rvChildKategori.apply {
-                layoutManager = LinearLayoutManager(ctx)
-                adapter = rbSubKategoriAdapter
-            }
         }
     }
-
-    override fun getItemCount(): Int = mKatPrdList.size
-
-    fun getItem(i : Int) = mStrKatList[i]
 
     class ViewHolder(val binding : ItemRbPilihKategoriBinding) : RecyclerView.ViewHolder(binding.root)
 
-    fun parseStrKat(mKatPrdList: List<KategoriProduk>) {
-        mStrKatList.clear()
-        for (str in mKatPrdList){
-            mStrKatList.add(str.name)
-        }
+    interface EditKategoriAdapterI{
+        fun onClick(itemGrp : ItemGroup)
     }
 
-    interface EditKategoriAdapterI{
-        fun onClick(pos: Int)
+    class DiffCallback : DiffUtil.ItemCallback<ItemGroup>(){
+        override fun areItemsTheSame(oldItem: ItemGroup, newItem: ItemGroup): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: ItemGroup, newItem: ItemGroup): Boolean {
+            return oldItem == newItem
+        }
+
     }
 }

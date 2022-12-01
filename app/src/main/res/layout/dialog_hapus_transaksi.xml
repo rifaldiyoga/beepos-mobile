@@ -55,6 +55,7 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size16"
+        android:hint="@string/masukkan_alasan_hapus_min_5_karakter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView72" />

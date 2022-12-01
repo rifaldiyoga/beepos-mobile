@@ -264,7 +264,7 @@
     <string name="satuan1">Satuan %1$d</string>
     <string name="tipe_prd">Tipe Produk</string>
     <string name="grup_prd">Grup Produk</string>
-    <string name="foto_prd">Foto Produk (Opsional)</string>
+    <string name="foto_prd">Foto Produk</string>
     <string name="mulai_jualan">Mulai Jualan</string>
     <string name="tambah_produk">Tambah Produk</string>
     <string name="btn_simpan">Simpan</string>
@@ -302,6 +302,7 @@ untuk memperbarui data dapur?</string>
     <string name="gagal_login">Gagal Login</string>
     <string name="silahkan_login_email_sinkron">Silahkan login menggunakan Email atau Sinkron data ulang!</string>
     <string name="kategori_blm_ada">Kategori belum ada, klik untuk tambahkan</string>
+    <string name="merek_blm_ada">Merek belum ada, klik untuk tambahkan</string>
     <string name="nama_kategori">Nama Kategori</string>
     <string name="pilih_kategori">Pilih Kategori</string>
     <string name="gunakan_sub_kategori">Gunakan Sub-Kategori Produk</string>
@@ -725,5 +726,10 @@ untuk memperbarui data dapur?</string>
     <string name="title_ubah_kategori">Ubah Kategori</string>
     <string name="title_ubah_merek">Ubah Merek</string>
     <string name="pref_pin">pref_pin</string>
+    <string name="cth_jakarta">Cth. Jakarta</string>
+    <string name="pref_active_pid">pref_active_pid</string>
+    <string name="masukkan_alasan_hapus_min_5_karakter">Masukkan alasan hapus, min 5 karakter</string>
+    <string name="transaksi_telah_dihapus">Transaksi telah dihapus</string>
+    <string name="berhasil_batal_transaksi">Berhasil batal transaksi</string>
 
 </resources>

@@ -42,10 +42,10 @@ class HapusTransaksiViewModel @Inject constructor(
         var isValid = true
         if(state.alasan.isEmpty()){
             isValid = false
-            sendMessage("Alasan tidak boleh kosong!")
+            sendMessage("Alasan hapus wajib diisi!")
         } else if(state.alasan.length < 5){
             isValid = false
-            sendMessage("Alasan harus lebih dari 5 karakter!")
+            sendMessage("Alasan harus terdiri dari minimal 5 karakter!")
         }
 
         if(isValid) {

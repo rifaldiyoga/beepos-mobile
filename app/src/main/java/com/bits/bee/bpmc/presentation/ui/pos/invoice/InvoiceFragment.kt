@@ -100,13 +100,6 @@ class InvoiceFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.msg.collect {
-                    showSnackbar(it)
-                }
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
@@ -124,6 +117,7 @@ class InvoiceFragment(
                                 negativeListener = {
                                     it.dismiss()
                                     mainViewModel.resetState()
+                                    mainViewModel.sendMessage(getString(R.string.berhasil_batal_transaksi))
                                     if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
                                         findNavController().popBackStack()
                                 }

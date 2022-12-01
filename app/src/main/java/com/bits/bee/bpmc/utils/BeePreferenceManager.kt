@@ -153,7 +153,7 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             }
         }.map {
             val isLoadLogo = it[PreferenceKeys.IS_LOAD_LOGO] ?: true
-            val logoPath = it[PreferenceKeys.LOGO_PATH] ?: ""
+            val logoPath = it[PreferenceKeys.LOGO_PATH] ?: BPMConstants.BPM_INIT_DEFAULT_LOGO
             val isHeader = it[PreferenceKeys.IS_HEADER] ?: true
             val header = it[PreferenceKeys.HEADER] ?: ""
             val isFooter = it[PreferenceKeys.IS_FOOTER] ?: true
