@@ -150,10 +150,20 @@ class EditItemFragment(
                 viewModel.onDiscChange(etDiskon.text.toString().trim())
             }
             etHarga.addTextChangedListener {
-                viewModel.onPriceChange(etHarga.text.toString().trim().removeSymbol())
+                val harga = etHarga.text.toString().trim().removeSymbol()
+                viewModel.onPriceChange(harga)
+                if(harga.isEmpty()){
+                    etHarga.setText("0")
+                    etHarga.selectAll()
+                }
             }
             etQty.addTextChangedListener {
-                viewModel.onQtyChange(etQty.text.trim().toString().removeSymbol())
+                val qty = etQty.text.trim().toString().removeSymbol()
+                viewModel.onQtyChange(qty)
+                if(qty.isEmpty()){
+                    etQty.setText("0")
+                    etQty.selectAll()
+                }
             }
             etQty.setOnFocusChangeListener { _, b ->
                 if(!b){

@@ -4,13 +4,10 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputFilter
-import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -25,14 +22,11 @@ import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.DateFormatUtils
-import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.util.*
 
@@ -120,22 +114,14 @@ class TambahKasDialog(
             }
 
             btnSimpan.setOnClickListener {
-                if (viewModel.state.nominal != null && viewModel.state.deskripsi != null) {
-                    sharedViewModel.onSaveKasMasuk(
-                        viewModel.state.nominal!!,
-                        viewModel.state.deskripsi ?: "",
-                        viewModel.state.posses,
-                        viewModel.state.cash
-                    )
-                    dismiss()
-                }else {
-                    Toast.makeText(
-                        builder.context,
-                        "Nominal atau deskripsi tidak boleh kosong",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-//                if (iskasMasuk){
+                sharedViewModel.onSaveKasMasuk(
+                    viewModel.state.nominal!!,
+                    viewModel.state.deskripsi ?: "",
+                    viewModel.state.posses,
+                    viewModel.state.cash
+                )
+                dismiss()
+                //                if (iskasMasuk){
 //
 //                }else{
 //                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)

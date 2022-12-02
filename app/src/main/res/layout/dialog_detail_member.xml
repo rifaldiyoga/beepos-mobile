@@ -297,7 +297,7 @@
         android:layout_margin="@dimen/size16"
         android:layout_marginTop="@dimen/size20"
         android:background="@drawable/btn_rect_primary"
-        android:text="@string/tutup"
+        android:text="@string/pilih_member"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/nScroll"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -22,7 +22,7 @@ class AddBpUseCase @Inject constructor(
     private var regency_code: String = ""
     private var district_code: String = ""
 
-    suspend operator fun invoke(kota: String, bp: Bp, noTelp: String, email: String, alamat: String) {
+    suspend operator fun invoke(kota: String, bp: Bp, noTelp: String, email: String, alamat: String) : Long {
         val lastId = bpRepository.addUpdateBp(bp)
         bp.id = lastId.toInt()
 
@@ -83,6 +83,6 @@ class AddBpUseCase @Inject constructor(
         )
 
         bpAddrRepository.addUpdateBpAddr(BpAddrDataMapper.fromDomainToDb(bpAddr))
-
+        return lastId
     }
 }

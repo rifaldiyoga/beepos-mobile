@@ -52,14 +52,14 @@ class LoginViewModel @Inject constructor (
     fun validatePassword() = viewModelScope.launch{
         val email = state.password
         var msg = ""
-        if(email.isEmpty())
-            msg = context.getString(R.string.password_tidak_boleh_kosong)
-
-        updateState(
-            state.copy(
-                messagePassword = msg
-            )
-        )
+//        if(email.isEmpty())
+//            msg = context.getString(R.string.password_tidak_boleh_kosong)
+//
+//        updateState(
+//            state.copy(
+//                messagePassword = msg
+//            )
+//        )
         validateInput()
     }
 

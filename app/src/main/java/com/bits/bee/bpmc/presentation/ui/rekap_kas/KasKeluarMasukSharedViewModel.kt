@@ -1,13 +1,16 @@
 package com.bits.bee.bpmc.presentation.ui.rekap_kas
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.model.Cadj
+import com.bits.bee.bpmc.domain.model.Cash
+import com.bits.bee.bpmc.domain.model.Kas
+import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.UpdateTotalPossesUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_kas.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +29,6 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
     private val getCadjInByDateUseCase: GetCadjInByDateUseCase,
     private val loadKasKeluarSortUseCase: LoadKasKeluarSortUseCase,
     private val getCadjOutByDateUseCase: GetCadjOutByDateUseCase,
-    private val updateTotalPossesUseCase: UpdateTotalPossesUseCase,
-    private val addKasUseCase: AddKasUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase
 ): BaseViewModel<KasKeluarMasukState, KasKeluarMasukSharedViewModel.UIEvent>() {
 
@@ -97,10 +98,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
             val autogen = false
 
-            addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-            addKasUseCase.invoke(cash, balance)
-            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
-
+            addKasKeluarMasukUseCase.invoke(cashierId, note, reftype, balance, mPosses, status, autogen, state.activeCashier)
 //            eventChannel.send(UIEvent.SuccesAddkasMasuk)
         }
     }
@@ -141,9 +139,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
                 // blocking
                 msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
             }else{
-                addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-                addKasUseCase.invoke(cash, balance)
-                updateTotalPossesUseCase.invoke(mPosses, balance, cash)
+                addKasKeluarMasukUseCase.invoke(cashierId, note, reftype, balance, mPosses, status, autogen, state.activeCashier)
             }
         }
 

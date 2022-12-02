@@ -2,18 +2,14 @@ package com.bits.bee.bpmc.presentation.ui.rekap_produk
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.usecase.pos.GetPidByItemUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.FilterSearchItemUseCase
-import com.bits.bee.bpmc.domain.usecase.rekap_produk.GetPidUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.LoadCariItemsUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_produk.QueryRekapProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.FilterUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +28,7 @@ class RekapProdukViewModel @Inject constructor(
 ): BaseViewModel<RekapProdukState, RekapProdukViewModel.UIEvent>() {
 
     private var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
+
     var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(0, ""))
 
     init {
@@ -54,12 +50,12 @@ class RekapProdukViewModel @Inject constructor(
 
     fun onFilterPeriode(filter : FilterDate, query: String) = viewModelScope.launch {
         filterDate.value = filter
-        updateState(
-                state.copy(
-                        start = filter.startDate,
-                        end = filter.endDate,
-                )
-        )
+//        updateState(
+//                state.copy(
+//                        start = filter.startDate,
+//                        end = filter.endDate,
+//                )
+//        )
 //        val listItem = queryRekapProdukUseCase.invoke(filter.startDate, filter.endDate, query)
 //        updateState(
 //                state.copy(

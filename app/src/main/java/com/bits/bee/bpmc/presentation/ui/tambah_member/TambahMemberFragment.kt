@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import com.bits.bee.bpmc.domain.model.District
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
@@ -36,6 +38,8 @@ class TambahMemberFragment(
 ) : BaseFragment<FragmentTambahMemberBinding>() {
 
     private val viewModel : TambahMemberViewModel by viewModels()
+    private val mainViewModel : MainViewModel by activityViewModels()
+
     private var mDistrict: District? = null
 
     private lateinit var adapter : ArrayAdapter<String>
@@ -134,7 +138,7 @@ class TambahMemberFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
                     when(event){
-                        TambahMemberViewModel.UIEvent.SuccessAddMember -> {
+                        is TambahMemberViewModel.UIEvent.SuccessAddMember -> {
                             val dialog = DialogBuilderHelper.showDialogYesNo(
                                 requireActivity(),
                                 "Berhasil Tambah Member",
@@ -142,6 +146,9 @@ class TambahMemberFragment(
                                 positiveListener = {
                                     it.dismiss()
                                     findNavController().previousBackStackEntry?.savedStateHandle?.set("isUse", true)
+                                    event.bp?.let {
+                                        mainViewModel.updateActiveBp(it)
+                                    }
                                     showToast(R.string.berhasil_membuat_member)
                                     findNavController().popBackStack()
                                 },

@@ -76,8 +76,12 @@ class InitialActivity (
                 val dialog = DialogBuilderHelper.showDialogChoice(
                     this,
                     getString(R.string.yakin_akan_keluar), getString(R.string.konfirmasi_keluar),
-                    positiveTxt = getString(R.string.keluar),
+                    positiveTxt = getString(R.string.batal),
                     positiveListener = {
+                        it.dismiss()
+                    },
+                    negativeTxt = getString(R.string.keluar),
+                    negativeListener = {
                         it.dismiss()
                         super.onBackPressed()
                     }
@@ -88,8 +92,12 @@ class InitialActivity (
                 val dialog = DialogBuilderHelper.showDialogChoice(
                     this,
                     getString(R.string.yakin_akan_keluar), getString(R.string.konfirmasi_keluar),
-                    positiveTxt = getString(R.string.keluar),
+                    positiveTxt = getString(R.string.batal),
                     positiveListener = {
+                        it.dismiss()
+                    },
+                    negativeTxt = getString(R.string.keluar),
+                    negativeListener = {
                         it.dismiss()
                         super.onBackPressed()
                     }

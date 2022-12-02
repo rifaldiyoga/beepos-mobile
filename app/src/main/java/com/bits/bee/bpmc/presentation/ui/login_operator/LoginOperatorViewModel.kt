@@ -150,23 +150,27 @@ class LoginOperatorViewModel @Inject constructor(
         }
     }
 
-    fun onClickLogin() = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestLoginEmail)
-    }
-
-    fun onSuccessLogin() = viewModelScope.launch {
+    fun checkEmail() = viewModelScope.launch {
         val list = userRepository.getUserByUsername(state.email).first()
         if(list.isNotEmpty()) {
             list.forEach {
                 userRepository.resetUsedUser()
                 it.used = true
                 updateUserUseCase(it)
-
             }
-            eventChannel.send(UIEvent.NavigateToHome)
-        } else {
+            onSuccessLogin()
+        }else {
             eventChannel.send(UIEvent.RequetWarningPass)
         }
+    }
+
+    fun onClickLogin() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestLoginEmail)
+    }
+
+    fun onSuccessLogin() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToHome)
+
     }
 
     fun menuInfo() = viewModelScope.launch{

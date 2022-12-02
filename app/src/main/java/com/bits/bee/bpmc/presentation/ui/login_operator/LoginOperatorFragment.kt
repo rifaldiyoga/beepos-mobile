@@ -218,7 +218,7 @@ class LoginOperatorFragment(
                         if (it.status == "ok") {
                             Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG)
                                 .show()
-                            viewModel.onSuccessLogin()
+                            viewModel.checkEmail()
                         } else {
                             Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
                                 .show()

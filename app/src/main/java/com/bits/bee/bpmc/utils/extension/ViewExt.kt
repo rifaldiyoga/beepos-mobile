@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.utils.extension
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -20,7 +19,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.NumberFormatWatcher
-import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 

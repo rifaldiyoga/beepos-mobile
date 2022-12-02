@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.presentation.ui.rekap_produk
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -13,13 +12,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapProdukBinding
-import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
-import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.FilterUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -101,11 +96,11 @@ class RekapProdukFragment(
 //                                    textView90.visibility = View.VISIBLE
 //                                }
 //                            }
-                            it.start?.let {
-                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
-                                    viewModel.state.start!!
-                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
-                            }
+//                            it.start?.let {
+//                                tvLastSync.text = getString(R.string.menampilkan_data_pada) +" "+ DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT,
+//                                    viewModel.state.start!!
+//                                ) +" - " + DateFormatUtils.formatLongToString(BPMConstants.NEW_DATE_FORMAT, viewModel.state.end!!)
+//                            }
                         }
                     }
                 }

@@ -93,8 +93,15 @@ class InfoKontakFragment constructor(
                 viewModel.validateInput()
             }
             etconfPassword.addTextChangedListener {
-                viewModel.state.confPassword = etconfPassword.text.toString().trim()
+                val pass = etconfPassword.text.toString().trim()
+                viewModel.state.confPassword = pass
                 viewModel.validateInput()
+                if(pass.isNotEmpty() && pass != viewModel.state.password) {
+                    tilconfPassword.isErrorEnabled = true
+                    tilconfPassword.error = "Konfirmasi password tidak sama"
+                }else {
+                    tilconfPassword.isErrorEnabled = false
+                }
             }
             btnLanjut.setOnClickListener {
                 onClickSignUp()

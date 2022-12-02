@@ -58,6 +58,11 @@ class EditItemViewModel @Inject constructor(
 
     fun onPriceChange(price : String) = viewModelScope.launch {
         if(price.isEmpty()){
+            updateState(
+                state.copy(
+                    listPrice = BigDecimal.ZERO
+                )
+            )
             msgChannel.send("Harga tidak boleh kosong!")
         } else {
             updateState(
