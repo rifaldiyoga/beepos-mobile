@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.CadjEntity
 import com.bits.bee.bpmc.data.data_source.local.model.PossesEntity
 import kotlinx.coroutines.flow.Flow
+import java.math.BigDecimal
 
 @Dao
 interface CadjDao: BaseDao<CadjEntity> {
@@ -42,6 +43,9 @@ interface CadjDao: BaseDao<CadjEntity> {
 
     @Query("SELECT * FROM cadj where cash_id = :cashId AND autogen = 0")
     fun getCashInOut(cashId : Long): List<CadjEntity>
+
+    @Query("select sum(amount) from cadj where inout = 'i' and refno = :refno ")
+    fun sumCashIn(refno: String): BigDecimal?
 
 
 }

@@ -6,9 +6,11 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.SaledDao
 import com.bits.bee.bpmc.domain.mapper.RankItemDataMapper
+import com.bits.bee.bpmc.domain.mapper.RekapProdukDataMapper
 import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
 import com.bits.bee.bpmc.domain.mapper.SaledDataMapper
 import com.bits.bee.bpmc.domain.model.RankItem
+import com.bits.bee.bpmc.domain.model.RekapProduk
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.SaledRepository
@@ -143,7 +145,7 @@ class SaledRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getRekapProduk(startDate: Long, endDate: Long): Flow<PagingData<Saled>> = Pager(
+    override fun getRekapProduk(startDate: Long, endDate: Long, query: String): Flow<PagingData<RekapProduk>> = Pager(
             config = PagingConfig(
                     pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
                     maxSize = BPMConstants.BPM_MAX_PAGINATION,
@@ -151,9 +153,12 @@ class SaledRepositoryImpl @Inject constructor(
                     initialLoadSize = BPMConstants.BPM_MAX_PAGINATION
             ),
             pagingSourceFactory = {
-                saledDao.getRekapProduk(startDate, endDate)
+                if (query.isEmpty())
+                    saledDao.getRekapProduk(startDate, endDate)
+                else
+                    saledDao.searchRekapProduk(startDate, endDate, query)
             }
     ).flow.mapLatest {
-        it.map { SaledDataMapper.fromDbToDomain(it)}
+        it.map { RekapProdukDataMapper.fromDbToDomain(it)}
     }.flowOn(defaultDispatcher)
 }

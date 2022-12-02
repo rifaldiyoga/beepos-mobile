@@ -35,4 +35,6 @@ interface CadjRepository {
 
     fun getCashInOut(cashId : Long) : Flow<List<Cadj>>
 
+    fun sumCashIn(refno: String): Flow<BigDecimal?>
+
 }

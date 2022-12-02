@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.domain.usecase.rekap_produk
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.RekapProduk
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.domain.repository.ItemRepository
 import com.bits.bee.bpmc.domain.repository.SaledRepository
@@ -23,10 +24,10 @@ class QueryRekapProdukUseCase @Inject constructor(
     private var newListItem: MutableList<Item>? =null
     private lateinit var listFLow: Flow<PagingData<Item>>
 
-    operator fun invoke(startDate: Long, endDate: Long, query: String): Flow<PagingData<Saled>> =
-        saledRepository.getRekapProduk(startDate, endDate).map { data ->
-            data.map { saled  ->
-                saled
+    operator fun invoke(startDate: Long, endDate: Long, query: String): Flow<PagingData<RekapProduk>> =
+        saledRepository.getRekapProduk(startDate, endDate, query).map { data ->
+            data.map { rekapPrd  ->
+                rekapPrd
             }
         }
 //        mListItem.clear()

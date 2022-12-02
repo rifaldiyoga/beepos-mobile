@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.presentation.ui.rekap_produk
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -13,11 +12,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapProdukBinding
-import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
-import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.FilterUtils
@@ -142,62 +139,67 @@ class RekapProdukFragment(
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.viewStates().collect {
-                            it?.let {
-                                binding.apply {
-                                    if (newText?.length == 0){
-                                        it.itemList?.let { data ->
-                                            if (data.size > 0){
-                                                imageView16.visibility = View.GONE
-                                                textView90.visibility = View.GONE
-                                                imageView17.visibility = View.GONE
-                                                textView91.visibility = View.GONE
-//                                                rekapProdukAdapter.submitList(data)
-                                            }else{
-//                                                rekapProdukAdapter.submitList(data)
-                                                imageView16.visibility = View.VISIBLE
-                                                textView90.visibility = View.VISIBLE
-                                                imageView17.visibility = View.GONE
-                                                textView91.visibility = View.GONE
-                                            }
-                                        }
-                                    }else if (newText!!.length >= 3){
-//                                        viewModel.updateState(
-//                                            viewModel.state.copy(
-//                                                itemList = null
-//                                            )
-//                                        )
-                                        viewModel.cariItems(newText.toString().trim(), 1, viewModel.filterDate.value)
-                                        it.itemListResult?.let { data->
-                                            viewModel.filterItems(data, viewModel.filterDate.value)
-                                            it.resultFilteritem?.let { resultFilter ->
-                                                if (resultFilter.size > 0){
-                                                    imageView16.visibility = View.GONE
-                                                    textView90.visibility = View.GONE
-                                                    imageView17.visibility = View.GONE
-                                                    textView91.visibility = View.GONE
-//                                                    rekapProdukAdapter.submitList(resultFilter)
-                                                }else{
-//                                                    rekapProdukAdapter.submitList(resultFilter)
-                                                    imageView16.visibility = View.GONE
-                                                    textView90.visibility = View.GONE
-                                                    imageView17.visibility = View.VISIBLE
-                                                    textView91.visibility = View.VISIBLE
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (newText != null && newText.length >= 3) {
+                    viewModel.searching(newText)
+                } else {
+                    viewModel.searching("")
                 }
+//                viewLifecycleOwner.lifecycleScope.launch {
+//                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                        viewModel.viewStates().collect {
+//                            it?.let {
+//                                binding.apply {
+//                                    if (newText?.length == 0){
+//                                        it.itemList?.let { data ->
+//                                            if (data.size > 0){
+//                                                imageView16.visibility = View.GONE
+//                                                textView90.visibility = View.GONE
+//                                                imageView17.visibility = View.GONE
+//                                                textView91.visibility = View.GONE
+////                                                rekapProdukAdapter.submitList(data)
+//                                            }else{
+////                                                rekapProdukAdapter.submitList(data)
+//                                                imageView16.visibility = View.VISIBLE
+//                                                textView90.visibility = View.VISIBLE
+//                                                imageView17.visibility = View.GONE
+//                                                textView91.visibility = View.GONE
+//                                            }
+//                                        }
+//                                    }else if (newText!!.length >= 3){
+////                                        viewModel.updateState(
+////                                            viewModel.state.copy(
+////                                                itemList = null
+////                                            )
+////                                        )
+//                                        viewModel.cariItems(newText.toString().trim(), 1, viewModel.filterDate.value)
+//                                        it.itemListResult?.let { data->
+//                                            viewModel.filterItems(data, viewModel.filterDate.value)
+//                                            it.resultFilteritem?.let { resultFilter ->
+//                                                if (resultFilter.size > 0){
+//                                                    imageView16.visibility = View.GONE
+//                                                    textView90.visibility = View.GONE
+//                                                    imageView17.visibility = View.GONE
+//                                                    textView91.visibility = View.GONE
+////                                                    rekapProdukAdapter.submitList(resultFilter)
+//                                                }else{
+////                                                    rekapProdukAdapter.submitList(resultFilter)
+//                                                    imageView16.visibility = View.GONE
+//                                                    textView90.visibility = View.GONE
+//                                                    imageView17.visibility = View.VISIBLE
+//                                                    textView91.visibility = View.VISIBLE
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
                 return false
             }
 

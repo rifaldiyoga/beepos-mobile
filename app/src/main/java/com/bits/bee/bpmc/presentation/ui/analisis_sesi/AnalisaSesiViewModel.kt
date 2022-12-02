@@ -110,13 +110,12 @@ class AnalisaSesiViewModel @Inject constructor(
                 )
             }
 
-            getTotalPaidTunaiUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                        state.copy(
-                                totalTunai = it
-                        )
+            val tunai = getTotalPaidTunaiUseCase.invoke(data.possesId!!, data.trxNo)
+            updateState(
+                state.copy(
+                    totalTunai = tunai
                 )
-            }
+            )
 
             getTotalPaidDebitUseCase.invoke(data.possesId!!).collect {
                 updateState(
@@ -157,6 +156,7 @@ class AnalisaSesiViewModel @Inject constructor(
                         )
                 )
             }
+
 
             val chart = getSumByHourUseCase.invoke(data)
             updateState(

@@ -109,4 +109,11 @@ class CadjRepositoryImpl @Inject constructor(
             emit(data)
         }.flowOn(ioDispatcher)
     }
+
+    override fun sumCashIn(refno: String): Flow<BigDecimal?> {
+        return flow {
+            val data = cadjDao.sumCashIn(refno) ?: BigDecimal.ZERO
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
 }

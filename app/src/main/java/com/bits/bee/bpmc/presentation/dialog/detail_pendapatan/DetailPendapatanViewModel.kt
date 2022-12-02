@@ -24,13 +24,20 @@ class DetailPendapatanViewModel @Inject constructor(
     }
 
     fun getValueDetail() = viewModelScope.launch {
-        getTotalPaidTunaiUseCase.invoke(state.posses!!.possesId!!).collect {
-            updateState(
-                state.copy(
-                    totalTunai = it
-                )
+//        getTotalPaidTunaiUseCase.invoke(state.posses!!.possesId!!, state.posses!!.trxNo).collect {
+//            updateState(
+//                state.copy(
+//                    totalTunai = it
+//                )
+//            )
+//        }
+
+        val tunai = getTotalPaidTunaiUseCase.invoke(state.posses!!.possesId!!, state.posses!!.trxNo)
+        updateState(
+            state.copy(
+                totalTunai = tunai
             )
-        }
+        )
 
         getTotalPaidDebitUseCase.invoke(state.posses!!.possesId!!).collect {
             updateState(

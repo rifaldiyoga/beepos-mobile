@@ -4,10 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
-import com.bits.bee.bpmc.data.data_source.local.model.ItemEntity
-import com.bits.bee.bpmc.data.data_source.local.model.RankItemEntity
-import com.bits.bee.bpmc.data.data_source.local.model.SaleEntity
-import com.bits.bee.bpmc.data.data_source.local.model.SaledEntity
+import com.bits.bee.bpmc.data.data_source.local.model.*
 import java.math.BigDecimal
 
 /**
@@ -55,11 +52,13 @@ interface SaledDao : BaseDao<SaledEntity>{
     @Query("SELECT a.* FROM saled a JOIN sale b ON b.id = a.sale_id WHERE posses_id = :possesId AND b.isvoid = 0 AND a.totaldiscamt != 0 AND a.item_id = :itemId AND a.listprice = :total")
     fun getRekapSaledDiskonNumerik(possesId: Int, itemId: Int, total: BigDecimal): List<SaledEntity>
 
-    @Query("select saled.item_Id, saled.dnote, saled.item_code,saled.listPrice,saled.disc,saled.tax,saled.discExp,saled.discAmt,saled.disc2Amt,saled.taxAmt,saled.basePrice,saled.taxableAmt,saled.sale_id,saled.dno,saled.totalDiscAmt,saled.totalDisc2Amt,saled.totalTaxAmt,saled.dno, saled.name, sum(saled.qty) qty, sum(saled.subtotal) subtotal from saled , sale where sale.draft = 0 and sale.isvoid = 0 and sale.id == saled.sale_id and sale.trx_date between :startDate and :endDate group by item_id order by qty desc")
-    fun getRekapProduk(startDate: Long, endDate: Long):  PagingSource<Int, SaledEntity>
+    @Query("select saled.item_Id as item_id, saled.item_code as item_code, saled.name, sum(saled.qty) qty, sum(saled.subtotal) subtotal, sale.draft, sale.isvoid from saled , sale where sale.draft = 0 and sale.isvoid = 0 and sale.id == saled.sale_id and sale.trx_date between :startDate and :endDate group by item_id order by qty desc")
+    fun getRekapProduk(startDate: Long, endDate: Long):  PagingSource<Int, RekapProdukEntity>
 
-    @Query("select saled.item_Id, saled.dnote, saled.item_code,saled.listPrice,saled.disc,saled.tax,saled.subtotal,saled.discExp,saled.discAmt,saled.disc2Amt,saled.taxAmt,saled.basePrice,saled.taxableAmt,saled.sale_id,saled.dno,saled.totalDiscAmt,saled.totalDisc2Amt,saled.totalTaxAmt,saled.dno, saled.name, sum(saled.qty) qty, sum(saled.subtotal) total, item.name1 from item " +
-            "left join saled on item.id = saled.item_id where name1 LIKE '%'|| :query || '%' group by code")
-    fun searchRekapProduk(query: String): List<SaledEntity>
+    @Query("select item.id as item_id, item.code as item_code, item.name1 as name, sum(saled.qty) qty, sum(saled.subtotal) as subtotal, sale.draft as draft, sale.isvoid as isvoid, sale.trx_date as trxdate " +
+            "from item " +
+            "left join saled on item.id = saled.item_id " +
+            "left join sale on saled.sale_id = sale.id where (draft = 0 or draft is null) and (isvoid = 0 or isvoid is null) and ((trx_date between :startDate and :endDate) or trx_date is null) and name1 LIKE '%'|| :query || '%' group by code")
+    fun searchRekapProduk(startDate: Long, endDate: Long, query: String): PagingSource<Int, RekapProdukEntity>
 
 }

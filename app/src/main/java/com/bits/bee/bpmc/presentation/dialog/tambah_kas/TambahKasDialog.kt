@@ -57,57 +57,65 @@ class TambahKasDialog(
             tvTitle.text = builder.title
             etNominal.setText(builder.nominal)
             etDeskripsi.setText(builder.deskripsi)
-//            etNominal.addNumberFormatChange()
+            etNominal.addNumberFormatChange()
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
-            etNominal.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            etNominal.addTextChangedListener(object : TextWatcher{
+//                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//                }
+//
+//                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//                }
+//
+//                override fun afterTextChanged(p0: Editable?) {
+//                    etNominal.removeTextChangedListener(this)
+//
+//                    try {
+//                        var originalString: String = p0.toString()
+//                        val longval: Long
+//                        if (originalString.contains(",")) {
+//                            originalString = originalString.replace(",".toRegex(), "")
+//                        }
+//                        longval = originalString.toLong()
+//                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+//                        formatter.applyPattern("#,###,###,###")
+//                        val formattedString = formatter.format(longval)
+//
+//                        //setting text after format to EditText
+//                        etNominal.setText(formattedString)
+//                        etNominal.setSelection(etNominal.getText().length)
+//                    } catch (nfe: NumberFormatException) {
+//                        nfe.printStackTrace()
+//                    }
+//                    etNominal.addTextChangedListener(this)
+//                    if (p0.toString().isNotEmpty()) {
+//                        try {
+//                            val nominalUang: String = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
+//                            viewModel.updateState(
+//                                viewModel.state.copy(
+//                                    nominal = nominalUang
+//                                )
+//                            )
+//                        } catch (e: Exception) {
+//                            e.stackTrace
+//                        }
+//                    }
+//                    viewModel.validateInput()
+//                }
+//            })
 
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    etNominal.removeTextChangedListener(this)
-
-                    try {
-                        var originalString: String = p0.toString()
-                        val longval: Long
-                        if (originalString.contains(",")) {
-                            originalString = originalString.replace(",".toRegex(), "")
-                        }
-                        longval = originalString.toLong()
-                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
-                        formatter.applyPattern("#,###,###,###")
-                        val formattedString = formatter.format(longval)
-
-                        //setting text after format to EditText
-                        etNominal.setText(formattedString)
-                        etNominal.setSelection(etNominal.getText().length)
-                    } catch (nfe: NumberFormatException) {
-                        nfe.printStackTrace()
-                    }
-                    etNominal.addTextChangedListener(this)
-                    if (p0.toString().isNotEmpty()) {
-                        try {
-                            val nominalUang: String = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
-                            viewModel.updateState(
-                                viewModel.state.copy(
-                                    nominal = nominalUang
-                                )
-                            )
-                        } catch (e: Exception) {
-                            e.stackTrace
-                        }
-                    }
-                    viewModel.validateInput()
-                }
-            })
+            etNominal.addTextChangedListener {
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        nominal = etNominal.text.toString().trim().removeSymbol()
+                    )
+                )
+            }
 
             etDeskripsi.addTextChangedListener {
                 viewModel.updateState(

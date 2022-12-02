@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemRekapProdukBinding
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.RekapProduk
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.CurrencyUtils
 
 class RekapProdukAdapter(
     private val ctx: Context,
     private val mlistener: PilihProdukPidI
-    ) : PagingDataAdapter<Saled, RecyclerView.ViewHolder>(Diffcallback()){
+    ) : PagingDataAdapter<RekapProduk, RecyclerView.ViewHolder>(Diffcallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -34,10 +35,10 @@ class RekapProdukAdapter(
 
     inner class ViewHolder(private val binding : ItemRekapProdukBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(model : Saled) {
+        fun bind(model : RekapProduk) {
             binding.apply {
                 tvBarang.text = model.name
-                tvQty.text = model.qty.toString() + " "
+                tvQty.text = CurrencyUtils.formatCurrency(model.qty)
                 tvSubtotal.text = ctx.getString(
                     R.string.mata_uang_nominal,
                     "Rp", CurrencyUtils.formatCurrency(model.subtotal))
@@ -51,14 +52,14 @@ class RekapProdukAdapter(
 
     }
 
-    class Diffcallback : DiffUtil.ItemCallback<Saled>(){
+    class Diffcallback : DiffUtil.ItemCallback<RekapProduk>(){
 
-        override fun areItemsTheSame(oldItem: Saled, newItem: Saled): Boolean {
+        override fun areItemsTheSame(oldItem: RekapProduk, newItem: RekapProduk): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Saled, newItem: Saled): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: RekapProduk, newItem: RekapProduk): Boolean {
+            return oldItem.itemId == newItem.itemId
         }
 
     }
