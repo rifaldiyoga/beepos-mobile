@@ -174,19 +174,18 @@ class AnalisaSesiFragment(
                                 tvTransVoid.text = it.toString()
                             }
                             it.totalTunai?.let {
-                                tvTotalTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
+                                tvTotalTunai.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it))
                             }
                             it.totalDebit?.let {
-                                tvTotalDebit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
+                                tvTotalDebit.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it))
+                            }
+                            it.totalKredit?.let {
+                                tvTotalKredit.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it))
                             }
                             it.totalGopay?.let {
-                                tvTotalGopay.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
-                                tvTotalNonTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai() ?: bigDecimalZero))
+                                tvTotalGopay.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
                             }
+                            tvTotalNonTunai.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai()))
                             it.rankItem?.let {
 //                                clEmptyRanking.visibility = View.GONE
 //                                clRanking.visibility = View.VISIBLE

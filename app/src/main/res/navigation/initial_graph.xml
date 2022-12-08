@@ -239,27 +239,28 @@
     <dialog
         android:id="@+id/pilihKategoriDialog"
         tools:layout="@layout/dialog_pilih_kategori_merek"
-        android:name="com.bits.bee.bpmc.presentation.dialog.radio_list.pilih_kategori.PilihKategoriDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.pilih_kategori.PilihKategoriDialog"
         android:label="PilihKategoriDialog" >
     </dialog>
     <fragment
         android:id="@+id/tambahKategoriFragment"
         tools:layout="@layout/fragment_tambah_kategori"
         android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.kategori.TambahKategoriFragment"
-        android:label="TambahKategoriFragment" >
+        android:label="Tambah Kategori" >
         <action
             android:id="@+id/action_tambahKategoriFragment_to_tambahProdukFragment"
             app:destination="@id/tambahProdukFragment" />
         <argument
-            android:name="itemKategori"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="itemGrp"
+            app:argType="com.bits.bee.bpmc.domain.model.ItemGroup"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/tambahMerekFragment"
         tools:layout="@layout/fragment_tambah_edit_merk"
         android:name="com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.merek.TambahMerekFragment"
-        android:label="TambahMerekFragment" >
+        android:label="Tambah Merek" >
         <action
             android:id="@+id/action_tambahMerekFragment_to_tambahProdukFragment"
             app:destination="@id/tambahProdukFragment" />

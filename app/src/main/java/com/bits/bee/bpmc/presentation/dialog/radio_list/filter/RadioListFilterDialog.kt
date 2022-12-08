@@ -38,7 +38,7 @@ class RadioListFilterDialog(
         binding.apply {
             btnSimpan.setOnClickListener {
                 if (radioDateAdapter.getSelectedPosition() == 3 && radioDateAdapter.getTextDate().isEmpty()){
-                    Toast.makeText(ctx, "Pilih tgl terlebih dahulu!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ctx, "Tanggal belum diatur", Toast.LENGTH_SHORT).show()
                 } else {
                     onSaveClick(FilterUtils.getFilterDate(radioDateAdapter.getSelectedPosition(), radioDateAdapter.getTextDate()))
                     dismiss()

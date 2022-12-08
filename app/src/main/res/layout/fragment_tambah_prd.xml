@@ -163,15 +163,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/etNamaPrd"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNama"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/cth_sepaturunning"
+                    style="@style/CustomTextInputLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView1"
-                    app:layout_constraintTop_toBottomOf="@+id/textView1" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView1">
+                    <EditText
+                        android:id="@+id/etNamaPrd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomEditTextLayout"
+                        android:imeOptions="actionNext"
+                        android:hint="@string/cth_sepaturunning"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -191,15 +201,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pid" />
 
-                <EditText
-                    android:id="@+id/etNamaPid"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/cth_beestore"
+                    style="@style/CustomTextInputLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView1"
-                    app:layout_constraintTop_toBottomOf="@+id/txtPid" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtPid">
+
+                    <EditText
+                        style="@style/CustomEditTextLayout"
+                        android:id="@+id/etNamaPid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size6"
+                        android:hint="@string/cth_86"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -221,7 +240,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -230,16 +248,24 @@
                         android:layout_height="wrap_content"
                         android:text="@string/rp" />
 
-                    <EditText
-                        android:id="@+id/etHarga"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilHarga"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        style="@style/CustomTextInputLayout"
                         android:layout_marginStart="@dimen/size8"
-                        android:hint="0"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView1"
-                        app:layout_constraintTop_toBottomOf="@+id/txtharga"
-                        android:inputType="number" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtharga">
+
+                        <EditText
+                            style="@style/CustomEditTextLayout"
+                            android:id="@+id/etHarga"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="0"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -322,14 +348,25 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tipe_prd" />
 
-                <Spinner
-                    android:id="@+id/sp_tipe_prd"
-                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTextInputLayout"
                     android:layout_width="match_parent"
+                    android:id="@+id/tilTipe"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
                     app:layout_constraintStart_toStartOf="@+id/textView1"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" >
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/sp_tipe_prd"
+                        android:inputType="none"
+                        android:editable="false"
+                        android:hint="Pilih Tipe Produk"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomEditTextLayout"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -350,18 +387,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/kategori_produk" />
 
-                <EditText
-                    android:id="@+id/et_kategori_prd"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_chevron_down"
-                    android:drawablePadding="5dp"
-                    android:editable="false"
-                    android:inputType="none"
-                    android:hint="@string/pilih_kategori_prd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
+                    android:layout_marginTop="@dimen/size6"
+                    android:id="@+id/tiilKategori"
+                    app:layout_constraintStart_toStartOf="@+id/textView1"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" >
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/et_kategori_produk"
+                        android:editable="false"
+                        android:hint="@string/pilih_kategori_prd"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomEditTextLayout"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
@@ -383,18 +426,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/merk_produk" />
 
-                <EditText
-                    android:id="@+id/et_brand_prd"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTextInputLayout"
                     android:layout_width="match_parent"
+                    android:id="@+id/tilBrand"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_chevron_down"
-                    android:drawablePadding="5dp"
-                    android:editable="false"
-                    android:inputType="none"
-                    android:hint="@string/pilih_merk_prd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
+                    android:layout_marginTop="@dimen/size6"
+                    app:layout_constraintStart_toStartOf="@+id/textView1"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" >
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/et_brand_prd"
+                        android:editable="false"
+                        android:hint="@string/pilih_merk_prd"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomEditTextLayout"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </LinearLayout>
@@ -410,14 +459,48 @@
                 app:layout_constraintTop_toBottomOf="@+id/lL_merk"
                 tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/ivImage"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:contentDescription="@string/tambah"
-                android:scaleType="fitCenter"
+
+            <TextView
+                style="@style/TextDetail"
+                android:layout_marginStart="@dimen/size6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size24"
+                android:text="@string/opsional"
+                app:layout_constraintStart_toEndOf="@+id/textView6"
+                app:layout_constraintTop_toBottomOf="@+id/lL_merk"
+                tools:ignore="MissingConstraints" />
+
+
+            <LinearLayout
+                android:id="@+id/llImage"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/size8"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView6">
+                <ImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:contentDescription="@string/tambah"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/tvUbahFotoProduk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/size16"
+                    app:layout_constraintTop_toTopOf="@id/ivImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivImage"
+                    app:layout_constraintStart_toEndOf="@+id/ivImage"
+                    android:text="Ubah foto produk"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/btnAdd_foto"
@@ -430,7 +513,7 @@
                 android:text="@string/btn_lanjut"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivImage">
+                app:layout_constraintTop_toBottomOf="@+id/llImage">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -441,9 +524,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/size16"
-                    android:text="@string/tambah_baru"
+                    android:text="Tambah foto produk"
                     android:textColor="?colorPrimary"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
             <androidx.constraintlayout.widget.Group
@@ -455,7 +539,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
     <Button
         android:id="@+id/btnLanjut"

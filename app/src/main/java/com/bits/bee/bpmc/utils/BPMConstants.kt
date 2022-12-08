@@ -14,7 +14,7 @@ interface BPMConstants {
         const val BPM_DEFAULT_TYPE_SALE = "SALE"
         const val BPM_DEFAULT_TYPE_CASH = "CASH"
         const val BPM_DEFAULT_TYPE_CADJ = "CADJ"
-        const val BPM_DEFAULT_TYPE_CSTR = "CADJ"
+        const val BPM_DEFAULT_TYPE_CSTR = "CSTR"
         const val BPM_DEFAULT_TYPE_TUNAI = "TUNAI"
         const val BPM_DEFAULT_TYPE_CHG = "CHG"
         const val BPM_DEFAULT_TYPE_DEBIT = "DC"

@@ -332,10 +332,12 @@ class SaleTrans @Inject constructor(
         saled.listPrice =  newSaled.listPrice
         saled.qty = newSaled.qty
         saled.disc = newSaled.disc
+        saled.discExp = newSaled.discExp
         saled.discAmt = newSaled.discAmt
         saled.tax = newSaled.tax
         saled.taxAmt = newSaled.taxAmt
         saled.disc2Amt = newSaled.disc2Amt
+        saled.dNotes = newSaled.dNotes
         return saled
     }
 

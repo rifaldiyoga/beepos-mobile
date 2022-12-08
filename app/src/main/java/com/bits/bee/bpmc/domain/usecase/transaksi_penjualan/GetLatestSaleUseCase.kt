@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.repository.ChannelRepository
 import com.bits.bee.bpmc.domain.repository.SaleRepository
 import com.bits.bee.bpmc.domain.repository.SrepRepository
+import com.bits.bee.bpmc.domain.usecase.upload_manual.GetBpByIdUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class GetLatestSaleUseCase @Inject constructor(
     private val saleRepository: SaleRepository,
     private val channelRepository: ChannelRepository,
-    private val srepRepository: SrepRepository
+    private val srepRepository: SrepRepository,
+    private val getBpByIdUseCase: GetBpByIdUseCase
 ){
 
     operator fun invoke(query : String, isDraft : Boolean, channelList: List<Channel>, startDate : Long, endDate : Long) : Flow<PagingData<Sale>> =
@@ -31,6 +33,7 @@ class GetLatestSaleUseCase @Inject constructor(
                     val srep = srepRepository.getSrepById(it).first()
                     sale.salesman = srep?.name ?: ""
                 }
+                sale.bp = getBpByIdUseCase(sale.bpId).first()
                 sale
             }
         }

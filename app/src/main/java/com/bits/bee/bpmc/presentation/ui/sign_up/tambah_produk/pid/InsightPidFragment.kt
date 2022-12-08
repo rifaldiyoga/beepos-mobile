@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentInsightPidBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.ui.sign_up.atur_produk.AturProdukViewModel
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,16 +29,19 @@ class InsightPidFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-            bpCbPajak.setOnCheckedChangeListener { compoundButton, b ->
+            bpCbPajak.setOnCheckedChangeListener { _, b ->
                 if (b){
                     viewModel.updateIsPid(b)
-                }else{
+                } else {
                     viewModel.updateIsPid(b)
                 }
             }
-
             btnPrimary.setOnClickListener {
+                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_active_pid), bpCbPajak.isChecked)
                 viewModel.onClickActivePid()
+            }
+            btnSecondary.setOnClickListener {
+                findNavController().popBackStack()
             }
         }
     }

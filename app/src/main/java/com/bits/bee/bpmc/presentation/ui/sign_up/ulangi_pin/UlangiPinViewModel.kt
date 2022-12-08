@@ -33,6 +33,14 @@ class UlangiPinViewModel @Inject constructor(
         state = UlangiPinState()
     }
 
+    fun onClickPin() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                isPassVisible = !state.isPassVisible
+            )
+        )
+    }
+
     private var setupPasswordResponse: MediatorLiveData<Resource<SetupPasswordResponse>> = MediatorLiveData()
     fun observeSetupPasswordResponse() = setupPasswordResponse as LiveData<Resource<SetupPasswordResponse>>
 

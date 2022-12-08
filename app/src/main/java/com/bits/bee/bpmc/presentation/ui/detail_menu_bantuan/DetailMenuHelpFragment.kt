@@ -1,5 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.detail_menu_bantuan
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -28,13 +30,13 @@ class DetailMenuHelpFragment(
     override fun subscribeListeners() {
         binding.apply {
             clFiturBeepos.setOnClickListener {
-
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.bee.id/news_category/beepos_mobile/")))
             }
             clKontakBee.setOnClickListener {
-
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.bee.id/kontak/")))
             }
             clPrivacy.setOnClickListener {
-
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.bee.id/privasi/")))
             }
             clLisensi.setOnClickListener {
                 viewModel.onClickLisensi()

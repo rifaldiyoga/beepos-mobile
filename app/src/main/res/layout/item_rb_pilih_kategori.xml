@@ -5,18 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:id="@+id/viewLeft"
+        android:visibility="gone"
+        android:layout_width="@dimen/size50"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/materialRadioButton"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/size14"
+        android:paddingStart="@dimen/size16"
         android:text="@string/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/viewLeft"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:padding="@dimen/size14"
+        android:padding="@dimen/size16"
         android:id="@+id/imgEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,26 +41,5 @@
         app:layout_constraintTop_toBottomOf="@id/materialRadioButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginTop="@dimen/size14"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/cl_expand"
-        android:weightSum="6"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/size50"
-        app:layout_constraintTop_toBottomOf="@+id/imgEdit">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_child_kategori"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

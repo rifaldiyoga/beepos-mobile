@@ -32,7 +32,7 @@
                     android:id="@+id/imgview_tipe"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/alert_circle"/>
+                    android:src="@drawable/ic_alert_circle"/>
 
             </LinearLayout>
 

@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
 
 class NoInternetDialogBuilder(
     private val onPositive : () -> Unit,
+    private val onNegative : (() -> Unit)? = null,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogNoIntenetBuilderBinding = DialogNoIntenetBuilderBinding::inflate
 ): BaseDialogFragment<DialogNoIntenetBuilderBinding>() {
 
@@ -21,6 +22,9 @@ class NoInternetDialogBuilder(
                 dismiss()
             }
             btnClose.setOnClickListener {
+                onNegative?.let {
+                    it()
+                }
                 dismiss()
             }
         }

@@ -159,7 +159,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView4">
 
                     <EditText
-                        android:paddingTop="@dimen/size16"
+                        style="@style/CustomEditTextLayout"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:id="@+id/etEmail"
@@ -191,7 +191,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
 
                     <EditText
-                        android:paddingTop="@dimen/size10"
+                        style="@style/CustomEditTextLayout"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:id="@+id/etPassword"

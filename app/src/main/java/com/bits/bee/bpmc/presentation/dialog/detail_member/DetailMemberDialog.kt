@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,7 @@ import com.bits.bee.bpmc.databinding.DialogDetailMemberBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -28,6 +30,8 @@ class DetailMemberDialog(
 ) : BaseBottomSheetDialogFragment<DialogDetailMemberBinding>() {
 
     private val viewModel : DetailMemberViewModel by viewModels()
+
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,6 +73,9 @@ class DetailMemberDialog(
                 dismiss()
             }
             buttonClosed.setOnClickListener {
+                viewModel.state.bp?.let {
+                    mainViewModel.updateActiveBp(it)
+                }
                 dismiss()
             }
         }

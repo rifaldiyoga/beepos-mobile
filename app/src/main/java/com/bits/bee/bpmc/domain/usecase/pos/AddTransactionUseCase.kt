@@ -29,7 +29,7 @@ class  AddTransactionUseCase @Inject constructor(
     private val getActiveUserUseCase: GetActiveUserUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
     private val addCashAUseCase: AddCashAUseCase,
-    private val addTotalPossesUseCase: AddTotalPossesUseCase,
+    private val updateTotalPossesUseCase: UpdateTotalPossesUseCase,
     private val addPaymentUseCase: AddPaymentUseCase,
     private val defDispatcher: CoroutineDispatcher,
     private val getRegUseCase: GetRegUseCase,
@@ -172,7 +172,7 @@ class  AddTransactionUseCase @Inject constructor(
                 )
 
                 /** For update totin for active session cashier */
-                addTotalPossesUseCase(
+                updateTotalPossesUseCase(
                     amt = totalConv ?: sale.total
                 )
             }

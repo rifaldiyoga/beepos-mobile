@@ -1,10 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.otp
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.data.data_source.remote.response.SendOtpResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.VerifSmsResponse
+import com.bits.bee.bpmc.domain.usecase.signup.PostSendOtpUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.PostVerifSmsUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
@@ -19,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OtpViewModel @Inject constructor(
-    private val postVerifSmsUseCase: PostVerifSmsUseCase
+    private val postVerifSmsUseCase: PostVerifSmsUseCase,
+    private val postSendOtpUseCase: PostSendOtpUseCase,
 ) : BaseViewModel<OtpState, OtpViewModel.UIEvent>() {
 
     init {
@@ -49,6 +53,48 @@ class OtpViewModel @Inject constructor(
                 registerResponse.removeSource(source)
             }
         }
+    }
+
+    private var sendOtpResponse: MediatorLiveData<Resource<SendOtpResponse>> = MediatorLiveData()
+    fun observeSendOtpResponse() = sendOtpResponse as LiveData<Resource<SendOtpResponse>>
+
+    fun postSendOtp() = viewModelScope.launch {
+        if(state.isSendOtp) {
+            val source = postSendOtpUseCase("WA", state.regId).asLiveData()
+            sendOtpResponse.addSource(source) {
+                if (it != null) {
+                    sendOtpResponse.value = it
+                    if (it.status !== Resource.Status.LOADING) {
+                        sendOtpResponse.removeSource(source)
+                    }
+                } else {
+                    sendOtpResponse.removeSource(source)
+                }
+            }
+            startCountDown()
+        }
+    }
+
+    fun startCountDown() {
+        val time = object : CountDownTimer(30000, 1000){
+            override fun onTick(p0: Long) {
+                updateState(
+                    state.copy(
+                        isSendOtp = false,
+                        countDown = p0
+                    )
+                )
+            }
+
+            override fun onFinish() {
+                updateState(
+                    state.copy(
+                        isSendOtp = true
+                    )
+                )
+            }
+        }
+        time.start()
     }
 
     fun onSuccess() = viewModelScope.launch {

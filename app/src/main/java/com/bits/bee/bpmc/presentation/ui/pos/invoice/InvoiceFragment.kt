@@ -36,15 +36,23 @@ class InvoiceFragment(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_pos, menu)
-        menu.findItem(R.id.menu_draft).isVisible = false
-        menu.findItem(R.id.menu_search).isVisible = false
+        if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
+            menu.findItem(R.id.menu_draft).isVisible = false
+            menu.findItem(R.id.menu_search).isVisible = false
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            R.id.menu_draft -> {
+                mainViewModel.onClickDraft()
+            }
             R.id.menu_diskon -> {
                 mainViewModel.onClickDiskonNota()
+            }
+            R.id.menu_search -> {
+                mainViewModel.onClickSearch()
             }
             R.id.menu_promo -> {
                 mainViewModel.onClickPromo()
@@ -100,13 +108,6 @@ class InvoiceFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.msg.collect {
-                    showSnackbar(it)
-                }
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect {
@@ -124,6 +125,7 @@ class InvoiceFragment(
                                 negativeListener = {
                                     it.dismiss()
                                     mainViewModel.resetState()
+                                    mainViewModel.sendMessage(getString(R.string.berhasil_batal_transaksi))
                                     if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT)
                                         findNavController().popBackStack()
                                 }

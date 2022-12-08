@@ -234,7 +234,7 @@ class PrinterFactory @Inject constructor(
                 }
 
                 if (imagesrc == BPMConstants.BPM_INIT_DEFAULT_LOGO && logoValueStatus) {
-                    val data = BitmapFactory.decodeResource(context.resources, R.drawable.image_logo_beepos)
+                    val data = BitmapFactory.decodeResource(context.resources, R.drawable.ic_beepos)
                     val dataimage: Bitmap = Bitmap.createScaledBitmap(data, 400, 60, true)
                     Log.i("TAG_RESOURCES", "" + data)
                     Log.i("TAG_RESOURCES_img", "" + imagesrc)
@@ -246,13 +246,18 @@ class PrinterFactory @Inject constructor(
                     } else
                         Log.e("PRINTERFACTORY", "Read Bitmap File Failed")
                 }
-                if (imagesrc.isEmpty() && !logoValueStatus) {
-                    val data: Bitmap =
-                        BitmapFactory.decodeResource(context.resources, R.drawable.image_logo_beepos)
-                    val rawdata = Utils.decodeBitmap(data)
-                    rawdata?.let {
-                        bluetoothConnectService.onEventPrintImage(printer, rawdata)
-                    }
+                if (imagesrc.isEmpty() && logoValueStatus) {
+                    val data = BitmapFactory.decodeResource(context.resources, R.drawable.ic_beepos)
+                    val dataimage: Bitmap = Bitmap.createScaledBitmap(data, 400, 60, true)
+                    Log.i("TAG_RESOURCES", "" + data)
+                    Log.i("TAG_RESOURCES_img", "" + imagesrc)
+                    if (data != null) {
+                        val rawdata = Utils.decodeBitmap(dataimage)
+                        rawdata?.let {
+                            bluetoothConnectService.onEventPrintImage(printer, rawdata)
+                        }
+                    } else
+                        Log.e("PRINTERFACTORY", "Read Bitmap File Failed")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

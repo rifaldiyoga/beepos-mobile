@@ -6,10 +6,12 @@ import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.domain.usecase.member.AddBpUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetActivePriceLvlUseCase
 import com.bits.bee.bpmc.domain.usecase.member.GetRegencyByCodeUseCase
+import com.bits.bee.bpmc.domain.usecase.upload_manual.GetBpByIdUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class TambahMemberViewModel @Inject constructor(
     private val getActivePriceLvlUseCase: GetActivePriceLvlUseCase,
     private val addBpUseCase: AddBpUseCase,
+    private val getBpByIdUseCase: GetBpByIdUseCase,
     private val getRegencyByCodeUseCase: GetRegencyByCodeUseCase,
     private val getRegUseCase: GetRegUseCase
 ): BaseViewModel<TambahMemberState, TambahMemberViewModel.UIEvent >() {
@@ -71,7 +74,7 @@ class TambahMemberViewModel @Inject constructor(
 
         if(isValid) {
             val bp = Bp(
-                code = "tes code",
+                code = state.noTelp,
                 name = state.namaMember,
                 alamat = state.alamat,
                 isTaxedOnSale = state.isTaxed,
@@ -80,10 +83,9 @@ class TambahMemberViewModel @Inject constructor(
                 createdBy = -1,
                 createdAt = Date()
             )
-//            addUpdateMemberUseCase(bp)
-            addBpUseCase.invoke(state.kota, bp, state.noTelp, state.email, bp.alamat)
-//            state.city.
-            eventChannel.send(UIEvent.SuccessAddMember)
+            val id = addBpUseCase(state.kota, bp, state.noTelp, state.email, bp.alamat)
+            val bpLast = getBpByIdUseCase(id.toInt()).first()
+            eventChannel.send(UIEvent.SuccessAddMember(bpLast))
         }
     }
 
@@ -116,7 +118,7 @@ class TambahMemberViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-        object SuccessAddMember : UIEvent()
+        data class SuccessAddMember(val bp : Bp?) : UIEvent()
         object RequestKota : UIEvent()
         object RequestTaxInfo: UIEvent()
     }

@@ -1,13 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.rekap_kas
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.model.*
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
+import com.bits.bee.bpmc.domain.model.Cadj
+import com.bits.bee.bpmc.domain.model.Cash
+import com.bits.bee.bpmc.domain.model.Kas
+import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_kas.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,21 +20,15 @@ import javax.inject.Inject
 @HiltViewModel
 class KasKeluarMasukSharedViewModel @Inject constructor(
     private val addKasKeluarMasukUseCase: AddKasKeluarMasukUseCase,
-    private val getActiveBranchUseCase: GetActiveBranchUseCase,
-    private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val loadKasMasukSortUseCase: LoadKasMasukSortUseCase,
     private val getCadjInByDateUseCase: GetCadjInByDateUseCase,
     private val loadKasKeluarSortUseCase: LoadKasKeluarSortUseCase,
     private val getCadjOutByDateUseCase: GetCadjOutByDateUseCase,
-    private val updateTotalPossesUseCase: UpdateTotalPossesUseCase,
-    private val addKasUseCase: AddKasUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase
 ): BaseViewModel<KasKeluarMasukState, KasKeluarMasukSharedViewModel.UIEvent>() {
 
     init {
         state = KasKeluarMasukState()
-        getActiveBranch()
-        getActiveCashier()
     }
 
     fun checkPosses() = viewModelScope.launch {
@@ -47,27 +41,13 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         }
     }
 
-    private fun getActiveBranch() = viewModelScope.launch {
-        getActiveBranchUseCase.invoke().collect{
-            updateState(
-                state.copy(
-                    activeBranch = it
-                )
-            )
-        }
-    }
-
-    private fun getActiveCashier() = viewModelScope.launch {
-        getActiveCashierUseCase.invoke().collect{
-            updateState(
-                state.copy(
-                    activeCashier = it
-                )
-            )
-        }
-    }
-
-    fun onSaveKasMasuk(nominal: String, deskripsi: String, posses: Posses?, cash: Cash?) = viewModelScope.launch {
+    fun onSaveKasMasuk(
+        isStatus: Boolean,
+        nominal: String,
+        deskripsi: String,
+        posses: Posses?,
+        cash: Cash?
+    ) = viewModelScope.launch {
         var isvalid = true
         var mPosses = posses.let { it }
         if (nominal.isEmpty()){
@@ -90,17 +70,25 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         if (isvalid){
             val user = mPosses?.userId
             val cashierId = mPosses?.cashierId
-            val status = "i"
+            val status = if (isStatus) "i" else "o"
             val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
             val balance = BigDecimal.valueOf(longStartBal)
             val note = deskripsi.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
             val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
             val autogen = false
 
-            addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-            addKasUseCase.invoke(cash, balance)
-            updateTotalPossesUseCase.invoke(mPosses, balance, cash)
-
+            if (isStatus){
+                addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
+            }else{
+                if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
+                        ?: BigDecimal.ZERO.add(balance))
+                ){
+                    // blocking
+                    msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
+                }else{
+                    addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
+                }
+            }
 //            eventChannel.send(UIEvent.SuccesAddkasMasuk)
         }
     }
@@ -141,9 +129,7 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
                 // blocking
                 msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
             }else{
-                addKasKeluarMasukUseCase.invoke(cash!!, cashierId, user, note, reftype, balance, mPosses, status, autogen, state.activeBranch, state.activeCashier)
-                addKasUseCase.invoke(cash, balance)
-                updateTotalPossesUseCase.invoke(mPosses, balance, cash)
+                addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
             }
         }
 

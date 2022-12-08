@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -58,10 +57,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" >
 
                 <EditText
-                    android:paddingTop="@dimen/size16"
                     android:id="@+id/etNamaPerusahaan"
-                    android:layout_marginTop="@dimen/size6"
                     android:layout_width="match_parent"
+                    style="@style/CustomEditTextLayout"
+                    android:imeOptions="actionNext"
                     android:layout_height="wrap_content"
                     android:hint="@string/cth_beestore"/>
 
@@ -78,14 +77,26 @@
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/tilNamaPerusahaan" />
 
-            <Spinner
-                android:id="@+id/sp_bidang_usaha"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_bidang_usaha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
+                style="@style/CustomDropDownTextInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/textView5" >
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/actBidangUsaha"
+                    style="@style/CustomEditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:hint="Pilih Bidang Usaha"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView6"
@@ -95,25 +106,25 @@
                 android:text="@string/kota"
                 style="@style/TextHeader"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/sp_bidang_usaha" />
+                app:layout_constraintTop_toBottomOf="@+id/til_bidang_usaha" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilKota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/CustomTextInputLayout"
+                style="@style/CustomDropDownTextInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" >
 
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/ac_txtView"
-                    android:paddingTop="@dimen/size16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:hint="@string/kota"
+                    android:imeOptions="actionNext"
+                    style="@style/CustomEditTextLayout"
+                    android:hint="@string/cth_jakarta"
                     app:layout_constraintStart_toStartOf="@+id/textView2"
                     app:layout_constraintTop_toBottomOf="@+id/textView6"/>
 
@@ -141,8 +152,9 @@
 
                 <EditText
                     android:id="@+id/etAlamat"
-                    android:layout_marginTop="@dimen/size6"
+                    style="@style/CustomEditTextLayout"
                     android:layout_width="match_parent"
+                    android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
                     android:hint="@string/cth_jl_garuda_no_1" />
 

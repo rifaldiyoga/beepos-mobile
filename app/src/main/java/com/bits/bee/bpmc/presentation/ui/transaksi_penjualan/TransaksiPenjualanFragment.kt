@@ -1,8 +1,11 @@
 package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
-import android.view.*
-import androidx.activity.OnBackPressedCallback
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiPenjualanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
@@ -132,6 +134,11 @@ class TransaksiPenjualanFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.currentQuery.collectLatest {
+                (requireActivity() as HomeActivity).setVisibilityBottom(it.isEmpty())
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
@@ -157,6 +164,7 @@ class TransaksiPenjualanFragment(
             viewModel.channelList.collectLatest {
                 val channel = if(it.isNotEmpty()) if(it.size > 1) it[0].name+", +${it.size -1 }" else it[0].name else getString(R.string.pilih_channel)
                 binding.tilChannel.tvTitle.text = channel
+                setVisibilityReset()
             }
         }
 
@@ -164,8 +172,13 @@ class TransaksiPenjualanFragment(
             viewModel.filterDate.collectLatest {
                 val channel = FilterUtils.getFilterDateLabel(it.selectedPos)
                 binding.tilPeriode.tvTitle.text = channel
+                setVisibilityReset()
             }
         }
+    }
+
+    fun setVisibilityReset() {
+        binding.tvReset.isVisible = viewModel.filterDate.value.selectedPos != 0 || viewModel.channelList.value.isNotEmpty()
     }
 
     private fun setVisibilityList(isVisible : Boolean) {
@@ -179,34 +192,4 @@ class TransaksiPenjualanFragment(
             }
         }
     }
-
-    inner class TransaksiPenjualanOnBackPressedCallback(
-        private val slidingPaneLayout: SlidingPaneLayout
-    ) : OnBackPressedCallback (
-        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
-    ), SlidingPaneLayout.PanelSlideListener {
-
-        init {
-            slidingPaneLayout.addPanelSlideListener(this)
-        }
-
-        override fun handleOnBackPressed() {
-            slidingPaneLayout.closePane()
-
-            setToolbarTitle(getString(R.string.transaksi_penjualan))
-        }
-
-        override fun onPanelSlide(panel: View, slideOffset: Float) {
-
-        }
-
-        override fun onPanelOpened(panel: View) {
-            isEnabled = true
-        }
-
-        override fun onPanelClosed(panel: View) {
-            isEnabled = false
-        }
-    }
-
 }

@@ -5,5 +5,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.otp
  */
 data class OtpState(
     var regId : Int = 0,
-    var pin : String = ""
+    var pin : String = "",
+    var isSendOtp : Boolean = true,
+    var countDown : Long = 0,
 )

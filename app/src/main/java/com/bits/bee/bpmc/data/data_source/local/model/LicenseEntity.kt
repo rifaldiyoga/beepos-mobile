@@ -15,7 +15,7 @@ data class LicenseEntity(
     @ColumnInfo(name = SERIAL)
     var licNumber : String,
     @ColumnInfo(name = ITEM)
-    var item : String,
+    var item : String?,
     @ColumnInfo(name = EXPDATE)
     var licExp : Date,
 ) {

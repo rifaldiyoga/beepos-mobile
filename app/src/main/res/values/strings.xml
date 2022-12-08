@@ -69,6 +69,7 @@
     <string name="pref_add_tipe_prd">pref_add_tipe_prd</string>
     <string name="pref_add_list_unit">pref_add_list_unit</string>
     <string name="pref_add_pid">pref_add_pid</string>
+    <string name="pref_isKasmasuk">pref_isKasmasuk</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>
@@ -265,7 +266,7 @@
     <string name="satuan1">Satuan %1$d</string>
     <string name="tipe_prd">Tipe Produk</string>
     <string name="grup_prd">Grup Produk</string>
-    <string name="foto_prd">Foto Produk (Opsional)</string>
+    <string name="foto_prd">Foto Produk</string>
     <string name="mulai_jualan">Mulai Jualan</string>
     <string name="tambah_produk">Tambah Produk</string>
     <string name="btn_simpan">Simpan</string>
@@ -303,6 +304,7 @@ untuk memperbarui data dapur?</string>
     <string name="gagal_login">Gagal Login</string>
     <string name="silahkan_login_email_sinkron">Silahkan login menggunakan Email atau Sinkron data ulang!</string>
     <string name="kategori_blm_ada">Kategori belum ada, klik untuk tambahkan</string>
+    <string name="merek_blm_ada">Merek belum ada, klik untuk tambahkan</string>
     <string name="nama_kategori">Nama Kategori</string>
     <string name="pilih_kategori">Pilih Kategori</string>
     <string name="gunakan_sub_kategori">Gunakan Sub-Kategori Produk</string>
@@ -317,6 +319,9 @@ untuk memperbarui data dapur?</string>
     <string name="confirm_hapus_kategori">Apakah anda yakin ingin menghapus kategori? Kategori yang dihapus tidak dapat dikembalikan lagi</string>
     <string name="flash_on">Flash On</string>
     <string name="flash_off">Flash Off</string>
+    <string name="cth_sepatu">Cth. Sepatu</string>
+    <string name="cth_nike">Cth. Nike</string>
+    <string name="cth_86">Cth. 86</string>
 
     <!--    Setting   -->
     <string name="pos">POS</string>
@@ -578,7 +583,7 @@ untuk memperbarui data dapur?</string>
     <string name="analisa_sesi">Analisa Sesi</string>
     <string name="lihat_grafik">Lihat grafik, rata-rata penjualan,   dll</string>
     <string name="pendapatan_sesi">Pendapatan Sesi</string>
-    <string name="rekap_sesi_empty">Belum ada rekap sesi yang dicatat. Rekap sesi akan otomatis tersedia kasir aktif</string>
+    <string name="rekap_sesi_empty">Belum ada riwayat sesi yang dicatat. Riwayat akan tercatat setelah buka kasir lalu tutup kasir</string>
     <string name="note_retail">Keranjangmu masih kosong. Tambah produk dulu ya untuk memulai transaksi</string>
     <string name="salesman">Salesman :</string>
     <string name="salesman_">Salesman</string>
@@ -726,5 +731,11 @@ untuk memperbarui data dapur?</string>
     <string name="title_ubah_kategori">Ubah Kategori</string>
     <string name="title_ubah_merek">Ubah Merek</string>
     <string name="pref_pin">pref_pin</string>
+    <string name="cth_jakarta">Cth. Jakarta</string>
+    <string name="pref_active_pid">pref_active_pid</string>
+    <string name="masukkan_alasan_hapus_min_5_karakter">Masukkan alasan hapus, min 5 karakter</string>
+    <string name="transaksi_telah_dihapus">Transaksi telah dihapus</string>
+    <string name="berhasil_batal_transaksi">Berhasil batal transaksi</string>
+    <string name="lisensi_saya">Lisensi Saya</string>
 
 </resources>

@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.usecase.common
 
-import com.bits.bee.bpmc.domain.mapper.CashDataMapper
 import com.bits.bee.bpmc.domain.repository.CashRepository
 import com.bits.bee.bpmc.domain.repository.PossesRepository
 import kotlinx.coroutines.flow.first
@@ -11,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by aldi on 20/07/22.
  */
-class AddTotalPossesUseCase @Inject constructor(
+class UpdateTotalPossesUseCase @Inject constructor(
     private val possesRepository: PossesRepository,
     private val cashRepository: CashRepository
 ){

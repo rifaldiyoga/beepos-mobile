@@ -9,5 +9,8 @@ class DeleteKategoriUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(itemGroup: ItemGroup){
         itemGroupRepository.deleteItmgrp(itemGroup)
+        if (itemGroup.upId == null){
+            itemGroupRepository.deleteChildKategori(itemGroup.id!!)
+        }
     }
 }

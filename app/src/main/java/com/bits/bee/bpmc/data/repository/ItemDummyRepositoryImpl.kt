@@ -19,7 +19,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -43,10 +45,15 @@ class ItemDummyRepositoryImpl @Inject constructor(
     override fun postItemDummy(itemDummy: ItemDummy): Flow<Resource<ItemDummyResponse>> {
         val name = itemDummy.name.toRequestBody("text/plain".toMediaTypeOrNull())
         val itemtype = itemDummy.itemTypeCode.toRequestBody("text/plain".toMediaTypeOrNull())
-        val itemgroup = ("Makanan").toRequestBody("text/plain".toMediaTypeOrNull())
+        val itemgroup = (itemDummy.itemGroup).toRequestBody("text/plain".toMediaTypeOrNull())
         val price = itemDummy.price.toRequestBody("text/plain".toMediaTypeOrNull())
-        val unit = ("PCS").toRequestBody("text/plain".toMediaTypeOrNull())
-        val body : MultipartBody.Part? = null
+        val unit = (itemDummy.unit).toRequestBody("text/plain".toMediaTypeOrNull())
+        var body : MultipartBody.Part? = null
+        if(itemDummy.picPath.isNotEmpty()){
+            val file = File(itemDummy.picPath)
+            val image = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            body = MultipartBody.Part.createFormData("Item[1][imageFile]", file.name, image)
+        }
         return object : NetworkBoundResource<ItemDummyResponse>(){
             override fun createCall(): Flow<ApiResponse<ItemDummyResponse>> {
                 return apiUtils.getItemDummyApiService().postItemDummy(name, itemtype, itemgroup, price, unit, body)

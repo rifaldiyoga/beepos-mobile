@@ -6,23 +6,15 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
-import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.model.User
 import com.bits.bee.bpmc.domain.repository.UserRepository
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveLicenseUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
 import com.bits.bee.bpmc.domain.usecase.login.operator.GetBranchUserUseCase
-import com.bits.bee.bpmc.domain.usecase.login.operator.GetLicenseUseCase
-import com.bits.bee.bpmc.domain.usecase.login.operator.GetSaleNotUploadedUseCase
+import com.bits.bee.bpmc.domain.usecase.login.operator.GetUserEmailUseCase
 import com.bits.bee.bpmc.domain.usecase.login.operator.GetUserPinUseCase
-import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.pilih_kasir.UpdateActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.UpdateUserUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,6 +31,7 @@ class LoginOperatorViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val getBranchUserUseCase: GetBranchUserUseCase,
     private val getUserPinUseCase: GetUserPinUseCase,
+    private val getUserEmailUseCase: GetUserEmailUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
     private val userRepository: UserRepository,
     @ApplicationContext val context: Context
@@ -157,12 +150,27 @@ class LoginOperatorViewModel @Inject constructor(
         }
     }
 
+    fun checkEmail() = viewModelScope.launch {
+        val list = userRepository.getUserByUsername(state.email).first()
+        if(list.isNotEmpty()) {
+            list.forEach {
+                userRepository.resetUsedUser()
+                it.used = true
+                updateUserUseCase(it)
+            }
+            onSuccessLogin()
+        }else {
+            eventChannel.send(UIEvent.RequetWarningPass)
+        }
+    }
+
     fun onClickLogin() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestLoginEmail)
     }
 
     fun onSuccessLogin() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToHome)
+
     }
 
     fun menuInfo() = viewModelScope.launch{

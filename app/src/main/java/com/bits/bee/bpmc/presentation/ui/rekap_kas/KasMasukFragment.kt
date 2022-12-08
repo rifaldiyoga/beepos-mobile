@@ -27,8 +27,8 @@ class KasMasukFragment(
 ): BaseFragment<FragmentKasMasukBinding>() {
 
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
-    private val viewModel : TambahKasSharedViewModel by viewModels()
     private lateinit var parentKasAdapter: ParentKasAdapter
+    private var isKasmasuk: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +39,7 @@ class KasMasukFragment(
 
     override fun onResume() {
         super.onResume()
-//        Toast.makeText(requireContext(), "berhasil simpan kas masuk", Toast.LENGTH_SHORT).show()
+        isKasmasuk = true
     }
 
     override fun initComponents() {
@@ -73,6 +73,8 @@ class KasMasukFragment(
                             if (sharedViewModel.state.acrivePosses != null){
                                 val dialog = TambahKasDialog.Builder(requireContext())
                                     .setTitle(getString(R.string.tambah_kas_masuk))
+                                    .setNominal(getString(R.string.nominal_uang_masuk))
+                                    .setStatus(isKasmasuk)
                                     .build()
                                 dialog.show(parentFragmentManager, TAG)
                             }else{

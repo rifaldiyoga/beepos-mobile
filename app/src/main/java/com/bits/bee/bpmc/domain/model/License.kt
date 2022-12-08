@@ -8,7 +8,7 @@ import java.util.*
 data class License (
     var name: String,
     var licNumber : String,
-    var item : String,
+    var item : String?,
     var licExp : Date,
 )
 //=======

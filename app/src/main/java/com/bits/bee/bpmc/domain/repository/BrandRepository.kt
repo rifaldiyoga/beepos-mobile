@@ -13,4 +13,6 @@ interface BrandRepository {
     fun getBrandById(id: Int): Flow<Brand>
 
     suspend fun deleteMerk(brand: Brand)
+
+    fun getLastBrand(): Flow<Brand?>
 }

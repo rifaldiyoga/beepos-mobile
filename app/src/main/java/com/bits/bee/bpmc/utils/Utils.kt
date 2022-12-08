@@ -54,7 +54,6 @@ class Utils {
 //            val inc = diagonalInches.toString().substring(0, 3)
 
             //inci layar
-
             val orientation = beePreferenceManager.posPreferences.first().orientasi
 
             val isChange = beePreferenceManager.posPreferences.first().isChangeOrientasi
@@ -90,12 +89,12 @@ class Utils {
                     )
                 }
             }
+            screenDevice = BPMConstants.SCREEN_POTRAIT
             beePreferenceManager.updatePosPreferences(
                 beePreferenceManager.posPreferences.first().copy(
                     orientasi = BPMConstants.SCREEN_POTRAIT
                 )
             )
-            screenDevice = BPMConstants.SCREEN_POTRAIT
             return screenDevice
         }
 

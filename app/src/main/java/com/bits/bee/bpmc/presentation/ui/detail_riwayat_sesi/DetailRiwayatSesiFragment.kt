@@ -1,9 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.detail_riwayat_sesi
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -29,13 +27,27 @@ class DetailRiwayatSesiFragment(
 ): BaseFragment<FragmentDetailRiwayatSesiBinding>() {
 
     private val viewModel : DetailRiwayatSesiViewModel by viewModels()
-    private var mPosses: Posses? = null
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_print, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_print -> {
+                viewModel.onClickPrint()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {
             if (!it.getString("posses").equals("null") && it.getString("posses")?.isNotEmpty() == true){
-                mPosses = Gson().fromJson(it.getString("posses"), Posses::class.java)
+                val mPosses = Gson().fromJson(it.getString("posses"), Posses::class.java)
                 viewModel.updateState(
                     viewModel.state.copy(
                         posses = mPosses
@@ -53,7 +65,7 @@ class DetailRiwayatSesiFragment(
     override fun subscribeListeners() {
         binding.apply {
             lLDetail.setOnClickListener {
-                viewModel.onClickDetail(mPosses!!)
+                viewModel.onClickDetail()
             }
             cVAnalisaSesi.setOnClickListener {
 
@@ -74,7 +86,7 @@ class DetailRiwayatSesiFragment(
                         is DetailRiwayatSesiViewModel.UIEvent.RequestAnalisaSesi ->{
                             val action = DetailRiwayatSesiFragmentDirections.actionDetailRiwayatSesiFragmentToAnalasisiSesiFragment(
                                 Gson().toJson(
-                                    mPosses
+                                    viewModel.state.posses
                                 ), true)
                             findNavController().navigate(action)
                         }
@@ -93,13 +105,13 @@ class DetailRiwayatSesiFragment(
                         it.cashier?.let { cashier ->
                             binding.tvKasir.text = cashier.cashierName
                         }
-                        if (mPosses != null) {
+                        if (it.posses != null) {
                             binding.apply {
                                 tvPendapatanSesi.text = "Pendapatan Sesi"
-                                tvShift.text = mPosses!!.shift.toString()
+                                tvShift.text = it.posses!!.shift.toString()
 
-                                val startTime = Date(mPosses!!.startTime.time)
-                                val endTime = Date(mPosses!!.endTime?.time ?: 0)
+                                val startTime = Date(it.posses!!.startTime.time)
+                                val endTime = Date(it.posses!!.endTime?.time ?: 0)
 
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
@@ -107,7 +119,7 @@ class DetailRiwayatSesiFragment(
                                     BPMConstants.DEFAULT_DATE_FORMAT, endTime)
                                 pemasukanTotal.text = getString(
                                     R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(mPosses!!.total.add(mPosses!!.startBal)))
+                                    "Rp", CurrencyUtils.formatCurrency(it.posses!!.total.add(it.posses!!.startBal)))
                             }
                         }
                         it.user?.let {

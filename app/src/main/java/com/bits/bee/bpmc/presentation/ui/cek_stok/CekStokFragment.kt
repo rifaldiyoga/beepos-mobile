@@ -12,8 +12,10 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCekStokBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
@@ -61,6 +63,12 @@ class CekStokFragment(
                         CekStokViewModel.UIEvent.HideDialog ->{
                             dialog.hide()
                         }
+                        CekStokViewModel.UIEvent.NoInternetDialog -> {
+                            val dialog = NoInternetDialogBuilder({
+                                viewModel.loadStock()
+                            })
+                            dialog.show(parentFragmentManager, "")
+                        }
                     }
                 }
             }
@@ -93,7 +101,7 @@ class CekStokFragment(
         val searchItem = menu.findItem(R.id.search_cek_stok)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Masukan minimal 3 huruf"
-
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewLifecycleOwner.lifecycleScope.launch {

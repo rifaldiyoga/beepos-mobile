@@ -78,18 +78,21 @@ class AturProdukFragment(
                                 binding.apply {
                                     rvList.isVisible = it.isNotEmpty()
                                     constraintLayout9.isVisible = it.isEmpty()
+                                    if(it.isNotEmpty()){
+                                        btntambahPrd.text = "Mulai Jualan"
+                                    }
                                 }
-                                if(it.isNotEmpty()) {
-                                    clearPref()
-                                    viewModel.state.itemList = it
-                                    itemDummyAdapter.submitList(it.toMutableList())
-                                }
+                                clearPref()
+                                viewModel.state.itemList = it
+                                itemDummyAdapter.submitList(it.toMutableList())
                             }
                         }
                         Resource.Status.ERROR -> {
                             binding.progressBar.gone()
                         }
-                        Resource.Status.NOINTERNET -> TODO()
+                        Resource.Status.NOINTERNET -> {
+
+                        }
                     }
                 }
             }

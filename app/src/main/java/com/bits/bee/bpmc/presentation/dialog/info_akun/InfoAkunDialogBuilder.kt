@@ -19,7 +19,7 @@ class InfoAkunDialogBuilder(
     private val viewModel : InfoAkunViewModel by viewModels()
 
     override fun initComponents() {
-        viewModel.getCmp()
+        viewModel.getCmp(requireActivity())
     }
 
     override fun subscribeListeners() {

@@ -3,14 +3,9 @@ package com.bits.bee.bpmc.presentation.dialog.tambah_kas
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.InputFilter.LengthFilter
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -30,10 +25,6 @@ import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -55,7 +46,7 @@ class TambahKasDialog(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = builder.title
-            etNominal.setText(builder.nominal)
+            textView56.text = builder.nominal
             etDeskripsi.setText(builder.deskripsi)
             etNominal.addNumberFormatChange()
         }
@@ -63,52 +54,6 @@ class TambahKasDialog(
 
     override fun subscribeListeners() {
         binding.apply {
-//            etNominal.addTextChangedListener(object : TextWatcher{
-//                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//                }
-//
-//                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//                }
-//
-//                override fun afterTextChanged(p0: Editable?) {
-//                    etNominal.removeTextChangedListener(this)
-//
-//                    try {
-//                        var originalString: String = p0.toString()
-//                        val longval: Long
-//                        if (originalString.contains(",")) {
-//                            originalString = originalString.replace(",".toRegex(), "")
-//                        }
-//                        longval = originalString.toLong()
-//                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
-//                        formatter.applyPattern("#,###,###,###")
-//                        val formattedString = formatter.format(longval)
-//
-//                        //setting text after format to EditText
-//                        etNominal.setText(formattedString)
-//                        etNominal.setSelection(etNominal.getText().length)
-//                    } catch (nfe: NumberFormatException) {
-//                        nfe.printStackTrace()
-//                    }
-//                    etNominal.addTextChangedListener(this)
-//                    if (p0.toString().isNotEmpty()) {
-//                        try {
-//                            val nominalUang: String = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
-//                            viewModel.updateState(
-//                                viewModel.state.copy(
-//                                    nominal = nominalUang
-//                                )
-//                            )
-//                        } catch (e: Exception) {
-//                            e.stackTrace
-//                        }
-//                    }
-//                    viewModel.validateInput()
-//                }
-//            })
-
             etNominal.addTextChangedListener {
                 viewModel.updateState(
                     viewModel.state.copy(
@@ -128,22 +73,14 @@ class TambahKasDialog(
             }
 
             btnSimpan.setOnClickListener {
-                if (viewModel.state.nominal != null && viewModel.state.deskripsi != null) {
-                    sharedViewModel.onSaveKasMasuk(
-                        viewModel.state.nominal!!,
-                        viewModel.state.deskripsi ?: "",
-                        viewModel.state.posses,
-                        viewModel.state.cash
-                    )
-                    dismiss()
-                }else {
-                    Toast.makeText(
-                        builder.context,
-                        "Nominal atau deskripsi tidak boleh kosong",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-//                if (iskasMasuk){
+                sharedViewModel.onSaveKasMasuk(builder.isStatus,
+                    viewModel.state.nominal!!,
+                    viewModel.state.deskripsi ?: "",
+                    viewModel.state.posses,
+                    viewModel.state.cash
+                )
+                dismiss()
+                //                if (iskasMasuk){
 //
 //                }else{
 //                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
@@ -199,7 +136,8 @@ class TambahKasDialog(
         var positiveCallback: ((Dialog) -> Unit)? = null,
         var title: String? = null,
         var nominal: String? = null,
-        var deskripsi: String? = null
+        var deskripsi: String? = null,
+        var isStatus: Boolean = false
     ){
 
         fun setPositiveCallback(positiveCallback: (Dialog) -> Unit): Builder {
@@ -219,6 +157,11 @@ class TambahKasDialog(
 
         fun setDeskripsi(deskripsi: String?): Builder{
             this.deskripsi = deskripsi
+            return this
+        }
+
+        fun setStatus(isKasmasuk: Boolean): Builder{
+            this.isStatus = isKasmasuk
             return this
         }
 

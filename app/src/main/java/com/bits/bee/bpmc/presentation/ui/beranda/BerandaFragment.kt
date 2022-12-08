@@ -97,7 +97,9 @@ class BerandaFragment(
                                 groupPendapatan.visible()
                                 tvInfoKasir.text = getString(R.string.klik_tutup_kasir_untuk_mengakhiri_shift_3_ya, it.activePosses!!.shift)
                                 btnBukaKasir.text = getString(R.string.tutup_kasir)
-                                tvTotalPendapatan.text = CurrencyUtils.formatCurrency(it.activePosses!!.totIn ?: BigDecimal.ZERO)
+                                tvTotalPendapatan.text = CurrencyUtils.formatCurrency(
+                                    it.activePosses!!.totIn?.subtract(it.activePosses?.let { it.totOut }
+                                        ?: BigDecimal.ZERO) ?: BigDecimal.ZERO)
                             }
                         } else {
                             binding.apply {

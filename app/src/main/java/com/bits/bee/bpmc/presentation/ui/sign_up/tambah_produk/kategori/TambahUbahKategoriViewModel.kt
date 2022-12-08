@@ -1,13 +1,12 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.kategori
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.model.KategoriProduk
 import com.bits.bee.bpmc.domain.usecase.signup.AddEditKategoriProdukUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.DeleteKategoriUseCase
-import com.bits.bee.bpmc.domain.usecase.signup.GetItemgrpByKategoriUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.GetKategoriProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.merek.TambahUbahMerekViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,24 +15,29 @@ import javax.inject.Inject
 class TambahUbahKategoriViewModel @Inject constructor(
     private val addEditKategoriProdukUseCase: AddEditKategoriProdukUseCase,
     private val getKategoriProdukUseCase: GetKategoriProdukUseCase,
-    private val getItemgrpByKategoriUseCase: GetItemgrpByKategoriUseCase,
     private val deleteKategoriUseCase: DeleteKategoriUseCase
 ): BaseViewModel<TambahUbahKategoriState, TambahUbahKategoriViewModel.UIEvent>() {
 
     init {
         state = TambahUbahKategoriState()
-        loadItemgrp("")
+        loadItemgrp()
     }
 
     private var listSubkategori: MutableList<String> = mutableListOf()
 
-    fun onSaveKategori(namaKategori: String, parentKategori: String, edit: Boolean, olId: Int) = viewModelScope.launch {
-        addEditKategoriProdukUseCase.invoke(namaKategori, parentKategori, edit, olId)
+    fun onSaveKategori(
+        namaKategori: String,
+        parentKategori: String,
+        edit: Boolean,
+        olId: Int,
+        useSubKategori: Boolean
+    ) = viewModelScope.launch {
+        addEditKategoriProdukUseCase.invoke(namaKategori, parentKategori, edit, olId, useSubKategori)
         eventChannel.send(UIEvent.FinishSaveDelete)
     }
 
-    fun loadItemgrp(item: String) = viewModelScope.launch {
-       val list = getKategoriProdukUseCase.invoke(-1)
+    fun loadItemgrp() = viewModelScope.launch {
+        val list = getKategoriProdukUseCase()
         updateState(
             state.copy(
                 katPrdList = list
@@ -53,18 +57,24 @@ class TambahUbahKategoriViewModel @Inject constructor(
         )
     }
 
-    fun loadEditData(kategori: String) = viewModelScope.launch{
-        getItemgrpByKategoriUseCase.invoke(kategori).collect{
-            updateState(
-                state.copy(
-                    itemgrp = it
-                )
+    fun loadEditData(kategori: ItemGroup) = viewModelScope.launch{
+        updateState(
+            state.copy(
+                itemgrp = kategori
             )
-        }
+        )
     }
 
-    fun loadSubEditData(upId: Int) = viewModelScope.launch {
-
+    fun validateNama() = viewModelScope.launch {
+        var msg =""
+        if(state.namaKategori.isEmpty()){
+            msg = "Nama kategori tidak boleh kosong"
+        }
+        updateState(
+            state.copy(
+                msgNama = msg
+            )
+        )
     }
 
     fun onDeleteKategori() = viewModelScope.launch {

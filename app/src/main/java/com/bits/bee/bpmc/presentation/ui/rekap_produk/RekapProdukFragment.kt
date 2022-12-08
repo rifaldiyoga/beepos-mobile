@@ -19,6 +19,7 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.FilterUtils
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -135,11 +136,12 @@ class RekapProdukFragment(
 
         val searchItem = menu.findItem(R.id.search_rekap_produk)
         val searchView = searchItem.actionView as SearchView
-        searchView.queryHint = "Masukan minimal 3 huruf"
 
+        searchView.queryHint = "Masukan minimal 3 huruf"
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {

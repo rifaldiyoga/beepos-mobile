@@ -14,6 +14,8 @@ interface SignUpRepository {
 
     fun postVerifSms(code : String , regId : Int) : Flow<Resource<VerifSmsResponse>>
 
+    fun postSendOtp(otpTipe : String, regId : Int) : Flow<Resource<SendOtpResponse>>
+
     fun postVerifDb(serial : String) : Flow<Resource<CheckDbResponse>>
 
     fun postSetupPassword(authKey : String, password : String, pin : String) : Flow<Resource<SetupPasswordResponse>>

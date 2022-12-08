@@ -6,6 +6,7 @@ import androidx.room.Query
 import com.bits.bee.bpmc.data.data_source.local.base.BaseDao
 import com.bits.bee.bpmc.data.data_source.local.model.SaleEntity
 import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
+import com.bits.bee.bpmc.utils.BPMConstants
 import java.math.BigDecimal
 
 /**
@@ -37,16 +38,16 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT COUNT(*) FROM sale WHERE posses_id = :id and isvoid = 1")
     fun getTotalNotaVoid(id: Int): BigDecimal
 
-    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'TUNAI' and isvoid = 0")
+    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = '${BPMConstants.BPM_DEFAULT_TYPE_TUNAI}' and isvoid = 0")
     fun getTotalPaidTunai(id: Int): BigDecimal?
 
-    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'Debit Card' and isvoid = 0")
+    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = '${BPMConstants.BPM_DEFAULT_TYPE_DEBIT}' and isvoid = 0")
     fun getTotalPaidDebit(id: Int): BigDecimal?
 
-    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'Credit Card' and isvoid = 0")
+    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = '${BPMConstants.BPM_DEFAULT_TYPE_KREDIT}' and isvoid = 0")
     fun getTotalPaidKredit(id: Int): BigDecimal?
 
-    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = 'GOPAY' and isvoid = 0")
+    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = '${BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY}' and isvoid = 0")
     fun getTotalPaidGopay(id: Int): BigDecimal?
 
     @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0 and id not in (:saledlist) limit :limit_trx")

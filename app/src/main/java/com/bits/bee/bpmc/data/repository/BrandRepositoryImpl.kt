@@ -53,4 +53,11 @@ class BrandRepositoryImpl @Inject constructor(
             brandDao.delete(BrandDataMapper.fromDomainToDb(brand))
         }
     }
+
+    override fun getLastBrand(): Flow<Brand?> {
+        return flow {
+            val data = brandDao.getLastBrand()
+            emit(data?.let { BrandDataMapper.fromDbToDomain(it) })
+        }.flowOn(ioDispatcher)
+    }
 }

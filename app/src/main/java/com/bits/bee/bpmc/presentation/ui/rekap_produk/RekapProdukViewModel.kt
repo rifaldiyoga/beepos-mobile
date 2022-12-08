@@ -28,6 +28,7 @@ class RekapProdukViewModel @Inject constructor(
 ): BaseViewModel<RekapProdukState, RekapProdukViewModel.UIEvent>() {
 
     private var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
+
     var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(0, ""))
 
     init {

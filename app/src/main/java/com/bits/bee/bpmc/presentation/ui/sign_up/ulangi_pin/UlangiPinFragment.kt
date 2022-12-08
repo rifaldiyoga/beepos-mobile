@@ -1,7 +1,10 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.ulangi_pin
 
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -41,6 +44,7 @@ class UlangiPinFragment constructor(
             )
         )
         binding.apply {
+            numpad.setInputConnection(pinView.onCreateInputConnection(EditorInfo())!!)
             arguments?.let {
                 val pin = it.getString("pin")
                 viewModel.state.pinBefore = pin ?: ""
@@ -55,6 +59,9 @@ class UlangiPinFragment constructor(
             }
             btnSimpanPin.setOnClickListener {
 
+            }
+            linearLayout17.setOnClickListener {
+                viewModel.onClickPin()
             }
         }
     }
@@ -155,7 +162,12 @@ class UlangiPinFragment constructor(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
-
+                    it?.let {
+                        binding.apply {
+                            pinView.inputType = if(it.isPassVisible) InputType.TYPE_CLASS_NUMBER else InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+                            ivEye.setImageDrawable(ContextCompat.getDrawable(requireActivity(), if(it.isPassVisible) R.drawable.ic_eye else R.drawable.ic_eye_slash))
+                        }
+                    }
                 }
             }
         }
@@ -170,7 +182,7 @@ class UlangiPinFragment constructor(
                         }
                         UlangiPinViewModel.UIEvent.PinNotSame -> {
                             binding.pinView.text!!.clear()
-                            showSnackbar("Pin yang anda masukkan tidak sama!")
+                            showSnackbar("PIN tidak sesuai, coba lagi")
                         }
                     }
                 }

@@ -57,6 +57,9 @@ class LoginFragment constructor (
                                     LoginViewState()
                                 )
                             }
+                            else -> {
+
+                            }
                         }
                     }
                 }
@@ -125,14 +128,14 @@ class LoginFragment constructor (
                                     .show()
                                 viewModel.onSuccessLogin()
                             } else {
-                                Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
+                                Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG)
                                     .show()
                             }
                         }
                     }
                     Resource.Status.ERROR -> {
                         dialog.hide()
-                        Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
+                        Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG)
                             .show()
                     }
                     Resource.Status.NOINTERNET -> {

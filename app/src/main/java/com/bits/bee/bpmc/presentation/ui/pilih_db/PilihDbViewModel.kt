@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
 import com.bits.bee.bpmc.data.data_source.remote.response.LoginResponse
+import com.bits.bee.bpmc.domain.model.License
 import com.bits.bee.bpmc.domain.usecase.common.InitialUseCase
 import com.bits.bee.bpmc.domain.usecase.common.PostLicenseUseCase
 import com.bits.bee.bpmc.domain.usecase.login.LoginUseCase
@@ -93,32 +94,32 @@ class PilihDbViewModel @Inject constructor(
         }
     }
 
+
+    private var licenseResponse: MediatorLiveData<Resource<License>> = MediatorLiveData()
+    fun observeLicense() = licenseResponse as LiveData<Resource<License>>
+
     fun postLicense() = viewModelScope.launch{
         val deviceName = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_nama_device), "") as String
         val version = Utils.getVersionName(context)
-        postLicenseUseCase(state.inputEmail, deviceName, version).collect {
-            when(it.status){
-                Resource.Status.LOADING -> {
-                    showDialog("Validasi Lisensi")
+        val source = postLicenseUseCase(state.inputEmail, deviceName, version).asLiveData()
+        licenseResponse.addSource(source){
+            if (it != null) {
+                licenseResponse.value = it
+                if (it.status !== Resource.Status.LOADING) {
+                    licenseResponse.removeSource(source)
                 }
-                Resource.Status.SUCCESS -> {
-                    hideDialog()
-                    it.data?.let {
-                        eventChannel.send(UIEvent.NavigateToDownload)
-                    }
-                }
-                Resource.Status.ERROR -> {
-                    hideDialog()
-                }
-                Resource.Status.NOINTERNET -> {
-                    showNoInternet()
-                }
+            } else {
+                licenseResponse.removeSource(source)
             }
         }
     }
 
     fun onSuccessDb() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToPilihMode)
+    }
+
+    fun onSuccessLicense() = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDownload)
     }
 
     fun showDialog(msg : String = "") = viewModelScope.launch{

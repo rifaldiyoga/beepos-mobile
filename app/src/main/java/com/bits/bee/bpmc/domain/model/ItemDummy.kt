@@ -12,9 +12,11 @@ data class ItemDummy (
     var name: String = "",
     var itemTypeCode: String = "",
     var itemGroupId : Int = -1,
+    var itemGroup : String = "",
     var brandId: Int? = -1,
     var price : String = "",
     var picPath : String = "",
     var pid : String = "",
-    var unitList : List<UnitDummy> = mutableListOf()
+    var unitList : List<UnitDummy> = mutableListOf(),
+    var unit : String = ""
 ) : Parcelable

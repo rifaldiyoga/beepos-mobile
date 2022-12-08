@@ -13,9 +13,10 @@ import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentHakAksesBinding
 import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
-import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -70,7 +71,6 @@ class HakAksesFragment(
     }
 
     override fun initComponents() {
-
         arguments?.let {
             val acs = it.getString("acsType")
             viewModel.updateState(
@@ -81,6 +81,28 @@ class HakAksesFragment(
         }
         dialog = LoadingDialogHelper(requireContext())
         binding.apply {
+            toolbar.inflateMenu(R.menu.menu_hak_akses)
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+            toolbar.setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.menu_login -> {
+                        when(mLoginUserStatus){
+                            1 -> {
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), true)
+                                mLoginUserStatus = 2
+                            }
+                            2 -> {
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), false)
+                                mLoginUserStatus = 1
+                            }
+                        }
+                        loadMenu(it)
+                    }
+                }
+                false
+            }
             numpad.setInputConnection(pinView.onCreateInputConnection(EditorInfo())!!)
         }
     }
@@ -123,6 +145,7 @@ class HakAksesFragment(
                     when(it){
                         HakAksesViewModel.UIEvent.ClearPin -> {
                             binding.pinView.setText("")
+                            binding.tvPinSalah.visible()
                         }
                         HakAksesViewModel.UIEvent.RequetWarningPass -> {
                             val dialog = DialogBuilderHelper.showDialogInfo(

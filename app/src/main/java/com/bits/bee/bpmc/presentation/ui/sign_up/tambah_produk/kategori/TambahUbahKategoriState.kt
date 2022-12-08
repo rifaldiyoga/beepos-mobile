@@ -11,5 +11,6 @@ data class TambahUbahKategoriState(
     var kategoriList: List<String>? = null,
     var itemgrp: ItemGroup? = null,
     var isEdit: Boolean = false,
-    var olId: Int = -1
+    var olId: Int = -1,
+    var msgNama: String =""
 )

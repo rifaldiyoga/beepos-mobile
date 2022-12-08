@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTambahEditMerkBinding
+import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
@@ -62,8 +63,7 @@ class TambahMerekFragment(
                 viewModel.event.collect { event ->
                     when (event) {
                         TambahUbahMerekViewModel.UIEvent.FinishSaveDelete ->{
-                            val action = TambahMerekFragmentDirections.actionTambahMerekFragmentToTambahProdukFragment()
-                            findNavController().navigate(action)
+                            findNavController().popBackStack()
                         }
                         TambahUbahMerekViewModel.UIEvent.RequestDialog ->{
                             val dialog = CustomDialogBuilder.Builder(requireContext())
@@ -130,12 +130,17 @@ class TambahMerekFragment(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_ubah_produk, menu)
+        arguments?.let {
+            val item = it.getString("itemBrand")
+            item?.let {
+                inflater.inflate(R.menu.menu_void, menu)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.opsi_delete -> viewModel.onShowDelete()
+            R.id.menu_void -> viewModel.onShowDelete()
         }
         return super.onOptionsItemSelected(item)
     }

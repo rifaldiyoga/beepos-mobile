@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapKasBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -61,7 +62,7 @@ class RekapKasFragment(
         val searchItem = menu.findItem(R.id.search_rekap_kas)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Masukan minimal 3 huruf"
-
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false

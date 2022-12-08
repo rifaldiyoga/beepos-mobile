@@ -71,6 +71,8 @@ class DownloadDialogBuilder(
                         DownloadViewModel.UIEvent.ShowNoInternet -> {
                             val dialog = NoInternetDialogBuilder({
                                 viewModel.downloadAll()
+                            }, onNegative = {
+                                dismiss()
                             })
                             dialog.show(parentFragmentManager, TAG)
                         }

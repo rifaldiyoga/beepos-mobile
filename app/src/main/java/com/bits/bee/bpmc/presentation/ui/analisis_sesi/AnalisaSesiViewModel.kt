@@ -38,10 +38,10 @@ class AnalisaSesiViewModel @Inject constructor(
     init {
         state = AnalisaSesiState()
         checkPosses()
-        getActivePosses()
+//        getActivePosses()
     }
 
-     fun checkPosses() = viewModelScope.launch {
+    fun checkPosses() = viewModelScope.launch {
         getActivePossesListUseCase.invoke().collect {
             it.data?.let {
                 updateState(
@@ -69,44 +69,44 @@ class AnalisaSesiViewModel @Inject constructor(
                 updateState(
                     state.copy(
                         user = it
-                        )
                     )
-                }
+                )
+            }
 
             getSaleByPossesUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                saleList = it
-                        )
+                    state.copy(
+                        saleList = it
+                    )
                 )
             }
 
 
             getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(
-                    data.trxDate.time,
+                data.trxDate.time,
             ), DateFormatUtils.convertEndDate(data.trxDate.time)).collect {
                 it.data?.let {
                     updateState(
-                            state.copy(
-                                    bpDateList = it
-                            )
+                        state.copy(
+                            bpDateList = it
+                        )
                     )
                 }
             }
 
             getCountNotaUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                notaSucces = it
-                        )
+                    state.copy(
+                        notaSucces = it
+                    )
                 )
             }
 
             getCountNotaVoidUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                notaVoid = it
-                        )
+                    state.copy(
+                        notaVoid = it
+                    )
                 )
             }
 
@@ -119,62 +119,57 @@ class AnalisaSesiViewModel @Inject constructor(
 
             getTotalPaidDebitUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                totalDebit = it
-                        )
+                    state.copy(
+                        totalDebit = it
+                    )
                 )
             }
 
             getTotalPaidKreditUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                totalKredit = it
-                        )
+                    state.copy(
+                        totalKredit = it
+                    )
                 )
             }
 
             getTotalPaidGopayUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                totalGopay = it
-                        )
+                    state.copy(
+                        totalGopay = it
+                    )
                 )
             }
 
             getRankItemUseCase.invoke(data.possesId!!).collect {
                 updateState(
-                        state.copy(
-                                rankItem = it
-                        )
+                    state.copy(
+                        rankItem = it
+                    )
                 )
             }
 
             getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
                 updateState(
-                        state.copy(
-                                reg = it
-                        )
+                    state.copy(
+                        reg = it
+                    )
                 )
             }
 
 
             val chart = getSumByHourUseCase.invoke(data)
             updateState(
-                    state.copy(
-                            listEntry = chart
-                    )
+                state.copy(
+                    listEntry = chart
+                )
             )
 
         }
-
     }
 
-//    fun loadDataChart() = viewModelScope.launch {
-//
-//    }
-
     fun getTotalNonTunai(): BigDecimal{
-        var nonTunai = state.totalDebit!!.add(state.totalKredit).add(state.totalGopay)
+        var nonTunai = state.totalDebit.add(state.totalKredit).add(state.totalGopay)
         return nonTunai
     }
 
@@ -183,7 +178,7 @@ class AnalisaSesiViewModel @Inject constructor(
         for (sale in saleList) {
             if (!sale.isVoid) total = total.add(sale.total)
         }
-        return if (saleList.size != 0) total.divide(
+        return if (saleList.isNotEmpty()) total.divide(
             BigDecimal(saleList.size),
             2,
             RoundingMode.HALF_UP

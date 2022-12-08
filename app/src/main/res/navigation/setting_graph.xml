@@ -83,7 +83,7 @@
     <fragment
         android:id="@+id/settingLisensiFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_lisensi.SettingLisensiFragment"
-        android:label="@string/lisensi"
+        android:label="@string/lisensi_saya"
         tools:layout="@layout/fragment_help_lisensi">
         <action
             android:id="@+id/action_settingLisensiFragment_to_initialActivity22"

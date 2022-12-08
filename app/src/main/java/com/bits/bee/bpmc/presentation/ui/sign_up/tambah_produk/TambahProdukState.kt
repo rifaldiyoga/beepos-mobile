@@ -15,14 +15,13 @@ data class TambahProdukState (
     var brand : Brand? = null,
     var itemDummy: ItemDummy? = null,
     var unitList : MutableList<UnitDummy> = mutableListOf(),
-    var listKategoriPrd: List<KategoriProduk>? = null,
-    var kategoriProduk: String? = null,
-    var listBrand: List<Brand>? = null,
-    var merekProduk: String? = null,
     var bitmap: Bitmap? = null,
-    var picpath: String ="",
+    var picPath: String? = null,
     var isEdit: Boolean = false,
     var itemId: Int = -1,
     var isActivePid: Boolean = false,
-    var pid: String = ""
+    var pid: String = "",
+    var msgNama: String ="",
+    var msgHarga: String="",
+    var msgSatuan: String=""
 )

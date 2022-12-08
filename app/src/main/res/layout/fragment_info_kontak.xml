@@ -55,11 +55,13 @@
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/etNama"
-                    android:paddingTop="@dimen/size16"
+                    style="@style/CustomEditTextLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:layout_marginTop="@dimen/size6"
                     android:hint="@string/cth_budi" />
 
@@ -86,11 +88,12 @@
 
                 <EditText
                     android:id="@+id/etNo_wa"
-                    android:paddingTop="@dimen/size16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
+                    style="@style/CustomEditTextLayout"
                     android:hint="@string/cth_081234567890"
+                    android:imeOptions="actionNext"
                     android:inputType="phone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -118,12 +121,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView6" >
 
                 <EditText
-                    android:paddingTop="@dimen/size16"
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size6"
+                    android:imeOptions="actionNext"
                     android:hint="@string/cth_budi_email_com"
+                    style="@style/CustomEditTextLayout"
                     android:inputType="textEmailAddress"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -146,7 +150,6 @@
                 android:layout_width="@dimen/size0"
                 style="@style/CustomTextInputLayout"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
@@ -154,30 +157,76 @@
 
                 <EditText
                     android:id="@+id/etPassword"
-                    android:paddingTop="@dimen/size16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/min_8_char_pass"
-                    android:imeOptions="actionDone"
+                    style="@style/CustomEditTextLayout"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout14"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                app:layout_constraintStart_toStartOf="@+id/tilPassword"
+                app:layout_constraintTop_toBottomOf="@+id/tilPassword">
+
+                <TextView
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Password harus memenuhi syarat dibawah ini :"/>
+
+                <TextView
+                    android:id="@+id/tvErrorKarakter"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size8"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="Lebih dari 8 Karakter" />
+
+                <TextView
+                    android:id="@+id/tvErrorCase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font12"
+                    android:drawableStart="@drawable/ic_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="Huruf besar dan kecil" />
+
+                <TextView
+                    android:id="@+id/tvErrorNumber"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/font12"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="Mempunyai karakter angka" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView8"
                 style="@style/TextHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size24"
                 android:text="@string/conf_pass"
+                android:layout_marginTop="@dimen/size24"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilconf_Password"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size16"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="parent"
@@ -185,11 +234,11 @@
                 app:passwordToggleEnabled="true">
 
                 <EditText
-                    android:paddingTop="@dimen/size16"
                     android:id="@+id/etconf_Password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/ulangi_pass"
+                    style="@style/CustomEditTextLayout"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword" />
 

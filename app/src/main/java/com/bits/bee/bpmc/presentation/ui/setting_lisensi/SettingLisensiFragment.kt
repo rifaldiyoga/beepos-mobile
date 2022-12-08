@@ -1,6 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.setting_lisensi
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -16,6 +19,7 @@ import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment
 import com.bits.bee.bpmc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,6 +34,7 @@ class SettingLisensiFragment(
     private lateinit var loadingDialogHelper : LoadingDialogHelper
 
     override fun initComponents() {
+        setToolbarTitle(getString(R.string.lisensi_saya))
         loadingDialogHelper = LoadingDialogHelper(requireActivity())
         viewModel.getLicense()
         viewModel.getCashier()
@@ -89,6 +94,9 @@ class SettingLisensiFragment(
                             Utils.deleteApplicationData(requireActivity())
                             requireActivity().finish()
                         }
+                        SettingLisensiViewModel.UIEvent.RequestPerpanjang -> {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://my.beecloud.id/")))
+                        }
                     }
                 }
             }
@@ -102,12 +110,12 @@ class SettingLisensiFragment(
                             it.lisensi?.let {
                                 tvNamaDb.text = it.name
                                 tvJenisLisensi.text = it.item
-                                tVSerialLisensi.text = it.licNumber
+                                tvNoLisensi.text = it.licNumber
                                 tvTglBerakhir.text = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, it.licExp)
-//                                Settings.Secure.getString(
-//                                    getApplicationContext().getContentResolver(),
-//                                    Settings.Secure.ANDROID_ID
-//                                ) + "-" + Build.SERIAL
+                                tVSerialLisensi.text = Settings.Secure.getString(
+                                    requireActivity().contentResolver,
+                                    Settings.Secure.ANDROID_ID
+                                ) + "-" + Build.SERIAL
                             }
                         }
                     }

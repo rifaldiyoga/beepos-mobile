@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemProdukDummyBinding
 import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.FileHandlerUtils
 import com.bits.bee.bpmc.utils.ImageUtils
 import java.math.BigDecimal
 
@@ -17,7 +18,9 @@ import java.math.BigDecimal
 /**
  * Created by aldi on 31/08/22.
  */
-class ItemDummyAdapter(private val onItemClick : (ItemDummy) -> Unit) : ListAdapter<ItemDummy, RecyclerView.ViewHolder>(DiffCallback()) {
+class ItemDummyAdapter(
+    private val onItemClick : (ItemDummy) -> Unit
+) : ListAdapter<ItemDummy, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private val VIEW_ITEM = 1
     private val VIEW_ADD = 0
@@ -74,11 +77,11 @@ class ItemDummyAdapter(private val onItemClick : (ItemDummy) -> Unit) : ListAdap
                             BigDecimal(model.price.replace(",", "") ?: "0")
                         ))
                     }
-//                    if (model.picPath.isNotEmpty()){
-//                        imageItem.setImageBitmap(FileHandlerUtils.checkDirPath(model.picPath))
-//                    }else{
+                    if (model.picPath.isNotEmpty()){
+                        imageItem.setImageBitmap(FileHandlerUtils.checkDirPath(model.picPath))
+                    }else{
                         imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, model.name))
-//                    }
+                    }
                 } ?: run {
                     tvNamaItem.text = context.getString(R.string.tambah_baru)
                     imageItem.setImageDrawable(ImageUtils.generateFromInitial(context, "+"))
