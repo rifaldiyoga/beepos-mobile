@@ -32,7 +32,7 @@ class UpdateTotalPossesUseCase @Inject constructor(
 
             cashRepository.updateCash(cash)
 
-        } ?: throw Exception("")
+        } ?: throw IllegalArgumentException("No posses active!")
     }
 
 }

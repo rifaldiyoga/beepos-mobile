@@ -15,4 +15,7 @@ interface AddOnDDao : BaseDao<AddOnDEntity>{
     @Query("SELECT * FROM addond")
     fun getAddOnDList() : List<AddOnDEntity>
 
+    @Query("select a.* from addond a join itemaddon b on b.addon = a.addon_id where b.item_id = :itemId")
+    fun getAddOnDBySelectionList(itemId : Int) : List<AddOnDEntity>
+
 }

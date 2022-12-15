@@ -2,10 +2,12 @@ package com.bits.bee.bpmc.presentation.ui.salesman
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemMemberBinding
 import com.bits.bee.bpmc.domain.model.Srep
 import com.bits.bee.bpmc.utils.extension.gone
@@ -43,9 +45,15 @@ class SalesmanAdapter constructor(
                 llDetailMember.setOnClickListener {
                     onEyeClick(model)
                 }
+                clContent.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context,
+                        if(activeSalesman != null && activeSalesman.id == model.id)
+                            R.color.soft_red
+                        else
+                            R.color.white)
+                )
+                ivStatus.isVisible = activeSalesman != null && activeSalesman.id == model.id
 
-                rbMember.isChecked = activeSalesman != null && activeSalesman.id == model.id
-                rbMember.isSelected = activeSalesman != null && activeSalesman.id == model.id
             }
         }
 

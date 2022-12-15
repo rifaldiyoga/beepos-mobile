@@ -14,4 +14,7 @@ interface SelectionDDao : BaseDao<SelectionDEntity>{
     @Query("SELECT * FROM selectiond")
     fun getSelectionDList() : List<SelectionDEntity>
 
+    @Query("SELECT * FROM selectiond WHERE item_id = :itemId")
+    fun getSelectionDById(itemId : Int) : SelectionDEntity?
+
 }

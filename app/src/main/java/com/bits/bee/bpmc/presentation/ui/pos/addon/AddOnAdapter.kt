@@ -67,7 +67,10 @@ class AddOnAdapter(
                     doClick(model)
                 }
                 cbItem.setOnClickListener {
-                    doClick(model)
+                    if(cbItem.isChecked)
+                        addItem(model)
+                    else
+                        deleteItem(model)
                 }
                 ivPlus.setOnClickListener {
                     addItem(model)
@@ -148,7 +151,16 @@ class AddOnAdapter(
             binding.apply {
                 if (rbItem.isVisible) {
                     selectedPosition = absoluteAdapterPosition
-                    addOnI.onItemClick(item)
+                    if(item.isVariant && !item.isAddOn)
+                        addOnI.onItemClick(item)
+                    else {
+                        if (!rbItem.isSelected) {
+                            item.qty = BigDecimal.ONE
+                            addItem(item)
+                        } else {
+                            deleteItem(item)
+                        }
+                    }
                     notifyDataSetChanged()
                 } else if (cbItem.isVisible) {
                     cbItem.isChecked = !cbItem.isChecked

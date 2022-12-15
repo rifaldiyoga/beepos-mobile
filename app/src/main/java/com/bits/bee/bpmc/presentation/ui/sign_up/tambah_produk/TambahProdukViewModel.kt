@@ -44,6 +44,15 @@ class TambahProdukViewModel @Inject constructor(
     val getlastItemgrp = getLastItemgrpUseCase.invoke()
     val getlastBrand = getLastBrandUseCase.invoke()
 
+    fun onClickHapusImage() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                picPath = "",
+                bitmap = null
+            )
+        )
+    }
+
     fun onClickTambahSatuan() = viewModelScope.launch {
         if (state.unitList.size < 3){
             if(state.unitList[0].unit.isNotEmpty()) {

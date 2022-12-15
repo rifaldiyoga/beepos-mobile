@@ -25,6 +25,8 @@ interface SaleRepository {
 
     fun getSaleByPosses(id: Int) : Flow<List<Sale>>
 
+    fun getSaleByPossesGroupChannel(id: Int) : Flow<List<Sale>>
+
     fun getSaleByPosses(id: Int, isVoid : Boolean, termType : String) : Flow<List<Sale>>
 
     fun getTotalNota(id: Int): Flow<BigDecimal>

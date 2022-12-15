@@ -3,13 +3,11 @@ package com.bits.bee.bpmc.presentation.ui.buka_kasir
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.GetCounterShiftUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
+import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,10 +27,13 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
     private val tutupKasirUseCase: TutupKasirUseCase,
     private val getCounterShiftUseCase: GetCounterShiftUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val beePreferenceManager: BeePreferenceManager
+    private val beePreferenceManager: BeePreferenceManager,
+    private val getRegUseCase: GetRegUseCase
 ) : BaseViewModel<BukaTutupKasirState, BukaTutupKasirSharedViewModel.UIEvent>() {
 
     val posPreferences = beePreferenceManager.posPreferences
+
+    val possesActualCashReg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
 
     init {
         state = BukaTutupKasirState()

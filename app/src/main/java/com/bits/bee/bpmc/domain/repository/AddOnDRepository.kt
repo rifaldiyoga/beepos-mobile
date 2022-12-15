@@ -11,4 +11,6 @@ interface AddOnDRepository {
 
     fun getLatestAddOnDList() : Flow<Resource<List<AddOnD>>>
 
+    fun getAddOnDByItemList(itemId : Int) : Flow<List<AddOnD>>
+
 }

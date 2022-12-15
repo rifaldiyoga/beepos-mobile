@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.domain.repository
 
-import com.bits.bee.bpmc.domain.model.AddOnD
 import com.bits.bee.bpmc.domain.model.SelectionD
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -11,5 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface SelectionDRepository {
 
     fun getLatestSelectionDList() : Flow<Resource<List<SelectionD>>>
+
+    fun getSelectionByItem(itemId : Int) : Flow<SelectionD?>
 
 }

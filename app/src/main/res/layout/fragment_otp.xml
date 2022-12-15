@@ -35,6 +35,8 @@
         app:itemCount="4"
         android:focusable="true"
         app:itemWidth="@dimen/size45"
+        android:textStyle="bold"
+        android:textSize="@dimen/font18"
         style="@style/PinWidget.PinView"
         android:inputType="phone"
         android:cursorVisible="true"

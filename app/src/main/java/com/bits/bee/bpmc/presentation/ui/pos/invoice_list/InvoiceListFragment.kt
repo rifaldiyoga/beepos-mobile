@@ -99,6 +99,7 @@ class InvoiceListFragment(
                     it?.let {
                         binding.apply {
                             invoiceAdapter.submitList(it.saledList.filter { !it.isAddOn })
+                            invoiceAdapter.submitSaleAddOnDList(mainViewModel.saleTrans.addOnTrans?.getListDetail() ?: mutableListOf())
                         }
                     }
                 }

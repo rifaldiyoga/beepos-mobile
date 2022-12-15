@@ -18,7 +18,9 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.replaceNumberWithStars
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.sql.Date
@@ -93,10 +95,22 @@ class DetailTutupKasirFragment(
                                 tvKasir.text = cashier.cashierName
                             }
                             it.activePosses?.let {
-                                tvModal.text = CurrencyUtils.formatCurrency(it.startBal)
-                                tvPemasukan.text = CurrencyUtils.formatCurrency(it.totIn)
-                                tvPengeluaran.text = CurrencyUtils.formatCurrency(it.totOut)
-                                tvSaldoAkhir.text = CurrencyUtils.formatCurrency(it.startBal + (it.totIn ?: BigDecimal.ZERO) - (it.totOut ?: BigDecimal.ZERO))
+                                var modal = CurrencyUtils.formatCurrency(it.startBal)
+                                var pemasukan = CurrencyUtils.formatCurrency(it.totIn)
+                                var pengeluaran = CurrencyUtils.formatCurrency(it.totOut)
+                                var saldoAkhir = CurrencyUtils.formatCurrency(it.startBal + (it.totIn ?: BigDecimal.ZERO) - (it.totOut ?: BigDecimal.ZERO))
+                                sharedViewModel.possesActualCashReg.first()?.let {
+                                    if(it.value == "1") {
+                                        modal = modal.replaceNumberWithStars()
+                                        pemasukan = pemasukan.replaceNumberWithStars()
+                                        pengeluaran = pengeluaran.replaceNumberWithStars()
+                                        saldoAkhir = saldoAkhir.replaceNumberWithStars()
+                                    }
+                                }
+                                tvModal.text = modal
+                                tvPemasukan.text = pemasukan
+                                tvPengeluaran.text = pengeluaran
+                                tvSaldoAkhir.text = saldoAkhir
                                 tvShift.text = it.shift.toString()
 
                                 val startTime = Date(it.startTime.time)

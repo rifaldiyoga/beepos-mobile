@@ -20,7 +20,7 @@ class GetSalePromoBySaleUseCase @Inject constructor(
         val salePromoList = salePromoRepository.getSalePromoBySale(id).first()
         salePromoList.map { salePromo ->
             salePromo.promo = promoRepository.getPromoById(salePromo.promo!!.id).first()
-            salePromo.saled = saledRepository.getSaledById(salePromo.sale!!.id!!).first()
+            salePromo.saled = saledRepository.getSaledById(salePromo.saled!!.id!!).first()
             salePromo.bp = salePromo.bp?.let { bpRepository.getBpById(salePromo.bp!!.id!!).first() }
         }
         emit(salePromoList)

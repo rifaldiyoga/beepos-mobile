@@ -20,6 +20,7 @@ import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunai
 import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
@@ -114,7 +115,9 @@ class PembayaranGopayFragment(
                 Resource.Status.ERROR -> {
                     binding.progressBar.gone()
                 }
-                Resource.Status.NOINTERNET -> TODO()
+                Resource.Status.NOINTERNET -> {
+
+                }
             }
         }
         viewModel.observeGopayStatusResponse().removeObservers(viewLifecycleOwner)
@@ -142,7 +145,7 @@ class PembayaranGopayFragment(
                                     val state = viewModel.state
                                     mainViewModel.submitSale(
                                         context = requireContext(),
-                                        termType = state.pmtd?.edcSurcType ?: "",
+                                        termType = BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY,
                                         paymentAmt = state.sale!!.total,
                                         pmtd = state.pmtd,
                                     )
@@ -156,13 +159,17 @@ class PembayaranGopayFragment(
                                 binding.ivQrCode.gone()
                                 Toast.makeText(requireActivity(), "Cancel", Toast.LENGTH_LONG).show()
                             }
+                            else -> {
+
+                            }
                         }
-                        Toast.makeText(requireActivity(), data.data.transaction_status, Toast.LENGTH_LONG).show()
                     }
                 }
                 Resource.Status.ERROR -> {
                 }
-                Resource.Status.NOINTERNET -> TODO()
+                Resource.Status.NOINTERNET -> {
+
+                }
             }
         }
         viewModel.observeCancelGopayResponse().removeObservers(viewLifecycleOwner)
@@ -180,7 +187,9 @@ class PembayaranGopayFragment(
                 }
                 Resource.Status.ERROR -> {
                 }
-                Resource.Status.NOINTERNET -> TODO()
+                Resource.Status.NOINTERNET -> {
+
+                }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {

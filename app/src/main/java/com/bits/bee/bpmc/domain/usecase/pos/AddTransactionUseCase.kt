@@ -92,8 +92,8 @@ class  AddTransactionUseCase @Inject constructor(
                 val surc = BigDecimal(it.surExp).divide(BigDecimal(100)).multiply(sale.total).setScale(reg?.value?.toInt() ?: 0, RoundingMode.HALF_UP)
                 sale.total = sale.total.add(surc)
             }
-
-            sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, cashier)
+            if(sale.trxNo.isEmpty())
+                sale.trxNo = TrxNoGeneratorUtils.counterNoTrx(counter, cashier)
             sale.trxOrderNum = counter
             sale.trxDate = Date()
             sale.totPaid = paymentAmt

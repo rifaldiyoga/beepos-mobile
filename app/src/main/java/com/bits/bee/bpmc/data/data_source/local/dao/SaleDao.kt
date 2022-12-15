@@ -29,6 +29,9 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = 0")
     fun getSaleByPosses(id: Int): List<SaleEntity>
 
+    @Query("SELECT *, SUM(total) as total FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = 0 GROUP BY channel_id")
+    fun getSaleByPossesGroupChannel(id: Int): List<SaleEntity>
+
     @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = :isVoid AND termtype = :termType")
     fun getSaleByPosses(id: Int, isVoid: Boolean, termType : String): List<SaleEntity>
 

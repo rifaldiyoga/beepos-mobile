@@ -66,6 +66,10 @@ class ItemGroupRepositoryImpl @Inject constructor(
         emit(itemGroupDao.getActiveItemGroupList().map { ItemGroupDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
+    override fun getActiveItemGroupNotAddOnList(): Flow<List<ItemGroup>> = flow {
+        emit(itemGroupDao.getItgrpNotAddon(true).map { ItemGroupDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
+
     override fun getById(id: Int): Flow<ItemGroup>{
         return flow {
             val data = itemGroupDao.getId(id)

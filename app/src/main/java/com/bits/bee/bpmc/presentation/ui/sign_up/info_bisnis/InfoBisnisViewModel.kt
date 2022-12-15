@@ -37,7 +37,6 @@ class InfoBisnisViewModel @Inject constructor(
 
     val bidangUsahaList = getBidangUsahaUseCase()
 
-
     private var registerResponse: MediatorLiveData<Resource<SignUpResponse>> = MediatorLiveData()
     fun observeSignUpResponse() = registerResponse as LiveData<Resource<SignUpResponse>>
 

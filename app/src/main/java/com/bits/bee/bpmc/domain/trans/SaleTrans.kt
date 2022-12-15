@@ -1,11 +1,14 @@
 package com.bits.bee.bpmc.domain.trans
 
+import com.bits.bee.bpmc.data.data_source.local.model.PromoEntity
 import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.repository.PromoRepository
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
+import kotlinx.coroutines.flow.first
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.inject.Inject
@@ -18,7 +21,8 @@ import javax.inject.Singleton
 @Singleton
 class SaleTrans @Inject constructor(
     private val promoCalc: PromoCalc,
-    private val saleCalc: SaleCalc
+    private val saleCalc: SaleCalc,
+    private val promoRepository: PromoRepository
 ) : BaseTrans<Sale, Saled>() {
 
     private var bp: Bp? = null
@@ -61,7 +65,7 @@ class SaleTrans @Inject constructor(
 
     }
 
-    fun loadTrans(sale : Sale, saledList : MutableList<Saled>, saleAddOn: SaleAddOn? = null,
+    suspend fun loadTrans(sale : Sale, saledList : MutableList<Saled>, saleAddOn: SaleAddOn? = null,
                   saleAddOnDList : MutableList<SaleAddOnD> = mutableListOf(),
                   salePromoList: MutableList<SalePromo> = mutableListOf()){
         mTblMaster = sale
@@ -69,9 +73,32 @@ class SaleTrans @Inject constructor(
         if(saleAddOn != null){
             if(addOnTrans == null)
                 addOnTrans = AddOnTrans()
+
             addOnTrans!!.loadTrans(saleAddOn, saleAddOnDList)
+            addOnTrans!!.getListDetail().forEach { saleAddOnD ->
+                getListDetail().forEach { saled ->
+                    if(saleAddOnD.upSaled?.id == saled.id){
+                        saleAddOnD.upSaled = saled
+                    }
+                    if(saleAddOnD.saled?.id == saled.id){
+                        saleAddOnD.saled = saled
+                    }
+                }
+            }
         }
         this.salePromoList = salePromoList
+       this.salePromoList.forEach { salePromo ->
+           getListDetail().forEach { saled ->
+               if(salePromo.saled?.id == saled.id){
+                   val promo = promoRepository.getPromoById(salePromo.promo!!.id).first()
+                   if(promo.promoCat == PromoEntity.BONUS && salePromo.promoRule == "D") {
+                       saled.isBonus = true
+                       saled.isBonusUsed = true
+                   }
+                   salePromo.saled = saled
+               }
+           }
+        }
     }
 
 
@@ -292,12 +319,23 @@ class SaleTrans @Inject constructor(
 
 
     suspend fun editDetail(saledEdit: Saled) {
-        val saled  = getListDetail().firstOrNull { it.itemId == saledEdit.itemId }
-        saled?.let {
-            getListDetail().map {
-                if(it.itemId == saled.itemId) {
-                    editSaled(it, saledEdit)
-                }
+        getListDetail().map { saled ->
+            if(saled === saledEdit) {
+//                if(saled.item != null && saled.item!!.isHaveAddOn){
+//                    addOnTrans?.getListDetail()?.forEach { saleAddOnD ->
+//                        if(saleAddOnD.upSaled == saled){
+//                            getListDetail().forEach { saled1 ->
+//                                val saled2 = saleAddOnD.saled
+//                                if(saled1 === saled2){
+//                                    val qtyPcs = saled2.qty / saledEdit.qty
+//                                    saled1.qty = qtyPcs.multiply(newQty)
+//                                    editSaled(saled1, saled2)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+                editSaled(saled, saledEdit)
             }
         }
         calculate()
@@ -346,7 +384,7 @@ class SaleTrans @Inject constructor(
 
         for (i in 0 until getListDetail().size){
             val saled = getListDetail()[i]
-            if(saledDel == saled){
+            if(saledDel === saled){
                 indexDelete = i
                 break
             }
@@ -462,7 +500,7 @@ class SaleTrans @Inject constructor(
 
     suspend fun mergeSaled(saled1: Saled, saled2: Saled) {
         for (saled in getListDetail()) {
-            if (saled == saled1) {
+            if (saled === saled1) {
                 saled.listPrice = saled.item?.price ?: BigDecimal.ZERO
                 saled.qty = saled.qty.add(saled2.qty)
                 if (saled.disc != BigDecimal.ZERO) {
@@ -481,7 +519,7 @@ class SaleTrans @Inject constructor(
         }
         for (saled in getListDetail()) {
             //hapus data saled yg ingin dimerge ke item tujuan
-            if (saled == saled2) {
+            if (saled === saled2) {
                 getListDetail().remove(saled)
                 break
             }
@@ -491,8 +529,8 @@ class SaleTrans @Inject constructor(
 
     suspend fun deleteAddon(up_saled: Saled?, saled: Saled) {
         val saledList = mutableListOf<Saled>()
-        getListDetail().forEachIndexed { i, saled1 ->
-            if (saled1 == saled) {
+        getListDetail().forEach { saled1 ->
+            if (saled1 === saled) {
                 saledList.add(saled1)
             }
         }
@@ -502,8 +540,8 @@ class SaleTrans @Inject constructor(
         }
         val saleAddOnDList: MutableList<SaleAddOnD> = ArrayList()
         for (saleAddOnD in addOnTrans!!.getListDetail()) {
-            if (saleAddOnD.upSaled!! == up_saled) {
-                if (saleAddOnD.saled == saled) saleAddOnDList.add(saleAddOnD)
+            if (saleAddOnD.upSaled!! === up_saled && saleAddOnD.saled === saled) {
+                saleAddOnDList.add(saleAddOnD)
             }
         }
         if (saleAddOnDList.size > 0) {
@@ -533,7 +571,7 @@ class SaleTrans @Inject constructor(
     private fun deleteOldSaleAddonD(saled: Saled) {
         val duplicateSaled: MutableList<SaleAddOnD> = ArrayList()
         for (saleAddOnD in addOnTrans!!.getListDetail()) {
-            if (saled == saleAddOnD.upSaled) {
+            if (saled === saleAddOnD.upSaled) {
                 duplicateSaled.add(saleAddOnD)
             }
         }

@@ -122,6 +122,10 @@ fun String.isContainsUpperCase() : Boolean {
     return contains(Regex("[A-Z]"))
 }
 
+fun String.isContainsLowerCase() : Boolean {
+    return contains(Regex("[a-z]"))
+}
+
 fun String.isContainsNumber() : Boolean {
     return contains(Regex("[0-9]"))
 }
@@ -129,6 +133,10 @@ fun String.isContainsNumber() : Boolean {
 fun String.isValidEmail() : Boolean {
     val patterns = Patterns.EMAIL_ADDRESS
     return patterns.matcher(this).matches()
+}
+
+fun String.replaceNumberWithStars() : String {
+    return this.replace(Regex("[0-9]"), "*")
 }
 
 

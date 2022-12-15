@@ -11,6 +11,7 @@ data class AddOnState(
     val bp : Bp? = null,
     val priceLvlId : Int = 1,
     val selectionList : List<SelectionWithItem> = mutableListOf(),
+    val addOnDList : List<AddOnD> = mutableListOf(),
     val variantWithItem: VariantWithItem? = null,
     val qty : BigDecimal = BigDecimal.ONE,
     val selectedAddOnList : List<Saled?> = mutableListOf(),

@@ -249,8 +249,7 @@
     <dialog
         tools:layout="@layout/dialog_hapus_transaksi"
         android:id="@+id/hapusTransaksiDialog"
-        android:name="com.bits.bee.bpmc.presentation.dialog.hapus_transaksi.HapusTransaksiDialog"
-        android:label="HapusTransaksiDialog" >
+        android:name="com.bits.bee.bpmc.presentation.dialog.hapus_transaksi.HapusTransaksiDialog">
         <argument
             android:name="sale"
             app:argType="com.bits.bee.bpmc.domain.model.Sale" />

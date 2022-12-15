@@ -68,8 +68,6 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         }
 
         if (isvalid){
-            val user = mPosses?.userId
-            val cashierId = mPosses?.cashierId
             val status = if (isStatus) "i" else "o"
             val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
             val balance = BigDecimal.valueOf(longStartBal)
@@ -80,59 +78,13 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             if (isStatus){
                 addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
             }else{
-                if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
-                        ?: BigDecimal.ZERO.add(balance))
-                ){
-                    // blocking
+                if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance) ?: BigDecimal.ZERO.add(balance))){
                     msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
                 }else{
                     addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
                 }
             }
-//            eventChannel.send(UIEvent.SuccesAddkasMasuk)
         }
-    }
-
-    fun onSaveKasKeluar(nominal: String, deskripsi: String, posses: Posses?, cash: Cash?) = viewModelScope.launch {
-        var isvalid = true
-        var mPosses = posses.let { it }
-        if (nominal.isEmpty()){
-            isvalid = false
-//            eventChannel.send(UIEvent.RequestDialogNominal)
-
-        }else{
-            val pattern = Pattern.compile(BPMConstants.REGEX_INPUT)
-            val matcher = pattern.matcher(nominal.replace("[,.]".toRegex(), ""))
-            if (matcher.find()){
-                // pastikan tidak ada karakter
-            }
-        }
-
-        if (deskripsi.isEmpty()){
-            isvalid = false
-            // pastikan deskripsi tidak kosong
-        }
-
-        if (isvalid){
-            val user = mPosses?.userId
-            val cashierId = mPosses?.cashierId
-            val status = "o"
-            val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
-            val balance = BigDecimal.valueOf(longStartBal)
-            val note = deskripsi.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
-            val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
-            val autogen = false
-
-            if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
-                    ?: BigDecimal.ZERO.add(balance))
-            ){
-                // blocking
-                msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
-            }else{
-                addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
-            }
-        }
-
     }
 
     fun loadKasMasuk(desc: Boolean, query: String) = viewModelScope.launch {

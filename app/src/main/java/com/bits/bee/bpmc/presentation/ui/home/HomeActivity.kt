@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -57,8 +58,14 @@ class HomeActivity(
             NavigationUI.setupWithNavController(bottomNav, navController)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
             navController.addOnDestinationChangedListener { _, _, _ ->
-                if(navController.currentDestination?.id != R.id.berandaFragment)
-                    toolbar.setNavigationIcon(R.drawable.ic_back_black)
+                if(navController.currentDestination?.id == R.id.berandaFragment || navController.currentDestination?.id == R.id.aturModalDialogBuilder)
+                    toolbar.navigationIcon = null
+                else
+                    toolbar.navigationIcon = ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_back_black)
+
+                toolbar.setNavigationOnClickListener {
+                    super.onBackPressed()
+                }
             }
         }
     }

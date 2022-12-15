@@ -1,14 +1,18 @@
 package com.bits.bee.bpmc.domain.usecase.pos
 
-import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.Sale
+import com.bits.bee.bpmc.domain.repository.SaledRepository
+import javax.inject.Inject
 
 /**
  * Created by aldi on 20/05/22.
  */
-class DeleteDetailUseCase {
+class DeleteDetailUseCase @Inject constructor(
+    private val saledRepository: SaledRepository,
+) {
 
-    operator fun invoke(item : Item) {
-
+    suspend operator fun invoke(sale : Sale) {
+        saledRepository.deleteSaledBySale(sale.id!!)
     }
 
 }

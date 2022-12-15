@@ -81,10 +81,16 @@ class TambahMemberFragment(
                 viewModel.onClickInfoLainnya()
             }
             etNamaMember.addTextChangedListener {
-                viewModel.state.namaMember = etNamaMember.text.toString().trim()
+                val nama = etNamaMember.text.toString().trim()
+                viewModel.state.namaMember = nama
+                if(nama.isNotEmpty())
+                    tilNamaMember.isErrorEnabled = false
             }
             etNoTelp.addTextChangedListener {
-                viewModel.state.noTelp = etNoTelp.text.toString().trim()
+                val telp = etNoTelp.text.toString().trim()
+                viewModel.state.noTelp = telp
+                if(telp.isNotEmpty())
+                    tilNoTelp.isErrorEnabled = false
             }
             etAlamat.addTextChangedListener{
                 viewModel.state.alamat = etAlamat.text.toString().trim()

@@ -22,6 +22,7 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.cari_item.CariItemFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.extension.decideOnState
@@ -66,7 +67,7 @@ class PositemFragment (
                             onItemClick(item)
                         },
                         onMinusClick = {item ->
-                            mainViewModel.onMinusClick(item)
+                            onMinusClick(item)
                         },
                         mainViewModel.state.saledList,
                         it.ukuranFont,
@@ -83,7 +84,7 @@ class PositemFragment (
                             showEmptyState = { isVisible ->
                                 binding.groupEmpty.isVisible = isVisible
                             },
-                            showError = { it ->
+                            showError = {
                                 showSnackbar(it)
                             }
                         )
@@ -98,9 +99,6 @@ class PositemFragment (
                     }
                 }
             }
-
-
-
         }
     }
 
@@ -153,10 +151,48 @@ class PositemFragment (
 
     private fun onItemClick(item : Item) {
         if(item.isVariant || item.isHaveAddOn) {
-            val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
-            findNavController().navigate(action)
+            if(item.isVariant){
+                var isContains = false
+                mainViewModel.state.saledList.forEach { saled ->
+                    item.itemVariantList.forEach {
+                        if(saled.itemId == it){
+                            isContains = true
+                            return@forEach
+                        }
+                    }
+                }
+                if(isContains){
+                    val action = PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
+                    findNavController().navigate(action)
+                } else {
+                    val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+                    findNavController().navigate(action)
+                }
+            } else {
+                if (mainViewModel.state.saledList.firstOrNull { item.id == it.itemId } == null) {
+                    val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(
+                        item,
+                        mainViewModel.state.bp!!,
+                        mainViewModel.state.bp!!.priceLvlId
+                    )
+                    findNavController().navigate(action)
+                } else {
+                    val action =
+                        PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
+                    findNavController().navigate(action)
+                }
+            }
         } else {
             mainViewModel.onAddDetail(ItemWithUnit(item))
+        }
+    }
+
+    private fun onMinusClick(item : Item) {
+        if(item.isVariant || item.isHaveAddOn) {
+            val action = CariItemFragmentDirections.actionCariItemFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+            findNavController().navigate(action)
+        } else {
+            mainViewModel.onMinusClick(item)
         }
     }
 }

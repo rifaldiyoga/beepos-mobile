@@ -28,6 +28,7 @@ class OtpViewModel @Inject constructor(
 
     init {
         state = OtpState()
+        startCountDown()
     }
 
     fun onInputPin(pin : String) = viewModelScope.launch {

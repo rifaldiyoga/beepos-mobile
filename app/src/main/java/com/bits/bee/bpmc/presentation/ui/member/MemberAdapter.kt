@@ -2,9 +2,12 @@ package com.bits.bee.bpmc.presentation.ui.member
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemMemberBinding
 import com.bits.bee.bpmc.domain.model.Bp
 
@@ -44,8 +47,16 @@ class MemberAdapter constructor(
                     onEyeClick(model)
                 }
 
-                rbMember.isChecked = activeMember != null && activeMember!!.id == model.id
-                rbMember.isSelected = activeMember != null && activeMember!!.id == model.id
+                tvNamaMember.setCompoundDrawablesWithIntrinsicBounds(null, null, if(model.isFavorit) ContextCompat.getDrawable(binding.root.context, R.drawable.ic_star_enabled) else null, null)
+
+                clContent.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context,
+                        if(activeMember != null && activeMember!!.id == model.id)
+                            R.color.light_red
+                        else
+                            R.color.white)
+                )
+                ivStatus.isVisible = activeMember != null && activeMember!!.id == model.id
             }
         }
 

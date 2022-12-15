@@ -18,6 +18,7 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.replaceNumberWithStars
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -144,61 +145,79 @@ class AnalisaSesiFragment(
                                 }else{
                                     tvSelesaiOperasional.text = ""
                                 }
+                                var modal = CurrencyUtils.formatCurrency(data.startBal)
+                                var totalPendapatan =  CurrencyUtils.formatCurrency(data.total.add(data.startBal))
+                                var pemasukan =  CurrencyUtils.formatCurrency(data.totIn ?: bigDecimalZero)
+                                var pengeluaran =  CurrencyUtils.formatCurrency(data.totOut ?: bigDecimalZero)
+                                var totalTunai =  CurrencyUtils.formatCurrency(it.totalTunai)
+                                var totalDebit =  CurrencyUtils.formatCurrency(it.totalDebit)
+                                var totalKredit =  CurrencyUtils.formatCurrency(it.totalKredit)
+                                var totalGopay =  CurrencyUtils.formatCurrency(it.totalGopay)
+                                var totalNonTunai =  CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai())
+
+
+                                it.reg?.let {
+                                    if(it.value == "1"){
+                                        modal = modal.replaceNumberWithStars()
+                                        totalPendapatan = totalPendapatan.replaceNumberWithStars()
+                                        pemasukan = pemasukan.replaceNumberWithStars()
+                                        pengeluaran = pengeluaran.replaceNumberWithStars()
+                                        totalTunai = totalTunai.replaceNumberWithStars()
+                                        totalDebit = totalDebit.replaceNumberWithStars()
+                                        totalKredit = totalKredit.replaceNumberWithStars()
+                                        totalGopay = totalGopay.replaceNumberWithStars()
+                                        totalNonTunai = totalNonTunai.replaceNumberWithStars()
+                                    }
+                                }
                                 tvSesi.text = "#${data.shift}"
                                 tvModal.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(data.startBal))
+                                    "Rp", modal)
                                 tvTotalPendapatan.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(data.total.add(data.startBal)))
+                                    "Rp", totalPendapatan)
                                 tvPemasukan.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(data.totIn ?: bigDecimalZero))
+                                    "Rp", pemasukan)
                                 tvPengeluaran.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(data.totOut ?: bigDecimalZero))
+                                    "Rp", pengeluaran)
                                 viewModel.getValueDetail()
+                                it.saleList?.let {
+                                    tvAvgOrder.text = getString(R.string.mata_uang_nominal,
+                                        "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
+                                    tvJmlOrder.text = it.size.toString()
+                                    tvTotalQty.text = CurrencyUtils.formatCurrency(viewModel.totalQty(it))
+                                }
+                                it.bpDateList?.let {
+                                    tvNewMember.text = it.size.toString()
+                                }
+                                it.notaSucces?.let {
+                                    tvTransSukses.text = it.toString()
+                                }
+                                it.notaVoid?.let {
+                                    tvTransVoid.text = it.toString()
+                                }
+                                tvTotalTunai.text = getString(R.string.mata_uang_nominal, "Rp", totalTunai)
+                                tvTotalDebit.text = getString(R.string.mata_uang_nominal, "Rp", totalDebit)
+                                tvTotalKredit.text = getString(R.string.mata_uang_nominal, "Rp", totalKredit)
+                                tvTotalGopay.text = getString(R.string.mata_uang_nominal, "Rp", totalGopay)
+                                tvTotalNonTunai.text = getString(R.string.mata_uang_nominal, "Rp", totalNonTunai)
+
+                                it.rankItem?.let {
+//                                clEmptyRanking.visibility = View.GONE
+//                                clRanking.visibility = View.VISIBLE
+//                                itemRankAdapter.submitList(it)
+                                    if (it.size > 0){
+                                        clEmptyRanking.visibility = View.GONE
+                                        clRanking.visibility = View.VISIBLE
+                                        itemRankAdapter.submitList(it)
+                                    }else{
+                                        clEmptyRanking.visibility = View.VISIBLE
+                                        clRanking.visibility = View.GONE
+                                    }
+                                }
                             }
                             it.user?.let {
                                 tvUserKasir.text = it.name
                             }
-                            it.saleList?.let {
-                                tvAvgOrder.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
-                                tvJmlOrder.text = it.size.toString()
-                                tvTotalQty.text = CurrencyUtils.formatCurrency(viewModel.totalQty(it))
-                            }
-                            it.bpDateList?.let {
-                                tvNewMember.text = it.size.toString()
-                            }
-                            it.notaSucces?.let {
-                                tvTransSukses.text = it.toString()
-                            }
-                            it.notaVoid?.let {
-                                tvTransVoid.text = it.toString()
-                            }
-                            it.totalTunai?.let {
-                                tvTotalTunai.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it))
-                            }
-                            it.totalDebit?.let {
-                                tvTotalDebit.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it))
-                            }
-                            it.totalKredit?.let {
-                                tvTotalKredit.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it))
-                            }
-                            it.totalGopay?.let {
-                                tvTotalGopay.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
-                            }
-                            tvTotalNonTunai.text = getString(R.string.mata_uang_nominal, "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai()))
-                            it.rankItem?.let {
-//                                clEmptyRanking.visibility = View.GONE
-//                                clRanking.visibility = View.VISIBLE
-//                                itemRankAdapter.submitList(it)
-                                if (it.size > 0){
-                                    clEmptyRanking.visibility = View.GONE
-                                    clRanking.visibility = View.VISIBLE
-                                    itemRankAdapter.submitList(it)
-                                }else{
-                                    clEmptyRanking.visibility = View.VISIBLE
-                                    clRanking.visibility = View.GONE
-                                }
-                            }
+
 //                            it.reg?.let { datareg->
 //                                loadViewChart()
 //                            }

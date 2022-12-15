@@ -1200,7 +1200,7 @@ class PromoCalc @Inject constructor(
         val saledList: MutableList<Saled> = ArrayList()
         for (saled in mSaleTrans.getListDetail()) {
             for (salePromo in mSaleTrans.salePromoList) {
-                if (saled == salePromo.saled) {
+                if (saled === salePromo.saled) {
                     break
                 }
             }
@@ -1212,7 +1212,7 @@ class PromoCalc @Inject constructor(
     private fun editQtyAddonByUpSaled(saled: Saled, qtyPromo: BigDecimal) {
         if (mSaleTrans.addOnTrans != null) {
             for (saleAddOnD in mSaleTrans.addOnTrans!!.getListDetail()) {
-                if (saleAddOnD.upSaled == saled) {
+                if (saleAddOnD.upSaled === saled) {
                     saleAddOnD.saled?.let { saledAddOn ->
                         saledAddOn.qty = saledAddOn.qty.divide(saled.qty).multiply(qtyPromo)
                     }
@@ -1244,7 +1244,7 @@ class PromoCalc @Inject constructor(
         if (mSaleTrans.addOnTrans != null) {
             val saledAddOnList: MutableList<Saled> = ArrayList()
             for (saleAddOnD in mSaleTrans.addOnTrans!!.getListDetail()) {
-                if (saleAddOnD.upSaled != null && saleAddOnD.upSaled!! == saled) {
+                if (saleAddOnD.upSaled != null && saleAddOnD.upSaled!! === saled) {
                     val saledAddOnNew = Saled()
                     val saledAddOn: Saled? = saleAddOnD.saled
                     saledAddOn?.let {
@@ -1446,7 +1446,7 @@ class PromoCalc @Inject constructor(
 
     private fun resetQtyAddonByUpSaled(saled: Saled) {
         for (saleAddOnD in mSaleTrans.addOnTrans!!.getListDetail()) {
-            if (saleAddOnD.upSaled == saled) {
+            if (saleAddOnD.upSaled === saled) {
                 if (saleAddOnD.saled != null && saleAddOnD.upSaled != null) {
                     saleAddOnD.saled!!.qty = saleAddOnD.saled!!.qty.divide(saleAddOnD.upSaled!!.qty)
                 }

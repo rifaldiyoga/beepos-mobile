@@ -195,7 +195,7 @@ class TambahProdukFragment(
                 openCamera()
             }
             llImage.setOnClickListener {
-                openCamera()
+                viewModel.onClickHapusImage()
             }
             cvPid.setOnClickListener {
                 viewModel.OnrequestInsight()
@@ -263,7 +263,7 @@ class TambahProdukFragment(
                             etNamaPid.setText(state.pid)
                             btnAddFoto.isVisible = state.bitmap == null
                             ivImage.isVisible = state.bitmap != null
-                            tvUbahFotoProduk.isVisible = state.bitmap != null
+                            tvHapusFotoProduk.isVisible = state.bitmap != null
                             state.bitmap?.let {
                                 ivImage.setImageBitmap(it)
                             }

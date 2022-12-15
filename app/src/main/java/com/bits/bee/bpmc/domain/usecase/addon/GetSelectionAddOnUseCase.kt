@@ -24,7 +24,7 @@ class GetSelectionAddOnUseCase @Inject constructor(
     suspend operator fun invoke(item: Item, priceLvlId : Int, bp: Bp) : Flow<Resource<List<SelectionWithItem>>>  = flow {
         emit(Resource.loading())
         val selection = selectionRepository.getSelectionByItem(item.id).first()
-        var selectionList : MutableList<SelectionWithItem> = mutableListOf()
+        val selectionList : MutableList<SelectionWithItem> = mutableListOf()
 
         for (data in selection){
             val itemList = itemRepository.getItemBySelection(data.id).first()

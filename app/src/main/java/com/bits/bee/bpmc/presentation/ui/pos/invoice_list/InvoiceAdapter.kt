@@ -134,7 +134,7 @@ class InvoiceAdapter(
         }
     }
 
-    inner class ViewHolderRetail(private val binding : ItemInvoiceRetailBinding) : RecyclerView.ViewHolder(binding.root), ViewHolder{
+    inner class ViewHolderRetail(private val binding : ItemInvoiceRetailBinding) : RecyclerView.ViewHolder(binding.root), ViewHolder {
 
         override fun bind(model : Saled) {
             binding.apply {
@@ -172,11 +172,11 @@ class InvoiceAdapter(
     class DiffCallback : DiffUtil.ItemCallback<Saled>() {
 
         override fun areItemsTheSame(oldItem: Saled, newItem: Saled): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Saled, newItem: Saled): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
     }

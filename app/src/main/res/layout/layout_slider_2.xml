@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_slider2"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/size24"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font16"
+        android:textStyle="bold"
+        android:text="@string/tetep_bisa_jualan_walau_tanpa_internet"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/size8"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_gray"
+        android:textSize="@dimen/font14"
+        android:text="@string/jangan_khawatir_kalo_jaringan_internet_lagi_gangguan"/>
+
+</LinearLayout>

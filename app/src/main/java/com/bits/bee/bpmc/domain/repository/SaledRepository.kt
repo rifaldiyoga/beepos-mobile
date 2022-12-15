@@ -40,4 +40,6 @@ interface SaledRepository {
 
     fun getRekapProduk(startDate: Long, endDate: Long, query: String): Flow<PagingData<RekapProduk>>
 
+    suspend fun deleteSaledBySale(saleId : Int)
+
 }

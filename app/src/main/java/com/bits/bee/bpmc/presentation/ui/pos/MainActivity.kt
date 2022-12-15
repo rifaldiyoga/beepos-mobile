@@ -75,7 +75,11 @@ class MainActivity(
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
 
             navController.addOnDestinationChangedListener { _, _, _ ->
-                toolbar.setNavigationIcon(R.drawable.ic_back_white)
+                if(navController.currentDestination?.id != R.id.transaksiBerhasilFragment) {
+                    toolbar.setNavigationIcon(R.drawable.ic_back_white)
+                }else {
+                    toolbar.navigationIcon = null
+                }
                 if (navController.currentDestination?.id == R.id.posFragment || navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
                     toolbar.setNavigationOnClickListener {
                         if (navController.currentDestination?.id == R.id.posFragment)
@@ -115,7 +119,8 @@ class MainActivity(
     override fun subscribeObservers() {
         lifecycleScope.launchWhenStarted {
             viewModel.msg.collect {
-                showSnackbar(it)
+                if(it.isNotEmpty())
+                    showSnackbar(it)
             }
         }
         lifecycleScope.launch {
@@ -177,7 +182,6 @@ class MainActivity(
                         dialog.show(supportFragmentManager, TAG)
                     }
                     MainViewModel.UIEvent.NavigateToDiskonNota -> {
-                        navController.navigateUp()
                         navController.navigate(R.id.diskonNotaDialog)
                     }
                     MainViewModel.UIEvent.NavigateToDraft -> {
@@ -233,7 +237,7 @@ class MainActivity(
     private fun setVisibilityToolbar(destinationId: Int){
         binding.apply {
             val isVisible = destinationId == R.id.diskonNotaDialog || destinationId == R.id.invoiceFragment
-                    || destinationId == R.id.posFragment || destinationId == R.id.draftListDialog
+                    || destinationId == R.id.posFragment || destinationId == R.id.draftListDialog || destinationId == R.id.detailAddOnDialogBuilder
             linearLayout10.isVisible = isVisible
         }
     }

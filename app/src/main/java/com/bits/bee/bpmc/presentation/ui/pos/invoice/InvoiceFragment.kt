@@ -101,7 +101,7 @@ class InvoiceFragment(
                             tvTotal.text = getString(R.string.mata_uang_nominal, it.crc?.symbol ?: "",CurrencyUtils.formatCurrency(it.sale.total))
                         }
 
-                        if(it.saledList.size == 0 && BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT){
+                        if(it.saledList.isEmpty() && BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
                             viewModel.onDetailEmpty()
                         }
                     }

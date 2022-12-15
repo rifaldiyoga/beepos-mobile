@@ -489,16 +489,21 @@
                     android:scaleType="centerCrop"/>
 
                 <TextView
-                    android:id="@+id/tvUbahFotoProduk"
+                    android:id="@+id/tvHapusFotoProduk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
                     android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_trash"
+                    android:drawablePadding="@dimen/size8"
+                    android:drawableTint="@color/red"
                     android:layout_marginStart="@dimen/size16"
                     app:layout_constraintTop_toTopOf="@id/ivImage"
                     app:layout_constraintBottom_toBottomOf="@+id/ivImage"
                     app:layout_constraintStart_toEndOf="@+id/ivImage"
-                    android:text="Ubah foto produk"/>
+                    android:text="Hapus foto produk"/>
+
+
 
             </LinearLayout>
 

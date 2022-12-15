@@ -93,13 +93,15 @@ class EditItemViewModel @Inject constructor(
         }
     }
 
-    fun onQtyChange(qty : String) = viewModelScope.launch {
-        if(qty.isEmpty()) {
+    fun onQtyChange(qtyInput : String) = viewModelScope.launch {
+        if(qtyInput.isEmpty()) {
             msgChannel.send("Qty tidak boleh kosong!")
         } else {
+            val qty = BigDecimal(qtyInput.removeSymbol())
+            reloadQtyAddOn(state.qty, qty)
             updateState(
                 state.copy(
-                    qty = BigDecimal(qty.removeSymbol())
+                    qty = qty
                 )
             )
         }
@@ -116,12 +118,12 @@ class EditItemViewModel @Inject constructor(
 
     fun onClickPlus() = viewModelScope.launch {
         val qty = state.qty + BigDecimal.ONE
+        reloadQtyAddOn(state.qty, qty)
         updateState(
             state.copy(
                 qty = qty
             )
         )
-
     }
 
     fun onClickMinus() = viewModelScope.launch {
@@ -129,8 +131,9 @@ class EditItemViewModel @Inject constructor(
             state.saled?.let {
                 eventChannel.send(UIEvent.ValidateDelete)
             }
-        }else if(state.qty > BigDecimal.ONE) {
+        } else if(state.qty > BigDecimal.ONE) {
             val qty = state.qty - BigDecimal.ONE
+            reloadQtyAddOn(state.qty, qty)
             updateState(
                 state.copy(
                     qty = qty
@@ -159,7 +162,7 @@ class EditItemViewModel @Inject constructor(
                 saled.discAmt = state.discAmt
                 saled.dNotes = state.note
                 saled.stock = state.pid
-                eventChannel.send(UIEvent.RequestSubmit(saled))
+                eventChannel.send(UIEvent.RequestSubmit(saled, state.addOnList))
             } ?: state.item?.let {
                 it.qty = state.qty
                 it.price = state.listPrice
@@ -183,8 +186,15 @@ class EditItemViewModel @Inject constructor(
         }
     }
 
+    fun reloadQtyAddOn(lastQty : BigDecimal, currentQty : BigDecimal) {
+        state.addOnList.forEach {
+            val qty = it.qty / lastQty
+            it.qty = qty * currentQty
+        }
+    }
+
     sealed class UIEvent {
-        data class RequestSubmit(val saled: Saled) : UIEvent()
+        data class RequestSubmit(val saled: Saled, val selectedAddOnList : List<Item> = mutableListOf()) : UIEvent()
         data class RequestAdd(val itemWithUnit: ItemWithUnit) : UIEvent()
         data class NavigateToAddOn(val item: Item, val saled : Saled) : UIEvent()
         data class NavigateToHakAkses(val accType : String) : UIEvent()

@@ -167,7 +167,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout14"
+                android:id="@+id/llPassword"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -176,7 +176,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilPassword">
 
                 <TextView
-                    android:textColor="@color/red"
+                    android:textColor="@color/maroon"
                     android:textSize="@dimen/font12"
                     android:layout_marginTop="@dimen/size4"
                     android:layout_width="match_parent"
@@ -184,32 +184,44 @@
                     android:text="Password harus memenuhi syarat dibawah ini :"/>
 
                 <TextView
-                    android:id="@+id/tvErrorKarakter"
-                    android:layout_width="match_parent"
-                    android:textSize="@dimen/font12"
-                    android:layout_marginTop="@dimen/size8"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_close_red"
-                    android:drawablePadding="@dimen/size16"
-                    android:text="Lebih dari 8 Karakter" />
-
-                <TextView
-                    android:id="@+id/tvErrorCase"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/font12"
-                    android:drawableStart="@drawable/ic_close_red"
-                    android:drawablePadding="@dimen/size16"
-                    android:text="Huruf besar dan kecil" />
-
-                <TextView
                     android:id="@+id/tvErrorNumber"
                     android:layout_width="match_parent"
                     android:textSize="@dimen/font12"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_close_red"
+                    android:layout_marginTop="@dimen/size8"
+                    android:drawableStart="@drawable/ic_circle_close_red"
                     android:drawablePadding="@dimen/size16"
-                    android:text="Mempunyai karakter angka" />
+                    android:text="@string/mengandung_min_1_angka" />
+
+                <TextView
+                    android:id="@+id/tvErrorUpperCase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size2"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="@string/mengandung_min_1_huruf_kapital" />
+
+                <TextView
+                    android:id="@+id/tvErrorLowerCase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size2"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="@string/mengandung_huruf_kecil" />
+
+                <TextView
+                    android:id="@+id/tvErrorKarakter"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size2"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="Minimal 8 karakter" />
 
             </LinearLayout>
 
@@ -221,7 +233,7 @@
                 android:text="@string/conf_pass"
                 android:layout_marginTop="@dimen/size24"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
+                app:layout_constraintTop_toBottomOf="@+id/llPassword" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilconf_Password"

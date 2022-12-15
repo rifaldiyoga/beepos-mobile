@@ -18,8 +18,10 @@ import com.bits.bee.bpmc.domain.model.PrinterKitchen
 import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.tipe_printer.TipePrinterDialog
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_printer.list_printer_search.PrinterDevice
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -205,6 +207,12 @@ class AddPrinterFragment(
                 viewModel.viewStates().collect { state ->
                     state?.let {
                         binding.apply {
+                            val mode = viewModel.modePreferences.first()
+                            (mode != PosModeState.RetailState).also {
+                                clPrinterKitchen.isVisible = it
+                                rvKitchenPrinter.isVisible = it
+                                llQtyKitchen.isVisible = it
+                            }
                             it.mPrinter?.let {
                                 etNamaPrinter.setText(it.printerName)
                                 etMacAddress.setText(it.address)

@@ -18,8 +18,10 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.replaceNumberWithStars
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -97,9 +99,11 @@ class BerandaFragment(
                                 groupPendapatan.visible()
                                 tvInfoKasir.text = getString(R.string.klik_tutup_kasir_untuk_mengakhiri_shift_3_ya, it.activePosses!!.shift)
                                 btnBukaKasir.text = getString(R.string.tutup_kasir)
-                                tvTotalPendapatan.text = CurrencyUtils.formatCurrency(
-                                    it.activePosses!!.totIn?.subtract(it.activePosses?.let { it.totOut }
-                                        ?: BigDecimal.ZERO) ?: BigDecimal.ZERO)
+                                var total =  CurrencyUtils.formatCurrency((it.activePosses!!.totIn ?: BigDecimal.ZERO) - (it.activePosses!!.totOut ?: BigDecimal.ZERO))
+                                sharedViewModel.possesActualCashReg.first()?.let {
+                                    total = if(it.value == "1") total.replaceNumberWithStars() else total
+                                }
+                                tvTotalPendapatan.text = total
                             }
                         } else {
                             binding.apply {

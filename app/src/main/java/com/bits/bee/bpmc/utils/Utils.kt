@@ -89,12 +89,6 @@ class Utils {
                     )
                 }
             }
-            screenDevice = BPMConstants.SCREEN_POTRAIT
-            beePreferenceManager.updatePosPreferences(
-                beePreferenceManager.posPreferences.first().copy(
-                    orientasi = BPMConstants.SCREEN_POTRAIT
-                )
-            )
             return screenDevice
         }
 

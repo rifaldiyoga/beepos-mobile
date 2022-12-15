@@ -85,6 +85,13 @@ class SaleRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
+    override fun getSaleByPossesGroupChannel(id: Int): Flow<List<Sale>> {
+        return flow {
+            val data = saleDao.getSaleByPossesGroupChannel(id).map { SaleDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(defaultDispatcher)
+    }
+
     override fun getTotalNota(id: Int): Flow<BigDecimal> {
         return flow {
             val data = saleDao.getTotalNota(id)

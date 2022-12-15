@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.repository.ChannelRepository
 import com.bits.bee.bpmc.domain.repository.CrcRepository
+import com.bits.bee.bpmc.domain.repository.PromoRepository
 import com.bits.bee.bpmc.domain.repository.SrepRepository
 import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.common.*
@@ -47,8 +48,10 @@ class MainViewModel @Inject constructor(
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
     private val getDefaultSalesmanUseCase: GetDefaultSalesmanUseCase,
+    private val deleteDetailUseCase: DeleteDetailUseCase,
     private val promoCalc: PromoCalc,
     private val channelRepository: ChannelRepository,
+    private val promoRepository: PromoRepository,
     private val crcRepository: CrcRepository,
     private val srepRepository: SrepRepository,
     private val beePreferenceManager: BeePreferenceManager,
@@ -63,7 +66,7 @@ class MainViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Eagerly, PosModeState.FnBState)
 
 
-    private val _saleTrans: SaleTrans = SaleTrans(promoCalc, SaleCalc(getRegUseCase))
+    private val _saleTrans: SaleTrans = SaleTrans(promoCalc, SaleCalc(getRegUseCase), promoRepository)
     val saleTrans : SaleTrans
         get() = _saleTrans
 
@@ -117,7 +120,6 @@ class MainViewModel @Inject constructor(
             usePid = posModeState.value is PosModeState.RetailState
         ).cachedIn(viewModelScope)
     }
-
 
     fun loadData() = runBlocking {
         combine(
@@ -236,37 +238,63 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun onAddAddOn(variant: ItemWithUnit?, addOnList : List<ItemWithUnit>) = viewModelScope.launch(exceptionHandler) {
-        variant?.let {
-            saleTrans.addDetail(
-                itemWithUnit = variant,
-            )
-            saleTrans.mergeAddon()
-            saleTrans.mergeItemAddon()
-            promoCalc.generatePromo()
+    fun onAddAddOn(qty : BigDecimal, item: ItemWithUnit?, addOnList : List<ItemWithUnit>) = viewModelScope.launch(exceptionHandler) {
+        repeat(qty.toInt()){
+            item?.let {
+                saleTrans.addDetail(itemWithUnit = item,)
+            }
+            for(addOn in addOnList){
+                saleTrans.addDetail(itemWithUnit = addOn, useItemqty = true)
+            }
         }
-        for(addOn in addOnList){
-            saleTrans.addDetail(
-                itemWithUnit = addOn
-            )
-        }
+
         saleTrans.mergeAddon()
         saleTrans.mergeItemAddon()
+        promoCalc.generatePromo()
         deployData()
     }
 
-    fun onItemAddOn(itemList : List<Item?>, upSaled: Saled?) = viewModelScope.launch(exceptionHandler) {
+    suspend fun onItemAddOn(itemList : List<Item?>, upSaled: Saled?)  {
         for (item in itemList){
             item?.let {
                 if(upSaled == null){
-                    saleTrans.addDetail(ItemWithUnit(item))
+                    saleTrans.addDetail(ItemWithUnit(item), useItemqty = true)
                 } else {
                     saleTrans.addDetail(ItemWithUnit(item), saledParent = upSaled)
                 }
             }
         }
+
         promoCalc.generatePromo()
         deployData()
+    }
+
+    fun onMinusAddOn(saled : Saled) = viewModelScope.launch {
+        saled.qty = saled.qty - BigDecimal.ONE
+        var selectedAddOnList = listOf<Item>()
+        saleTrans.addOnTrans?.let {
+            selectedAddOnList = it.getListDetail().filter { saled == it.upSaled }.map {
+                val item = it.saled!!.item!!
+                item.qty = it.saled!!.qty
+                item
+            }
+        }
+
+        onEditDetail(saled, selectedAddOnList)
+    }
+
+    fun onPlusAddOn(saled: Saled) = viewModelScope.launch {
+        saled.qty = saled.qty + BigDecimal.ONE
+        var selectedAddOnList = listOf<Item>()
+        saleTrans.addOnTrans?.let {
+            selectedAddOnList = it.getListDetail().filter { saled == it.upSaled }.map {
+                val item = it.saled!!.item!!
+                item.qty = it.saled!!.qty
+                item
+            }
+        }
+
+        onEditDetail(saled, selectedAddOnList)
     }
 
     fun onMinusClick(item : Item) = viewModelScope.launch {
@@ -306,21 +334,26 @@ class MainViewModel @Inject constructor(
         deployData()
     }
 
-    fun onEditDetail(saled: Saled) = viewModelScope.launch(exceptionHandler) {
-        saleTrans.editDetail(saled)
+    fun onEditDetail(saledParent: Saled, selectedAddOnList : List<Item> = mutableListOf()) = viewModelScope.launch(exceptionHandler) {
+        saleTrans.addOnTrans?.let { addOnTrans ->
+            val saledAddOnList : MutableList<Saled?> = mutableListOf()
+            for (saleAddOnD in addOnTrans.getListDetail()){
+                if(saleAddOnD.upSaled == saledParent)
+                    saledAddOnList.add(saleAddOnD.saled)
+            }
 
-        promoCalc.generatePromo()
-        deployData()
-    }
-
-    fun onDeleteAddOnData(upSaled : Saled, saled : Saled) = viewModelScope.launch(exceptionHandler) {
-        saleTrans.deleteAddon(upSaled, saled)
+            for(saled in saledAddOnList){
+                saled?.let { saled ->
+                    saleTrans.deleteAddon(saledParent, saled)
+                }
+            }
+            onItemAddOn(selectedAddOnList, saledParent)
+        }
+        saleTrans.editDetail(saledParent)
 
         saleTrans.mergeAddon()
         saleTrans.mergeItemAddon()
-
         promoCalc.generatePromo()
-
         deployData()
     }
 
@@ -393,7 +426,6 @@ class MainViewModel @Inject constructor(
         cardNo : String = "",
         note : String = "",
     ) {
-
         updateTrxOrderNo(context)
 
         val sale = saleTrans.getMaster()
@@ -402,7 +434,10 @@ class MainViewModel @Inject constructor(
         val saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf()
         val salePromoList = saleTrans.salePromoList
         sale.termType = termType
-        sale.isDraft = false
+        if(sale.isDraft){
+            deleteDetailUseCase(sale)
+            sale.isDraft = false
+        }
 
         val saleNew = addTransactionUseCase(
             sale = sale,
@@ -450,14 +485,14 @@ class MainViewModel @Inject constructor(
     }
 
     private fun deployData() = viewModelScope.launch {
-        val saledList = mutableListOf<Saled>()
-        saleTrans.getListDetail().forEach {
-            saledList.add(it.copy())
-        }
+//        val saledList = mutableListOf<Saled>()
+//        .forEach {
+//            saledList.add(it.copy())
+//        }
         updateState(
             state.copy(
                 sale = saleTrans.getMaster().copy(),
-                saledList = saledList,
+                saledList = saleTrans.getListDetail(),
                 saleAddOn = saleTrans.addOnTrans?.getMaster() ?: SaleAddOn(),
                 saleAddOnDList = saleTrans.addOnTrans?.getListDetail() ?: mutableListOf(),
                 salePromoList = saleTrans.salePromoList
@@ -480,21 +515,15 @@ class MainViewModel @Inject constructor(
     fun updateActiveChannel(channel : Channel) = viewModelScope.launch {
         _activeChannel.emit(channel)
         saleTrans.getMaster().channelId = channel.id
-//        saleTrans.getMaster().channel = channel
+        saleTrans.getMaster().channel = channel.name
         saleTrans.calculate()
         deployData()
     }
 
-    fun updateActiveSrep(channel : Srep) = viewModelScope.launch {
-        _activeSrep.emit(channel)
+    fun updateActiveSrep(srep : Srep) = viewModelScope.launch {
+        _activeSrep.emit(srep)
         if(posModeState.value is PosModeState.RetailState)
-            saleTrans.getMaster().srepId = channel.id
-//        saleTrans.calculate()
-        deployData()
-    }
-
-    fun generatePromo() = viewModelScope.launch {
-        promoCalc.generatePromo()
+            saleTrans.getMaster().srepId = srep.id
         deployData()
     }
 

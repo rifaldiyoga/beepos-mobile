@@ -24,7 +24,6 @@ import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-
 @AndroidEntryPoint
 class InfoBisnisFragment constructor(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentInfoBisnisBinding = FragmentInfoBisnisBinding::inflate
@@ -50,13 +49,25 @@ class InfoBisnisFragment constructor(
                 onClickSignUp()
             }
             etAlamat.addTextChangedListener {
-                viewModel.state.alamat = etAlamat.text.toString().trim()
+                val alamat = etAlamat.text.toString().trim()
+                viewModel.state.alamat = alamat
+                if(alamat.isNotEmpty()) {
+                    tilAlamat.isErrorEnabled = false
+                }
             }
             etNamaPerusahaan.addTextChangedListener {
-                viewModel.state.namaPerusahaan = etNamaPerusahaan.text.toString().trim()
+                val namaPerusahaan = etNamaPerusahaan.text.toString().trim()
+                viewModel.state.namaPerusahaan = namaPerusahaan
+                if(namaPerusahaan.isNotEmpty()) {
+                    tilNamaPerusahaan.isErrorEnabled = false
+                }
             }
             acTxtView.addTextChangedListener {
-                viewModel.state.kota = acTxtView.text.toString().trim()
+                val kota = acTxtView.text.toString().trim()
+                viewModel.state.kota = kota
+                if(kota.isNotEmpty()) {
+                    tilKota.isErrorEnabled = false
+                }
             }
             actBidangUsaha.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

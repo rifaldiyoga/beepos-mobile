@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -47,12 +48,11 @@ class InitialActivity (
         binding.apply {
             setSupportActionBar(toolbar)
 
-
             NavigationUI.setupActionBarWithNavController(this@InitialActivity, navController, appBarConfiguration)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
             navController.addOnDestinationChangedListener { _, _, _ ->
                 toolbar.setNavigationIcon(R.drawable.ic_back_black)
-
+                toolbar.isVisible = navController.currentDestination?.id != R.id.initialFragment && navController.currentDestination?.id != R.id.walkThroughFragment
             }
             toolbar.setNavigationOnClickListener {
                 onBackPressed()

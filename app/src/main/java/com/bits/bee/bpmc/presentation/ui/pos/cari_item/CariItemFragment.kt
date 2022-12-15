@@ -1,8 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.cari_item
 
 import android.Manifest
-import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -24,11 +22,11 @@ import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
+import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosRetailAdapter
 import com.bits.bee.bpmc.utils.PermissionUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,7 +42,7 @@ class CariItemFragment(
 
     private val viewModel : CariItemViewModel by viewModels()
 
-    private val mViewModel : MainViewModel by activityViewModels()
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     private lateinit var itemAdapter : ItemPosCariAdapter
     private lateinit var itemRetailPosAdapter: ItemPosRetailAdapter
@@ -57,14 +55,14 @@ class CariItemFragment(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.state.usePid = mViewModel.posModeState.value is PosModeState.RetailState
+        viewModel.state.usePid = mainViewModel.posModeState.value is PosModeState.RetailState
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_search_scan, menu)
         val searchItem = menu.findItem(R.id.menu_search)
-        menu.findItem(R.id.menu_scan).isVisible = mViewModel.posModeState.value == PosModeState.RetailState
+        menu.findItem(R.id.menu_scan).isVisible = mainViewModel.posModeState.value == PosModeState.RetailState
         searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.cari_produk_min_3_karakter)
         searchView.setSearchViewStyle(requireActivity(), R.color.white)
@@ -127,18 +125,18 @@ class CariItemFragment(
             rvList.gone()
             itemAdapter = ItemPosCariAdapter(
                 onItemClicK = { item ->
-                    mViewModel.onAddDetail(ItemWithUnit(item))
+                   onItemClick(item)
                 },
                 onMinusClick = { item ->
-                    mViewModel.onMinusClick(item)
+                    onMinusClick(item)
                 },
-                mViewModel.state.saledList
+                mainViewModel.state.saledList
             )
             itemRetailPosAdapter = ItemPosRetailAdapter {
                 viewModel.onClickRetail(it)
             }
             rvList.apply {
-                adapter = if(mViewModel.posModeState.value is PosModeState.FnBState)
+                adapter = if(mainViewModel.posModeState.value is PosModeState.FnBState)
                     itemAdapter
                 else
                     itemRetailPosAdapter
@@ -154,21 +152,21 @@ class CariItemFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            mViewModel.activeBp.collect {
+            mainViewModel.activeBp.collect {
                 it?.let {
                     viewModel.state.bp = it
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            mViewModel.activeChannel.collect {
+            mainViewModel.activeChannel.collect {
                 it?.let {
                     viewModel.state.channel = it
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            if(mViewModel.posModeState.value is PosModeState.FnBState) {
+            if(mainViewModel.posModeState.value is PosModeState.FnBState) {
                 itemAdapter.loadStateFlow.collectLatest {
                     if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
                         binding.groupEmpty.isVisible = itemAdapter.itemCount == 0  && viewModel.currentQuery.value.length > 2
@@ -187,7 +185,7 @@ class CariItemFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchItemFlow.collectLatest {
-                    if(mViewModel.posModeState.value is PosModeState.FnBState) {
+                    if(mainViewModel.posModeState.value is PosModeState.FnBState) {
                         itemAdapter.submitData(it)
                     } else {
                         itemRetailPosAdapter.submitData(it)
@@ -197,7 +195,7 @@ class CariItemFragment(
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mViewModel.viewStates().collect {
+                mainViewModel.viewStates().collect {
                     it?.let {
                         itemAdapter.submitSaledList(it.saledList)
                     }
@@ -224,12 +222,50 @@ class CariItemFragment(
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode === 20) {
-            if (resultCode === RESULT_OK && android.R.attr.data != null) {
-                val code: String = ""
+    private fun onItemClick(item : Item) {
+        if(item.isVariant || item.isHaveAddOn) {
+            if(item.isVariant){
+                var isContains = false
+                mainViewModel.state.saledList.forEach { saled ->
+                    item.itemVariantList.forEach {
+                        if(saled.itemId == it){
+                            isContains = true
+                            return@forEach
+                        }
+                    }
+                }
+                if(isContains){
+                    val action = PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
+                    findNavController().navigate(action)
+                } else {
+                    val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+                    findNavController().navigate(action)
+                }
+            } else {
+                if (mainViewModel.state.saledList.firstOrNull { item.id == it.itemId } == null) {
+                    val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(
+                        item,
+                        mainViewModel.state.bp!!,
+                        mainViewModel.state.bp!!.priceLvlId
+                    )
+                    findNavController().navigate(action)
+                } else {
+                    val action =
+                        PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
+                    findNavController().navigate(action)
+                }
             }
+        } else {
+            mainViewModel.onAddDetail(ItemWithUnit(item))
+        }
+    }
+
+    private fun onMinusClick(item : Item) {
+        if(item.isVariant || item.isHaveAddOn) {
+            val action = CariItemFragmentDirections.actionCariItemFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+            findNavController().navigate(action)
+        } else {
+            mainViewModel.onMinusClick(item)
         }
     }
 }
