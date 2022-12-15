@@ -18,6 +18,8 @@ data class UnitDummyEntity(
     var idx: Int,
     @ColumnInfo(name = UNIT)
     var unit: String,
+    @ColumnInfo(name = UNIT_UP)
+    var unitUp: String,
     @ColumnInfo(name = CONV)
     var conv : BigDecimal,
 ) {
@@ -28,6 +30,7 @@ data class UnitDummyEntity(
         const val ITEM_ID = "item_id"
         const val IDX = "idx"
         const val UNIT = "unit"
+        const val UNIT_UP = "unit_up"
         const val CONV = "conv"
 
     }

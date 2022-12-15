@@ -28,7 +28,11 @@ class DraftViewModel @Inject constructor(
     private var _currentQuery : MutableStateFlow<String> = MutableStateFlow("")
     val currentQuery = _currentQuery.value
 
-    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(0, ""))
+    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(
+        0,
+        "",
+        false
+    ))
 
     init {
         state = DraftState()
@@ -49,7 +53,7 @@ class DraftViewModel @Inject constructor(
     }
 
     fun onResetFilter() = viewModelScope.launch {
-        filterDate.value = FilterUtils.getFilterDate(0, "")
+        filterDate.value = FilterUtils.getFilterDate(0, "", false)
     }
 
     fun onSearch(query: String) {

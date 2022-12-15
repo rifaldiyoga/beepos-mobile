@@ -17,7 +17,10 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
+import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -176,6 +179,23 @@ class TambahKategoriFragment(
 
                             }
                             tilNama.error = it.msgNama
+                        }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.modePreferences.collect {
+                    binding.apply {
+                        when(it){
+                            PosModeState.FnBState -> {
+                                etNamaPrd.hint = getString(R.string.cth_jus)
+                            }
+                            PosModeState.RetailState -> {
+                                etNamaPrd.hint = getString(R.string.cth_sepatu)
+                                groupSatuan.visible()
+                            }
                         }
                     }
                 }

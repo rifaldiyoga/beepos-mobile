@@ -54,7 +54,8 @@ class AnalisaSesiFragment(
         super.onViewCreated(view, savedInstanceState)
         viewModel.updateState(
             viewModel.state.copy(
-                possesList = null
+                possesList = null,
+                listEntry = null
             )
         )
         arguments?.let {

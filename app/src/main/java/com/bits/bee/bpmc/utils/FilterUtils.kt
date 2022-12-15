@@ -10,7 +10,7 @@ class FilterUtils {
 
     companion object {
 
-        fun getFilterDate(filter : Int, custDate: String) : FilterDate {
+        fun getFilterDate(filter: Int, custDate: String, custom: Boolean) : FilterDate {
             val startDate = Calendar.getInstance()
             val endDate = Calendar.getInstance()
 
@@ -30,7 +30,7 @@ class FilterUtils {
                 endDate.timeInMillis = DateFormatUtils.convertEndDate(endDateRange.time)
             }
 
-            return FilterDate(selectedPos = filter, startDate =  startDate.timeInMillis, endDate = endDate.timeInMillis)
+            return FilterDate(selectedPos = filter, startDate =  startDate.timeInMillis, endDate = endDate.timeInMillis, isCustom = custom)
         }
 
         fun getFilterDateLabel(filter: Int) : String {

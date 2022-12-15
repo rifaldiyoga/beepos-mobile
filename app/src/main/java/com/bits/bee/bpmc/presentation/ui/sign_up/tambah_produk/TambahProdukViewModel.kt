@@ -81,7 +81,6 @@ class TambahProdukViewModel @Inject constructor(
     fun onSatuanChange(pos : Int,value : String) = viewModelScope.launch{
         val unit =  state.unitList[pos]
         unit.unit = value
-
     }
     fun onQtyChange(pos : Int, value : String) = viewModelScope.launch{
         val unit = state.unitList[pos]
@@ -220,6 +219,18 @@ class TambahProdukViewModel @Inject constructor(
         )
     }
 
+    fun validateTipe() = viewModelScope.launch {
+        var msg = ""
+        if (state.tipeProduk.isEmpty()){
+            msg = "Tipe produk harus dipilih"
+        }
+        updateState(
+            state.copy(
+                msgTipe = msg
+            )
+        )
+    }
+
     fun validateSatuan(pos: Int, value: String) = viewModelScope.launch {
         var msg = ""
         if (pos == 0 && value.isEmpty()){
@@ -230,6 +241,31 @@ class TambahProdukViewModel @Inject constructor(
                 msgSatuan = msg
             )
         )
+    }
+
+    fun onUpdateSatuan(value: String) = viewModelScope.launch {
+        if (state.unitList.size > 0){
+            val unitList = mutableListOf<UnitDummy>()
+            val size = state.unitList.size
+            state.unitList.forEach {
+                unitList.add(it.copy())
+            }
+            if (size in 2..3){
+                state.unitList.forEach {
+                    unitList.find {
+                        it.id == 1
+                    }?.unitUp = value
+                    unitList.find {
+                        it.id == 2
+                    }?.unitUp = value
+                }
+            }
+            updateState(
+                state.copy(
+                    unitList = unitList
+                )
+            )
+        }
     }
 
     fun onDeleteProduk() = viewModelScope.launch {

@@ -15,7 +15,8 @@ object UnitDummyDummyDataMapper : BaseMapper<UnitDummyEntity, UnitDummy, Any>(){
             itemId = model.itemId,
             idx = model.idx,
             conv = model.conv,
-            unit = model.unit
+            unit = model.unit,
+            unitUp = model.unitUp
         )
     }
 
@@ -25,7 +26,8 @@ object UnitDummyDummyDataMapper : BaseMapper<UnitDummyEntity, UnitDummy, Any>(){
             itemId = model.itemId,
             idx = model.idx,
             conv = model.conv,
-            unit = model.unit
+            unit = model.unit,
+            unitUp = model.unitUp
         )
     }
 

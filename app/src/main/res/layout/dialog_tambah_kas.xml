@@ -141,18 +141,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView56" />
 
-            <EditText
-                android:id="@+id/et_nominal"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNominal"
                 android:paddingTop="@dimen/size10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size6"
-                android:hint="@string/_0"
-                android:inputType="number"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintLeft_toRightOf="@+id/textView88"
                 android:layout_marginLeft="@dimen/size25"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView88">
+
+                <EditText
+                    android:id="@+id/et_nominal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomEditTextLayout"
+                    android:hint="@string/_0"
+                    android:inputType="number"
+                    tools:ignore="MissingConstraints" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView55"
@@ -162,7 +171,7 @@
                 android:layout_marginTop="@dimen/size10"
                 android:text="@string/deskripsi"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_nominal" />
+                app:layout_constraintTop_toBottomOf="@+id/tilNominal" />
 
             <EditText
                 android:id="@+id/et_deskripsi"

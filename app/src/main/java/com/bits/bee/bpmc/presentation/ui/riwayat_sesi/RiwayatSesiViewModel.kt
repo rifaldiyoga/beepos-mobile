@@ -7,12 +7,10 @@ import com.bits.bee.bpmc.domain.model.Sesi
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.GetPossesByDateUseCase
 import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.FilterUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -28,7 +26,11 @@ class RiwayatSesiViewModel @Inject constructor(
 //    private var possesMap : HashMap<Long, MutableList<Posses>>
 //            = HashMap()
 //    private var sesi: MutableList<Sesi> = mutableListOf()
-    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(0, ""))
+    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(
+    0,
+    "",
+    false
+))
 
     init {
         state = RiwayatSesiState()

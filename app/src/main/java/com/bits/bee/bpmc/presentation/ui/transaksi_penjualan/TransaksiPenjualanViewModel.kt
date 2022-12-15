@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Sale
@@ -28,7 +27,11 @@ class TransaksiPenjualanViewModel @Inject constructor(
 
     var channelList : MutableStateFlow<List<Channel>> = MutableStateFlow(mutableListOf())
 
-    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(0, ""))
+    var filterDate : MutableStateFlow<FilterDate> = MutableStateFlow(FilterUtils.getFilterDate(
+        0,
+        "",
+        false
+    ))
 
     private var _activeSale : MutableStateFlow<Sale?> = MutableStateFlow(null)
     val activeSale : MutableStateFlow<Sale?>
@@ -67,7 +70,7 @@ class TransaksiPenjualanViewModel @Inject constructor(
 
     fun onResetFilter() = viewModelScope.launch {
         channelList.value = mutableListOf()
-        filterDate.value = FilterUtils.getFilterDate(0, "")
+        filterDate.value = FilterUtils.getFilterDate(0, "", false)
     }
 
     fun updateActiveSale(sale: Sale) = viewModelScope.launch {

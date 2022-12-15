@@ -13,5 +13,6 @@ data class UnitDummy (
     var itemId : Int = -1,
     var idx: Int = -1,
     var unit: String = "",
+    var unitUp: String ="",
     var conv : BigDecimal = BigDecimal.ONE,
 ) : Parcelable

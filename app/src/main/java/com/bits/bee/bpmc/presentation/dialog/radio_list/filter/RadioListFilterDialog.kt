@@ -26,7 +26,7 @@ class RadioListFilterDialog(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = title
-            radioDateAdapter = RadioDateAdapter(childFragmentManager ,requireContext(), stringList, filterDate.selectedPos)
+            radioDateAdapter = RadioDateAdapter(childFragmentManager ,requireContext(), stringList, filterDate.selectedPos, filterDate.startDate, filterDate.endDate, filterDate.isCustom)
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = radioDateAdapter
@@ -40,7 +40,7 @@ class RadioListFilterDialog(
                 if (radioDateAdapter.getSelectedPosition() == 3 && radioDateAdapter.getTextDate().isEmpty()){
                     Toast.makeText(ctx, "Tanggal belum diatur", Toast.LENGTH_SHORT).show()
                 } else {
-                    onSaveClick(FilterUtils.getFilterDate(radioDateAdapter.getSelectedPosition(), radioDateAdapter.getTextDate()))
+                    onSaveClick(FilterUtils.getFilterDate(radioDateAdapter.getSelectedPosition(), radioDateAdapter.getTextDate(), radioDateAdapter.getIscustom()))
                     dismiss()
                 }
             }
@@ -48,7 +48,15 @@ class RadioListFilterDialog(
                 dismiss()
             }
             tvReset.setOnClickListener {
-                radioDateAdapter = RadioDateAdapter(childFragmentManager ,requireContext(), stringList, 0)
+                radioDateAdapter = RadioDateAdapter(
+                    childFragmentManager,
+                    requireContext(),
+                    stringList,
+                    0,
+                    filterDate.startDate,
+                    filterDate.endDate,
+                    filterDate.isCustom
+                )
                 recyclerView.apply {
                     layoutManager = LinearLayoutManager(requireContext())
                     adapter = radioDateAdapter

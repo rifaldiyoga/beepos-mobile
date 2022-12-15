@@ -3,9 +3,12 @@ package com.bits.bee.bpmc.presentation.dialog.tambah_kas
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -14,53 +17,90 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.R
-import com.bits.bee.bpmc.databinding.DialogTambahKasBinding
+import com.bits.bee.bpmc.databinding.DialogTambahKasKeluarBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.DateFormatUtils
-import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 @AndroidEntryPoint
-class TambahKasDialog(
+class TambahKasKeluarDialog(
     private val builder : Builder,
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogTambahKasBinding = DialogTambahKasBinding::inflate
-): BaseBottomSheetDialogFragment<DialogTambahKasBinding>() {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogTambahKasKeluarBinding = DialogTambahKasKeluarBinding::inflate
+): BaseBottomSheetDialogFragment<DialogTambahKasKeluarBinding>() {
 
-//    private val sharedViewModel: TambahKasSharedViewModel by activityViewModels()
     private val sharedViewModel: KasKeluarMasukSharedViewModel by activityViewModels()
     private val viewModel : TambahKasSharedViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getValue()
-//        iskasMasuk = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_tablayout), false) as Boolean
     }
 
     override fun initComponents() {
         binding.apply {
             tvTitle.text = builder.title
-            textView56.text = builder.nominal
-            etDeskripsi.setText(builder.deskripsi)
-            etNominal.addNumberFormatChange()
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
-            etNominal.addTextChangedListener {
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        nominal = etNominal.text.toString().trim().removeSymbol()
-                    )
-                )
-            }
+            etNominal.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    etNominal.removeTextChangedListener(this)
+
+                    try {
+                        var originalString: String = p0.toString()
+                        val longval: Long
+                        if (originalString.contains(",")) {
+                            originalString = originalString.replace(",".toRegex(), "")
+                        }
+                        longval = originalString.toLong()
+                        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+                        formatter.applyPattern("#,###,###,###")
+                        val formattedString = formatter.format(longval)
+
+                        //setting text after format to EditText
+                        etNominal.setText(formattedString)
+                        etNominal.setSelection(etNominal.getText().length)
+                    } catch (nfe: NumberFormatException) {
+                        nfe.printStackTrace()
+                    }
+                    etNominal.addTextChangedListener(this)
+                    if (p0.toString().length > 0) {
+                        try {
+                            val nominalUang: String
+                            nominalUang = p0.toString().replace("[^\\d]".toRegex(), "").removeSymbol()
+                            viewModel.updateState(
+                                viewModel.state.copy(
+                                    nominal = nominalUang
+                                )
+                            )
+                        } catch (e: Exception) {
+                            e.stackTrace
+                        }
+                    }
+                    viewModel.validateInput()
+                }
+
+            })
 
             etDeskripsi.addTextChangedListener {
                 viewModel.updateState(
@@ -69,26 +109,16 @@ class TambahKasDialog(
                     )
                 )
                 viewModel.validateInput()
-//                viewModel.state.deskripsi =
             }
 
             btnSimpan.setOnClickListener {
-                sharedViewModel.onSaveKasMasuk(builder.isStatus,
-                    viewModel.state.nominal!!,
-                    viewModel.state.deskripsi ?: "",
-                    viewModel.state.posses,
-                    viewModel.state.cash
-                )
-                if (!sharedViewModel.state.blockCashOut)
-                    dismiss()
-                else
-                    showError()
-                //                if (iskasMasuk){
-//
-//                }else{
+                if (viewModel.state.nominal != null && viewModel.state.deskripsi != null){
 //                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
-//                }
-//                builder.positiveCallback?.let { it(dialog!!) }
+                    dismiss()
+                }else{
+                    Toast.makeText(builder.context, "Nominal atau deskripsi tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
             imgViewClose.setOnClickListener {
@@ -111,12 +141,15 @@ class TambahKasDialog(
                                 etNominal.isFocusable = true
                                 viewModel.posses()
                             }
-                            etTanggal.setText(DateFormatUtils.formatDateToString(
-                                BPMConstants.NEW_DATE_FORMAT, Date()))
+                            etTanggal.setText(
+                                DateFormatUtils.formatDateToString(
+                                BPMConstants.NEW_DATE_FORMAT, Date()
+                                ))
                             it.posses?.let {
                                 viewModel.initCash(it.possesId!!)
-                                etTanggal.setText(DateFormatUtils.formatDateToString(
-                                        BPMConstants.NEW_DATE_FORMAT, it.trxDate))
+                                etTanggal.setText(
+                                    DateFormatUtils.formatDateToString(
+                                    BPMConstants.NEW_DATE_FORMAT, it.trxDate))
                                 etTanggal.isEnabled = false
                             }
                             btnSimpan.apply {
@@ -131,23 +164,6 @@ class TambahKasDialog(
                 }
             }
         }
-
-    }
-
-    fun showError(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                sharedViewModel.viewStates().collect{
-                    it?.let {
-                        binding.apply {
-                            it.msgKasKeluar?.let {
-                                tilNominal.error = it
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     data class Builder(
@@ -155,8 +171,7 @@ class TambahKasDialog(
         var positiveCallback: ((Dialog) -> Unit)? = null,
         var title: String? = null,
         var nominal: String? = null,
-        var deskripsi: String? = null,
-        var isStatus: Boolean = false
+        var deskripsi: String? = null
     ){
 
         fun setPositiveCallback(positiveCallback: (Dialog) -> Unit): Builder {
@@ -179,14 +194,8 @@ class TambahKasDialog(
             return this
         }
 
-        fun setStatus(isKasmasuk: Boolean): Builder{
-            this.isStatus = isKasmasuk
-            return this
-        }
-
-        fun build(): TambahKasDialog {
-            return TambahKasDialog(this)
+        fun build(): TambahKasKeluarDialog {
+            return TambahKasKeluarDialog(this)
         }
     }
-
 }

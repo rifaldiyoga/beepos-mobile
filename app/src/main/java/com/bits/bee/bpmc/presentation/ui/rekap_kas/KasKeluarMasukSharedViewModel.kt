@@ -68,6 +68,8 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         }
 
         if (isvalid){
+            val user = mPosses?.userId
+            val cashierId = mPosses?.cashierId
             val status = if (isStatus) "i" else "o"
             val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
             val balance = BigDecimal.valueOf(longStartBal)
@@ -78,14 +80,22 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             if (isStatus){
                 addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
             }else{
-                if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance) ?: BigDecimal.ZERO.add(balance))){
-                    msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
+                if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
+                        ?: BigDecimal.ZERO.add(balance))
+                ){
+                    // blocking
+                    state.blockCashOut = true
+                    validateKasKeluar()
+//                    sendMessage("Kas keluar tidak boleh melebihi saldo kasir !")
                 }else{
+                    state.blockCashOut = false
                     addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
                 }
             }
+//            eventChannel.send(UIEvent.SuccesAddkasMasuk)
         }
     }
+
 
     fun loadKasMasuk(desc: Boolean, query: String) = viewModelScope.launch {
         updateState(
@@ -198,6 +208,15 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         updateState(
             state.copy(
                 cashOutList = kasList
+            )
+        )
+    }
+
+    fun validateKasKeluar() = viewModelScope.launch {
+        var msg = "Kas keluar tidak boleh melebihi saldo kasir !"
+        updateState(
+            state.copy(
+                msgKasKeluar = msg
             )
         )
     }
