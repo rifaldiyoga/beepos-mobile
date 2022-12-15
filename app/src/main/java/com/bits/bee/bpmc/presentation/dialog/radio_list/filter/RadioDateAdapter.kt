@@ -16,10 +16,14 @@ class RadioDateAdapter(
     private val childFragmentManager: FragmentManager,
     private val ctx: Context,
     private val stringList: List<String>,
-    private var selectedPosition: Int = 0
+    private var selectedPosition: Int = 0,
+    private var mStartDate: Long?,
+    private var mEndDate: Long?,
+    private var custom: Boolean
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var getDateString: String? = null
+    private var isCustom: Boolean = false
 
     fun getSelectedPosition() : Int = selectedPosition
 
@@ -64,6 +68,18 @@ class RadioDateAdapter(
 
                 if (materialRadioButton.isChecked){
                     etPilihTgl.visibility = View.VISIBLE
+                    if (custom){
+                        etPilihTgl.setText("${mStartDate?.let {
+                            DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT,
+                                it
+                            )
+                        }} - " +
+                                "${mEndDate?.let {
+                                    DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT,
+                                        it
+                                    )
+                                }}")
+                    }
                 }else{
                     etPilihTgl.visibility = View.GONE
                 }
@@ -79,6 +95,7 @@ class RadioDateAdapter(
                         etPilihTgl.setText("${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, startDate)} - " +
                                 "${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, endDate)}")
                         setTextDate(holderTwo.binding.etPilihTgl.text.toString())
+                        setIscustom(true)
                     }
 
                 }
@@ -105,6 +122,15 @@ class RadioDateAdapter(
     fun getTextDate(): String{
         return getDateString ?: ""
     }
+
+    fun setIscustom(custom: Boolean){
+        this.isCustom = custom
+    }
+
+    fun getIscustom(): Boolean{
+        return isCustom
+    }
+
 
 
 

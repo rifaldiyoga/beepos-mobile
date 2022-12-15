@@ -9,7 +9,7 @@ import com.bits.bee.bpmc.utils.FilterUtils
 data class RiwayatSesiState(
     var search: String = "",
     var listPosses: PagingData<Posses>? = null,
-    var selectFilter: FilterDate = FilterUtils.getFilterDate(0, ""),
+    var selectFilter: FilterDate = FilterUtils.getFilterDate(0, "", false),
     var listHistoryPosses: List<Posses>? = null,
     var sesiList: MutableList<Sesi>? = null,
     var isDesc: Boolean = false,

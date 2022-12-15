@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.usecase.signup.AddEditKategoriProdukUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.DeleteKategoriUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.GetKategoriProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class TambahUbahKategoriViewModel @Inject constructor(
     private val addEditKategoriProdukUseCase: AddEditKategoriProdukUseCase,
     private val getKategoriProdukUseCase: GetKategoriProdukUseCase,
-    private val deleteKategoriUseCase: DeleteKategoriUseCase
+    private val deleteKategoriUseCase: DeleteKategoriUseCase,
+    private val beePreferenceManager: BeePreferenceManager,
 ): BaseViewModel<TambahUbahKategoriState, TambahUbahKategoriViewModel.UIEvent>() {
 
     init {
@@ -23,6 +25,7 @@ class TambahUbahKategoriViewModel @Inject constructor(
         loadItemgrp()
     }
 
+    val modePreferences = beePreferenceManager.modePreferences
     private var listSubkategori: MutableList<String> = mutableListOf()
 
     fun onSaveKategori(

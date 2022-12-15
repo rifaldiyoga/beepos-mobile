@@ -84,8 +84,11 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
                         ?: BigDecimal.ZERO.add(balance))
                 ){
                     // blocking
-                    msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
+                    state.blockCashOut = true
+                    validateKasKeluar()
+//                    sendMessage("Kas keluar tidak boleh melebihi saldo kasir !")
                 }else{
+                    state.blockCashOut = false
                     addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
                 }
             }
@@ -93,47 +96,6 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         }
     }
 
-    fun onSaveKasKeluar(nominal: String, deskripsi: String, posses: Posses?, cash: Cash?) = viewModelScope.launch {
-        var isvalid = true
-        var mPosses = posses.let { it }
-        if (nominal.isEmpty()){
-            isvalid = false
-//            eventChannel.send(UIEvent.RequestDialogNominal)
-
-        }else{
-            val pattern = Pattern.compile(BPMConstants.REGEX_INPUT)
-            val matcher = pattern.matcher(nominal.replace("[,.]".toRegex(), ""))
-            if (matcher.find()){
-                // pastikan tidak ada karakter
-            }
-        }
-
-        if (deskripsi.isEmpty()){
-            isvalid = false
-            // pastikan deskripsi tidak kosong
-        }
-
-        if (isvalid){
-            val user = mPosses?.userId
-            val cashierId = mPosses?.cashierId
-            val status = "o"
-            val longStartBal = nominal.replace("[.,]".toRegex(), "").toLong()
-            val balance = BigDecimal.valueOf(longStartBal)
-            val note = deskripsi.replace(BPMConstants.REGEX_INPUT.toRegex(), "")
-            val reftype = BPMConstants.BPM_DEFAULT_TYPE_CASH_POSSES
-            val autogen = false
-
-            if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
-                    ?: BigDecimal.ZERO.add(balance))
-            ){
-                // blocking
-                msgChannel.send("Kas keluar tidak boleh melebihi saldo kasir !")
-            }else{
-                addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
-            }
-        }
-
-    }
 
     fun loadKasMasuk(desc: Boolean, query: String) = viewModelScope.launch {
         updateState(
@@ -246,6 +208,15 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
         updateState(
             state.copy(
                 cashOutList = kasList
+            )
+        )
+    }
+
+    fun validateKasKeluar() = viewModelScope.launch {
+        var msg = "Kas keluar tidak boleh melebihi saldo kasir !"
+        updateState(
+            state.copy(
+                msgKasKeluar = msg
             )
         )
     }

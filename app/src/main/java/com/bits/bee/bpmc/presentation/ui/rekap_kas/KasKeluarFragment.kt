@@ -65,13 +65,6 @@ class KasKeluarFragment(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                sharedViewModel.msg.collect{
-                    showSnackbar(it)
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sharedViewModel.event.collect { event ->
                     when (event) {

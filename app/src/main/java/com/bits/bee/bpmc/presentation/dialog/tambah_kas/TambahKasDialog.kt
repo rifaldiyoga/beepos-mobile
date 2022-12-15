@@ -79,7 +79,10 @@ class TambahKasDialog(
                     viewModel.state.posses,
                     viewModel.state.cash
                 )
-                dismiss()
+                if (!sharedViewModel.state.blockCashOut)
+                    dismiss()
+                else
+                    showError()
                 //                if (iskasMasuk){
 //
 //                }else{
@@ -129,6 +132,22 @@ class TambahKasDialog(
             }
         }
 
+    }
+
+    fun showError(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                sharedViewModel.viewStates().collect{
+                    it?.let {
+                        binding.apply {
+                            it.msgKasKeluar?.let {
+                                tilNominal.error = it
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     data class Builder(

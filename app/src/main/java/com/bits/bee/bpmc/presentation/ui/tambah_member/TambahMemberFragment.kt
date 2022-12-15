@@ -82,9 +82,11 @@ class TambahMemberFragment(
             }
             etNamaMember.addTextChangedListener {
                 viewModel.state.namaMember = etNamaMember.text.toString().trim()
+                BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_name), viewModel.state.namaMember)
             }
             etNoTelp.addTextChangedListener {
                 viewModel.state.noTelp = etNoTelp.text.toString().trim()
+                BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_notelp), viewModel.state.noTelp)
             }
             etAlamat.addTextChangedListener{
                 viewModel.state.alamat = etAlamat.text.toString().trim()
@@ -96,8 +98,6 @@ class TambahMemberFragment(
                 viewModel.state.kota = etKota.text.toString().trim()
             }
             etKota.setOnClickListener {
-                BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_name), viewModel.state.namaMember)
-                BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_notelp), viewModel.state.noTelp)
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_email), viewModel.state.email)
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_alamat), viewModel.state.alamat)
                 viewModel.onClickKota()

@@ -14,5 +14,7 @@ data class KasKeluarMasukState(
     var cashOutList: MutableList<Kas>? = null,
     var isDesc: Boolean = true,
     var search: String = "",
-    var listCadj: List<Cadj>? = null
+    var listCadj: List<Cadj>? = null,
+    var blockCashOut: Boolean = false,
+    var msgKasKeluar: String? = null
 )

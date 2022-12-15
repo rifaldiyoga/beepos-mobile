@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.doOnAttach
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -21,6 +22,7 @@ class SatuanAdapter(
     private val onSatuanChange : (Int, String) -> Unit,
     private val onQtyChange : (Int, String) -> Unit,
     private val onDelete : (Int) -> Unit,
+    private val onUpdateSatuan: (String) -> Unit,
 ) : ListAdapter<UnitDummy, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,8 +51,14 @@ class SatuanAdapter(
                 etQty.setText(CurrencyUtils.formatCurrency(model.conv))
                 etSatuan.filters = arrayOf(InputFilter.AllCaps())
                 etSatuan.addTextChangedListener {
-                    model.unit = etSatuan.text.toString().trim()
-                    onSatuanChange(absoluteAdapterPosition, etSatuan.text.toString().trim())
+                    if (absoluteAdapterPosition == 0){
+                        model.unitUp = etSatuan.text.toString().trim()
+                        onSatuanChange(absoluteAdapterPosition, etSatuan.text.toString().trim())
+                        onUpdateSatuan(etSatuan.text.toString().trim())
+                    }else{
+                        model.unit = etSatuan.text.toString().trim()
+                        onSatuanChange(absoluteAdapterPosition, etSatuan.text.toString().trim())
+                    }
                 }
                 etQty.addTextChangedListener {
                     if(etQty.text.toString().isNotEmpty())

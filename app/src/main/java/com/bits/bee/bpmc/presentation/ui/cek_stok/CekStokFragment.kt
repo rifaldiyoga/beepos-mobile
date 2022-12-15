@@ -101,6 +101,10 @@ class CekStokFragment(
         val searchItem = menu.findItem(R.id.search_cek_stok)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Masukan minimal 3 huruf"
+
+        searchView.setOnSearchClickListener {
+
+        }
         searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {

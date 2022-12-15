@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 
 import android.graphics.Bitmap
 import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 
 /**
  * Created by aldi on 31/08/22.
@@ -23,5 +24,7 @@ data class TambahProdukState (
     var pid: String = "",
     var msgNama: String ="",
     var msgHarga: String="",
-    var msgSatuan: String=""
+    var msgSatuan: String="",
+    var msgTipe: String="",
+    var posModeState: PosModeState? = null
 )

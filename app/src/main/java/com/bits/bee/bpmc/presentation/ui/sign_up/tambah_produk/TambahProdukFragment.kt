@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
@@ -41,6 +40,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
+import java.math.BigDecimal
 import java.util.*
 
 
@@ -110,7 +110,7 @@ class TambahProdukFragment(
             } ?: run {
                 viewModel.updateState(
                     viewModel.state.copy(
-                        unitList = mutableListOf(UnitDummy()),
+                        unitList = mutableListOf(UnitDummy(idx = -1, unit= "", conv = BigDecimal.ONE,)),
                         isActivePid  = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_active_pid), false) as Boolean,
                     )
                 )
@@ -136,6 +136,10 @@ class TambahProdukFragment(
                             viewModel.onDelete(pos)
                         })
                     dialog.show(parentFragmentManager, "")
+                },
+                onUpdateSatuan = { value ->
+                    viewModel.onUpdateSatuan(value)
+                    subscribeObservers()
                 }
             )
             recyclerView2.apply {
@@ -181,11 +185,24 @@ class TambahProdukFragment(
                 }
                 viewModel.validateNama()
                 viewModel.validateHarga()
-                if (etNamaPrd.text.toString().isNotEmpty() && etHarga.text.toString().isNotEmpty() &&
-                    viewModel.state.unitList[0].unit.isNotEmpty() && viewModel.state.itemGrp != null && viewModel.state.brand != null){
-                    viewModel.onSubmit(etNamaPrd.text.toString().trim(), etHarga.text.toString().trim(), etNamaPid.text.toString().trim())
-                }else{
-                    Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
+                viewModel.validateTipe()
+                when(viewModel.state.posModeState){
+                    PosModeState.RetailState ->{
+                        if (etNamaPrd.text.toString().isNotEmpty() && etHarga.text.toString().isNotEmpty() &&
+                            viewModel.state.unitList[0].unit.isNotEmpty() && viewModel.state.itemGrp != null && viewModel.state.brand != null){
+                            viewModel.onSubmit(etNamaPrd.text.toString().trim(), etHarga.text.toString().trim(), etNamaPid.text.toString().trim())
+                        }else{
+//                            Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    PosModeState.FnBState ->{
+                        if (etNamaPrd.text.toString().isNotEmpty() && etHarga.text.toString().isNotEmpty()){
+                            viewModel.onSubmit(etNamaPrd.text.toString().trim(), etHarga.text.toString().trim(), etNamaPid.text.toString().trim())
+                        }else{
+//                            Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    else -> {}
                 }
             }
             btnTambahSatuan.setOnClickListener {
@@ -232,6 +249,11 @@ class TambahProdukFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.modePreferences.collect {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            posModeState = it
+                        )
+                    )
                     binding.apply {
                         when(it){
                             PosModeState.FnBState -> {
@@ -254,7 +276,6 @@ class TambahProdukFragment(
                 viewModel.viewStates().collect {
                     it?.let { state ->
                         unitAdapter.submitList(state.unitList)
-
                         binding.apply {
                             etNamaPrd.setText(state.nama)
                             etHarga.setText(state.harga)
@@ -280,8 +301,16 @@ class TambahProdukFragment(
 
                             tilNama.error = it.msgNama
                             tilHarga.error = it.msgHarga
-                            lLPid.isVisible = state.isActivePid
-                            cvPid.isVisible = !state.isActivePid
+                            tilTipe.error = it.msgTipe
+                            when(viewModel.state.posModeState){
+                                PosModeState.RetailState ->{
+                                    lLPid.isVisible = state.isActivePid
+                                    cvPid.isVisible = !state.isActivePid
+                                }
+                                else -> {
+
+                                }
+                            }
                         }
                     }
                 }

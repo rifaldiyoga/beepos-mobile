@@ -113,7 +113,7 @@ class TambahKasKeluarDialog(
 
             btnSimpan.setOnClickListener {
                 if (viewModel.state.nominal != null && viewModel.state.deskripsi != null){
-                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
+//                    sharedViewModel.onSaveKasKeluar(viewModel.state.nominal!!, viewModel.state.deskripsi!!, viewModel.state.posses, viewModel.state.cash)
                     dismiss()
                 }else{
                     Toast.makeText(builder.context, "Nominal atau deskripsi tidak boleh kosong", Toast.LENGTH_SHORT).show()
