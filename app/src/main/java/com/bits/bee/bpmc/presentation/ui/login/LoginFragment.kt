@@ -18,6 +18,7 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -42,40 +43,21 @@ class LoginFragment constructor (
     override fun initComponents() {
         dialog = LoadingDialogHelper(requireContext())
         binding.apply {
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                    viewModel.event.collectLatest { event ->
-                        when(event){
-                            LoginViewModel.UIEvent.RequestLogin -> {
-                                viewModel.login()
-                            }
-                            LoginViewModel.UIEvent.NavigateToNamaDevice -> {
-                                val value = viewModel.state
-                                val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
-                                findNavController().navigate(action)
-                                viewModel.updateState(
-                                    LoginViewState()
-                                )
-                            }
-                            else -> {
-
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
             etEmail.addTextChangedListener {
-                viewModel.state.email = etEmail.text.toString().trim()
-                viewModel.validateEmail()
+                val email = etEmail.text.toString().trim()
+                viewModel.state.email = email
+                viewModel.validateInput()
+                if(!Utils.isValidEmail(email))
+                    tilEmail.error = "Email tidak valid!"
             }
             etPassword.addTextChangedListener {
                 viewModel.state.password = etPassword.text.toString().trim()
-                viewModel.validatePassword()
+                viewModel.validateInput()
             }
             btnMasuk.setOnClickListener {
                 onClickLogin()
@@ -89,6 +71,24 @@ class LoginFragment constructor (
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.event.collectLatest { event ->
+                    when(event){
+                        LoginViewModel.UIEvent.RequestLogin -> {
+                            viewModel.login()
+                        }
+                        LoginViewModel.UIEvent.NavigateToNamaDevice -> {
+                            val value = viewModel.state
+                            val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
+                            findNavController().navigate(action)
+                            binding.etEmail.setText("")
+                            binding.etPassword.setText("")
+                        }
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
@@ -124,12 +124,10 @@ class LoginFragment constructor (
                         dialog.hide()
                         it.data?.let {
                             if (it.status == "ok") {
-                                Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG)
-                                    .show()
+                                Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG).show()
                                 viewModel.onSuccessLogin()
                             } else {
-                                Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG)
-                                    .show()
+                                Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG).show()
                             }
                         }
                     }

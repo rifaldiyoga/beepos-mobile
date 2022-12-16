@@ -61,6 +61,7 @@
         layout="@layout/layout_filter_button"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        app:layout_goneMarginStart="@dimen/size16"
         app:layout_constraintEnd_toStartOf="@+id/tilPeriode"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvReset"

@@ -1,10 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.common
 
 import com.bits.bee.bpmc.domain.model.SalePromo
-import com.bits.bee.bpmc.domain.repository.BpRepository
-import com.bits.bee.bpmc.domain.repository.PromoRepository
-import com.bits.bee.bpmc.domain.repository.SalePromoRepository
-import com.bits.bee.bpmc.domain.repository.SaledRepository
+import com.bits.bee.bpmc.domain.repository.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

@@ -59,16 +59,17 @@ class PostAllUseCase @Inject constructor(
         if (listBp.isEmpty()) {
             if (listSaleHaventUpload.isNotEmpty() || listPosses.isNotEmpty() || listCadj.isNotEmpty() || listCstr.isNotEmpty()){
                 val salePostList = mutableListOf<PostAll.SalePost>()
-                val saledPostList = mutableListOf<PostAll.SaledPost>()
-                val salecrcvPostList = mutableListOf<PostAll.SalecrcvsPost>()
-                val saleAddonPostList = mutableListOf<PostAll.SaleAddOnPost>()
-                val salePromoPostList = mutableListOf<PostAll.SalePromoPost>()
-                val saleBnsPostList = mutableListOf<PostAll.SaleBns>()
                 val possesPostList = mutableListOf<PostAll.PossesPost>()
                 val cadjPostList = mutableListOf<PostAll.CadjsPost>()
                 val cstrPostList = mutableListOf<PostAll.CstrPost>()
 
                 for (sale in listSaleHaventUpload){
+                    val saledPostList = mutableListOf<PostAll.SaledPost>()
+                    val salecrcvPostList = mutableListOf<PostAll.SalecrcvsPost>()
+                    val saleAddonPostList = mutableListOf<PostAll.SaleAddOnPost>()
+                    val salePromoPostList = mutableListOf<PostAll.SalePromoPost>()
+                    val saleBnsPostList = mutableListOf<PostAll.SaleBns>()
+
                     val bpSale = bpRepository.getBpById(sale.bpId).first()
                     val saledListsale = getSaledBySaleUseCase(sale.id!!).first()
 
@@ -89,7 +90,7 @@ class PostAllUseCase @Inject constructor(
                             totaldiscamt = saled.totalDiscAmt.toString(),
                             disc2amt = saled.disc2Amt.toString(),
                             totaldisc2amt = saled.totalDisc2Amt.toString(),
-                            tax_code = saled.taxCode,
+                            tax_code = if(!saled.taxCode.isNullOrEmpty()) saled.taxCode else "PPN",
                             taxableamt = saled.taxableAmt.toString(),
                             taxamt = saled.taxAmt.toString(),
                             totaltaxamt = saled.totalTaxAmt.toString(),
@@ -159,7 +160,7 @@ class PostAllUseCase @Inject constructor(
                                     promoId = salePromo.promo!!.id,
                                     whId = whId.toLong(),
                                     itemId = salePromo.saled?.itemId ?: -1,
-                                    unit = salePromo.saled?.unit,
+                                    unit = salePromo.saled?.unitId.toString(),
                                     qty = salePromo.saled?.qty ?: BigDecimal.ZERO
                                 )
                                 saleBnsPostList.add(saleBns)

@@ -36,10 +36,7 @@ class LoginViewModel @Inject constructor (
     fun validateEmail() = viewModelScope.launch{
         val email = state.email
         var msg = ""
-        if(email.isEmpty())
-            msg = context.getString(R.string.email_tidak_boleh_kosong)
-        if(!Utils.isValidEmail(email))
-            msg = "Email tidak valid!"
+
         updateState(
             state.copy(
                 messageEmail = msg
@@ -52,20 +49,14 @@ class LoginViewModel @Inject constructor (
     fun validatePassword() = viewModelScope.launch{
         val email = state.password
         var msg = ""
-//        if(email.isEmpty())
-//            msg = context.getString(R.string.password_tidak_boleh_kosong)
-//
-//        updateState(
-//            state.copy(
-//                messagePassword = msg
-//            )
-//        )
-        validateInput()
+
+
     }
 
-    private fun validateInput() = viewModelScope.launch {
+    fun validateInput() = viewModelScope.launch {
         updateState(
-            state.copy(isValid = state.messagePassword.isEmpty() && state.messageEmail.isEmpty())
+            state.copy(isValid =
+            state.password.isNotEmpty() && state.email.isNotEmpty() && Utils.isValidEmail(state.email))
         )
     }
 

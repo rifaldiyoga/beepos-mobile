@@ -84,7 +84,8 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             isPos = model.ispos,
             isVariant = model.isvariant,
             vColor = model.vcolor,
-            vCode = model.vcode
+            vCode = model.vcode,
+            barCode = model.barcode
         )
     }
 

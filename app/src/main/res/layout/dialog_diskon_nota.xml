@@ -27,7 +27,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/textView76"
         android:layout_marginTop="@dimen/size16"
@@ -44,7 +43,6 @@
         android:layout_marginTop="@dimen/size8"
         android:hint="@string/hint_diskon_nota"
         android:layout_height="wrap_content"
-        android:inputType="numberSigned"
         android:digits="0123456789+%"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
