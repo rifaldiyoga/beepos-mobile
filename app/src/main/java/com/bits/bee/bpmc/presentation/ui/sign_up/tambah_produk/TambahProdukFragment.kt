@@ -60,6 +60,8 @@ class TambahProdukFragment(
     var gson = Gson()
     var tempUri: Uri? = null
     var tempFilePath =""
+    var defaultKategori = false
+    var defaultMerk = false
 
     private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ data ->
         data.forEach {
@@ -114,6 +116,8 @@ class TambahProdukFragment(
                         isActivePid  = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_active_pid), false) as Boolean,
                     )
                 )
+                defaultKategori = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_default_kategori), false) as Boolean
+                defaultMerk = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_default_merk), false) as Boolean
             }
 
             unitAdapter = SatuanAdapter(
@@ -125,17 +129,18 @@ class TambahProdukFragment(
                     viewModel.onQtyChange(pos, value)
                 },
                 onDelete = { pos ->
-                    val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(), getString(R.string.informasi),
-                        "Apakah anda yakin ingin menghapus satuan ${pos + 1}? Satuan ${pos + 1} yang dihapus tidak dapat dikembalikan lagi",
-                        getString(R.string.batal),
-                        {
-                            it.dismiss()
-                        },
-                        getString(R.string.hapus),{
-                            it.dismiss()
-                            viewModel.onDelete(pos)
-                        })
-                    dialog.show(parentFragmentManager, "")
+//                    val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(), getString(R.string.informasi),
+//                        "Apakah anda yakin ingin menghapus satuan ${pos + 1}? Satuan ${pos + 1} yang dihapus tidak dapat dikembalikan lagi",
+//                        getString(R.string.batal),
+//                        {
+//                            it.dismiss()
+//                        },
+//                        getString(R.string.hapus),{
+//                            it.dismiss()
+//
+//                        })
+//                    dialog.show(parentFragmentManager, "")
+                    viewModel.onDelete(pos)
                 },
                 onUpdateSatuan = { value ->
                     viewModel.onUpdateSatuan(value)
@@ -192,17 +197,19 @@ class TambahProdukFragment(
                             viewModel.state.unitList[0].unit.isNotEmpty() && viewModel.state.itemGrp != null && viewModel.state.brand != null){
                             viewModel.onSubmit(etNamaPrd.text.toString().trim(), etHarga.text.toString().trim(), etNamaPid.text.toString().trim())
                         }else{
-//                            Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
                         }
                     }
                     PosModeState.FnBState ->{
                         if (etNamaPrd.text.toString().isNotEmpty() && etHarga.text.toString().isNotEmpty()){
                             viewModel.onSubmit(etNamaPrd.text.toString().trim(), etHarga.text.toString().trim(), etNamaPid.text.toString().trim())
                         }else{
-//                            Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Harap lengkapi terlebih dahulu", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    else -> {}
+                    else -> {
+                        val tes = ""
+                    }
                 }
             }
             btnTambahSatuan.setOnClickListener {
@@ -226,7 +233,7 @@ class TambahProdukFragment(
                 it?.let {
                     viewModel.updateState(
                         viewModel.state.copy(
-                            itemGrp = it
+                            itemGrp = if (!defaultKategori) it else null
                         )
                     )
                 }
@@ -235,7 +242,7 @@ class TambahProdukFragment(
                 it?.let {
                     viewModel.updateState(
                         viewModel.state.copy(
-                            brand = it
+                            brand = if (!defaultMerk) it else null
                         )
                     )
                 }
@@ -277,6 +284,11 @@ class TambahProdukFragment(
                     it?.let { state ->
                         unitAdapter.submitList(state.unitList)
                         binding.apply {
+                            if (state.unitList.size == 3){
+                                btnTambahSatuan.gone()
+                            }else{
+                                btnTambahSatuan.visible()
+                            }
                             etNamaPrd.setText(state.nama)
                             etHarga.setText(state.harga)
                             if(state.tipeProduk.isNotEmpty())

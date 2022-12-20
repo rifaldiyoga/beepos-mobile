@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -52,7 +53,10 @@ class TambahMerekFragment(
             }
 
             btnSimpan.setOnClickListener {
-                viewModel.onSaveMerk(viewModel.state.namaMerek, viewModel.state.isEdit, viewModel.state.olId)
+                if (viewModel.state.namaMerek.isNotEmpty()){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_merk), false)
+                    viewModel.onSaveMerk(viewModel.state.namaMerek, viewModel.state.isEdit, viewModel.state.olId)
+                }
             }
         }
     }

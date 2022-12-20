@@ -49,7 +49,7 @@ class SatuanAdapter(
                 txtSatuan.text = lLSatuan.context.getString(R.string.satuan1, absoluteAdapterPosition + 1)
                 etSatuan.setText(model.unit)
                 etQty.setText(CurrencyUtils.formatCurrency(model.conv))
-                etSatuan.filters = arrayOf(InputFilter.AllCaps())
+                etSatuan.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(10))
                 etSatuan.addTextChangedListener {
                     if (absoluteAdapterPosition == 0){
                         model.unitUp = etSatuan.text.toString().trim()

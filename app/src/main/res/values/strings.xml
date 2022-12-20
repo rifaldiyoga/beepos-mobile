@@ -70,6 +70,8 @@
     <string name="pref_add_list_unit">pref_add_list_unit</string>
     <string name="pref_add_pid">pref_add_pid</string>
     <string name="pref_isKasmasuk">pref_isKasmasuk</string>
+    <string name="pref_default_kategori">pref_default_kategori</string>
+    <string name="pref_default_merk">pref_default_merk</string>
 
     <!--    Pages    -->
     <string name="page_pilih_cabang">page_pilih_cabang</string>

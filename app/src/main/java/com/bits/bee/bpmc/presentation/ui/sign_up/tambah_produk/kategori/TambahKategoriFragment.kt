@@ -20,6 +20,7 @@ import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,11 +79,11 @@ class TambahKategoriFragment(
 
             spKategoriPrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.state.subKategori = viewModel.state.kategoriList?.get(p2) ?: ""
+                    viewModel.state.subKategori = viewModel.state.kategoriList?.get(p2) ?: "Belum dipilih"
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-
+                    Toast.makeText(requireContext(), "no selected", Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -90,6 +91,7 @@ class TambahKategoriFragment(
             btnSimpan.setOnClickListener {
                 viewModel.validateNama()
                 if (viewModel.state.namaKategori.isNotEmpty()){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_kategori), false)
                     viewModel.onSaveKategori(viewModel.state.namaKategori, viewModel.state.subKategori, viewModel.state.isEdit, viewModel.state.olId, viewModel.state.useSubKategori)
                 }
             }

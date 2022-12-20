@@ -49,6 +49,7 @@ class TambahUbahKategoriViewModel @Inject constructor(
     }
 
     fun parseItemgrp(data: List<KategoriProduk>) = viewModelScope.launch {
+        listSubkategori.add("Pilih Kategori")
         for (katPrd in data){
             listSubkategori.add(katPrd.name)
         }

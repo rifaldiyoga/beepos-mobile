@@ -120,7 +120,8 @@ class TambahProdukViewModel @Inject constructor(
             state.copy(
                 itemGrp = getItemgrpIdUseCase.invoke(itemGroupId).first(),
                 brand = brandId?.let { getBrandByIdUseCase.invoke(brandId).first() } ,
-                unitList = getUnitDummyByIdUseCase.invoke(itemid).first().toMutableList()
+                unitList = getUnitDummyByIdUseCase.invoke(itemid).first().toMutableList(),
+                posModeState = modePreferences.first()
             )
         )
     }
