@@ -9,5 +9,6 @@ data class InfoKontakState(
     var isValid: Boolean = false,
     var regId : String = "",
     var isShowWarnPass : Boolean = false,
+    var errorConfPass : String = "",
     var passMsg : String = ""
 )

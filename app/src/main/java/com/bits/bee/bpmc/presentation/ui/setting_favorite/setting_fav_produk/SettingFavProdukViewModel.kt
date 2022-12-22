@@ -7,6 +7,7 @@ import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.favorit.UpdateFavProdukUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,12 +22,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingFavProdukViewModel @Inject constructor(
     private val getActiveItemUseCase: GetActiveItemUseCase,
-    private val updateFavProdukUseCase: UpdateFavProdukUseCase
+    private val updateFavProdukUseCase: UpdateFavProdukUseCase,
+    private val beePreferenceManager: BeePreferenceManager
 ) : BaseViewModel<FavProdukState, SettingFavProdukViewModel.UIEvent>() {
 
     private var currentQuery: MutableStateFlow<String> = MutableStateFlow("")
 
     private var activeItgrp: MutableStateFlow<Int> = MutableStateFlow(-1)
+
+    val orientation = beePreferenceManager.posPreferences
 
     init {
         state = FavProdukState()

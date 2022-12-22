@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/size24"
+    >
+
+    <TextView
+        android:id="@+id/textView15"
+        style="@style/TextHeader"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="@string/mode_tampilan"
+        android:textSize="@dimen/default_text_header_size"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size6"
+        android:text="@string/pilih_tipe_bisinis"
+        android:textColor="@color/dark_gray"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFoodBeverages"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size28"
+        android:background="@drawable/bg_rect_stroke_light_gray"
+        android:padding="@dimen/size12"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/textView16">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="@dimen/size40"
+            android:layout_height="@dimen/size40"
+            android:background="@drawable/bg_rect_light_teal"
+            android:padding="@dimen/size10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_outline_fastfood" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView17"
+            style="@style/TextHeader"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/food_amp_beverages_fnb"
+            app:layout_constraintEnd_toStartOf="@+id/imageView4"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size4"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/desc_food_and_beverages"
+            app:layout_constraintEnd_toStartOf="@+id/imageView4"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="@dimen/size24"
+            android:layout_height="@dimen/size24"
+            android:src="@drawable/ic_baseline_chevron_right_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSelengkapnyaFnb"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size8"
+            android:text="@string/pelajari_selengkapnya"
+            android:textColor="?colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clRetailDist"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size18"
+        android:background="@drawable/bg_rect_stroke_light_gray"
+        android:padding="@dimen/size12"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/clFoodBeverages">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="@dimen/size40"
+            android:layout_height="@dimen/size40"
+            android:background="@drawable/bg_rect_light_orange"
+            android:padding="@dimen/size10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_shopping_cart_outline" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView19"
+            style="@style/TextHeader"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size16"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/retail_atau_distributor"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size4"
+            android:layout_marginEnd="@dimen/size16"
+            android:text="@string/desc_retail_distributor"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="@dimen/size24"
+            android:layout_height="@dimen/size24"
+            android:src="@drawable/ic_baseline_chevron_right_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSelengkapnyaDist"
+            android:layout_width="@dimen/size0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:text="@string/pelajari_selengkapnya"
+            android:textColor="?colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

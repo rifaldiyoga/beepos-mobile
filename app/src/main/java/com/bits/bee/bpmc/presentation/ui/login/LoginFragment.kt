@@ -51,9 +51,12 @@ class LoginFragment constructor (
             etEmail.addTextChangedListener {
                 val email = etEmail.text.toString().trim()
                 viewModel.state.email = email
-                viewModel.validateInput()
                 if(!Utils.isValidEmail(email))
                     tilEmail.error = "Email tidak valid!"
+                else
+                    tilEmail.isErrorEnabled = false
+
+                viewModel.validateInput()
             }
             etPassword.addTextChangedListener {
                 viewModel.state.password = etPassword.text.toString().trim()

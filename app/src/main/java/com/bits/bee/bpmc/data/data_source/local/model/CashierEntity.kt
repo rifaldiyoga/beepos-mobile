@@ -18,7 +18,7 @@ data class CashierEntity(
     var cashierName: String,
 //    @ColumnInfo(name = CASHIER_ID)
 //    val cashierId: Long,
-    @ColumnInfo(name = BRANCH_ID, index = true)
+    @ColumnInfo(name = BRANCH_ID)
     var branchId : Long,
     @ColumnInfo(name = CASHBRANCH_ID)
     var cashBranchId : Int,

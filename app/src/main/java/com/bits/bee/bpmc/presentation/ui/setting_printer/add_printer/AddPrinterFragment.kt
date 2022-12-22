@@ -100,10 +100,16 @@ class AddPrinterFragment(
     override fun subscribeListeners() {
         binding.apply {
             etNamaPrinter.addTextChangedListener {
-                viewModel.state.mPrinter?.printerName = etNamaPrinter.text.toString().trim()
+                val nama = etNamaPrinter.text.toString().trim()
+                viewModel.state.mPrinter?.printerName = nama
+                if(nama.isNotEmpty())
+                    tilNama.isErrorEnabled = false
             }
             etMacAddress.addTextChangedListener {
-                viewModel.state.mPrinter?.address = etMacAddress.text.toString().trim()
+                val address = etMacAddress.text.toString().trim()
+                viewModel.state.mPrinter?.address = address
+                if(address.isNotEmpty())
+                    tilAddress.isErrorEnabled = false
             }
 
             etTipePrinter.setOnClickListener {
@@ -213,6 +219,8 @@ class AddPrinterFragment(
                                 rvKitchenPrinter.isVisible = it
                                 llQtyKitchen.isVisible = it
                             }
+                            tilNama.error = it.errorName
+                            tilAddress.error = it.errorAddress
                             it.mPrinter?.let {
                                 etNamaPrinter.setText(it.printerName)
                                 etMacAddress.setText(it.address)

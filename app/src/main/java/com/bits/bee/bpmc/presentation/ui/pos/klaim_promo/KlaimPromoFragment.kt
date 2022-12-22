@@ -33,6 +33,7 @@ class KlaimPromoFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     private lateinit var itemAdapter : KlaimPromoAdapater
+
     override fun initComponents() {
         binding.apply {
 
@@ -64,7 +65,8 @@ class KlaimPromoFragment(
                 },
                 onMinusClick = { item ->
                     viewModel.onMinItem(item)
-                }
+                },
+                mainViewModel.orientation.value
             )
 
             rvList.apply {

@@ -41,6 +41,7 @@
         android:id="@+id/tvMessage2"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/size10"
         android:text="@string/untuk_penjelasan"
         app:layout_constraintEnd_toEndOf="parent"

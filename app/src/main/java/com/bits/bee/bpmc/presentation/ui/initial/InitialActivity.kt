@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,6 +21,8 @@ import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.invisible
+import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -52,7 +53,15 @@ class InitialActivity (
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
             navController.addOnDestinationChangedListener { _, _, _ ->
                 toolbar.setNavigationIcon(R.drawable.ic_back_black)
-                toolbar.isVisible = navController.currentDestination?.id != R.id.initialFragment && navController.currentDestination?.id != R.id.walkThroughFragment
+
+                if(navController.currentDestination?.id != R.id.initialFragment
+                    && navController.currentDestination?.id != R.id.walkThroughFragment
+                    && navController.currentDestination?.id != R.id.cekDbFragment
+                    && navController.currentDestination?.id != R.id.aturProdukFragment
+                )
+                    toolbar.visible()
+                else
+                    toolbar.invisible()
             }
             toolbar.setNavigationOnClickListener {
                 onBackPressed()
@@ -106,6 +115,12 @@ class InitialActivity (
             }
             R.id.ulangiPinFragment -> onBack(R.id.ulangiPinFragment, R.id.aturPinFragment)
             R.id.tambahProdukFragment -> onBack(R.id.tambahProdukFragment, R.id.aturProdukFragment)
+            R.id.cekDbFragment -> {
+
+            }
+            R.id.aturProdukFragment -> {
+
+            }
             else -> super.onBackPressed()
         }
     }

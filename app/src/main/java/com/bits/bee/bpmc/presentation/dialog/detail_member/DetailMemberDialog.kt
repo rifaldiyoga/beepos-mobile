@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class DetailMemberDialog(
     private val mBp: Bp,
+    private val onSubmit : (Bp) -> Unit,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogDetailMemberBinding = DialogDetailMemberBinding::inflate
 ) : BaseBottomSheetDialogFragment<DialogDetailMemberBinding>() {
 
@@ -75,6 +76,7 @@ class DetailMemberDialog(
             buttonClosed.setOnClickListener {
                 viewModel.state.bp?.let {
                     mainViewModel.updateActiveBp(it)
+                    onSubmit(it)
                 }
                 dismiss()
             }

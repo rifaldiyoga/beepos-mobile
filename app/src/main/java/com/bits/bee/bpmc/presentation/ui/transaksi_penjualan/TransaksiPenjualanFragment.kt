@@ -82,10 +82,7 @@ class TransaksiPenjualanFragment(
                 onItemClick = {
                     viewModel.updateActiveSale(it)
                     if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
-                        val action =
-                            TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToDetailTransaksiPenjualanFragment(
-                                it
-                            )
+                        val action = TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToDetailTransaksiPenjualanFragment(it)
                         findNavController().navigate(action)
                     }
 //                    binding.slidingPaneLayout.openPane()

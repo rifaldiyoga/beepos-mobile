@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.cari_item
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -20,10 +21,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CariItemViewModel @Inject constructor(
-    private val getActiveItemUseCase: GetActiveItemUseCase
+    private val getActiveItemUseCase: GetActiveItemUseCase,
+    val savedStateHandle: SavedStateHandle
 ) : BaseViewModel<CariItemState, CariItemViewModel.UIEvent>() {
 
     var currentQuery: MutableStateFlow<String> = MutableStateFlow("")
+        set(value) {
+            field = value
+            savedStateHandle["query"] = value
+        }
 
     init {
         state = CariItemState()
@@ -40,6 +46,7 @@ class CariItemViewModel @Inject constructor(
 
     fun onSearch(query: String) {
         currentQuery.value = query
+        savedStateHandle["query"] = query
     }
 
     fun onClickRetail(item : Item) = viewModelScope.launch {

@@ -2,14 +2,19 @@ package com.bits.bee.bpmc.utils.extension
 
 import android.app.Activity
 import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -95,7 +100,7 @@ fun SearchView.setSearchViewStyle(context: Context, colorInt: Int) {
     val editText = findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
     val imageIcon = findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
     val imageClose = findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
-    val home = findViewById<ImageView>(androidx.appcompat.R.id.home)
+    val home = findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
     imageIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_search))
     imageIcon.setColorFilter(ContextCompat.getColor(context, colorInt))
 //    home.setColorFilter(ContextCompat.getColor(context, colorInt))
@@ -137,6 +142,22 @@ fun String.isValidEmail() : Boolean {
 
 fun String.replaceNumberWithStars() : String {
     return this.replace(Regex("[0-9]"), "*")
+}
+
+fun TextView.append(string: String?, @ColorRes color: Int) {
+    if (string == null || string.isEmpty()) {
+        return
+    }
+
+    val spannable: Spannable = SpannableString(string)
+    spannable.setSpan(
+        ForegroundColorSpan(ContextCompat.getColor(context, color)),
+        0,
+        spannable.length,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+
+    append(spannable)
 }
 
 

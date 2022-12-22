@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemPosMenuPromoBinding
 
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.ImageUtils
 import java.math.BigDecimal
@@ -18,6 +19,7 @@ import java.math.BigDecimal
 class KlaimPromoAdapater (
     private val onAddClick : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
+    private val orientation : String
 ) : ListAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -39,7 +41,7 @@ class KlaimPromoAdapater (
                 tvNamaItem.text = model.name1
                 tvQty.text = CurrencyUtils.formatCurrency(model.qty)
 
-                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, model.name1))
+                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, model.name1, if(orientation == BPMConstants.SCREEN_LANDSCAPE) 20 else null))
 
                 ivPlus.setOnClickListener {
                     onAddClick(model)

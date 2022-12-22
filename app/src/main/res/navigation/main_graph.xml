@@ -90,7 +90,7 @@
         tools:layout="@layout/dialog_tax_info"
         android:id="@+id/taxInfoDialog"
         android:name="com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog"
-        android:label="TaxInfoDialog" />
+        android:label="" />
     <dialog
         tools:layout="@layout/dialog_detail_member"
         android:id="@+id/detailMemberDialog"
@@ -143,7 +143,7 @@
         tools:layout="@layout/fragment_cari_kota"
         android:id="@+id/cariKotaFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cari_kota.CariKotaFragment"
-        android:label="CariKotaFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_cariKotaFragment_to_cariKecamatanFragment"
             app:destination="@id/cariKecamatanFragment" />
@@ -195,7 +195,7 @@
         tools:layout="@layout/fragment_pembayaran_gopay"
         android:id="@+id/pembayaranGopayFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment"
-        android:label="PembayaranGopayFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_pembayaranGopayFragment_to_transaksiBerhasilFragment"
             app:destination="@id/transaksiBerhasilFragment" />
@@ -204,7 +204,7 @@
         tools:layout="@layout/fragment_pembayaran_kartu"
         android:id="@+id/pembayaranDebitKreditFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_kartu.PembayaranKartuFragment"
-        android:label="PembayaranDebitKreditFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_pembayaranDebitKreditFragment_to_transaksiBerhasilFragment"
             app:destination="@id/transaksiBerhasilFragment" />
@@ -242,8 +242,8 @@
     <dialog
         tools:layout="@layout/dialog_diskon_nota"
         android:id="@+id/diskonNotaDialog"
-        android:name="com.bits.bee.bpmc.presentation.ui.pos.diskon_nota.DiskonNotaDialog"
-        android:label="DiskonNotaDialog" >
+        android:name="com.bits.bee.bpmc.presentation.dialog.diskon_nota.DiskonNotaDialog"
+        android:label="" >
         <action
             android:id="@+id/action_diskonNotaDialog_to_hakAksesFragment"
             app:destination="@id/hakAksesFragment" />
@@ -252,7 +252,7 @@
         tools:layout="@layout/fragment_cari_kecamatan"
         android:id="@+id/cariKecamatanFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cari_kecamatan.CariKecamatanFragment"
-        android:label="CariKecamatanFragment" >
+        android:label="" >
         <argument
             android:name="regency"
             app:argType="string" />
@@ -264,7 +264,7 @@
         tools:layout="@layout/fragment_cari_item"
         android:id="@+id/cariItemFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.cari_item.CariItemFragment"
-        android:label="CariItemFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_cariItemFragment_to_scannerFragment"
             app:destination="@id/scannerFragment" />
@@ -285,7 +285,7 @@
         tools:layout="@layout/fragment_scanner"
         android:id="@+id/scannerFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.scan.ScannerFragment"
-        android:label="ScannerFragment" />
+        android:label="" />
     <fragment
         tools:layout="@layout/fragment_pid"
         android:id="@+id/pilihPidFragment"
@@ -323,7 +323,7 @@
     <fragment
         android:id="@+id/positemFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.pos_item.PositemFragment"
-        android:label="PositemFragment" >
+        android:label="" >
         <action
             android:id="@+id/action_positemFragment_to_addOnFragment"
             app:destination="@id/addOnFragment" />
@@ -335,7 +335,7 @@
     <fragment
         android:id="@+id/klaimPromoFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.klaim_promo.KlaimPromoFragment"
-        android:label="KlaimPromoFragment"
+        android:label=""
         tools:layout="@layout/fragment_klaim_promo"/>
     <fragment
         android:id="@+id/salesmanFragment"
@@ -354,17 +354,11 @@
         <argument
             android:name="srep"
             app:argType="com.bits.bee.bpmc.domain.model.Srep" />
-    </fragment><![CDATA[
-    fragment
-        android:id="@+id/kasKeluarFragment"
-        tools:layout="@layout/fragment_kas_keluar"
-        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarFragment"
-        android:label="KasKeluarFragment" />
-    ]]>
+    </fragment>
     <dialog
         android:id="@+id/hakAksesFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
-        android:label="HakAksesFragment" >
+        android:label="" >
         <argument
             android:name="acsType"
             app:argType="string" />

@@ -12,7 +12,7 @@
     <item
         android:title="@string/member"
         android:id="@+id/menu_scan"
-        android:icon="@drawable/ic_scan"
+        android:icon="@drawable/ic_scan_black"
         android:iconTint="@color/black"
         app:showAsAction="always"/>
 

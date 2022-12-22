@@ -6,6 +6,9 @@ package com.bits.bee.bpmc.presentation.ui.hak_akses
 data class HakAksesState(
     val acsType : String = "",
     val email : String = "",
-    val passwod : String = "",
+    val password : String = "",
     var mTimesWrong: Int = 0,
+    var messageEmail : String = "",
+    var messagePassword : String = "",
+    var isValid : Boolean = false,
 )

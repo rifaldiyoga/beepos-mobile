@@ -12,7 +12,7 @@ class SlidePagerAdapter(fragmentActivity: Fragment, val list : List<Int>) : Frag
     override fun getItemCount(): Int = list.size
 
     override fun createFragment(position: Int): Fragment {
-        return SliderFragment(list[position])
+        return SliderFragment.newInstance(list[position])
     }
 
 }

@@ -5,12 +5,6 @@ import androidx.room.ForeignKey.CASCADE
 
 @Entity(tableName = KitchenEntity.TBL_NAME,
     foreignKeys = [
-        ForeignKey(
-            entity = BranchEntity::class,
-            parentColumns = [BranchEntity.ID],
-            childColumns = [KitchenEntity.BRANCH_ID],
-            onDelete = CASCADE
-        )
     ]
 )
 data class KitchenEntity(
@@ -21,7 +15,7 @@ data class KitchenEntity(
     var code : String? = null,
     @ColumnInfo(name = NAME)
     var name: String,
-    @ColumnInfo(name = BRANCH_ID, index = true)
+    @ColumnInfo(name = BRANCH_ID)
     var branchId: Int = 0,
     @ColumnInfo(name = CREATED_BY)
     var createdBy : Int = 0,

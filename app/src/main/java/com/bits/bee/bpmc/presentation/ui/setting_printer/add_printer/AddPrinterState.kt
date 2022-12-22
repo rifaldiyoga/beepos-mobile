@@ -11,5 +11,7 @@ data class AddPrinterState(
     var isReport : Boolean = false,
     var isChecker : Boolean = false,
     var mPrinter: Printer? = null,
+    var errorName : String = "",
+    var errorAddress : String = "",
     var printerKitchenList: List<PrinterKitchen> = mutableListOf(),
 )

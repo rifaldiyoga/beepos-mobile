@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.pos.diskon_nota
+package com.bits.bee.bpmc.presentation.dialog.diskon_nota
 
 import java.math.BigDecimal
 

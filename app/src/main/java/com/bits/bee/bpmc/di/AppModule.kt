@@ -157,9 +157,10 @@ object AppModule {
     @Singleton
     fun provideKitchenRepository(
         kitchenDao: KitchenDao,
-        defaultDispatcher: CoroutineDispatcher
+        defaultDispatcher: CoroutineDispatcher,
+        apiUtils: ApiUtils
     ): KitchenRepository {
-        return KitchenRepositoryImpl(kitchenDao, defaultDispatcher)
+        return KitchenRepositoryImpl(kitchenDao, apiUtils, defaultDispatcher,)
     }
 
     @Provides

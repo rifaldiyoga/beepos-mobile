@@ -12,6 +12,7 @@ import com.bits.bee.bpmc.domain.usecase.signup.PostSignUpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -97,6 +98,16 @@ class InfoBisnisViewModel @Inject constructor(
             return postSignUpUseCase(signUp, state.kota)
         }
         return flow {  }
+    }
+
+    fun validate() {
+        updateState(
+            state.copy(isValid = state.namaPerusahaan.isNotEmpty()
+                    && state.tipeUsaha.isNotEmpty()
+                    && state.kota.isNotEmpty()
+                    && state.alamat.isNotEmpty()
+            )
+        )
     }
 
     sealed class UIEvent {

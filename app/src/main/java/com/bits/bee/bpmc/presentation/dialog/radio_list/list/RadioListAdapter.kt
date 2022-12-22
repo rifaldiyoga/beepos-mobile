@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemRadioButtonBinding
+import com.bits.bee.bpmc.utils.CurrencyUtils
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 05/04/22.
@@ -34,7 +36,8 @@ class RadioListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-            materialRadioButton.text = getItem(holder.absoluteAdapterPosition)
+            val item = getItem(holder.absoluteAdapterPosition).toIntOrNull()
+            materialRadioButton.text = if(item != null) CurrencyUtils.formatCurrency(BigDecimal(item)) else getItem(holder.absoluteAdapterPosition)
 
             materialRadioButton.isChecked = selectedPosition == holder.absoluteAdapterPosition
 

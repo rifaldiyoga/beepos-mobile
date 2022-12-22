@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemMenuFavBinding
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.ImageUtils
 
 /**
@@ -54,7 +56,7 @@ class FavProdukAdapter constructor (
                 })
 
                 ivFav.setImageDrawable(drawable)
-                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, model.name1))
+                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, model.name1, if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) 20 else null))
             }
         }
 

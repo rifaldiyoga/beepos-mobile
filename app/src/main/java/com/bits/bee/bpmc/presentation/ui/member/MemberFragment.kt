@@ -75,9 +75,10 @@ class MemberFragment(
 
         })
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
-            viewModel.onSearch(it)
+//            searchItem.expandActionView()
             searchView.setQuery(it, true)
             showSnackbar(it)
+            viewModel.onSearch(it)
         }
         searchView.requestFocus()
         super.onCreateOptionsMenu(menu, inflater)
@@ -166,7 +167,9 @@ class MemberFragment(
                         }
 
                         is MemberViewModel.UIEvent.RequestIconEye ->{
-                            val dialog = DetailMemberDialog(it.model)
+                            val dialog = DetailMemberDialog(it.model, onSubmit = {
+                                findNavController().popBackStack()
+                            })
                             dialog.show(parentFragmentManager, TAG)
                         }
                     }

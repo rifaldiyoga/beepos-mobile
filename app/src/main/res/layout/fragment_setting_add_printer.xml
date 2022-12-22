@@ -51,15 +51,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/et_nama_printer"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNama"
                     android:layout_width="@dimen/size0"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/cth_beestore"
                     app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/CustomTextInputLayout"
                     app:layout_constraintStart_toStartOf="@+id/textView27"
-                    app:layout_constraintTop_toBottomOf="@+id/textView27" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView27">
+
+                    <EditText
+                        style="@style/CustomEditTextLayout"
+                        android:id="@+id/et_nama_printer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size6"
+                        android:hint="@string/cth_epson" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -78,15 +87,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/et_mac_address"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddress"
                     android:layout_width="@dimen/size0"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size6"
-                    android:hint="@string/cth_beestore"
+                    style="@style/CustomTextInputLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView29"
-                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView29">
+
+                    <EditText
+                        style="@style/CustomEditTextLayout"
+                        android:id="@+id/et_mac_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size6"
+                        android:hint="@string/cth_72_3c_61_1e_27_14"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

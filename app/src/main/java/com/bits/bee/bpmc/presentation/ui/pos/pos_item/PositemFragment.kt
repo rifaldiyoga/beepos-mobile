@@ -189,7 +189,7 @@ class PositemFragment (
 
     private fun onMinusClick(item : Item) {
         if(item.isVariant || item.isHaveAddOn) {
-            val action = CariItemFragmentDirections.actionCariItemFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+            val action = PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
             findNavController().navigate(action)
         } else {
             mainViewModel.onMinusClick(item)

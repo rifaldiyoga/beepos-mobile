@@ -63,11 +63,6 @@ class LoginOperatorViewModel @Inject constructor(
                 messageEmail = msg
             )
         )
-//        _state.update {
-//            it.copy(
-//                messageEmail = msg
-//            )
-//        }
         validateInput()
     }
 

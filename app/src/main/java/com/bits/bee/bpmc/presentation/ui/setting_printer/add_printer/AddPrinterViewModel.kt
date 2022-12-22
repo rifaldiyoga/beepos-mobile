@@ -121,7 +121,24 @@ class AddPrinterViewModel @Inject constructor(
 
     fun doSave() = viewModelScope.launch {
         state.mPrinter?.let {
+            var errorName = ""
+            var errorAddress = ""
             var isValid = true
+            if(it.printerName.isEmpty()){
+                isValid = false
+                errorName = "Nama printer tidak boleh kosong!"
+            }
+            if(it.address.isEmpty()){
+                isValid = false
+                errorAddress = "Mac Address tidak boleh kosong!"
+
+            }
+            updateState(
+                state.copy(
+                    errorName = errorName,
+                    errorAddress = errorAddress,
+                )
+            )
             if(state.printerKitchenList.isNotEmpty()) {
                 state.printerKitchenList.forEach {
                     isValid = it.kitchenName.isNotEmpty() && it.kitchenList.isNotEmpty()

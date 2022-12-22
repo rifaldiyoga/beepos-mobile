@@ -20,6 +20,7 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 22/04/22.
@@ -103,6 +104,13 @@ class InvoiceFragment(
 
                         if(it.saledList.isEmpty() && BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
                             viewModel.onDetailEmpty()
+                        }
+                        if(it.sale.total < BigDecimal.ZERO){
+                            val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), "Informasi", "Subtotal tidak boleh minus, transaksi akan langsung direset!", positiveListener = {
+                                mainViewModel.resetState()
+                                it.dismiss()
+                            })
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }

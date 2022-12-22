@@ -57,20 +57,19 @@
             android:id="@+id/pinView"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/size45"
-            android:layout_marginLeft="@dimen/size20"
             android:layout_marginTop="@dimen/size24"
-            android:layout_marginRight="@dimen/size20"
-            android:inputType="numberPassword"
             android:itemBackground="@drawable/bg_rect_light_gray"
-            android:textSize="@dimen/font18"
-            android:textStyle="bold"
             app:itemCount="6"
-            app:itemSpacing="@dimen/size10"
+            android:textStyle="bold"
+            android:textSize="@dimen/font10"
             app:itemWidth="@dimen/size45"
+            android:inputType="numberPassword"
+            android:focusable="false"
+            style="@style/PinWidget.PinView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
-            app:lineColor="@color/light_gray" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDesc"
+            app:lineColor="@color/light_gray"/>
 
         <TextView
             android:id="@+id/tvPinSalah"

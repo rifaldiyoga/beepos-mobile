@@ -72,12 +72,11 @@ class BSmartPay {
         }
 
         private fun spawnTwentyThousandFromZero(total: String): String {
-            if (total.length < 5) {
+            if (total.length <= 5 && total.toInt() <= 20000) {
                 return "20000"
             }
-            if (total.length > 4) {
-                val extractedInt =
-                    total.substring(total.length - 5).replace("[,.]".toRegex(), "").toInt()
+            if (total.length in 5..4) {
+                val extractedInt = total.substring(total.length - 5).replace("[,.]".toRegex(), "").toInt()
                 if (extractedInt % 20000 != 0) {
                     var returnInt = BigDecimal(Character.getNumericValue(total[total.length - 5]))
                     returnInt = returnInt.add(BigDecimal.ONE)
@@ -106,30 +105,36 @@ class BSmartPay {
         }
 
         private fun spawnTenThousand(total: String): String {
-            if (total.length > 4) {
-                if (total.endsWith("0000")) {
-                    return total
-                }
-                var returnInt = BigDecimal(Character.getNumericValue(total[total.length - 5]))
-                returnInt = returnInt.add(BigDecimal.ONE)
-                return total.replace(
-                    total.substring(total.length - 5),
-                    returnInt.toString().toString() + "0000"
-                )
+            if (total.length < 5) {
+                return "10000"
             }
-            return total.replace(total, "10000")
+            if (total.length in 5..4) {
+                val extractedInt = total.substring(total.length - 5).replace("[,.]".toRegex(), "").toInt()
+                if (extractedInt % 10000 != 0) {
+                    var returnInt = BigDecimal(Character.getNumericValue(total[total.length - 5]))
+                    returnInt = returnInt.add(BigDecimal.ONE)
+                    return total.replace(
+                        total.substring(total.length - 5),
+                        returnInt.toString() + "0000"
+                    )
+                }
+            }
+            return total
         }
 
         private fun spawnFiveThousand(total: String): String {
             if (total.length < 4) {
-                return total.replace(total, "5000")
+                return "5000"
             }
-            var extractedInt = BigDecimal(total.substring(total.length - 4))
-            val charAtTotMin4 = BigDecimal("" + total[total.length - 4])
-            if (charAtTotMin4.compareTo(BigDecimal(5)) == -1) {
-                extractedInt = extractedInt.remainder(BigDecimal(5000))
-                if (extractedInt.compareTo(BigDecimal.ZERO) != 0) {
-                    return total.replace(total.substring(total.length - 4), "5000")
+            if (total.length in 5..4) {
+                val extractedInt = total.substring(total.length - 5).replace("[,.]".toRegex(), "").toInt()
+                if (extractedInt % 5000 != 0) {
+                    var returnInt = BigDecimal(Character.getNumericValue(total[total.length - 5]))
+                    returnInt = returnInt.add(BigDecimal.ONE)
+                    return total.replace(
+                        total.substring(total.length - 5),
+                        returnInt.toString() + "0000"
+                    )
                 }
             }
             return total

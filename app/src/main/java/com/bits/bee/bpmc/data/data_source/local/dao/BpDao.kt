@@ -21,10 +21,10 @@ interface BpDao : BaseDao<BpEntity> {
     @Query("SELECT * FROM bp WHERE id = :id")
     fun getBpById(id : Int) : BpEntity?
 
-    @Query("SELECT * FROM bp Where name LIKE '%'|| :query || '%' AND active = 1")
+    @Query("SELECT * FROM bp Where (name LIKE '%'|| :query || '%' OR code LIKE '%'|| :query || '%') AND active = 1")
     fun getBpPagedList(query: String) : PagingSource<Int, BpEntity>
 
-    @Query("SELECT * FROM bp Where name LIKE '%'|| :query || '%' AND isfavorit = :isFav AND active = 1 ORDER BY isfavorit DESC")
+    @Query("SELECT * FROM bp Where (name LIKE '%'|| :query || '%' OR code LIKE '%'|| :query || '%') AND isfavorit = :isFav AND active = 1 ORDER BY isfavorit DESC")
     fun getFavoritBpPagedList(query: String, isFav: Boolean) : PagingSource<Int, BpEntity>
 
     @Query("SELECT * FROM bp ORDER BY id DESC LIMIT 1")

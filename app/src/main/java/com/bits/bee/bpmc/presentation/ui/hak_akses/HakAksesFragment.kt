@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.hak_akses
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -15,7 +16,9 @@ import com.bits.bee.bpmc.databinding.FragmentHakAksesBinding
 import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -117,23 +120,23 @@ class HakAksesFragment(
                 }
             }
             etEmail.addTextChangedListener {
-//                viewModel.updateState(
-//                    viewModel.state.copy(
-//                        email = etEmail.text.toString().trim()
-//                    )
-//                )
-//                viewModel.validateEmail()
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        email = etEmail.text.toString().trim()
+                    )
+                )
+                viewModel.validateEmail()
             }
             etPassword.addTextChangedListener {
-//                viewModel.updateState(
-//                    viewModel.state.copy(
-//                        password = etPassword.text.toString().trim()
-//                    )
-//                )
-//                viewModel.validatePassword()
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        password = etPassword.text.toString().trim()
+                    )
+                )
+                viewModel.validatePassword()
             }
             btnMasuk.setOnClickListener {
-//                viewModel.onClickLogin()
+                viewModel.loginEmail()
             }
         }
     }
@@ -153,6 +156,7 @@ class HakAksesFragment(
                                 getString(R.string.gagal_login),
                                 getString(R.string.silahkan_login_email_sinkron)
                             ) {
+                                it.dismiss()
                                 requireActivity().actionBar?.displayOptions
                                 viewModel.updateState(
                                     viewModel.state.copy(
@@ -180,6 +184,17 @@ class HakAksesFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
+                            tilEmail.error = it.messageEmail
+
+                            tilPassword.error = it.messagePassword
+
+                            btnMasuk.apply {
+                                background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
+                                    true -> R.drawable.btn_rect_primary
+                                    false -> R.drawable.btn_rect_disable
+                                })
+                                isEnabled = it.isValid
+                            }
 
                         }
                     }
@@ -187,32 +202,39 @@ class HakAksesFragment(
             }
         }
 
-//        viewModel.observeLoginResponse().removeObservers(viewLifecycleOwner)
-//        viewModel.observeLoginResponse().observe(viewLifecycleOwner) {
-//            when (it.status) {
-//                Resource.Status.LOADING -> {
-//                    dialog.show()
-//                }
-//                Resource.Status.SUCCESS -> {
-//                    dialog.hide()
-//                    it.data?.let {
-//                        if (it.status == "ok") {
-//                            Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG)
-//                                .show()
-//                            viewModel.onSuccessLogin()
-//                        } else {
-//                            Toast.makeText(requireContext(), "Error : ${it.msg}", Toast.LENGTH_LONG)
-//                                .show()
-//                        }
-//                    }
-//                }
-//                Resource.Status.ERROR -> {
-//                    dialog.hide()
-//                    Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
-//                        .show()
-//                }
-//            }
-//        }
+        viewModel.observeLoginResponse().removeObservers(viewLifecycleOwner)
+        viewModel.observeLoginResponse().observe(viewLifecycleOwner) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    dialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    dialog.hide()
+                    it.data?.let {
+                        if (it.status == "ok") {
+                            Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG)
+                                .show()
+                            viewModel.onSuccessValidate()
+                        } else {
+                            Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    dialog.hide()
+                    Toast.makeText(requireContext(), "Error : Email dan Password tidak sesuai!", Toast.LENGTH_LONG)
+                        .show()
+                }
+                Resource.Status.NOINTERNET -> {
+                    dialog.hide()
+                    val dialog = NoInternetDialogBuilder({
+                        viewModel.loginEmail()
+                    })
+                    dialog.show(parentFragmentManager, "")
+                }
+            }
+        }
     }
 
     private fun loadMenu(menuLogin : MenuItem) {

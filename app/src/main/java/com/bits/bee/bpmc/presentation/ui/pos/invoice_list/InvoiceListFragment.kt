@@ -22,6 +22,7 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 03/08/22.
@@ -100,6 +101,7 @@ class InvoiceListFragment(
                         binding.apply {
                             invoiceAdapter.submitList(it.saledList.filter { !it.isAddOn })
                             invoiceAdapter.submitSaleAddOnDList(mainViewModel.saleTrans.addOnTrans?.getListDetail() ?: mutableListOf())
+
                         }
                     }
                 }

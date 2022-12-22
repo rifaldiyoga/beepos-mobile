@@ -9,6 +9,7 @@ import javax.inject.Singleton
 @Singleton
 @Dao
 interface KitchenDao: BaseDao<KitchenEntity> {
+
     @Query("SELECT * FROM kitchen WHERE id = :id")
     fun getByKitchenId(id: Int): KitchenEntity
 

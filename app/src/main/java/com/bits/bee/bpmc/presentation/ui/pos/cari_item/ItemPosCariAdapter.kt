@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.databinding.ItemPosMenuCariBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosAdapter
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.ImageUtils
 import com.bits.bee.bpmc.utils.extension.gone
@@ -23,6 +24,7 @@ class ItemPosCariAdapter(
     private val onItemClicK : (Item) -> Unit,
     private val onMinusClick : (Item) -> Unit,
     private var saledList : List<Saled>,
+    private val orientation : String,
 ) : ItemPosAdapter(onItemClicK, onMinusClick, saledList) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -77,7 +79,7 @@ class ItemPosCariAdapter(
                 }
 
 
-                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, item.name1))
+                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, item.name1, if(orientation == BPMConstants.SCREEN_LANDSCAPE) 20 else null))
 
                 cdContent.setOnClickListener {
 //                    qty = item.qty.add(BigDecimal.ZERO)

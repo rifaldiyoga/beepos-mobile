@@ -131,7 +131,11 @@ class ListPrinterFragment(
 
     private fun checkBTPermission(){
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            requestPermissionBt.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT))
+            val permissionArray = mutableListOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                permissionArray.addAll(listOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT))
+            }
+            requestPermissionBt.launch(permissionArray.toTypedArray())
         } else {
             Log.d(ContentValues.TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.")
         }

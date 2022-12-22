@@ -67,6 +67,7 @@ class DownloadViewModel @Inject constructor (
             downloadPromoMulti()
             downloadUsrGrp()
             downloadGrpPrv()
+            downloadKitchen()
             onFinsihDownload()
         }
     }
@@ -904,6 +905,27 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     updateState(
                         state.copy(status = "Finish Downloading Reg")
+                    )
+                }
+                Resource.Status.ERROR -> {
+                    onErrorDialog(it.message ?: "")
+                }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
+            }
+        }
+    }
+
+    private suspend fun downloadKitchen()  {
+        di.getLatestKitchenUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Kitchen")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    updateState(
+                        state.copy(status = "Finish Downloading Kitchen")
                     )
                 }
                 Resource.Status.ERROR -> {

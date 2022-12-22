@@ -74,7 +74,7 @@ class TambahKasDialog(
 
             btnSimpan.setOnClickListener {
                 sharedViewModel.onSaveKasMasuk(builder.isStatus,
-                    viewModel.state.nominal!!,
+                    viewModel.state.nominal,
                     viewModel.state.deskripsi ?: "",
                     viewModel.state.posses,
                     viewModel.state.cash

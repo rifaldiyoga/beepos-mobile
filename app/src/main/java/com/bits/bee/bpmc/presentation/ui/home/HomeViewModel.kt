@@ -19,6 +19,8 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeState, HomeViewModel.UIEvent>() {
 
     private val _posModeState = MutableStateFlow(PosModeState.FnBState)
+
+
     @OptIn(FlowPreview::class)
     val posModeState : StateFlow<PosModeState> = _posModeState
         .filterNotNull()

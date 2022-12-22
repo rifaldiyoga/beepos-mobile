@@ -94,6 +94,8 @@ class CariItemFragment(
 
         searchItem.expandActionView()
 
+        searchView.setQuery(viewModel.savedStateHandle.get<String>("query"), true)
+
         searchView.requestFocus()
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
             viewModel.onSearch(it)
@@ -107,8 +109,7 @@ class CariItemFragment(
         when(item.itemId){
             R.id.menu_scan -> {
                 if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)) {
-                    val action =
-                        CariItemFragmentDirections.actionCariItemFragmentToScannerFragment()
+                    val action = CariItemFragmentDirections.actionCariItemFragmentToScannerFragment()
                     findNavController().navigate(action)
                 } else {
                     requestPermissionCamera.launch(Manifest.permission.CAMERA)
@@ -130,7 +131,8 @@ class CariItemFragment(
                 onMinusClick = { item ->
                     onMinusClick(item)
                 },
-                mainViewModel.state.saledList
+                mainViewModel.state.saledList,
+                mainViewModel.orientation.value
             )
             itemRetailPosAdapter = ItemPosRetailAdapter {
                 viewModel.onClickRetail(it)
@@ -235,10 +237,10 @@ class CariItemFragment(
                     }
                 }
                 if(isContains){
-                    val action = PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
+                    val action = CariItemFragmentDirections.actionCariItemFragmentToDetailAddOnDialogBuilder(item)
                     findNavController().navigate(action)
                 } else {
-                    val action = PosFragmentDirections.actionPosFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+                    val action = CariItemFragmentDirections.actionCariItemFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
                     findNavController().navigate(action)
                 }
             } else {
@@ -250,8 +252,7 @@ class CariItemFragment(
                     )
                     findNavController().navigate(action)
                 } else {
-                    val action =
-                        PosFragmentDirections.actionPosFragmentToDetailAddOnDialogBuilder(item)
+                    val action = CariItemFragmentDirections.actionCariItemFragmentToDetailAddOnDialogBuilder(item)
                     findNavController().navigate(action)
                 }
             }
@@ -262,7 +263,7 @@ class CariItemFragment(
 
     private fun onMinusClick(item : Item) {
         if(item.isVariant || item.isHaveAddOn) {
-            val action = CariItemFragmentDirections.actionCariItemFragmentToAddOnFragment(item, mainViewModel.state.bp!!, mainViewModel.state.bp!!.priceLvlId)
+            val action = CariItemFragmentDirections.actionCariItemFragmentToDetailAddOnDialogBuilder(item)
             findNavController().navigate(action)
         } else {
             mainViewModel.onMinusClick(item)

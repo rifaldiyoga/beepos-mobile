@@ -17,6 +17,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPosBinding
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceListFragment
@@ -162,6 +163,13 @@ class PosFragment(
                                     binding.llNext!!.isVisible = state.saledList.isNotEmpty()
                                 }
                             }
+                        }
+                        if(it.sale.total < BigDecimal.ZERO){
+                            val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), "Informasi", "Subtotal tidak boleh minus, transaksi akan langsung direset!", positiveListener = {
+                                mainViewModel.resetState()
+                                it.dismiss()
+                            })
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }

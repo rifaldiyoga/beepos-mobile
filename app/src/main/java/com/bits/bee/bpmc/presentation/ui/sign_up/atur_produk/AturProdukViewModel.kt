@@ -56,7 +56,7 @@ class AturProdukViewModel @Inject constructor(
         if(modePreferences.first() == PosModeState.FnBState && itemGrpList.isEmpty()) {
             val list = context.resources.getStringArray(R.array.list_itgrp)
             itemGroupRepository.insertBulkItemGroup(list.mapIndexed { index, s ->
-                ItemGroupEntity(id = index + 1, name = s, isPos = true, code = "", upId = -1, level = 1)
+                ItemGroupEntity(id = index + 1, name = s, isPos = true, code = "", upId = null, level = 1)
             })
         }
     }

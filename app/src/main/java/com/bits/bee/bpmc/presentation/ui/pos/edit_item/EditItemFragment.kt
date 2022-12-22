@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -142,8 +143,9 @@ class EditItemFragment(
     override fun subscribeListeners() {
         binding.apply {
             etHarga.setOnFocusChangeListener { _, b ->
-                if(b)
+                if(b) {
                     viewModel.onPriceFocus()
+                }
             }
             etDiskon.setOnFocusChangeListener { _, b ->
                 if(b)
@@ -152,13 +154,17 @@ class EditItemFragment(
             etDiskon.addTextChangedListener {
                 viewModel.onDiscChange(etDiskon.text.toString().trim())
             }
-            etHarga.addTextChangedListener {
+            etHarga.setOnTouchListener { _, _ ->
+                etHarga.selectAll()
+                return@setOnTouchListener false
+            }
+            etHarga.doOnTextChanged { text, start, before, count ->
                 val harga = etHarga.text.toString().trim().removeSymbol()
-                viewModel.onPriceChange(harga)
                 if(harga.isEmpty()){
                     etHarga.setText("0")
                     etHarga.selectAll()
                 }
+                viewModel.onPriceChange(harga)
             }
             etQty.addTextChangedListener {
                 val qty = etQty.text.trim().toString().removeSymbol()

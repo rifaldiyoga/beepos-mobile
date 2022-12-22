@@ -14,7 +14,10 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogHapusTransaksiBinding
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
+import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
+import com.bits.bee.bpmc.presentation.ui.pos.edit_item.EditItemFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.extension.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -72,8 +75,12 @@ class HapusTransaksiDialog(
                 viewModel.event.collect {
                     when(it){
                         HapusTransaksiViewModel.UIEvent.NavigateToHakAkses -> {
-                            val action = HapusTransaksiDialogDirections.actionHapusTransaksiDialogToHakAksesFragment2(BPMConstants.ACS_DEL)
-                            findNavController().navigate(action)
+                            val dialog = TidakAdaAksesDialog {
+                                it.dismiss()
+                                val action = HapusTransaksiDialogDirections.actionHapusTransaksiDialogToHakAksesFragment2(BPMConstants.ACS_DEL)
+                                findNavController().navigate(action)
+                            }
+                            dialog.show(parentFragmentManager, "")
                         }
                         HapusTransaksiViewModel.UIEvent.SuccessVoid -> {
                             Toast.makeText(requireActivity(), "Transaksi berhasil di batalkan!", Toast.LENGTH_SHORT).show()

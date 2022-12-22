@@ -162,7 +162,7 @@
                 android:id="@+id/help_icon"
                 android:layout_width="@dimen/size32"
                 android:layout_height="@dimen/size32"
-                android:layout_marginStart="@dimen/size16"
+                android:layout_marginStart="@dimen/size8"
                 android:padding="@dimen/size8"
                 android:src="@drawable/ic_help_circle"
                 app:layout_constraintBottom_toBottomOf="@+id/textView32"

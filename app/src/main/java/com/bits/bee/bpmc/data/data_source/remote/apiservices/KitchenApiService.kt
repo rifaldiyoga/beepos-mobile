@@ -12,6 +12,6 @@ import retrofit2.http.GET
 interface KitchenApiService {
 
     @GET("v1/kitchen")
-    fun getPriceLvl() : Flow<ApiResponse<KitchenResponse>>
+    fun getKitchen() : Flow<ApiResponse<KitchenResponse>>
 
 }

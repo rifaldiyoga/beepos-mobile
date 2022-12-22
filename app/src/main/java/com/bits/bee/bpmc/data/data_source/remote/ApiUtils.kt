@@ -166,4 +166,8 @@ class ApiUtils @Inject constructor(private val retrofitClient: RetrofitClient) {
         return retrofitClient.getClientApi()!!.create(GopayApiService::class.java)
     }
 
+    fun getKitchenApiService() : KitchenApiService {
+        return retrofitClient.getClientApi()!!.create(KitchenApiService::class.java)
+    }
+
 }

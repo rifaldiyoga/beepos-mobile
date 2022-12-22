@@ -15,13 +15,13 @@ class ImageUtils {
 
     companion object {
 
-        fun generateFromInitial(context : Context, name1: String): Drawable {
+        fun generateFromInitial(context : Context, name1: String, customFontSize : Int? = null): Drawable {
             val generatorCol = ColorGenerator.MATERIAL
             val text = getInitial(name1)
 
             val color = generatorCol.getColor(name1)
 
-            val font = getFontSize(text.length)
+            val font = customFontSize ?: getFontSize(text.length)
 
             val hexColor = String.format("#%06X", 0xFFFFFF and color)
             val txtColor: String = ViewUtils.pickTextColorBasedOnBg(hexColor)

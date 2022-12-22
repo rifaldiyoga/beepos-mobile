@@ -1,10 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.home
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginEnd
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,6 +23,7 @@ import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -51,6 +55,15 @@ class HomeActivity(
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         binding.apply {
+            if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
+                val layoutParams = bottomNavigationView.layoutParams as MarginLayoutParams
+                layoutParams.marginEnd = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    16f,
+                    resources.displayMetrics
+                ).toInt()
+                bottomNavigationView.layoutParams = layoutParams
+            }
             setSupportActionBar(toolbar)
             bottomAppBar.setBackgroundResource(R.color.white)
             NavigationUI.setupActionBarWithNavController(this@HomeActivity, navController, appBarConfiguration)

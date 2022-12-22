@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.pos.diskon_nota
+package com.bits.bee.bpmc.presentation.dialog.diskon_nota
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +14,6 @@ import com.bits.bee.bpmc.databinding.DialogDiskonNotaBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
-import com.bits.bee.bpmc.presentation.ui.pos.edit_item.EditItemFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -30,17 +29,22 @@ class DiskonNotaDialog(
 
     private val viewModel : DiskonNotaViewModel by viewModels()
 
-    private val mViewModel : MainViewModel by activityViewModels()
+    private val mainViewModel : MainViewModel by activityViewModels()
+
+    override fun onResume() {
+        super.onResume()
+        findNavController().currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<Boolean>(BPMConstants.ACS_DISC_MASTER).observe(viewLifecycleOwner) {
+                viewModel.state.isEditDisc = it
+                binding.etDiskon.requestFocus()
+            }
+        }
+    }
 
     override fun initComponents() {
         viewModel.loadData()
         binding.apply {
-            findNavController().currentBackStackEntry?.savedStateHandle?.apply {
-                getLiveData<Boolean>(BPMConstants.ACS_DISC_MASTER).observe(viewLifecycleOwner) {
-                    viewModel.state.isEditDisc = it
-                    etDiskon.requestFocus()
-                }
-            }
+
         }
     }
 
@@ -59,6 +63,9 @@ class DiskonNotaDialog(
             etDiskon.addTextChangedListener {
                 viewModel.state.diskon = etDiskon.text.toString().trim()
             }
+            imageView2.setOnClickListener {
+                dismiss()
+            }
         }
     }
 
@@ -68,13 +75,14 @@ class DiskonNotaDialog(
                 viewModel.event.collect {
                     when(it){
                         is DiskonNotaViewModel.UIEvent.RequestDiskonNota -> {
-                            mViewModel.onUpdateDiskonNota(it.diskon)
+                            mainViewModel.onUpdateDiskonNota(it.diskon)
                             dismiss()
                         }
                         DiskonNotaViewModel.UIEvent.NavigateToHakAkses -> {
+                            binding.etDiskon.clearFocus()
                             val dialog = TidakAdaAksesDialog {
                                 it.dismiss()
-                                val action = DiskonNotaDialogDirections.actionDiskonNotaDialogToHakAksesFragment(BPMConstants.ACS_PRICE_EDIT)
+                                val action = DiskonNotaDialogDirections.actionDiskonNotaDialogToHakAksesFragment(BPMConstants.ACS_DISC_MASTER)
                                 findNavController().navigate(action)
                             }
 
@@ -85,7 +93,7 @@ class DiskonNotaDialog(
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            mViewModel.viewStates().collect {
+            mainViewModel.viewStates().collect {
                 it?.let {
                     viewModel.state.diskon = it.sale.discExp
                     viewModel.state.subtotal = it.sale.subtotal

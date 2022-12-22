@@ -88,11 +88,11 @@ class SalesmanFragment(
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_search_member, menu)
+        inflater.inflate(R.menu.menu_search, menu)
 
 //        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE)
 
-        val searchItem = menu.findItem(R.id.search_member)
+        val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
         searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

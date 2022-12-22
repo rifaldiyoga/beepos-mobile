@@ -270,30 +270,32 @@ class MainViewModel @Inject constructor(
     }
 
     fun onMinusAddOn(saled : Saled) = viewModelScope.launch {
-        saled.qty = saled.qty - BigDecimal.ONE
+        val qty = saled.qty - BigDecimal.ONE
         var selectedAddOnList = listOf<Item>()
         saleTrans.addOnTrans?.let {
             selectedAddOnList = it.getListDetail().filter { saled == it.upSaled }.map {
                 val item = it.saled!!.item!!
-                item.qty = it.saled!!.qty
+                val qtyPer = it.saled!!.qty / saled.qty
+                item.qty = qtyPer * qty
                 item
             }
         }
-
+        saled.qty = qty
         onEditDetail(saled, selectedAddOnList)
     }
 
     fun onPlusAddOn(saled: Saled) = viewModelScope.launch {
-        saled.qty = saled.qty + BigDecimal.ONE
+        val qty = saled.qty + BigDecimal.ONE
         var selectedAddOnList = listOf<Item>()
         saleTrans.addOnTrans?.let {
             selectedAddOnList = it.getListDetail().filter { saled == it.upSaled }.map {
                 val item = it.saled!!.item!!
-                item.qty = it.saled!!.qty
+                val qtyPer = it.saled!!.qty / saled.qty
+                item.qty = qtyPer * qty
                 item
             }
         }
-
+        saled.qty = qty
         onEditDetail(saled, selectedAddOnList)
     }
 

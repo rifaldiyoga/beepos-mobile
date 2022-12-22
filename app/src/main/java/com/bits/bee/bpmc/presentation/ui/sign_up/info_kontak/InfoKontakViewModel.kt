@@ -31,17 +31,24 @@ class InfoKontakViewModel @Inject constructor(
 
     fun onClickSignUp() = viewModelScope.launch{
         if(state.isValid) {
-            val valid = state.password == state.confPassword
-                    && state.password.length > 7
+            var validPassword = state.password.length > 7
                     && state.password.isContainsUpperCase()
                     && state.password.isContainsLowerCase()
                     && state.password.isContainsNumber()
+
+            var validConfPass = true
+            var errConf = ""
+            if(state.password != state.confPassword){
+                errConf = "Konfirmasi password tidak sama"
+                validConfPass = false
+            }
             updateState(
                 state.copy(
-                    isShowWarnPass = !valid
+                    isShowWarnPass = !validPassword,
+                    errorConfPass = errConf
                 )
             )
-            if(valid) {
+            if(validPassword && validConfPass) {
                 val signUp = SignUp(state.nama, state.noWa, state.email, state.password)
                 val source = postSignUpUseCase(signUp).asLiveData()
                 registerResponse.addSource(source) {

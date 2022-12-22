@@ -29,6 +29,8 @@ class KitchenViewModel @Inject constructor (
         var kitchenList = getKategoriPrinterKitchenUseCase(sistemPreferences.first().isCloudDapur).first()
         if(!sistemPreferences.first().isCloudDapur){
             kitchenList =  kitchenList.filter { it.id != -1 && it.id != 1 && it.name != "ADDON" }.toMutableList()
+        } else {
+
         }
 
         state.printerKitchen?.let { printerKitchen ->

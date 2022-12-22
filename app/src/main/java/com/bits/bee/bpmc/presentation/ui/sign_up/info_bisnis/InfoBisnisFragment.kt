@@ -51,6 +51,7 @@ class InfoBisnisFragment constructor(
             etAlamat.addTextChangedListener {
                 val alamat = etAlamat.text.toString().trim()
                 viewModel.state.alamat = alamat
+                viewModel.validate()
                 if(alamat.isNotEmpty()) {
                     tilAlamat.isErrorEnabled = false
                 }
@@ -58,6 +59,7 @@ class InfoBisnisFragment constructor(
             etNamaPerusahaan.addTextChangedListener {
                 val namaPerusahaan = etNamaPerusahaan.text.toString().trim()
                 viewModel.state.namaPerusahaan = namaPerusahaan
+                viewModel.validate()
                 if(namaPerusahaan.isNotEmpty()) {
                     tilNamaPerusahaan.isErrorEnabled = false
                 }
@@ -65,23 +67,32 @@ class InfoBisnisFragment constructor(
             acTxtView.addTextChangedListener {
                 val kota = acTxtView.text.toString().trim()
                 viewModel.state.kota = kota
+                viewModel.validate()
                 if(kota.isNotEmpty()) {
                     tilKota.isErrorEnabled = false
                 }
             }
-            actBidangUsaha.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            actBidangUsaha.onItemClickListener = AdapterView.OnItemClickListener { p0, p1, p2, p3 ->
                     viewModel.state.tipeUsaha = list[p2]
+                    viewModel.validate()
                 }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-            }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.viewStates().collect {
+                it?.let {
+                    binding.btnLanjut.apply {
+                        background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
+                            true -> R.drawable.btn_rect_primary
+                            false -> R.drawable.btn_rect_disable
+                        })
+                        isEnabled = it.isValid
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.cityList.collectLatest {
                 when(it.status){

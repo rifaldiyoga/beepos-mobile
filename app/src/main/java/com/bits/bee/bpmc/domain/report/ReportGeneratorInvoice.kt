@@ -325,7 +325,7 @@ class ReportGeneratorInvoice @Inject constructor(
         val isEnableCust = posPreferences.isKonfirmasiCust
         val cust = sale.bpName
         val member = sale.bpName
-        val channel = sale.channel
+        val channel = channelRepository.getChannelById(sale.channelId).first()?.name ?: ""
 
         val trxDateB = StringBuilder(maxChar)
         val noOrderB = StringBuilder(maxChar)
@@ -838,7 +838,7 @@ class ReportGeneratorInvoice @Inject constructor(
         val totVoid = saleList.filter { it.isVoid }.sumOf { it.total }
         val rounding = saleList.filter { !it.isVoid }.sumOf { it.rounding }
         val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }
-        val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount }
+        val totExpOut = cadjList.filter { it.status == "o" }.sumOf { it.amount } * BigDecimal(-1)
 
         val valRounding = CurrencyUtils.formatCurrency(rounding)
         val valIncome = CurrencyUtils.formatCurrency(totCash.subtract(rounding))

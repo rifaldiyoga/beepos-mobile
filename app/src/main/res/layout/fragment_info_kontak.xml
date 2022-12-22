@@ -240,6 +240,7 @@
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:errorIconDrawable="@null"
                 style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8"

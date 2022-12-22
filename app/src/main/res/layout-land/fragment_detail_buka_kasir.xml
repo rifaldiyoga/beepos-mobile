@@ -190,6 +190,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etModal">
 
                 <TextView
+                    android:id="@+id/tvInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini" />

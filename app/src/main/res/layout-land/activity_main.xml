@@ -11,6 +11,7 @@
         android:layout_height="@dimen/size65"
         android:minHeight="@dimen/size65"
         app:titleTextColor="@color/white"
+        app:collapseIcon="@drawable/ic_back_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="?colorPrimary"

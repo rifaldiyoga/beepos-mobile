@@ -110,7 +110,7 @@ class MainActivity(
                 viewModel.onClickSalesman()
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                setVisibilityToolbar(destination.id)
+                setVisibilityToolbar(destination.id, navController.previousBackStackEntry?.destination?.id)
                 setBackgroundToolbar(destination.id)
             }
         }
@@ -234,10 +234,11 @@ class MainActivity(
         )
     }
 
-    private fun setVisibilityToolbar(destinationId: Int){
+    private fun setVisibilityToolbar(destinationId: Int, prevDestinationId: Int? = null){
         binding.apply {
             val isVisible = destinationId == R.id.diskonNotaDialog || destinationId == R.id.invoiceFragment
-                    || destinationId == R.id.posFragment || destinationId == R.id.draftListDialog || destinationId == R.id.detailAddOnDialogBuilder
+                    || destinationId == R.id.posFragment || destinationId == R.id.draftListDialog
+                    || (prevDestinationId == R.id.posFragment && destinationId == R.id.detailAddOnDialogBuilder)
             linearLayout10.isVisible = isVisible
         }
     }

@@ -1,7 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.initial
 
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
@@ -17,11 +18,21 @@ class InitialFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentInitalBinding = FragmentInitalBinding::inflate
 ) : BaseFragment<FragmentInitalBinding>() {
 
-    private lateinit var timer : Timer
+    private var timer : Timer? = null
+    private var run : Boolean = true
 
     override fun onDestroy() {
-        timer.cancel()
         super.onDestroy()
+        run = false
+        timer?.let {
+            it.cancel()
+            it.purge()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        timer = Timer()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun initComponents() {
@@ -36,16 +47,20 @@ class InitialFragment(
             }.attach()
             val timerTask = object : TimerTask() {
                 override fun run() {
-                    requireActivity().runOnUiThread {
-                        if(viewPager2.currentItem + 1 == list.size)
-                            viewPager2.currentItem = 0
-                        else
-                            viewPager2.currentItem = viewPager2.currentItem + 1
+                    if(run) {
+                        requireActivity().runOnUiThread {
+                            if (viewPager2.currentItem + 1 == list.size)
+                                viewPager2.currentItem = 0
+                            else
+                                viewPager2.currentItem = viewPager2.currentItem + 1
+                        }
+                    } else {
+                        timer!!.cancel()
+                        timer!!.purge()
                     }
                 }
             }
-            timer = Timer()
-            timer.schedule(timerTask, 5000, 5000)
+            timer!!.schedule(timerTask, 5000, 5000)
         }
     }
 

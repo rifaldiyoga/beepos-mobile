@@ -16,6 +16,7 @@ import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
+import com.bits.bee.bpmc.utils.extension.append
 import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,6 +36,9 @@ class DetailBukaKasirFragment(
 
     override fun initComponents() {
         binding.apply {
+            tvInfo.text = ""
+            tvInfo.append(getString(R.string.bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini))
+            tvInfo.append(" Pelajari selengkapnya disini", R.color.red)
             etModal.addNumberFormatChange()
         }
     }

@@ -132,6 +132,9 @@ class InfoKontakFragment constructor(
                             tvErrorUpperCase.setCompoundDrawablesWithIntrinsicBounds(errorUpperCase, null, null, null)
                             tvErrorNumber.setCompoundDrawablesWithIntrinsicBounds(errorNumber, null, null, null)
 
+                            tilconfPassword.error = it.errorConfPass
+                            tilconfPassword.isErrorEnabled = it.errorConfPass.isNotEmpty()
+
                             btnLanjut.apply {
                                 background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
                                     true -> R.drawable.btn_rect_primary

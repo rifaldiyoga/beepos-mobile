@@ -627,7 +627,7 @@ untuk memperbarui data dapur?</string>
     <string name="cek_koneksi_internet_title">Tidak ada koneksi internet</string>
     <string name="sedang_memperbarui_data">Sedang memperbarui data...</string>
     <string name="downloading_data_produk">Downloading data produk</string>
-    <string name="bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini">Bagaimana caranya agar saya bisa mengubah modal kasir? Pelajari selengkapnya disini</string>
+    <string name="bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini">Bagaimana caranya agar saya bisa mengubah modal kasir? </string>
     <string name="msg_batalkan_transaksi">Apakah anda yakin ingin membatalkan transaksi? Seluruh produk yang telah dipilih tidak akan diproses </string>
     <string name="batalkan_transaksi">Batalkan Transaksi</string>
     <string name="batalkan">Batalkan</string>
@@ -710,7 +710,7 @@ untuk memperbarui data dapur?</string>
     <string name="cari_bluetooth_printer">Cari Bluetooth Printer</string>
     <string name="konversi">Konversi</string>
     <string name="tidak_ada_hak_akses">Tidak Ada Hak Akses</string>
-    <string name="anda_tidak_bisa_mengakses_edit_diskon_karena_anda_tidak_memiliki_hak_akses">Anda tidak bisa mengakses edit diskon karena anda tidak memiliki hak akses.</string>
+    <string name="anda_tidak_bisa_mengakses_edit_diskon_karena_anda_tidak_memiliki_hak_akses">Anda tidak bisa mengakses menu ini karena anda tidak memiliki hak akses.</string>
     <string name="masukkan_pin_operator_yang_memiliki_akses">Masukkan PIN operator yang memiliki akses</string>
     <string name="masukkan_pin_operator">Masukkan PIN Operator</string>
     <string name="minta_persetujuan">Minta Persetujuan</string>
@@ -767,5 +767,7 @@ untuk memperbarui data dapur?</string>
     <string name="tambah_lainnya">Tambah Lainnya</string>
     <string name="klik_tombol_tambah_baru">Klik tombol ‘Tambah Baru’</string>
     <string name="_6">6</string>
+    <string name="cth_epson">Cth. Epson</string>
+    <string name="cth_72_3c_61_1e_27_14">Cth. 72:3C:61:1E:27:14</string>
 
 </resources>
