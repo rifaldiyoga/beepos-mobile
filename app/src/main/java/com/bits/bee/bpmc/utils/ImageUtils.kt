@@ -64,6 +64,10 @@ class ImageUtils {
             return font
         }
 
+        fun downloadImage() {
+
+        }
+
     }
 
 }

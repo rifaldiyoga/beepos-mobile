@@ -233,7 +233,7 @@ class TambahProdukViewModel @Inject constructor(
 
     fun validateSatuan(pos: Int, value: String) = viewModelScope.launch {
         var msg = ""
-        if (pos == 0 && value.isEmpty()){
+        if (pos == 0 && value.isEmpty()) {
             msg = "Wajib minim 1 satuan"
         }
         updateState(

@@ -179,4 +179,6 @@ dependencies {
     implementation files('libs/usbsdk.jar')
     implementation files('libs/p25library.jar')
 
+    implementation 'com.squareup.picasso:picasso:2.8'
+
 }

@@ -27,4 +27,8 @@ interface ItemApiService {
     @GET("v1/itembranch")
     fun getItemBranch() : Flow<ApiResponse<ItemBranchResponse>>
 
+    @GET("v1/attachitem")
+    fun getImageItem() : Flow<ApiResponse<ItemImageResponse>>
+
+
 }

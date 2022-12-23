@@ -1,9 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.kategori
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,8 +19,6 @@ import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,10 +36,15 @@ class TambahKategoriFragment(
             item?.let {
                 (activity as InitialActivity).supportActionBar?.title = getString(R.string.title_ubah_kategori)
                 viewModel.state.isEdit = true
-                viewModel.loadEditData(it)
+                 viewModel.loadEditData(it)
+                binding.apply {
+                    viewModel.state.olId = it.id!!
+                    etNamaPrd.setText(it.name)
+                    cbSubKategori.isChecked = it.upId != null
+                }
             }
-
         }
+        viewModel.loadItemgrp()
     }
 
     override fun subscribeListeners() {
@@ -53,49 +56,29 @@ class TambahKategoriFragment(
                     )
                 )
             }
-            cbSubKategori.setOnCheckedChangeListener { compoundButton, b ->
-                if (b){
-                    viewModel.updateState(
-                        viewModel.state.copy(
-                            useSubKategori = true
-                        )
-                    )
-                    cbSubKategori.isChecked = true
-                    lLKategori.visibility = View.VISIBLE
-                    visibleSub()
-                }else{
-                    viewModel.updateState(
-                        viewModel.state.copy(
-                            useSubKategori = false
-                        )
-                    )
-                    cbSubKategori.isChecked = false
-                    lLKategori.visibility = View.GONE
-                    visibleSub()
-                }
+            cbSubKategori.setOnCheckedChangeListener { _, b ->
+                viewModel.onChangeSubKategori(b)
             }
 
-            spKategoriPrd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.state.subKategori = viewModel.state.kategoriList?.get(p2) ?: ""
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
+            actSubKategori.onItemClickListener = AdapterView.OnItemClickListener { p0, p1, p2, p3 ->
+                viewModel.state.subKategori = viewModel.state.itemGroupList[p2].name
             }
 
             btnSimpan.setOnClickListener {
                 viewModel.validateNama()
                 if (viewModel.state.namaKategori.isNotEmpty()){
-                    viewModel.onSaveKategori(viewModel.state.namaKategori, viewModel.state.subKategori, viewModel.state.isEdit, viewModel.state.olId, viewModel.state.useSubKategori)
+                    viewModel.onSaveKategori()
                 }
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.msg.collect {
+                showSnackbar(it)
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect { event ->
@@ -128,56 +111,10 @@ class TambahKategoriFragment(
                 viewModel.viewStates().collect { state ->
                     state?.let {
                         binding.apply {
-                            state.itemgrp?.let { data ->
-                                viewModel.state.olId = data.id!!
-                                etNamaPrd.setText(data.name)
-                                etNamaPrd.setSelection(etNamaPrd.text.length)
-                                etNamaPrd.addTextChangedListener(object : TextWatcher{
-                                    override fun beforeTextChanged(
-                                        p0: CharSequence?,
-                                        p1: Int,
-                                        p2: Int,
-                                        p3: Int
-                                    ) {
-
-                                    }
-
-                                    override fun onTextChanged(
-                                        p0: CharSequence?,
-                                        p1: Int,
-                                        p2: Int,
-                                        p3: Int
-                                    ) {
-                                        etNamaPrd.removeTextChangedListener(this)
-                                        data.name = p0.toString()
-                                    }
-
-                                    override fun afterTextChanged(p0: Editable?) {
-
-                                    }
-
-                                })
-                                data.upId?.let {
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            useSubKategori = true
-                                        )
-                                    )
-                                    cbSubKategori.isChecked = true
-                                    lLKategori.visibility = View.VISIBLE
-
-                                    state.katPrdList?.let { data ->
-                                        if (viewModel.state.useSubKategori){
-                                            viewModel.parseItemgrp(data)
-                                        }
-                                        state.kategoriList?.let {
-                                            val subAdapter = SpinnerAdapter(requireContext(), it)
-                                            spKategoriPrd.adapter = subAdapter
-                                        }
-                                    }
-                                }
-
-                            }
+                            lLKategori.isVisible = it.useSubKategori
+                            val subAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, it.itemGroupList.map { it.name })
+                            actSubKategori.setAdapter(subAdapter)
+                            actSubKategori.setText(viewModel.state.subKategori, false)
                             tilNama.error = it.msgNama
                         }
                     }
@@ -194,21 +131,7 @@ class TambahKategoriFragment(
                             }
                             PosModeState.RetailState -> {
                                 etNamaPrd.hint = getString(R.string.cth_sepatu)
-                                groupSatuan.visible()
                             }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun visibleSub(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewStates().collect {
-                    it?.let {
-                        binding.apply {
                         }
                     }
                 }

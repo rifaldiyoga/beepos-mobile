@@ -7,11 +7,11 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
         app:layout_constraintBottom_toTopOf="@+id/btnSimpan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,21 +39,21 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNama"
+                    style="@style/CustomTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/CustomTextInputLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView1"
                     app:layout_constraintTop_toBottomOf="@+id/textView1">
 
                     <EditText
-                        style="@style/CustomEditTextLayout"
                         android:id="@+id/etNamaPrd"
+                        style="@style/CustomEditTextLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/size6"
-                        android:hint="@string/cth_sepatu"
-                        android:editable="true" />
+                        android:editable="true"
+                        android:hint="@string/cth_sepatu" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -72,8 +72,8 @@
                 android:id="@+id/lL_kategori"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="@dimen/size16"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbSubKategori">
@@ -87,10 +87,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilKategori"
+                    style="@style/CustomDropDownTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
-                    style="@style/CustomDropDownTextInputLayout"
                     app:layout_constraintStart_toStartOf="@+id/textView1"
                     app:layout_constraintTop_toBottomOf="@+id/textView4">
 
@@ -99,11 +99,11 @@
                         style="@style/CustomEditTextLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="none"
                         android:editable="false"
                         android:hint="Pilih Kategori"
+                        android:inputType="none"
                         app:layout_constraintStart_toStartOf="@+id/textView2"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6"/>
+                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -116,11 +116,25 @@
         android:id="@+id/btnSimpan"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
         android:background="@drawable/btn_rect_primary"
         android:text="@string/btn_simpan"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/size16"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

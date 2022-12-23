@@ -201,9 +201,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size16"
+                android:layout_marginBottom="@dimen/size16"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/size16"
                 android:paddingRight="@dimen/size16"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rL_cocok"
                 tools:ignore="MissingConstraints">
 

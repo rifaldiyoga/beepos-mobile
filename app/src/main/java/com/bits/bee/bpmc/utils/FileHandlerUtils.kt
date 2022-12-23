@@ -14,6 +14,8 @@ import android.provider.MediaStore
 import android.util.Log
 import java.io.*
 import java.util.*
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 class FileHandlerUtils {
 
@@ -38,7 +40,7 @@ class FileHandlerUtils {
 
         fun saveBitmap(ctx: Context, img: Bitmap, path: String, imgTitle: String): String{
             try {
-                if (img.isRecycled() || img == null) {
+                if (img.isRecycled) {
                     return ""
                 }
             }catch (o: Exception){
@@ -54,14 +56,14 @@ class FileHandlerUtils {
                     dir.mkdir()
                 }else {
                     if (isFileExist("$tempPath$imgTitle.jpg")) {
-                        val file = File(tempPath + imgTitle + ".jpg")
+                        val file = File("$tempPath$imgTitle.jpg")
                         return file.absolutePath
                     }
                 }
 
                 var fos: OutputStream? = null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val resolver: ContentResolver = ctx.getContentResolver()
+                    val resolver: ContentResolver = ctx.contentResolver
                     val contentValues = ContentValues()
                     contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$imgTitle.jpg")
                     contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
@@ -108,7 +110,7 @@ class FileHandlerUtils {
             val result: String
             val cursor = context.contentResolver.query(imageUri, null, null, null, null)
             if (cursor == null) { // Source is Dropbox or other similar local file path
-                result = imageUri.getPath().toString()
+                result = imageUri.path.toString()
             } else {
                 cursor.moveToFirst()
                 val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
@@ -144,22 +146,20 @@ class FileHandlerUtils {
         }
 
         fun bitMapScale(bitmap: Bitmap, MAX_SIZE: Int): Bitmap{
-            val ratio: Int = 1024 / bitmap.getWidth()
-            val height: Int = bitmap.getHeight() * ratio
-            bitmap.setDensity(480)
+            val ratio: Int = 1024 / bitmap.width
+            val height: Int = bitmap.height * ratio
+            bitmap.density = 480
             val bitmapResult = Bitmap.createScaledBitmap(bitmap, 1024, height, true)
 
             val ratioSquare: Double
-            val bitmapHeight: Int
-            val bitmapWidth: Int
-            bitmapHeight = bitmapResult.height
-            bitmapWidth = bitmapResult.width
+            val bitmapHeight: Int = bitmapResult.height
+            val bitmapWidth: Int = bitmapResult.width
             ratioSquare = (bitmapHeight * bitmapWidth / MAX_SIZE).toDouble()
             if (ratioSquare <= 1) return bitmapResult
-            val ratio2 = Math.sqrt(ratioSquare)
+            val ratio2 = sqrt(ratioSquare)
             Log.d("mylog", "Ratio: $ratio")
-            val requiredHeight = Math.round(bitmapHeight / ratio2).toInt()
-            val requiredWidth = Math.round(bitmapWidth / ratio2).toInt()
+            val requiredHeight = (bitmapHeight / ratio2).roundToInt()
+            val requiredWidth = (bitmapWidth / ratio2).roundToInt()
             return Bitmap.createScaledBitmap(bitmapResult, requiredWidth, requiredHeight, true)
         }
     }
