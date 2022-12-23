@@ -161,4 +161,10 @@ class SaledRepositoryImpl @Inject constructor(
     ).flow.mapLatest {
         it.map { RekapProdukDataMapper.fromDbToDomain(it)}
     }.flowOn(defaultDispatcher)
+
+    override suspend fun deleteSaledBySale(saleId: Int) {
+        withContext(defaultDispatcher){
+            saledDao.getSaledById(saleId)
+        }
+    }
 }

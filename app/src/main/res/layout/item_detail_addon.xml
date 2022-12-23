@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvNamaItem"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:text="@string/ayam_bakar"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/tvHarga"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddon"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/size50"
+        android:layout_marginBottom="@dimen/size16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvNamaItem"
+        app:layout_constraintStart_toStartOf="@+id/tvNamaItem"
+        app:layout_constraintTop_toBottomOf="@+id/tvNamaItem" />
+
+    <TextView
+        android:id="@+id/tvHarga"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:text="@string/mata_uang_nominal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/llQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/size16"
+        android:layout_marginEnd="@dimen/size16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/ivMinus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_circle_minus" />
+
+        <EditText
+            android:id="@+id/etQty"
+            android:layout_width="@dimen/size40"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:inputType="none"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/ivPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_circle_plus" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view14"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size1"
+        android:background="@color/light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

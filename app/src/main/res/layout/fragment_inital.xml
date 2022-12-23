@@ -15,59 +15,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
+        android:layout_width="@dimen/size0"
+        android:minHeight="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView21"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toTopOf="@+id/btnMasuk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager2"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabIndicatorColor="@color/red"
+        app:tabGravity="center"
+        app:tabIndicator="@null" />
+
     <Button
         android:id="@+id/btnMasuk"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:background="@drawable/btn_rect_primary"
         android:text="@string/masuk"
-        android:layout_marginBottom="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/textView104"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDaftar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:layout_width="@dimen/size0"
-        android:layout_height="@dimen/size1"
-        android:background="@color/gray"
-        android:layout_marginEnd="@dimen/size8"
-        app:layout_constraintBottom_toBottomOf="@+id/textView104"
-        app:layout_constraintEnd_toStartOf="@+id/textView104"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView104" />
-
-    <TextView
-        android:id="@+id/textView104"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/atau"
-        android:textColor="@color/dark_gray"
-        android:layout_margin="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/btnDaftar"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:layout_width="@dimen/size0"
-        android:layout_height="@dimen/size1"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toBottomOf="@+id/textView104"
-        app:layout_constraintStart_toEndOf="@+id/textView104"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="@dimen/size8"
-        app:layout_constraintTop_toTopOf="@+id/textView104" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnDaftar"
+        app:layout_constraintTop_toTopOf="@+id/btnDaftar" />
 
     <Button
         android:id="@+id/btnDaftar"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/btn_rect_secondary"
         android:text="@string/buat_akun"
         android:textColor="?colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@+id/btnMasuk"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

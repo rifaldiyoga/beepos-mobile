@@ -22,7 +22,8 @@ class GetSaleAddonDByAddonUseCase @Inject constructor(
         saledAddOnDList.map {
             it.saled = saledRepository.getSaledById(it.saled?.id!!).first()
             it.upSaled = saledRepository.getSaledById(it.upSaled?.id!!).first()
-            it.saleAddOn = saleAddOnRepository.getSaleAddonBySale(it.saleAddOn?.id!!).first()
+            it.saleAddOn = saleAddOnRepository.getSaleAddonById(it.saleAddOn?.id!!).first()
+//            it.saleAddOn.saleId.id = id
         }
         emit(saledAddOnDList)
     }.flowOn(coroutineDispatcher)

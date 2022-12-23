@@ -1,6 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.member
 
+import android.Manifest
 import android.view.*
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -20,6 +23,7 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
+import com.bits.bee.bpmc.utils.PermissionUtils
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
@@ -43,6 +47,12 @@ class MemberFragment(
 
     private lateinit var memberAdapter: MemberAdapter
 
+    private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted ->
+        if(!isGranted){
+            Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_search_member, menu)
 
@@ -64,19 +74,30 @@ class MemberFragment(
             }
 
         })
-
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
+            viewModel.onSearch(it)
+            searchView.setQuery(it, true)
+            showSnackbar(it)
+        }
         searchView.requestFocus()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.search_member ->{
-
+            R.id.menu_scan -> {
+                if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)) {
+                    val action =
+                        MemberFragmentDirections.actionMemberFragmentToScannerFragment()
+                    findNavController().navigate(action)
+                } else {
+                    requestPermissionCamera.launch(Manifest.permission.CAMERA)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     override fun initComponents() {
         setHasOptionsMenu(true)

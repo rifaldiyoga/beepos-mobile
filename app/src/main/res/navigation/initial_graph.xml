@@ -94,6 +94,9 @@
             android:name="type"
             app:argType="string"
             android:defaultValue="signin" />
+        <action
+            android:id="@+id/action_modeTampilanFragment_to_walkThroughFragment"
+            app:destination="@id/walkThroughFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoKontakFragment"
@@ -292,6 +295,14 @@
         <action
             android:id="@+id/action_cekDbFragment_to_aturPinFragment"
             app:destination="@id/aturPinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/walkThroughFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.walkthrough.WalkThroughFragment"
+        android:label="WalkThroughFragment" >
+        <argument
+            android:name="mode"
+            app:argType="string" />
     </fragment>
 
 </navigation>

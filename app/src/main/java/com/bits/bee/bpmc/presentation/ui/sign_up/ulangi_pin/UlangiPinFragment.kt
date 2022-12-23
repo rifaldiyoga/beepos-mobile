@@ -57,9 +57,6 @@ class UlangiPinFragment constructor(
             pinView.addTextChangedListener {
                 viewModel.onPinInput(pinView.text.toString().trim())
             }
-            btnSimpanPin.setOnClickListener {
-
-            }
             linearLayout17.setOnClickListener {
                 viewModel.onClickPin()
             }

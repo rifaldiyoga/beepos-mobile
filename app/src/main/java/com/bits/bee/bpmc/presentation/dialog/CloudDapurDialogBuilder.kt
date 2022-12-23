@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.bits.bee.bpmc.databinding.DialogCloudDapurBinding
 import com.bits.bee.bpmc.databinding.DialogRadioListBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
+import com.bits.bee.bpmc.utils.extension.gone
 
 class CloudDapurDialogBuilder(
     val title: String,
@@ -14,6 +15,7 @@ class CloudDapurDialogBuilder(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = title
+            btnTontonVideo.gone()
         }
     }
 

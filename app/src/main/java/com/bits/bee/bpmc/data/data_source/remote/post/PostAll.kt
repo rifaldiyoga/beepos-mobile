@@ -201,11 +201,17 @@ data class PostAll(
 
         @Parcelize
         data class SaleBns(
+            @SerializedName("dno")
             var dno: Int? = null,
+            @SerializedName("promo_id")
             var promoId : Int? = null,
+            @SerializedName("wh_id")
             var whId: Long? = null,
+            @SerializedName("item_id")
             var itemId: Int? = null,
+            @SerializedName("unit")
             var unit: String? = null,
+            @SerializedName("qty")
             var qty: BigDecimal = BigDecimal.ZERO
         ): Parcelable
 

@@ -81,10 +81,18 @@ class TambahMemberFragment(
                 viewModel.onClickInfoLainnya()
             }
             etNamaMember.addTextChangedListener {
+                val nama = etNamaMember.text.toString().trim()
+                viewModel.state.namaMember = nama
+                if(nama.isNotEmpty())
+                    tilNamaMember.isErrorEnabled = false
                 viewModel.state.namaMember = etNamaMember.text.toString().trim()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_name), viewModel.state.namaMember)
             }
             etNoTelp.addTextChangedListener {
+                val telp = etNoTelp.text.toString().trim()
+                viewModel.state.noTelp = telp
+                if(telp.isNotEmpty())
+                    tilNoTelp.isErrorEnabled = false
                 viewModel.state.noTelp = etNoTelp.text.toString().trim()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_member_notelp), viewModel.state.noTelp)
             }

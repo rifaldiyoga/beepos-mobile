@@ -1,7 +1,9 @@
 package com.bits.bee.bpmc.presentation.dialog.hapus_transaksi
 
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,8 +16,7 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -29,7 +30,6 @@ class HapusTransaksiDialog(
     private val viewModel : HapusTransaksiViewModel by viewModels()
 
     override fun initComponents() {
-
         binding.apply {
             viewModel.loadData()
             arguments?.let {
@@ -62,8 +62,9 @@ class HapusTransaksiDialog(
 
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.msg.collect {
-                showSnackbar(it)
+            viewModel.msg.collectLatest {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+//                showSnackbar(it)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -75,7 +76,7 @@ class HapusTransaksiDialog(
                             findNavController().navigate(action)
                         }
                         HapusTransaksiViewModel.UIEvent.SuccessVoid -> {
-                            showSnackbar("Transaksi berhasil di batalkan!")
+                            Toast.makeText(requireActivity(), "Transaksi berhasil di batalkan!", Toast.LENGTH_SHORT).show()
                             findNavController().previousBackStackEntry?.savedStateHandle?.set("sale", viewModel.state.sale!!)
                             findNavController().popBackStack()
 //                            onFinish(viewModel.state.sale!!)
@@ -85,6 +86,5 @@ class HapusTransaksiDialog(
             }
         }
     }
-
 
 }

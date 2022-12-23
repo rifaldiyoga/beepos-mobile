@@ -73,6 +73,8 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), BaseInterface {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 
     fun setToolbarTitle(title : String){
-        (requireActivity() as AppCompatActivity).supportActionBar?.let{it.title = title}
+        (requireActivity() as AppCompatActivity).supportActionBar?.let{
+            it.title = title
+        }
     }
 }

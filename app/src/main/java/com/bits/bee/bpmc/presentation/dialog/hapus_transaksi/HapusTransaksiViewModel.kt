@@ -31,7 +31,7 @@ class HapusTransaksiViewModel @Inject constructor(
     }
 
     fun onClickHapus() = viewModelScope.launch {
-        if(!state.isCanVoid){
+        if(!state.isCanVoid) {
             eventChannel.send(UIEvent.NavigateToHakAkses)
         } else {
             doVoid()

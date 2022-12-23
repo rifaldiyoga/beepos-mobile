@@ -8,6 +8,7 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -36,7 +37,7 @@ class DiskonNotaViewModel @Inject constructor(
         try {
             val discAmt = CalcUtils.getDiscAmt(state.diskon, state.subtotal)
 
-            if(state.subtotal < discAmt)
+            if(state.subtotal == BigDecimal.ZERO || state.subtotal < discAmt)
                 throw Exception("Diskon melebihi subtotal!")
 
             eventChannel.send(UIEvent.RequestDiskonNota(state.diskon))

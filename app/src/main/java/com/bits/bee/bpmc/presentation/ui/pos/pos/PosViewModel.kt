@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemGroupUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -13,10 +14,10 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PosViewModel @Inject constructor(
-    private val getActiveItemGroupUseCase: GetActiveItemGroupUseCase,
+    private val itemGroupRepository: ItemGroupRepository
 ): BaseViewModel<PosState, PosViewModel.UIEvent>() {
 
-    var itemGroupList = getActiveItemGroupUseCase()
+    var itemGroupList = itemGroupRepository.getActiveItemGroupNotAddOnList()
 
     init {
         state = PosState()

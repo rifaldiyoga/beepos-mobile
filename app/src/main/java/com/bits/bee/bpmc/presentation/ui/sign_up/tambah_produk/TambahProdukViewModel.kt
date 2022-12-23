@@ -44,6 +44,15 @@ class TambahProdukViewModel @Inject constructor(
     val getlastItemgrp = getLastItemgrpUseCase.invoke()
     val getlastBrand = getLastBrandUseCase.invoke()
 
+    fun onClickHapusImage() = viewModelScope.launch {
+        updateState(
+            state.copy(
+                picPath = "",
+                bitmap = null
+            )
+        )
+    }
+
     fun onClickTambahSatuan() = viewModelScope.launch {
         if (state.unitList.size < 3){
             if(state.unitList[0].unit.isNotEmpty()) {
@@ -285,6 +294,10 @@ class TambahProdukViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestDialogDelete)
     }
 
+    fun showDialogOpsi() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDialogOpsi)
+    }
+
     sealed class UIEvent {
         object FinsihSubmit : UIEvent()
         object RequestDialogKategori : UIEvent()
@@ -292,5 +305,6 @@ class TambahProdukViewModel @Inject constructor(
         object AfterAcivePId : UIEvent()
         object RequestInisghtPId : UIEvent()
         object RequestDialogDelete : UIEvent()
+        object RequestDialogOpsi : UIEvent()
     }
 }

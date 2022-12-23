@@ -68,7 +68,6 @@ class EditItemFragment(
                 viewModel.loadData()
                 viewModel.loadUnit(it.itemId, it.unitId)
                 setToolbarTitle(it.name)
-
             }
             val stock = bundle.getParcelable<Stock>("pid")
             stock?.let {
@@ -105,7 +104,11 @@ class EditItemFragment(
                         layoutManager = LinearLayoutManager(requireActivity())
                         adapter = addOnAdapter
                     }
-                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaled }.map { it.saled!!.item }
+                    val saledList = addOnTrans.getListDetail().filter { saled == it.upSaled }.map {
+                        val item = it.saled!!.item!!
+                        item.qty = it.saled!!.qty
+                        item
+                    }
                     state.addOnList = saledList
                     groupAddon.isVisible = saledList.isNotEmpty()
                     addOnAdapter.submitList(saledList)
@@ -230,22 +233,7 @@ class EditItemFragment(
                 viewModel.event.collect { event ->
                     when(event){
                         is EditItemViewModel.UIEvent.RequestSubmit -> {
-                            mViewModel.saleTrans.addOnTrans?.let { addOnTrans ->
-                                val saledAddOnList : MutableList<Saled?> = mutableListOf()
-                                for (saleAddOnD in addOnTrans.getListDetail()){
-                                    if(saleAddOnD.upSaled == event.saled)
-                                        saledAddOnList.add(saleAddOnD.saled)
-                                }
-
-                                for(saled in saledAddOnList){
-                                    saled?.let { saled ->
-                                        mViewModel.onDeleteAddOnData(event.saled, saled)
-                                    }
-                                }
-
-                                mViewModel.onItemAddOn(viewModel.state.addOnList, event.saled)
-                            }
-                            mViewModel.onEditDetail(event.saled)
+                            mViewModel.onEditDetail(event.saled, event.selectedAddOnList)
                             findNavController().popBackStack()
                         }
                         is EditItemViewModel.UIEvent.RequestAdd -> {

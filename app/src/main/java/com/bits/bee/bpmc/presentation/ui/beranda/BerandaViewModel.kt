@@ -27,7 +27,6 @@ class BerandaViewModel @Inject constructor(
         state = BerandaState()
     }
 
-    val getActiveCashier = getActiveCashierUseCase()
     val getActiveBranch = getActiveBranchUseCase()
 
     fun onDetailBukaKasirClick() = viewModelScope.launch {

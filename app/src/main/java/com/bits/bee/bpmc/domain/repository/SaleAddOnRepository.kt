@@ -11,5 +11,7 @@ interface SaleAddOnRepository {
 
     suspend fun addSaleAddOn(saleAddOn: SaleAddOn) : Long
 
+    fun getSaleAddonById(id: Int): Flow<SaleAddOn?>
+
     fun getSaleAddonBySale(id: Int): Flow<SaleAddOn?>
 }

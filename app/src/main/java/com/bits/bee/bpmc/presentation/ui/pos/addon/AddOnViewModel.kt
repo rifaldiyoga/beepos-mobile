@@ -3,12 +3,16 @@ package com.bits.bee.bpmc.presentation.ui.pos.addon
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.domain.model.Item
+import com.bits.bee.bpmc.domain.model.ItemWithUnit
+import com.bits.bee.bpmc.domain.usecase.addon.GetAddOnDUseCase
 import com.bits.bee.bpmc.domain.usecase.addon.GetItemVariantUseCase
 import com.bits.bee.bpmc.domain.usecase.addon.GetSelectionAddOnUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -19,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddOnViewModel @Inject constructor(
     private val getSelectionAddOnUseCase: GetSelectionAddOnUseCase,
-    private val getItemVariantUseCase: GetItemVariantUseCase
+    private val getItemVariantUseCase: GetItemVariantUseCase,
+    private val getAddOnDUseCase: GetAddOnDUseCase
 ) : BaseViewModel<AddOnState, AddOnViewModel.UIEvent>() {
 
     private val _selectedAddOn = MutableLiveData<ArrayList<Item>>(arrayListOf())
@@ -33,6 +38,32 @@ class AddOnViewModel @Inject constructor(
 
     fun setItemSelectedList(itemList: ArrayList<Item>) {
         _selectedAddOn.value = itemList
+    }
+
+    fun onClickNext() = viewModelScope.launch {
+        val selectedList = getSelectedAddOn()
+        val variant = selectedList.firstOrNull{ it.isVariant && !it.isAddOn }
+        val addOnList = selectedList.filter { it.isAddOn }
+        val notSelectedList = mutableListOf<Int>()
+        state.addOnDList.forEachIndexed { index, addOnD ->
+            if(!addOnD.isSkip){
+                val selectionItem = state.selectionList.first { it.selection.id == addOnD.selectionId}.itemList.map { it.id }
+                val selectedItem = addOnList.map { it.id }
+                var isContains = false
+                selectedItem.forEach {
+                    if(selectionItem.contains(it)){
+                        isContains = true
+                    }
+                }
+                if(!isContains)
+                    notSelectedList.add(index)
+            }
+        }
+        if(notSelectedList.isEmpty()) {
+            eventChannel.send(UIEvent.RequestSave(state.qty, if (variant != null) ItemWithUnit(variant) else null, addOnList.map { ItemWithUnit(it) }))
+        } else {
+            sendMessage("Harap lengkapi ${state.selectionList[notSelectedList.first()].selection.name} terlebih dahulu")
+        }
     }
 
     fun getSelectedAddOn() : ArrayList<Item> = _selectedAddOn.value ?: arrayListOf()
@@ -90,7 +121,7 @@ class AddOnViewModel @Inject constructor(
                     it.data?.let {
                         it.forEach {
                             it.itemList.forEach { item ->
-                                state.itemList.forEach { selectedItem ->
+                                selectedAddOn.value?.forEach { selectedItem ->
                                     if (item.id == selectedItem.id)
                                         item.qty = selectedItem.qty
                                 }
@@ -99,7 +130,8 @@ class AddOnViewModel @Inject constructor(
 
                         updateState(
                             state.copy(
-                                selectionList = it
+                                selectionList = it,
+                                addOnDList = getAddOnDUseCase(item.id).first()
                             )
                         )
                     }
@@ -131,6 +163,7 @@ class AddOnViewModel @Inject constructor(
 
     sealed class UIEvent {
         data class ShowLoadingSelection(val isLoading : Boolean) : UIEvent()
+        data class RequestSave(val qty : BigDecimal, val item : ItemWithUnit?, val selectedAddOnList : List<ItemWithUnit>) : UIEvent()
     }
 
     data class VariantState(

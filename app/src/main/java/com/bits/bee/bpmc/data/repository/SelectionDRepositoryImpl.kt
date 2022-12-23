@@ -11,6 +11,8 @@ import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -41,5 +43,9 @@ class SelectionDRepositoryImpl @Inject constructor(
             }
         }.getAsFlow()
     }
+
+    override fun getSelectionByItem(itemId: Int): Flow<SelectionD?> = flow {
+        emit(selectionDDao.getSelectionDById(itemId)?.let { SelectionDDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
 
 }

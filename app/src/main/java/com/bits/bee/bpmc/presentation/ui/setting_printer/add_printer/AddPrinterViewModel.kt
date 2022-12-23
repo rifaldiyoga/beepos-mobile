@@ -8,6 +8,7 @@ import com.bits.bee.bpmc.domain.usecase.printer.PrinterInteractor
 import com.bits.bee.bpmc.domain.usecase.printer.SavePrinterUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,11 +19,14 @@ class AddPrinterViewModel @Inject constructor(
     private val savePrinterUseCase: SavePrinterUseCase,
     private val deletePrinterUseCase: DeletePrinterUseCase,
     val bluetoothConnectService: BluetoothConnectService,
+    private val beePreferenceManager: BeePreferenceManager
 ): BaseViewModel<AddPrinterState, AddPrinterViewModel.UIEvent>() {
 
     init {
         state = AddPrinterState()
     }
+
+    val modePreferences = beePreferenceManager.modePreferences
 
     fun onClickDelete() = viewModelScope.launch {
         state.mPrinter?.let {

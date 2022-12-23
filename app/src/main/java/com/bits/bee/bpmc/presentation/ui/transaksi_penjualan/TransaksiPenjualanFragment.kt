@@ -1,9 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -23,6 +20,7 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.FilterUtils
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -45,6 +43,14 @@ class TransaksiPenjualanFragment(
         inflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
+
+        searchView.queryHint = getString(R.string.cari_transaksi_min_3_karakter)
+
+        searchView.setSearchViewStyle(requireActivity(), R.color.black)
+        searchView.setOnQueryTextFocusChangeListener { _, b ->
+            (requireActivity() as HomeActivity).setVisibilityBottom(!b)
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -85,6 +91,7 @@ class TransaksiPenjualanFragment(
 //                    binding.slidingPaneLayout.openPane()
                 }
             )
+            transAdapter.refresh()
             rvList.apply {
                 adapter = transAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -136,7 +143,7 @@ class TransaksiPenjualanFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.currentQuery.collectLatest {
-                (requireActivity() as HomeActivity).setVisibilityBottom(it.isEmpty())
+
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {

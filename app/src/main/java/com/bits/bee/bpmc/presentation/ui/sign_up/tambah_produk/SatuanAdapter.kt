@@ -25,11 +25,19 @@ class SatuanAdapter(
     private val onUpdateSatuan: (String) -> Unit,
 ) : ListAdapter<UnitDummy, RecyclerView.ViewHolder>(DiffCallback()) {
 
+    private lateinit var txtFnb: String
+    private var isFnb: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
             ItemSatuanInputBinding.inflate(inflater, parent, false)
         )
+    }
+
+    fun setTxtView(txtView: String, fnb: Boolean){
+        this.txtFnb = txtView
+        this.isFnb = fnb
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -46,7 +54,7 @@ class SatuanAdapter(
                 } else {
                     tvSatuanParent.text = getItem(0).unit
                 }
-                txtSatuan.text = lLSatuan.context.getString(R.string.satuan1, absoluteAdapterPosition + 1)
+                txtSatuan.text = if (isFnb) txtFnb else lLSatuan.context.getString(R.string.satuan1, absoluteAdapterPosition + 1)
                 etSatuan.setText(model.unit)
                 etQty.setText(CurrencyUtils.formatCurrency(model.conv))
                 etSatuan.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(10))

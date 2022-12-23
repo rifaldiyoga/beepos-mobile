@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.databinding.FragmentAturProdukBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.download.DownloadDialogBuilder
+import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.gone
@@ -109,6 +110,7 @@ class AturProdukFragment(
                             BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_is_sign_up), false)
                             val action = AturProdukFragmentDirections.actionAturProdukFragmentToHomeActivity()
                             findNavController().navigate(action)
+                            (activity as InitialActivity).finish()
                         }
                         AturProdukViewModel.UIEvent.NavigateToTambahProduk -> {
                             BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_kategori), true)

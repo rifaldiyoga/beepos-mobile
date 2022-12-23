@@ -34,7 +34,8 @@
         android:itemBackground="@drawable/bg_rect_light_gray"
         app:itemCount="6"
         app:itemWidth="@dimen/size45"
-        android:textSize="@dimen/font16"
+        android:textStyle="bold"
+        android:textSize="@dimen/font18"
         android:inputType="number"
         style="@style/PinWidget.PinView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,22 +76,12 @@
     <com.bits.bee.bpmc.presentation.custom.CustomNumpadPin
         android:id="@+id/numpad"
         android:layout_width="@dimen/size0"
-        android:layout_marginTop="@dimen/size45"
         android:layout_height="@dimen/size0"
-        app:layout_constraintBottom_toTopOf="@+id/btn_simpan_pin"
+        android:layout_marginTop="@dimen/size45"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/size16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
 
-    <Button
-        android:id="@+id/btn_simpan_pin"
-        android:background="@drawable/btn_rect_primary"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_simpan_pin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

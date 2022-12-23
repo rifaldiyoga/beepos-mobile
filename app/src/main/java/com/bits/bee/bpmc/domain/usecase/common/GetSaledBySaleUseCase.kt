@@ -1,10 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.common
 
 import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.repository.CrcRepository
-import com.bits.bee.bpmc.domain.repository.ItemRepository
-import com.bits.bee.bpmc.domain.repository.SaledRepository
-import com.bits.bee.bpmc.domain.repository.UnitRepository
+import com.bits.bee.bpmc.domain.repository.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -20,6 +17,7 @@ class GetSaledBySaleUseCase @Inject constructor(
     private val itemRepository: ItemRepository,
     private val unitRepository: UnitRepository,
     private val crcRepository: CrcRepository,
+    private val selectionDRepository: SelectionDRepository,
     private val coroutineDispatcher: CoroutineDispatcher
 ) {
 
@@ -28,6 +26,10 @@ class GetSaledBySaleUseCase @Inject constructor(
         saledList.map {
             it.crcSymbol = crcRepository.getCrcById(it.crcId!!).first()?.symbol ?: ""
             it.item = itemRepository.getItemById(it.itemId).first()
+            if(selectionDRepository.getSelectionByItem(it.itemId).first() != null) {
+                it.item = it.item?.copy(isAddOn = true)
+                it.isAddOn = true
+            }
             if(it.unitId != null)
                 it.unit = unitRepository.getUnitById(it.unitId!!).first()?.unit ?: ""
         }

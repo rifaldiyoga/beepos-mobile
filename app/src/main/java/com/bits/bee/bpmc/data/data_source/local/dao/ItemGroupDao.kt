@@ -18,7 +18,7 @@ interface ItemGroupDao : BaseDao<ItemGroupEntity> {
     @Query("SELECT * FROM itemgrp WHERE ispos = 1 ORDER BY COALESCE(up_id, id)")
     fun getActiveItemGroupList() : List<ItemGroupEntity>
 
-    @Query("SELECT * FROM itemgrp WHERE code = 'ADDON' AND ispos = :ispos ")
+    @Query("SELECT * FROM itemgrp WHERE code != 'ADDON' AND ispos = :ispos ")
     fun getItgrpNotAddon(ispos: Boolean): List<ItemGroupEntity>
 
     @Query("SELECT * FROM itemgrp WHERE id = :id")

@@ -9,7 +9,7 @@ class SendOtpPost (
     @SerializedName("otp_tipe")
     @Expose
     var otpTipe: String,
-    @SerializedName("reg_id")
+    @SerializedName("regid")
     @Expose
     var regId: String,
 )

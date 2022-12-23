@@ -101,7 +101,7 @@ class TambahKategoriFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.event.collect{ event ->
+                viewModel.event.collect { event ->
                     when(event){
                         TambahUbahKategoriViewModel.UIEvent.FinishSaveDelete ->{
                             findNavController().popBackStack()
@@ -128,10 +128,10 @@ class TambahKategoriFragment(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewStates().collect {
-                    it?.let {
+                viewModel.viewStates().collect { state ->
+                    state?.let {
                         binding.apply {
-                            it.itemgrp?.let { data ->
+                            state.itemgrp?.let { data ->
                                 viewModel.state.olId = data.id!!
                                 etNamaPrd.setText(data.name)
                                 etNamaPrd.setSelection(etNamaPrd.text.length)
@@ -160,19 +160,26 @@ class TambahKategoriFragment(
                                     }
 
                                 })
-//                                if (it.upId == -1){
-//
-//                                }else{
-//                                    viewModel.updateState(
-//                                        viewModel.state.copy(
-//                                            useSubKategori = true
-//                                        )
-//                                    )
-//                                    cbSubKategori.isChecked = true
-//                                    lLKategori.visibility = View.VISIBLE
-//
-//                                    visibleSub(it.upId)
-//                                }
+                                data.upId?.let {
+                                    viewModel.updateState(
+                                        viewModel.state.copy(
+                                            useSubKategori = true
+                                        )
+                                    )
+                                    cbSubKategori.isChecked = true
+                                    lLKategori.visibility = View.VISIBLE
+
+                                    state.katPrdList?.let { data ->
+                                        if (viewModel.state.useSubKategori){
+                                            viewModel.parseItemgrp(data)
+                                        }
+                                        state.kategoriList?.let {
+                                            val subAdapter = SpinnerAdapter(requireContext(), it)
+                                            spKategoriPrd.adapter = subAdapter
+                                        }
+                                    }
+                                }
+
                             }
                             tilNama.error = it.msgNama
                         }
@@ -199,21 +206,12 @@ class TambahKategoriFragment(
         }
     }
 
-   private fun visibleSub(){
+    private fun visibleSub(){
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
-                            it.katPrdList?.let { data ->
-                                if (viewModel.state.useSubKategori){
-                                    viewModel.parseItemgrp(data)
-                                }
-                                it.kategoriList?.let {
-                                    val subAdapter = SpinnerAdapter(requireContext(), it)
-                                    spKategoriPrd.adapter = subAdapter
-                                }
-                            }
                         }
                     }
                 }

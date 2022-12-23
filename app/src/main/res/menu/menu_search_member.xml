@@ -9,4 +9,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>
 
+    <item
+        android:title="@string/member"
+        android:id="@+id/menu_scan"
+        android:icon="@drawable/ic_scan"
+        android:iconTint="@color/black"
+        app:showAsAction="always"/>
+
 </menu>

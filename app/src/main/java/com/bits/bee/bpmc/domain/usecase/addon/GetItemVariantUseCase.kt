@@ -3,12 +3,10 @@ package com.bits.bee.bpmc.domain.usecase.addon
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.VariantWithItem
 import com.bits.bee.bpmc.domain.repository.ItemAddOnRepository
-import com.bits.bee.bpmc.domain.repository.ItemRepository
 import com.bits.bee.bpmc.domain.repository.VariantRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_posFragment_to_salesmanFragment"
             app:destination="@id/salesmanFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_detailAddOnDialogBuilder"
+            app:destination="@id/detailAddOnDialogBuilder" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -61,6 +64,9 @@
         <action
             android:id="@+id/action_memberFragment_to_posFragment"
             app:destination="@id/posFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_tambah_member"
@@ -209,6 +215,7 @@
     <fragment
         tools:layout="@layout/fragment_transaksi_berhasil"
         android:id="@+id/transaksiBerhasilFragment"
+        android:label=""
         android:name="com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil.TransaksiBerhasilFragment"
          >
         <action
@@ -267,6 +274,12 @@
         <action
             android:id="@+id/action_cariItemFragment_to_pilihPidFragment"
             app:destination="@id/pilihPidFragment" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_detailAddOnDialogBuilder"
+            app:destination="@id/detailAddOnDialogBuilder" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_scanner"
@@ -287,8 +300,9 @@
     </fragment>
     <fragment
         android:id="@+id/addOnFragment"
+        tools:layout="@layout/fragment_addon"
         android:name="com.bits.bee.bpmc.presentation.ui.pos.addon.AddOnFragment"
-        android:label="AddOnFragment" >
+        android:label="" >
         <argument
             android:name="item"
             app:argType="com.bits.bee.bpmc.domain.model.Item" />
@@ -340,17 +354,13 @@
         <argument
             android:name="srep"
             app:argType="com.bits.bee.bpmc.domain.model.Srep" />
-    </fragment>
-    <fragment
-        android:id="@+id/kasMasukFragment"
-        tools:layout="@layout/fragment_kas_masuk"
-        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasMasukFragment"
-        android:label="KasMasukFragment" />
-    <fragment
+    </fragment><![CDATA[
+    fragment
         android:id="@+id/kasKeluarFragment"
         tools:layout="@layout/fragment_kas_keluar"
         android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarFragment"
         android:label="KasKeluarFragment" />
+    ]]>
     <dialog
         android:id="@+id/hakAksesFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
@@ -358,6 +368,21 @@
         <argument
             android:name="acsType"
             app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/detailAddOnDialogBuilder"
+        tools:layout="@layout/dialog_detail_addon"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_addon.DetailAddOnDialogBuilder"
+        android:label="" >
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item" />
+        <action
+            android:id="@+id/action_detailAddOnDialogBuilder_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_detailAddOnDialogBuilder_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
     </dialog>
 
 </navigation>

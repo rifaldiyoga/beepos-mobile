@@ -7,5 +7,7 @@ data class InfoKontakState(
     var password: String = "",
     var confPassword: String = "",
     var isValid: Boolean = false,
-    var regId : String = ""
+    var regId : String = "",
+    var isShowWarnPass : Boolean = false,
+    var passMsg : String = ""
 )

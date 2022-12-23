@@ -146,7 +146,7 @@ class FileHandlerUtils {
         fun bitMapScale(bitmap: Bitmap, MAX_SIZE: Int): Bitmap{
             val ratio: Int = 1024 / bitmap.getWidth()
             val height: Int = bitmap.getHeight() * ratio
-            bitmap.setDensity(480)
+            bitmap.setDensity(720)
             val bitmapResult = Bitmap.createScaledBitmap(bitmap, 1024, height, true)
 
             val ratioSquare: Double

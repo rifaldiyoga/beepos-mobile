@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +19,7 @@ import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.extension.isContainsLowerCase
 import com.bits.bee.bpmc.utils.extension.isContainsNumber
 import com.bits.bee.bpmc.utils.extension.isContainsUpperCase
 import com.bits.bee.bpmc.utils.extension.isValidEmail
@@ -69,7 +71,7 @@ class InfoKontakFragment constructor(
             etNoWa.addTextChangedListener {
                 val nowa = etNoWa.text.toString().trim()
                 viewModel.state.noWa = nowa
-                viewModel.validateInput()
+                viewModel.validate()
                 if(nowa.isNotEmpty() && nowa.length <= 11) {
                     tilNoWa.isErrorEnabled = true
                     tilNoWa.error = "No. Whatsapp harus lebih dari 11 karakter"
@@ -80,7 +82,7 @@ class InfoKontakFragment constructor(
             etEmail.addTextChangedListener {
                 val email =  etEmail.text.toString().trim()
                 viewModel.state.email = email
-                viewModel.validateInput()
+                viewModel.validate()
                 if(email.isNotEmpty() && !email.isValidEmail()) {
                     tilEmail.isErrorEnabled = true
                     tilEmail.error = "Email tidak valid"
@@ -90,12 +92,12 @@ class InfoKontakFragment constructor(
             }
             etPassword.addTextChangedListener {
                 viewModel.onPasswordChange(etPassword.text.toString().trim())
-                viewModel.validateInput()
+                viewModel.validate()
             }
             etconfPassword.addTextChangedListener {
                 val pass = etconfPassword.text.toString().trim()
                 viewModel.state.confPassword = pass
-                viewModel.validateInput()
+                viewModel.validate()
                 if(pass.isNotEmpty() && pass != viewModel.state.password) {
                     tilconfPassword.isErrorEnabled = true
                     tilconfPassword.error = "Konfirmasi password tidak sama"
@@ -104,7 +106,7 @@ class InfoKontakFragment constructor(
                 }
             }
             btnLanjut.setOnClickListener {
-                onClickSignUp()
+                viewModel.onClickSignUp()
             }
         }
     }
@@ -115,15 +117,19 @@ class InfoKontakFragment constructor(
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
-                            val icError = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_close_red)
-                            val icSuccess = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_baseline_check)
+                            val icError = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_circle_close_red)
+                            val icSuccess = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_circle_check)
+
+                            llPassword.isVisible = it.isShowWarnPass
 
                             val errorKarakter = if(it.password.length > 7) icSuccess else icError
-                            val errorCase = if(it.password.isContainsUpperCase()) icSuccess else icError
+                            val errorLowerCase = if(it.password.isContainsLowerCase()) icSuccess else icError
+                            val errorUpperCase = if(it.password.isContainsUpperCase()) icSuccess else icError
                             val errorNumber = if(it.password.isContainsNumber()) icSuccess else icError
 
                             tvErrorKarakter.setCompoundDrawablesWithIntrinsicBounds(errorKarakter, null, null, null)
-                            tvErrorCase.setCompoundDrawablesWithIntrinsicBounds(errorCase, null, null, null)
+                            tvErrorLowerCase.setCompoundDrawablesWithIntrinsicBounds(errorLowerCase, null, null, null)
+                            tvErrorUpperCase.setCompoundDrawablesWithIntrinsicBounds(errorUpperCase, null, null, null)
                             tvErrorNumber.setCompoundDrawablesWithIntrinsicBounds(errorNumber, null, null, null)
 
                             btnLanjut.apply {
@@ -139,66 +145,62 @@ class InfoKontakFragment constructor(
                 }
             }
         }
-    }
-
-    private fun onClickSignUp() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.postSignUp().collect{
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        dialog.show()
-                    }
-                    Resource.Status.SUCCESS -> {
-                        dialog.hide()
-                        it.data?.let { data ->
-                            if (data.status) {
-                                val strRegId = data.responses
-                                viewModel.state.regId = strRegId
-                                strRegId.let {
-                                    BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_regid), strRegId)
-                                    BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_wa), viewModel.state.noWa)
-                                    viewModel.onSuccesLanjut()
-                                }
-                            } else if(data.errorData.isNotEmpty()){
-                                for (data in data.errorData){
-                                    data.email?.let {
-                                        binding.tilEmail.apply {
-                                            isErrorEnabled = true
-                                            error = it.firstOrNull()
-                                        }
-                                    }
-                                    data.mobile?.let {
-                                        binding.tilNoWa.apply {
-                                            isErrorEnabled = true
-                                            error = it.firstOrNull()
-                                        }
-                                    }
-                                    data.username?.let {
-                                        binding.tilNama.apply {
-                                            isErrorEnabled = true
-                                            error = it.firstOrNull()
-                                        }
-                                    }
-                                }
-                            } else {
-
+        viewModel.observeSignUpResponse().observe(viewLifecycleOwner){
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    dialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    dialog.hide()
+                    it.data?.let { data ->
+                        if (data.status) {
+                            val strRegId = data.responses
+                            viewModel.state.regId = strRegId
+                            strRegId.let {
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_regid), strRegId)
+                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_wa), viewModel.state.noWa)
+                                viewModel.onSuccesLanjut()
                             }
+                        } else if(data.errorData.isNotEmpty()){
+                            for (data in data.errorData){
+                                data.email?.let {
+                                    binding.tilEmail.apply {
+                                        isErrorEnabled = true
+                                        error = it.firstOrNull()
+                                    }
+                                }
+                                data.mobile?.let {
+                                    binding.tilNoWa.apply {
+                                        isErrorEnabled = true
+                                        error = it.firstOrNull()
+                                    }
+                                }
+                                data.username?.let {
+                                    binding.tilNama.apply {
+                                        isErrorEnabled = true
+                                        error = it.firstOrNull()
+                                    }
+                                }
+                            }
+                        } else {
+
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        dialog.hide()
-                        Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                    Resource.Status.NOINTERNET -> {
-                        dialog.hide()
-                        val dialog = NoInternetDialogBuilder({
-                            onClickSignUp()
-                        })
-                        dialog.show(parentFragmentManager, "")
-                    }
+                }
+                Resource.Status.ERROR -> {
+                    dialog.hide()
+                    Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
+                        .show()
+                }
+                Resource.Status.NOINTERNET -> {
+                    dialog.hide()
+                    val dialog = NoInternetDialogBuilder({
+                        viewModel.onClickSignUp()
+                    })
+                    dialog.show(parentFragmentManager, "")
                 }
             }
         }
     }
+
 }

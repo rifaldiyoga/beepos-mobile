@@ -48,6 +48,14 @@ class ModeTampilanFragment(
             clFoodBeverages.setOnClickListener {
                 viewModel.onClickItem(BPMConstants.MODE_FOOD_BEVERAGES)
             }
+            tvSelengkapnyaDist.setOnClickListener {
+                val action = ModeTampilanFragmentDirections.actionModeTampilanFragmentToWalkThroughFragment("retail")
+                findNavController().navigate(action)
+            }
+            tvSelengkapnyaFnb.setOnClickListener {
+                val action = ModeTampilanFragmentDirections.actionModeTampilanFragmentToWalkThroughFragment("fnb")
+                findNavController().navigate(action)
+            }
         }
     }
 

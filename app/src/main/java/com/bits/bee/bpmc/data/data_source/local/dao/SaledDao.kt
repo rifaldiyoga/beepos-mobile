@@ -13,11 +13,11 @@ import java.math.BigDecimal
 @Dao
 interface SaledDao : BaseDao<SaledEntity>{
 
-    @Query("SELECT * FROM saled WHERE sale_id = :id")
+    @Query("SELECT * FROM saled WHERE sale_id = :id and item_id not in (select item_id from selectiond)")
     fun getSaledList(id : Int) : List<SaledEntity>
 
     @Query("select a.name, sum(qty) qty, sum(a.subtotal) total from saled a " +
-            "JOIN sale d ON d.id = a.sale_id WHERE d.posses_id = :possesId AND d.isvoid = 0 " +
+            "JOIN sale d ON d.id = a.sale_id WHERE d.posses_id = :possesId AND d.isvoid = 0 and item_id not in (select item_id from selectiond)" +
             "group by item_id order by qty DESC LIMIT 10")
     fun getRankItem(possesId: Int): List<RankItemEntity>
 
@@ -40,13 +40,14 @@ interface SaledDao : BaseDao<SaledEntity>{
     @Query("select saled.qty, saled.subtotal, saled.item_code, saled.disc, saled.tax, saled.discexp, saled.discamt, saled.disc2amt, saled.taxamt, saled.baseprice, saled.taxableamt, saled.dno, saled.totaldiscamt, saled.totaldisc2amt, saled.totaltaxamt, saled.dnote, saled.id, saled.item_id, saled.name, saled.listprice, saled.sale_id from saled, sale where sale.draft = 0 and saled.item_id = :id and sale.isvoid = 0 and sale.id == saled.sale_id and sale.trx_date between :startDate and :endDate")
     fun sumStokByItem(id: Int, startDate: Long, endDate: Long): List<SaledEntity>
 
-    @Query("SELECT a.*, SUM(a.qty) AS qty, SUM(a.subtotal) AS subtotal FROM saled a JOIN sale b ON b.id = a.sale_id WHERE posses_id = :id AND b.isvoid = 0")
+    @Query("SELECT a.*, SUM(a.qty) AS qty, SUM(a.subtotal) AS subtotal FROM saled a JOIN sale b ON b.id = a.sale_id WHERE posses_id = :id AND b.isvoid = 0 GROUP BY a.item_id, a.listprice")
     fun getSaledByPosses(id: Int): List<SaledEntity>
 
-    @Query("SELECT a.*, SUM(a.qty) AS qty, SUM(a.subtotal) AS subtotal FROM saled a JOIN sale b ON b.id = a.sale_id WHERE b.channel_id = :channelId AND posses_id = :id AND b.isvoid = 0")
+    @Query("SELECT a.*, SUM(a.qty) AS qty, SUM(a.subtotal) AS subtotal FROM saled a " +
+            "JOIN sale b ON b.id = a.sale_id WHERE b.channel_id = :channelId AND posses_id = :id AND b.isvoid = 0 GROUP BY a.item_id, a.listprice")
     fun getSaledByPossesChannel(id: Int,channelId : Int): List<SaledEntity>
 
-    @Query("SELECT a.* FROM saled a JOIN sale b ON b.id = a.sale_id WHERE posses_id = :possesId AND b.channel_id = :channelId AND b.isvoid = 0 AND a.totaldiscamt != 0 AND a.item_id = :itemId")
+    @Query("SELECT a.* FROM saled a JOIN sale b ON b.id = a.sale_id WHERE posses_id = :possesId AND b.channel_id = :channelId AND b.isvoid = 0 AND a.totaldiscamt != 0 AND a.item_id = :itemId ")
     fun getRekapSaledDiskon(possesId: Int, itemId: Int, channelId: Int): List<SaledEntity>
 
     @Query("SELECT a.* FROM saled a JOIN sale b ON b.id = a.sale_id WHERE posses_id = :possesId AND b.isvoid = 0 AND a.totaldiscamt != 0 AND a.item_id = :itemId AND a.listprice = :total")
@@ -60,5 +61,8 @@ interface SaledDao : BaseDao<SaledEntity>{
             "left join saled on item.id = saled.item_id " +
             "left join sale on saled.sale_id = sale.id where (draft = 0 or draft is null) and (isvoid = 0 or isvoid is null) and ((trx_date between :startDate and :endDate) or trx_date is null) and name1 LIKE '%'|| :query || '%' group by code")
     fun searchRekapProduk(startDate: Long, endDate: Long, query: String): PagingSource<Int, RekapProdukEntity>
+
+    @Query("DELETE FROM saled WHERE sale_id = :saleId")
+    suspend fun deleteSaledBySale(saleId : Int)
 
 }

@@ -1373,7 +1373,7 @@ class ReportGeneratorInvoice @Inject constructor(
         var valNamaMember : String
         var lblTotalTrx: String
         var valTotalTrx: String
-        val saleList = saleRepository.getSaleByPosses(possesID.toInt()).first()
+        val saleList = saleRepository.getSaleByPossesGroupChannel(possesID.toInt()).first()
         var detailPlaceholder: String
 
         for (sale in saleList) {

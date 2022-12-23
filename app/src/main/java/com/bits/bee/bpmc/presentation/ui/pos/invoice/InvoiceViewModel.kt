@@ -36,8 +36,8 @@ class InvoiceViewModel @Inject constructor(
     }
 
     fun onDetailEmpty() = viewModelScope.launch {
-        msgChannel.send("Tidak ada data detail!")
         eventChannel.send(UIEvent.NavigatePos)
+        msgChannel.send("Tidak ada data detail!")
     }
 
     sealed class UIEvent {

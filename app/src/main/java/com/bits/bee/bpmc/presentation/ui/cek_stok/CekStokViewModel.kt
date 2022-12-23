@@ -46,6 +46,7 @@ class CekStokViewModel @Inject constructor(
                     it.message
                 }
                 Resource.Status.NOINTERNET -> {
+                    eventChannel.send(UIEvent.HideDialog)
                     eventChannel.send(UIEvent.NoInternetDialog)
                 }
             }

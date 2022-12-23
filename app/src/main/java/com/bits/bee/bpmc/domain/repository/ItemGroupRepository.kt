@@ -16,6 +16,8 @@ interface ItemGroupRepository {
 
     fun getActiveItemGroupList() : Flow<List<ItemGroup>>
 
+    fun getActiveItemGroupNotAddOnList() : Flow<List<ItemGroup>>
+
     fun getById(id: Int) : Flow<ItemGroup>
 
     fun getItemgrpAddOn() : Flow<ItemGroup?>

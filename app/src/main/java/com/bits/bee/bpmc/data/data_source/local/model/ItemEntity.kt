@@ -64,6 +64,8 @@ data class ItemEntity(
     var vCode : String? = "",
     @ColumnInfo(name = VCOLOR)
     var vColor : String? = "",
+    @ColumnInfo(name = BARCODE)
+    var barCode : String? = "",
 ) {
     companion object {
         const val TBL_NAME = "item"
@@ -96,6 +98,7 @@ data class ItemEntity(
         const val USEPID = "usepid"
         const val VCODE = "vcode"
         const val VCOLOR = "vcolor"
+        const val BARCODE = "barcode"
 
     }
 }

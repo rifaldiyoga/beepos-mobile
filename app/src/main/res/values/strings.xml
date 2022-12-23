@@ -554,7 +554,7 @@ untuk memperbarui data dapur?</string>
     <string name="tidak_ada_draft_yang_disimpan">Tidak ada draft yang disimpan</string>
     <string name="transaksi_draft">Transaksi Draft</string>
     <string name="tambah">Tambah</string>
-    <string name="hint_diskon_nota">Cth. 10% atau 10000 atau 10% + 10000</string>
+    <string name="hint_diskon_nota">Cth. 10% atau 10.000 atau 10% + 10.000</string>
     <string name="untuk_diskon_kombinasi_gunakan_tanda_diantara_diskon_1_dan_diskon_2">Untuk diskon kombinasi, gunakan tanda + diantara diskon 1 dan diskon 2</string>
     <string name="bantuan">Bantuan</string>
     <string name="fitur_beepos">Fitur Beepos Mobile</string>
@@ -661,6 +661,7 @@ untuk memperbarui data dapur?</string>
     <string name="baca_artikel_pid_selengkapnya_disini">Baca artikel PID selengkapnya disini</string>
     <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada  Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
     <string name="cari_produk_min_3_karakter">Cari produk, min 3 karakter</string>
+    <string name="cari_transaksi_min_3_karakter">Cari transaksi, min 3 karakter</string>
     <string name="draft_tidak_ditemukan">Draft yang anda cari tidak ada!</string>
     <string name="member_tidak_ditemukan">Member yang anda cari tidak ada!</string>
     <string name="salesman_tidak_ditemukan">Salesman yang anda cari tidak ada!</string>
@@ -728,6 +729,10 @@ untuk memperbarui data dapur?</string>
     <string name="dihapus">Dihapus</string>
     <string name="menampilkan_data_pada">Menampilkan data pada</string>
     <string name="jml_stok">Jumlah Stok</string>
+    <string name="pilih">Pilih</string>
+    <string name="kamera">Kamera</string>
+    <string name="galeri">Galeri</string>
+
 
 <!--    title fragment-->
     <string name="title_ubah_produk">Ubah Produk</string>
@@ -739,6 +744,34 @@ untuk memperbarui data dapur?</string>
     <string name="masukkan_alasan_hapus_min_5_karakter">Masukkan alasan hapus, min 5 karakter</string>
     <string name="transaksi_telah_dihapus">Transaksi telah dihapus</string>
     <string name="berhasil_batal_transaksi">Berhasil batal transaksi</string>
+    <string name="mengandung_min_1_angka">Mengandung min. 1 angka</string>
+    <string name="mengandung_huruf_kecil">Mengandung huruf kecil</string>
+    <string name="mengandung_min_1_huruf_kapital">Mengandung min. 1 huruf kapital</string>
     <string name="lisensi_saya">Lisensi Saya</string>
+    <string name="mudah_ngontrol_bisnis"><![CDATA[Mudah ngontrol bisnis dimana aja & kapan aja]]></string>
+    <string name="nikmati_kemudahan_kontrol">Nikmati kemudahan kontrol barang habis, cek setoran kasir, analisa total penjualan, dll. Bisa dilakukan dimana aja dan kapan aja</string>
+    <string name="tetep_bisa_jualan_walau_tanpa_internet">Tetep bisa jualan walau tanpa internet</string>
+    <string name="jangan_khawatir_kalo_jaringan_internet_lagi_gangguan"><![CDATA[Jangan khawatir kalo jaringan internet lagi gangguan, transaksi anda tetap tercatat & tersimpan di server kami]]></string>
+    <string name="integrasi_otomatis_dengan_akuntansi">Integrasi otomatis dengan akuntansi</string>
+    <string name="nikmati_kemudahan_analisa_omset_penjualan_gross_profit_biaya_biaya_operasional_sampai_laba_bersih_dan_pajak_dengan_beepos">Nikmati kemudahan analisa omset penjualan, gross profit, biaya-biaya operasional, sampai laba bersih dan pajak dengan beepos</string>
+    <string name="pelajari_selengkapnya">Pelajari selengkapnya</string>
+    <string name="cocok_untuk_anda_yang_memiliki_jumlah_produk">Cocok untuk anda yang memiliki jumlah produk kurang dari 1.000. Mode ini dapat diakses secara portrait atau landscape</string>
+    <string name="mulai">Mulai</string>
+    <string name="lanjut">Lanjut</string>
+    <string name="selesai">Selesai</string>
+    <string name="tampilan_pos_untuk_transaksi">Tampilan POS untuk transaksi</string>
+    <string name="desain_khusus_untuk_bisnis_cafe">Didesain khusus untuk bisnis cafe yang disertai dengan foto menu, pilih member, dan pilih channel untuk mempermudah kasir melayani customer</string>
+    <string name="sesuaikan_selera_customer">Sesuaikan selera customer</string>
+    <string name="customer_pesan_khusus_sesuai_seleranya"><![CDATA[Customer pesan khusus sesuai seleranya? Jangan khawatir, dengan fitur Varian & Addon, cukup tap-tap aja ga perlu nulis di keterangan lagi ~]]></string>
+    <string name="tampilan_landscape_atau_portrait">Tersedia tampilan landscape atau portrait</string>
+    <string name="bebas_pilih_mau_tampilan_landscape">Bebas pilih, mau tampilan landscape atau portrait. Jangan lupa untuk menyesuaikan dengan device yang dimiliki, ya!</string>
+    <string name="didesain_khusus_untuk_anda_yang_memiliki_lebih">Cocok untuk anda yang memiliki jumlah produk lebih dari 1.000. Mode ini hanya dapat diakses secara portrait</string>
+    <string name="scan_barcode_untuk_pencarian_cepat">Scan barcode untuk pencarian cepat</string>
+    <string name="pencarian_produk_lebih_mudah_cepat"><![CDATA[Pencarian produk lebih mudah & cepat dengan menggunakan fitur Scan Barcode]]></string>
+    <string name="manfaatkan_fitur_product_id">Manfaatkan fitur Product ID</string>
+    <string name="product_id_atau_pid_adalah_fitur_yang">Product ID atau PID adalah fitur yang bisa anda manfaatkan untuk kebutuhan khusus seperti varian, ukuran, bahkan warna produk</string>
+    <string name="tambah_lainnya">Tambah Lainnya</string>
+    <string name="klik_tombol_tambah_baru">Klik tombol ‘Tambah Baru’</string>
+    <string name="_6">6</string>
 
 </resources>

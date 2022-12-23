@@ -27,6 +27,7 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.gone
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -56,7 +57,11 @@ class DetailTransaksiPenjualanFragment(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_void, menu)
+        if(viewModel.state.sale != null) {
+            if (!viewModel.state.sale!!.isVoid) {
+                inflater.inflate(R.menu.menu_void, menu)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -100,42 +105,43 @@ class DetailTransaksiPenjualanFragment(
             }
 
             findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Sale>("sale")?.observe(viewLifecycleOwner) { sale ->
-                viewModel.updateState(
-                    viewModel.state.copy(sale = sale)
-                )
-                binding.apply {
-                    setToolbarTitle(sale.trxNo)
-                    tvTotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.total))
-                    tvKasir.text = sale.cashiername
-                    tvMember.text = sale.bpName
-                    tvPajak.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.taxAmt))
-                    tvDiskon.text =  getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.discAmt))
-                    tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
-                    tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
-                    tvTanggal.text = dateFormat.format(sale.trxDate)
-                    tvJenisPembayaran.text = Utils.getTermType(requireActivity(), sale.termType)
-                    tvChannel.text = sale.channel
-                    tvSalesman.text = sale.salesman
-
-                    btnCetak.isEnabled = sale.isVoid
-                    if(sale.isVoid) {
-                        btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
-                    } else {
-                        btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
-                    }
-                    groupSurc.isVisible = sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI
-                    if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
-                        var totalSurc: BigDecimal = BigDecimal.ZERO
-                        viewModel.state.saleCrcvList.forEach {
-                            totalSurc += BigDecimal(it.surcAmt)
-                        }
-                        tvSurcharge.text = getString(
-                            R.string.mata_uang_nominal,
-                            viewModel.state.crc?.symbol,
-                            CurrencyUtils.formatCurrency(totalSurc)
-                        )
-                    }
-                }
+                findNavController().popBackStack()
+//                binding.apply {
+//                    setToolbarTitle(sale.trxNo)
+////                    tvTotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.total))
+////                    tvKasir.text = sale.cashiername
+////                    tvMember.text = sale.bpName
+////                    tvPajak.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.taxAmt))
+////                    tvDiskon.text =  getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.discAmt))
+////                    tvPembulatan.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.rounding))
+////                    tvSubtotal.text = getString(R.string.mata_uang_nominal, viewModel.state.crc?.symbol, CurrencyUtils.formatCurrency(sale.subtotal))
+////                    tvTanggal.text = dateFormat.format(sale.trxDate)
+////                    tvJenisPembayaran.text = Utils.getTermType(requireActivity(), sale.termType)
+////                    tvChannel.text = sale.channel
+////                    tvSalesman.text = sale.salesman
+////
+////                    btnCetak.isEnabled = sale.isVoid
+////                    if(sale.isVoid) {
+////                        btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
+////                    } else {
+////                        btnCetak.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary)
+////                    }
+////                    groupSurc.isVisible = sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI
+////                    if (sale.termType != BPMConstants.BPM_DEFAULT_TYPE_TUNAI) {
+////                        var totalSurc: BigDecimal = BigDecimal.ZERO
+////                        viewModel.state.saleCrcvList.forEach {
+////                            totalSurc += BigDecimal(it.surcAmt)
+////                        }
+////                        tvSurcharge.text = getString(
+////                            R.string.mata_uang_nominal,
+////                            viewModel.state.crc?.symbol,
+////                            CurrencyUtils.formatCurrency(totalSurc)
+////                        )
+////                    }
+//                }
+//                viewModel.updateState(
+//                    viewModel.state.copy(sale = sale)
+//                )
             }
         }
     }
@@ -151,7 +157,7 @@ class DetailTransaksiPenjualanFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect { state ->
+                viewModel.viewStates().collectLatest { state ->
                     state?.let {
                         it.sale?.let { sale ->
                             binding.apply {
@@ -213,7 +219,9 @@ class DetailTransaksiPenjualanFragment(
 //                        dialog.show(parentFragmentManager, "")
                         val action = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
                             TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
-                        else DetailTransaksiPenjualanFragmentDirections.actionDetailTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+                        else
+                            DetailTransaksiPenjualanFragmentDirections.actionDetailTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+
                         findNavController().navigate(action)
                     }
                     DetailTransaksiPenjualanViewModel.UIEvent.ReqPrint -> {

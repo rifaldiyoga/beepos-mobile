@@ -12,6 +12,12 @@ import com.bits.bee.bpmc.data.data_source.local.model.SaleCrcvEntity
  */
 @Dao
 interface SaleAddOnDao : BaseDao<SaleAddOnEntity>{
+
+
+    @Query("SELECT * from saleaddon where id = :id")
+    fun getSaleAddonById(id: Int): SaleAddOnEntity?
+
     @Query("SELECT * from saleaddon where sale_id = :id")
     fun getSaleAddonBySale(id: Int): SaleAddOnEntity?
+
 }

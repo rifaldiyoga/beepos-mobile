@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/clLayout"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    <TextView
+        android:id="@+id/tvLewati"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:elevation="@dimen/size2"
+        android:text="Lewati"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/size0"
+        android:layout_height="420dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image_walk_fnb1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#f8f8f8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back" />
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size28"
+        android:layout_marginTop="@dimen/size30"
+        android:layout_marginEnd="@dimen/size28"
+        android:gravity="center"
+        android:textSize="@dimen/font18"
+        android:text="@string/food_amp_beverages_fnb"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size28"
+        android:layout_marginTop="@dimen/size8"
+        android:layout_marginEnd="@dimen/size28"
+        android:text="@string/cocok_untuk_anda_yang_memiliki_jumlah_produk"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:textSize="@dimen/font14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout2"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size12"
+        android:layout_marginStart="@dimen/size16"
+        app:layout_constraintBottom_toBottomOf="@+id/btnLanjut"
+        app:layout_constraintEnd_toStartOf="@+id/btnLanjut"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnLanjut"
+        app:tabBackground="@drawable/tab_selector_walk"
+        app:tabGravity="start"
+        app:tabIndicatorHeight="@dimen/size0" />
+
+    <Button
+        android:id="@+id/btnLanjut"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size16"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/mulai"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tabLayout2" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="toolbar2,viewPager2,tvLewati" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="image,tvTitle,tvDesc" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

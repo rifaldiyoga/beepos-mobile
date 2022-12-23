@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.initial
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
@@ -7,16 +8,45 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentInitalBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class InitialFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentInitalBinding = FragmentInitalBinding::inflate
 ) : BaseFragment<FragmentInitalBinding>() {
 
+    private lateinit var timer : Timer
+
+    override fun onDestroy() {
+        timer.cancel()
+        super.onDestroy()
+    }
 
     override fun initComponents() {
         directPage()
+        binding.apply {
+
+            val list = listOf(R.layout.layout_slider_1, R.layout.layout_slider_2, R.layout.layout_slider_3)
+            val adapter = SlidePagerAdapter(this@InitialFragment, list)
+            viewPager2.adapter = adapter
+            TabLayoutMediator(tabLayout, viewPager2) { tab, pos ->
+
+            }.attach()
+            val timerTask = object : TimerTask() {
+                override fun run() {
+                    requireActivity().runOnUiThread {
+                        if(viewPager2.currentItem + 1 == list.size)
+                            viewPager2.currentItem = 0
+                        else
+                            viewPager2.currentItem = viewPager2.currentItem + 1
+                    }
+                }
+            }
+            timer = Timer()
+            timer.schedule(timerTask, 5000, 5000)
+        }
     }
 
     override fun subscribeListeners() {

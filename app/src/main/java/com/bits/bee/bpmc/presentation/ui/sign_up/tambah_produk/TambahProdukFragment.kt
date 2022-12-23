@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 
 import android.Manifest
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,6 +12,7 @@ import android.provider.Settings
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -30,6 +32,7 @@ import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.pilih_kategori.PilihKategoriDialog
 import com.bits.bee.bpmc.presentation.dialog.pilih_merk.PilihMerekDialog
+import com.bits.bee.bpmc.presentation.ui.pos.MainActivity
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
@@ -57,11 +60,12 @@ class TambahProdukFragment(
     private lateinit var unitAdapter : SatuanAdapter
     private lateinit var tipeProdList : Array<String>
     private var tipeList = listOf("Pilih Tipe Produk", "Barang Jadi (di stok)", "Jasa (tidak distok)")
-    var gson = Gson()
-    var tempUri: Uri? = null
-    var tempFilePath =""
-    var defaultKategori = false
-    var defaultMerk = false
+    private var gson = Gson()
+    private var tempUri: Uri? = null
+    private var tempFilePath =""
+    private var defaultKategori = false
+    private var defaultMerk = false
+    private var itemPict: Bitmap? = null
 
     private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ data ->
         data.forEach {
@@ -216,10 +220,19 @@ class TambahProdukFragment(
                 viewModel.onClickTambahSatuan()
             }
             btnAddFoto.setOnClickListener {
-                openCamera()
+//                ImagePicker.Companion.with(requireActivity())
+////                    .crop()	    			//Crop image(Optional), Check Customization for more option
+////                    .compress(1024)			//Final image size will be less than 1 MB(Optional)
+////                    .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+//                    .start()
+//                val ss= ""
+//                val intent = Intent(activity, MainActivity)
+//                resultIntent.launch(Intent())
+//                openCamera()
+                viewModel.showDialogOpsi()
             }
             llImage.setOnClickListener {
-                openCamera()
+                viewModel.onClickHapusImage()
             }
             cvPid.setOnClickListener {
                 viewModel.OnrequestInsight()
@@ -265,9 +278,10 @@ class TambahProdukFragment(
                         when(it){
                             PosModeState.FnBState -> {
                                 cvPid.gone()
-                                groupSatuan.gone()
+                                groupSatuan.visible()
                                 lLMerk.visibility = View.GONE
                                 etNamaPrd.hint = "Cth. Air Mineral"
+                                unitAdapter.setTxtView(getString(R.string.satuan_prd), true)
                             }
                             PosModeState.RetailState -> {
                                 cvPid.visible()
@@ -284,11 +298,6 @@ class TambahProdukFragment(
                     it?.let { state ->
                         unitAdapter.submitList(state.unitList)
                         binding.apply {
-                            if (state.unitList.size == 3){
-                                btnTambahSatuan.gone()
-                            }else{
-                                btnTambahSatuan.visible()
-                            }
                             etNamaPrd.setText(state.nama)
                             etHarga.setText(state.harga)
                             if(state.tipeProduk.isNotEmpty())
@@ -296,7 +305,7 @@ class TambahProdukFragment(
                             etNamaPid.setText(state.pid)
                             btnAddFoto.isVisible = state.bitmap == null
                             ivImage.isVisible = state.bitmap != null
-                            tvUbahFotoProduk.isVisible = state.bitmap != null
+                            tvHapusFotoProduk.isVisible = state.bitmap != null
                             state.bitmap?.let {
                                 ivImage.setImageBitmap(it)
                             }
@@ -318,6 +327,14 @@ class TambahProdukFragment(
                                 PosModeState.RetailState ->{
                                     lLPid.isVisible = state.isActivePid
                                     cvPid.isVisible = !state.isActivePid
+                                    if (state.unitList.size == 3){
+                                        btnTambahSatuan.gone()
+                                    }else{
+                                        btnTambahSatuan.visible()
+                                    }
+                                }
+                                PosModeState.FnBState ->{
+                                    btnTambahSatuan.gone()
                                 }
                                 else -> {
 
@@ -418,6 +435,24 @@ class TambahProdukFragment(
                                 com.bits.bee.bpmc.presentation.ui.nama_device.TAG
                             )
                         }
+                        TambahProdukViewModel.UIEvent.RequestDialogOpsi ->{
+                            val dialog = CustomDialogBuilder.Builder(requireContext())
+                                .setTitle(getString(R.string.pilih))
+                                .setMessage("")
+                                .setPositiveText(getString(R.string.kamera))
+                                .setNegativeText(getString(R.string.galeri))
+                                .setPositiveCallback {
+                                    openCamera(true)
+                                    it.dismiss()
+                                }
+                                .setNegativeCallback {
+                                    openCamera(false)
+                                    it.dismiss()
+                                }.build()
+                            dialog.show(parentFragmentManager,
+                                com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+                            )
+                        }
                         else -> {}
                     }
                 }
@@ -426,15 +461,29 @@ class TambahProdukFragment(
 
     }
 
-    fun openCamera() {
+    private fun openCamera(isCamera: Boolean) {
+//        if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)
+//            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+//            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//            tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
+//                tempFilePath = it.absolutePath
+//            })
+//            resultLauncherContract.launch(tempUri)
+//        } else {
+//            requestPermissionCamera.launch(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+//        }
         if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)
             && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
+            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            if (isCamera){
+                tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
                 tempFilePath = it.absolutePath
-            })
-            resultLauncherContract.launch(tempUri)
-        } else {
+                })
+                resultLauncherContract.launch(tempUri)
+            }else{
+                getImage.launch("image/*")
+            }
+        }else{
             requestPermissionCamera.launch(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
         }
     }
@@ -449,8 +498,17 @@ class TambahProdukFragment(
             val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, Uri.parse(
                 tempUri.toString()
             ))
+//            itemPict = FileHandlerUtils.bitMapScale(bitmap, 307200)
             viewModel.getDataFromIntent(bitmap, requireActivity(), tempUri, tempFilePath)
         }
+    }
+
+    private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, Uri.parse(
+            it.toString()
+        ))
+//        itemPict = FileHandlerUtils.bitMapScale(bitmap, 307200)
+        viewModel.getDataFromIntent(bitmap, requireActivity(), it, bitmap.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -466,4 +524,5 @@ class TambahProdukFragment(
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

@@ -12,7 +12,6 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAddonBinding
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
-import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
@@ -55,17 +54,8 @@ class AddOnFragment(
                 val bp = it.getParcelable<Bp>("bp")
                 val saled = it.getParcelable<Saled>("saled")
                 val addOnList = it.getParcelableArrayList<Item>("addOnList")
-                addOnList?.let {
-                    viewModel.updateState(
-                        viewModel.state.copy(
-                            itemList = it
-                        )
-                    )
-                    viewModel.setItemSelectedList(it as ArrayList<Item>)
-                    layoutVariant.root.gone()
-                    rvListAddOn.visible()
-                }
                 val priceLvlId = it.getInt("priceLvlId")
+
                 viewModel.updateState(
                     viewModel.state.copy(
                         item = item,
@@ -75,6 +65,21 @@ class AddOnFragment(
                         qty = saled?.qty ?: BigDecimal.ONE
                     )
                 )
+                addOnList?.let {
+                    val selectedItem = it.map {
+                        val item = it
+                        item.qty = (it.qty / saled?.qty!!)
+                        item
+                    }
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            itemList = selectedItem
+                        )
+                    )
+                    viewModel.setItemSelectedList(selectedItem as ArrayList<Item>)
+                    layoutVariant.root.gone()
+                    rvListAddOn.visible()
+                }
             }
 
             selectionAdapter = SelectionAdapter(
@@ -107,11 +112,13 @@ class AddOnFragment(
     override fun subscribeListeners() {
         binding.apply {
             ivMinus.setOnClickListener {
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        qty = viewModel.state.qty - BigDecimal.ONE
+                if(viewModel.state.qty > BigDecimal.ONE) {
+                    viewModel.updateState(
+                        viewModel.state.copy(
+                            qty = viewModel.state.qty - BigDecimal.ONE
+                        )
                     )
-                )
+                }
             }
             ivPlus.setOnClickListener {
                 viewModel.updateState(
@@ -121,24 +128,17 @@ class AddOnFragment(
                 )
             }
             llNext.setOnClickListener {
-                val selectedList = viewModel.getSelectedAddOn()
-                val variant = selectedList.firstOrNull{ it.isVariant && !it.isAddOn }
-                val addOnList = selectedList.filter { it.isAddOn }
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("addon", selectedList)
-                if(viewModel.state.saled == null){
-                    for (i in 1..viewModel.state.qty.toInt()){
-                        mainViewModel.onAddAddOn(
-                            if(variant != null) ItemWithUnit(variant) else null ,
-                            addOnList.map { ItemWithUnit(it) }
-                        )
-                    }
-                }
-                findNavController().popBackStack()
+                viewModel.onClickNext()
             }
         }
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.msg.collect {
+                showSnackbar(it)
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.viewStates().collect {
                 it?.let {
@@ -163,6 +163,19 @@ class AddOnFragment(
                         binding.apply {
                             progressBarSelection.isVisible = it.isLoading
                         }
+                    }
+                    is AddOnViewModel.UIEvent.RequestSave -> {
+                        if (viewModel.state.saled == null) {
+                            mainViewModel.onAddAddOn(it.qty, it.item, it.selectedAddOnList)
+                        } else {
+                            val list = it.selectedAddOnList.map { itemW ->
+                                val item = itemW.item
+                                item.qty = item.qty * viewModel.state.saled!!.qty
+                                item.copy()
+                            }
+                            findNavController().previousBackStackEntry?.savedStateHandle?.set("addon", list)
+                        }
+                        findNavController().popBackStack()
                     }
                 }
             }
@@ -198,9 +211,6 @@ class AddOnFragment(
             viewModel.addItemSelectedList(item)
             selectionAdapter.notifyDataSetChanged()
             viewModel.getSelection(item)
-        } else {
-            item.qty = BigDecimal.ONE
-            viewModel.addItemSelectedList(item)
         }
     }
 

@@ -964,6 +964,7 @@ class PromoCalc @Inject constructor(
         val item: Item? = itemRepository.getItemById(saled.itemId).first()
 
         item?.let {
+            getPriceItemUseCase(item, bp!!.priceLvlId, bp!!)
             saledNew = generateItemBonus(item, promoActive, qtySisa)
             saledNew.isBonus = true
             saledNew.isBonusUsed = true
@@ -1177,12 +1178,16 @@ class PromoCalc @Inject constructor(
     private fun generateItemBonus(item: Item, promoActive: Promo, qtyPromo: BigDecimal): Saled {
         val saledNew = Saled()
         saledNew.itemId = item.id
+        saledNew.taxCode = item.taxCode
+        saledNew.itemCode = item.code
         saledNew.item = item
         saledNew.listPrice = promoActive.itemPrice ?: BigDecimal.ZERO
         saledNew.qty = qtyPromo
         saledNew.name = item.name1
         saledNew.discExp = "0"
         saledNew.disc2Amt = BigDecimal.ZERO
+        saledNew.unitId = item.unitList.firstOrNull()?.id
+        saledNew.crcId = item.crcId
 //        if (item.tax == "") {
 //            saledNew.tax = BigDecimal.ZERO
 //        } else {
@@ -1200,7 +1205,7 @@ class PromoCalc @Inject constructor(
         val saledList: MutableList<Saled> = ArrayList()
         for (saled in mSaleTrans.getListDetail()) {
             for (salePromo in mSaleTrans.salePromoList) {
-                if (saled == salePromo.saled) {
+                if (saled === salePromo.saled) {
                     break
                 }
             }
@@ -1212,7 +1217,7 @@ class PromoCalc @Inject constructor(
     private fun editQtyAddonByUpSaled(saled: Saled, qtyPromo: BigDecimal) {
         if (mSaleTrans.addOnTrans != null) {
             for (saleAddOnD in mSaleTrans.addOnTrans!!.getListDetail()) {
-                if (saleAddOnD.upSaled == saled) {
+                if (saleAddOnD.upSaled === saled) {
                     saleAddOnD.saled?.let { saledAddOn ->
                         saledAddOn.qty = saledAddOn.qty.divide(saled.qty).multiply(qtyPromo)
                     }
@@ -1228,12 +1233,16 @@ class PromoCalc @Inject constructor(
     private suspend fun duplicateSaled(saled: Saled, qtyLeft: BigDecimal, price: BigDecimal?) {
         val saledNew = Saled()
         saledNew.itemId = saled.itemId
+        saledNew.itemCode = saled.itemCode
         saledNew.item = saled.item
         saledNew.listPrice = price ?: saled.item!!.price
         saledNew.qty = qtyLeft
         saledNew.name = saled.name
         saledNew.discExp = "0"
         saledNew.disc2Amt = BigDecimal.ZERO
+        saledNew.taxCode = saled.taxCode
+        saledNew.unitId = saled.unitId
+        saledNew.crcId = saled.crcId
         if (price != null && price.compareTo(BigDecimal.ZERO) == 0) {
             saledNew.isBonus = true
             saledNew.isBonusUsed = true
@@ -1244,19 +1253,23 @@ class PromoCalc @Inject constructor(
         if (mSaleTrans.addOnTrans != null) {
             val saledAddOnList: MutableList<Saled> = ArrayList()
             for (saleAddOnD in mSaleTrans.addOnTrans!!.getListDetail()) {
-                if (saleAddOnD.upSaled != null && saleAddOnD.upSaled!! == saled) {
+                if (saleAddOnD.upSaled != null && saleAddOnD.upSaled!! === saled) {
                     val saledAddOnNew = Saled()
                     val saledAddOn: Saled? = saleAddOnD.saled
                     saledAddOn?.let {
                         val qtyPcs: BigDecimal = saledAddOn.qty.divide(saled.qty.add(qtyLeft))
                         saledAddOn.qty = saled.qty.multiply(qtyPcs)
                         saledAddOnNew.itemId = saledAddOn.itemId
+                        saledAddOnNew.itemCode = saledAddOn.itemCode
                         saledAddOnNew.item = saledAddOn.item
                         saledAddOnNew.listPrice = saledAddOn.item!!.price
                         saledAddOnNew.qty = qtyLeft.multiply(qtyPcs)
                         saledAddOnNew.name = saledAddOn.name
                         saledAddOnNew.discExp = "0"
                         saledAddOnNew.disc2Amt = BigDecimal.ZERO
+                        saledAddOnNew.taxCode = saledAddOn.taxCode
+                        saledAddOnNew.unitId = saledAddOn.unitId
+                        saledAddOnNew.crcId = saledAddOn.crcId
 
                         saledAddOnNew.tax = saledAddOn.tax
                         saledAddOnList.add(saledAddOnNew)
@@ -1446,7 +1459,7 @@ class PromoCalc @Inject constructor(
 
     private fun resetQtyAddonByUpSaled(saled: Saled) {
         for (saleAddOnD in mSaleTrans.addOnTrans!!.getListDetail()) {
-            if (saleAddOnD.upSaled == saled) {
+            if (saleAddOnD.upSaled === saled) {
                 if (saleAddOnD.saled != null && saleAddOnD.upSaled != null) {
                     saleAddOnD.saled!!.qty = saleAddOnD.saled!!.qty.divide(saleAddOnD.upSaled!!.qty)
                 }

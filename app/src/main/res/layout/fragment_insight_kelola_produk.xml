@@ -156,13 +156,14 @@
                 android:layout_marginTop="@dimen/size2"
                 android:layout_marginBottom="@dimen/size2"
                 android:background="@color/dark_gray"
-                app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+                app:layout_constraintBottom_toTopOf="@id/linearLayout9"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout1"
                 app:layout_constraintStart_toStartOf="@+id/linearLayout1"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout1" />
 
+
             <RelativeLayout
-                android:id="@+id/linearLayout2"
+                android:id="@+id/linearLayout9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size24"
@@ -180,6 +181,54 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/_3"
+                    android:textColor="@color/dark_gray"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size16"
+                android:text="@string/klik_tombol_tambah_baru"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout9"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout9" />
+
+            <View
+                android:layout_width="@dimen/size1"
+                android:layout_height="@dimen/size0"
+                android:layout_marginTop="@dimen/size2"
+                android:layout_marginBottom="@dimen/size2"
+                android:background="@color/dark_gray"
+                app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout1"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout1"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+
+
+            <RelativeLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size24"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_circle_border_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/_4"
                     android:textColor="@color/dark_gray"
                     android:textStyle="bold" />
 
@@ -226,7 +275,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@string/_4"
+                    android:text="@string/_5"
                     android:textColor="@color/dark_gray"
                     android:textStyle="bold" />
 
@@ -273,7 +322,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@string/_5"
+                    android:text="@string/_6"
                     android:textColor="@color/dark_gray"
                     android:textStyle="bold" />
 
