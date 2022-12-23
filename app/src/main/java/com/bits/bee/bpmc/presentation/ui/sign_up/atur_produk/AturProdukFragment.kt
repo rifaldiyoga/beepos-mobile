@@ -44,6 +44,10 @@ class AturProdukFragment(
             R.string.page_atur_produk))
         binding.apply {
             itemDummyAdapter = ItemDummyAdapter(onItemClick = { item ->
+                if (item.id == null){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_kategori), true)
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_merk), true)
+                }
                 val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment(if(item.id != null) item else null)
                 findNavController().navigate(action)
             })
@@ -109,6 +113,8 @@ class AturProdukFragment(
                             (activity as InitialActivity).finish()
                         }
                         AturProdukViewModel.UIEvent.NavigateToTambahProduk -> {
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_kategori), true)
+                            BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_merk), true)
                             val action = AturProdukFragmentDirections.actionAturProdukFragmentToTambahProdukFragment()
                             findNavController().navigate(action)
                         }

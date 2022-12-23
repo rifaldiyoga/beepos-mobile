@@ -63,6 +63,7 @@ class AturProdukViewModel @Inject constructor(
 
     fun onClickTambah() = viewModelScope.launch {
         if(state.itemList.isEmpty()){
+
             eventChannel.send(UIEvent.NavigateToTambahProduk)
         } else {
             doPostItem()

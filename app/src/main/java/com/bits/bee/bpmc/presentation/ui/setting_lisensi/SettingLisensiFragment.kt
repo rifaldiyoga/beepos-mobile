@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +20,9 @@ import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
+import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment
+import com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualViewModel
 import com.bits.bee.bpmc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,6 +33,7 @@ class SettingLisensiFragment(
 ): BaseFragment<FragmentHelpLisensiBinding>() {
 
     private val viewModel : SettingLisensiViewModel by viewModels()
+    private val sharedViewModel: UploadManualViewModel by activityViewModels()
 
     private lateinit var loadingDialogHelper : LoadingDialogHelper
 
@@ -38,6 +42,7 @@ class SettingLisensiFragment(
         loadingDialogHelper = LoadingDialogHelper(requireActivity())
         viewModel.getLicense()
         viewModel.getCashier()
+        sharedViewModel.loadData()
         binding.apply {
             tvVersiBpm.text = BuildConfig.VERSION_NAME
 
@@ -75,7 +80,8 @@ class SettingLisensiFragment(
                                 .setTitle(getString(R.string.perhatian))
                                 .setMessage(getString(R.string.anda_tidak_dapat_detach_belum_sync))
                                 .setPositiveCallback {
-                                    viewModel.manualSync()
+//                                    viewModel.manualSync()
+                                    sharedViewModel.onClickUpload()
                                 }.build()
                             dialog.show(parentFragmentManager, TAG)
                         }
@@ -174,5 +180,69 @@ class SettingLisensiFragment(
                 Resource.Status.NOINTERNET -> TODO()
             }
         }
+
+        sharedViewModel.observeBpReturn().removeObservers(viewLifecycleOwner)
+        sharedViewModel.observeBpReturn().observe(viewLifecycleOwner){
+            it?.let {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialogHelper.show("", "Mohon tunggu sebentar..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialogHelper.hide()
+                        it.data?.let {
+                            sharedViewModel.checkBpCode(it)
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialogHelper.hide()
+                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
+                            it.dismiss()
+                        }.show(parentFragmentManager, TAG)
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        loadingDialogHelper.hide()
+                        sharedViewModel.showDialogNoInternet()
+                    }
+                }
+            }
+        }
+
+        sharedViewModel.observePostallReturn().removeObservers(viewLifecycleOwner)
+        sharedViewModel.observePostallReturn().observe(viewLifecycleOwner){
+            it?.let {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialogHelper.show("", "Mohon tunggu sebentar..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialogHelper.hide()
+                        it.data?.let {
+                            if (it.status){
+                                sharedViewModel.prosesResponsePostAll()
+                                DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
+                                    it.dismiss()
+                                    viewModel.deactiveStatusCashier()
+                                }.show(parentFragmentManager, "")
+                            }else{
+                                Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialogHelper.hide()
+                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
+                            it.dismiss()
+                        }.show(parentFragmentManager, TAG)
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        loadingDialogHelper.hide()
+                        sharedViewModel.showDialogNoInternet()
+                    }
+                }
+            }
+        }
+
+
     }
 }

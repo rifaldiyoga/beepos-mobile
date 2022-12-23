@@ -87,7 +87,6 @@ class SettingLisensiViewModel @Inject constructor(
         }
         if (mSyncList!!.isNotEmpty()){
             eventChannel.send(UIEvent.RequestSyncData)
-            return@launch
         }
 
         if (mPossesList.isEmpty() && mSyncList!!.isEmpty()){
@@ -97,7 +96,7 @@ class SettingLisensiViewModel @Inject constructor(
         }
     }
 
-    private fun deactiveStatusCashier() = viewModelScope.launch {
+    fun deactiveStatusCashier() = viewModelScope.launch {
         val source = detachCashierUseCase.invoke(state.cashier!!, "").asLiveData()
         cashierStatusResponse.addSource(source){
             if (it != null) {

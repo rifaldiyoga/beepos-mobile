@@ -148,4 +148,32 @@
             android:layout_marginBottom="@dimen/size16"
             android:text="@string/rekap_sesi_empty"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:paddingRight="@dimen/size18"
+        android:paddingLeft="@dimen/size18"
+        android:id="@+id/lL_analisa_empty_btn"
+        android:visibility="gone"
+        android:paddingBottom="@dimen/size8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/lL_riwayat_empty"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_buka_kasir"
+            style="@style/TextHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rect_primary"
+            android:text="@string/buka_kasir"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lL_analisa_empty" />
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,7 @@ import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
-import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -67,6 +67,7 @@ class TambahKategoriFragment(
             btnSimpan.setOnClickListener {
                 viewModel.validateNama()
                 if (viewModel.state.namaKategori.isNotEmpty()){
+                    BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_default_kategori), false)
                     viewModel.onSaveKategori()
                 }
             }

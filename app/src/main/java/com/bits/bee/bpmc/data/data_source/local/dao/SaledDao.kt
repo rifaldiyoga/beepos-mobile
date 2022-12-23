@@ -13,11 +13,11 @@ import java.math.BigDecimal
 @Dao
 interface SaledDao : BaseDao<SaledEntity>{
 
-    @Query("SELECT * FROM saled WHERE sale_id = :id")
+    @Query("SELECT * FROM saled WHERE sale_id = :id and item_id not in (select item_id from selectiond)")
     fun getSaledList(id : Int) : List<SaledEntity>
 
     @Query("select a.name, sum(qty) qty, sum(a.subtotal) total from saled a " +
-            "JOIN sale d ON d.id = a.sale_id WHERE d.posses_id = :possesId AND d.isvoid = 0 " +
+            "JOIN sale d ON d.id = a.sale_id WHERE d.posses_id = :possesId AND d.isvoid = 0 and item_id not in (select item_id from selectiond)" +
             "group by item_id order by qty DESC LIMIT 10")
     fun getRankItem(possesId: Int): List<RankItemEntity>
 

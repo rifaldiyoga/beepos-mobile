@@ -129,7 +129,8 @@ class TambahProdukViewModel @Inject constructor(
             state.copy(
                 itemGrp = getItemgrpIdUseCase.invoke(itemGroupId).first(),
                 brand = brandId?.let { getBrandByIdUseCase.invoke(brandId).first() } ,
-                unitList = getUnitDummyByIdUseCase.invoke(itemid).first().toMutableList()
+                unitList = getUnitDummyByIdUseCase.invoke(itemid).first().toMutableList(),
+                posModeState = modePreferences.first()
             )
         )
     }
@@ -293,6 +294,10 @@ class TambahProdukViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequestDialogDelete)
     }
 
+    fun showDialogOpsi() = viewModelScope.launch {
+        eventChannel.send(UIEvent.RequestDialogOpsi)
+    }
+
     sealed class UIEvent {
         object FinsihSubmit : UIEvent()
         object RequestDialogKategori : UIEvent()
@@ -300,5 +305,6 @@ class TambahProdukViewModel @Inject constructor(
         object AfterAcivePId : UIEvent()
         object RequestInisghtPId : UIEvent()
         object RequestDialogDelete : UIEvent()
+        object RequestDialogOpsi : UIEvent()
     }
 }

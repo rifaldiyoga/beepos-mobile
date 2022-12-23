@@ -80,16 +80,18 @@ class KasKeluarMasukSharedViewModel @Inject constructor(
             if (isStatus){
                 addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
             }else{
-                if (mPosses?.totIn!!.add(mPosses.startBal) < (mPosses.totOut?.add(balance)
-                        ?: BigDecimal.ZERO.add(balance))
-                ){
-                    // blocking
-                    state.blockCashOut = true
-                    validateKasKeluar()
-//                    sendMessage("Kas keluar tidak boleh melebihi saldo kasir !")
-                }else{
-                    state.blockCashOut = false
-                    addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
+                if (mPosses != null) {
+                    if (mPosses?.totIn?:BigDecimal.ZERO.add(mPosses!!.startBal) < (mPosses.totOut?.add(balance)
+                            ?: BigDecimal.ZERO.add(balance))
+                    ){
+                        // blocking
+                        state.blockCashOut = true
+                        validateKasKeluar()
+            //                    sendMessage("Kas keluar tidak boleh melebihi saldo kasir !")
+                    }else{
+                        state.blockCashOut = false
+                        addKasKeluarMasukUseCase.invoke(note, reftype, balance, mPosses, status, autogen)
+                    }
                 }
             }
 //            eventChannel.send(UIEvent.SuccesAddkasMasuk)

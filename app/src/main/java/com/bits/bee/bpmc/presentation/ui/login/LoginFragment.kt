@@ -130,14 +130,23 @@ class LoginFragment constructor (
                                 Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG).show()
                                 viewModel.onSuccessLogin()
                             } else {
-                                Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG).show()
+                                viewModel.updateState(
+                                    viewModel.state.copy(
+                                        messageEmail = "Email atau Password anda salah"
+                                    )
+                                )
                             }
                         }
                     }
                     Resource.Status.ERROR -> {
                         dialog.hide()
-                        Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG)
-                            .show()
+                        viewModel.updateState(
+                            viewModel.state.copy(
+                                messageEmail = "Email atau Password anda salah"
+                            )
+                        )
+//                        Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG)
+//                            .show()
                     }
                     Resource.Status.NOINTERNET -> {
                         dialog.hide()
