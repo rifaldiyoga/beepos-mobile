@@ -86,7 +86,7 @@ class InitialFragment(
      * check last page from prefences then direct to last page
      */
     private fun directPage(){
-        when(getString(R.string.page_mode_tampilan)){
+        when(BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_last_page), "")){
             getString(R.string.page_pilih_cabang) -> {
 //                val action = LoginFragmentDirections.actionLoginFragmentToPilihCabangFragment()
                 findNavController().navigate(R.id.pilihCabangFragment)

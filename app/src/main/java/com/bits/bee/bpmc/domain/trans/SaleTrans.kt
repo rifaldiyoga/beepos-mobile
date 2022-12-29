@@ -598,6 +598,17 @@ class SaleTrans @Inject constructor(
 
     fun findSalePromo(promoType: String): SalePromo? = salePromoList.firstOrNull { it.promo!!.promoCat == promoType }
 
+    suspend fun resetDiscMaster() {
+        getListDetail().forEach {
+            it.disc2Amt = BigDecimal.ZERO
+        }
+        mTblMaster?.let {
+            it.discAmt = BigDecimal.ZERO
+            it.discExp = ""
+        }
+        calculate()
+    }
+
     override fun getMaster() : Sale {
         if(mTblMaster == null)
             mTblMaster = Sale()

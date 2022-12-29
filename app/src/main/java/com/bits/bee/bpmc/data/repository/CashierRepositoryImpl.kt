@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.data.repository
 import com.bits.bee.bpmc.data.data_source.local.dao.CashierDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
+import com.bits.bee.bpmc.data.data_source.remote.model.MonitCashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.domain.mapper.CashierDataMapper
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 /**
@@ -95,6 +97,14 @@ class CashierRepositoryImpl @Inject constructor(
         return object : NetworkBoundResource<CashierStatusResponse>() {
             override fun createCall(): Flow<ApiResponse<CashierStatusResponse>> {
                 return apiUtils.getCashierApiService().postDetachCashier(cashierPost)
+            }
+        }.getAsFlow()
+    }
+
+    override fun postMonitCashier(monitCashierPost: MonitCashierPost): Flow<Resource<ResponseBody>> {
+        return object : NetworkBoundResource<ResponseBody>() {
+            override fun createCall(): Flow<ApiResponse<ResponseBody>> {
+                return apiUtils.getCashierApiService().postMonitCashier(monitCashierPost)
             }
         }.getAsFlow()
     }

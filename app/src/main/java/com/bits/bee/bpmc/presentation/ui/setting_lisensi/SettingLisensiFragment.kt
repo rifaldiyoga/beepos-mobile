@@ -20,8 +20,6 @@ import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
-import com.bits.bee.bpmc.presentation.ui.rekap_kas.KasKeluarMasukSharedViewModel
-import com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment
 import com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualViewModel
 import com.bits.bee.bpmc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +40,6 @@ class SettingLisensiFragment(
         loadingDialogHelper = LoadingDialogHelper(requireActivity())
         viewModel.getLicense()
         viewModel.getCashier()
-        sharedViewModel.loadData()
         binding.apply {
             tvVersiBpm.text = BuildConfig.VERSION_NAME
 
@@ -218,15 +215,15 @@ class SettingLisensiFragment(
                     Resource.Status.SUCCESS -> {
                         loadingDialogHelper.hide()
                         it.data?.let {
-                            if (it.status){
-                                sharedViewModel.prosesResponsePostAll()
-                                DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
-                                    it.dismiss()
-                                    viewModel.deactiveStatusCashier()
-                                }.show(parentFragmentManager, "")
-                            }else{
-                                Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
-                            }
+//                            if (it.status){
+//                                sharedViewModel.prosesResponsePostAll()
+//                                DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
+//                                    it.dismiss()
+//                                    viewModel.deactiveStatusCashier()
+//                                }.show(parentFragmentManager, "")
+//                            }else{
+//                                Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+//                            }
                         }
                     }
                     Resource.Status.ERROR -> {

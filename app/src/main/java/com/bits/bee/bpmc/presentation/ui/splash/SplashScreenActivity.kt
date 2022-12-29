@@ -11,9 +11,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
 import com.bits.bee.bpmc.databinding.ActivitySplashScreenBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
-import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
-import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,12 +24,7 @@ class SplashScreenActivity(
     private val viewModel :SplashScreenViewModel by viewModels()
 
     override fun initComponents() {
-        val apiKey = BeePreferenceManager.getDataFromPreferences(
-            this,
-            getString(R.string.api_key),
-            ""
-        ) as String
-
+        val apiKey = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.api_key), "") as String
         RetrofitClient.API_KEY = apiKey
         Handler(Looper.getMainLooper())
             .postDelayed({

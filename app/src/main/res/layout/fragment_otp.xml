@@ -33,7 +33,7 @@
         android:layout_marginTop="@dimen/size56"
         android:itemBackground="@drawable/bg_rect_light_gray"
         app:itemCount="4"
-        android:focusable="true"
+        android:focusable="false"
         app:itemWidth="@dimen/size45"
         android:textStyle="bold"
         android:textSize="@dimen/font18"

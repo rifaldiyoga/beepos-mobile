@@ -9,14 +9,14 @@ import com.bits.bee.bpmc.data.data_source.local.model.SyncEntity
 @Dao
 interface SyncDao: BaseDao<SyncEntity> {
 
-    @Query("select sale.id as id, sale.trx_no as trx_no, sale.isuploaded as isuploaded from sale where sale.isuploaded=0 and sale.draft=0 " +
-            "union select cadj.id as id, cadj.kode_cadj as trx_no, cadj.isuploaded as isuploaded from cadj where cadj.isuploaded=0 " +
-            "union select cstr.id, cstr.kode_cstr, cstr.isuploaded from cstr where cstr.isuploaded=0 " +
-            "union select posses.id, posses.trxno, posses.isuploaded from posses where posses.isuploaded=0 order by id desc")
+    @Query("select sale.id as id, sale.trx_no as trx_no, sale.isuploaded as isuploaded from sale where sale.isuploaded = 0 and sale.draft = 0 " +
+            "union select cadj.id as id, cadj.kode_cadj as trx_no, cadj.isuploaded as isuploaded from cadj where cadj.isuploaded = 0 " +
+            "union select cstr.id, cstr.kode_cstr, cstr.isuploaded from cstr where cstr.isuploaded = 0 " +
+            "union select posses.id, posses.trxno, posses.isuploaded from posses where posses.isuploaded = 0 order by id desc")
     fun getManualSync(): PagingSource<Int, SyncEntity>
 
     @Query("select sale.id as id, sale.trx_no as trx_no, sale.trx_date as trx_date, sale.isuploaded as isuploaded from sale where sale.isuploaded=0 and sale.draft=0 union select cadj.id as id, cadj.kode_cadj as trx_no, cadj.trxdate as trx_date, cadj.isuploaded as isuploaded from cadj where cadj.isuploaded=0 union select cstr.id, cstr.kode_cstr, cstr.trxdate as trx_date, cstr.isuploaded from cstr where cstr.isuploaded=0 union select posses.id, posses.trxno, posses.trxdate, posses.isuploaded from posses where posses.isuploaded=0 order by id desc limit :limit offset :offset")
-    fun getManualSyncLandscape(limit: Long, offset: Long): List<SyncEntity>
+    fun getManualSyncLandscape(limit: Int, offset: Int): List<SyncEntity>
 
     @Query("select sale.id as id, sale.trx_no as trx_no, sale.bp_id as bp_id, sale.bp_name as bp_name, sale.isuploaded as isuploaded from sale left join bp on bp.id = sale.bp_id " +
             "where sale.isuploaded=0 and sale.draft=0 and bp.id is null")

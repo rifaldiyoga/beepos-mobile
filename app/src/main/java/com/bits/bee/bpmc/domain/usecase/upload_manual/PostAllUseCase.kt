@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.domain.usecase.upload_manual
 
 import android.text.format.DateFormat
 import com.bits.bee.bpmc.data.data_source.remote.post.PostAll
-import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.domain.model.Cadj
 import com.bits.bee.bpmc.domain.model.Cstr
 import com.bits.bee.bpmc.domain.model.Posses
@@ -15,6 +14,7 @@ import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import okhttp3.ResponseBody
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.*
@@ -28,7 +28,7 @@ class PostAllUseCase @Inject constructor(
     private val saleCrcvRepository: SaleCrcvRepository,
     private val saleAddOnRepository: SaleAddOnRepository,
     private val saleAddOnDRepository: SaleAddOnDRepository,
-    private val getSalePromoBySaleUseCase: GetSalePromoBySaleUseCase
+    private val getSalePromoBySaleUseCase: GetSalePromoBySaleUseCase,
 ) {
     suspend operator fun invoke(
         whId : Int, cashId : Int,
@@ -36,10 +36,9 @@ class PostAllUseCase @Inject constructor(
         listSaleHaventUpload : List<Sale>,
         listPosses : List<Posses>,
         listCadj : List<Cadj>,
-        listCstr : List<Cstr>
-    ) : Flow<Resource<PostAllReturn>> {
-        var postBody = PostAll()
+        listCstr : List<Cstr>) : Flow<Resource<ResponseBody>> {
 
+        var postBody = PostAll()
         var newPosses = ""
         val possesList: MutableList<Posses> = mutableListOf()
         for (checkPosses in listPosses){

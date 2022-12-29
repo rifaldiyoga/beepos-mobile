@@ -10,7 +10,10 @@ import com.bits.bee.bpmc.databinding.ItemPosMenuPromoBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.FileHandlerUtils
 import com.bits.bee.bpmc.utils.ImageUtils
+import com.squareup.picasso.Picasso
+import java.io.File
 import java.math.BigDecimal
 
 /**
@@ -41,8 +44,24 @@ class KlaimPromoAdapater (
                 tvNamaItem.text = model.name1
                 tvQty.text = CurrencyUtils.formatCurrency(model.qty)
 
-                imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, model.name1, if(orientation == BPMConstants.SCREEN_LANDSCAPE) 20 else null))
-
+                if(model.objKey?.isEmpty()!!) {
+                    imageItem.setImageDrawable(
+                        ImageUtils.generateFromInitial(
+                            binding.root.context,
+                            model.name1
+                        )
+                    )
+                } else {
+                    if(!model.tempUrl.isNullOrEmpty())
+                        Picasso.get().load(File(BPMConstants.getDatapath()+BPMConstants.BPM_PRODUKPATH + "/" , model.tempUrl!!)).into(imageItem)
+                    else
+                        imageItem.setImageDrawable(
+                            ImageUtils.generateFromInitial(
+                                binding.root.context,
+                                model.name1
+                            )
+                        )
+                }
                 ivPlus.setOnClickListener {
                     onAddClick(model)
                 }

@@ -16,10 +16,10 @@ import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.hapus_transaksi.HapusTransaksiDialog
 import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
-import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -54,6 +54,13 @@ class DetailTransaksiPenjualanFragment(
 
     @Inject
     lateinit var printerHelper: PrinterHelper
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.state.sale?.let {
+            setToolbarTitle(it.trxNo)
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -211,18 +218,20 @@ class DetailTransaksiPenjualanFragment(
                         }
                     }
                     DetailTransaksiPenjualanViewModel.UIEvent.NavigateToHapusTransaksi -> {
-//                        val dialog = HapusTransaksiDialog(onFinish = {
-//                            viewModel.updateState(
-//                                viewModel.state.copy(sale = it)
-//                            )
-//                        })
-//                        dialog.show(parentFragmentManager, "")
-                        val action = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
-                            TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
-                        else
-                            DetailTransaksiPenjualanFragmentDirections.actionDetailTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
-
-                        findNavController().navigate(action)
+                        val dialog = HapusTransaksiDialog(viewModel.state.sale!!,
+                            onFinish = {
+                                viewModel.updateState(
+                                    viewModel.state.copy(sale = it)
+                                )
+                                setToolbarTitle(it.trxNo)
+                            })
+                        dialog.show(parentFragmentManager, "")
+//                        val action = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+//                            TransaksiPenjualanFragmentDirections.actionTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+//                        else
+//                            DetailTransaksiPenjualanFragmentDirections.actionDetailTransaksiPenjualanFragmentToHapusTransaksiDialog(viewModel.state.sale!!)
+//
+//                        findNavController().navigate(action)
                     }
                     DetailTransaksiPenjualanViewModel.UIEvent.ReqPrint -> {
                         printerHelper.printInvoiceDuplicate(requireActivity(), viewModel.state.sale!!)

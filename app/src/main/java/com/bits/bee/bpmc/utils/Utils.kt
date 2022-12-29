@@ -58,14 +58,14 @@ class Utils {
 
             val isChange = beePreferenceManager.posPreferences.first().isChangeOrientasi
 
-            if (diagonalInches < 6.6 && !isChange) {
+            if (diagonalInches < 6.9 && !isChange) {
                 screenDevice = BPMConstants.SCREEN_POTRAIT
                 beePreferenceManager.updatePosPreferences(
                     beePreferenceManager.posPreferences.first().copy(
                         orientasi = BPMConstants.SCREEN_POTRAIT
                     )
                 )
-            } else if (diagonalInches >= 6.6 && !isChange) {
+            } else if (diagonalInches >= 6.9 && !isChange) {
                 screenDevice = BPMConstants.SCREEN_LANDSCAPE
                 beePreferenceManager.updatePosPreferences(
                     beePreferenceManager.posPreferences.first().copy(

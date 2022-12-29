@@ -6,14 +6,12 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.ItemDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
+import com.bits.bee.bpmc.data.data_source.remote.response.ItemImageResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.ItemResponse
 import com.bits.bee.bpmc.domain.mapper.ItemDataMapper
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.repository.ItemRepository
-import com.bits.bee.bpmc.utils.ApiResponse
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.NetworkDatabaseBoundResource
-import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -47,6 +45,36 @@ class ItemRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: ItemResponse) {
                 itemDao.insertBulk(data.data.item.map { ItemDataMapper.fromNetworkToDb(it) })
+            }
+
+        }.getAsFlow()
+    }
+
+    override fun getLastesImageItem(page: Int): Flow<Resource<List<Item>>> {
+        return object : NetworkDatabaseBoundResource<List<Item>, ItemImageResponse>(){
+            override suspend fun loadFormDB(): List<Item> {
+                return itemDao.getItemList().map { ItemDataMapper.fromDbToDomain(it) }
+            }
+
+            override fun shouldFetch(data: List<Item>?): Boolean {
+                return false
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<ItemImageResponse>> {
+                return apiUtils.getItemApiService().getImageItem()
+            }
+
+            override suspend fun saveCallResult(data: ItemImageResponse) {
+                data.data.forEach { data ->
+                    val item = itemDao.getItemById(data.refId)
+                    item?.let {
+                        itemDao.update(item.copy(
+                            bucket = data.bucket,
+                            objKey = data.objkey,
+                            tempUrl = data.objkey.replace('/', '_')
+                        ))
+                    }
+                }
             }
 
         }.getAsFlow()

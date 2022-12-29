@@ -12,9 +12,12 @@ import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.ui.pos.pos_item.ItemPosAdapter
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.bits.bee.bpmc.utils.FileHandlerUtils
 import com.bits.bee.bpmc.utils.ImageUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
+import com.squareup.picasso.Picasso
+import java.io.File
 import java.math.BigDecimal
 
 /**
@@ -78,6 +81,24 @@ class ItemPosCariAdapter(
                     }
                 }
 
+                if(item.objKey?.isEmpty()!!) {
+                    imageItem.setImageDrawable(
+                        ImageUtils.generateFromInitial(
+                            binding.root.context,
+                            item.name1
+                        )
+                    )
+                } else {
+                    if(!item.tempUrl.isNullOrEmpty())
+                        Picasso.get().load(File(BPMConstants.getDatapath()+BPMConstants.BPM_PRODUKPATH + "/" , item.tempUrl!!)).into(imageItem)
+                    else
+                        imageItem.setImageDrawable(
+                            ImageUtils.generateFromInitial(
+                                binding.root.context,
+                                item.name1
+                            )
+                        )
+                }
 
                 imageItem.setImageDrawable(ImageUtils.generateFromInitial(binding.root.context, item.name1, if(orientation == BPMConstants.SCREEN_LANDSCAPE) 20 else null))
 

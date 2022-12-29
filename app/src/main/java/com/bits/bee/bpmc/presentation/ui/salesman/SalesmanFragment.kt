@@ -13,6 +13,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSalesmanBinding
 import com.bits.bee.bpmc.domain.model.Srep
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.detail_salesman.DetailSalesmanDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
@@ -70,8 +71,12 @@ class SalesmanFragment(
                             findNavController().popBackStack()
                         }
                         is SalesmanViewModel.UIEvent.RequestIconEye ->{
-                            val action = SalesmanFragmentDirections.actionSalesmanFragmentToDetailSalesmanFragment(it.model)
-                            findNavController().navigate(action)
+                            val action = DetailSalesmanDialog(it.model,{
+                                it.dismiss()
+                                findNavController().popBackStack()
+                            })
+                            action.show(parentFragmentManager, "")
+
                         }
                     }
                 }

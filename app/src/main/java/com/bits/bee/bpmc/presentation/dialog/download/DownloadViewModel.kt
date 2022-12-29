@@ -1,18 +1,30 @@
 package com.bits.bee.bpmc.presentation.dialog.download
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
 import com.bits.bee.bpmc.domain.repository.InitialRepository
+import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.ImageUtils
 import com.bits.bee.bpmc.utils.Resource
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -23,7 +35,9 @@ import javax.inject.Inject
 class DownloadViewModel @Inject constructor (
     private val districtRepository: DistrictRepository,
     private val initialRepository: InitialRepository,
+    private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val di: DownloadInteractor,
+    private @ApplicationContext val context: Context
 ) : BaseViewModel<DownloadState, DownloadViewModel.UIEvent>() {
 
     private var page : Int = 1
@@ -68,6 +82,7 @@ class DownloadViewModel @Inject constructor (
             downloadUsrGrp()
             downloadGrpPrv()
             downloadKitchen()
+            downloadImageItem()
             onFinsihDownload()
         }
     }
@@ -936,11 +951,79 @@ class DownloadViewModel @Inject constructor (
         }
     }
 
-    fun onFinsihDownload() = viewModelScope.launch{
-        updateState(
-            state.copy(progress = 100)
-        )
-        eventChannel.send(UIEvent.FinishDownload)
+    private suspend fun downloadImageItem()  {
+        di.getLatestImageItemUseCase().collect {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    updateState(
+                        state.copy(status = "Downloading Image Item")
+                    )
+                }
+                Resource.Status.SUCCESS -> {
+                    it.data?.let {
+                        it.forEach {
+                            if(it.bucket?.isNotEmpty() == true && it.objKey?.isNotEmpty() == true)
+                                ImageUtils.downloadImage(context, it.bucket ?: "", it.objKey ?: "")
+                        }
+                    }
+                    updateState(
+                        state.copy(status = "Finish Downloading Image Item")
+                    )
+                }
+                Resource.Status.ERROR -> {
+                    onErrorDialog(it.message ?: "")
+                }
+                Resource.Status.NOINTERNET -> onShowNoInternet()
+            }
+        }
+    }
+
+    suspend fun onFinsihDownload(){
+        val cashier = getActiveCashierUseCase().first()
+        if(cashier != null) {
+            di.postMonitCashierUseCase(
+                lastDownload = DateFormatUtils.formatDateToString(
+                    BPMConstants.DEFAULT_DATE_FORMAT,
+                    Date()
+                )
+            ).collect {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        updateState(
+                            state.copy(status = "Finishing Download")
+                        )
+                    }
+                    Resource.Status.SUCCESS -> {
+                        it.data?.let {
+                            val string = it.string()
+                            try {
+                                val postAllReturn =
+                                    Gson().fromJson(string, PostAllReturn::class.java)
+                                if (postAllReturn.status) {
+                                    updateState(
+                                        state.copy(status = "Done", progress = 100)
+                                    )
+                                    eventChannel.send(UIEvent.FinishDownload)
+                                } else {
+                                }
+                            } catch (e: Exception) {
+                                onErrorDialog(string)
+                            }
+                        }
+
+                    }
+                    Resource.Status.ERROR -> {
+                        onErrorDialog(it.message ?: "")
+                    }
+                    Resource.Status.NOINTERNET -> onShowNoInternet()
+                }
+            }
+        } else {
+            updateState(
+                state.copy(status = "Done", progress = 100)
+            )
+            eventChannel.send(UIEvent.FinishDownload)
+        }
     }
 
     suspend fun onShowNoInternet() {

@@ -7,7 +7,6 @@ import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.SaleDao
 import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
 import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
-import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.repository.SaleRepository
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -150,7 +149,7 @@ class SaleRepositoryImpl @Inject constructor(
     }
 
     override fun getSaleHaventUploaded(
-        limit_trx: Long,
+        limit_trx: Int,
         saledlist: List<Int>
     ): Flow<List<Sale>> {
         return flow {

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemSelectionBinding
 import com.bits.bee.bpmc.domain.model.Crc
 import com.bits.bee.bpmc.domain.model.Item
@@ -42,7 +43,7 @@ class SelectionAdapter(
             binding.apply {
                 val context = binding.root.context
                 tvName.text = model.selection.name
-                tvOptional.isVisible = model.selection.isMultiSelect
+                tvOptional.text = if(model.selection.isMultiSelect) context.getString(R.string.optional) else context.getString(R.string.pilih_1)
                 val addOnAdapter = AddOnAdapter(
                     isMultiQty = model.selection.isMultiQty,
                     isMultiSelect = model.selection.isMultiSelect,

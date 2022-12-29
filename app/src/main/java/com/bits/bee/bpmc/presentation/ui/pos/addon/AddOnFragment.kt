@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.addon
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -152,6 +153,7 @@ class AddOnFragment(
                         tvQty.text = getString(R.string._1_produk, CurrencyUtils.formatCurrency(it.qty))
 
                         recalcSubtotal()
+                        btnNext.background = if(isValidSelection()) ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary) else ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
                     }
                 }
             }
@@ -182,6 +184,7 @@ class AddOnFragment(
         }
         viewModel.selectedAddOn.observe(viewLifecycleOwner) {
             recalcSubtotal()
+            binding.btnNext.background = if(isValidSelection()) ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_primary) else ContextCompat.getDrawable(requireActivity(), R.drawable.btn_rect_disable)
         }
     }
 
@@ -231,6 +234,21 @@ class AddOnFragment(
 
     override fun addOrRemoveItem(item: Item) {
         viewModel.addItemSelectedList(item)
+    }
+
+    fun isValidSelection() : Boolean {
+        var isValid = true
+        viewModel.state.addOnDList.forEach { addOnD ->
+            val selection = viewModel.state.selectionList.firstOrNull { addOnD.selectionId == it.selection.id }
+            if(selection != null && !addOnD.isSkip){
+                for (item in selection.itemList){
+                    isValid = viewModel.selectedAddOn.value?.map { it.id }?.contains(item.id) ?: false
+                    if(isValid)
+                        break
+                }
+            }
+        }
+        return isValid
     }
 
 }

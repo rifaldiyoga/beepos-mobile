@@ -7,7 +7,6 @@ import androidx.paging.map
 import com.bits.bee.bpmc.data.data_source.local.dao.SyncDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.post.PostAll
-import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.domain.mapper.SyncDataMapper
 import com.bits.bee.bpmc.domain.model.Sync
 import com.bits.bee.bpmc.domain.repository.SyncRepository
@@ -20,6 +19,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class SyncRepositoryImpl @Inject constructor(
@@ -55,18 +56,18 @@ class SyncRepositoryImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override fun postSyncAll(postAll: PostAll): Flow<Resource<PostAllReturn>> {
-        return object : NetworkBoundResource<PostAllReturn>() {
-            override fun createCall(): Flow<ApiResponse<PostAllReturn>> {
+    override fun postSyncAll(postAll: PostAll): Flow<Resource<ResponseBody>> {
+        return object : NetworkBoundResource<ResponseBody>() {
+            override fun createCall(): Flow<ApiResponse<ResponseBody>> {
                 return apiUtils.getSyncApiService().postSyncAll(postAll)
             }
         }.getAsFlow()
     }
 
-    override fun getManualSyncLandscape(limit: Long, offset: Long): Flow<Resource<List<Sync>>> {
+    override fun getManualSyncLandscape(limit: Int, offset: Int): Flow<List<Sync>> {
         return flow {
             val data = syncDao.getManualSyncLandscape(limit, offset).map { SyncDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
 

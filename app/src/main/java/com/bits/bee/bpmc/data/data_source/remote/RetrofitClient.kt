@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.data.data_source.remote
 
 import com.bits.bee.bpmc.BuildConfig.*
+import com.bits.bee.bpmc.domain.repository.UserRepository
 import com.bits.bee.bpmc.utils.FlowCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,11 +12,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * Created by aldi on 25/02/22.
  */
-class RetrofitClient {
+class RetrofitClient @Inject constructor(
+){
     private var retrofit: Retrofit? = null
 
     companion object{
@@ -53,6 +56,7 @@ class RetrofitClient {
 
     fun getClientApi(): Retrofit? {
         val interceptor = HttpLoggingInterceptor()
+
         if (DEBUG) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {

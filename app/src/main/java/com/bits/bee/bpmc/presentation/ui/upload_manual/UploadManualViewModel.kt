@@ -6,26 +6,24 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.data.data_source.remote.post.BpPost
 import com.bits.bee.bpmc.data.data_source.remote.response.BpReturn
-import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
-import com.bits.bee.bpmc.domain.model.*
+import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveUserUseCase
 import com.bits.bee.bpmc.domain.usecase.manual_upload.GetDataSyncUseCase
 import com.bits.bee.bpmc.domain.usecase.upload_manual.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class UploadManualViewModel @Inject constructor(
     private val getDataSyncUseCase: GetDataSyncUseCase,
-    private val getActiveUserUseCase: GetActiveUserUseCase,
-    private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getBpNotUploadedUseCase: GetBpNotUploadedUseCase,
     private val postBpClientUseCase: PostBpClientUseCase,
     private val getBpByCodeUseCase: GetBpByCodeUseCase,
@@ -39,9 +37,11 @@ class UploadManualViewModel @Inject constructor(
     private val updateCstrUseCase: UpdateCstrUseCase,
     private val saleRepository: SaleRepository,
     private val possesRepository: PossesRepository,
+    private val beePreferenceManager: BeePreferenceManager,
     private val cadjRepository: CadjRepository,
     private val cstrRepository: CstrRepository,
-    private val getSaledDeletedItemUseCase: GetSaledDeletedItemUseCase
+    private val getSaledDeletedItemUseCase: GetSaledDeletedItemUseCase,
+    private val getActiveCashierUseCase: GetActiveCashierUseCase
 ): BaseViewModel<UploadManualState, UploadManualViewModel.UIEvent>() {
 
     init {
@@ -53,28 +53,9 @@ class UploadManualViewModel @Inject constructor(
     private var bpReturn: MediatorLiveData<Resource<BpReturn>> = MediatorLiveData()
     fun observeBpReturn() = bpReturn as LiveData<Resource<BpReturn>>
 
-    private var postAllReturn: MediatorLiveData<Resource<PostAllReturn>> = MediatorLiveData()
-    fun observePostallReturn() = postAllReturn as LiveData<Resource<PostAllReturn>>
+    private var postAllReturn: MediatorLiveData<Resource<ResponseBody>> = MediatorLiveData()
+    fun observePostallReturn() = postAllReturn as LiveData<Resource<ResponseBody>>
 
-    fun loadData() = viewModelScope.launch {
-        getActiveUserUseCase.invoke().collect {
-            it?.let {
-                state.userId = it.id
-            }
-        }
-        getActiveCashierUseCase.invoke().collect {
-            it?.let {
-                updateState(
-                    state.copy(
-                        whId = it.whId.toInt(),
-                        cashId = it.cashId.toInt(),
-                        cashierId = it.id,
-                        branchId = it.branchId.toInt()
-                    )
-                )
-            }
-        }
-    }
 
     private fun initUpload() = viewModelScope.launch {
         val bpList: List<Bp> = getBpNotUploadedUseCase().first()
@@ -84,7 +65,6 @@ class UploadManualViewModel @Inject constructor(
         }else{
             uploadPostAll()
         }
-
     }
 
     fun prosesResponsePostAll() = viewModelScope.launch{
@@ -143,7 +123,7 @@ class UploadManualViewModel @Inject constructor(
             }
         }
 
-        val source = postBpClientUseCase.invoke(bpPost).asLiveData()
+        val source = postBpClientUseCase(bpPost).asLiveData()
         bpReturn.addSource(source){
             if (it != null) {
                 bpReturn.value = it
@@ -191,16 +171,26 @@ class UploadManualViewModel @Inject constructor(
         }
     }
 
-    fun uploadPostAll() = viewModelScope.launch {
+    private fun uploadPostAll() = viewModelScope.launch {
+
+        val cashier = getActiveCashierUseCase().first() ?: throw IllegalArgumentException("No active cashier!")
+        val whId = cashier.whId.toInt()
+        val cashId = cashier.cashId.toInt()
+        val cashierId = cashier.id
+        val branchId = cashier.branchId.toInt()
+
         val saledList = getSaledDeletedItemUseCase().first()
 
-        state.saleList = saleRepository.getSaleHaventUploaded(50, saledList.map { it.saleId }).first()
+        state.saleList = saleRepository.getSaleHaventUploaded(beePreferenceManager.sistemPreferences.first().batchUpload.toInt(), saledList.map { it.saleId }).first()
         state.possesList = possesRepository.getPossesHaventUpload().first()
         state.cadjList = cadjRepository.getCadjByReftypeInOutHaventUpload().first()
         state.cstrList = cstrRepository.getCstrByReftypeHaventUpload().first()
 
-        val source = postAllUseCase(state.whId!!, state.cashId!!,
-            state.cashierId!!, state.branchId!!,
+        val source = postAllUseCase(
+            whId,
+            cashId,
+            cashierId,
+            branchId,
             state.saleList,
             state.possesList,
             state.cadjList,
@@ -225,10 +215,6 @@ class UploadManualViewModel @Inject constructor(
 
     fun showDialogNoInternet() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequeatDialog)
-    }
-
-    fun confirmDialogUpload() = viewModelScope.launch {
-        eventChannel.send(UIEvent.RequestUpload)
     }
 
     sealed class UIEvent {

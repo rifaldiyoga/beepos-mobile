@@ -50,7 +50,7 @@ class InvoiceFragment(
                 mainViewModel.onClickDraft()
             }
             R.id.menu_diskon -> {
-                mainViewModel.onClickDiskonNota()
+                mainViewModel.onClickDiskonNota("invoice")
             }
             R.id.menu_search -> {
                 mainViewModel.onClickSearch()
@@ -107,7 +107,7 @@ class InvoiceFragment(
                         }
                         if(it.sale.total < BigDecimal.ZERO){
                             val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), "Informasi", "Subtotal tidak boleh minus, transaksi akan langsung direset!", positiveListener = {
-                                mainViewModel.resetState()
+                                mainViewModel.resetDiscMaster()
                                 it.dismiss()
                             })
                             dialog.show(parentFragmentManager, "")

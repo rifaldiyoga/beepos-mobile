@@ -14,6 +14,8 @@ import com.bits.bee.bpmc.databinding.DialogDiskonNotaBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragmentDirections
+import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -24,6 +26,7 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class DiskonNotaDialog(
+    private var tipe : String,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogDiskonNotaBinding = DialogDiskonNotaBinding::inflate
 ) : BaseBottomSheetDialogFragment<DialogDiskonNotaBinding>() {
 
@@ -82,7 +85,15 @@ class DiskonNotaDialog(
                             binding.etDiskon.clearFocus()
                             val dialog = TidakAdaAksesDialog {
                                 it.dismiss()
-                                val action = DiskonNotaDialogDirections.actionDiskonNotaDialogToHakAksesFragment(BPMConstants.ACS_DISC_MASTER)
+
+                                if(mainViewModel.orientation.value == BPMConstants.SCREEN_LANDSCAPE) {
+                                    tipe = "pos"
+                                }
+
+                                val action = when(tipe){
+                                    "pos" -> PosFragmentDirections.actionPosFragmentToHakAksesFragment(BPMConstants.ACS_DISC_MASTER)
+                                    else -> InvoiceFragmentDirections.actionInvoiceFragmentToHakAksesFragment(BPMConstants.ACS_DISC_MASTER)
+                                }
                                 findNavController().navigate(action)
                             }
 

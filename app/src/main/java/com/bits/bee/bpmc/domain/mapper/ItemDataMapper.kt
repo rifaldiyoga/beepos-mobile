@@ -32,7 +32,10 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             isVariant = model.isVariant,
             vCode = model.vCode,
             vColor = model.vColor,
-            isFavorit = model.isFavorit
+            isFavorit = model.isFavorit,
+            bucket = model.bucket,
+            objKey = model.objKey,
+            tempUrl = model.tempUrl,
         )
     }
 
@@ -59,7 +62,10 @@ object ItemDataMapper : BaseMapper<ItemEntity, Item, ItemResponse.ItemModel>() {
             isVariant = model.isVariant,
             vCode = model.vCode,
             vColor = model.vColor,
-            isFavorit = model.isFavorit
+            isFavorit = model.isFavorit,
+            bucket = model.bucket,
+            objKey = model.objKey,
+            tempUrl = model.tempUrl,
         )
     }
 

@@ -106,7 +106,7 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             val customer = it[PreferenceKeys.CUSTOMER] ?: "Nama"
             val jumlahMeja = it[PreferenceKeys.JUMLAH_MEJA] ?: "10"
             val presetBukaKasir = it[PreferenceKeys.PRESET_BUKA_KASIR] ?: "100000"
-            val isMuatGambar = it[PreferenceKeys.IS_MUAT_GAMBAR] ?: false
+            val isMuatGambar = it[PreferenceKeys.IS_MUAT_GAMBAR] ?: true
             val orientasi = it[PreferenceKeys.ORIENTASI] ?: ""
             val isChangeOrientasi = it[PreferenceKeys.IS_CHANGE_ORIENTASI] ?: false
             ORIENTATION = orientasi
@@ -137,7 +137,7 @@ class BeePreferenceManager @Inject constructor(@ApplicationContext private val c
             }
         }.map {
             val penyimpanan = it[PreferenceKeys.PENYIMPANAN] ?: "30 Hari"
-            val batchUpload = it[PreferenceKeys.BATCH_UPLOAD] ?: "AUTO"
+            val batchUpload = it[PreferenceKeys.BATCH_UPLOAD] ?: "50"
             val periodeUpload = it[PreferenceKeys.PERIODE_UPLOAD] ?: "60 Menit"
             val isCloudDapur = it[PreferenceKeys.CLOUD_DAPUR] ?: false
 

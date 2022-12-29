@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.upload_manual
 
 import android.view.*
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -12,15 +11,18 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.databinding.FragmentUploadManualBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.decideOnState
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -41,7 +43,6 @@ class UploadManualFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
-        viewModel.loadData()
         loadingDialog = LoadingDialogHelper(requireContext())
         binding.apply {
             syncAdapter = SyncAdapter()
@@ -136,21 +137,27 @@ class UploadManualFragment(
                     Resource.Status.SUCCESS -> {
                         loadingDialog.hide()
                         it.data?.let {
-                            if (it.status){
-                                viewModel.prosesResponsePostAll()
-                                DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
-                                    it.dismiss()
-                                }.show(parentFragmentManager, "")
-                            }else{
-                                Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                            val string = it.string()
+                            try {
+                                val postAllReturn = Gson().fromJson(string, PostAllReturn::class.java)
+                                if (postAllReturn.status){
+                                    viewModel.prosesResponsePostAll()
+                                    DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
+                                        it.dismiss()
+                                    }.show(parentFragmentManager, "")
+                                } else {
+//                                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                                }
+                            } catch (e : Exception){
+                                val dialog = ErrorDialogBuilder(string, e)
+                                dialog.show(parentFragmentManager, "")
                             }
                         }
                     }
                     Resource.Status.ERROR -> {
                         loadingDialog.hide()
-                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
-                            it.dismiss()
-                        }.show(parentFragmentManager, TAG)
+                        val dialog = ErrorDialogBuilder(it.message ?: "", )
+                        dialog.show(parentFragmentManager, "")
                     }
                     Resource.Status.NOINTERNET -> {
                         loadingDialog.hide()

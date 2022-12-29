@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_posFragment_to_detailAddOnDialogBuilder"
             app:destination="@id/detailAddOnDialogBuilder" />
+        <action
+            android:id="@+id/action_posFragment_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_member"
@@ -126,6 +129,9 @@
         <action
             android:id="@+id/action_invoiceFragment_to_salesmanFragment"
             app:destination="@id/salesmanFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_pembayaran"
@@ -346,15 +352,15 @@
             android:id="@+id/action_salesmanFragment_to_detailSalesmanFragment"
             app:destination="@id/detailSalesmanFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/detailSalesmanFragment"
-        tools:layout="@layout/fragment_detail_salesman"
-        android:name="com.bits.bee.bpmc.presentation.ui.detail_salesman.DetailSalesmanFragment"
+        tools:layout="@layout/dialog_detail_salesman"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_salesman.DetailSalesmanDialog"
         android:label="Detail Salesman" >
         <argument
             android:name="srep"
             app:argType="com.bits.bee.bpmc.domain.model.Srep" />
-    </fragment>
+    </dialog>
     <dialog
         android:id="@+id/hakAksesFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"

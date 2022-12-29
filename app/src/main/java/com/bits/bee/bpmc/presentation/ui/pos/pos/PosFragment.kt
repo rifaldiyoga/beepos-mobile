@@ -27,7 +27,6 @@ import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -62,7 +61,7 @@ class PosFragment(
                     mainViewModel.onClickDraft()
                 }
                 R.id.menu_diskon -> {
-                    mainViewModel.onClickDiskonNota()
+                    mainViewModel.onClickDiskonNota("pos")
                 }
                 R.id.menu_search -> {
                     mainViewModel.onClickSearch()
@@ -166,7 +165,7 @@ class PosFragment(
                         }
                         if(it.sale.total < BigDecimal.ZERO){
                             val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), "Informasi", "Subtotal tidak boleh minus, transaksi akan langsung direset!", positiveListener = {
-                                mainViewModel.resetState()
+                                mainViewModel.resetDiscMaster()
                                 it.dismiss()
                             })
                             dialog.show(parentFragmentManager, "")

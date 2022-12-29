@@ -41,5 +41,8 @@ data class  Item (
     var unitList : List<Unit> = mutableListOf(),
     var itemVariantList: List<Int> = mutableListOf(),
     var isFavorit : Boolean = false,
-    var subtotal: BigDecimal = BigDecimal.ZERO
+    var subtotal: BigDecimal = BigDecimal.ZERO,
+    var bucket: String? = "",
+    var objKey: String? = "",
+    var tempUrl: String? = "",
 ) : Parcelable

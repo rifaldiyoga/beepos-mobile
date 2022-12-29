@@ -1,10 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.pos.draft
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -46,6 +49,7 @@ class DraftFragment(
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
         searchView.setSearchViewStyle(requireActivity(), R.color.black)
+        MenuItemCompat.setIconTintList(searchItem, ColorStateList.valueOf(ContextCompat.getColor(requireActivity(), R.color.black)))
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -66,6 +70,7 @@ class DraftFragment(
 
     override fun initComponents() {
         setHasOptionsMenu(true)
+
         draftAdapter = DraftAdapter(
             onClickItem = {
                 viewModel.onItemClick(it)

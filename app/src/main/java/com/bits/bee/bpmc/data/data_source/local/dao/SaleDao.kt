@@ -54,7 +54,7 @@ interface SaleDao : BaseDao<SaleEntity> {
     fun getTotalPaidGopay(id: Int): BigDecimal?
 
     @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0 and id not in (:saledlist) limit :limit_trx")
-    fun getSaleHaventUploaded(limit_trx: Long, saledlist: String): List<SaleEntity>
+    fun getSaleHaventUploaded(limit_trx: Int, saledlist: String): List<SaleEntity>
 
     @Query("UPDATE sale SET bp_id = :idCust WHERE bp_id = :oldIdCust")
     fun updateNewIdCust(oldIdCust: Int, idCust: Int)

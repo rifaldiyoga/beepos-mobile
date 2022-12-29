@@ -47,7 +47,7 @@ abstract class NetworkDatabaseBoundResource<ResultType, RequestType> @MainThread
 
             }
             is ApiNoNetworkResponse -> {
-                send(Resource.noInternet(null, apiResponse.errorMessage, 505))
+                send(Resource.noInternet(null, apiResponse.errorMessage, 400))
             }
         }
     }

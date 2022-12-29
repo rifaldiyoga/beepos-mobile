@@ -41,7 +41,7 @@ interface SaleRepository {
 
     fun getTotalPaidGopay(id: Int): Flow<BigDecimal>
 
-    fun getSaleHaventUploaded(limit_trx: Long, saledlist: List<Int>): Flow<List<Sale>>
+    fun getSaleHaventUploaded(limit_trx: Int, saledlist: List<Int>): Flow<List<Sale>>
 
     suspend fun updateNewIdCust(oldIdCust: Int, idCust: Int)
 

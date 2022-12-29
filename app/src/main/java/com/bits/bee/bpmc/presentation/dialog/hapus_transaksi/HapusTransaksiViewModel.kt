@@ -3,12 +3,14 @@ package com.bits.bee.bpmc.presentation.dialog.hapus_transaksi
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.helper.PrivilegeHelper
+import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.pembayaran.RefundGopayUseCase
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.VoidTransactionUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +21,7 @@ import javax.inject.Inject
 class HapusTransaksiViewModel @Inject constructor(
     private val privilegeHelper: PrivilegeHelper,
     private val voidTransactionUseCase: VoidTransactionUseCase,
+    private val getActivePossesUseCase: GetActivePossesUseCase,
     private val refundGopayUseCase: RefundGopayUseCase
 ) : BaseViewModel<HapusTransaksiState, HapusTransaksiViewModel.UIEvent>(){
 
@@ -31,21 +34,24 @@ class HapusTransaksiViewModel @Inject constructor(
     }
 
     fun onClickHapus() = viewModelScope.launch {
-        if(!state.isCanVoid) {
-            eventChannel.send(UIEvent.NavigateToHakAkses)
-        } else {
-            doVoid()
-        }
+        doVoid()
     }
 
     fun doVoid() = viewModelScope.launch {
         var isValid = true
-        if(state.alasan.isEmpty()){
+        val posses = getActivePossesUseCase().first()
+        if(posses == null || state.sale!!.possesId != posses.possesId){
+            isValid = false
+            sendMessage("Tidak dapat menghapus transaksi ini dikarenakan sudah tutup kasir!")
+        } else if(state.alasan.isEmpty()){
             isValid = false
             sendMessage("Alasan hapus wajib diisi!")
         } else if(state.alasan.length < 5){
             isValid = false
             sendMessage("Alasan harus terdiri dari minimal 5 karakter!")
+        } else if(!state.isCanVoid) {
+            isValid = false
+            eventChannel.send(UIEvent.NavigateToHakAkses)
         }
 
         if(isValid) {
@@ -54,8 +60,13 @@ class HapusTransaksiViewModel @Inject constructor(
                 it.voidNote = state.alasan
                 if(it.termType == BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY)
                     doRefunGopay()
-                voidTransactionUseCase(it)
-                eventChannel.send(UIEvent.SuccessVoid)
+                try {
+                    voidTransactionUseCase(it)
+                    eventChannel.send(UIEvent.SuccessVoid)
+                } catch (e : Exception){
+
+                }
+
             }
         }
     }
@@ -74,7 +85,9 @@ class HapusTransaksiViewModel @Inject constructor(
                 Resource.Status.ERROR -> {
 
                 }
-                Resource.Status.NOINTERNET -> TODO()
+                Resource.Status.NOINTERNET -> {
+
+                }
             }
         }
     }

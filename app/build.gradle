@@ -179,6 +179,12 @@ dependencies {
     implementation files('libs/usbsdk.jar')
     implementation files('libs/p25library.jar')
 
+    //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
+
+    implementation 'com.amazonaws:aws-android-sdk-core:2.60.0'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.12.5'
+
+
 
 }

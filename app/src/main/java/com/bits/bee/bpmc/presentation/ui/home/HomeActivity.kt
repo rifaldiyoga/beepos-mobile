@@ -19,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.data_source.remote.RetrofitClient
 import com.bits.bee.bpmc.databinding.ActivityHomeBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
@@ -45,6 +46,12 @@ class HomeActivity(
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+
+    override fun onResume() {
+        super.onResume()
+        val apiKey = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.api_key), "") as String
+        RetrofitClient.API_KEY = apiKey
+    }
 
     override fun initComponents() {
         BeePreferenceManager.saveToPreferences(this, getString(R.string.pref_last_page), getString(

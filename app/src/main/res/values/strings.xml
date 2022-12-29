@@ -127,11 +127,10 @@
     </string-array>
 
     <string-array name="list_sistem_batch_upload">
-        <item>AUTO</item>
-        <item>5 (Paling Ringan)</item>
+        <item>5</item>
         <item>10</item>
         <item>25</item>
-        <item>50 (Paling Berat)</item>
+        <item>50</item>
     </string-array>
 
     <string-array name="list_periode_upload_otomatis">
@@ -660,7 +659,7 @@ untuk memperbarui data dapur?</string>
     <string name="pid_cocok_digunakan">PID cocok digunakan untuk bisnis toko sepatu, toko pakaian, dll. Khusus untuk bisnis jual HP, dan toko elektronik kami menyediakan PID Unik yang dapat digunakan untuk SN / IMEI</string>
     <string name="baca_artikel_pid_selengkapnya_disini">Baca artikel PID selengkapnya disini</string>
     <string name="produk_yang_anda_cari_tidak_ada_coba_cek_ejaan_atau_cari_dengan_kata_kunci_lain_ya">Produk yang anda cari tidak ada  Coba cek ejaan atau cari dengan kata kunci lain, ya</string>
-    <string name="cari_produk_min_3_karakter">Cari produk, min 3 karakter</string>
+    <string name="cari_produk_min_3_karakter">Masukkan nama atau barcode</string>
     <string name="cari_transaksi_min_3_karakter">Cari transaksi, min 3 karakter</string>
     <string name="draft_tidak_ditemukan">Draft yang anda cari tidak ada!</string>
     <string name="member_tidak_ditemukan">Member yang anda cari tidak ada!</string>
@@ -730,6 +729,7 @@ untuk memperbarui data dapur?</string>
     <string name="menampilkan_data_pada">Menampilkan data pada</string>
     <string name="jml_stok">Jumlah Stok</string>
     <string name="pilih">Pilih</string>
+    <string name="pilih_1">Pilih 1</string>
     <string name="kamera">Kamera</string>
     <string name="galeri">Galeri</string>
 
@@ -775,5 +775,8 @@ untuk memperbarui data dapur?</string>
     <string name="_6">6</string>
     <string name="cth_epson">Cth. Epson</string>
     <string name="cth_72_3c_61_1e_27_14">Cth. 72:3C:61:1E:27:14</string>
+    <string name="detail_salesman">Detail Salesman</string>
+    <string name="pilih_salesman">Pilih Salesman</string>
+    <string name="hubungi_kami">Hubungi Kami</string>
 
 </resources>

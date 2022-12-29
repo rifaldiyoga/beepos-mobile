@@ -13,25 +13,25 @@
                 android:orderInCategory="100"
                 android:title="Login Email"
                 android:icon="@drawable/ic_tag_email"
-                app:showAsAction="ifRoom"/>
+                app:showAsAction="withText"/>
             <item
                 android:id="@+id/menu_sinkron"
                 android:orderInCategory="100"
                 android:title="Sinkron Data"
                 android:icon="@drawable/ic_reload"
-                app:showAsAction="ifRoom"/>
+                app:showAsAction="withText"/>
             <item
                 android:id="@+id/menu_reset"
                 android:orderInCategory="100"
                 android:title="Ganti Kasir"
                 android:icon="@drawable/ic_cashier_black"
-                app:showAsAction="ifRoom"/>
+                app:showAsAction="withText"/>
             <item
                 android:id="@+id/menu_info"
                 android:orderInCategory="100"
                 android:title="Info"
                 android:icon="@drawable/ic_info"
-                app:showAsAction="ifRoom"/>
+                app:showAsAction="withText"/>
         </menu>
     </item>
 

@@ -21,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.databinding.FragmentSettingListPrinterBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.utils.PermissionUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -108,24 +109,35 @@ class ListPrinterFragment(
         val intentFilter = IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)
         requireContext().registerReceiver(receiver2, intentFilter)
         checkBTPermission()
-        if (mBluetoothAdapter.isDiscovering) {
-            mBluetoothAdapter.cancelDiscovery()
-            Log.d(ContentValues.TAG, "Discovery: cancelling discover.")
-        }
-        mBluetoothAdapter.startDiscovery()
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        requireContext().registerReceiver(receiver, filter)
-
-        mPairedDevices = mBluetoothAdapter.bondedDevices
-        if (mPairedDevices.isNotEmpty()) {
-            val pairedList = mPairedDevices.map {
-                PrinterDevice(it.name, it.address)
+        var isPermission = false
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.BLUETOOTH_SCAN)
+                && PermissionUtils.checkPermissionIsGranted(requireActivity(),  Manifest.permission.BLUETOOTH_CONNECT)) {
+                isPermission = true
             }
-            viewModel.updateState(
-                viewModel.state.copy(
-                    deviceList = pairedList
+        } else {
+            isPermission = true
+        }
+        if (isPermission) {
+            if (mBluetoothAdapter.isDiscovering) {
+                mBluetoothAdapter.cancelDiscovery()
+                Log.d(ContentValues.TAG, "Discovery: cancelling discover.")
+            }
+            mBluetoothAdapter.startDiscovery()
+            val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            requireContext().registerReceiver(receiver, filter)
+
+            mPairedDevices = mBluetoothAdapter.bondedDevices
+            if (mPairedDevices.isNotEmpty()) {
+                val pairedList = mPairedDevices.map {
+                    PrinterDevice(it.name, it.address)
+                }
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        deviceList = pairedList
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -151,7 +163,7 @@ class ListPrinterFragment(
                 if (device != null && device.bondState != BluetoothDevice.BOND_BONDED){
                     if (device.address != null) {
                         if(viewModel.state.deviceList.firstOrNull { it.address == device.address } == null) {
-                            Toast.makeText(requireActivity(), "Found printer ${device.name} ${device.address}", Toast.LENGTH_LONG).show()
+//                            Toast.makeText(requireActivity(), "Found printer ${device.name} ${device.address}", Toast.LENGTH_LONG).show()
                         }
                         viewModel.addDiscoverPrint(device.name, device.address)
                     }

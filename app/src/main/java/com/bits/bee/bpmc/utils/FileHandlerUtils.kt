@@ -29,7 +29,7 @@ class FileHandlerUtils {
         }
 
         private fun isFileExist(path: String): Boolean{
-            val file: File = File(path)
+            val file = File(path)
             return file.exists()
         }
 

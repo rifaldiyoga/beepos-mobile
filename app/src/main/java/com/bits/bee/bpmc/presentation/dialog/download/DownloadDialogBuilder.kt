@@ -8,12 +8,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogDownloadBinding
 import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,11 +31,9 @@ class DownloadDialogBuilder(
     private val viewModel : DownloadViewModel by viewModels()
 
     override fun initComponents() {
-        isCancelable = isCancel
+        isCancelable = false
         binding.apply {
-
             tvBatal.isVisible = isCancel
-
         }
     }
 
@@ -77,15 +75,7 @@ class DownloadDialogBuilder(
                             dialog.show(parentFragmentManager, TAG)
                         }
                         is DownloadViewModel.UIEvent.ShowError -> {
-                            val dialog = DialogBuilderHelper.showDialogYesNo(
-                                requireActivity(),
-                                "Download Gagal",
-                                it.msg,
-                                {
-                                    it.dismiss()
-                                    viewModel.downloadAll()
-                                },
-                            )
+                            val dialog = ErrorDialogBuilder(it.msg,)
                             dialog.show(parentFragmentManager, TAG)
                         }
                     }

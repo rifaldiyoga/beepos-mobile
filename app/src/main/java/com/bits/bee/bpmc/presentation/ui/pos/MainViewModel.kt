@@ -200,8 +200,8 @@ class MainViewModel @Inject constructor(
         eventChannel.send(UIEvent.NavigateToDraft)
     }
 
-    fun onClickDiskonNota() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToDiskonNota)
+    fun onClickDiskonNota(tipe : String) = viewModelScope.launch {
+        eventChannel.send(UIEvent.NavigateToDiskonNota(tipe))
     }
 
     fun onClickSearch() = viewModelScope.launch {
@@ -377,6 +377,11 @@ class MainViewModel @Inject constructor(
         return trxNo
     }
 
+    fun resetDiscMaster() = viewModelScope.launch {
+        saleTrans.resetDiscMaster()
+        deployData()
+    }
+
     fun resetState() {
         saleTrans.newTrans()
         resetTransaction()
@@ -534,7 +539,7 @@ class MainViewModel @Inject constructor(
         object RequestSalesman : UIEvent()
         object RequestChannel: UIEvent()
         object NavigateToDraft : UIEvent()
-        object NavigateToDiskonNota : UIEvent()
+        data class NavigateToDiskonNota(val tipe : String) : UIEvent()
         object NavigateToPromo : UIEvent()
         object NavigateToSearch : UIEvent()
     }

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.domain.usecase.download
 
 import com.bits.bee.bpmc.domain.usecase.common.GetLatestCityUseCase
+import com.bits.bee.bpmc.domain.usecase.common.PostMonitCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_cabang.GetLatestBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
 import javax.inject.Inject
@@ -44,5 +45,7 @@ data class DownloadInteractor @Inject constructor(
     val getLatestRegUseCase: GetLatestRegUseCase,
     val getLatestUsrGrpUseCase: GetLatestUsrGrpUseCase,
     val getLatestGrpPrvUseCase: GetLatestGrpPrvUseCase,
-    val getLatestKitchenUseCase: GetLatestKitchenUseCase
+    val getLatestKitchenUseCase: GetLatestKitchenUseCase,
+    val getLatestImageItemUseCase: GetLatestImageItemUseCase,
+    val postMonitCashierUseCase: PostMonitCashierUseCase
 )

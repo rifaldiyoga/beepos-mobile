@@ -1,10 +1,12 @@
 package com.bits.bee.bpmc.data.data_source.remote.apiservices
 
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
+import com.bits.bee.bpmc.data.data_source.remote.model.MonitCashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.utils.ApiResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -24,4 +26,7 @@ interface CashierApiService {
 
     @POST("/api/v1/detachcashier")
     fun postDetachCashier(@Body cashierPost: CashierPost): Flow<ApiResponse<CashierStatusResponse>>
+
+    @POST("/api/v1/monitcashier")
+    fun postMonitCashier(@Body monitCashierPost: MonitCashierPost): Flow<ApiResponse<ResponseBody>>
 }

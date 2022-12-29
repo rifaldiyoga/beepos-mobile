@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.ItemInvoiceAddonBinding
 import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import java.math.BigDecimal
 
 /**
@@ -31,7 +32,7 @@ class InvoiceAddOnAdapter(private val qty : BigDecimal) : ListAdapter<Saled, Rec
         fun bind(model : Saled){
             binding.apply {
                 val qty = model.qty / qty
-                tvAddon.text = if(qty > BigDecimal.ONE) "$qty ${model.name}" else model.name
+                tvAddon.text = if(qty > BigDecimal.ONE) "${CurrencyUtils.formatCurrency(qty)} ${model.name}" else model.name
             }
         }
     }
@@ -44,6 +45,6 @@ class InvoiceAddOnAdapter(private val qty : BigDecimal) : ListAdapter<Saled, Rec
         override fun areContentsTheSame(oldItem: Saled, newItem: Saled): Boolean {
             return oldItem == newItem
         }
-
     }
+
 }

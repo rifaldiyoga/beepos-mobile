@@ -78,6 +78,9 @@ class AturModalDialogBuilder(
             llInfo.setOnClickListener {
                 viewModel.onInsight()
             }
+            imageView2.setOnClickListener {
+                dismiss()
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.bits.bee.bpmc.presentation.ui.detail_salesman
+package com.bits.bee.bpmc.presentation.dialog.detail_salesman
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Bp

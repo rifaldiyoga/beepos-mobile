@@ -2,8 +2,10 @@ package com.bits.bee.bpmc.presentation.ui.pos
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -22,11 +24,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ActivityMainBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
+import com.bits.bee.bpmc.presentation.dialog.diskon_nota.DiskonNotaDialog
 import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.facebook.stetho.Stetho
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -75,6 +79,24 @@ class MainActivity(
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
 
             navController.addOnDestinationChangedListener { _, _, _ ->
+
+            }
+        }
+    }
+
+
+    override fun subscribeListeners() {
+        binding.apply {
+            clChannel.setOnClickListener {
+                viewModel.onClickChannel()
+            }
+            clMember.setOnClickListener {
+                viewModel.onClickMember()
+            }
+            clSalesman.setOnClickListener {
+                viewModel.onClickSalesman()
+            }
+            navController.addOnDestinationChangedListener { _, destination, _ ->
                 if(navController.currentDestination?.id != R.id.transaksiBerhasilFragment) {
                     toolbar.setNavigationIcon(R.drawable.ic_back_white)
                 }else {
@@ -93,23 +115,6 @@ class MainActivity(
                         onBackPressed()
                     }
                 }
-            }
-        }
-    }
-
-
-    override fun subscribeListeners() {
-        binding.apply {
-            clChannel.setOnClickListener {
-                viewModel.onClickChannel()
-            }
-            clMember.setOnClickListener {
-                viewModel.onClickMember()
-            }
-            clSalesman.setOnClickListener {
-                viewModel.onClickSalesman()
-            }
-            navController.addOnDestinationChangedListener { _, destination, _ ->
                 setVisibilityToolbar(destination.id, navController.previousBackStackEntry?.destination?.id)
                 setBackgroundToolbar(destination.id)
             }
@@ -181,8 +186,9 @@ class MainActivity(
                         )
                         dialog.show(supportFragmentManager, TAG)
                     }
-                    MainViewModel.UIEvent.NavigateToDiskonNota -> {
-                        navController.navigate(R.id.diskonNotaDialog)
+                    is MainViewModel.UIEvent.NavigateToDiskonNota -> {
+                        val dialog = DiskonNotaDialog(it.tipe)
+                        dialog.show(supportFragmentManager, "")
                     }
                     MainViewModel.UIEvent.NavigateToDraft -> {
                         navController.navigateUp()

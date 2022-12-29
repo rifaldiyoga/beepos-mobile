@@ -1,11 +1,13 @@
 package com.bits.bee.bpmc.domain.repository
 
 import com.bits.bee.bpmc.data.data_source.remote.model.CashierPost
+import com.bits.bee.bpmc.data.data_source.remote.model.MonitCashierPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierReturn
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.domain.model.Cashier
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
+import okhttp3.ResponseBody
 
 /**
  * Created by aldi on 17/03/22.
@@ -27,5 +29,6 @@ interface CashierRepository {
 
     fun detachCashier(cashierPost: CashierPost): Flow<Resource<CashierStatusResponse>>
 
+    fun postMonitCashier(monitCashierPost: MonitCashierPost) : Flow<Resource<ResponseBody>>
 
 }

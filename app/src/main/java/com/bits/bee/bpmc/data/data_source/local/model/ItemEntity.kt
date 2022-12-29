@@ -66,6 +66,12 @@ data class ItemEntity(
     var vColor : String? = "",
     @ColumnInfo(name = BARCODE)
     var barCode : String? = "",
+    @ColumnInfo(name = BUCKET)
+    var bucket : String? = "",
+    @ColumnInfo(name = OBJKEY)
+    var objKey : String? = "",
+    @ColumnInfo(name = TEMPURL)
+    var tempUrl : String? = "",
 ) {
     companion object {
         const val TBL_NAME = "item"

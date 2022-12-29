@@ -170,6 +170,9 @@
         <action
             android:id="@+id/action_detailTransaksiPenjualanFragment_to_hapusTransaksiDialog"
             app:destination="@id/hapusTransaksiDialog" />
+        <action
+            android:id="@+id/action_detailTransaksiPenjualanFragment_to_hakAksesFragment2"
+            app:destination="@id/hakAksesFragment2" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_rekap_sesi"

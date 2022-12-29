@@ -1,7 +1,15 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_db
 
+import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.*
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +47,22 @@ class PilihDbFragment constructor(
 
     private lateinit var dialog : LoadingDialogHelper
 
+    private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ data ->
+        data.forEach {
+            if(!it.value){
+//                Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+//                try {
+//                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                    val uri = Uri.fromParts("package", "com.bits.bee.bpmc", null)
+//                    intent.data = uri
+//                    startActivity(intent)
+//                }catch (e : ActivityNotFoundException){
+//                    e.printStackTrace()
+//                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,6 +90,12 @@ class PilihDbFragment constructor(
                     viewModel.onSuccessDb()
             }
         }
+        val permission = mutableListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            permission.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE, )
+            permission.add(Manifest.permission.ACCESS_MEDIA_LOCATION)
+        }
+        requestPermissionCamera.launch(permission.toTypedArray())
     }
 
     override fun subscribeListeners() {

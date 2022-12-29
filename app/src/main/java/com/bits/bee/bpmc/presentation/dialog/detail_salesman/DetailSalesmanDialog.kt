@@ -1,17 +1,20 @@
-package com.bits.bee.bpmc.presentation.ui.detail_salesman
+package com.bits.bee.bpmc.presentation.dialog.detail_salesman
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.bits.bee.bpmc.databinding.FragmentDetailSalesmanBinding
+import com.bits.bee.bpmc.databinding.DialogDetailSalesmanBinding
 import com.bits.bee.bpmc.domain.model.Srep
-import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog
+import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,11 +23,16 @@ import kotlinx.coroutines.launch
  * Created by aldi on 22/04/22.
  */
 @AndroidEntryPoint
-class DetailSalesmanFragment(
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailSalesmanBinding = FragmentDetailSalesmanBinding::inflate
-) : BaseFragment<FragmentDetailSalesmanBinding>() {
+class DetailSalesmanDialog(
+    private val srep : Srep,
+    private val onSubmit : (Dialog) -> Unit,
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogDetailSalesmanBinding = DialogDetailSalesmanBinding::inflate
+) : BaseBottomSheetDialogFragment<DialogDetailSalesmanBinding>() {
 
     private val viewModel : DetailSalesmanViewModel by viewModels()
+
+    private val mainViewModel : MainViewModel by activityViewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,11 +40,7 @@ class DetailSalesmanFragment(
         arguments?.let {
             val bp = it.getParcelable<Srep>("srep")
             bp?.let {
-                viewModel.updateState(
-                    viewModel.state.copy(
-                        srep = it
-                    )
-                )
+
             }
         }
     }
@@ -47,7 +51,15 @@ class DetailSalesmanFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-
+            imgViewClose.setOnClickListener {
+                dismiss()
+            }
+            buttonClosed.setOnClickListener {
+                mainViewModel.updateActiveSrep(srep)
+                dialog?.let {
+                    onSubmit(it)
+                }
+            }
         }
     }
 
@@ -69,7 +81,7 @@ class DetailSalesmanFragment(
                 viewModel.viewStates().collect {
                     binding.apply {
                         it?.let {
-                            it.srep?.let { bp ->
+                            srep.let { bp ->
                                 tvSalesman.text = bp.name
                                 tvNoTelp.text = bp.phone ?: "-"
                                 tvAlamat.text = bp.address ?: "-"

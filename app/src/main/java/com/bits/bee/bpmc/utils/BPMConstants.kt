@@ -10,6 +10,8 @@ import java.math.RoundingMode
  */
 interface BPMConstants {
     companion object {
+        const val AWS_KEY = "DZA3URDW4JHRENEH2D5V"
+        const val AWS_SECRET = "c2i6w3QR5/nHq2yIkuHDssBKBOtgci/eNsAi+5jUzdI"
         const val BPM_DEFAULT_TYPE_POSSES = "POSSES"
         const val BPM_DEFAULT_TYPE_SALE = "SALE"
         const val BPM_DEFAULT_TYPE_CASH = "CASH"

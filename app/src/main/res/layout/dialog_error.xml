@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size18"
+    android:background="@drawable/bg_rounded_top_background_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:padding="@dimen/size8"
+        android:id="@+id/imag_close"
+        android:layout_width="@dimen/size36"
+        android:layout_height="@dimen/size36"
+        android:src="@drawable/ic_close_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageView28"
+        android:layout_width="@dimen/size130"
+        android:layout_marginTop="@dimen/size24"
+        android:layout_height="@dimen/size100"
+        android:src="@drawable/image_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imag_close" />
+
+    <TextView
+        android:id="@+id/textView11"
+        style="@style/TextHeader"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size24"
+        android:text="Ups! Terjadi Kesalahan"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView28" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size4"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:text="Maaf, saat ini kami belum bisa memproses permintaan anda. Mohon coba lagi atau hubungi kami jika masalah ini terus berlanjut."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+
+    <ScrollView
+        android:id="@+id/llInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/size60"
+        android:background="@drawable/bg_rect_light_gray"
+        android:padding="@dimen/size12"
+        app:layout_constrainedHeight="true"
+        android:layout_marginTop="@dimen/size24"
+        app:layout_constraintHeight_max="@dimen/size250"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:maxHeight="@dimen/size100"
+        android:fillViewport="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvErrorDetail"
+                android:layout_width="match_parent"
+                android:textColor="@color/dark_gray"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font12"
+                android:text="@string/bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini" />
+
+            <TextView
+                android:id="@+id/tvShowDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:textSize="@dimen/font12"
+                android:textColor="?colorPrimary"
+                android:text="Lihat Detail"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <Button
+        android:id="@+id/btnTutup"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_rect_secondary"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/size24"
+        android:text="@string/tutup"
+        android:textColor="?colorPrimary"
+        android:layout_marginEnd="@dimen/size8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnHubungi"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llInfo"
+        app:layout_goneMarginEnd="@dimen/size16" />
+
+    <Button
+        android:id="@+id/btnHubungi"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size8"
+        android:background="@drawable/btn_rect_primary"
+        android:gravity="center"
+        android:text="@string/hubungi_kami"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnTutup"
+        app:layout_constraintTop_toTopOf="@+id/btnTutup">
+
+
+    </Button>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

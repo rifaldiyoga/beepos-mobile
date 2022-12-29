@@ -9,14 +9,14 @@ import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.DetachResponse
 import com.bits.bee.bpmc.domain.model.License
 import com.bits.bee.bpmc.domain.model.Posses
-import com.bits.bee.bpmc.domain.model.Sync
+import com.bits.bee.bpmc.domain.repository.SyncRepository
 import com.bits.bee.bpmc.domain.usecase.analisa_sesi.GetActivePossesListUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveLicenseUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.help.DetachLicenseUseCase
-import com.bits.bee.bpmc.domain.usecase.setting.help.GetHaventUploadedManualSyncUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class SettingLisensiViewModel @Inject constructor(
     private val getActiveLicenseUseCase: GetActiveLicenseUseCase,
     private val getActivePossesListUseCase: GetActivePossesListUseCase,
-    private val getHaventUploadedManualSyncUseCase: GetHaventUploadedManualSyncUseCase,
+    private val syncRepository: SyncRepository,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val detachCashierUseCase: DetachCashierUseCase,
     private val detachLicenseUseCase: DetachLicenseUseCase,
@@ -37,7 +37,6 @@ class SettingLisensiViewModel @Inject constructor(
 ): BaseViewModel<SettingLisensiState, SettingLisensiViewModel.UIEvent>() {
 
     private var mPossesList: List<Posses> = mutableListOf()
-    private var mSyncList: List<Sync>? = null
 
     init {
         state = SettingLisensiState()
@@ -80,16 +79,13 @@ class SettingLisensiViewModel @Inject constructor(
             return@launch
         }
 
-        getHaventUploadedManualSyncUseCase.invoke(40, 0).collect {
-            it.data?.let {
-                mSyncList = it
-            }
-        }
-        if (mSyncList!!.isNotEmpty()){
+        val list = syncRepository.getManualSyncLandscape(BPMConstants.BPM_MAX_PAGINATION, 0).first()
+
+        if (list.isNotEmpty()){
             eventChannel.send(UIEvent.RequestSyncData)
         }
 
-        if (mPossesList.isEmpty() && mSyncList!!.isEmpty()){
+        if (mPossesList.isEmpty() && list.isEmpty()){
             if (ConnectionUtils.isInternetAvailable()){
                 deactiveStatusCashier()
             }
