@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.SpinnerAdapter
+import com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk.TambahProdukViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -32,6 +34,7 @@ class TambahKategoriFragment(
 ): BaseFragment<FragmentTambahKategoriBinding>() {
 
     private val viewModel: TambahUbahKategoriViewModel by viewModels()
+    private val shareViewmodel: TambahProdukViewModel by activityViewModels()
 
     override fun initComponents() {
         setHasOptionsMenu(true)
@@ -117,6 +120,11 @@ class TambahKategoriFragment(
                                 }
                                 .setNegativeCallback {
                                     requireActivity().actionBar?.displayOptions
+                                    shareViewmodel.updateState(
+                                        shareViewmodel.state.copy(
+                                            itemGrp = null
+                                        )
+                                    )
                                     viewModel.onDeleteKategori()
                                 }.build()
                             dialog.show(parentFragmentManager, TAG)
@@ -160,25 +168,6 @@ class TambahKategoriFragment(
                                     }
 
                                 })
-                                data.upId?.let {
-                                    viewModel.updateState(
-                                        viewModel.state.copy(
-                                            useSubKategori = true
-                                        )
-                                    )
-                                    cbSubKategori.isChecked = true
-                                    lLKategori.visibility = View.VISIBLE
-
-                                    state.katPrdList?.let { data ->
-                                        if (viewModel.state.useSubKategori){
-                                            viewModel.parseItemgrp(data)
-                                        }
-                                        state.kategoriList?.let {
-                                            val subAdapter = SpinnerAdapter(requireContext(), it)
-                                            spKategoriPrd.adapter = subAdapter
-                                        }
-                                    }
-                                }
 
                             }
                             tilNama.error = it.msgNama
@@ -212,6 +201,15 @@ class TambahKategoriFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
+                            it.katPrdList?.let { data ->
+                                if (viewModel.state.useSubKategori){
+                                    viewModel.parseItemgrp(data)
+                                }
+                                it.kategoriList?.let {
+                                    val subAdapter = SpinnerAdapter(requireContext(), it)
+                                    spKategoriPrd.adapter = subAdapter
+                                }
+                            }
                         }
                     }
                 }
