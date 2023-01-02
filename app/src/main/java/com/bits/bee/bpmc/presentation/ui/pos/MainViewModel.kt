@@ -305,12 +305,12 @@ class MainViewModel @Inject constructor(
         }
         saled?.let {
             if(it.qty > BigDecimal.ONE) {
-                onEditDetail(it.copy(qty = it.qty.subtract(BigDecimal.ONE)))
+                it.qty = it.qty.subtract(BigDecimal.ONE)
+                onEditDetail(it)
             } else {
                 onDeleteDetail(saled)
             }
         }
-
     }
 
     fun onDeleteDetail(saled: Saled) = viewModelScope.launch(exceptionHandler) {

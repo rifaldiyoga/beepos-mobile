@@ -23,31 +23,40 @@ abstract class NetworkDatabaseBoundResource<ResultType, RequestType> @MainThread
     private val result : Flow<Resource<ResultType>> = channelFlow {
         send(Resource.loading())
 
-        when(val apiResponse = createCall().first()){
-            is ApiErrorResponse -> {
-                send(Resource.error(null, apiResponse.errorMessage, apiResponse.code))
-            }
-            is ApiSuccessResponse -> {
-                withContext(Dispatchers.IO){
-                    val a = processResponse(apiResponse)
-                    saveCallResult(a)
-                    val data = loadFormDB()
-                    data?.let {
-                        send(Resource.success(it))
+        if(shouldFetch(null)) {
+            when (val apiResponse = createCall().first()) {
+                is ApiErrorResponse -> {
+                    send(Resource.error(null, apiResponse.errorMessage, apiResponse.code))
+                }
+                is ApiSuccessResponse -> {
+                    withContext(Dispatchers.IO) {
+                        val a = processResponse(apiResponse)
+                        saveCallResult(a)
+                        val data = loadFormDB()
+                        data?.let {
+                            send(Resource.success(it))
+                        }
                     }
                 }
-            }
-            is ApiTimeoutResponse -> {
-                send(Resource.timeout(null, apiResponse.errorMessage))
-            }
-            is ApiUnAuthorizedResponse -> {
-                send(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
-            }
-            is ApiEmptyResponse -> {
+                is ApiTimeoutResponse -> {
+                    send(Resource.timeout(null, apiResponse.errorMessage))
+                }
+                is ApiUnAuthorizedResponse -> {
+                    send(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
+                }
+                is ApiEmptyResponse -> {
 
+                }
+                is ApiNoNetworkResponse -> {
+                    send(Resource.noInternet(null, apiResponse.errorMessage, 400))
+                }
             }
-            is ApiNoNetworkResponse -> {
-                send(Resource.noInternet(null, apiResponse.errorMessage, 400))
+        } else {
+            withContext(Dispatchers.IO) {
+                val data = loadFormDB()
+                data?.let {
+                    send(Resource.success(it))
+                }
             }
         }
     }

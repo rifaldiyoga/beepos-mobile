@@ -6,93 +6,49 @@
     android:id="@+id/clContent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/lL_cek_stok"
-        android:weightSum="5"
-        android:layout_marginBottom="5dp"
+
+    <TextView
+        android:id="@+id/tv_item"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/size16"
-        android:paddingBottom="@dimen/size16"
-        tools:ignore="MissingConstraints">
+        android:layout_margin="@dimen/size16"
+        android:gravity="center"
+        android:text="@string/cash"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <LinearLayout
-            android:id="@+id/lL_content_tipeTrans"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3.5"
-            android:orientation="vertical"
-            android:weightSum="5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_list_rvContent_LlDec"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="3.5"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
-            app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/tv_porsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:text="@string/analisa"
+        android:layout_margin="@dimen/size16"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/dark_gray"
+        android:textSize="@dimen/font12"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                style="@style/TextHeader"
-                android:text="@string/cash"
-                android:textSize="@dimen/size12" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lL_content_member"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:orientation="vertical"
-            android:weightSum="5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_list_rvContent_LlDec"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1.5"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/size5"
-                android:layout_weight="5.5"
-                android:orientation="vertical"
-                android:weightSum="3">
-
-                <TextView
-                    android:id="@+id/tv_porsi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center_vertical"
-                    android:text="@string/analisa"
-                    android:textSize="@dimen/size12" />
-
-                <TextView
-                    android:id="@+id/tv_harga"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:singleLine="false"
-                    android:text="@string/budiman"
-                    style="@style/TextHeader"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size14"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_harga"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:singleLine="false"
+        android:text="@string/budiman"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/size16"
+        android:layout_marginEnd="@dimen/size16"
+        android:layout_marginTop="@dimen/size4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_porsi" />
 
     <View
         android:layout_width="@dimen/size0"
@@ -100,6 +56,5 @@
         android:background="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,9 +49,11 @@ class PosFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_pos, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
+            menu.clear()
+            inflater.inflate(R.menu.menu_pos, menu)
+            super.onCreateOptionsMenu(menu, inflater)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -162,14 +164,15 @@ class PosFragment(
                                     binding.llNext!!.isVisible = state.saledList.isNotEmpty()
                                 }
                             }
+                            if(it.sale.total < BigDecimal.ZERO){
+                                val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), "Informasi", "Subtotal tidak boleh minus, transaksi akan langsung direset!", positiveListener = {
+                                    mainViewModel.resetDiscMaster()
+                                    it.dismiss()
+                                })
+                                dialog.show(parentFragmentManager, "")
+                            }
                         }
-                        if(it.sale.total < BigDecimal.ZERO){
-                            val dialog = DialogBuilderHelper.showDialogInfo(requireActivity(), "Informasi", "Subtotal tidak boleh minus, transaksi akan langsung direset!", positiveListener = {
-                                mainViewModel.resetDiscMaster()
-                                it.dismiss()
-                            })
-                            dialog.show(parentFragmentManager, "")
-                        }
+
                     }
                 }
             }

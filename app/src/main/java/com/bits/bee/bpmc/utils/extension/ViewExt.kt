@@ -104,8 +104,10 @@ fun SearchView.setSearchViewStyle(context: Context, colorInt: Int) {
     imageIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_search))
     imageIcon.setColorFilter(ContextCompat.getColor(context, colorInt))
     home.setColorFilter(ContextCompat.getColor(context, colorInt))
-    imageClose.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_close))
-    imageClose.setColorFilter(ContextCompat.getColor(context, colorInt))
+    if(colorInt != R.color.black) {
+        imageClose.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_close))
+        imageClose.setColorFilter(ContextCompat.getColor(context, colorInt))
+    }
     editText.setTextColor(ContextCompat.getColor(context, colorInt))
     editText.setHintTextColor(ContextCompat.getColor(context, colorInt))
 }

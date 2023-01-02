@@ -110,7 +110,7 @@ class ListPrinterFragment(
         requireContext().registerReceiver(receiver2, intentFilter)
         checkBTPermission()
         var isPermission = false
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
             if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.BLUETOOTH_SCAN)
                 && PermissionUtils.checkPermissionIsGranted(requireActivity(),  Manifest.permission.BLUETOOTH_CONNECT)) {
                 isPermission = true
@@ -138,6 +138,8 @@ class ListPrinterFragment(
                     )
                 )
             }
+        } else {
+            Toast.makeText(requireActivity(), "Permission belum aktif", Toast.LENGTH_LONG).show()
         }
     }
 

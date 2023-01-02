@@ -11,6 +11,12 @@ import com.bits.bee.bpmc.data.data_source.local.model.StockEntity
 @Dao
 interface StockDao : BaseDao<StockEntity> {
 
+    @Query("SELECT * FROM stock GROUP BY item_id")
+    fun read() : List<StockEntity>
+
+    @Query("DELETE FROM stock")
+    suspend fun deleteAll()
+
     @Query("SELECT * FROM stock WHERE item_id = :itemId AND wh_id = :whId")
     fun getStockByItemAndWh(itemId : Int, whId : Int) : List<StockEntity>
 

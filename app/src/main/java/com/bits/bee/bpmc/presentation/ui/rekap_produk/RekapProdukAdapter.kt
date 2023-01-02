@@ -49,7 +49,6 @@ class RekapProdukAdapter(
 //                }
             }
         }
-
     }
 
     class Diffcallback : DiffUtil.ItemCallback<RekapProduk>(){

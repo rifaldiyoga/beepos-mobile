@@ -13,7 +13,6 @@ import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.FileHandlerUtils
 import com.bits.bee.bpmc.utils.ImageUtils
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -110,16 +109,29 @@ open class ItemPosAdapter constructor(
                             item.name1
                         )
                     )
+
+                    llTransparent?.isVisible = false
+
+                    tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+                    tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.black))
                 } else {
-                    if(!item.tempUrl.isNullOrEmpty())
-                        Picasso.get().load(File(BPMConstants.getDatapath()+BPMConstants.BPM_PRODUKPATH + "/" , item.tempUrl!!)).into(imageItem)
-                    else
+                    if(!item.tempUrl.isNullOrEmpty()) {
+                        Picasso.get().load(File(BPMConstants.getDatapath() + BPMConstants.BPM_PRODUKPATH + "/", item.tempUrl!!)).into(imageItem)
+                        llTransparent?.isVisible = true
+                        tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.white))
+                        tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.white))
+                    } else {
                         imageItem.setImageDrawable(
                             ImageUtils.generateFromInitial(
                                 binding.root.context,
                                 item.name1
                             )
                         )
+                        llTransparent?.isVisible = false
+
+                        tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+                        tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+                    }
                 }
 
                 cdContent.setOnClickListener {

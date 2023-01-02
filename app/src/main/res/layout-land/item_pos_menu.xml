@@ -69,6 +69,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+
+            <LinearLayout
+                android:id="@+id/llTransparent"
+                android:layout_width="@dimen/size0"
+                android:layout_height="@dimen/size0"
+                android:background="@color/black_transparent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
             <TextView
                 android:id="@+id/tvNamaItem"
                 style="@style/TextHeader"
@@ -93,7 +106,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tvNamaItem"
                 app:layout_constraintStart_toStartOf="@+id/tvNamaItem" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

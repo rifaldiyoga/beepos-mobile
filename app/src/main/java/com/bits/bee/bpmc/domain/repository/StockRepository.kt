@@ -11,11 +11,9 @@ import kotlinx.coroutines.flow.Flow
  */
 interface StockRepository {
 
-    fun getStockByItem(item: Item,
-                       wh: Wh
-    ) : Flow<Resource<List<Stock>>>
+    fun getStockByItem(item: Item, wh: Wh) : Flow<Resource<List<Stock>>>
 
-    fun getItemStock(wh_id: Int): Flow<Resource<List<Stock>>>
+    fun getItemStock(wh_id: Int, query : String, sortDesc : Boolean): Flow<Resource<List<Stock>>>
 
     fun getPidByItem(id: Int): Flow<List<Stock>>
 

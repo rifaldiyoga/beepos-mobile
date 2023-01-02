@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 15/07/22.
@@ -17,4 +18,7 @@ data class Stock(
     var qty: String = "",
     var qtyx: String = "",
     var active: Boolean = false,
+    var itemName : String = "",
+    var harga : BigDecimal = BigDecimal.ZERO,
+    var symbol : String = "",
 ) : Parcelable

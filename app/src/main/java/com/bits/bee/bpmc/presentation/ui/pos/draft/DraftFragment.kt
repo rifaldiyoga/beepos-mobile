@@ -49,7 +49,7 @@ class DraftFragment(
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
         searchView.setSearchViewStyle(requireActivity(), R.color.black)
-        MenuItemCompat.setIconTintList(searchItem, ColorStateList.valueOf(ContextCompat.getColor(requireActivity(), R.color.black)))
+//        MenuItemCompat.setIconTintList(searchItem, ColorStateList.valueOf(ContextCompat.getColor(requireActivity(), R.color.black)))
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true

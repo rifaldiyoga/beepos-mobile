@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.dialog.diskon_nota
 
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class DiskonNotaDialog(
     private var tipe : String,
+    private val onDismis : () -> Unit,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogDiskonNotaBinding = DialogDiskonNotaBinding::inflate
 ) : BaseBottomSheetDialogFragment<DialogDiskonNotaBinding>() {
 
@@ -123,6 +125,11 @@ class DiskonNotaDialog(
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onDismis()
     }
 
 }

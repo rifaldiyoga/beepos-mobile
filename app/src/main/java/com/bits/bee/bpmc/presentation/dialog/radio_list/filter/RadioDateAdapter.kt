@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.dialog.radio_list.filter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,9 @@ import com.bits.bee.bpmc.databinding.ItemRadioButtonBinding
 import com.bits.bee.bpmc.databinding.ItemRadioDatepickerBinding
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
+import java.util.*
 
 class RadioDateAdapter(
     private val childFragmentManager: FragmentManager,
@@ -24,6 +27,7 @@ class RadioDateAdapter(
 
     private var getDateString: String? = null
     private var isCustom: Boolean = false
+    private var isDateShow : Boolean = false
 
     fun getSelectedPosition() : Int = selectedPosition
 
@@ -42,6 +46,7 @@ class RadioDateAdapter(
         return ViewHolderTwo(ItemRadioDatepickerBinding.inflate(inflater, parent, false))
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (!stringList[position].contains("Custom")){
             val holderOne: ViewHolderOne = holder as ViewHolderOne
@@ -69,35 +74,59 @@ class RadioDateAdapter(
                 if (materialRadioButton.isChecked){
                     etPilihTgl.visibility = View.VISIBLE
                     if (custom){
-                        etPilihTgl.setText("${mStartDate?.let {
-                            DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT,
-                                it
-                            )
-                        }} - " +
-                                "${mEndDate?.let {
-                                    DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT,
-                                        it
-                                    )
-                                }}")
+                        etPilihTgl.setText("${mStartDate?.let { DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, it) }} - " + "${mEndDate?.let { DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, it) }}")
                     }
                 }else{
                     etPilihTgl.visibility = View.GONE
                 }
 
-                etPilihTgl.setOnClickListener {
-                    val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
-                    datePicker.show(childFragmentManager, "")
+                etPilihTgl.setOnTouchListener { _, _ ->
+                    if(!isDateShow) {
+                        isDateShow = true
+                        val today = MaterialDatePicker.todayInUtcMilliseconds()
+                        val calendar = Calendar.getInstance()
 
-                    datePicker.addOnPositiveButtonClickListener { dateSelected ->
-                        val startDate = dateSelected.first
-                        val endDate = dateSelected.second
+                        calendar.timeInMillis = today
+                        calendar[Calendar.YEAR] = 2020
+                        val janThisYear = calendar.timeInMillis
 
-                        etPilihTgl.setText("${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, startDate)} - " +
-                                "${DateFormatUtils.convertLongToTime(BPMConstants.NEW_DATE_FORMAT, endDate)}")
-                        setTextDate(holderTwo.binding.etPilihTgl.text.toString())
-                        setIscustom(true)
+                        calendar.timeInMillis = today
+                        val decThisYear = calendar.timeInMillis
+
+                        val constraintsBuilder =
+                            CalendarConstraints.Builder()
+                                .setStart(janThisYear)
+                                .setEnd(decThisYear)
+
+                        val datePicker = MaterialDatePicker.Builder
+                            .dateRangePicker().setCalendarConstraints(constraintsBuilder.build())
+                            .build()
+
+                        datePicker.show(childFragmentManager, "")
+                        datePicker.addOnPositiveButtonClickListener { dateSelected ->
+                            val startDate = dateSelected.first
+                            val endDate = dateSelected.second
+
+                            etPilihTgl.setText(
+                                "${
+                                    DateFormatUtils.convertLongToTime(
+                                        BPMConstants.NEW_DATE_FORMAT,
+                                        startDate
+                                    )
+                                } - " +
+                                        DateFormatUtils.convertLongToTime(
+                                            BPMConstants.NEW_DATE_FORMAT,
+                                            endDate
+                                        )
+                            )
+                            setTextDate(holderTwo.binding.etPilihTgl.text.toString())
+                            setIscustom(true)
+                        }
+                        datePicker.addOnDismissListener {
+                            isDateShow = false
+                        }
                     }
-
+                    true
                 }
 
             }

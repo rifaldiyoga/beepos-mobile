@@ -36,7 +36,7 @@ class ItemRepositoryImpl @Inject constructor(
             }
 
             override fun shouldFetch(data: List<Item>?): Boolean {
-                return false
+                return true
             }
 
             override suspend fun createCall(): Flow<ApiResponse<ItemResponse>> {
@@ -57,7 +57,7 @@ class ItemRepositoryImpl @Inject constructor(
             }
 
             override fun shouldFetch(data: List<Item>?): Boolean {
-                return false
+                return true
             }
 
             override suspend fun createCall(): Flow<ApiResponse<ItemImageResponse>> {

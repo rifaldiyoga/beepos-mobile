@@ -401,8 +401,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideStockRepository(apiUtils: ApiUtils, saleCrcvDao: StockDao, dispatcher: CoroutineDispatcher): StockRepository {
-        return StockRepositoryImpl(apiUtils, saleCrcvDao, dispatcher)
+    fun provideStockRepository(apiUtils: ApiUtils, saleCrcvDao: StockDao, dispatcher: CoroutineDispatcher, itemDao: ItemDao, priceDao: PriceDao, crcDao: CrcDao): StockRepository {
+        return StockRepositoryImpl(apiUtils, saleCrcvDao, itemDao, priceDao, crcDao, dispatcher)
     }
 
     @Provides

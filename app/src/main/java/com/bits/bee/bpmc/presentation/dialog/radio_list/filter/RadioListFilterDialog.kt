@@ -26,7 +26,7 @@ class RadioListFilterDialog(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = title
-            radioDateAdapter = RadioDateAdapter(childFragmentManager ,requireContext(), stringList, filterDate.selectedPos, filterDate.startDate, filterDate.endDate, filterDate.isCustom)
+            radioDateAdapter = RadioDateAdapter(parentFragmentManager ,requireContext(), stringList, filterDate.selectedPos, filterDate.startDate, filterDate.endDate, filterDate.isCustom)
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = radioDateAdapter
@@ -49,7 +49,7 @@ class RadioListFilterDialog(
             }
             tvReset.setOnClickListener {
                 radioDateAdapter = RadioDateAdapter(
-                    childFragmentManager,
+                    parentFragmentManager,
                     requireContext(),
                     stringList,
                     0,

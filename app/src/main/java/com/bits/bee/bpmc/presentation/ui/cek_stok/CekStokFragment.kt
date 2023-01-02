@@ -3,10 +3,12 @@ package com.bits.bee.bpmc.presentation.ui.cek_stok
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentCekStokBinding
@@ -15,8 +17,10 @@ import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -32,14 +36,15 @@ class CekStokFragment(
     private lateinit var cekStokAdapter: CekStokAdapter
     private lateinit var dialog : LoadingDialogHelper
     private var desc = false
-    private var mMenu: Menu? = null
+    private var menuSort: MenuItem? = null
 
     override fun initComponents() {
         setHasOptionsMenu(true)
         dialog = LoadingDialogHelper(requireContext())
-//        viewModel.loadStock()
-        cekStokAdapter = CekStokAdapter()
-
+        cekStokAdapter = CekStokAdapter {
+            val action = CekStokFragmentDirections.actionCekStokFragmentToCekStokDetailFragment(it)
+            findNavController().navigate(action)
+        }
         binding.apply {
             rvCekStok.apply {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -53,6 +58,54 @@ class CekStokFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.sortDesc.collectLatest {
+                menuSort?.let { menu ->
+                    if (it) {
+                        menu.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
+                    } else {
+                        menu.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_ascending)
+                    }
+                }
+
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.stockList.collectLatest {
+                when(it.status){
+                    Resource.Status.LOADING -> {
+                        binding.progressBar.isVisible = true
+                        binding.lLStockEmpty.isVisible = false
+                        binding.rvCekStok.isVisible = false
+                    }
+                    Resource.Status.SUCCESS -> {
+                        binding.progressBar.isVisible = false
+                        binding.rvCekStok.isVisible = true
+                        cekStokAdapter.submitList(it.data)
+                        binding.lLStockEmpty.isVisible = it.data?.isEmpty() == true
+
+                        if(it.data?.isEmpty() == true && viewModel.currentQuery.value.isEmpty()){
+                            binding.tvDesc.text = getString(R.string.cari_produknya_dulu)
+                        } else {
+                            binding.tvDesc.text = getString(R.string.cari_produk_not_found)
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        binding.progressBar.isVisible = false
+                        binding.lLStockEmpty.isVisible = true
+                        dialog.hide()
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        binding.progressBar.isVisible = false
+                        binding.lLStockEmpty.isVisible = true
+                        val dialog = NoInternetDialogBuilder({
+//                            viewModel.loadStock()
+                        })
+                        dialog.show(parentFragmentManager, "")
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
@@ -64,10 +117,7 @@ class CekStokFragment(
                             dialog.hide()
                         }
                         CekStokViewModel.UIEvent.NoInternetDialog -> {
-                            val dialog = NoInternetDialogBuilder({
-                                viewModel.loadStock()
-                            })
-                            dialog.show(parentFragmentManager, "")
+
                         }
                     }
                 }
@@ -81,12 +131,6 @@ class CekStokFragment(
                     binding.apply {
                         it?.let {
                             tvLastSync.text = "Menampilkan data stok pada "+DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, Date())
-//                            it.stockList?.let { stock ->
-//                                viewModel.initStock(stock)
-//                                it.itemsList?.let {
-//                                    cekStokAdapter.initLists(stock, viewModel.state.itemsList!!)
-//                                }
-//                            }
                         }
                     }
                 }
@@ -101,120 +145,28 @@ class CekStokFragment(
         val searchItem = menu.findItem(R.id.search_cek_stok)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Masukan minimal 3 huruf"
-
-        searchView.setOnSearchClickListener {
-
-        }
         searchView.setSearchViewStyle(requireActivity(), R.color.black)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                        viewModel.viewStates().collect{
-                            it?.let {
-                                if (query!!.length >=3 ){
-                                    viewModel.loadStock()
-                                    it.stockList?.let { stock ->
-                                        viewModel.initStock(stock)
-                                        it.itemsList?.let { listitem->
-                                            viewModel.filterStock(query.toString().trim())
-                                            it.itemListResult?.let {
-                                                binding.lLStockEmpty.visibility = View.GONE
-                                                cekStokAdapter.initLists(viewModel.state.stockList!!, it)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.viewStates().collect {
-                            it?.let {
-                                if (newText?.length == 0){
-                                    viewModel.resetStock()
-                                    binding.lLStockEmpty.visibility = View.VISIBLE
-//                                    viewModel.loadStock()
-//                                    it.stockList?.let { stock ->
-//                                        viewModel.initStock(stock)
-//                                        it.itemsList?.let { listitem->
-//                                            it.itemListResult?.let {
-//                                                cekStokAdapter.initLists(viewModel.state.stockList!!, it)
-//                                            }
-//                                        }
-//                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                viewModel.onQueryChange(newText ?: "")
                 return false
             }
-
         })
 
-//        OnClickSort(desc)
-        if (!desc) {
-            menu.getItem(1).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
-            desc = false
-        }
-        this.mMenu = menu
+        menuSort = menu.findItem(R.id.sort_cek_stok)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.search_cek_stok ->{
-
-            }
             R.id.sort_cek_stok ->{
-                if (desc){
-                    mMenu!!.getItem(1).icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
-                    desc = false
-                }else{
-                    mMenu!!.getItem(1).icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_ascending)
-                    desc = true
-                }
-
-                OnClickSort(desc)
+                viewModel.onSortDesc(viewModel.sortDesc.value)
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun onSearch(){
-
-    }
-
-    private fun OnClickSort(desc: Boolean) {
-
-        viewModel.updateState(
-            viewModel.state.copy(
-                stockList = null
-            )
-        )
-
-        viewModel.loadStock()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
-                    it?.let {
-                        it.stockList?.let { data ->
-                            viewModel.sort(desc, data)
-                            it.itemsList?.let {
-                                cekStokAdapter.initLists(data, viewModel.state.itemsList!!)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

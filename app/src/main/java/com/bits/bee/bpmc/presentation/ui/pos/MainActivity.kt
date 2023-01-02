@@ -2,10 +2,8 @@ package com.bits.bee.bpmc.presentation.ui.pos
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -30,9 +28,7 @@ import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.facebook.stetho.Stetho
-import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,6 +45,7 @@ class MainActivity(
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+    private var isDialogShow : Boolean = false
 
     @Inject
     lateinit var bluetoothConnectService: BluetoothConnectService
@@ -97,11 +94,7 @@ class MainActivity(
                 viewModel.onClickSalesman()
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                if(navController.currentDestination?.id != R.id.transaksiBerhasilFragment) {
-                    toolbar.setNavigationIcon(R.drawable.ic_back_white)
-                }else {
-                    toolbar.navigationIcon = null
-                }
+
                 if (navController.currentDestination?.id == R.id.posFragment || navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
                     toolbar.setNavigationOnClickListener {
                         if (navController.currentDestination?.id == R.id.posFragment)
@@ -117,6 +110,16 @@ class MainActivity(
                 }
                 setVisibilityToolbar(destination.id, navController.previousBackStackEntry?.destination?.id)
                 setBackgroundToolbar(destination.id)
+                if(navController.currentDestination?.id == R.id.transaksiBerhasilFragment || navController.currentDestination?.id == R.id.posFragment || navController.currentDestination?.id == R.id.draftListDialog) {
+                    toolbar.navigationIcon = null
+                }
+                if(navController.currentDestination?.id == R.id.cariItemFragment){
+                    toolbar.collapseIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_white)
+                } else if(navController.currentDestination?.id == R.id.draftFragment || navController.currentDestination?.id == R.id.memberFragment || navController.currentDestination?.id == R.id.salesmanFragment){
+                    toolbar.collapseIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_black)
+                } else {
+                    toolbar.collapseIcon = null
+                }
             }
         }
     }
@@ -171,7 +174,7 @@ class MainActivity(
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.event.collectLatest {
+            viewModel.event.collect {
                 when(it){
                     MainViewModel.UIEvent.RequestMember -> {
                         navController.navigateUp()
@@ -187,8 +190,14 @@ class MainActivity(
                         dialog.show(supportFragmentManager, TAG)
                     }
                     is MainViewModel.UIEvent.NavigateToDiskonNota -> {
-                        val dialog = DiskonNotaDialog(it.tipe)
-                        dialog.show(supportFragmentManager, "")
+                        if(!isDialogShow) {
+                            val dialog = DiskonNotaDialog(it.tipe, onDismis = {
+                                isDialogShow = false
+                            })
+
+                            dialog.show(supportFragmentManager, "")
+                            isDialogShow = true
+                        }
                     }
                     MainViewModel.UIEvent.NavigateToDraft -> {
                         navController.navigateUp()
@@ -271,7 +280,7 @@ class MainActivity(
                 )
             )
             binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
-            binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.black))
+            binding.toolbar.navigationIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_black)
             binding.toolbar.context.setTheme(R.style.MySearchViewStyleBlack)
         } else {
             supportActionBar?.setBackgroundDrawable(
@@ -280,7 +289,7 @@ class MainActivity(
                 )
             )
             binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
-            binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+            binding.toolbar.navigationIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_white)
             binding.toolbar.context.setTheme(R.style.MySearchViewStyleWhite)
         }
     }

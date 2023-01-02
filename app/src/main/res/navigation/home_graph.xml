@@ -126,7 +126,11 @@
         tools:layout="@layout/fragment_cek_stok"
         android:id="@+id/cekStokFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
-        android:label="@string/cek_stok" />
+        android:label="@string/cek_stok" >
+        <action
+            android:id="@+id/action_cekStokFragment_to_cekStokDetailFragment"
+            app:destination="@id/cekStokDetailFragment" />
+    </fragment>
 
     <dialog
         tools:layout="@layout/dialog_atur_modal_kasir"
@@ -268,6 +272,14 @@
         <argument
             android:name="item"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cekStokDetailFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cek_stok_detail.CekStokDetailFragment"
+        android:label="Detail Produk" >
+        <argument
+            android:name="stok"
+            app:argType="com.bits.bee.bpmc.domain.model.Stock" />
     </fragment>
 
 </navigation>

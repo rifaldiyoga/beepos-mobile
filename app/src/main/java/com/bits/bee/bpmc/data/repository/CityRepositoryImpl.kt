@@ -31,7 +31,7 @@ class CityRepositoryImpl @Inject constructor(
             }
 
             override fun shouldFetch(data: List<City>?): Boolean {
-                return cityDao.getCityList().isEmpty()
+                return true
             }
 
             override suspend fun createCall(): Flow<ApiResponse<CityResponse>> {

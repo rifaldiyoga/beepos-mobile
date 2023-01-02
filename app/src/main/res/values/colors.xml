@@ -8,6 +8,7 @@
     <color name="lite_green">#51BA87</color>
     <color name="soft_green">#EEF8F3</color>
     <color name="black">#1D1D1D</color>
+    <color name="black_transparent">#4E1D1D1D</color>
     <color name="dark_gray">#8D8D8D</color>
     <color name="green">#2ED270</color>
     <color name="gray">#CBCBCB</color>

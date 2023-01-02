@@ -51,4 +51,18 @@ object StockDataMapper : BaseMapper<StockEntity, Stock, StockResponse.StockModel
         )
     }
 
+    fun fromNetworkToDomain(model: StockResponse.StockModel): Stock {
+        return Stock(
+            null,
+            model.itemId,
+            model.whId,
+            model.itemCode,
+            model.whCode,
+            model.pid,
+            model.qty,
+            model.qtyx,
+            model.active,
+        )
+    }
+
 }

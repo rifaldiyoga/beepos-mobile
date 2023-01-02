@@ -73,12 +73,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="@dimen/size2"
-            android:layout_marginBottom="@dimen/size14"
             android:id="@+id/cl_list_printer"
-            android:padding="@dimen/size16"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_rekap_produk"
