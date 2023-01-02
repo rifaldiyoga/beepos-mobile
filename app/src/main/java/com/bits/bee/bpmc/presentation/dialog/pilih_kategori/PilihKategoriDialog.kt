@@ -33,15 +33,6 @@ class PilihKategoriDialog(
     override fun initComponents() {
         binding.apply {
             tvTitle.text = title
-            rbPilihKategoriAdapter = RbPilihKategoriAdapter(mListener = object : RbPilihKategoriAdapter.EditKategoriAdapterI{
-                override fun onClick(itemGrp: ItemGroup) {
-                    onEditClick(dialog!!, itemGrp)
-                }
-            })
-            recyclerView.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = rbPilihKategoriAdapter
-            }
         }
     }
 
@@ -69,8 +60,18 @@ class PilihKategoriDialog(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.grpList.collect {
-                    rbPilihKategoriAdapter.submitList(it)
                     binding.apply {
+                        rbPilihKategoriAdapter = RbPilihKategoriAdapter(it.indexOf(valueSelected), mListener = object : RbPilihKategoriAdapter.EditKategoriAdapterI{
+                            override fun onClick(itemGrp: ItemGroup) {
+                                onEditClick(dialog!!, itemGrp)
+                            }
+                        })
+                        recyclerView.apply {
+                            layoutManager = LinearLayoutManager(requireContext())
+                            adapter = rbPilihKategoriAdapter
+                        }
+                        rbPilihKategoriAdapter.submitList(it)
+
                         imgEmpty.isVisible = it.isEmpty()
                         textDetail.isVisible = it.isEmpty()
                         btnTambah.isVisible = it.isEmpty()
