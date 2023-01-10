@@ -26,5 +26,6 @@ data class TambahProdukState (
     var msgHarga: String="",
     var msgSatuan: String="",
     var msgTipe: String="",
-    var posModeState: PosModeState? = null
+    var posModeState: PosModeState? = null,
+    var msgQty: String? = null
 )

@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 
 import android.Manifest
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,7 +11,6 @@ import android.provider.Settings
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -29,10 +27,8 @@ import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.pilih_kategori.PilihKategoriDialog
 import com.bits.bee.bpmc.presentation.dialog.pilih_merk.PilihMerekDialog
-import com.bits.bee.bpmc.presentation.ui.pos.MainActivity
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
@@ -149,7 +145,8 @@ class TambahProdukFragment(
                 onUpdateSatuan = { value ->
                     viewModel.onUpdateSatuan(value)
                     subscribeObservers()
-                }
+                },
+                viewModel.state.msgQty
             )
             recyclerView2.apply {
                 layoutManager = LinearLayoutManager(requireActivity())
@@ -195,6 +192,7 @@ class TambahProdukFragment(
                 viewModel.validateNama()
                 viewModel.validateHarga()
                 viewModel.validateTipe()
+                viewModel.validateQty()
                 when(viewModel.state.posModeState){
                     PosModeState.RetailState ->{
                         if (etNamaPrd.text.toString().isNotEmpty() && etHarga.text.toString().isNotEmpty() &&
@@ -309,9 +307,9 @@ class TambahProdukFragment(
                             state.bitmap?.let {
                                 ivImage.setImageBitmap(it)
                             }
-                            state.picPath?.let {
-                                ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it))
-                            }
+//                            state.picPath?.let {
+//                                ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it))
+//                            }
 
                             state.itemGrp?.let {
                                 etKategoriProduk.setText(it.name)
@@ -319,7 +317,10 @@ class TambahProdukFragment(
                             state.brand?.let {
                                 etBrandPrd.setText(it.brandName)
                             }
-
+                            state.msgQty?.let {
+                                unitAdapter.setError(it)
+                                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                            }
                             tilNama.error = it.msgNama
                             tilHarga.error = it.msgHarga
                             tilTipe.error = it.msgTipe
@@ -477,10 +478,13 @@ class TambahProdukFragment(
             && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             if (isCamera){
                 tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
-                tempFilePath = it.absolutePath
+                    tempFilePath = it.absolutePath
                 })
                 resultLauncherContract.launch(tempUri)
             }else{
+                tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
+                    tempFilePath = it.absolutePath
+                })
                 getImage.launch("image/*")
             }
         }else{
@@ -508,7 +512,7 @@ class TambahProdukFragment(
             it.toString()
         ))
 //        itemPict = FileHandlerUtils.bitMapScale(bitmap, 307200)
-        viewModel.getDataFromIntent(bitmap, requireActivity(), it, bitmap.toString())
+        viewModel.getDataFromIntent(bitmap, requireActivity(), tempUri, tempFilePath)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
