@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
         style="@style/TextHeader"
-        android:text="@string/mata_uang_nominal"
+        android:text=""
         android:textSize="@dimen/font16"
         app:layout_constraintStart_toStartOf="@+id/textView61"
         app:layout_constraintTop_toBottomOf="@+id/textView61" />

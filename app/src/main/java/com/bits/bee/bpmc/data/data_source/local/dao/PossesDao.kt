@@ -27,9 +27,6 @@ interface PossesDao : BaseDao<PossesEntity> {
     @Query("SELECT * FROM posses WHERE endbal is not null")
     fun getPossesHistory(): PagingSource<Int, PossesEntity>
 
-    @Query("SELECT * FROM posses WHERE endbal is null")
-    fun getActivePossesList(): List<PossesEntity>
-
     @Query("SELECT * FROM posses WHERE shift LIKE '%'|| :query || '%'")
     fun searchSesi(query : String) : PagingSource<Int, PossesEntity>
 

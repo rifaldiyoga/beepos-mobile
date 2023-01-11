@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/user_kasir"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView95" />
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/sesi"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_user_kasir" />
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/mulai_operasional"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_sesi" />
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/selesai_operasional"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView97"/>
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size8"
-                    android:text="@string/mata_uang_nominal"
+                    android:text=""
                     android:textSize="@dimen/font24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView85"
@@ -198,7 +198,7 @@
                     android:id="@+id/tvModal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mata_uang_nominal"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -217,7 +217,7 @@
                     android:id="@+id/tvPemasukan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mata_uang_nominal"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -245,7 +245,7 @@
                         android:id="@+id/tvTotalTunai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tunai"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -276,7 +276,7 @@
                         android:id="@+id/tvTotalNonTunai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/non_tunai"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -305,7 +305,7 @@
                         android:id="@+id/tvTotalGopay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/gopay"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintBaseline_toBaselineOf="@+id/textView91"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -324,7 +324,7 @@
                         android:id="@+id/tvTotalDebit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/debit"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintBaseline_toBaselineOf="@+id/textView92"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -343,7 +343,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/size16"
-                        android:text="@string/kredit"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView92" />
@@ -364,7 +364,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/pengeluaran"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
@@ -425,7 +425,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/user_kasir"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView184" />
@@ -444,7 +444,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/sesi"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvProgram" />
@@ -463,7 +463,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/mulai_operasional"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_aktual" />
@@ -515,7 +515,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/mata_uang_nominal"/>
+                            android:text=""/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -545,7 +545,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/mata_uang_nominal"/>
+                            android:text=""/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -581,7 +581,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/mata_uang_nominal"/>
+                            android:text=""/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -611,7 +611,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/mata_uang_nominal"/>
+                            android:text=""/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -646,7 +646,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/mata_uang_nominal"/>
+                            android:text=""/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -676,7 +676,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextHeader"
                             android:textSize="@dimen/font20"
-                            android:text="@string/mata_uang_nominal"/>
+                            android:text=""/>
 
                         <TextView
                             android:layout_width="wrap_content"

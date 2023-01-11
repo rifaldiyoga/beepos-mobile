@@ -222,6 +222,10 @@ class DetailTransaksiPenjualanFragment(
                             viewModel.state.copy(sale = sale)
                         )
                         viewModel.getSaledList()
+                        binding.toolbar4?.let {
+                            it.isVisible = sale != null
+                            it.title = sale?.trxNo ?: ""
+                        }
                     }
                 }
             }

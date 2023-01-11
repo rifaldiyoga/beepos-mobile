@@ -2,7 +2,6 @@ package com.bits.bee.bpmc.presentation.ui.analisis_sesi
 
 import android.graphics.Color
 import android.graphics.DashPathEffect
-import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -24,13 +23,12 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.Utils
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.sql.Date
@@ -66,7 +64,7 @@ class AnalisaSesiFragment(
                 }
             }
         }
-        viewModel.checkPosses()
+        viewModel.getActivePosses()
         binding.apply {
             itemRankAdapter = ItemRankAdapter()
             rvRankItem.apply {
@@ -115,16 +113,15 @@ class AnalisaSesiFragment(
                                 lLAnalisaEmpty.visibility = View.GONE
                                 sVKasirAktif.visibility = View.VISIBLE
                             }else{
-                                it.possesList.let {
-                                    if (it.isNotEmpty()){
-                                        viewModel.getActivePosses()
-                                        lLAnalisaEmpty.visibility = View.GONE
-                                        sVKasirAktif.visibility = View.VISIBLE
-                                    }else{
-                                        lLAnalisaEmpty.visibility = View.VISIBLE
-                                        sVKasirAktif.visibility = View.GONE
-                                    }
+                                if (it.posses != null){
+                                    viewModel.getActivePosses()
+                                    lLAnalisaEmpty.visibility = View.GONE
+                                    sVKasirAktif.visibility = View.VISIBLE
+                                }else{
+                                    lLAnalisaEmpty.visibility = View.VISIBLE
+                                    sVKasirAktif.visibility = View.GONE
                                 }
+
                             }
                             it.posses?.let { data->
                                 val startTime = Date(data.startTime.time)
@@ -149,24 +146,22 @@ class AnalisaSesiFragment(
                                 var totalKredit =  CurrencyUtils.formatCurrency(it.totalKredit)
                                 var totalGopay =  CurrencyUtils.formatCurrency(it.totalGopay)
                                 var totalNonTunai =  CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai())
-                                var totalAct = CurrencyUtils.formatCurrency(data.totalActualCash)
-                                var program = CurrencyUtils.formatCurrency(data.total.add(data.startBal))
-                                var diffCash = CurrencyUtils.formatCurrency(data.totalDiffCash)
+                                val totalAct = CurrencyUtils.formatCurrency(data.totalActualCash)
+                                val program = CurrencyUtils.formatCurrency(data.total.add(data.startBal))
+                                val diffCash = CurrencyUtils.formatCurrency(data.totalDiffCash)
 
-
-                                it.reg?.let {
-                                    if(it.value == "1"){
-                                        modal = modal.replaceNumberWithStars()
-                                        totalPendapatan = totalPendapatan.replaceNumberWithStars()
-                                        pemasukan = pemasukan.replaceNumberWithStars()
-                                        pengeluaran = pengeluaran.replaceNumberWithStars()
-                                        totalTunai = totalTunai.replaceNumberWithStars()
-                                        totalDebit = totalDebit.replaceNumberWithStars()
-                                        totalKredit = totalKredit.replaceNumberWithStars()
-                                        totalGopay = totalGopay.replaceNumberWithStars()
-                                        totalNonTunai = totalNonTunai.replaceNumberWithStars()
-                                    }
+                                if(viewModel.reg.first()?.value == "1"){
+                                    modal = modal.replaceNumberWithStars()
+                                    totalPendapatan = totalPendapatan.replaceNumberWithStars()
+                                    pemasukan = pemasukan.replaceNumberWithStars()
+                                    pengeluaran = pengeluaran.replaceNumberWithStars()
+                                    totalTunai = totalTunai.replaceNumberWithStars()
+                                    totalDebit = totalDebit.replaceNumberWithStars()
+                                    totalKredit = totalKredit.replaceNumberWithStars()
+                                    totalGopay = totalGopay.replaceNumberWithStars()
+                                    totalNonTunai = totalNonTunai.replaceNumberWithStars()
                                 }
+
                                 tvSesi.text = "#${data.shift}"
                                 tvModal.text = getString(R.string.mata_uang_nominal,
                                     "Rp", modal)
@@ -177,21 +172,17 @@ class AnalisaSesiFragment(
                                 tvPengeluaran.text = getString(R.string.mata_uang_nominal,
                                     "Rp", pengeluaran)
                                 viewModel.getValueDetail()
-                                it.saleList?.let {
+                                it.saleList.let {
                                     tvAvgOrder.text = getString(R.string.mata_uang_nominal,
                                         "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
                                     tvJmlOrder.text = it.size.toString()
                                     tvTotalQty.text = CurrencyUtils.formatCurrency(viewModel.totalQty(it))
                                 }
-                                it.bpDateList?.let {
-                                    tvNewMember.text = it.size.toString()
-                                }
-                                it.notaSucces?.let {
-                                    tvTransSukses.text = it.toString()
-                                }
-                                it.notaVoid?.let {
-                                    tvTransVoid.text = it.toString()
-                                }
+                                tvNewMember.text = it.bpDateList.size.toString()
+
+                                tvTransSukses.text = CurrencyUtils.formatCurrency(it.notaSucces)
+
+                                tvTransVoid.text = CurrencyUtils.formatCurrency(it.notaVoid)
                                 tvTotalTunai.text = getString(R.string.mata_uang_nominal, "Rp", totalTunai)
                                 tvTotalDebit.text = getString(R.string.mata_uang_nominal, "Rp", totalDebit)
                                 tvTotalKredit.text = getString(R.string.mata_uang_nominal, "Rp", totalKredit)
@@ -201,19 +192,18 @@ class AnalisaSesiFragment(
                                 tvAktual.text = getString(R.string.mata_uang_nominal, "Rp", totalAct)
                                 tvSelisih.text = getString(R.string.mata_uang_nominal, "Rp", diffCash)
 
-                                it.rankItem?.let {
 //                                clEmptyRanking.visibility = View.GONE
 //                                clRanking.visibility = View.VISIBLE
 //                                itemRankAdapter.submitList(it)
-                                    if (it.isNotEmpty()){
-                                        clEmptyRanking.visibility = View.GONE
-                                        clRanking.visibility = View.VISIBLE
-                                        itemRankAdapter.submitList(it)
-                                    }else{
-                                        clEmptyRanking.visibility = View.VISIBLE
-                                        clRanking.visibility = View.GONE
-                                    }
+                                if (it.rankItem.isNotEmpty()){
+                                    clEmptyRanking.visibility = View.GONE
+                                    clRanking.visibility = View.VISIBLE
+                                    itemRankAdapter.submitList(it.rankItem)
+                                }else{
+                                    clEmptyRanking.visibility = View.VISIBLE
+                                    clRanking.visibility = View.GONE
                                 }
+
                             }
                             it.user?.let {
                                 tvUserKasir.text = it.name
@@ -225,7 +215,7 @@ class AnalisaSesiFragment(
         }
     }
 
-    fun loadViewChart(){
+    private fun loadViewChart(){
         binding.apply {
             chart1.setBackgroundColor(Color.WHITE)
             chart1.description.isEnabled = false
@@ -236,7 +226,7 @@ class AnalisaSesiFragment(
             chart1.setPinchZoom(true)
             chart1.legend.isEnabled = false
             chart1.setNoDataText("Tidak ada data untuk sesi ini")
-            chart1.setNoDataTextColor(resources.getColor(R.color.red))
+            chart1.setNoDataTextColor(ContextCompat.getColor(requireActivity(), R.color.red))
 
             val xAxis = chart1.xAxis
 
@@ -255,16 +245,14 @@ class AnalisaSesiFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewStates().collect {
                     it?.let {
-                        it.listEntry?.let {
-                            setListEntry(it)
-                        }
+                        setListEntry(it.listEntry)
                     }
                 }
             }
         }
     }
 
-    fun setListEntry(entries: List<Entry>) {
+    private fun setListEntry(entries: List<Entry>) {
         var set1: LineDataSet
 
         binding.apply {
@@ -277,8 +265,8 @@ class AnalisaSesiFragment(
             }else{
                 set1 = LineDataSet(entries, "DataSet 1")
                 set1.setDrawIcons(false)
-                set1.color = resources.getColor(R.color.red)
-                set1.setCircleColor(resources.getColor(R.color.red))
+                set1.color = ContextCompat.getColor(requireActivity(), R.color.red)
+                set1.setCircleColor(ContextCompat.getColor(requireActivity(), R.color.red))
                 set1.lineWidth = 1f
                 set1.circleRadius = 3f
                 set1.setDrawCircleHole(true)
@@ -288,19 +276,11 @@ class AnalisaSesiFragment(
                 set1.valueTextSize = 9f
                 set1.enableDashedHighlightLine(10f, 5f, 0f)
                 set1.setDrawFilled(true)
-                set1.setFillFormatter(object : IFillFormatter{
-                    override fun getFillLinePosition(
-                        dataSet: ILineDataSet?,
-                        dataProvider: LineDataProvider?
-                    ): Float {
-                        return chart1.axisLeft.axisMinimum
-                    }
-
-                })
+                set1.setFillFormatter { _, _ -> chart1.axisLeft.axisMinimum }
                 if (Utils.getSDKInt() >= 18){
                     val drawable = ContextCompat.getDrawable(requireContext(), R.color.gray_lite)
                     set1.fillDrawable = drawable
-                }else{
+                } else {
                     set1.fillColor = resources.getColor(R.color.gray_lite)
                 }
 

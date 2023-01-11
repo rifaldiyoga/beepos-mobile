@@ -54,7 +54,7 @@ class UploadManualViewModel @Inject constructor(
     fun observeBpReturn() = bpReturn as LiveData<Resource<BpReturn>>
 
     private var postAllReturn: MediatorLiveData<Resource<ResponseBody>> = MediatorLiveData()
-    fun observePostallReturn() = postAllReturn as LiveData<Resource<ResponseBody>>
+    fun observePostAllReturn() = postAllReturn as LiveData<Resource<ResponseBody>>
 
 
     private fun initUpload() = viewModelScope.launch {
@@ -101,10 +101,10 @@ class UploadManualViewModel @Inject constructor(
     }
 
     private fun uploadBp() = viewModelScope.launch {
-        var bpPost = BpPost()
-        var bpList: List<Bp>? = getBpNotUploadedUseCase().first()
+        val bpPost = BpPost()
+        val bpList = getBpNotUploadedUseCase().first()
 
-        if (bpList!!.isNotEmpty()){
+        if (bpList.isNotEmpty()){
             for (bp in bpList){
                 val bparray = BpPost.BpArray(
                     code = bp.code,
@@ -152,12 +152,7 @@ class UploadManualViewModel @Inject constructor(
                     createdAt = Date(),
                     isFavorit = mBp.isFavorit
                 )
-                var checkBp: Bp? = null
-                getBpByIdUseCase.invoke(newBp.id!!).collect {
-                    it?.let {
-                        checkBp = it
-                    }
-                }
+                val checkBp = getBpByIdUseCase(newBp.id!!).first()
                 if (checkBp != null){
                     updateBpUseCase.invoke(newBp)
                 }else{

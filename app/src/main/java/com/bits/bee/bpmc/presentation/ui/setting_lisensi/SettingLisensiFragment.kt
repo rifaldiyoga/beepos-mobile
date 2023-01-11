@@ -7,21 +7,23 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.BuildConfig
 import com.bits.bee.bpmc.R
+import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.databinding.FragmentHelpLisensiBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualViewModel
 import com.bits.bee.bpmc.utils.*
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,7 +33,8 @@ class SettingLisensiFragment(
 ): BaseFragment<FragmentHelpLisensiBinding>() {
 
     private val viewModel : SettingLisensiViewModel by viewModels()
-    private val sharedViewModel: UploadManualViewModel by activityViewModels()
+
+    private val sharedViewModel: UploadManualViewModel by viewModels()
 
     private lateinit var loadingDialogHelper : LoadingDialogHelper
 
@@ -52,10 +55,10 @@ class SettingLisensiFragment(
     override fun subscribeListeners() {
         binding.apply {
             btnLepasLisensi.setOnClickListener {
-                viewModel.lepasLisensi()
+                viewModel.doLepasLisensi()
             }
             btnPerpanjangLisensi.setOnClickListener {
-                viewModel.perpanjangLisensi()
+                viewModel.doPerpanjangLisensi()
             }
         }
     }
@@ -77,6 +80,7 @@ class SettingLisensiFragment(
                                 .setTitle(getString(R.string.perhatian))
                                 .setMessage(getString(R.string.anda_tidak_dapat_detach_belum_sync))
                                 .setPositiveCallback {
+                                    it.dismiss()
 //                                    viewModel.manualSync()
                                     sharedViewModel.onClickUpload()
                                 }.build()
@@ -87,6 +91,7 @@ class SettingLisensiFragment(
                                 .setTitle(getString(R.string.informasi))
                                 .setMessage(getString(R.string.proses_detach_akan_menghapus_seluruh_data))
                                 .setPositiveCallback {
+                                    it.dismiss()
                                     viewModel.detachLicense()
                                 }.build()
                             dialog.show(parentFragmentManager, TAG)
@@ -137,7 +142,6 @@ class SettingLisensiFragment(
                     it.data?.let {
                         if (it.data.status_cashier){
                             viewModel.detachLicense()
-//                            viewModel.confirmDetachLicense()
                         }else{
                             Toast.makeText(requireContext(), "Gagal Proses Detach", Toast.LENGTH_SHORT).show()
                         }
@@ -189,6 +193,7 @@ class SettingLisensiFragment(
                         loadingDialogHelper.hide()
                         it.data?.let {
                             sharedViewModel.checkBpCode(it)
+                            viewModel.doLepasLisensi()
                         }
                     }
                     Resource.Status.ERROR -> {
@@ -205,8 +210,8 @@ class SettingLisensiFragment(
             }
         }
 
-        sharedViewModel.observePostallReturn().removeObservers(viewLifecycleOwner)
-        sharedViewModel.observePostallReturn().observe(viewLifecycleOwner){
+        sharedViewModel.observePostAllReturn().removeObservers(viewLifecycleOwner)
+        sharedViewModel.observePostAllReturn().observe(viewLifecycleOwner){
             it?.let {
                 when (it.status) {
                     Resource.Status.LOADING -> {
@@ -215,15 +220,22 @@ class SettingLisensiFragment(
                     Resource.Status.SUCCESS -> {
                         loadingDialogHelper.hide()
                         it.data?.let {
-//                            if (it.status){
-//                                sharedViewModel.prosesResponsePostAll()
-//                                DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
-//                                    it.dismiss()
-//                                    viewModel.deactiveStatusCashier()
-//                                }.show(parentFragmentManager, "")
-//                            }else{
-//                                Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
-//                            }
+                            val string = it.string()
+                            try {
+                                val postAllReturn = Gson().fromJson(string, PostAllReturn::class.java)
+                                if (postAllReturn.status){
+                                    sharedViewModel.prosesResponsePostAll()
+                                    DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
+                                        it.dismiss()
+                                        viewModel.doLepasLisensi()
+                                    }.show(parentFragmentManager, "")
+                                } else {
+//                                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                                }
+                            } catch (e : Exception){
+                                val dialog = ErrorDialogBuilder(string, e)
+                                dialog.show(parentFragmentManager, "")
+                            }
                         }
                     }
                     Resource.Status.ERROR -> {

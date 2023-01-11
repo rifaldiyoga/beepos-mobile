@@ -157,10 +157,14 @@ class MainViewModel @Inject constructor(
                 srep = srep
             )
         }.collect {
-            activeBp.emit(it.bp)
+            it.bp?.let {
+                updateActiveBp(it)
+            }
             saleTrans.setBp(it.bp!!)
             activeChannel.emit(it.channel)
-            activeSrep.emit(it.srep)
+            it.srep?.let {
+                updateActiveSrep(it)
+            }
             saleTrans.getMaster().channelId = it.channel?.id ?: -1
             saleTrans.getMaster().srepId = it.srep?.id ?: -1
             saleTrans.setGrpAddOn(it.itgrpAddOn)
@@ -419,7 +423,9 @@ class MainViewModel @Inject constructor(
                 salePromoList = mutableListOf(),
             )
         }.collect {
-            activeBp.emit(it.bp)
+            it.bp?.let {
+                updateActiveBp(it)
+            }
             activeChannel.emit(it.channel)
             saleTrans.setBp(it.bp!!)
             saleTrans.getMaster().channelId = it.channel?.id ?: -1

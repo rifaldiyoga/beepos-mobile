@@ -20,7 +20,6 @@ import javax.inject.Inject
 class AnalisaSesiViewModel @Inject constructor(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
-    private val getActivePossesListUseCase: GetActivePossesListUseCase,
     private val getSaleByPossesUseCase: GetSaleByPossesUseCase,
     private val getBpByDateUseCase: GetBpByDateUseCase,
     private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
@@ -37,21 +36,11 @@ class AnalisaSesiViewModel @Inject constructor(
 
     init {
         state = AnalisaSesiState()
-        checkPosses()
 //        getActivePosses()
     }
 
-    fun checkPosses() = viewModelScope.launch {
-        getActivePossesListUseCase().collect {
-            it.data?.let {
-                updateState(
-                    state.copy(
-                        possesList = it
-                    )
-                )
-            }
-        }
-    }
+    val reg = getRegPossesActualEndCashUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
+
 
     fun getActivePosses() = viewModelScope.launch {
         getActivePossesUseCase.invoke().collect {
@@ -148,15 +137,6 @@ class AnalisaSesiViewModel @Inject constructor(
                     )
                 )
             }
-
-            getRegPossesActualEndCashUseCase.invoke(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).collect{
-                updateState(
-                    state.copy(
-                        reg = it
-                    )
-                )
-            }
-
 
             val chart = getSumByHourUseCase.invoke(data)
             updateState(

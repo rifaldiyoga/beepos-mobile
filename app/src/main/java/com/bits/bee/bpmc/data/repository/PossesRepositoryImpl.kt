@@ -100,14 +100,6 @@ class PossesRepositoryImpl @Inject constructor(
         it.map { PossesDataMapper.fromDbToDomain(it) }
     }.flowOn(defaultDispatcher)
 
-
-    override suspend fun getActivePossesList(): Flow<Resource<List<Posses>>> {
-        return flow {
-            val data = possesDao.getActivePossesList().map { PossesDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
-        }.flowOn(defaultDispatcher)
-    }
-
     override fun getFilter(current: Long, end: Long): Flow<Resource<List<Posses>>> {
         return flow {
             val data = possesDao.getFilter(current, end).map { PossesDataMapper.fromDbToDomain(it) }

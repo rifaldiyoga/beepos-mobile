@@ -108,11 +108,13 @@ class PosFragment(
 
     override fun onDestroyOptionsMenu() {
         super.onDestroyOptionsMenu()
-        BadgeUtils.detachBadgeDrawable(
-            badge!!,
-            (requireActivity() as MainActivity).getToolbar(),
-            R.id.menu_draft
-        )
+        badge?.let {
+            BadgeUtils.detachBadgeDrawable(
+                badge,
+                (requireActivity() as MainActivity).getToolbar(),
+                R.id.menu_draft
+            )
+        }
     }
 
     override fun initComponents() {

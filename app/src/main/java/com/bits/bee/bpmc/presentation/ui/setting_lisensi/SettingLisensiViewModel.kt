@@ -10,15 +10,14 @@ import com.bits.bee.bpmc.data.data_source.remote.response.DetachResponse
 import com.bits.bee.bpmc.domain.model.License
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.repository.SyncRepository
-import com.bits.bee.bpmc.domain.usecase.analisa_sesi.GetActivePossesListUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveLicenseUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.DetachCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.help.DetachLicenseUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.ConnectionUtils
 import com.bits.bee.bpmc.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -28,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingLisensiViewModel @Inject constructor(
     private val getActiveLicenseUseCase: GetActiveLicenseUseCase,
-    private val getActivePossesListUseCase: GetActivePossesListUseCase,
+    private val getActivePossesUseCase: GetActivePossesUseCase,
     private val syncRepository: SyncRepository,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val detachCashierUseCase: DetachCashierUseCase,
@@ -67,14 +66,8 @@ class SettingLisensiViewModel @Inject constructor(
         }
     }
 
-    fun lepasLisensi() = viewModelScope.launch {
-        getActivePossesListUseCase.invoke().collect{
-            it.data?.let {
-                mPossesList = it
-            }
-        }
-
-        if (mPossesList.isNotEmpty()){
+    fun doLepasLisensi() = viewModelScope.launch {
+        if (getActivePossesUseCase().first() != null){
             eventChannel.send(UIEvent.RequestInfoTutupKasir)
             return@launch
         }
@@ -86,9 +79,7 @@ class SettingLisensiViewModel @Inject constructor(
         }
 
         if (mPossesList.isEmpty() && list.isEmpty()){
-            if (ConnectionUtils.isInternetAvailable()){
-                deactiveStatusCashier()
-            }
+            deactiveStatusCashier()
         }
     }
 
@@ -122,19 +113,14 @@ class SettingLisensiViewModel @Inject constructor(
                 detachLicenseResponse.removeSource(source)
             }
         }
-
     }
 
     fun clearDataStore() = viewModelScope.launch {
         beePreferenceManager.clearPreferences()
     }
 
-    fun perpanjangLisensi() = viewModelScope.launch {
+    fun doPerpanjangLisensi() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestPerpanjang)
-    }
-
-    fun manualSync(){
-
     }
 
     fun confirmDetachLicense() = viewModelScope.launch {

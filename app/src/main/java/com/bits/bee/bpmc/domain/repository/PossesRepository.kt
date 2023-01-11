@@ -27,8 +27,6 @@ interface PossesRepository {
 
     suspend fun getPossesHistory(): Flow<PagingData<Posses>>
 
-    suspend fun getActivePossesList(): Flow<Resource<List<Posses>>>
-
     fun getFilter(current: Long, end: Long): Flow<Resource<List<Posses>>>
 
     fun getListPossesHistory(): Flow<Resource<List<Posses>>>

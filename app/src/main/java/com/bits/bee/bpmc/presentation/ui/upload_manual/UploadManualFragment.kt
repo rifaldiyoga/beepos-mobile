@@ -127,8 +127,8 @@ class UploadManualFragment(
             }
         }
 
-        viewModel.observePostallReturn().removeObservers(viewLifecycleOwner)
-        viewModel.observePostallReturn().observe(viewLifecycleOwner){
+        viewModel.observePostAllReturn().removeObservers(viewLifecycleOwner)
+        viewModel.observePostAllReturn().observe(viewLifecycleOwner){
             it?.let {
                 when (it.status) {
                     Resource.Status.LOADING -> {

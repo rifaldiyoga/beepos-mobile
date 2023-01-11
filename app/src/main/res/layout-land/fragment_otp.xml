@@ -37,6 +37,7 @@
         android:enabled="true"
         android:focusable="true"
         android:inputType="phone"
+        android:digits="0123456789"
         android:itemBackground="@drawable/bg_rect_light_gray"
         android:textSize="@dimen/font18"
         android:textStyle="bold"
