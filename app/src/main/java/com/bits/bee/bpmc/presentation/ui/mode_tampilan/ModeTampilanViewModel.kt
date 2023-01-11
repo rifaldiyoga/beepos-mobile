@@ -2,9 +2,11 @@ package com.bits.bee.bpmc.presentation.ui.mode_tampilan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +26,9 @@ class ModeTampilanViewModel @Inject constructor(
 
 
     fun onClickItem(string: String) = viewModelScope.launch {
+        beePreferenceManager.updatePosPreferences(
+            beePreferenceManager.posPreferences.first().copy(orientasi = BPMConstants.SCREEN_POTRAIT, isChangeOrientasi = true)
+        )
         beePreferenceManager.updateModePreferences(string)
         eventChannel.send(UIEvent.RequestClickItem(string))
     }

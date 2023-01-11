@@ -5,6 +5,7 @@ import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -46,18 +47,12 @@ class AnalisaSesiFragment(
     private var mPosses: Posses? = null
     private var isRiwayat: Boolean = false
     private var bigDecimalZero: BigDecimal = BigDecimal("0")
-//    private lateinit var chart: LineChart
 
     private lateinit var itemRankAdapter: ItemRankAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.updateState(
-            viewModel.state.copy(
-                possesList = null,
-                listEntry = null
-            )
-        )
+
+    override fun initComponents() {
+        setHasOptionsMenu(true)
         arguments?.let {
             isRiwayat = it.getBoolean("isRiwayat")
             if (isRiwayat){
@@ -71,10 +66,6 @@ class AnalisaSesiFragment(
                 }
             }
         }
-    }
-
-    override fun initComponents() {
-        setHasOptionsMenu(true)
         viewModel.checkPosses()
         binding.apply {
             itemRankAdapter = ItemRankAdapter()
@@ -124,7 +115,7 @@ class AnalisaSesiFragment(
                                 lLAnalisaEmpty.visibility = View.GONE
                                 sVKasirAktif.visibility = View.VISIBLE
                             }else{
-                                it.possesList?.let {
+                                it.possesList.let {
                                     if (it.isNotEmpty()){
                                         viewModel.getActivePosses()
                                         lLAnalisaEmpty.visibility = View.GONE
@@ -141,11 +132,14 @@ class AnalisaSesiFragment(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
                                 if (data.endTime != null){
                                     val endTime = Date(data.endTime!!.time)
-                                    tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(
-                                        BPMConstants.DEFAULT_DATE_FORMAT, endTime)
+                                    tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(BPMConstants.DEFAULT_DATE_FORMAT, endTime)
                                 }else{
                                     tvSelesaiOperasional.text = ""
                                 }
+
+                                constraintLayout10.isVisible = data.totalActualCash > BigDecimal.ZERO
+                                view32.isVisible = data.totalActualCash > BigDecimal.ZERO
+
                                 var modal = CurrencyUtils.formatCurrency(data.startBal)
                                 var totalPendapatan =  CurrencyUtils.formatCurrency(data.total.add(data.startBal))
                                 var pemasukan =  CurrencyUtils.formatCurrency(data.totIn ?: bigDecimalZero)
@@ -155,6 +149,9 @@ class AnalisaSesiFragment(
                                 var totalKredit =  CurrencyUtils.formatCurrency(it.totalKredit)
                                 var totalGopay =  CurrencyUtils.formatCurrency(it.totalGopay)
                                 var totalNonTunai =  CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai())
+                                var totalAct = CurrencyUtils.formatCurrency(data.totalActualCash)
+                                var program = CurrencyUtils.formatCurrency(data.total.add(data.startBal))
+                                var diffCash = CurrencyUtils.formatCurrency(data.totalDiffCash)
 
 
                                 it.reg?.let {
@@ -200,12 +197,15 @@ class AnalisaSesiFragment(
                                 tvTotalKredit.text = getString(R.string.mata_uang_nominal, "Rp", totalKredit)
                                 tvTotalGopay.text = getString(R.string.mata_uang_nominal, "Rp", totalGopay)
                                 tvTotalNonTunai.text = getString(R.string.mata_uang_nominal, "Rp", totalNonTunai)
+                                tvProgram.text = getString(R.string.mata_uang_nominal, "Rp", program)
+                                tvAktual.text = getString(R.string.mata_uang_nominal, "Rp", totalAct)
+                                tvSelisih.text = getString(R.string.mata_uang_nominal, "Rp", diffCash)
 
                                 it.rankItem?.let {
 //                                clEmptyRanking.visibility = View.GONE
 //                                clRanking.visibility = View.VISIBLE
 //                                itemRankAdapter.submitList(it)
-                                    if (it.size > 0){
+                                    if (it.isNotEmpty()){
                                         clEmptyRanking.visibility = View.GONE
                                         clRanking.visibility = View.VISIBLE
                                         itemRankAdapter.submitList(it)
@@ -218,13 +218,6 @@ class AnalisaSesiFragment(
                             it.user?.let {
                                 tvUserKasir.text = it.name
                             }
-
-//                            it.reg?.let { datareg->
-//                                loadViewChart()
-//                            }
-//                            it.listEntry?.let {
-//                                setListEntry(it)
-//                            }
                         }
                     }
                 }
@@ -245,21 +238,11 @@ class AnalisaSesiFragment(
             chart1.setNoDataText("Tidak ada data untuk sesi ini")
             chart1.setNoDataTextColor(resources.getColor(R.color.red))
 
-            // // X-Axis Style // //
-            // // X-Axis Style // //
             val xAxis = chart1.xAxis
 
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.enableGridDashedLine(10f, 10f, 0f)
             xAxis.granularity = 1f
-//            xAxis.valueFormatter = object : ValueFormatter() {
-//                override fun getFormattedValue(value: Float): String {
-//                    return if (!viewModel.state.reg!!.value.equals("1")) String.format(
-//                        "%02d",
-//                        value.toInt()
-//                    ) else getString(R.string.star)
-//                }
-//            }
 
             val yAxis = chart1.axisLeft
             chart1.axisRight.isEnabled = false
@@ -279,43 +262,6 @@ class AnalisaSesiFragment(
                 }
             }
         }
-
-//        val dataGr: MutableList<Entry> = mutableListOf()
-//        var set1: LineDataSet
-//
-//        dataGr.add(Entry(0f, 0f))
-//        dataGr.add(Entry(1f, 0f))
-//        dataGr.add(Entry(2f, 0f))
-//        dataGr.add(Entry(3f, 300f))
-//        dataGr.add(Entry(4f, 0f))
-//        dataGr.add(Entry(5f, 0f))
-//        dataGr.add(Entry(6f, 15500f))
-//        dataGr.add(Entry(7f, 0f))
-//        dataGr.add(Entry(8f, 0f))
-//        dataGr.add(Entry(9f, 12000f))
-//        dataGr.add(Entry(10f, 0f))
-//
-//
-//        val kasusLineDataSet = LineDataSet(dataGr, "Produk")
-//        kasusLineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-//        kasusLineDataSet.color = Color.BLUE
-//        kasusLineDataSet.circleRadius = 5f
-//        kasusLineDataSet.setCircleColor(Color.BLUE)
-//
-//        //Setup Legend
-//        binding.apply {
-//            val legend = chart1.legend
-//            legend.isEnabled = true
-//            legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP)
-//            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER)
-//            legend.setOrientation(Legend.LegendOrientation.HORIZONTAL)
-//            legend.setDrawInside(false)
-//
-//            chart1.description.isEnabled = false
-//            chart1.xAxis.position = XAxis.XAxisPosition.BOTTOM
-//            chart1.data = LineData(kasusLineDataSet)
-//            chart1.animateXY(100, 500)
-//        }
     }
 
     fun setListEntry(entries: List<Entry>) {

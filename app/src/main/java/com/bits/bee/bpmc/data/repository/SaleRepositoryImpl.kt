@@ -1,9 +1,6 @@
 package com.bits.bee.bpmc.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
 import com.bits.bee.bpmc.data.data_source.local.dao.SaleDao
 import com.bits.bee.bpmc.data.data_source.remote.model.LineChartData
 import com.bits.bee.bpmc.domain.mapper.SaleDataMapper
@@ -52,7 +49,7 @@ class SaleRepositoryImpl @Inject constructor(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = true,
+            enablePlaceholders = false,
             initialLoadSize = BPMConstants.BPM_MAX_PAGINATION
         ),
         pagingSourceFactory = {
@@ -166,10 +163,10 @@ class SaleRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSaleById(id: Int): Flow<Sale> {
-        return flow<Sale> {
+    override fun getSaleById(id: Int): Flow<Sale?> {
+        return flow {
             val data = saleDao.getSaleById(id)
-            emit(SaleDataMapper.fromDbToDomain(data))
+            emit(data?.let { SaleDataMapper.fromDbToDomain(data)})
         }.flowOn(defaultDispatcher)
     }
 
@@ -190,6 +187,13 @@ class SaleRepositoryImpl @Inject constructor(
     override fun getSaleByPossesGroupByBp(id: Int): Flow<List<Sale>> {
         return flow {
             val data = saleDao.getSaleByPossesGroupByBp(id).map { SaleDataMapper.fromDbToDomain(it) }
+            emit((data))
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getDraftCount(): Flow<Int> {
+        return flow {
+            val data = saleDao.getCountDraft()
             emit((data))
         }.flowOn(defaultDispatcher)
     }

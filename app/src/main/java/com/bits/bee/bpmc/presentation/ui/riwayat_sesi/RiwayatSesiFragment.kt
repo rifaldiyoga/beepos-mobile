@@ -2,24 +2,21 @@ package com.bits.bee.bpmc.presentation.ui.riwayat_sesi
 
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRiwayatSesiBinding
-import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
-import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.FilterUtils
+import com.bits.bee.bpmc.utils.Resource
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RiwayatSesiFragment(
@@ -27,21 +24,17 @@ class RiwayatSesiFragment(
 ): BaseFragment<FragmentRiwayatSesiBinding>() {
 
     private val viewModel : RiwayatSesiViewModel by viewModels()
-//    private lateinit var riwayatSesiAdapter: RiwayatSesiAdapter
+
     private lateinit var parentSesiAdapter: ParentSesiAdapter
+
     private var desc = false
     private var mMenu: Menu? = null
     private lateinit var pilihTglList : List<String>
-    private var pilihTgl: String = "1 Minggu Terakhir"
-    private var posFilter: Int = 0
 
     override fun initComponents() {
         setHasOptionsMenu(true)
 
-//        viewModel.getListHistory()
         pilihTglList = requireActivity().resources.getStringArray(R.array.list_pilih_tgl).toList()
-//        viewModel.getFilterDays(inilizeTgl(), viewModel.state.selectFilter)
-        viewModel.getFilterSorting(desc, viewModel.filterDate.value)
         parentSesiAdapter = ParentSesiAdapter(requireContext(), listener = object : NestedSesiAdapter.PilihRiwayatSesiI{
             override fun onclick(posses: Posses) {
                 val action = RiwayatSesiFragmentDirections.actionRiwayatSesiFragmentToDetailRiwayatSesiFragment(
@@ -89,13 +82,13 @@ class RiwayatSesiFragment(
         binding.apply {
             tilPeriode.root.setOnClickListener {
                 val dialog = RadioListFilterDialog(
-                        requireContext(),
-                        getString(R.string.pilih_tanggal),
-                        pilihTglList,
-                        viewModel.filterDate.value,
-                        onSaveClick = {
-                            viewModel.getFilterSorting(desc, it)
-                        }
+                    requireContext(),
+                    getString(R.string.pilih_tanggal),
+                    pilihTglList,
+                    viewModel.filterDate.value,
+                    onSaveClick = {
+                        viewModel.onFilterPeriode(it)
+                    }
                 )
                 dialog.show(parentFragmentManager, "")
             }
@@ -109,12 +102,36 @@ class RiwayatSesiFragment(
                 binding.tilPeriode.tvTitle.text = filter
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.possesList.collectLatest {
+                when(it.status){
+                    Resource.Status.LOADING -> {
+                        binding.progressBar.isVisible = true
+                        binding.lLRiwayatEmpty.isVisible = false
+                    }
+                    Resource.Status.SUCCESS -> {
+                        binding.progressBar.isVisible = false
+                        it.data?.let { data ->
+                            binding.lLRiwayatEmpty.isVisible = data.isEmpty()
+                            parentSesiAdapter.initList(data.toMutableList())
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        binding.progressBar.isVisible = false
+
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        binding.progressBar.isVisible = false
+
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_riwayat_sesi, menu)
-        OnClickSort(desc)
         if (!desc) {
             menu.getItem(0).icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
             desc = false
@@ -124,10 +141,7 @@ class RiwayatSesiFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-//            R.id.filter__riwayat_sesi ->{
-//                viewModel.showDialog()
-//            }
-            R.id.sort__riwayat_sesi ->{
+            R.id.sort_riwayat_sesi ->{
                 if (desc){
                     mMenu!!.getItem(0).icon =
                         ContextCompat.getDrawable(requireContext(), R.drawable.ic_sort_descending)
@@ -138,49 +152,10 @@ class RiwayatSesiFragment(
                     desc = true
                 }
 
-                OnClickSort(desc)
+                viewModel.onSortChange(desc)
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun OnClickSort(desc: Boolean) {
-
-        viewModel.updateState(
-            viewModel.state.copy(
-                listHistoryPosses = null
-            )
-        )
-        viewModel.getFilterSorting(desc, viewModel.filterDate.value)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
-                    it?.let {
-                        it.listHistoryPosses?.let { data ->
-                            viewModel.setListSesi(data, desc)
-                            it.sesiList?.let {
-                                if (it.size > 0){
-                                    binding.lLRiwayatEmpty.visibility = View.GONE
-                                    parentSesiAdapter.initList(viewModel.state.sesiList!!)
-                                }else{
-                                    binding.lLRiwayatEmpty.visibility = View.VISIBLE
-                                    parentSesiAdapter.initList(mutableListOf())
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-////                viewModel.possesSort.collect {
-////                    riwayatSesiAdapter.submitData(it)
-////                }
-//            }
-//        }
     }
 
 }

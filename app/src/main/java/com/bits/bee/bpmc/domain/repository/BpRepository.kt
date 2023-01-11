@@ -39,4 +39,6 @@ interface BpRepository {
 
     suspend fun deleteBp(bpEntity: Bp)
 
+    suspend fun resetSelectedBp()
+
 }

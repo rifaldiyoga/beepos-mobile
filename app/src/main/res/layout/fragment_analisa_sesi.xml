@@ -30,14 +30,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view8">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textView100"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/info_kasir"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/textView100"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="@string/info_kasir"-->
+                <!--                    android:textStyle="bold"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
 
                 <TextView
@@ -380,6 +380,106 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout7" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view8">
+
+                <TextView
+                    android:id="@+id/textView100"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setoran_kasir"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size8"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView100"
+                    app:layout_constraintStart_toEndOf="@+id/textView100"
+                    app:layout_constraintTop_toTopOf="@+id/textView100" />
+
+                <TextView
+                    android:id="@+id/textView184"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:layout_height="wrap_content"
+                    android:text="@string/program"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView100"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/tvProgram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/user_kasir"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView184" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/aktual_buta"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProgram" />
+
+                <TextView
+                    android:id="@+id/tv_aktual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/sesi"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProgram" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/selisih"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_aktual" />
+
+                <TextView
+                    android:id="@+id/tv_selisih"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size16"
+                    android:text="@string/mulai_operasional"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_aktual" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view32"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size4"
+                android:background="@color/light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout7" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -621,24 +721,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView93" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/imageView14"-->
-<!--                    android:layout_width="@dimen/size120"-->
-<!--                    android:layout_height="@dimen/size120"-->
-<!--                    android:layout_marginTop="@dimen/size16"-->
-<!--                    android:src="@drawable/image_grafik"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textView93" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imageView14"-->
+                <!--                    android:layout_width="@dimen/size120"-->
+                <!--                    android:layout_height="@dimen/size120"-->
+                <!--                    android:layout_marginTop="@dimen/size16"-->
+                <!--                    android:src="@drawable/image_grafik"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/textView93" />-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/size16"-->
-<!--                    android:text="@string/grafik_belum_tersedia"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/imageView14" />-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/size16"-->
+                <!--                    android:text="@string/grafik_belum_tersedia"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/imageView14" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -851,62 +951,62 @@
     </LinearLayout>
 
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView9"-->
-<!--        android:layout_width="@dimen/size0"-->
-<!--        android:layout_height="@dimen/size225"-->
-<!--        android:layout_marginStart="@dimen/size36"-->
-<!--        android:layout_marginEnd="@dimen/size36"-->
-<!--        android:src="@drawable/image_analisa"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/textView63"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_chainStyle="packed" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView9"-->
+    <!--        android:layout_width="@dimen/size0"-->
+    <!--        android:layout_height="@dimen/size225"-->
+    <!--        android:layout_marginStart="@dimen/size36"-->
+    <!--        android:layout_marginEnd="@dimen/size36"-->
+    <!--        android:src="@drawable/image_analisa"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/textView63"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_chainStyle="packed" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView63"-->
-<!--        android:layout_width="@dimen/size0"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/size8"-->
-<!--        android:text="@string/kasir_belum_aktif_belum_ada_data_yg_ditampilkan_mau_lihat_analisa_kasir_sebelumnya"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textSize="@dimen/font14"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout14"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/imageView9"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/imageView9"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/imageView9" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView63"-->
+    <!--        android:layout_width="@dimen/size0"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/size8"-->
+    <!--        android:text="@string/kasir_belum_aktif_belum_ada_data_yg_ditampilkan_mau_lihat_analisa_kasir_sebelumnya"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="@dimen/font14"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout14"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/imageView9"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/imageView9"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/imageView9" />-->
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout14"-->
-<!--        android:layout_width="@dimen/size0"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/size24"-->
-<!--        android:background="@drawable/btn_rect_secondary"-->
-<!--        android:gravity="center"-->
-<!--        android:padding="@dimen/size16"-->
-<!--        android:layout_marginStart="@dimen/size16"-->
-<!--        android:layout_marginEnd="@dimen/size16"-->
-<!--        android:textColor="?colorPrimary"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textView63">-->
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/linearLayout14"-->
+    <!--        android:layout_width="@dimen/size0"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/size24"-->
+    <!--        android:background="@drawable/btn_rect_secondary"-->
+    <!--        android:gravity="center"-->
+    <!--        android:padding="@dimen/size16"-->
+    <!--        android:layout_marginStart="@dimen/size16"-->
+    <!--        android:layout_marginEnd="@dimen/size16"-->
+    <!--        android:textColor="?colorPrimary"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textView63">-->
 
-<!--        <TextView-->
-<!--            style="@style/TextHeader"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/lihat_analisa_sebelumnya"-->
-<!--            android:textColor="?colorPrimary" />-->
+    <!--        <TextView-->
+    <!--            style="@style/TextHeader"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/lihat_analisa_sebelumnya"-->
+    <!--            android:textColor="?colorPrimary" />-->
 
-<!--    </LinearLayout>-->
+    <!--    </LinearLayout>-->
 
-<!--    <androidx.constraintlayout.widget.Group-->
-<!--        android:id="@+id/group"-->
-<!--        android:visibility="gone"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:constraint_referenced_ids="imageView9,textView63,linearLayout14" />-->
+    <!--    <androidx.constraintlayout.widget.Group-->
+    <!--        android:id="@+id/group"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:constraint_referenced_ids="imageView9,textView63,linearLayout14" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

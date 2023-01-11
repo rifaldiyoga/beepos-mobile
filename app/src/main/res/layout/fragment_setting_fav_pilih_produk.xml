@@ -10,10 +10,10 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:tabIndicatorColor="?colorPrimary"
+        app:tabTextColor="@color/dark_gray"
+        app:tabSelectedTextColor="@color/black"
         app:tabMode="scrollable"
-        app:tabTextAppearance="@style/CustomTextAppearanceTab"
-        app:tabTextColor="?colorPrimary" />
+        app:tabTextAppearance="@style/CustomTextAppearanceTab" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"

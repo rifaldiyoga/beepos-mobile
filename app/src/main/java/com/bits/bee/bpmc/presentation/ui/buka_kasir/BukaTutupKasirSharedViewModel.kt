@@ -10,6 +10,7 @@ import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -136,8 +137,11 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         }
     }
 
-    suspend fun doTutupKasir() {
+    suspend fun doTutupKasir(setorButa : BigDecimal = BigDecimal.ZERO) {
         state.activePosses?.let {
+            if(possesActualCashReg.first()?.value == "1"){
+                it.totalActualCash = setorButa
+            }
             tutupKasirUseCase(
                 posses = it
             )

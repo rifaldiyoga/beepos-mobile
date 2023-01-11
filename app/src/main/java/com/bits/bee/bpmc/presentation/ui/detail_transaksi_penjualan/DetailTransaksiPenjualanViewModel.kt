@@ -7,11 +7,14 @@ import com.bits.bee.bpmc.domain.repository.CrcRepository
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddOnBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddonDByAddonUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
+import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSaleByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSalecrcvBySaleUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +23,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DetailTransaksiPenjualanViewModel @Inject constructor(
+    private val getSaleByIdUseCase: GetSaleByIdUseCase,
     private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
     private val getSaleAddonDByAddonUseCase: GetSaleAddonDByAddonUseCase,
@@ -30,6 +34,15 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
 
     init {
         state = DetailTransaksiPenjualanState()
+    }
+
+
+    val activeSale = combine(
+        viewStates()
+    ){ (states) ->
+        states
+    }.flatMapLatest {
+        getSaleByIdUseCase(it?.sale?.id ?: -1)
     }
 
     fun loadData() = viewModelScope.launch {

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemMenuFavBinding
@@ -34,20 +33,17 @@ class FavProdukAdapter constructor (
         getItem(position)?.let {
             viewHolder.bind(it)
         }
-
-        viewHolder.itemView.setOnClickListener {
-            getItem(position)?.let { item ->
-                onMemberClick(item)
-                notifyItemChanged(position)
-            }
-        }
-
     }
 
     inner class ViewHolder(private val binding : ItemMenuFavBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(model : Item) {
             binding.apply {
+                root.setOnClickListener {
+                    onMemberClick(model)
+                    notifyDataSetChanged()
+                }
+
                 tvNamaItem.text = model.name1
 
                 val drawable = ContextCompat.getDrawable(tvNamaItem.context, when(model.isFavorit){
@@ -65,11 +61,11 @@ class FavProdukAdapter constructor (
     class Diffcallback : DiffUtil.ItemCallback<Item>(){
 
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.toString() == newItem.toString()
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
     }

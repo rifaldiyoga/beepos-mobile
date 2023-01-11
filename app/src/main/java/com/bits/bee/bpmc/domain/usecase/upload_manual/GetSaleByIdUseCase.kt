@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetSaleByIdUseCase @Inject constructor(
     private val saleRepository: SaleRepository
 ) {
-    operator fun invoke(id: Int): Flow<Sale>{
+    operator fun invoke(id: Int): Flow<Sale?>{
         return saleRepository.getSaleById(id)
     }
 }

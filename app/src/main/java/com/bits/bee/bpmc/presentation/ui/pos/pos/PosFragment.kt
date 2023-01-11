@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.pos
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.isVisible
@@ -18,12 +19,15 @@ import com.bits.bee.bpmc.databinding.FragmentPosBinding
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
+import com.bits.bee.bpmc.presentation.ui.pos.MainActivity
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceListFragment
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,29 +52,45 @@ class PosFragment(
 
     private val mainViewModel : MainViewModel by activityViewModels()
 
+    private var draftMenu : MenuItem? = null
+
+    private var badge : BadgeDrawable? = null
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
-            menu.clear()
-            inflater.inflate(R.menu.menu_pos, menu)
-            super.onCreateOptionsMenu(menu, inflater)
+        badge = BadgeDrawable.create(requireContext())
+        menu.clear()
+        inflater.inflate(R.menu.menu_pos, menu)
+        draftMenu = menu.findItem(R.id.menu_draft)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                mainViewModel.draftCount.collect {
+                    if(it > 0) {
+                        badge!!.number = it
+                        BadgeUtils.attachBadgeDrawable(
+                            badge!!,
+                            (requireActivity() as MainActivity).getToolbar(),
+                            R.id.menu_draft
+                        )
+                    }
+                }
+            }
         }
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(mainViewModel.orientation.value == BPMConstants.SCREEN_POTRAIT) {
-            when (item.itemId) {
-                R.id.menu_draft -> {
-                    mainViewModel.onClickDraft()
-                }
-                R.id.menu_diskon -> {
-                    mainViewModel.onClickDiskonNota("pos")
-                }
-                R.id.menu_search -> {
-                    mainViewModel.onClickSearch()
-                }
-                R.id.menu_promo -> {
-                    mainViewModel.onClickPromo()
-                }
+        when (item.itemId) {
+            R.id.menu_draft -> {
+                mainViewModel.onClickDraft()
+            }
+            R.id.menu_diskon -> {
+                mainViewModel.onClickDiskonNota("pos")
+            }
+            R.id.menu_search -> {
+                mainViewModel.onClickSearch()
+            }
+            R.id.menu_promo -> {
+                mainViewModel.onClickPromo()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -84,6 +104,15 @@ class PosFragment(
         if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT)
             setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu()
+        BadgeUtils.detachBadgeDrawable(
+            badge!!,
+            (requireActivity() as MainActivity).getToolbar(),
+            R.id.menu_draft
+        )
     }
 
     override fun initComponents() {
@@ -132,6 +161,7 @@ class PosFragment(
         }
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

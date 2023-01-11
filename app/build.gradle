@@ -32,7 +32,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API", "\"https://app.beecloud.id/api/\""
             buildConfigField "String", "API_PROVISION", "\"http://provision.beecloud.id\""
-            buildConfigField "Boolean", "DEBUG_MODE", "\"false\""
+            buildConfigField "Boolean", "DEBUG_MODE", "false"
         }
     }
     compileOptions {
@@ -44,6 +44,9 @@ android {
     }
     viewBinding {
         enabled = true
+    }
+    lintOptions {
+        checkReleaseBuilds false
     }
 }
 
@@ -185,6 +188,10 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-core:2.60.0'
     implementation 'com.amazonaws:aws-android-sdk-s3:2.12.5'
 
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
 
 
 }

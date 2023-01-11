@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 /**
  * Created by aldi on 10/03/22.
  */
-abstract class BaseFragment<T : ViewBinding> : Fragment(), BaseInterface {
+abstract class  BaseFragment<T : ViewBinding> : Fragment(), BaseInterface {
 
     //View Binding
     private var _binding : ViewBinding? = null

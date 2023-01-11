@@ -17,4 +17,7 @@ interface SrepDao : BaseDao<SrepEntity> {
     @Query("SELECT * FROM srep WHERE id = :srepId")
     fun getSrepById(srepId : Int) : SrepEntity?
 
+    @Query("UPDATE srep SET isselected = 0 WHERE isselected = 1")
+    suspend fun resetSelected()
+
 }

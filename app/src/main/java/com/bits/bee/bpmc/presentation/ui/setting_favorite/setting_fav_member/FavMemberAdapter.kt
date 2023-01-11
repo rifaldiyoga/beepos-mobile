@@ -18,6 +18,7 @@ class FavMemberAdapter constructor (
     private val onMemberClick : (Bp) -> Unit,
 ) : PagingDataAdapter<Bp, RecyclerView.ViewHolder>(Diffcallback()) {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
@@ -30,18 +31,16 @@ class FavMemberAdapter constructor (
         getItem(position)?.let {
             viewHolder.bind(it)
         }
-        viewHolder.itemView.setOnClickListener {
-            getItem(position)?.let {
-                onMemberClick(it)
-                notifyItemChanged(position)
-            }
-        }
     }
 
     inner class ViewHolder(private val binding : ItemMemberFavBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(model : Bp) {
             binding.apply {
+                binding.root.setOnClickListener {
+                    onMemberClick(model)
+                    notifyDataSetChanged()
+                }
                 tvNamaMember.text = model.name
                 tvNoTelp.text = model.bpAddr?.phone ?: ""
 

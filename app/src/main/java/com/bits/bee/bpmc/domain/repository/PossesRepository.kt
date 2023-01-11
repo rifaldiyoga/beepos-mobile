@@ -33,7 +33,7 @@ interface PossesRepository {
 
     fun getListPossesHistory(): Flow<Resource<List<Posses>>>
 
-    fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<Resource<List<Posses>>>
+    fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<List<Posses>>
 
     fun getFilterAsc(current: Long, end: Long): Flow<Resource<List<Posses>>>
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.view.marginEnd
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -86,6 +87,15 @@ class HomeActivity(
                 toolbar.setNavigationOnClickListener {
                     super.onBackPressed()
                 }
+
+                when (navController.currentDestination?.id) {
+                    R.id.cekStokFragment, R.id.rekapKasFragment, R.id.rekapProdukFragment -> {
+                        toolbar.collapseIcon = ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_back_black)
+                    }
+                    else -> {
+                        toolbar.collapseIcon = null
+                    }
+                }
             }
         }
     }
@@ -114,6 +124,8 @@ class HomeActivity(
                             destination.id == R.id.lainnyaFragment ||
                             destination.id == R.id.aturModalDialogBuilder
                 )
+                if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+                    toolbar.isVisible = destination.id != R.id.transaksiPenjualanFragment
             }
         }
     }
@@ -160,6 +172,12 @@ class HomeActivity(
                 bottomAppBar.gone()
                 fab.gone()
             }
+        }
+    }
+
+    fun setToolbarBottom(isShow : Boolean){
+        binding.apply {
+            toolbar.isVisible = isShow
         }
     }
 

@@ -49,6 +49,8 @@ data class BpEntity(
     var updatedBy : Int? = null,
     @ColumnInfo(name = ISFAVORIT)
     var isFavorit : Boolean = false,
+    @ColumnInfo(name = ISSELECTED)
+    var isSelected : Boolean = false,
 ) {
     companion object {
         const val TBL_NAME = "bp"
@@ -69,6 +71,7 @@ data class BpEntity(
         const val UPDATED_AT = "updated_at"
         const val UPDATED_BY = "updated_by"
         const val ISFAVORIT = "isfavorit"
+        const val ISSELECTED = "isselected"
 
     }
 }

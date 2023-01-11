@@ -14,4 +14,5 @@ data class Srep(
     var phone: String?,
     var mobile : String?,
     var email : String?,
+    var isSelected : Boolean = false
 ) : Parcelable

@@ -18,7 +18,12 @@ class RbPilihMerkAdapter(
         this.selectedPosition = value
     }
 
-    fun getSelectedPosition() : Brand = brandList[selectedPosition]
+    fun getSelectedPosition() : Brand? {
+        if(selectedPosition > -1)
+            return brandList[selectedPosition]
+        return null
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -56,3 +61,4 @@ class RbPilihMerkAdapter(
     }
 
 }
+

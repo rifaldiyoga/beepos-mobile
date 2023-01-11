@@ -251,14 +251,10 @@ class TambahProdukViewModel @Inject constructor(
             state.unitList.forEach {
                 unitList.add(it.copy())
             }
-            if (size in 2..3){
+            if (size > 1){
                 state.unitList.forEach {
-                    unitList.find {
-                        it.id == 1
-                    }?.unitUp = value
-                    unitList.find {
-                        it.id == 2
-                    }?.unitUp = value
+                    unitList.find { it.id == 1 }?.unitUp = value
+                    unitList.find { it.id == 2 }?.unitUp = value
                 }
             }
             updateState(

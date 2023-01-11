@@ -66,7 +66,7 @@ class PossesRepositoryImpl @Inject constructor(
                 endCash = BigDecimal.ZERO,
                 credit = BigDecimal.ZERO,
                 userId = user.id,
-                totalActualCash = startBal,
+                totalActualCash = BigDecimal.ZERO,
                 totalDiffCash = BigDecimal.ZERO,
                 isUploaded = false
             )
@@ -122,10 +122,10 @@ class PossesRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<Resource<List<Posses>>> {
+    override fun getJmlPossesByDate(startDate: Long, endDate: Long): Flow<List<Posses>> {
         return flow {
            val data = possesDao.getJmlPossesByDate(startDate, endDate).map { PossesDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(defaultDispatcher)
     }
 

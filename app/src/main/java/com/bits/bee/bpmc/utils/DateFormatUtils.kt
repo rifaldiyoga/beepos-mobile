@@ -63,6 +63,14 @@ class DateFormatUtils  {
             return sformat.format(date)
         }
 
+        private val sf = SimpleDateFormat("dd-MM-yyyy")
+
+        fun getDate(dates: Date): String{
+            val dateToday = sf.format(Date())
+            val date = sf.format(dates)
+            return if (dateToday == date) "Hari ini" else date
+        }
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.bits.bee.bpmc.data.repository
 
 import com.bits.bee.bpmc.data.data_source.local.dao.SrepDao
+import com.bits.bee.bpmc.domain.mapper.BpDataMapper
 import com.bits.bee.bpmc.domain.mapper.SrepDataMapper
 import com.bits.bee.bpmc.domain.model.Srep
 import com.bits.bee.bpmc.domain.repository.SrepRepository
@@ -8,6 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -32,5 +34,15 @@ class SrepRepositoryImpl @Inject constructor(
         val data = srepDao.getSrepById(id)
         emit(data?.let { SrepDataMapper.fromDbToDomain(it) })
     }.flowOn(defDispatcher)
+
+    override suspend fun updateSrep(bpEntity: Srep) {
+        withContext(defDispatcher){
+            srepDao.update(SrepDataMapper.fromDomainToDb(bpEntity))
+        }
+    }
+
+    override suspend fun resetSelectedSrep() = withContext(defDispatcher) {
+        srepDao.resetSelected()
+    }
 
 }

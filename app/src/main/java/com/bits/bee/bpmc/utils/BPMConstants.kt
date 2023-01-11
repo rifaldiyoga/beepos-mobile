@@ -116,7 +116,8 @@ interface BPMConstants {
         const val BPM_PRINTER_WIFI = 1
         const val BPM_PRINTER_USB = 2
 
-
         val MC_FOUR: MathContext = MathContext(19, RoundingMode.HALF_UP)
+
+        const val NOTIFICATION_ID = 833
     }
 }

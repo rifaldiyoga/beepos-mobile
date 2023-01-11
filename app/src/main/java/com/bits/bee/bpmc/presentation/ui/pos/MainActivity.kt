@@ -75,9 +75,6 @@ class MainActivity(
             NavigationUI.setupActionBarWithNavController(this@MainActivity, navController, appBarConfiguration)
             findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
 
-            navController.addOnDestinationChangedListener { _, _, _ ->
-
-            }
         }
     }
 
@@ -94,8 +91,8 @@ class MainActivity(
                 viewModel.onClickSalesman()
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
-
                 if (navController.currentDestination?.id == R.id.posFragment || navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
+                    toolbar.navigationIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_white)
                     toolbar.setNavigationOnClickListener {
                         if (navController.currentDestination?.id == R.id.posFragment)
                             finish()
@@ -110,15 +107,19 @@ class MainActivity(
                 }
                 setVisibilityToolbar(destination.id, navController.previousBackStackEntry?.destination?.id)
                 setBackgroundToolbar(destination.id)
-                if(navController.currentDestination?.id == R.id.transaksiBerhasilFragment || navController.currentDestination?.id == R.id.posFragment || navController.currentDestination?.id == R.id.draftListDialog) {
+                if(navController.currentDestination?.id == R.id.transaksiBerhasilFragment) {
                     toolbar.navigationIcon = null
                 }
-                if(navController.currentDestination?.id == R.id.cariItemFragment){
-                    toolbar.collapseIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_white)
-                } else if(navController.currentDestination?.id == R.id.draftFragment || navController.currentDestination?.id == R.id.memberFragment || navController.currentDestination?.id == R.id.salesmanFragment){
-                    toolbar.collapseIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_black)
-                } else {
-                    toolbar.collapseIcon = null
+                when (navController.currentDestination?.id) {
+                    R.id.cariItemFragment, R.id.posFragment -> {
+                        toolbar.collapseIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_white)
+                    }
+                    R.id.draftFragment, R.id.memberFragment, R.id.salesmanFragment -> {
+                        toolbar.collapseIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_back_black)
+                    }
+                    else -> {
+                        toolbar.collapseIcon = null
+                    }
                 }
             }
         }
@@ -251,8 +252,8 @@ class MainActivity(
 
     private fun setVisibilityToolbar(destinationId: Int, prevDestinationId: Int? = null){
         binding.apply {
-            val isVisible = destinationId == R.id.diskonNotaDialog || destinationId == R.id.invoiceFragment
-                    || destinationId == R.id.posFragment || destinationId == R.id.draftListDialog
+            val isVisible = destinationId == R.id.diskonNotaDialog
+                    || destinationId == R.id.posFragment || destinationId == R.id.draftListDialog || destinationId == R.id.invoiceFragment
                     || (prevDestinationId == R.id.posFragment && destinationId == R.id.detailAddOnDialogBuilder)
             linearLayout10.isVisible = isVisible
         }
@@ -304,4 +305,6 @@ class MainActivity(
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+    fun getToolbar() : Toolbar = binding.toolbar
 }

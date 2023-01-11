@@ -1,13 +1,11 @@
 package com.bits.bee.bpmc.presentation.ui.pos.draft
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
-import androidx.core.view.MenuItemCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -158,6 +156,7 @@ class DraftFragment(
             viewModel.filterDate.collectLatest {
                 val channel = FilterUtils.getFilterDateLabel(it.selectedPos)
                 binding.tilPeriode.tvTitle.text = channel
+                binding.tvReset.isVisible = it.selectedPos != 0
             }
         }
     }

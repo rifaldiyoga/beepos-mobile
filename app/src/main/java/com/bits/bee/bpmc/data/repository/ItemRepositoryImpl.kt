@@ -81,7 +81,6 @@ class ItemRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getActiveItemListPagedByItemGrp(itemGrpId: Int, query: String, usePid : Boolean): Flow<PagingData<Item>> {
-
         val pagingSource = {
             if(usePid)
                 itemDao.getItemByItemGrpPagedListPid(itemGrpId, query)
@@ -93,6 +92,7 @@ class ItemRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
                 maxSize = BPMConstants.BPM_MAX_PAGINATION,
+                initialLoadSize = BPMConstants.BPM_LIMIT_PAGINATION,
                 enablePlaceholders = true
             ),
             pagingSourceFactory = pagingSource
@@ -105,7 +105,7 @@ class ItemRepositoryImpl @Inject constructor(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = true
+            enablePlaceholders = false
         ),
         pagingSourceFactory = {
             if(!usePid)
@@ -121,6 +121,7 @@ class ItemRepositoryImpl @Inject constructor(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
+            initialLoadSize = BPMConstants.BPM_LIMIT_PAGINATION,
             enablePlaceholders = true
         ),
         pagingSourceFactory = {

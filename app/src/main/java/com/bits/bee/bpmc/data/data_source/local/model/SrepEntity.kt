@@ -25,6 +25,8 @@ data class SrepEntity(
     var mobile : String?,
     @ColumnInfo(name = EMAIL)
     var email : String?,
+    @ColumnInfo(name = ISSELECTED)
+    var isselected : Boolean = false,
 ) {
     companion object {
 
@@ -39,6 +41,7 @@ data class SrepEntity(
         const val PHONE = "phone"
         const val MOBILE = "mobile"
         const val EMAIL = "email"
+        const val ISSELECTED = "isselected"
 
     }
 }

@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.domain.usecase.member
 
 import androidx.paging.PagingData
+import androidx.paging.filter
+import androidx.paging.flatMap
 import androidx.paging.map
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.repository.BpAccRepository

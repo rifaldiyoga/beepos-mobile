@@ -8,12 +8,11 @@ import com.bits.bee.bpmc.data.list.ListPromoBonus
 import com.bits.bee.bpmc.domain.calc.PromoCalc
 import com.bits.bee.bpmc.domain.calc.SaleCalc
 import com.bits.bee.bpmc.domain.model.*
-import com.bits.bee.bpmc.domain.repository.ChannelRepository
-import com.bits.bee.bpmc.domain.repository.CrcRepository
-import com.bits.bee.bpmc.domain.repository.PromoRepository
-import com.bits.bee.bpmc.domain.repository.SrepRepository
+import com.bits.bee.bpmc.domain.repository.*
 import com.bits.bee.bpmc.domain.trans.SaleTrans
 import com.bits.bee.bpmc.domain.usecase.common.*
+import com.bits.bee.bpmc.domain.usecase.member.UpdateSelectedBpUseCase
+import com.bits.bee.bpmc.domain.usecase.member.UpdateSelectedSrepUseCase
 import com.bits.bee.bpmc.domain.usecase.pos.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -54,8 +53,11 @@ class MainViewModel @Inject constructor(
     private val promoRepository: PromoRepository,
     private val crcRepository: CrcRepository,
     private val srepRepository: SrepRepository,
+    private val updateSelectedBpUseCase: UpdateSelectedBpUseCase,
+    private val updateSelectedSrepUseCase: UpdateSelectedSrepUseCase,
     private val beePreferenceManager: BeePreferenceManager,
-    private val getRegUseCase: GetRegUseCase
+    private val getRegUseCase: GetRegUseCase,
+    private val getDraftCountUseCase: GetDraftCountUseCase
 ) : BaseViewModel<MainState, MainViewModel.UIEvent>(){
 
     private val _posModeState = MutableStateFlow(PosModeState.FnBState)
@@ -118,8 +120,10 @@ class MainViewModel @Inject constructor(
             itemGrpId = it.itemGroup,
             channel = it.channel,
             usePid = posModeState.value is PosModeState.RetailState
-        ).cachedIn(viewModelScope)
-    }
+        )
+    }.cachedIn(viewModelScope)
+
+    val draftCount = getDraftCountUseCase()
 
     fun loadData() = runBlocking {
         combine(
@@ -516,6 +520,8 @@ class MainViewModel @Inject constructor(
         saleTrans.setBp(bp)
         val id = bp.bpAccList.firstOrNull { it.isDefault }?.crcId ?: throw Exception("BpAcc tidak ditemukan!")
         state.crc = crcRepository.getCrcById(id).first()
+        bp.isSelected = true
+        updateSelectedBpUseCase(bp)
         deployData()
     }
 
@@ -531,6 +537,8 @@ class MainViewModel @Inject constructor(
         _activeSrep.emit(srep)
         if(posModeState.value is PosModeState.RetailState)
             saleTrans.getMaster().srepId = srep.id
+        srep.isSelected = true
+        updateSelectedSrepUseCase(srep)
         deployData()
     }
 

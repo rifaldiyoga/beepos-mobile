@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
             app:destination="@id/detailBukaKasirFragment" />
+        <action
+            android:id="@+id/action_berandaFragment_to_setoranKasirDialogBuilder"
+            app:destination="@id/setoranKasirDialogBuilder" />
     </fragment>
     <activity
         tools:layout="@layout/activity_main"
@@ -78,6 +81,9 @@
         <action
             android:id="@+id/action_detailTutupKasirFragment_to_rekapSesiFragment"
             app:destination="@id/rekapSesiFragment" />
+        <action
+            android:id="@+id/action_detailTutupKasirFragment_to_setoranKasirDialogBuilder"
+            app:destination="@id/setoranKasirDialogBuilder" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_lainnya"
@@ -281,5 +287,9 @@
             android:name="stok"
             app:argType="com.bits.bee.bpmc.domain.model.Stock" />
     </fragment>
+    <dialog
+        android:id="@+id/setoranKasirDialogBuilder"
+        android:name="com.bits.bee.bpmc.presentation.dialog.setoran_kasir.SetoranKasirDialogBuilder"
+        android:label="SetoranKasirDialogBuilder" />
 
 </navigation>

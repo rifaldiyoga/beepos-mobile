@@ -70,12 +70,7 @@ class BerandaFragment(
                 if(sharedViewModel.state.activePosses == null) {
                     viewModel.onBukaKasirClick()
                 } else {
-                    val dialog = DialogBuilderHelper.showDialogYesNo(requireContext(),
-                        getString(R.string.tutup_kasir), getString(R.string.msg_validasi_tutup_kasir), {
-                            it.dismiss()
-                            viewModel.onTutupKasirClick()
-                        })
-                    dialog.show(parentFragmentManager, "DetailTutupKasirFragment")
+                    viewModel.onTutupKasirClick()
                 }
             }
         }
@@ -144,6 +139,18 @@ class BerandaFragment(
                             sharedViewModel.doTutupKasir()
                             printerHelper.printClosingCashier(sharedViewModel.state.activePosses!!, BPMConstants.BPM_FONT_REGULAR, BPMConstants.BPM_ALIGN_LEFT)
                             sharedViewModel.resetActivePosses()
+                        }
+                        BerandaViewModel.UIEvent.NavigateToDialogSetoranKasir -> {
+                            val dialog = BerandaFragmentDirections.actionBerandaFragmentToSetoranKasirDialogBuilder()
+                            findNavController().navigate(dialog)
+                        }
+                        BerandaViewModel.UIEvent.NavigateToDialogTutupKasir -> {
+                            val dialog = DialogBuilderHelper.showDialogYesNo(requireContext(),
+                                getString(R.string.tutup_kasir), getString(R.string.msg_validasi_tutup_kasir), {
+                                    it.dismiss()
+                                    viewModel.onReqTutupKasir()
+                                })
+                            dialog.show(parentFragmentManager, "DetailTutupKasirFragment")
                         }
                     }
                 }

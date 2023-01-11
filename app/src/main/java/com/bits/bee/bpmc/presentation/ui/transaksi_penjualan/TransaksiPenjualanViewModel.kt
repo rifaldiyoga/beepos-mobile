@@ -1,10 +1,12 @@
 package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.bits.bee.bpmc.domain.model.Channel
 import com.bits.bee.bpmc.domain.model.FilterDate
 import com.bits.bee.bpmc.domain.model.Sale
 import com.bits.bee.bpmc.domain.usecase.transaksi_penjualan.GetLatestSaleUseCase
+import com.bits.bee.bpmc.domain.usecase.upload_manual.GetSaleByIdUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.FilterUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TransaksiPenjualanViewModel @Inject constructor(
-    private val getLatestSaleUseCase: GetLatestSaleUseCase
+    private val getLatestSaleUseCase: GetLatestSaleUseCase,
+    private val getSaleByIdUseCase: GetSaleByIdUseCase
 ) : BaseViewModel<TransaksiPenjualanState, TransaksiPenjualanViewModel.UIEvent>() {
 
     var currentQuery : MutableStateFlow<String> = MutableStateFlow("")
@@ -36,6 +39,14 @@ class TransaksiPenjualanViewModel @Inject constructor(
     private var _activeSale : MutableStateFlow<Sale?> = MutableStateFlow(null)
     val activeSale : MutableStateFlow<Sale?>
         get() = _activeSale
+
+    val sale = combine(
+        activeSale
+    ) { (activeSale) ->
+        activeSale
+    }.flatMapLatest {
+        getSaleByIdUseCase(it?.id ?: -1)
+    }
 
     init {
         state = TransaksiPenjualanState()
@@ -54,7 +65,7 @@ class TransaksiPenjualanViewModel @Inject constructor(
         )
     }.flatMapLatest {
         getLatestSaleUseCase(it.query, false, it.channelList, it.periode.startDate, it.periode.endDate)
-    }
+    }.cachedIn(viewModelScope)
 
     fun onFilterPeriode(filter : FilterDate) = viewModelScope.launch {
         filterDate.value = filter

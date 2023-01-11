@@ -21,7 +21,7 @@ interface BpDao : BaseDao<BpEntity> {
     @Query("SELECT * FROM bp WHERE id = :id")
     fun getBpById(id : Int) : BpEntity?
 
-    @Query("SELECT * FROM bp Where (name LIKE '%'|| :query || '%' OR code LIKE '%'|| :query || '%') AND active = 1")
+    @Query("SELECT * FROM bp Where (name LIKE '%'|| :query || '%' OR code LIKE '%'|| :query || '%') AND active = 1 ORDER BY isselected DESC")
     fun getBpPagedList(query: String) : PagingSource<Int, BpEntity>
 
     @Query("SELECT * FROM bp Where (name LIKE '%'|| :query || '%' OR code LIKE '%'|| :query || '%') AND isfavorit = :isFav AND active = 1 ORDER BY isfavorit DESC")
@@ -41,5 +41,9 @@ interface BpDao : BaseDao<BpEntity> {
 
     @Query("SELECT * FROM bp WHERE code LIKE '%'|| :code || '%'")
     fun getBpByCode(code: String): BpEntity?
+
+    @Query("UPDATE bp SET isselected = 0 WHERE isselected = 1")
+    suspend fun resetSelected()
+
 
 }

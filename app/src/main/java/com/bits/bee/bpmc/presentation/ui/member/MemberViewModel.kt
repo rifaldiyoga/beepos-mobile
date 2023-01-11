@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.member
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.usecase.member.GetActiveMemberUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel

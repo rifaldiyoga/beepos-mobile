@@ -35,6 +35,8 @@ class TutupKasirUseCase @Inject constructor (
         posses.endTime = Date()
         posses.isUploaded = false
 
+        posses.totalDiffCash = posses.totalActualCash - endBal
+
         possesRepository.updatePosses(posses)
 
         val cashier = cashierRepository.getCashierById(posses.cashierId).first()

@@ -36,30 +36,12 @@ class InvoiceFragment(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.menu_pos, menu)
         if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
+            inflater.inflate(R.menu.menu_pos, menu)
             menu.findItem(R.id.menu_draft).isVisible = false
             menu.findItem(R.id.menu_search).isVisible = false
         }
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_draft -> {
-                mainViewModel.onClickDraft()
-            }
-            R.id.menu_diskon -> {
-                mainViewModel.onClickDiskonNota("invoice")
-            }
-            R.id.menu_search -> {
-                mainViewModel.onClickSearch()
-            }
-            R.id.menu_promo -> {
-                mainViewModel.onClickPromo()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun initComponents() {

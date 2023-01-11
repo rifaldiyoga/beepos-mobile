@@ -148,7 +148,6 @@ class TambahProdukFragment(
                 },
                 onUpdateSatuan = { value ->
                     viewModel.onUpdateSatuan(value)
-                    subscribeObservers()
                 }
             )
             recyclerView2.apply {

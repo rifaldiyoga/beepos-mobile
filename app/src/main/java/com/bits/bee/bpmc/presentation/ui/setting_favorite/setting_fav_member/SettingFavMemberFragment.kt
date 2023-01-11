@@ -72,6 +72,7 @@ class SettingFavMemberFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.memberList.collectLatest {
                     memberAdapter.submitData(it)
+                    memberAdapter.notifyDataSetChanged()
                 }
             }
         }

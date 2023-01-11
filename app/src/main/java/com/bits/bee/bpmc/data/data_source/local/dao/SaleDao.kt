@@ -16,11 +16,11 @@ import java.math.BigDecimal
 interface SaleDao : BaseDao<SaleEntity> {
 
     @Query("SELECT * FROM sale WHERE draft = :isDraft AND (trx_no LIKE '%' || :query || '%' OR bp_name LIKE '%' || :query || '%')" +
-            " AND channel_id IN (:channelList) AND trx_date BETWEEN :startDate AND :endDate ORDER BY id DESC")
+            " AND channel_id IN (:channelList) AND trx_date BETWEEN :startDate AND :endDate ORDER BY trx_date DESC")
     fun getLatestSaleList(query : String, isDraft : Boolean, channelList : List<Int>, startDate : Long, endDate : Long) : PagingSource<Int, SaleEntity>
 
     @Query("SELECT * FROM sale WHERE draft = :isDraft AND (trx_no LIKE '%' || :query || '%' OR bp_name LIKE '%' || :query || '%')" +
-            " AND trx_date BETWEEN :startDate AND :endDate ORDER BY id DESC")
+            " AND trx_date BETWEEN :startDate AND :endDate ORDER BY trx_date DESC")
     fun getLatestSaleList(query : String, isDraft : Boolean,  startDate : Long, endDate : Long) : PagingSource<Int, SaleEntity>
 
     @Query("SELECT * FROM sale WHERE draft = 1 ORDER BY id DESC LIMIT 5")
@@ -60,7 +60,7 @@ interface SaleDao : BaseDao<SaleEntity> {
     fun updateNewIdCust(oldIdCust: Int, idCust: Int)
 
     @Query("SELECT * FROM sale where id = :id")
-    fun getSaleById(id: Int): SaleEntity
+    fun getSaleById(id: Int): SaleEntity?
 
     @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0")
     fun getSaleNotUploaded(): List<SaleEntity>
@@ -78,7 +78,6 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT COUNT(total) FROM sale WHERE posses_id = :id AND isvoid = 0")
     fun sumTotalPaidAll(id: Int): BigDecimal
 
-//    @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id AND isvoid = 0")
-//    fun sumTotalChannel(id: Int, channelId : Int): BigDecimal
-
+    @Query("SELECT COUNT(total) FROM sale WHERE draft = 1")
+    fun getCountDraft(): Int
 }

@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.dialog.hapus_transaksi
 
+import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HapusTransaksiDialog(
     private val sale : Sale,
-    private val onFinish : (Sale) -> Unit,
+    private val onFinish : (Sale, Dialog) -> Unit,
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogHapusTransaksiBinding = DialogHapusTransaksiBinding::inflate
 ) : BaseBottomSheetDialogFragment<DialogHapusTransaksiBinding>() {
 
@@ -84,12 +85,8 @@ class HapusTransaksiDialog(
                             dialog.show(parentFragmentManager, "")
                         }
                         HapusTransaksiViewModel.UIEvent.SuccessVoid -> {
-                            Toast.makeText(requireActivity(), "Transaksi berhasil di batalkan!", Toast.LENGTH_SHORT).show()
-                            onFinish(viewModel.state.sale!!)
-//                            findNavController().previousBackStackEntry?.savedStateHandle?.set("sale", viewModel.state.sale!!)
-//                            findNavController().popBackStack()
-                            dismiss()
-//                            onFinish(viewModel.state.sale!!)
+                            Toast.makeText(requireActivity(), "Transaksi berhasil dihapus", Toast.LENGTH_SHORT).show()
+                            onFinish(viewModel.state.sale!!, dialog!!)
                         }
                     }
                 }

@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.dialog.pilih_kategori
 import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -47,8 +48,12 @@ class PilihKategoriDialog(
                 dismiss()
             }
             btnSimpan.setOnClickListener {
-                onSaveClick(dialog!!, rbPilihKategoriAdapter.getSelectedPosition())
-                dismiss()
+                rbPilihKategoriAdapter.getSelectedPosition()?.let {
+                    onSaveClick(dialog!!, it)
+                    dismiss()
+                } ?: run {
+                    Toast.makeText(requireActivity(), "Pilih kategori terlebih dahulu!", Toast.LENGTH_LONG).show()
+                }
             }
             imageView2.setOnClickListener {
                 dismiss()

@@ -54,6 +54,7 @@ class MemberFragment(
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.menu_search_member, menu)
 
         val searchItem = menu.findItem(R.id.search_member)

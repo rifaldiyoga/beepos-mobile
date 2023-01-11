@@ -8,5 +8,5 @@ data class Sesi(
     var date: Long,
     var listPosses: MutableList<Posses>? = null,
     var jmltrans: Int,
-    var expand: Boolean = false
+    var expand: Boolean = true
 ): Parcelable

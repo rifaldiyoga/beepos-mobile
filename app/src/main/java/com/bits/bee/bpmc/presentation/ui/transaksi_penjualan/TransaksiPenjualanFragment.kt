@@ -47,8 +47,14 @@ class TransaksiPenjualanFragment(
         searchView.queryHint = getString(R.string.cari_transaksi_min_3_karakter)
 
         searchView.setSearchViewStyle(requireActivity(), R.color.black)
-        searchView.setOnQueryTextFocusChangeListener { _, b ->
-            (requireActivity() as HomeActivity).setVisibilityBottom(!b)
+
+
+        if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) {
+            (requireActivity() as HomeActivity).setVisibilityBottom(false)
+        } else {
+            searchView.setOnQueryTextFocusChangeListener { _, b ->
+                (requireActivity() as HomeActivity).setVisibilityBottom(!b)
+            }
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -86,8 +92,46 @@ class TransaksiPenjualanFragment(
                         findNavController().navigate(action)
                     }
 //                    binding.slidingPaneLayout.openPane()
-                }
+                },
+                viewModel.activeSale.value
             )
+            toolbar3?.let {
+                toolbar3.inflateMenu(R.menu.menu_search)
+                toolbar3.setNavigationOnClickListener {
+                    findNavController().popBackStack()
+                }
+                val searchItem = toolbar3.menu.findItem(R.id.menu_search)
+                val searchView = searchItem.actionView as SearchView
+
+                searchView.queryHint = getString(R.string.cari_transaksi_min_3_karakter)
+
+                searchView.setSearchViewStyle(requireActivity(), R.color.black)
+
+
+                if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE) {
+                    (requireActivity() as HomeActivity).setVisibilityBottom(false)
+                } else {
+                    searchView.setOnQueryTextFocusChangeListener { _, b ->
+                        (requireActivity() as HomeActivity).setVisibilityBottom(!b)
+                    }
+                }
+
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        if (newText != null && newText.length >= 3) {
+                            viewModel.onSearch(newText)
+                        } else {
+                            viewModel.onSearch("")
+                        }
+                        return true
+                    }
+                })
+            }
+
             transAdapter.refresh()
             rvList.apply {
                 adapter = transAdapter
@@ -98,19 +142,6 @@ class TransaksiPenjualanFragment(
 
     override fun subscribeListeners() {
         binding.apply {
-//            slidingPaneLayout.addPanelSlideListener(object : SlidingPaneLayout.PanelSlideListener{
-//                override fun onPanelSlide(panel: View, slideOffset: Float) {
-//
-//                }
-//
-//                override fun onPanelOpened(panel: View) {
-//                    (requireActivity() as HomeActivity).setVisibilityBottom(false)
-//                }
-//
-//                override fun onPanelClosed(panel: View) {
-//                    (requireActivity() as HomeActivity).setVisibilityBottom(true)
-//                }
-//            })
             tilChannel.root.setOnClickListener {
                 val dialog = ChannelFilterListDialog(
                     selectedChannelList = viewModel.channelList.value,
@@ -138,11 +169,6 @@ class TransaksiPenjualanFragment(
     }
 
     override fun subscribeObservers() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.currentQuery.collectLatest {
-
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
@@ -159,9 +185,11 @@ class TransaksiPenjualanFragment(
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.saleList.collectLatest {
-                transAdapter.submitData(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.saleList.collectLatest {
+                    transAdapter.submitData(it)
+                }
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -179,9 +207,14 @@ class TransaksiPenjualanFragment(
                 setVisibilityReset()
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.activeSale.collectLatest {
+                transAdapter.setActiveSale(it)
+            }
+        }
     }
 
-    fun setVisibilityReset() {
+    private fun setVisibilityReset() {
         binding.tvReset.isVisible = viewModel.filterDate.value.selectedPos != 0 || viewModel.channelList.value.isNotEmpty()
     }
 

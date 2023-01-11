@@ -9,10 +9,10 @@ data class AnalisaSesiState(
     var activeBranch: Branch? = null,
     var activeCashier: Cashier? = null,
     var user: User? = null,
-    var possesList: List<Posses>? = null,
-    var saleList: List<Sale>? = null,
-    var bpDateList: List<Bp>? = null,
-    var saledList: List<Saled>? = null,
+    var possesList: List<Posses> = mutableListOf(),
+    var saleList: List<Sale> = mutableListOf(),
+    var bpDateList: List<Bp> = mutableListOf(),
+    var saledList: List<Saled> = mutableListOf(),
     var setoranKasirData: SetoranKasirData? = null,
     var notaSucces: BigDecimal = BigDecimal.ZERO,
     var notaVoid: BigDecimal = BigDecimal.ZERO,
@@ -20,7 +20,7 @@ data class AnalisaSesiState(
     var totalDebit: BigDecimal = BigDecimal.ZERO,
     var totalKredit: BigDecimal = BigDecimal.ZERO,
     var totalGopay: BigDecimal = BigDecimal.ZERO,
-    var rankItem: List<RankItem>? = null,
+    var rankItem: List<RankItem> = mutableListOf(),
     var reg: Reg? = null,
-    var listEntry: List<Entry>? = null
+    var listEntry: List<Entry> = mutableListOf()
 )

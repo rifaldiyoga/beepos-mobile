@@ -41,7 +41,7 @@ class CariItemViewModel @Inject constructor(
     ) { (query) ->
         QueryWithSort(query)
     }.flatMapLatest {
-        getActiveItemUseCase(itemGrpId = 1, bp = state.bp!!, query = it.query, usePid = state.usePid, channel = state.channel).cachedIn(viewModelScope)
+        getActiveItemUseCase(itemGrpId = 1, bp = state.bp!!, query = it.query, usePid = state.usePid, channel = state.channel)
     }
 
     fun onSearch(query: String) {

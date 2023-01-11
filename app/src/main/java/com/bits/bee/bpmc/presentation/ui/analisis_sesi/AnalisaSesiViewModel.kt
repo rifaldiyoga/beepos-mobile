@@ -42,7 +42,7 @@ class AnalisaSesiViewModel @Inject constructor(
     }
 
     fun checkPosses() = viewModelScope.launch {
-        getActivePossesListUseCase.invoke().collect {
+        getActivePossesListUseCase().collect {
             it.data?.let {
                 updateState(
                     state.copy(
@@ -161,7 +161,7 @@ class AnalisaSesiViewModel @Inject constructor(
             val chart = getSumByHourUseCase.invoke(data)
             updateState(
                 state.copy(
-                    listEntry = chart
+                    listEntry = chart?.toList() ?: mutableListOf()
                 )
             )
 

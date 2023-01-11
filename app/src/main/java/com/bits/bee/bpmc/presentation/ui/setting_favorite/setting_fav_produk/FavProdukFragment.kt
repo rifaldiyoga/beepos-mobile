@@ -91,16 +91,16 @@ class FavProdukFragment (
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            posAdapter.loadStateFlow.collectLatest {
-                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
-                    if (posAdapter.itemCount == 0)
-                        binding.groupEmpty.visible()
-                    else
-                        binding.groupEmpty.gone()
-                }
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+//            posAdapter.loadStateFlow.collectLatest {
+//                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+//                    if (posAdapter.itemCount == 0)
+//                        binding.groupEmpty.visible()
+//                    else
+//                        binding.groupEmpty.gone()
+//                }
+//            }
+//        }
 
     }
 
@@ -108,10 +108,10 @@ class FavProdukFragment (
         binding.apply {
             if(isLoading){
                 progressBar.visible()
-                rvList.gone()
+//                rvList.gone()
             } else {
                 progressBar.gone()
-                rvList.visible()
+//                rvList.visible()
             }
         }
     }

@@ -15,7 +15,11 @@ class RbPilihKategoriAdapter(
     private val mListener: EditKategoriAdapterI
 ): ListAdapter<ItemGroup, RbPilihKategoriAdapter.ViewHolder>(DiffCallback()) {
 
-    fun getSelectedPosition() : ItemGroup = getItem(selectedPosition)
+    fun getSelectedPosition() : ItemGroup? {
+        if(selectedPosition > -1)
+            return getItem(selectedPosition)
+        return null
+    }
 
     fun setSelected(itemGrp: ItemGroup?) {
         itemGrp?.let {

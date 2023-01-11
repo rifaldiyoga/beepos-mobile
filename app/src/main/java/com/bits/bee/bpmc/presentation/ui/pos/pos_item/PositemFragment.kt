@@ -72,7 +72,8 @@ class PositemFragment (
                         mainViewModel.state.saledList,
                         it.ukuranFont,
                         it.isMultiLine,
-                        it.isMuatGambar
+                        it.isMuatGambar,
+                        mainViewModel.orientation.value
                     )
 
                     posAdapter.addLoadStateListener { loadState ->

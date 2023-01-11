@@ -85,7 +85,7 @@ class BpRepositoryImpl @Inject constructor(
             if(isFavorit)
                 bpDao.getFavoritBpPagedList(query, true)
             else
-                bpDao.getBpPagedList( query)
+                bpDao.getBpPagedList(query)
         }
 
         return Pager(
@@ -167,6 +167,10 @@ class BpRepositoryImpl @Inject constructor(
         withContext(ioDispatcher){
             bpDao.delete(BpDataMapper.fromDomainToDb(bpEntity))
         }
+    }
+
+    override suspend fun resetSelectedBp() = withContext(ioDispatcher) {
+        bpDao.resetSelected()
     }
 
 }

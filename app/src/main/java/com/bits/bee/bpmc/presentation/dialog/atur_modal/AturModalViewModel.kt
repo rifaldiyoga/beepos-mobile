@@ -1,10 +1,8 @@
 package com.bits.bee.bpmc.presentation.dialog.atur_modal
 
 import androidx.lifecycle.viewModelScope
-import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetDefaultCrcUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

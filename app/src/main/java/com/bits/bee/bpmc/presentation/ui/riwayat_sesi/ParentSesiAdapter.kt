@@ -10,7 +10,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemParentSesiAdptBinding
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.model.Sesi
-import java.text.SimpleDateFormat
+import com.bits.bee.bpmc.utils.DateFormatUtils
 import java.util.*
 
 class ParentSesiAdapter constructor(
@@ -21,7 +21,7 @@ class ParentSesiAdapter constructor(
     private var mList: MutableList<Sesi> = mutableListOf()
     private var mlistPosses: MutableList<Posses> = mutableListOf()
     private lateinit var nestedSesiAdapter: NestedSesiAdapter
-    private val sf = SimpleDateFormat("dd-MM-yyyy")
+
 
     fun initList(sesi: MutableList<Sesi>) {
         this.mList = sesi
@@ -40,7 +40,7 @@ class ParentSesiAdapter constructor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sesiModel = mList.get(position)
         holder.binding.apply {
-            tvTglSesi.text = getDate(Date(sesiModel.date))
+            tvTglSesi.text = DateFormatUtils.getDate(Date(sesiModel.date))
             tvJmlTrans.text = "${sesiModel.jmltrans} Sesi"
 
             var isExpand = sesiModel.expand
@@ -66,19 +66,11 @@ class ParentSesiAdapter constructor(
             }
 
         }
-//        val expand: Boolean = sesiModel.expand
-
 
     }
 
     override fun getItemCount(): Int {
         return mList.size
-    }
-
-    fun getDate(dates: Date): String{
-        val dateToday = sf.format(Date())
-        val date = sf.format(dates)
-        return if (dateToday == date) "Hari ini" else date
     }
 
 }

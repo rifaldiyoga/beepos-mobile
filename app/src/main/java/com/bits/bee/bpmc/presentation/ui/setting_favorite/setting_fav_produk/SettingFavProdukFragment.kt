@@ -71,7 +71,7 @@ class SettingFavProdukFragment(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.itemList.collectLatest { pagingData ->
+                viewModel.itemList.collect { pagingData ->
                     posAdapter.submitData(pagingData)
                 }
             }

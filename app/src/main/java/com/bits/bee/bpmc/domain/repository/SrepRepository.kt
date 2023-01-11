@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.domain.repository
 
+import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Srep
 import com.bits.bee.bpmc.domain.model.Wh
 import kotlinx.coroutines.flow.Flow
@@ -14,5 +15,9 @@ interface SrepRepository {
     fun getDefaultSrep() : Flow<Srep?>
 
     fun getSrepById(id : Int) : Flow<Srep?>
+
+    suspend fun updateSrep(bpEntity: Srep)
+
+    suspend fun resetSelectedSrep()
 
 }

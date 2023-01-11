@@ -45,7 +45,7 @@ interface SaleRepository {
 
     suspend fun updateNewIdCust(oldIdCust: Int, idCust: Int)
 
-    fun getSaleById(id: Int): Flow<Sale>
+    fun getSaleById(id: Int): Flow<Sale?>
 
     fun getSaleNotUploaded(): Flow<List<Sale>>
 
@@ -53,5 +53,6 @@ interface SaleRepository {
 
     fun getSaleByPossesGroupByBp(id: Int): Flow<List<Sale>>
 
+    fun getDraftCount() : Flow<Int>
 
 }

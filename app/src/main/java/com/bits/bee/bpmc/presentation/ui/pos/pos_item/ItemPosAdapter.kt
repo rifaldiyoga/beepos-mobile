@@ -30,6 +30,7 @@ open class ItemPosAdapter constructor(
     private val ukuranFont : String = "",
     private val isMultiline : Boolean = false,
     private val isMuatGambar : Boolean = false,
+    private val orientation : String = ""
 ) : PagingDataAdapter<Item, RecyclerView.ViewHolder>(DiffCallback()) {
 
     fun submitSaledList(list : List<Saled>) {
@@ -117,9 +118,22 @@ open class ItemPosAdapter constructor(
                 } else {
                     if(!item.tempUrl.isNullOrEmpty()) {
                         Picasso.get().load(File(BPMConstants.getDatapath() + BPMConstants.BPM_PRODUKPATH + "/", item.tempUrl!!)).into(imageItem)
-                        llTransparent?.isVisible = true
-                        tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.white))
-                        tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.white))
+                        if(orientation == BPMConstants.SCREEN_LANDSCAPE) {
+                            llTransparent?.isVisible = true
+
+                            tvNamaItem.setTextColor(
+                                ContextCompat.getColor(
+                                    root.context,
+                                    R.color.white
+                                )
+                            )
+                            tvHarga.setTextColor(
+                                ContextCompat.getColor(
+                                    root.context,
+                                    R.color.white
+                                )
+                            )
+                        }
                     } else {
                         imageItem.setImageDrawable(
                             ImageUtils.generateFromInitial(
@@ -127,10 +141,22 @@ open class ItemPosAdapter constructor(
                                 item.name1
                             )
                         )
-                        llTransparent?.isVisible = false
+                        if(orientation == BPMConstants.SCREEN_LANDSCAPE) {
+                            llTransparent?.isVisible = false
 
-                        tvNamaItem.setTextColor(ContextCompat.getColor(root.context, R.color.black))
-                        tvHarga.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+                            tvNamaItem.setTextColor(
+                                ContextCompat.getColor(
+                                    root.context,
+                                    R.color.black
+                                )
+                            )
+                            tvHarga.setTextColor(
+                                ContextCompat.getColor(
+                                    root.context,
+                                    R.color.black
+                                )
+                            )
+                        }
                     }
                 }
 

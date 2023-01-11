@@ -5,10 +5,13 @@ import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +23,8 @@ class BerandaViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActivePossesUseCase: GetActivePossesUseCase,
-    private val tutupKasirUseCase: TutupKasirUseCase
+    private val tutupKasirUseCase: TutupKasirUseCase,
+    private val getRegUseCase: GetRegUseCase
 ) : BaseViewModel<BerandaState, BerandaViewModel.UIEvent>() {
 
     init {
@@ -28,6 +32,8 @@ class BerandaViewModel @Inject constructor(
     }
 
     val getActiveBranch = getActiveBranchUseCase()
+
+    val possesActualCashReg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
 
     fun onDetailBukaKasirClick() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToBukaKasir)
@@ -42,14 +48,29 @@ class BerandaViewModel @Inject constructor(
     }
 
     fun onTutupKasirClick() = viewModelScope.launch {
-        eventChannel.send(UIEvent.ReqTutupKasir)
+        eventChannel.send(UIEvent.NavigateToDialogTutupKasir)
     }
 
+    fun onReqTutupKasir() = viewModelScope.launch {
+        val reg = possesActualCashReg.first()
+        reg?.let {
+            if(it.value == "1"){
+                eventChannel.send(UIEvent.NavigateToDialogSetoranKasir)
+            } else {
+                doTutupKasir()
+            }
+        }
+    }
 
+    fun doTutupKasir() = viewModelScope.launch {
+        eventChannel.send(UIEvent.ReqTutupKasir)
+    }
 
     sealed class UIEvent {
         object NavigateToBukaKasir : UIEvent()
         object NavigateToTutupKasir : UIEvent()
+        object NavigateToDialogTutupKasir : UIEvent()
+        object NavigateToDialogSetoranKasir: UIEvent()
         object NavigateToDialogBukaKasir : UIEvent()
         object ReqTutupKasir : UIEvent()
     }
