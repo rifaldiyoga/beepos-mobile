@@ -148,7 +148,8 @@ class TambahProdukFragment(
                 },
                 onUpdateSatuan = { value ->
                     viewModel.onUpdateSatuan(value)
-                }
+                },
+                viewModel.state.msgQty
             )
             recyclerView2.apply {
                 layoutManager = LinearLayoutManager(requireActivity())
@@ -194,6 +195,7 @@ class TambahProdukFragment(
                 viewModel.validateNama()
                 viewModel.validateHarga()
                 viewModel.validateTipe()
+                viewModel.validateQty()
                 when(viewModel.state.posModeState){
                     PosModeState.RetailState ->{
                         if (etNamaPrd.text.toString().isNotEmpty() && etHarga.text.toString().isNotEmpty() &&
@@ -308,9 +310,9 @@ class TambahProdukFragment(
                             state.bitmap?.let {
                                 ivImage.setImageBitmap(it)
                             }
-                            state.picPath?.let {
-                                ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it))
-                            }
+//                            state.picPath?.let {
+//                                ivImage.setImageBitmap(FileHandlerUtils.checkDirPath(it))
+//                            }
 
                             state.itemGrp?.let {
                                 etKategoriProduk.setText(it.name)
@@ -318,7 +320,10 @@ class TambahProdukFragment(
                             state.brand?.let {
                                 etBrandPrd.setText(it.brandName)
                             }
-
+                            state.msgQty?.let {
+                                unitAdapter.setError(it)
+                                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                            }
                             tilNama.error = it.msgNama
                             tilHarga.error = it.msgHarga
                             tilTipe.error = it.msgTipe
@@ -476,10 +481,13 @@ class TambahProdukFragment(
             && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             if (isCamera){
                 tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
-                tempFilePath = it.absolutePath
+                    tempFilePath = it.absolutePath
                 })
                 resultLauncherContract.launch(tempUri)
             }else{
+                tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
+                    tempFilePath = it.absolutePath
+                })
                 getImage.launch("image/*")
             }
         }else{
@@ -507,7 +515,7 @@ class TambahProdukFragment(
             it.toString()
         ))
 //        itemPict = FileHandlerUtils.bitMapScale(bitmap, 307200)
-        viewModel.getDataFromIntent(bitmap, requireActivity(), it, bitmap.toString())
+        viewModel.getDataFromIntent(bitmap, requireActivity(), tempUri, tempFilePath)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

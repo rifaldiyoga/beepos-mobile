@@ -21,16 +21,23 @@
             android:layout_height="wrap_content"
             android:text="@string/satuan_prd" />
 
-        <EditText
-            android:id="@+id/etSatuan"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSatuan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size6"
-            android:maxLength="8"
-            android:inputType="textCapSentences"
-            android:hint="@string/masukkan_satuan_produk"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintStart_toStartOf="@+id/textView1"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3" >
+
+            <EditText
+                android:id="@+id/etSatuan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="8"
+                android:inputType="textCapSentences"
+                android:hint="@string/masukkan_satuan_produk" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,15 +64,22 @@
                 android:layout_height="wrap_content"
                 android:text="@string/konversi" />
 
-            <EditText
-                android:id="@+id/etQty"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilQty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size6"
-                android:hint="Qty"
-                android:inputType="phone"
+                style="@style/CustomTextInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textView1"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3" >
+
+                <EditText
+                    android:id="@+id/etQty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Qty"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <TextView

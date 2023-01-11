@@ -85,6 +85,15 @@ class TambahProdukViewModel @Inject constructor(
     fun onQtyChange(pos : Int, value : String) = viewModelScope.launch{
         val unit = state.unitList[pos]
         unit.conv = BigDecimal(value)
+        if (pos == 2){
+                if(unit.conv <= state.unitList[1].conv){
+                    updateState(
+                        state.copy(
+                            msgQty = "Konversi 3 harus lebih besar dari 2"
+                        )
+                    )
+                }
+            }
     }
 
     fun onDelete (pos : Int) = viewModelScope.launch {
@@ -106,21 +115,25 @@ class TambahProdukViewModel @Inject constructor(
     }
 
     fun onSubmit(nama: String, harga: String, pid: String) = viewModelScope.launch {
-        val itemDummy = ItemDummy(
-            id = state.itemDummy?.id,
-            name = nama,
-            itemTypeCode = state.tipeProduk,
-            price = harga,
-            picPath = if (state.bitmap != null) state.picPath ?: "" else "",
-            pid = pid.ifEmpty { "" },
-            brandId = state.brand?.id,
-            itemGroupId = state.itemGrp!!.id!!,
-            itemGroup = state.itemGrp?.name ?: "",
-            unit = state.unitList.firstOrNull()?.unit ?: ""
-        )
+        if (state.unitList.size == 3 &&(state.unitList[1].conv >= state.unitList[2].conv)){
+            //
+        }else{
+            val itemDummy = ItemDummy(
+                id = state.itemDummy?.id,
+                name = nama,
+                itemTypeCode = state.tipeProduk,
+                price = harga,
+                picPath = if (state.bitmap != null) state.picPath ?: "" else "",
+                pid = pid.ifEmpty { "" },
+                brandId = state.brand?.id,
+                itemGroupId = state.itemGrp!!.id!!,
+                itemGroup = state.itemGrp?.name ?: "",
+                unit = state.unitList.firstOrNull()?.unit ?: ""
+            )
 
-        addEditProdukUseCase(itemDummy, state.unitList, state.isEdit)
-        eventChannel.send(UIEvent.FinsihSubmit)
+            addEditProdukUseCase(itemDummy, state.unitList, state.isEdit)
+            eventChannel.send(UIEvent.FinsihSubmit)
+        }
     }
 
 
@@ -164,8 +177,7 @@ class TambahProdukViewModel @Inject constructor(
         try {
             updateState(
                 state.copy(
-                    bitmap = btmap,
-                    picPath = path
+                    bitmap = btmap
                 )
             )
         } catch (e: Exception) {
@@ -262,6 +274,18 @@ class TambahProdukViewModel @Inject constructor(
                     unitList = unitList
                 )
             )
+        }
+    }
+
+    fun validateQty() = viewModelScope.launch {
+        if (state.unitList.size >= 3){
+            if (state.unitList[1].conv >= state.unitList[2].conv){
+                updateState(
+                    state.copy(
+                        msgQty = "Konversi 3 harus lebih besar dari 2"
+                    )
+                )
+            }
         }
     }
 
