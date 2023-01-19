@@ -75,6 +75,7 @@
                     app:itemCount="6"
                     app:itemSpacing="@dimen/size10"
                     app:itemWidth="@dimen/size45"
+                    android:focusable="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6"

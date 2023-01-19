@@ -15,15 +15,15 @@ interface CashADao: BaseDao<CashAEntity> {
     @Query("SELECT * FROM casha WHERE refid = :refId AND reftype = :refType")
     fun getCashAByRef(refId : Long, refType : String) : CashAEntity?
 
-    @Insert
-    suspend fun insert(en : CashAEntity)
-
     @Query("SELECT * FROM casha where reftype = 'POSSES' ORDER BY id DESC LIMIT 1")
     fun getLastCasha(): List<CashAEntity>
 
-    @Query("SELECT * FROM casha WHERE cash_id = :cashId")
+    @Query("SELECT * FROM casha WHERE cash_id = :cashId AND is_void = 0")
     fun getCashAByCashId(cashId : Int) : List<CashAEntity>
 
     @Query("SELECT * FROM casha WHERE refid = :refId AND reftype = :refType")
-    fun getCashAByRefId(refId : Long, refType : String): List<CashAEntity>
+    fun getCashAByRefId(refId : Int, refType : String): CashAEntity?
+
+
+
 }

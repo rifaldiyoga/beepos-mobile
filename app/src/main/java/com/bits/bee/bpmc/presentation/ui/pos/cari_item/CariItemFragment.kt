@@ -20,6 +20,7 @@ import com.bits.bee.bpmc.databinding.FragmentCariItemBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
@@ -81,11 +82,11 @@ class CariItemFragment(
             }
         })
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
-            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 return true
             }
 
-            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 findNavController().popBackStack()
                 return true
             }
@@ -99,8 +100,10 @@ class CariItemFragment(
         searchView.requestFocus()
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("scan")?.observe(viewLifecycleOwner) {
             viewModel.onSearch(it)
+            viewModel.onScan(it)
             searchView.setQuery(it, true)
             showSnackbar(it)
+            findNavController().currentBackStackEntry?.savedStateHandle?.remove<String>("scan")
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -138,11 +141,12 @@ class CariItemFragment(
                 viewModel.onClickRetail(it)
             }
             rvList.apply {
-                adapter = if(mainViewModel.posModeState.value is PosModeState.FnBState)
+                adapter = (if(mainViewModel.posModeState.value is PosModeState.FnBState)
                     itemAdapter
                 else
-                    itemRetailPosAdapter
+                    itemRetailPosAdapter).withLoadStateFooter(LoadingStateAdapter())
                 layoutManager = LinearLayoutManager(requireActivity())
+                itemAnimator = null
             }
 
 
@@ -153,14 +157,19 @@ class CariItemFragment(
     }
 
     override fun subscribeObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.msg.collectLatest {
+                showSnackbar(it)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             mainViewModel.activeBp.collect {
                 it?.let {
                     viewModel.state.bp = it
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             mainViewModel.activeChannel.collect {
                 it?.let {
                     viewModel.state.channel = it
@@ -170,14 +179,14 @@ class CariItemFragment(
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             if(mainViewModel.posModeState.value is PosModeState.FnBState) {
                 itemAdapter.loadStateFlow.collectLatest {
-                    if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                    if (it.append is LoadState.NotLoading) {
                         binding.groupEmpty.isVisible = itemAdapter.itemCount == 0  && viewModel.currentQuery.value.length > 2
                         binding.rvList.isVisible = itemAdapter.itemCount > 0 && viewModel.currentQuery.value.length > 2
                     }
                 }
             } else {
                 itemRetailPosAdapter.loadStateFlow.collectLatest {
-                    if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                    if (it.append is LoadState.NotLoading) {
                         binding.groupEmpty.isVisible = itemRetailPosAdapter.itemCount == 0 && viewModel.currentQuery.value.length > 2
                         binding.rvList.isVisible = itemRetailPosAdapter.itemCount > 0 && viewModel.currentQuery.value.length > 2
                     }

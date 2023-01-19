@@ -35,8 +35,8 @@ class InvoiceFragment(
     private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
         if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT) {
+            menu.clear()
             inflater.inflate(R.menu.menu_pos, menu)
             menu.findItem(R.id.menu_draft).isVisible = false
             menu.findItem(R.id.menu_search).isVisible = false

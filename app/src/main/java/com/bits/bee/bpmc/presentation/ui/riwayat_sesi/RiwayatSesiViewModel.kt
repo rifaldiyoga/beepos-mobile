@@ -1,15 +1,13 @@
 package com.bits.bee.bpmc.presentation.ui.riwayat_sesi
 
-import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.FilterDate
-import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.*
+import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.GetFilterSortingUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.FilterUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +17,7 @@ class RiwayatSesiViewModel @Inject constructor(
 
     val filterDate = MutableStateFlow(FilterUtils.getFilterDate(0, "", false))
 
-    val sortDesc = MutableStateFlow(false)
+    val sortDesc = MutableStateFlow(true)
 
     init {
         state = RiwayatSesiState()

@@ -1,6 +1,8 @@
 package com.bits.bee.bpmc.presentation.ui.buka_kasir
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.BukaKasirUseCase
 import com.bits.bee.bpmc.domain.usecase.buka_kasir.GetCounterShiftUseCase
 import com.bits.bee.bpmc.domain.usecase.common.*
@@ -9,10 +11,12 @@ import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -21,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BukaTutupKasirSharedViewModel @Inject constructor(
     private val getActivePossesUseCase: GetActivePossesUseCase,
+    private val getLastPossesUseCase: GetLastPossesUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getDefaultCrcUseCase: GetDefaultCrcUseCase,
@@ -126,12 +131,22 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
 //        }
     }
 
-    suspend fun doBukaKasir(modal : String, sesi: Int) = viewModelScope.launch {
+    suspend fun doBukaKasir(modal : String, context: Context) = viewModelScope.launch {
+        var shift = 1
+        val lastPosses = getLastPossesUseCase().first()
+        if(lastPosses != null) {
+            val lastDate = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, lastPosses.endTime!!)
+            val dateNow = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, Date())
+            if(lastDate != dateNow){
+                BeePreferenceManager.saveToPreferences(context, context.getString(R.string.pref_counter_sesi), 1)
+            }
+            shift = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_counter_sesi), 1) as Int
+        }
         if (modal.isEmpty() || modal.contains(Regex("[A-Za-z]")))
             msgChannel.send("Modal yang anda masukkan salah!")
         else {
             val modalC = BigDecimal(modal)
-            bukaKasirUseCase(modalC, sesi, state.activeBranch!!, state.activeCashier!!)
+            bukaKasirUseCase(modalC, shift, state.activeBranch!!, state.activeCashier!!)
             getActivePosses()
             eventChannel.send(UIEvent.NavigateToPos)
         }

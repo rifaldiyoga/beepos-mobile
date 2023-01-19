@@ -43,12 +43,15 @@ class LoginOperatorFragment(
 
     private var mLoginUserStatus:Int = 2
 
+    private var menuLogin : MenuItem? = null
+
     private lateinit var dialog : LoadingDialogHelper
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_login_operator, menu)
-        val menuLogin = menu.findItem(R.id.menu_login)
-        loadMenu(menuLogin)
+        menuLogin = menu.findItem(R.id.menu_login)
+        loadMenu(menuLogin!!)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -191,13 +194,9 @@ class LoginOperatorFragment(
                                 requireActivity(),
                                 getString(R.string.gagal_login),
                                 getString(R.string.silahkan_login_email_sinkron)
-                            ){
-                                requireActivity().actionBar?.displayOptions
-                                viewModel.updateState(
-                                    viewModel.state.copy(
-                                        mTimesWrong = 0
-                                    )
-                                )
+                            ) {
+                                it.dismiss()
+                                mLoginUserStatus = 1
                             }
 
                             dialog.show(parentFragmentManager, TAG)

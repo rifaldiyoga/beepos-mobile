@@ -12,15 +12,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
+import com.bits.bee.bpmc.databinding.ItemLoadingBinding
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.cari_item.CariItemFragmentDirections
 import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
@@ -95,7 +98,7 @@ class PositemFragment (
                             BPMConstants.SCREEN_POTRAIT -> LinearLayoutManager(requireContext())
                             else -> GridLayoutManager(requireContext(), 3)
                         }
-                        adapter = posAdapter
+                        adapter = posAdapter.withLoadStateFooter(LoadingStateAdapter())
                         itemAnimator = null
                     }
                 }

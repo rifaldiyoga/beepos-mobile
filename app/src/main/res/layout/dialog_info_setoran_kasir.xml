@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size16"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textView10"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tentang_setoran_kasir"
+        android:textSize="@dimen/font14"
+        app:layout_constraintBottom_toBottomOf="@+id/imag_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:padding="@dimen/size10"
+        android:id="@+id/imag_close"
+        android:layout_width="@dimen/size30"
+        android:layout_height="@dimen/size30"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:textSize="@dimen/font14"
+        android:text="@string/program"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imag_close" />
+
+    <TextView
+        android:id="@+id/tv_nama_company"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size4"
+        android:text="@string/setoran_yang_dihitung_oleh_beepos_mobile_secara_otomatis"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView95" />
+
+    <TextView
+        android:id="@+id/textView99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/aktual_buta"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font14"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nama_company" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="Setoran yang dihitung oleh kasir pada cash drawer saat akan tutup kasir"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font14"
+        android:layout_marginTop="@dimen/size4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView99" />
+
+
+    <TextView
+        android:id="@+id/textView104"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/selisih"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font14"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email" />
+
+    <TextView
+        android:id="@+id/textView106"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font14"
+        android:layout_marginTop="@dimen/size4"
+        android:text="Perbedaan nominal antara program dan aktual / buta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView104" />
+
+    <TextView
+        android:id="@+id/textView108"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="* Nilai yang disimpan sistem adalah setoran program. Setoran aktual / buta hanya sebagai bantuan atau catatan saja"
+        android:textColor="@color/dark_gray"
+        android:layout_marginTop="@dimen/size16"
+        android:textSize="@dimen/font12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView106" />
+
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/tutup"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView108" />
+</androidx.constraintlayout.widget.ConstraintLayout>

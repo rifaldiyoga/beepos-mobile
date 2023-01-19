@@ -26,9 +26,11 @@ class ModeTampilanViewModel @Inject constructor(
 
 
     fun onClickItem(string: String) = viewModelScope.launch {
-        beePreferenceManager.updatePosPreferences(
-            beePreferenceManager.posPreferences.first().copy(orientasi = BPMConstants.SCREEN_POTRAIT, isChangeOrientasi = true)
-        )
+        if(string == "retail"){
+            beePreferenceManager.updatePosPreferences(
+                beePreferenceManager.posPreferences.first().copy(orientasi = BPMConstants.SCREEN_POTRAIT, isChangeOrientasi = true)
+            )
+        }
         beePreferenceManager.updateModePreferences(string)
         eventChannel.send(UIEvent.RequestClickItem(string))
     }

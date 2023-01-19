@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentDraftListBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
@@ -93,7 +94,7 @@ class DraftFragment(
         )
         binding.apply {
             rvList.apply {
-                adapter = draftAdapter
+                adapter = draftAdapter.withLoadStateFooter(LoadingStateAdapter())
                 layoutManager = LinearLayoutManager(requireContext())
             }
         }

@@ -58,7 +58,6 @@ class PosFragment(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         badge = BadgeDrawable.create(requireContext())
-        menu.clear()
         inflater.inflate(R.menu.menu_pos, menu)
         draftMenu = menu.findItem(R.id.menu_draft)
         viewLifecycleOwner.lifecycleScope.launch {
@@ -101,8 +100,7 @@ class PosFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT)
-            setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

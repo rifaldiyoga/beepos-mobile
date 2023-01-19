@@ -49,8 +49,8 @@ class SaleRepositoryImpl @Inject constructor(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
             maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            enablePlaceholders = false,
-            initialLoadSize = BPMConstants.BPM_MAX_PAGINATION
+            enablePlaceholders = true,
+            initialLoadSize = BPMConstants.BPM_MAX_PAGINATION,
         ),
         pagingSourceFactory = {
             if(channelList.isNotEmpty())
@@ -145,14 +145,9 @@ class SaleRepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getSaleHaventUploaded(
-        limit_trx: Int,
-        saledlist: List<Int>
-    ): Flow<List<Sale>> {
+    override fun getSaleHaventUploaded(limit_trx: Int, ): Flow<List<Sale>> {
         return flow {
-            val delimiter = ","
-            val result = saledlist.joinToString(delimiter)
-            val data = saleDao.getSaleHaventUploaded(limit_trx, result).map { SaleDataMapper.fromDbToDomain(it) }
+            val data = saleDao.getSaleHaventUploaded(limit_trx).map { SaleDataMapper.fromDbToDomain(it) }
             emit((data))
         }.flowOn(defaultDispatcher)
     }

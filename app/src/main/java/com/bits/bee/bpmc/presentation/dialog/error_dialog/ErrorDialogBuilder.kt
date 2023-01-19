@@ -5,7 +5,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.DialogErrorBinding
 import com.bits.bee.bpmc.presentation.base.BaseBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,9 +20,9 @@ class ErrorDialogBuilder constructor(
 
     override fun initComponents() {
         binding.apply {
-            tvErrorDetail.isSingleLine = !isExpanded
             tvErrorDetail.text = detailError
-            tvShowDetail.isVisible = tvErrorDetail.lineCount > 1
+            tvErrorDetail.isSingleLine = !isExpanded
+            tvShowDetail.isVisible = detailError.length > 59
         }
     }
 

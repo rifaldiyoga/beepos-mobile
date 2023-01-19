@@ -50,6 +50,8 @@ class ListPrinterFragment(
 
         if(!isGranted){
             Toast.makeText(requireActivity(), "Beberapa permission belum aktif!", Toast.LENGTH_LONG).show()
+        } else {
+            startDiscoverable()
         }
     }
 

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentMemberBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
@@ -131,7 +132,7 @@ class MemberFragment(
 
             rvList.apply {
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = memberAdapter
+                adapter = memberAdapter.withLoadStateFooter(LoadingStateAdapter())
             }
             findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>("isUse")?.observe(viewLifecycleOwner){
                 findNavController().popBackStack()

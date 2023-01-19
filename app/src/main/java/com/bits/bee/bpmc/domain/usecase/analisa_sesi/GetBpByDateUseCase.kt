@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetBpByDateUseCase @Inject constructor(
    private val bpRepository: BpRepository
 ) {
-    operator fun invoke(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>>{
+    operator fun invoke(startDate: Long, endDate: Long): Flow<List<Bp>>{
         return bpRepository.getBpByDate(startDate, endDate)
     }
 }

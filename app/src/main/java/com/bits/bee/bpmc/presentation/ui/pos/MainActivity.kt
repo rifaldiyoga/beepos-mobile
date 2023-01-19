@@ -26,6 +26,8 @@ import com.bits.bee.bpmc.presentation.dialog.diskon_nota.DiskonNotaDialog
 import com.bits.bee.bpmc.presentation.service.BluetoothConnectService
 import com.bits.bee.bpmc.presentation.ui.pos.channel.ChannelListDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.pos.pos.TAG
+import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.Utils
 import com.bits.bee.bpmc.utils.extension.getColorFromAttr
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.AndroidEntryPoint

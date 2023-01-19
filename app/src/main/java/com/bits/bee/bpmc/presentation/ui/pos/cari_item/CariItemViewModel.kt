@@ -8,6 +8,7 @@ import androidx.paging.map
 import com.bits.bee.bpmc.domain.model.Bp
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemUseCase
+import com.bits.bee.bpmc.domain.usecase.pos.GetItemByBarcodeUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CariItemViewModel @Inject constructor(
     private val getActiveItemUseCase: GetActiveItemUseCase,
+    private val getItemByBarcodeUseCase: GetItemByBarcodeUseCase,
     val savedStateHandle: SavedStateHandle
 ) : BaseViewModel<CariItemState, CariItemViewModel.UIEvent>() {
 
@@ -42,6 +44,15 @@ class CariItemViewModel @Inject constructor(
         QueryWithSort(query)
     }.flatMapLatest {
         getActiveItemUseCase(itemGrpId = 1, bp = state.bp!!, query = it.query, usePid = state.usePid, channel = state.channel)
+    }
+
+    fun onScan(query: String) = viewModelScope.launch {
+        val item = getItemByBarcodeUseCase(query, bp = state.bp!!, channel = state.channel).first()
+        item?.let {
+            onClickRetail(item)
+        } ?: run {
+            sendMessage("Scan tidak ditemukan!")
+        }
     }
 
     fun onSearch(query: String) {

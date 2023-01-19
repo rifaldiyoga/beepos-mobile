@@ -189,6 +189,7 @@ class EditItemFragment(
                 viewModel.onClickMinus()
             }
             llNext.setOnClickListener {
+                hideKeyboard()
                 viewModel.onClickSubmit()
             }
             tvUbah.setOnClickListener {

@@ -18,6 +18,9 @@ interface PossesDao : BaseDao<PossesEntity> {
     @Query("SELECT * FROM posses WHERE endbal is null")
     fun getActivePosses() : PossesEntity?
 
+    @Query("SELECT * FROM posses ORDER BY id DESC LIMIT 1")
+    fun getLastPosses() : PossesEntity?
+
     @Query("SELECT * FROM posses WHERE endbal is null")
     fun getListPosses(): PagingSource<Int, PossesEntity>
 

@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.view.marginEnd
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -89,7 +88,7 @@ class HomeActivity(
                 }
 
                 when (navController.currentDestination?.id) {
-                    R.id.cekStokFragment, R.id.rekapKasFragment, R.id.rekapProdukFragment -> {
+                    R.id.cekStokFragment, R.id.rekapKasFragment, R.id.rekapProdukFragment, R.id.transaksiPenjualanFragment -> {
                         toolbar.collapseIcon = ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_back_black)
                     }
                     else -> {
@@ -137,6 +136,7 @@ class HomeActivity(
                     when(it){
                         HomeViewModel.UIEvent.NavigateToPos -> {
                             navController.navigate(R.id.mainActivity)
+                            navController.navigateUp()
                         }
                     }
                 }

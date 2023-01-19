@@ -497,7 +497,7 @@ untuk memperbarui data dapur?</string>
     <string name="modal_kasir">Modal Kasir</string>
     <string name="atur_modal_kasir">Atur Modal Kasir</string>
     <string name="sebelum_buka_kasir_atur_modal_dulu_ya">Sebelum buka kasir, atur modal dulu ya!</string>
-    <string name="sebelum_buka_kasir_isi_setoran_dulu_ya">Sebelum buka kasir, isi setoran dulu ya!</string>
+    <string name="sebelum_buka_kasir_isi_setoran_dulu_ya">Sebelum tutup kasir, isi setoran dulu ya!</string>
     <string name="detail_transaksi">Detail Transaksi</string>
     <string name="_08_03_2022_12_12">08/03/2022 12:12</string>
     <string name="jenis_pembayaran">Jenis Pembayaran</string>
@@ -784,5 +784,7 @@ untuk memperbarui data dapur?</string>
     <string name="aktual_buta">Aktual / Buta</string>
     <string name="selisih">Selisih</string>
     <string name="nilai_yang_disimpan_sistem_adalah_setoran_program_setoran_aktual_buta_hanya_sebagai_bantuan_atau_catatan_saja">Nilai yang disimpan sistem adalah setoran program. Setoran aktual / buta hanya sebagai bantuan atau catatan saja</string>
+    <string name="setoran_yang_dihitung_oleh_beepos_mobile_secara_otomatis">Setoran yang dihitung oleh Beepos Mobile secara otomatis</string>
+    <string name="tentang_setoran_kasir">Tentang Setoran Kasir</string>
 
 </resources>

@@ -401,10 +401,11 @@
 
                 <ImageView
                     android:id="@+id/ivInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/size32"
+                    android:padding="@dimen/size8"
+                    android:layout_height="@dimen/size32"
                     android:layout_marginStart="@dimen/size8"
-                    android:src="@drawable/ic_info"
+                    android:src="@drawable/ic_help_circle"
                     app:layout_constraintBottom_toBottomOf="@+id/textView100"
                     app:layout_constraintStart_toEndOf="@+id/textView100"
                     app:layout_constraintTop_toTopOf="@+id/textView100" />

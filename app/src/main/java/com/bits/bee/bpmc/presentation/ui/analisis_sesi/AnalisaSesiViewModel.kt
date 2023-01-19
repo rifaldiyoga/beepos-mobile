@@ -11,6 +11,7 @@ import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -52,99 +53,23 @@ class AnalisaSesiViewModel @Inject constructor(
         }
     }
 
-    fun getValueDetail() = viewModelScope.launch {
+    suspend fun getValueDetail() {
         state.posses?.let { data ->
-            getUserByIdUseCase.invoke(data.userId).collect {
-                updateState(
-                    state.copy(
-                        user = it
-                    )
-                )
-            }
-
-            getSaleByPossesUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        saleList = it
-                    )
-                )
-            }
-
-
-            getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(
-                data.trxDate.time,
-            ), DateFormatUtils.convertEndDate(data.trxDate.time)).collect {
-                it.data?.let {
-                    updateState(
-                        state.copy(
-                            bpDateList = it
-                        )
-                    )
-                }
-            }
-
-            getCountNotaUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        notaSucces = it
-                    )
-                )
-            }
-
-            getCountNotaVoidUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        notaVoid = it
-                    )
-                )
-            }
-
-            val tunai = getTotalPaidTunaiUseCase.invoke(data.possesId!!, data.trxNo)
             updateState(
                 state.copy(
-                    totalTunai = tunai
+                    user = getUserByIdUseCase.invoke(data.userId).first(),
+                    saleList =  getSaleByPossesUseCase.invoke(data.possesId!!).first().filter { !it.isVoid },
+                    bpDateList = getBpByDateUseCase.invoke(DateFormatUtils.convertStartDate(data.trxDate.time,), DateFormatUtils.convertEndDate(data.trxDate.time)).first(),
+                    notaSucces = getCountNotaUseCase.invoke(data.possesId!!).first(),
+                    notaVoid = getCountNotaVoidUseCase.invoke(data.possesId!!).first(),
+                    totalTunai = getTotalPaidTunaiUseCase.invoke(data.possesId!!, data.trxNo),
+                    totalDebit = getTotalPaidDebitUseCase.invoke(data.possesId!!).first(),
+                    totalKredit = getTotalPaidKreditUseCase.invoke(data.possesId!!).first(),
+                    totalGopay = getTotalPaidGopayUseCase.invoke(data.possesId!!).first(),
+                    rankItem = getRankItemUseCase.invoke(data.possesId!!).first(),
+                    listEntry = getSumByHourUseCase.invoke(data) ?: mutableListOf()
                 )
             )
-
-            getTotalPaidDebitUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        totalDebit = it
-                    )
-                )
-            }
-
-            getTotalPaidKreditUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        totalKredit = it
-                    )
-                )
-            }
-
-            getTotalPaidGopayUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        totalGopay = it
-                    )
-                )
-            }
-
-            getRankItemUseCase.invoke(data.possesId!!).collect {
-                updateState(
-                    state.copy(
-                        rankItem = it
-                    )
-                )
-            }
-
-            val chart = getSumByHourUseCase.invoke(data)
-            updateState(
-                state.copy(
-                    listEntry = chart?.toList() ?: mutableListOf()
-                )
-            )
-
         }
     }
 
@@ -195,8 +120,13 @@ class AnalisaSesiViewModel @Inject constructor(
         eventChannel.send(UIEvent.RequstDetailBukaKasir)
     }
 
+    fun onClickInfo() = viewModelScope.launch{
+        eventChannel.send(UIEvent.RequestInfoSetoran)
+    }
+
     sealed class UIEvent {
         object RequestRiwayatSesi : UIEvent()
         object RequstDetailBukaKasir : UIEvent()
+        object RequestInfoSetoran : UIEvent()
     }
 }

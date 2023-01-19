@@ -17,7 +17,6 @@ import com.bits.bee.bpmc.presentation.base.BaseDialogFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,11 +92,9 @@ class HakAksesFragment(
                     R.id.menu_login -> {
                         when(mLoginUserStatus){
                             1 -> {
-                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), true)
                                 mLoginUserStatus = 2
                             }
                             2 -> {
-                                BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_login_user), false)
                                 mLoginUserStatus = 1
                             }
                         }
@@ -157,12 +154,7 @@ class HakAksesFragment(
                                 getString(R.string.silahkan_login_email_sinkron)
                             ) {
                                 it.dismiss()
-                                requireActivity().actionBar?.displayOptions
-                                viewModel.updateState(
-                                    viewModel.state.copy(
-                                        mTimesWrong = 0
-                                    )
-                                )
+                                mLoginUserStatus = 1
                             }
                             dialog.show(parentFragmentManager, "")
                         }

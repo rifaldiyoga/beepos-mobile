@@ -61,6 +61,7 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size8"
+        android:digits="0123456789"
         android:inputType="phone"
         android:layout_marginStart="@dimen/size16"
         app:layout_constraintEnd_toEndOf="parent"

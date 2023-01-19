@@ -11,7 +11,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.SrepEntity
 @Dao
 interface SrepDao : BaseDao<SrepEntity> {
 
-    @Query("SELECT * FROM srep WHERE name LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM srep WHERE name LIKE '%' || :query || '%' ORDER BY isselected DESC")
     fun getSrepList(query : String) : List<SrepEntity>
 
     @Query("SELECT * FROM srep WHERE id = :srepId")

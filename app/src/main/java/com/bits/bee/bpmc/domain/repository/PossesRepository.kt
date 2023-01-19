@@ -19,6 +19,8 @@ interface PossesRepository {
 
     suspend fun getPosses(): Flow<PagingData<Posses>>
 
+    suspend fun getLastPosses(): Flow<Posses?>
+
     suspend fun addPosses(startBal : BigDecimal, shift : Int, branch: Branch, cashier: Cashier, user : User)
 
     suspend fun updatePosses(posses: Posses)

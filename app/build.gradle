@@ -9,13 +9,13 @@ plugins {
     id 'com.google.gms.google-services'
 }
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.bits.bee.bpmc"
         minSdk 21
-        targetSdk 32
-        versionCode 1
+        targetSdk 33
+        versionCode 21
         versionName "2.0 (Beepos Mobile)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

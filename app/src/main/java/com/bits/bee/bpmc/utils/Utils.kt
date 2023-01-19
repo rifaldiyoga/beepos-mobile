@@ -13,14 +13,19 @@ import com.bluebamboo.p25library.util.StringUtil.hexStringToBytes
 import kotlinx.coroutines.flow.first
 import java.io.File
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.sqrt
 
 
 /**
  * Created by aldi on 01/03/22.
  */
-class Utils {
+@Singleton
+class Utils{
 
     companion object {
+
 
         private var dots : BitSet? = null
 
@@ -30,67 +35,7 @@ class Utils {
             "0100", "0101", "0110", "0111", "1000", "1001", "1010", "1011",
             "1100", "1101", "1110", "1111"
         )
-        
 
-        suspend fun getScreenResolution(beePreferenceManager: BeePreferenceManager, activity: Activity): String {
-            var screenDevice : String
-            val metrics = DisplayMetrics()
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                val display = activity.display
-                display?.getRealMetrics(metrics)
-            } else {
-                @Suppress("DEPRECATION")
-                val display = activity.windowManager.defaultDisplay
-                @Suppress("DEPRECATION")
-                display.getMetrics(metrics)
-            }
-            val widthPixels = metrics.widthPixels
-            val heightPixels = metrics.heightPixels
-            val widthDpi = metrics.xdpi
-            val heightDpi = metrics.ydpi
-            val widthInches = widthPixels / widthDpi
-            val heightInches = heightPixels / heightDpi
-            val diagonalInches = Math.sqrt((widthInches * widthInches + heightInches * heightInches).toDouble())
-//            val inc = diagonalInches.toString().substring(0, 3)
-
-            //inci layar
-            val orientation = beePreferenceManager.posPreferences.first().orientasi
-
-            val isChange = beePreferenceManager.posPreferences.first().isChangeOrientasi
-
-            if (diagonalInches < 6.9 && !isChange) {
-                screenDevice = BPMConstants.SCREEN_POTRAIT
-                beePreferenceManager.updatePosPreferences(
-                    beePreferenceManager.posPreferences.first().copy(
-                        orientasi = BPMConstants.SCREEN_POTRAIT
-                    )
-                )
-            } else if (diagonalInches >= 6.9 && !isChange) {
-                screenDevice = BPMConstants.SCREEN_LANDSCAPE
-                beePreferenceManager.updatePosPreferences(
-                    beePreferenceManager.posPreferences.first().copy(
-                        orientasi = BPMConstants.SCREEN_LANDSCAPE
-                    )
-                )
-            } else {
-                if (orientation == BPMConstants.SCREEN_POTRAIT) {
-                    screenDevice = BPMConstants.SCREEN_POTRAIT
-                    beePreferenceManager.updatePosPreferences(
-                        beePreferenceManager.posPreferences.first().copy(
-                            orientasi = BPMConstants.SCREEN_POTRAIT
-                        )
-                    )
-                } else {
-                    screenDevice = BPMConstants.SCREEN_LANDSCAPE
-                    beePreferenceManager.updatePosPreferences(
-                        beePreferenceManager.posPreferences.first().copy(
-                            orientasi = BPMConstants.SCREEN_LANDSCAPE
-                        )
-                    )
-                }
-            }
-            return screenDevice
-        }
 
         fun isValidEmail(target : CharSequence) : Boolean {
             return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()

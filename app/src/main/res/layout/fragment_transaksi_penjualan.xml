@@ -78,10 +78,11 @@
         app:layout_constraintStart_toEndOf="@+id/tilChannel"
         app:layout_constraintTop_toTopOf="@+id/tilChannel"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
         android:layout_marginTop="@dimen/size16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,5 +97,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

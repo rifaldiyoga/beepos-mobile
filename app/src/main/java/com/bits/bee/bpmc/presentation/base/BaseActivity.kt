@@ -3,16 +3,20 @@ package com.bits.bee.bpmc.presentation.base
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.OrientationUtils
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterface {
 
@@ -24,6 +28,9 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
     protected val binding: T
         get() = _binding as T
 
+    @Inject
+    lateinit var orientationUtils: OrientationUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,11 +38,16 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
         setContentView(requireNotNull(_binding).root)
 
         //set orientation
-        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        else
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        requestedOrientation = orientation
+        lifecycleScope.launchWhenStarted {
+            val ori = orientationUtils.getScreenResolution(this@BaseActivity)
+            BeePreferenceManager.ORIENTATION = ori
+            val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            else
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            requestedOrientation = orientation
+        }
+
 
         initComponents()
         subscribeListeners()
@@ -45,6 +57,16 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onResume() {
+        val orientation = if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        else
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = orientation
+        Log.i("OnResume", "Activity")
+        super.onResume()
     }
 
     abstract override fun initComponents()
@@ -73,7 +95,6 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(), BaseInterfac
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
         setTheme(R.style.Theme_BeeposMobile)
     }
 

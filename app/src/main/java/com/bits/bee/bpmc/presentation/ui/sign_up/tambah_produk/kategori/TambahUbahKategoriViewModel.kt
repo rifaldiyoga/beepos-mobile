@@ -45,7 +45,7 @@ class TambahUbahKategoriViewModel @Inject constructor(
     }
 
     fun loadEditData(kategori: ItemGroup) = viewModelScope.launch{
-        val list = itemGroupRepository.getItemgrpParent().first()
+        val list = itemGroupRepository.getItemgrpParent().first().filter { it.id != kategori.id }
         updateState(
             state.copy(
                 itemgrp = kategori,

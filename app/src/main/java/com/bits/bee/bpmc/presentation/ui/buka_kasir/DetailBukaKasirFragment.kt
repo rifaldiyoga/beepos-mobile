@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.buka_kasir
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -39,6 +40,7 @@ class DetailBukaKasirFragment(
             tvInfo.text = ""
             tvInfo.append(getString(R.string.bagaimana_caranya_agar_saya_bisa_mengubah_modal_kasir_pelajari_selengkapnya_disini))
             tvInfo.append(" Pelajari selengkapnya disini", R.color.red)
+            numpad?.setInputConnection(etModal.onCreateInputConnection(EditorInfo())!!)
             etModal.addNumberFormatChange()
         }
     }
@@ -96,9 +98,7 @@ class DetailBukaKasirFragment(
 
                         }
                         DetailBukaKasirViewModel.UIEvent.RequestSave -> {
-                            sharedViewModel.doBukaKasir(viewModel.state.modal,
-                                BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
-                            )
+                            sharedViewModel.doBukaKasir(viewModel.state.modal,requireActivity())
                         }
                         DetailBukaKasirViewModel.UIEvent.NavigateToInsight -> {
                             val action = DetailBukaKasirFragmentDirections.actionDetailBukaKasirFragmentToInsightPresetKasirFragment()
@@ -131,6 +131,7 @@ class DetailBukaKasirFragment(
                 when(it){
                     BukaTutupKasirSharedViewModel.UIEvent.NavigateToPos -> {
                         findNavController().popBackStack()
+                        findNavController().navigateUp()
                         findNavController().navigate(R.id.mainActivity)
                     }
                 }

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_lite"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size0"
+        android:background="@drawable/bg_insight"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+    </View>
+
+    <ScrollView
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/btnSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/rL_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/size40"
+                android:paddingStart="@dimen/size24"
+                android:paddingBottom="@dimen/size40"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TextHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/apa_sih_pid_itu_dan_gunanya_untuk_apa"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font20" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/rL_define"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/size16"
+                android:paddingRight="@dimen/size16"
+                app:layout_constraintTop_toBottomOf="@+id/rL_top"
+                tools:ignore="MissingConstraints">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/size16">
+
+                        <TextView
+                            android:id="@+id/txtTitle"
+                            style="@style/TextHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/size0"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/definisi"
+                            android:textColor="@color/dark_gray" />
+
+                        <TextView
+                            android:id="@+id/txtDefine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size8"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/product_id_atau_pid_adalah_fitur"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rL_fungsi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/size16"
+                android:paddingRight="@dimen/size16"
+                app:layout_constraintTop_toBottomOf="@+id/rL_define"
+                tools:ignore="MissingConstraints">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/size16"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/txtTitle2"
+                            style="@style/TextHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/fungsi"
+                            android:textColor="@color/dark_gray" />
+
+                        <TextView
+                            android:id="@+id/txtFungsi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size8"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/pid_dapat_memangkas_jumlah_stock"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rL_cocok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/size16"
+                android:paddingRight="@dimen/size16"
+                app:layout_constraintTop_toBottomOf="@+id/rL_fungsi"
+                tools:ignore="MissingConstraints">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/size16"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/txtTitle3"
+                            style="@style/TextHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/cocok_untuk"
+                            android:textColor="@color/dark_gray" />
+
+                        <TextView
+                            android:id="@+id/txtCocok"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size8"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/pid_cocok_digunakan"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rL_anda_tertarik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size16"
+                android:layout_marginBottom="@dimen/size16"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/size16"
+                android:paddingRight="@dimen/size16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rL_cocok"
+                tools:ignore="MissingConstraints">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/size10"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/size16"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/txtTitle4"
+                            style="@style/TextHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/apakah_anda"
+                            android:textColor="@color/dark_gray" />
+
+                        <TextView
+                            android:id="@+id/txtTertarik"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size8"
+                            android:gravity="center_vertical"
+                            android:singleLine="false"
+                            android:text="@string/baca_artikel_pid_selengkapnya_disini"
+                            android:textColor="@color/black" />
+
+                        <CheckBox
+                            android:id="@+id/bp_cbPajak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="0dp"
+                            android:text="@string/saya_tertarik_pid" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/btnSecondary"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size8"
+        android:layout_marginBottom="@dimen/size16"
+        android:background="@drawable/btn_rect_secondary"
+        android:text="@string/nanti_saja"
+        android:textColor="?colorPrimary"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnPrimary"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+    <Button
+        android:id="@+id/btnPrimary"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size8"
+        android:background="@drawable/btn_rect_disable"
+        android:text="@string/atur_sekarang"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSecondary"
+        app:layout_constraintTop_toTopOf="@+id/btnSecondary" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

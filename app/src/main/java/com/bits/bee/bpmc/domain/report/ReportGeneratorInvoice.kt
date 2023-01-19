@@ -1035,8 +1035,8 @@ class ReportGeneratorInvoice @Inject constructor(
 
         val startBal = posses.startBal
         val totalSetoranKasir = startBal.add(totCash).add(totExpIn).subtract(totVoid).add(totExpOut)
-        val setorButa: BigDecimal = posses.totalActualCash
-        val totalSelisih: BigDecimal = posses.totalDiffCash
+        val setorButa = posses.totalActualCash
+        val totalSelisih = posses.totalDiffCash
 
         val possesRegActualPosses: Reg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH).first()!!
         valSaldoAwal = CurrencyUtils.formatCurrency(startBal)
@@ -1129,7 +1129,6 @@ class ReportGeneratorInvoice @Inject constructor(
         }
         s += BPMConstants.CHAR_ENTER
         Log.d("RekapClose", "printRekapClosingPaymentCash: $s")
-        Log.i(ContentValues.TAG, "printRekapClosingPaymentCash: $s")
         return s
     }
 

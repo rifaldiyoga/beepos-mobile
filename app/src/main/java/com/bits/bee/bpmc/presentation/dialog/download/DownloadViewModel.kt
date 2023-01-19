@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
 import com.bits.bee.bpmc.domain.repository.InitialRepository
+import com.bits.bee.bpmc.domain.usecase.common.CheckItemGroupAddOnUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
@@ -35,6 +36,7 @@ import javax.inject.Inject
 class DownloadViewModel @Inject constructor (
     private val districtRepository: DistrictRepository,
     private val initialRepository: InitialRepository,
+    private val checkItemGroupAddOnUseCase: CheckItemGroupAddOnUseCase,
     private val getActiveCashierUseCase: GetActiveCashierUseCase,
     private val di: DownloadInteractor,
     private @ApplicationContext val context: Context
@@ -980,6 +982,7 @@ class DownloadViewModel @Inject constructor (
 
     suspend fun onFinsihDownload(){
         val cashier = getActiveCashierUseCase().first()
+        checkItemGroupAddOnUseCase()
         if(cashier != null) {
             di.postMonitCashierUseCase(
                 lastDownload = DateFormatUtils.formatDateToString(
@@ -1024,6 +1027,7 @@ class DownloadViewModel @Inject constructor (
             )
             eventChannel.send(UIEvent.FinishDownload)
         }
+
     }
 
     suspend fun onShowNoInternet() {

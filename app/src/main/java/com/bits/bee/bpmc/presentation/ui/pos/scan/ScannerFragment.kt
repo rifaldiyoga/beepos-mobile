@@ -39,14 +39,6 @@ class ScannerFragment(
     private var scannerSDK: ScannerSDK = ScannerSDK.MLKIT //default is MLKit
 
     override fun initComponents() {
-//        setHasOptionsMenu(true)
-//        scannerSDK = st?.getSerializableExtra(ARG_SCANNING_SDK) as ScannerSDK
-//
-//        when (scannerSDK) {
-//            ScannerSDK.MLKIT -> binding.ivScannerLogo.setImageResource(R.drawable.mlkit_icon)
-//            ScannerSDK.ZXING -> binding.ivScannerLogo.setImageResource(R.drawable.zxing)
-//        }
-
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         // Initialize our background executor
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -168,7 +160,7 @@ class ScannerFragment(
                     cameraProvider?.unbindAll()
 
                     findNavController().previousBackStackEntry?.savedStateHandle?.set("scan", result)
-                    Toast.makeText(requireContext(), "Scan result: $result", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(), "Scan result: $result", Toast.LENGTH_LONG).show()
                     findNavController().popBackStack()
                 }
             }

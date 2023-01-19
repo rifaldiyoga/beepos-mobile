@@ -120,9 +120,7 @@ class ItemRepositoryImpl @Inject constructor(
     override suspend fun getFavoriteItemListPaged(query: String): Flow<PagingData<Item>> = Pager(
         config = PagingConfig(
             pageSize = BPMConstants.BPM_LIMIT_PAGINATION,
-            maxSize = BPMConstants.BPM_MAX_PAGINATION,
-            initialLoadSize = BPMConstants.BPM_LIMIT_PAGINATION,
-            enablePlaceholders = true
+            enablePlaceholders = false
         ),
         pagingSourceFactory = {
             itemDao.getFavoriteItemPagedList(query)
@@ -142,6 +140,13 @@ class ItemRepositoryImpl @Inject constructor(
     override fun getItemById(id: Int): Flow<Item?> {
         return flow {
             val data = itemDao.getItemById(id)
+            emit(data?.let { ItemDataMapper.fromDbToDomain(data) })
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getItemByBarcode(id: String): Flow<Item?> {
+        return flow {
+            val data = itemDao.getItemByBarcode(id)
             emit(data?.let { ItemDataMapper.fromDbToDomain(data) })
         }.flowOn(defaultDispatcher)
     }
@@ -169,6 +174,10 @@ class ItemRepositoryImpl @Inject constructor(
             val data = itemDao.cariItems(query).map { ItemDataMapper.fromDbToDomain(it) }
             emit(data)
         }.flowOn(defaultDispatcher)
+    }
+
+    override suspend fun updateIsVariant() = withContext(defaultDispatcher){
+        itemDao.updateIsVariant()
     }
 
 }

@@ -33,7 +33,7 @@ class PossesRepositoryImpl @Inject constructor(
     private val defaultDispatcher: CoroutineDispatcher
 ) : PossesRepository {
 
-    override suspend fun getActivePosses(): Flow<Posses?> = flow<Posses?> {
+    override suspend fun getActivePosses(): Flow<Posses?> = flow {
         val posses = possesDao.getActivePosses()
         emit(posses?.let{PossesDataMapper.fromDbToDomain(posses)})
     }.flowOn(defaultDispatcher)
@@ -49,6 +49,11 @@ class PossesRepositoryImpl @Inject constructor(
         }
     ).flow.mapLatest {
         it.map { PossesDataMapper.fromDbToDomain(it) }
+    }.flowOn(defaultDispatcher)
+
+    override suspend fun getLastPosses(): Flow<Posses?> = flow {
+        val posses = possesDao.getLastPosses()
+        emit(posses?.let{PossesDataMapper.fromDbToDomain(posses)})
     }.flowOn(defaultDispatcher)
 
     override suspend fun addPosses(startBal: BigDecimal, shift : Int, branch: Branch, cashier: Cashier, user : User) {

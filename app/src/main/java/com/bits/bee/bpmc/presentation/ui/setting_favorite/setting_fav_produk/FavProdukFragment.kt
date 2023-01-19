@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
 import com.bits.bee.bpmc.domain.model.ItemGroup
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.visible
@@ -72,7 +73,7 @@ class FavProdukFragment (
                 }
                 rvList.apply {
                     layoutManager = LinearLayoutManager(requireContext())
-                    adapter = posAdapter
+                    adapter = posAdapter.withLoadStateFooter(LoadingStateAdapter())
                 }
             }
         }

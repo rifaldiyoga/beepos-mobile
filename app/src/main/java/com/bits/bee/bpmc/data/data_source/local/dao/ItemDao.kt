@@ -71,6 +71,9 @@ interface ItemDao : BaseDao<ItemEntity> {
     @Query("SELECT * FROM item where id = :id")
     fun getItemById(id: Int): ItemEntity?
 
+    @Query("SELECT * FROM item where barcode = :barcode AND ispos = 1 AND active = 1")
+    fun getItemByBarcode(barcode: String): ItemEntity?
+
     @Query("SELECT * FROM item WHERE active = 1 AND ispos = 1")
     fun getActiveItemList() : List<ItemEntity>
 
@@ -82,5 +85,9 @@ interface ItemDao : BaseDao<ItemEntity> {
 
     @Query("SELECT * FROM item where name1 like '%' || :query || '%' and active = 1")
     fun cariItems(query: String): List<ItemEntity>
+
+    @Query("UPDATE item SET is_variant = 0")
+    suspend fun updateIsVariant()
+
 
 }

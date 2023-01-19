@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentSettingFavProdukBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavoriteFragmentMainDirections
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +53,7 @@ class SettingFavProdukFragment(
             }
             rvContent.apply {
                 layoutManager =  LinearLayoutManager(requireContext())
-                adapter = posAdapter
+                adapter = posAdapter.withLoadStateFooter(LoadingStateAdapter())
             }
         }
     }

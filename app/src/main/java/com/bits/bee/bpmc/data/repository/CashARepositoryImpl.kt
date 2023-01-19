@@ -5,7 +5,6 @@ import com.bits.bee.bpmc.data.data_source.local.model.CashAEntity
 import com.bits.bee.bpmc.domain.mapper.CashADataMapper
 import com.bits.bee.bpmc.domain.model.CashA
 import com.bits.bee.bpmc.domain.repository.CashARepository
-import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,15 +34,15 @@ class CashARepositoryImpl @Inject constructor(
         }.flowOn(defaultDispatcher)
     }
 
-    override fun getCashAByCash(cashId: Int): Flow<List<CashA>> = flow<List<CashA>> {
+    override fun getCashAByCash(cashId: Int): Flow<List<CashA>> = flow {
         val data = cashADao.getCashAByCashId(cashId)
         emit(data.map { CashADataMapper.fromDbToDomain(it) } )
     }.flowOn(defaultDispatcher)
 
-    override fun getCashAByRefId(refId: Long, refType: String): Flow<Resource<List<CashA>>> {
+    override fun getCashAByRefId(refId: Int, refType: String): Flow<CashA?> {
         return flow {
-            val data = cashADao.getCashAByRefId(refId, refType).map { CashADataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            val data = cashADao.getCashAByRefId(refId, refType)
+            emit(data?.let { CashADataMapper.fromDbToDomain(data) })
         }.flowOn(defaultDispatcher)
     }
 
@@ -52,6 +51,5 @@ class CashARepositoryImpl @Inject constructor(
             cashADao.update(CashADataMapper.fromDomainToDb(cashA))
         }
     }
-
 
 }

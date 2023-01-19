@@ -34,7 +34,7 @@ class TransaksiBerhasilFragment(
     override fun initComponents() {
         binding.apply {
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-
+                viewModel.onTutupClick()
             }
         }
     }

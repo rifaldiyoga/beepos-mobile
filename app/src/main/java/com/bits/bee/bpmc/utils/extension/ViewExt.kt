@@ -123,6 +123,7 @@ fun SearchView.setSearchViewStyle(context: Context, colorInt: Int) {
     }
     editText.setTextColor(ContextCompat.getColor(context, colorInt))
     editText.setHintTextColor(ContextCompat.getColor(context, colorInt))
+    maxWidth = (context as Activity).resources.displayMetrics.widthPixels - 150
 }
 
 fun Fragment.hideKeyboard() {
@@ -190,7 +191,7 @@ fun showNotifications(ctx: Context, message: String, ) {
 
     // Create notification
     val builder = NotificationCompat.Builder(ctx, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setSmallIcon(R.mipmap.ic_launcher)
         .setContentTitle("Beepos Mobile")
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -199,6 +200,7 @@ fun showNotifications(ctx: Context, message: String, ) {
     // Show notification
     NotificationManagerCompat.from(ctx).notify(BPMConstants.NOTIFICATION_ID, builder.build())
 }
+
 
 fun BroadcastReceiver.goAsync(
     context: CoroutineContext = EmptyCoroutineContext,

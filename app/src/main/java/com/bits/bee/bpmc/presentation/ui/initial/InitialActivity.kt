@@ -58,6 +58,7 @@ class InitialActivity (
                     && navController.currentDestination?.id != R.id.walkThroughFragment
                     && navController.currentDestination?.id != R.id.cekDbFragment
                     && navController.currentDestination?.id != R.id.aturProdukFragment
+                    && navController.currentDestination?.id != R.id.aturPinFragment
                 )
                     toolbar.visible()
                 else
@@ -115,10 +116,7 @@ class InitialActivity (
             }
             R.id.ulangiPinFragment -> onBack(R.id.ulangiPinFragment, R.id.aturPinFragment)
             R.id.tambahProdukFragment -> onBack(R.id.tambahProdukFragment, R.id.aturProdukFragment)
-            R.id.cekDbFragment -> {
-
-            }
-            R.id.aturProdukFragment -> {
+            R.id.cekDbFragment, R.id.aturProdukFragment, R.id.aturPinFragment -> {
 
             }
             else -> super.onBackPressed()
@@ -128,7 +126,6 @@ class InitialActivity (
     fun onBack(currentDest : Int, dest : Int){
         navController.popBackStack(currentDest, true)
         navController.navigate(dest )
-
     }
 
     override fun subscribeListeners() {

@@ -13,8 +13,10 @@ import com.bits.bee.bpmc.databinding.ActivitySplashScreenBinding
 import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.ServiceUtils
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashScreenActivity(
@@ -22,6 +24,9 @@ class SplashScreenActivity(
 ) : BaseActivity<ActivitySplashScreenBinding>() {
 
     private val viewModel :SplashScreenViewModel by viewModels()
+
+    @Inject
+    lateinit var serviceUtils: ServiceUtils
 
     override fun initComponents() {
         val apiKey = BeePreferenceManager.getDataFromPreferences(this, getString(R.string.api_key), "") as String
@@ -33,6 +38,9 @@ class SplashScreenActivity(
                 finish()
             }, 3000)
         binding.splashscreenTvVersion.text = BuildConfig.VERSION_NAME
+        lifecycleScope.launchWhenStarted {
+            serviceUtils.startUploadService(this@SplashScreenActivity)
+        }
     }
 
     override fun subscribeListeners() {
@@ -41,9 +49,7 @@ class SplashScreenActivity(
 
     override fun subscribeObservers() {
         lifecycleScope.launchWhenStarted {
-            val ori = Utils.getScreenResolution(viewModel.beePreferenceManager, this@SplashScreenActivity)
-            BeePreferenceManager.ORIENTATION = ori
-
+//
             viewModel.bluetoothConnectService.onEventConnectAllPrinter(0)
         }
     }

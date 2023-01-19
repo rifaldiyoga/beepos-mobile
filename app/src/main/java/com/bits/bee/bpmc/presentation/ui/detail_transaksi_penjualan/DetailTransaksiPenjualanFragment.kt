@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
@@ -52,11 +53,25 @@ class DetailTransaksiPenjualanFragment(
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
+
+    val listener = NavController.OnDestinationChangedListener {  _, _, _ ->
+        viewModel.state.sale?.let {
+            setToolbarTitle(it.trxNo)
+        }
+    }
+
     @Inject
     lateinit var printerHelper: PrinterHelper
 
     override fun onResume() {
         super.onResume()
+        viewModel.state.sale?.let {
+            setToolbarTitle(it.trxNo)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.state.sale?.let {
             setToolbarTitle(it.trxNo)
         }
@@ -128,7 +143,14 @@ class DetailTransaksiPenjualanFragment(
                     false
                 }
             }
+            findNavController().addOnDestinationChangedListener(listener)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        findNavController().removeOnDestinationChangedListener(listener)
+        setToolbarTitle(getString(R.string.transaksi_penjualan))
     }
 
     override fun subscribeListeners() {

@@ -262,6 +262,8 @@
                             android:id="@+id/etHarga"
                             style="@style/CustomEditTextLayout"
                             android:layout_width="match_parent"
+                            android:inputType="phone"
+                            android:digits="0123456789"
                             android:layout_height="wrap_content"
                             android:hint="0" />
 
@@ -358,14 +360,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView4">
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/sp_tipe_prd"
-                        style="@style/CustomEditTextLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/sp_tipe_prd"
+                        android:inputType="none"
                         android:editable="false"
                         android:hint="Pilih Tipe Produk"
-                        android:inputType="none" />
-
+                        android:layout_height="wrap_content"
+                        style="@style/CustomEditTextLayout"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

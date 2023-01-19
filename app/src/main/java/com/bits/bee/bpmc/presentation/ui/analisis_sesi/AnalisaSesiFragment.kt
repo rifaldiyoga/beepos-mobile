@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentAnalisaSesiBinding
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.InfoSetoranDialogBuilder
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
@@ -82,6 +83,9 @@ class AnalisaSesiFragment(
             btnLihatRiwayat.setOnClickListener {
                 viewModel.onClickMenu()
             }
+            ivInfo.setOnClickListener {
+                viewModel.onClickInfo()
+            }
         }
     }
 
@@ -98,6 +102,10 @@ class AnalisaSesiFragment(
                         AnalisaSesiViewModel.UIEvent.RequestRiwayatSesi ->{
                             val action = AnalisaSesiFragmentDirections.actionAnalasisiSesiFragmentToRiwayatSesiFragment()
                             findNavController().navigate(action)
+                        }
+                        AnalisaSesiViewModel.UIEvent.RequestInfoSetoran -> {
+                            val dialog = InfoSetoranDialogBuilder()
+                            dialog.show(parentFragmentManager, "")
                         }
                     }
                 }
@@ -124,6 +132,8 @@ class AnalisaSesiFragment(
 
                             }
                             it.posses?.let { data->
+
+                                viewModel.getValueDetail()
                                 val startTime = Date(data.startTime.time)
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
@@ -171,7 +181,6 @@ class AnalisaSesiFragment(
                                     "Rp", pemasukan)
                                 tvPengeluaran.text = getString(R.string.mata_uang_nominal,
                                     "Rp", pengeluaran)
-                                viewModel.getValueDetail()
                                 it.saleList.let {
                                     tvAvgOrder.text = getString(R.string.mata_uang_nominal,
                                         "Rp", CurrencyUtils.formatCurrency(viewModel.totalAvg(it)))
@@ -203,7 +212,6 @@ class AnalisaSesiFragment(
                                     clEmptyRanking.visibility = View.VISIBLE
                                     clRanking.visibility = View.GONE
                                 }
-
                             }
                             it.user?.let {
                                 tvUserKasir.text = it.name

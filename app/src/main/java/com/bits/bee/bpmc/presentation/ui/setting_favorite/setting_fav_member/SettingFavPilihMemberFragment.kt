@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentPosItemBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavoriteFragmentMainDirections
 import com.bits.bee.bpmc.utils.extension.decideOnState
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,7 @@ class SettingFavPilihMemberFragment(
             }
             rvList.apply {
                 layoutManager = LinearLayoutManager(requireActivity())
-                adapter = memberAdapter
+                adapter = memberAdapter.withLoadStateFooter(LoadingStateAdapter())
             }
             memberAdapter.addLoadStateListener { loadState ->
                 loadState.decideOnState(

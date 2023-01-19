@@ -127,10 +127,10 @@ class BpRepositoryImpl @Inject constructor(
         return id
     }
 
-    override fun getBpByDate(startDate: Long, endDate: Long): Flow<Resource<List<Bp>>> {
+    override fun getBpByDate(startDate: Long, endDate: Long): Flow<List<Bp>> {
         return flow {
             val data = bpDao.getBpByDate(startDate, endDate).map { BpDataMapper.fromDbToDomain(it) }
-            emit(Resource.success(data))
+            emit(data)
         }.flowOn(ioDispatcher)
     }
 

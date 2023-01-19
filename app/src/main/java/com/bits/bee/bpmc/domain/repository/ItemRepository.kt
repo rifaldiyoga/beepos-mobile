@@ -27,6 +27,8 @@ interface ItemRepository {
 
     fun getItemById(id: Int): Flow<Item?>
 
+    fun getItemByBarcode(id: String): Flow<Item?>
+
     fun getActiveItemList() : Flow<List<Item>>
 
     fun getActiveItemListByItemGrp(itemGrpId: Int) : Flow<List<Item>>
@@ -36,5 +38,7 @@ interface ItemRepository {
     suspend fun addUpdateItem(item : Item)
 
     fun cariItems(query: String): Flow<List<Item>>
+
+    suspend fun updateIsVariant()
 
 }

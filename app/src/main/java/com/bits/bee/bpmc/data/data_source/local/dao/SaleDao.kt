@@ -26,7 +26,7 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT * FROM sale WHERE draft = 1 ORDER BY id DESC LIMIT 5")
     fun getLatestDraftList() : List<SaleEntity>
 
-    @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = 0")
+    @Query("SELECT * FROM sale WHERE posses_id = :id AND draft = 0")
     fun getSaleByPosses(id: Int): List<SaleEntity>
 
     @Query("SELECT *, SUM(total) as total FROM sale WHERE posses_id = :id AND draft = 0 AND isvoid = 0 GROUP BY channel_id")
@@ -53,8 +53,8 @@ interface SaleDao : BaseDao<SaleEntity> {
     @Query("SELECT SUM(total) FROM sale WHERE posses_id = :id and termtype = '${BPMConstants.BPM_DEFAULT_TYPE_CASH_GOPAY}' and isvoid = 0")
     fun getTotalPaidGopay(id: Int): BigDecimal?
 
-    @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0 and id not in (:saledlist) limit :limit_trx")
-    fun getSaleHaventUploaded(limit_trx: Int, saledlist: String): List<SaleEntity>
+    @Query("SELECT * FROM sale where isuploaded = 0 and draft = 0 and id not in (SELECT a.sale_id FROM saled a JOIN sale b ON b.id = a.sale_id JOIN item c ON c.id = a.item_id WHERE b.isuploaded = 0 AND substr(c.code, -4) = '-DEL') limit :limit_trx")
+    fun getSaleHaventUploaded(limit_trx: Int): List<SaleEntity>
 
     @Query("UPDATE sale SET bp_id = :idCust WHERE bp_id = :oldIdCust")
     fun updateNewIdCust(oldIdCust: Int, idCust: Int)

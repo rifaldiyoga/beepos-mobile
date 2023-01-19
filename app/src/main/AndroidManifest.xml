@@ -24,7 +24,6 @@
     <!-- end option camera -->
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
 
@@ -47,6 +46,7 @@
 
         <activity
             android:name="com.bits.bee.bpmc.presentation.ui.splash.SplashScreenActivity"
+            android:configChanges="orientation"
             android:exported="true">
 
             <intent-filter>
@@ -60,20 +60,23 @@
         </activity>
 
         <activity
-            android:screenOrientation="behind"
+            android:screenOrientation="locked"
+            android:configChanges="orientation"
             android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
             android:launchMode="singleTop"
             android:exported="true"/>
 
-        <activity android:name=".presentation.ui.home.HomeActivity" android:exported="true"
+        <activity android:name=".presentation.ui.home.HomeActivity"
+            android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="behind">
+            android:configChanges="orientation"
+            android:screenOrientation="locked">
 
         </activity>
 
         <activity android:name=".presentation.ui.pos.MainActivity"
             android:exported="true"
-            android:screenOrientation="behind"
+            android:screenOrientation="locked"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize"
             />
@@ -88,6 +91,20 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
+        <receiver
+            android:name=".presentation.service.BStartReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove">
+        </provider>
 
     </application>
 

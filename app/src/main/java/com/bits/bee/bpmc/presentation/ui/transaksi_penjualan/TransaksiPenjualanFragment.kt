@@ -2,6 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.transaksi_penjualan
 
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -9,16 +10,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentTransaksiPenjualanBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.dialog.channel_filter.ChannelFilterListDialog
 import com.bits.bee.bpmc.presentation.dialog.radio_list.filter.RadioListFilterDialog
 import com.bits.bee.bpmc.presentation.ui.home.HomeActivity
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.FilterUtils
+import com.bits.bee.bpmc.utils.extension.decideOnState
 import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
 import com.bits.bee.bpmc.utils.extension.visible
@@ -83,6 +88,7 @@ class TransaksiPenjualanFragment(
 //            viewLifecycleOwner,
 //            TransaksiPenjualanOnBackPressedCallback(slidingPaneLayout)
 //        )
+
         binding.apply {
             transAdapter = TransaksiPenjualanAdapter(
                 onItemClick = {
@@ -100,6 +106,7 @@ class TransaksiPenjualanFragment(
                 toolbar3.setNavigationOnClickListener {
                     findNavController().popBackStack()
                 }
+                toolbar3.collapseIcon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_back_black)
                 val searchItem = toolbar3.menu.findItem(R.id.menu_search)
                 val searchView = searchItem.actionView as SearchView
 
@@ -132,9 +139,22 @@ class TransaksiPenjualanFragment(
                 })
             }
 
-            transAdapter.refresh()
+            transAdapter.addLoadStateListener { loadState ->
+                loadState.decideOnState(
+                    transAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
+                    showLoading = {
+                        progressBar?.isVisible = it
+                    },
+                    showEmptyState = { isVisible ->
+                        setVisibilityList(!isVisible)
+                    },
+                    showError = {
+                        showSnackbar(it)
+                    }
+                )
+            }
             rvList.apply {
-                adapter = transAdapter
+                adapter = transAdapter.withLoadStateFooter(LoadingStateAdapter())
                 layoutManager = LinearLayoutManager(requireContext())
             }
         }
@@ -168,23 +188,8 @@ class TransaksiPenjualanFragment(
         }
     }
 
-    override fun subscribeObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
-                    it?.let {
 
-                    }
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            transAdapter.loadStateFlow.collectLatest {
-                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
-                    setVisibilityList(transAdapter.itemCount != 0)
-                }
-            }
-        }
+    override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.saleList.collectLatest {

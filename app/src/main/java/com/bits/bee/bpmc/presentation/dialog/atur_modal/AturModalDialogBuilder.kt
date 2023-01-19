@@ -116,8 +116,7 @@ class AturModalDialogBuilder(
                             dialog.show(parentFragmentManager, "")
                         }
                         AturModalViewModel.UIEvent.RequestSave -> {
-                            val shift = BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int
-                            sharedViewModel.doBukaKasir(viewModel.state.modal, shift)
+                            sharedViewModel.doBukaKasir(viewModel.state.modal, requireActivity())
                             viewModel.onDoneSave()
                         }
                         AturModalViewModel.UIEvent.NavigateToInsight -> {
@@ -133,6 +132,7 @@ class AturModalDialogBuilder(
                 when(it){
                     BukaTutupKasirSharedViewModel.UIEvent.NavigateToPos -> {
                         findNavController().popBackStack()
+                        findNavController().navigateUp()
                         findNavController().navigate(R.id.mainActivity)
                     }
                 }

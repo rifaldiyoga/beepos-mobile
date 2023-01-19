@@ -11,6 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.bits.bee.bpmc.BuildConfig
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
@@ -19,7 +22,9 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
+import com.bits.bee.bpmc.presentation.service.UploadWorker
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualViewModel
 import com.bits.bee.bpmc.utils.*
@@ -81,7 +86,6 @@ class SettingLisensiFragment(
                                 .setMessage(getString(R.string.anda_tidak_dapat_detach_belum_sync))
                                 .setPositiveCallback {
                                     it.dismiss()
-//                                    viewModel.manualSync()
                                     sharedViewModel.onClickUpload()
                                 }.build()
                             dialog.show(parentFragmentManager, TAG)
@@ -181,77 +185,50 @@ class SettingLisensiFragment(
                 Resource.Status.NOINTERNET -> TODO()
             }
         }
-
-        sharedViewModel.observeBpReturn().removeObservers(viewLifecycleOwner)
-        sharedViewModel.observeBpReturn().observe(viewLifecycleOwner){
-            it?.let {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialogHelper.show("", "Mohon tunggu sebentar..")
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialogHelper.hide()
-                        it.data?.let {
-                            sharedViewModel.checkBpCode(it)
-                            viewModel.doLepasLisensi()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                sharedViewModel.event.collect { event ->
+                    when(event){
+                        UploadManualViewModel.UIEvent.RequeatDialog ->{
+                            val dialog = NoInternetDialogBuilder({
+                                sharedViewModel.onClickUpload()
+                            })
+                            dialog.show(parentFragmentManager, TAG)
                         }
-                    }
-                    Resource.Status.ERROR -> {
-                        loadingDialogHelper.hide()
-                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
-                            it.dismiss()
-                        }.show(parentFragmentManager, TAG)
-                    }
-                    Resource.Status.NOINTERNET -> {
-                        loadingDialogHelper.hide()
-                        sharedViewModel.showDialogNoInternet()
-                    }
-                }
-            }
-        }
-
-        sharedViewModel.observePostAllReturn().removeObservers(viewLifecycleOwner)
-        sharedViewModel.observePostAllReturn().observe(viewLifecycleOwner){
-            it?.let {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialogHelper.show("", "Mohon tunggu sebentar..")
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialogHelper.hide()
-                        it.data?.let {
-                            val string = it.string()
-                            try {
-                                val postAllReturn = Gson().fromJson(string, PostAllReturn::class.java)
-                                if (postAllReturn.status){
-                                    sharedViewModel.prosesResponsePostAll()
-                                    DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
-                                        it.dismiss()
-                                        viewModel.doLepasLisensi()
-                                    }.show(parentFragmentManager, "")
-                                } else {
-//                                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                        UploadManualViewModel.UIEvent.RequestUpload ->{
+                            val worker = OneTimeWorkRequest.Builder(UploadWorker::class.java).build()
+                            WorkManager.getInstance(requireActivity()).enqueue(worker)
+                            WorkManager.getInstance(requireActivity()).getWorkInfoByIdLiveData(worker.id).observe(viewLifecycleOwner){ workInfo ->
+                                when(workInfo.state){
+                                    WorkInfo.State.ENQUEUED, WorkInfo.State.RUNNING -> {
+                                        loadingDialogHelper.show("", "Mohon tunggu sebentar..")
+                                    }
+                                    WorkInfo.State.SUCCEEDED -> {
+                                        loadingDialogHelper.hide()
+                                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Info", "Upload data sukses!", "OK"){
+                                            it.dismiss()
+                                            viewModel.doLepasLisensi()
+                                        }.show(parentFragmentManager, "")
+                                    }
+                                    WorkInfo.State.FAILED -> {
+                                        loadingDialogHelper.hide()
+                                        val error = workInfo.outputData.getString("error")
+                                        if(error != "No Internet") {
+                                            val dialog = ErrorDialogBuilder(error ?: "")
+                                            dialog.show(parentFragmentManager, "")
+                                        } else {
+                                            sharedViewModel.showDialogNoInternet()
+                                        }
+                                    }
+                                    else -> {
+                                        loadingDialogHelper.hide()
+                                    }
                                 }
-                            } catch (e : Exception){
-                                val dialog = ErrorDialogBuilder(string, e)
-                                dialog.show(parentFragmentManager, "")
                             }
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        loadingDialogHelper.hide()
-                        DialogBuilderHelper.showDialogInfo(requireActivity(), "Error", it.message ?: "", "OK"){
-                            it.dismiss()
-                        }.show(parentFragmentManager, TAG)
-                    }
-                    Resource.Status.NOINTERNET -> {
-                        loadingDialogHelper.hide()
-                        sharedViewModel.showDialogNoInternet()
-                    }
                 }
             }
         }
-
-
     }
 }

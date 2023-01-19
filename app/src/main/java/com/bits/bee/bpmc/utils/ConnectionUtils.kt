@@ -25,7 +25,7 @@ class ConnectionUtils {
             return isConnected
         }
 
-        fun isNetworkAvailable(requireContext: Context): Boolean{
+        private fun isNetworkAvailable(requireContext: Context): Boolean{
             val connectivityManager = requireContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkCapabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 connectivityManager.activeNetwork
