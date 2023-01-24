@@ -56,10 +56,7 @@
             app:destination="@id/detailBukaKasirFragment" />
         <argument
             android:name="posses"
-            app:argType="string" />
-        <argument
-            android:name="isRiwayat"
-            app:argType="boolean" />
+            app:argType="com.bits.bee.bpmc.domain.model.Posses" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_transaksi_penjualan"

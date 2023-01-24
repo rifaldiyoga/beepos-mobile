@@ -9,7 +9,8 @@ data class License (
     var name: String,
     var licNumber : String,
     var item : String?,
-    var licExp : Date,
+    var licExp : Date?,
+    var data : String
 )
 //=======
 //import android.os.Parcelable

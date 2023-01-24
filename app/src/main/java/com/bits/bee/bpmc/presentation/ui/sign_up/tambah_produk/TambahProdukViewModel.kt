@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.domain.usecase.printer.GetItemgrpIdUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.*
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -122,7 +123,7 @@ class TambahProdukViewModel @Inject constructor(
                 id = state.itemDummy?.id,
                 name = nama,
                 itemTypeCode = state.tipeProduk,
-                price = harga,
+                price = harga.removeSymbol(),
                 picPath = if (state.bitmap != null) state.picPath ?: "" else "",
                 pid = pid.ifEmpty { "" },
                 brandId = state.brand?.id,

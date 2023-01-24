@@ -10,6 +10,7 @@ class UpdateSelectedSrepUseCase @Inject constructor(
 
     suspend operator fun invoke(bp : Srep) {
         srepRepository.resetSelectedSrep()
+        bp.isSelected = true
         srepRepository.updateSrep(bp)
     }
 

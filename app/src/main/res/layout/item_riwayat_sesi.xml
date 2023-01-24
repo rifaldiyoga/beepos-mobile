@@ -122,8 +122,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     style="@style/TextHeader"
-                    android:text="@string/cash"
-                    android:textSize="@dimen/size12" />
+                    android:text="@string/cash" />
 
             </LinearLayout>
 
@@ -156,7 +155,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="@string/jam_rekap"
-                        android:textSize="@dimen/size12" />
+                        android:textSize="@dimen/font12"/>
 
                     <TextView
                         android:id="@+id/tvtotal_rekap"
@@ -167,8 +166,7 @@
                         android:singleLine="false"
                         android:text="@string/budiman"
                         style="@style/TextHeader"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/size14"/>
+                        android:textColor="@color/black"/>
 
                 </LinearLayout>
 

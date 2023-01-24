@@ -19,6 +19,7 @@ import com.bits.bee.bpmc.presentation.dialog.InfoSetoranDialogBuilder
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
+import com.bits.bee.bpmc.utils.extension.gone
 import com.bits.bee.bpmc.utils.extension.replaceNumberWithStars
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -27,7 +28,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.Utils
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -43,29 +43,19 @@ class AnalisaSesiFragment(
 ) : BaseFragment<FragmentAnalisaSesiBinding>() {
 
     private val viewModel : AnalisaSesiViewModel by viewModels()
-    private var mPosses: Posses? = null
-    private var isRiwayat: Boolean = false
-    private var bigDecimalZero: BigDecimal = BigDecimal("0")
 
     private lateinit var itemRankAdapter: ItemRankAdapter
-
 
     override fun initComponents() {
         setHasOptionsMenu(true)
         arguments?.let {
-            isRiwayat = it.getBoolean("isRiwayat")
-            if (isRiwayat){
-                if (!it.getString("posses").equals("null") && it.getString("posses")?.isNotEmpty() == true){
-                    mPosses = Gson().fromJson(it.getString("posses"), Posses::class.java)
-                    viewModel.updateState(
-                        viewModel.state.copy(
-                            posses = mPosses
-                        )
-                    )
-                }
-            }
+            val posses = it.getParcelable<Posses>("posses")
+            viewModel.updateState(viewModel.state.copy(posses = posses))
         }
-        viewModel.getActivePosses()
+
+        viewModel.getValueDetail()
+
+
         binding.apply {
             itemRankAdapter = ItemRankAdapter()
             rvRankItem.apply {
@@ -117,23 +107,23 @@ class AnalisaSesiFragment(
                 viewModel.viewStates().collect {
                     it?.let {
                         binding.apply {
-                            if (isRiwayat){
-                                lLAnalisaEmpty.visibility = View.GONE
-                                sVKasirAktif.visibility = View.VISIBLE
-                            }else{
-                                if (it.posses != null){
-                                    viewModel.getActivePosses()
+                            if(!it.isLoading) {
+                                if (it.posses != null) {
                                     lLAnalisaEmpty.visibility = View.GONE
                                     sVKasirAktif.visibility = View.VISIBLE
-                                }else{
+                                } else {
                                     lLAnalisaEmpty.visibility = View.VISIBLE
                                     sVKasirAktif.visibility = View.GONE
                                 }
-
+                                progressBar.gone()
+                            } else {
+                                lLAnalisaEmpty.isVisible = false
+                                sVKasirAktif.isVisible = false
+                                progressBar.isVisible = true
                             }
+
                             it.posses?.let { data->
 
-                                viewModel.getValueDetail()
                                 val startTime = Date(data.startTime.time)
                                 tvMulaiOperasional.text = DateFormatUtils.formatDateToString(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
@@ -149,8 +139,8 @@ class AnalisaSesiFragment(
 
                                 var modal = CurrencyUtils.formatCurrency(data.startBal)
                                 var totalPendapatan =  CurrencyUtils.formatCurrency(data.total.add(data.startBal))
-                                var pemasukan =  CurrencyUtils.formatCurrency(data.totIn ?: bigDecimalZero)
-                                var pengeluaran =  CurrencyUtils.formatCurrency(data.totOut ?: bigDecimalZero)
+                                var pemasukan =  CurrencyUtils.formatCurrency(data.totIn ?: BigDecimal.ZERO)
+                                var pengeluaran =  CurrencyUtils.formatCurrency(data.totOut ?: BigDecimal.ZERO)
                                 var totalTunai =  CurrencyUtils.formatCurrency(it.totalTunai)
                                 var totalDebit =  CurrencyUtils.formatCurrency(it.totalDebit)
                                 var totalKredit =  CurrencyUtils.formatCurrency(it.totalKredit)

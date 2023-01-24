@@ -17,6 +17,7 @@ object LicenseDataMapper : BaseMapper<LicenseEntity, License, LicenseResponse.Da
             model.licNumber,
             model.item ,
             model.licExp,
+            model.data
         )
     }
 
@@ -27,6 +28,7 @@ object LicenseDataMapper : BaseMapper<LicenseEntity, License, LicenseResponse.Da
             model.licNumber ,
             model.item ,
             model.licExp,
+            model.data
         )
     }
 
@@ -35,7 +37,8 @@ object LicenseDataMapper : BaseMapper<LicenseEntity, License, LicenseResponse.Da
             name = model.cmpname,
             licNumber = model.serialNumber,
             item = model.item,
-            licExp = if(model.expdate.isNotEmpty()) DateFormatUtils.formatStringToDate("yyyy-MM-dd", model.expdate) else Date()
+            licExp = if(model.expdate.isNotEmpty()) DateFormatUtils.formatStringToDate("yyyy-MM-dd", model.expdate) else Date(),
+            data = model.data
         )
     }
 }

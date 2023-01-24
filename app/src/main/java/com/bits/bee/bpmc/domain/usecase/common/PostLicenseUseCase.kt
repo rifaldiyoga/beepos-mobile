@@ -6,6 +6,7 @@ import com.bits.bee.bpmc.domain.repository.LicenseRepository
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 /**
@@ -13,15 +14,18 @@ import javax.inject.Inject
  */
 class PostLicenseUseCase @Inject constructor(
     private val licenseRepository: LicenseRepository,
+    private val getActiveUserUseCase: GetActiveUserUseCase
 ){
 
-    operator fun invoke(username : String, deviceName : String, version : String) : Flow<Resource<License>> {
+    suspend operator fun invoke(username : String = "", deviceName : String, version : String, reactive : Boolean = false) : Flow<Resource<License>> {
+
+
 
         val licensePost = LicensePost(
-            email = username,
+            email = username.ifEmpty { getActiveUserUseCase().first()?.username ?: "" },
             deviceinfo = deviceName,
             type = BPMConstants.BPM_DEFAULT_LICENSE_TYPE,
-            reactive = false,
+            reactive = reactive,
             version = version,
         )
 

@@ -1,11 +1,9 @@
 package com.bits.bee.bpmc.presentation.ui.beranda
 
 import androidx.lifecycle.viewModelScope
+import com.bits.bee.bpmc.data.data_source.remote.response.CheckLicResponse
 import com.bits.bee.bpmc.domain.model.Posses
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
-import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
+import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -21,9 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class BerandaViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
-    private val getActiveCashierUseCase: GetActiveCashierUseCase,
-    private val getActivePossesUseCase: GetActivePossesUseCase,
-    private val tutupKasirUseCase: TutupKasirUseCase,
     private val getRegUseCase: GetRegUseCase
 ) : BaseViewModel<BerandaState, BerandaViewModel.UIEvent>() {
 

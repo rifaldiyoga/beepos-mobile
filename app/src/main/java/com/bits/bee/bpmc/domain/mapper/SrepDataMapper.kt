@@ -20,6 +20,7 @@ object SrepDataMapper : BaseMapper<SrepEntity, Srep, SrepModel>() {
             model.phone,
             model.mobile ,
             model.email ,
+            model.isselected
         )
     }
 
@@ -34,6 +35,7 @@ object SrepDataMapper : BaseMapper<SrepEntity, Srep, SrepModel>() {
             model.phone,
             model.mobile ,
             model.email ,
+            model.isSelected
         )
     }
 

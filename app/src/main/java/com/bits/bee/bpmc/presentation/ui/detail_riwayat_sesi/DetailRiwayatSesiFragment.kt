@@ -84,10 +84,7 @@ class DetailRiwayatSesiFragment(
                             dialog.show(parentFragmentManager, TAG)
                         }
                         is DetailRiwayatSesiViewModel.UIEvent.RequestAnalisaSesi ->{
-                            val action = DetailRiwayatSesiFragmentDirections.actionDetailRiwayatSesiFragmentToAnalasisiSesiFragment(
-                                Gson().toJson(
-                                    viewModel.state.posses
-                                ), true)
+                            val action = DetailRiwayatSesiFragmentDirections.actionDetailRiwayatSesiFragmentToAnalasisiSesiFragment(viewModel.state.posses!!)
                             findNavController().navigate(action)
                         }
                     }

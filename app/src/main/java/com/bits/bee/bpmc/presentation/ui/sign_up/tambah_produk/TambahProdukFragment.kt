@@ -38,6 +38,7 @@ import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
 import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
 import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.extension.removeSymbol
 import com.bits.bee.bpmc.utils.extension.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -166,7 +167,7 @@ class TambahProdukFragment(
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_nama_prd), viewModel.state.nama)
             }
             etHarga.addTextChangedListener {
-                viewModel.state.harga = etHarga.text.toString().trim()
+                viewModel.state.harga = etHarga.text.toString().trim().removeSymbol()
                 BeePreferenceManager.saveToPreferences(requireContext(), getString(R.string.pref_add_harga_prd), viewModel.state.harga)
             }
             etNamaPid.addTextChangedListener {

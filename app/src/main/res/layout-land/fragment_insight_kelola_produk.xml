@@ -22,7 +22,7 @@
         android:id="@+id/textView105"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size60"
+        android:layout_marginTop="@dimen/size32"
         android:text="@string/kelola_produk_untuk_jualan_dengan_mudah_bersama_beecloud"
         android:textColor="@color/white"
         android:textSize="@dimen/font20"
@@ -35,7 +35,7 @@
         android:id="@+id/cardView2"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size60"
+        android:layout_marginTop="@dimen/size32"
         android:background="@color/white"
         app:cardCornerRadius="@dimen/size10"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -46,7 +46,7 @@
             android:id="@+id/constraintLayout10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/size40">
+            android:padding="@dimen/size24">
 
             <TextView
                 android:id="@+id/textView100"
@@ -348,7 +348,6 @@
         android:id="@+id/btnSecondary"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size16"
         android:layout_marginEnd="@dimen/size8"
         android:layout_marginBottom="@dimen/size16"
         android:background="@drawable/btn_rect_secondary"

@@ -143,7 +143,9 @@ class TransaksiPenjualanFragment(
                 loadState.decideOnState(
                     transAdapter as PagingDataAdapter<Any, RecyclerView.ViewHolder>,
                     showLoading = {
-                        progressBar?.isVisible = it
+                        progressBar.isVisible = it
+                        rvList.gone()
+                        groupEmpty.gone()
                     },
                     showEmptyState = { isVisible ->
                         setVisibilityList(!isVisible)

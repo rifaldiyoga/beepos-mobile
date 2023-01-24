@@ -37,8 +37,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.text.DecimalFormatSymbols
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
 
 /**
  * Created by aldi on 01/03/22.
@@ -213,6 +216,15 @@ fun BroadcastReceiver.goAsync(
         } finally {
             pendingResult.finish()
         }
+    }
+}
+
+fun getDateDiff(oldDate : Date, newDate: Date): Long {
+    return try {
+        TimeUnit.DAYS.convert(newDate.time - oldDate.time, TimeUnit.MILLISECONDS)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        0
     }
 }
 

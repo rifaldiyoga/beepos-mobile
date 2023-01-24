@@ -37,23 +37,15 @@ class AnalisaSesiViewModel @Inject constructor(
 
     init {
         state = AnalisaSesiState()
-//        getActivePosses()
     }
 
     val reg = getRegPossesActualEndCashUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
 
 
-    fun getActivePosses() = viewModelScope.launch {
-        getActivePossesUseCase.invoke().collect {
-            updateState(
-                state.copy(
-                    posses = it
-                )
-            )
-        }
-    }
-
-    suspend fun getValueDetail() {
+    fun getValueDetail() = viewModelScope.launch{
+        updateState(state.copy(isLoading = true))
+        if (state.posses == null)
+        updateState(state.copy(posses = getActivePossesUseCase().first()))
         state.posses?.let { data ->
             updateState(
                 state.copy(
@@ -71,10 +63,12 @@ class AnalisaSesiViewModel @Inject constructor(
                 )
             )
         }
+
+        updateState(state.copy(isLoading = false))
     }
 
     fun getTotalNonTunai(): BigDecimal{
-        var nonTunai = state.totalDebit.add(state.totalKredit).add(state.totalGopay)
+        val nonTunai = state.totalDebit.add(state.totalKredit).add(state.totalGopay)
         return nonTunai
     }
 
@@ -101,13 +95,9 @@ class AnalisaSesiViewModel @Inject constructor(
                         )
                     )
                 }
-            state.saledList?.let {
-                for (saled in state.saledList!!) {
-//                    if (!ItemDao.getInstance().checkItemAddon(saled.getItem()))
-                    total = total.add(saled.qty)
-                }
+            for (saled in state.saledList) {
+                total = total.add(saled.qty)
             }
-
         }
         return total
     }

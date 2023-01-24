@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.helper.PrivilegeHelper
 import com.bits.bee.bpmc.domain.model.SaleAddOnD
 import com.bits.bee.bpmc.domain.repository.CrcRepository
+import com.bits.bee.bpmc.domain.usecase.common.GetActivePossesUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddOnBySaleUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaleAddonDByAddonUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetSaledBySaleUseCase
@@ -23,6 +24,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DetailTransaksiPenjualanViewModel @Inject constructor(
+    private val getActivePossesUseCase: GetActivePossesUseCase,
     private val getSaleByIdUseCase: GetSaleByIdUseCase,
     private val getSaledBySaleUseCase: GetSaledBySaleUseCase,
     private val getSaleAddOnBySaleUseCase: GetSaleAddOnBySaleUseCase,
@@ -50,7 +52,12 @@ class DetailTransaksiPenjualanViewModel @Inject constructor(
     }
 
     fun onClickVoid() = viewModelScope.launch {
-        eventChannel.send(UIEvent.NavigateToHapusTransaksi)
+        val posses = getActivePossesUseCase().first()
+        if(posses == null || state.sale!!.possesId != posses.possesId){
+            sendMessage("Tidak dapat menghapus transaksi ini dikarenakan sudah tutup kasir!")
+        } else {
+            eventChannel.send(UIEvent.NavigateToHapusTransaksi)
+        }
     }
 
     fun onClickPrint() = viewModelScope.launch {

@@ -31,6 +31,7 @@ import com.bits.bee.bpmc.utils.*
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class SettingLisensiFragment(
@@ -123,7 +124,7 @@ class SettingLisensiFragment(
                                 tvNamaDb.text = it.name
                                 tvJenisLisensi.text = it.item
                                 tvNoLisensi.text = it.licNumber
-                                tvTglBerakhir.text = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, it.licExp)
+                                tvTglBerakhir.text = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, it.licExp ?: Date())
                                 tVSerialLisensi.text = Settings.Secure.getString(
                                     requireActivity().contentResolver,
                                     Settings.Secure.ANDROID_ID

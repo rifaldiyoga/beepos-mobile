@@ -21,5 +21,6 @@ data class AnalisaSesiState(
     var totalKredit: BigDecimal = BigDecimal.ZERO,
     var totalGopay: BigDecimal = BigDecimal.ZERO,
     var rankItem: List<RankItem> = mutableListOf(),
-    var listEntry: List<Entry> = mutableListOf()
+    var listEntry: List<Entry> = mutableListOf(),
+    var isLoading : Boolean = false
 )

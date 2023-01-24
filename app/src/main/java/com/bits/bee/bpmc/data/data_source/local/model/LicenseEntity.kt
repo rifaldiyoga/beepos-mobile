@@ -17,7 +17,9 @@ data class LicenseEntity(
     @ColumnInfo(name = ITEM)
     var item : String?,
     @ColumnInfo(name = EXPDATE)
-    var licExp : Date,
+    var licExp : Date?,
+    @ColumnInfo(name = DATA)
+    var data : String,
 ) {
     companion object {
         const val TBL_NAME = "license"
@@ -27,5 +29,6 @@ data class LicenseEntity(
         const val SERIAL = "serial_number"
         const val ITEM = "item"
         const val EXPDATE = "expdate"
+        const val DATA = "data"
     }
 }

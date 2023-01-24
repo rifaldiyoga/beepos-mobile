@@ -878,7 +878,7 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     updateState(
                         state.copy(status = "Finish Downloading Usr Grp",
-                            progress = 100)
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -900,7 +900,7 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     updateState(
                         state.copy(status = "Finish Downloading Grp Prv",
-                            progress = 100)
+                            progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -937,7 +937,8 @@ class DownloadViewModel @Inject constructor (
             when(it.status){
                 Resource.Status.LOADING -> {
                     updateState(
-                        state.copy(status = "Downloading Kitchen")
+                        state.copy(status = "Downloading Kitchen",
+                        progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.SUCCESS -> {
@@ -969,7 +970,7 @@ class DownloadViewModel @Inject constructor (
                         }
                     }
                     updateState(
-                        state.copy(status = "Finish Downloading Image Item")
+                        state.copy(status = "Finish Downloading Image Item", progress = state.progress + progressPercent)
                     )
                 }
                 Resource.Status.ERROR -> {
@@ -1000,8 +1001,7 @@ class DownloadViewModel @Inject constructor (
                         it.data?.let {
                             val string = it.string()
                             try {
-                                val postAllReturn =
-                                    Gson().fromJson(string, PostAllReturn::class.java)
+                                val postAllReturn = Gson().fromJson(string, PostAllReturn::class.java)
                                 if (postAllReturn.status) {
                                     updateState(
                                         state.copy(status = "Done", progress = 100)

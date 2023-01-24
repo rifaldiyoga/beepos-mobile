@@ -524,7 +524,7 @@ untuk memperbarui data dapur?</string>
     <string name="upload_manual">Upload Manual</string>
     <string name="cek_stok">Cek Stok</string>
     <string name="rekap_kas">Rekap Kas</string>
-    <string name="rekap_produk">Rekap Produk</string>
+    <string name="rekap_produk">Rekap Produk Terjual</string>
     <string name="kelola_produk">Kelola Produk</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="lainnya">Lainnya</string>
@@ -786,5 +786,6 @@ untuk memperbarui data dapur?</string>
     <string name="nilai_yang_disimpan_sistem_adalah_setoran_program_setoran_aktual_buta_hanya_sebagai_bantuan_atau_catatan_saja">Nilai yang disimpan sistem adalah setoran program. Setoran aktual / buta hanya sebagai bantuan atau catatan saja</string>
     <string name="setoran_yang_dihitung_oleh_beepos_mobile_secara_otomatis">Setoran yang dihitung oleh Beepos Mobile secara otomatis</string>
     <string name="tentang_setoran_kasir">Tentang Setoran Kasir</string>
+    <string name="masa_aktif_lisensi_device_anda_akan_berakhir_">Masa aktif lisensi device anda akan berakhir %1$d hari lagi. Mohon lakukan perpanjangan disini</string>
 
 </resources>

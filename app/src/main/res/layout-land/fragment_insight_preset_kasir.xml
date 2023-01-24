@@ -22,7 +22,7 @@
         android:id="@+id/textView105"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size60"
+        android:layout_marginTop="@dimen/size32"
         android:text="@string/cara_mudah_dan_cepat_isi_sendiri_nilai_buka_kasir"
         android:textColor="@color/white"
         android:textSize="@dimen/font20"
@@ -34,7 +34,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size60"
+        android:layout_marginTop="@dimen/size32"
         android:background="@color/white"
         app:cardCornerRadius="@dimen/size10"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"

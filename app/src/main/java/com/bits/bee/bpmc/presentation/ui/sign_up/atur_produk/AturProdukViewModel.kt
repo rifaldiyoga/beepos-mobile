@@ -15,6 +15,7 @@ import com.bits.bee.bpmc.domain.usecase.pilih_cabang.UpdateActiveBranchUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.GetLatestCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.pilih_kasir.UpdateActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.signup.GetItemDummyUseCase
+import com.bits.bee.bpmc.domain.usecase.signup.PostItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.BeePreferenceManager
@@ -33,7 +34,6 @@ import javax.inject.Inject
 class AturProdukViewModel @Inject constructor(
     @ApplicationContext val context : Context,
     private val getItemDummyUseCase: GetItemDummyUseCase,
-    private val itemDummyRepository: ItemDummyRepository,
     private val licenseUseCase: PostLicenseUseCase,
     private val getLatestBranchUseCase: GetLatestBranchUseCase,
     private val getLatestCashierUseCase: GetLatestCashierUseCase,
@@ -41,7 +41,8 @@ class AturProdukViewModel @Inject constructor(
     private val updateActiveCashierUseCase: UpdateActiveCashierUseCase,
     private val userRepository: UserRepository,
     private val itemGroupRepository: ItemGroupRepository,
-    private val beePreferenceManager: BeePreferenceManager
+    private val beePreferenceManager: BeePreferenceManager,
+    private val postItemUseCase: PostItemUseCase
 ) : BaseViewModel<AturProdukState, AturProdukViewModel.UIEvent>() {
 
     init {
@@ -73,7 +74,7 @@ class AturProdukViewModel @Inject constructor(
     private fun doPostItem() = viewModelScope.launch {
         showLoading()
         state.itemList.forEach {
-            itemDummyRepository.postItemDummy(it).collect {
+            postItemUseCase(it).collect {
                 when(it.status){
                     Resource.Status.LOADING -> {
 
@@ -94,7 +95,7 @@ class AturProdukViewModel @Inject constructor(
         doLicense()
     }
 
-    suspend fun doLicense() {
+    private suspend fun doLicense() {
         val version = Utils.getVersionName(context)
         val username = BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_email), "") as String
         val name = Build.MANUFACTURER + Build.ID + "-"+BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_email), "")

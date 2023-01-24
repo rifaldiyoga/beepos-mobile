@@ -4,7 +4,9 @@ import com.bits.bee.bpmc.data.data_source.local.dao.LicenseDao
 import com.bits.bee.bpmc.data.data_source.remote.ApiUtils
 import com.bits.bee.bpmc.data.data_source.remote.model.DetachPost
 import com.bits.bee.bpmc.data.data_source.remote.model.LicensePost
+import com.bits.bee.bpmc.data.data_source.remote.post.CheckLicPost
 import com.bits.bee.bpmc.data.data_source.remote.response.CashierStatusResponse
+import com.bits.bee.bpmc.data.data_source.remote.response.CheckLicResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.DetachResponse
 import com.bits.bee.bpmc.data.data_source.remote.response.LicenseResponse
 import com.bits.bee.bpmc.domain.mapper.LicenseDataMapper
@@ -18,6 +20,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class LicenseRepositoryImpl @Inject constructor(
@@ -56,6 +60,37 @@ class LicenseRepositoryImpl @Inject constructor(
                 return apiUtils.getLicenseApiService().detachLic(detachPost)
             }
 
+        }.getAsFlow()
+    }
+
+    override fun checkLicense(email: String, deviceInfo: String): Flow<Resource<List<License>>> {
+        return object : NetworkDatabaseBoundResource<List<License>,CheckLicResponse>() {
+            override suspend fun loadFormDB(): List<License> = licDao.getLicense().map { LicenseDataMapper.fromDbToDomain(it) }
+
+            override fun shouldFetch(data: List<License>?): Boolean = true
+
+            override suspend fun createCall(): Flow<ApiResponse<CheckLicResponse>> {
+                val checkLicensePost = CheckLicPost(email, deviceInfo)
+                return apiUtils.getLicenseApiService().postCheckLic(checkLicensePost)
+            }
+
+            override suspend fun saveCallResult(data: CheckLicResponse) {
+                data.data?.let { data ->
+                    val license = licDao.getLicense().firstOrNull()
+                    license?.let {
+                        licDao.insertSingle(
+                            license.copy(
+                                licExp =
+                                if(data.expDate != null && data.expDate!!.isNotEmpty())
+                                    SimpleDateFormat("yyyy-MM-dd").parse(data.expDate!!) as Date
+                                else
+                                    null,
+                                data = data.data ?: "expired"
+                            )
+                        )
+                    }
+                }
+            }
         }.getAsFlow()
     }
 

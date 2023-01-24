@@ -15,22 +15,22 @@ android {
         applicationId "com.bits.bee.bpmc"
         minSdk 21
         targetSdk 33
-        versionCode 21
-        versionName "2.0 (Beepos Mobile)"
+        versionCode 22
+        versionName "2.0.1 (Beepos Mobile)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            buildConfigField "String", "API", "\"https://app.beecloud.id/api/\""
+            buildConfigField "String", "API", "\"https://api.beecloud.id/api/\""
             buildConfigField "String", "API_PROVISION", "\"http://provision.beecloud.id\""
             buildConfigField "Boolean", "DEBUG_MODE", "true"
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API", "\"https://app.beecloud.id/api/\""
+            buildConfigField "String", "API", "\"https://api.beecloud.id/api/\""
             buildConfigField "String", "API_PROVISION", "\"http://provision.beecloud.id\""
             buildConfigField "Boolean", "DEBUG_MODE", "false"
         }

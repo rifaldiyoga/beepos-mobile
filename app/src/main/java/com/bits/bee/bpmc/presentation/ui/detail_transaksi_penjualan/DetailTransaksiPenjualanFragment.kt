@@ -18,6 +18,7 @@ import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.hapus_transaksi.HapusTransaksiDialog
+import com.bits.bee.bpmc.presentation.ui.home.HomeActivity
 import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.pos.invoice_list.InvoiceAdapter
@@ -54,9 +55,10 @@ class DetailTransaksiPenjualanFragment(
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
 
-    val listener = NavController.OnDestinationChangedListener {  _, _, _ ->
+    private val listener = NavController.OnDestinationChangedListener { _, _, _ ->
         viewModel.state.sale?.let {
-            setToolbarTitle(it.trxNo)
+            if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT)
+                setToolbarTitle(it.trxNo)
         }
     }
 
@@ -101,6 +103,7 @@ class DetailTransaksiPenjualanFragment(
     }
 
     override fun initComponents() {
+        (requireActivity() as HomeActivity).setVisibilityBottom(false)
         arguments?.let {
             val sale = it.getParcelable<Sale>("sale")
             viewModel.updateState(
@@ -150,7 +153,8 @@ class DetailTransaksiPenjualanFragment(
     override fun onDestroyView() {
         super.onDestroyView()
         findNavController().removeOnDestinationChangedListener(listener)
-        setToolbarTitle(getString(R.string.transaksi_penjualan))
+        if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_POTRAIT)
+            setToolbarTitle(getString(R.string.transaksi_penjualan))
     }
 
     override fun subscribeListeners() {
@@ -162,6 +166,11 @@ class DetailTransaksiPenjualanFragment(
     }
 
     override fun subscribeObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.msg.collectLatest {
+                showSnackbar(it)
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collectLatest { state ->
