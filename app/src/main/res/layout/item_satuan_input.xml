@@ -34,7 +34,8 @@
                 android:id="@+id/etSatuan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="8"
+                style="@style/CustomEditTextLayout"
+                android:maxLength="10"
                 android:inputType="textCapSentences"
                 android:hint="@string/masukkan_satuan_produk" />
 
@@ -77,6 +78,7 @@
                     android:id="@+id/etQty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/CustomEditTextLayout"
                     android:hint="Qty"
                     android:inputType="phone" />
 
