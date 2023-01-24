@@ -61,7 +61,7 @@ class SatuanAdapter(
                 txtSatuan.text = if (isFnb) txtFnb else lLSatuan.context.getString(R.string.satuan1, absoluteAdapterPosition + 1)
                 etSatuan.setText(model.unit)
                 etQty.setText(CurrencyUtils.formatCurrency(model.conv))
-                etSatuan.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(10))
+                etSatuan.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(11))
                 etSatuan.addTextChangedListener {
                     if (absoluteAdapterPosition == 0){
                         model.unitUp = etSatuan.text.toString().trim()
@@ -71,7 +71,7 @@ class SatuanAdapter(
                         model.unit = etSatuan.text.toString().trim()
                         onSatuanChange(absoluteAdapterPosition, etSatuan.text.toString().trim())
                     }
-                    if (etSatuan.length() >= 10){
+                    if (etSatuan.length() > 10){
                         tilSatuan.error = "Tidak bisa melebihi 10 karakter"
                     }else{
                         tilSatuan.isErrorEnabled = false
