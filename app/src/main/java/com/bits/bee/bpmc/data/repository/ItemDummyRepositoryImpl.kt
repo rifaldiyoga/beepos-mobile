@@ -11,7 +11,6 @@ import com.bits.bee.bpmc.utils.ApiResponse
 import com.bits.bee.bpmc.utils.NetworkBoundResource
 import com.bits.bee.bpmc.utils.Resource
 import com.squareup.okhttp.MediaType
-import com.squareup.okhttp.RequestBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,6 +18,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -33,9 +33,9 @@ class ItemDummyRepositoryImpl @Inject constructor(
     private val apiUtils: ApiUtils
 ) : ItemDummyRepository{
 
-    override fun getItemDummyList(): Flow<Resource<List<ItemDummy>>> = flow {
-        emit(Resource.loading())
-        emit(Resource.success(itemDummyDao.getItemList().map { ItemDummyDummyDataMapper.fromDbToDomain(it) }))
+    override fun getItemDummyList(): Flow<List<ItemDummy>> = flow {
+
+        emit(itemDummyDao.getItemList().map { ItemDummyDummyDataMapper.fromDbToDomain(it) })
     }.flowOn(ioDispatcher)
 
     override suspend fun addItemDummy(itemDummy: ItemDummy): Flow<Long> = flow {
@@ -47,7 +47,14 @@ class ItemDummyRepositoryImpl @Inject constructor(
         val itemtype = itemDummy.itemTypeCode.toRequestBody("text/plain".toMediaTypeOrNull())
         val itemgroup = (itemDummy.itemGroup).toRequestBody("text/plain".toMediaTypeOrNull())
         val price = itemDummy.price.toRequestBody("text/plain".toMediaTypeOrNull())
-        val unit = (itemDummy.unit).toRequestBody("text/plain".toMediaTypeOrNull())
+        val partMap : HashMap<String, RequestBody> = HashMap()
+        itemDummy.unitList.forEachIndexed { index, unitDummy ->
+            partMap["Item[1][unit${index + 1}]"] = unitDummy.unit.toRequestBody("text/plain".toMediaTypeOrNull())
+            if(index > 0){
+                partMap["Item[1][conv${index + 1}]"] = (unitDummy.conv.toInt().toString()).toRequestBody("text/plain".toMediaTypeOrNull())
+            }
+        }
+
         var body : MultipartBody.Part? = null
         if(itemDummy.picPath.isNotEmpty()){
             val file = File(itemDummy.picPath)
@@ -56,7 +63,7 @@ class ItemDummyRepositoryImpl @Inject constructor(
         }
         return object : NetworkBoundResource<ItemDummyResponse>(){
             override fun createCall(): Flow<ApiResponse<ItemDummyResponse>> {
-                return apiUtils.getItemDummyApiService().postItemDummy(name, itemtype, itemgroup, price, unit, body)
+                return apiUtils.getItemDummyApiService().postItemDummy(name, itemtype, itemgroup, price, partMap, body)
             }
         }.getAsFlow()
     }

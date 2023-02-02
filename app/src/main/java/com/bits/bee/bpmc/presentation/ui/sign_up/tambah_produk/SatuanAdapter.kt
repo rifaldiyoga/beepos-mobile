@@ -11,7 +11,7 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemSatuanInputBinding
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.gone
 
 /**
  * Created by aldi on 27/10/22

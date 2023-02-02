@@ -30,9 +30,9 @@ class UnitDummyRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUnitById(id: Int): Flow<List<UnitDummy>> {
+    override fun getUnitByItemId(id: Int): Flow<List<UnitDummy>> {
         return flow {
-            val data = unitDummyDao.getUnitById(id).map { UnitDummyDummyDataMapper.fromDbToDomain(it) }
+            val data = unitDummyDao.getUnitByItemId(id).map { UnitDummyDummyDataMapper.fromDbToDomain(it) }
             emit(data)
         }.flowOn(ioDispatcher)
     }

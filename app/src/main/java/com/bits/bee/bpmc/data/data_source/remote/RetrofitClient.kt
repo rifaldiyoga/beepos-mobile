@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.data.data_source.remote
 
 import com.bits.bee.bpmc.BuildConfig.*
-import com.bits.bee.bpmc.domain.repository.UserRepository
 import com.bits.bee.bpmc.utils.FlowCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,12 +16,11 @@ import javax.inject.Inject
 /**
  * Created by aldi on 25/02/22.
  */
-class RetrofitClient @Inject constructor(
-){
+class RetrofitClient @Inject constructor(){
     private var retrofit: Retrofit? = null
 
     companion object{
-        var API_KEY : String = "eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHAuYmVlY2xvdWQuaWQiLCJqdGkiOiI4MjcwZWM0MGRlN2NmMmMwNjRkODgzOGEyZWIwMDk2NyIsImRibmFtZSI6IjM4MjQwcmlmYWxkaXlvZ2EiLCJkYmhvc3QiOiIxMC4xMzAuMjU1LjI1MCIsInVzZXJfaWQiOiIzIn0.VGcxGjjuyrvm6KDReiHaDIhwrBMXRSHfen6XE8n-DcM;rifaldiyoga@bee.id"
+        var API_KEY : String = ""
     }
 
     fun getClientProvision(url : String = API_PROVISION): Retrofit? {

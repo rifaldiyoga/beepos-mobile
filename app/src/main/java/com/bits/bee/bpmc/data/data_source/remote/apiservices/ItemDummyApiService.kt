@@ -8,6 +8,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.PartMap
 
 interface ItemDummyApiService {
 
@@ -18,7 +19,7 @@ interface ItemDummyApiService {
         @Part("Item[1][itemtype_code]") itemtype: RequestBody,
         @Part("Item[1][itemgroup1]") itemgroup: RequestBody,
         @Part("Item[1][price1]") price: RequestBody,
-        @Part("Item[1][unit1]") unit: RequestBody,
+        @PartMap partMap : HashMap<String, RequestBody>,
         @Part body: MultipartBody.Part?
     ): Flow<ApiResponse<ItemDummyResponse>>
 

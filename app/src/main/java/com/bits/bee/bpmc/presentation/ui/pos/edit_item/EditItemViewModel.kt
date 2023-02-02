@@ -9,7 +9,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetUnitItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CalcUtils
-import com.bits.bee.bpmc.utils.extension.removeSymbol
+import com.bits.bee.bpmc.utils.removeSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal

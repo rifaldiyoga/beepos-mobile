@@ -41,11 +41,12 @@ class AnalisaSesiViewModel @Inject constructor(
 
     val reg = getRegPossesActualEndCashUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
 
+    val activePosses = getActivePossesUseCase()
 
     fun getValueDetail() = viewModelScope.launch{
         updateState(state.copy(isLoading = true))
         if (state.posses == null)
-        updateState(state.copy(posses = getActivePossesUseCase().first()))
+            updateState(state.copy(posses = getActivePossesUseCase().first()))
         state.posses?.let { data ->
             updateState(
                 state.copy(

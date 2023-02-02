@@ -30,7 +30,8 @@ object BpDataMapper : BaseMapper<BpEntity, Bp, BpResponse.BpModel>(){
             model.updatedAt,
             model.updatedBy,
             model.isFavorit,
-            isSelected = model.isSelected
+            isSelected = model.isSelected,
+            status = model.status
         )
     }
 
@@ -52,7 +53,8 @@ object BpDataMapper : BaseMapper<BpEntity, Bp, BpResponse.BpModel>(){
             model.updatedAt,
             model.updatedBy,
             model.isFavorit,
-            isSelected = model.isSelected
+            isSelected = model.isSelected,
+            status = model.status
         )
     }
 

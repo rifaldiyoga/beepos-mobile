@@ -1,18 +1,17 @@
 package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 
 import android.Manifest
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -29,17 +28,15 @@ import com.bits.bee.bpmc.domain.model.ItemDummy
 import com.bits.bee.bpmc.domain.model.UnitDummy
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.CustomDialogBuilder
-import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.pilih_kategori.PilihKategoriDialog
 import com.bits.bee.bpmc.presentation.dialog.pilih_merk.PilihMerekDialog
-import com.bits.bee.bpmc.presentation.ui.pos.MainActivity
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.*
-import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.removeSymbol
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.addNumberFormatChange
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.removeSymbol
+import com.bits.bee.bpmc.utils.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -66,7 +63,6 @@ class TambahProdukFragment(
     private var tempFilePath =""
     private var defaultKategori = false
     private var defaultMerk = false
-    private var itemPict: Bitmap? = null
 
     private val requestPermissionCamera = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ data ->
         data.forEach {
@@ -134,17 +130,6 @@ class TambahProdukFragment(
                     viewModel.onQtyChange(pos, value)
                 },
                 onDelete = { pos ->
-//                    val dialog = DialogBuilderHelper.showDialogChoice(requireActivity(), getString(R.string.informasi),
-//                        "Apakah anda yakin ingin menghapus satuan ${pos + 1}? Satuan ${pos + 1} yang dihapus tidak dapat dikembalikan lagi",
-//                        getString(R.string.batal),
-//                        {
-//                            it.dismiss()
-//                        },
-//                        getString(R.string.hapus),{
-//                            it.dismiss()
-//
-//                        })
-//                    dialog.show(parentFragmentManager, "")
                     viewModel.onDelete(pos)
                 },
                 onUpdateSatuan = { value ->
@@ -222,15 +207,6 @@ class TambahProdukFragment(
                 viewModel.onClickTambahSatuan()
             }
             btnAddFoto.setOnClickListener {
-//                ImagePicker.Companion.with(requireActivity())
-////                    .crop()	    			//Crop image(Optional), Check Customization for more option
-////                    .compress(1024)			//Final image size will be less than 1 MB(Optional)
-////                    .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-//                    .start()
-//                val ss= ""
-//                val intent = Intent(activity, MainActivity)
-//                resultIntent.launch(Intent())
-//                openCamera()
                 viewModel.showDialogOpsi()
             }
             llImage.setOnClickListener {
@@ -467,19 +443,8 @@ class TambahProdukFragment(
     }
 
     private fun openCamera(isCamera: Boolean) {
-//        if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)
-//            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-//            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//            tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
-//                tempFilePath = it.absolutePath
-//            })
-//            resultLauncherContract.launch(tempUri)
-//        } else {
-//            requestPermissionCamera.launch(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
-//        }
         if(PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.CAMERA)
-            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            && PermissionUtils.checkPermissionIsGranted(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
             if (isCamera){
                 tempUri = FileProvider.getUriForFile(requireContext(), "com.bits.bee.bpmc.provider", createImg().also {
                     tempFilePath = it.absolutePath
@@ -491,8 +456,12 @@ class TambahProdukFragment(
                 })
                 getImage.launch("image/*")
             }
-        }else{
-            requestPermissionCamera.launch(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        } else {
+            val list = mutableListOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                list.add(Manifest.permission.MANAGE_MEDIA)
+            }
+            requestPermissionCamera.launch(list.toTypedArray())
         }
     }
 

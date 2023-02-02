@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemRekomBayarBinding
-import com.bits.bee.bpmc.presentation.ui.pilih_db.PilihDbAdapter
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.getColorFromAttr
+import com.bits.bee.bpmc.utils.getColorFromAttr
 import java.math.BigDecimal
 
 /**

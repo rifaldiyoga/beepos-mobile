@@ -30,10 +30,10 @@ import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.hideKeyboard
-import com.bits.bee.bpmc.utils.extension.removeSymbol
+import com.bits.bee.bpmc.utils.addNumberFormatChange
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.hideKeyboard
+import com.bits.bee.bpmc.utils.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

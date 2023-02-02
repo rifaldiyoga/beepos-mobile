@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.databinding.FragmentRekapSesiBinding
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.utils.extension.decideOnState
+import com.bits.bee.bpmc.utils.decideOnState
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

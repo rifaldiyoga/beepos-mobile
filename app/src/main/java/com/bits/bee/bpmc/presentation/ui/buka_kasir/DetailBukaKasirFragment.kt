@@ -16,9 +16,9 @@ import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
-import com.bits.bee.bpmc.utils.extension.append
-import com.bits.bee.bpmc.utils.extension.removeSymbol
+import com.bits.bee.bpmc.utils.addNumberFormatChange
+import com.bits.bee.bpmc.utils.append
+import com.bits.bee.bpmc.utils.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -42,6 +42,7 @@ class DetailBukaKasirFragment(
             tvInfo.append(" Pelajari selengkapnya disini", R.color.red)
             numpad?.setInputConnection(etModal.onCreateInputConnection(EditorInfo())!!)
             etModal.addNumberFormatChange()
+            sharedViewModel.getLastPosses(requireActivity())
         }
     }
 
@@ -119,6 +120,7 @@ class DetailBukaKasirFragment(
                             it.activeCashier?.let { cashier ->
                                 tvKasir.text = cashier.cashierName
                             }
+
                             tvShift.text = (BeePreferenceManager.getDataFromPreferences(requireContext(), getString(R.string.pref_counter_sesi), 1) as Int).toString()
                             tvMulaiOperasional.text = ""
                         }

@@ -18,8 +18,8 @@ import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BSmartPay
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.addNumberFormatChange
-import com.bits.bee.bpmc.utils.extension.removeSymbol
+import com.bits.bee.bpmc.utils.addNumberFormatChange
+import com.bits.bee.bpmc.utils.removeSymbol
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal

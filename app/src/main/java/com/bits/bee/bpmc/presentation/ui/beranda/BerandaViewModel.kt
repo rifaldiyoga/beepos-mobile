@@ -7,10 +7,12 @@ import com.bits.bee.bpmc.domain.usecase.common.*
 import com.bits.bee.bpmc.domain.usecase.tutup_kasir.TutupKasirUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.getDateDiff
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -19,16 +21,30 @@ import javax.inject.Inject
 @HiltViewModel
 class BerandaViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
-    private val getRegUseCase: GetRegUseCase
+    private val getRegUseCase: GetRegUseCase,
+    private val getActiveLicenseUseCase: GetActiveLicenseUseCase
 ) : BaseViewModel<BerandaState, BerandaViewModel.UIEvent>() {
 
     init {
         state = BerandaState()
     }
 
+    val license = getActiveLicenseUseCase()
+
     val getActiveBranch = getActiveBranchUseCase()
 
     val possesActualCashReg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
+
+    fun validateLicense() = viewModelScope.launch {
+        val license = license.first()
+        license?.let {
+            updateState(
+                state.copy(
+                    activeLicense = it,
+                )
+            )
+        }
+    }
 
     fun onDetailBukaKasirClick() = viewModelScope.launch {
         eventChannel.send(UIEvent.NavigateToBukaKasir)

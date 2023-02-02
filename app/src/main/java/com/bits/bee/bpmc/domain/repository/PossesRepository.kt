@@ -15,7 +15,7 @@ import java.math.BigDecimal
  */
 interface PossesRepository {
 
-    suspend fun getActivePosses() : Flow<Posses?>
+    fun getActivePosses() : Flow<Posses?>
 
     suspend fun getPosses(): Flow<PagingData<Posses>>
 

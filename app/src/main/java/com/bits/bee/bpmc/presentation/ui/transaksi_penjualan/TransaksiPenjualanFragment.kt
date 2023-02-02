@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +22,10 @@ import com.bits.bee.bpmc.presentation.ui.home.HomeActivity
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.FilterUtils
-import com.bits.bee.bpmc.utils.extension.decideOnState
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.decideOnState
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.setSearchViewStyle
+import com.bits.bee.bpmc.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -58,7 +57,8 @@ class TransaksiPenjualanFragment(
             (requireActivity() as HomeActivity).setVisibilityBottom(false)
         } else {
             searchView.setOnQueryTextFocusChangeListener { _, b ->
-                (requireActivity() as HomeActivity).setVisibilityBottom(!b)
+                if(findNavController().currentDestination?.id == R.id.transaksiPenjualanFragment)
+                    (requireActivity() as HomeActivity).setVisibilityBottom(!b)
             }
         }
 

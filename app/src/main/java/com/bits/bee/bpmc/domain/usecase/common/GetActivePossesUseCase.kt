@@ -12,7 +12,7 @@ class GetActivePossesUseCase @Inject constructor(
     private val possesRepository: PossesRepository
 ){
 
-    suspend operator fun invoke() : Flow<Posses?> {
+    operator fun invoke() : Flow<Posses?> {
         return possesRepository.getActivePosses()
     }
 

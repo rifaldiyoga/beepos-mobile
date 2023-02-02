@@ -10,7 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentRekapKasBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
+import com.bits.bee.bpmc.utils.setSearchViewStyle
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

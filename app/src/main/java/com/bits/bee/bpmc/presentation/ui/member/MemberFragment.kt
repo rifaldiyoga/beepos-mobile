@@ -25,10 +25,10 @@ import com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_printer.add_printer.TAG
 import com.bits.bee.bpmc.utils.PermissionUtils
-import com.bits.bee.bpmc.utils.extension.decideOnState
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.setSearchViewStyle
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.decideOnState
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.setSearchViewStyle
+import com.bits.bee.bpmc.utils.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

@@ -65,7 +65,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size8"
-                            android:text="@string/mata_uang_nominal"
+                            android:text=""
                             android:textSize="@dimen/font24"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView85"
@@ -157,7 +157,7 @@
                     android:id="@+id/tv_cabang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cabang"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -176,7 +176,7 @@
                     android:id="@+id/tv_kasir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/kasir"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -197,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/user_kasir"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView88" />
@@ -217,7 +217,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/sesi"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView95" />
@@ -237,7 +237,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/mulai_operasional"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView96" />
@@ -257,7 +257,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/selesai_operasional"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView97"/>
@@ -277,7 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/sesi"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView98" />

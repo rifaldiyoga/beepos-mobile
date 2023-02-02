@@ -1,5 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.mode_tampilan
 
+import android.content.pm.ActivityInfo
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -70,6 +71,7 @@ class ModeTampilanFragment(
                                 else -> ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
                             }
                             findNavController().navigate(action)
+                            requireActivity().requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                         }
                     }
                 }

@@ -1,7 +1,6 @@
 package com.bits.bee.bpmc.presentation.service
 
 import android.content.Context
-import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -15,7 +14,7 @@ import com.bits.bee.bpmc.domain.usecase.common.GetActiveCashierUseCase
 import com.bits.bee.bpmc.domain.usecase.upload_manual.*
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.extension.showNotifications
+import com.bits.bee.bpmc.utils.showNotifications
 import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -114,7 +113,8 @@ class UploadWorker @AssistedInject constructor(
                     isTaxedOnSale = mBp.isTaxedOnSale,
                     isTaxIncOnSale = mBp.isTaxIncOnSale,
                     createdAt = Date(),
-                    isFavorit = mBp.isFavorit
+                    isFavorit = mBp.isFavorit,
+                    status = true
                 )
                 val checkBp = getBpByIdUseCase(newBp.id!!).first()
                 if (checkBp != null){

@@ -13,7 +13,7 @@ import com.bits.bee.bpmc.data.data_source.local.model.UnitDummyEntity
 interface UnitDummyDao : BaseDao<UnitDummyEntity>{
 
     @Query("SELECT * FROM unit_dummy where item_id = :id")
-    fun getUnitById(id: Int) : List<UnitDummyEntity>
+    fun getUnitByItemId(id: Int) : List<UnitDummyEntity>
 
     @Query("DELETE FROM unit_dummy where item_id = :id")
     suspend fun deleteByItem(id: Int)

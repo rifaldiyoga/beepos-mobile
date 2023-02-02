@@ -18,8 +18,8 @@ import com.bits.bee.bpmc.domain.model.City
 import com.bits.bee.bpmc.domain.model.CityPopuler
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

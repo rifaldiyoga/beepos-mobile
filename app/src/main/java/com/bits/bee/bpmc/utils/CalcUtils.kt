@@ -1,6 +1,5 @@
 package com.bits.bee.bpmc.utils
 
-import com.bits.bee.bpmc.utils.extension.removeSymbol
 import java.math.BigDecimal
 
 /**
@@ -15,8 +14,16 @@ class CalcUtils {
                 val discList = discExp.split("+")
                 var discAmt = BigDecimal.ZERO
                 var total = subtotal
+                var isEmpty = false
+                discList.forEachIndexed { index, s ->
+                    if(index > 0 && index < discList.size - 1 && s.isEmpty()){
+                        isEmpty = true
+                    }
+                }
+                if(isEmpty)
+                    throw Exception("Format yang anda masukkan salah!")
 
-                for (exp in discList) {
+                discList.forEach { exp ->
                     if(exp.isNotEmpty()) {
                         val re = Regex("/[^a-zA-Z ]/g")
                         val discRe = re.replace(exp.removeSymbol(), "")
@@ -37,8 +44,6 @@ class CalcUtils {
                             discAmt = discAmt.add(disc)
                         }
                         total = total.subtract(discAmt)
-                    } else {
-                        throw Exception("Format yang anda masukkan salah!")
                     }
                 }
                 return discAmt

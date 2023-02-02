@@ -83,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                android:layout_marginEnd="@dimen/size16"
                 app:backgroundTint="@android:color/transparent"
                 app:elevation="0dp"
                 app:itemTextColor="@drawable/bottom_text_color_selector"

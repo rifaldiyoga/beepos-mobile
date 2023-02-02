@@ -28,5 +28,6 @@ data class Bp(
     var isFavorit : Boolean = false,
     var bpAddr: BpAddr? = null,
     var bpAccList : List<BpAcc> = mutableListOf(),
-    var isSelected : Boolean = false
+    var isSelected : Boolean = false,
+    var status : Boolean = false,
 ) : Parcelable

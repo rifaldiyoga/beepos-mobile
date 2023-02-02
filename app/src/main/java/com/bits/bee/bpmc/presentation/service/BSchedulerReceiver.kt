@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.extension.goAsync
+import com.bits.bee.bpmc.utils.goAsync
 import javax.inject.Inject
 
 

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.ItemMemberBinding
 import com.bits.bee.bpmc.domain.model.Srep
-import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.gone
 
 /**
  * Created by aldi on 22/04/22.

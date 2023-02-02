@@ -16,8 +16,8 @@ import com.bits.bee.bpmc.domain.model.SaleAddOnD
 import com.bits.bee.bpmc.domain.model.Saled
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.visible
 import java.math.BigDecimal
 
 /**

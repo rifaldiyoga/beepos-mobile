@@ -9,6 +9,6 @@ class GetUnitDummyByIdUseCase @Inject constructor(
    private val unitDummyRepository: UnitDummyRepository
 ) {
     operator fun invoke(id: Int): Flow<List<UnitDummy>>{
-        return unitDummyRepository.getUnitById(id)
+        return unitDummyRepository.getUnitByItemId(id)
     }
 }

@@ -51,6 +51,8 @@ data class BpEntity(
     var isFavorit : Boolean = false,
     @ColumnInfo(name = ISSELECTED)
     var isSelected : Boolean = false,
+    @ColumnInfo(name = STATUS)
+    var status : Boolean = false,
 ) {
     companion object {
         const val TBL_NAME = "bp"
@@ -66,6 +68,7 @@ data class BpEntity(
         const val BPGRP1_ID = "bpgrp1_id"
         const val PRICELVL_ID = "pricelvl_id"
         const val ACTIVE = "active"
+        const val STATUS = "status"
         const val CREATED_AT = "created_at"
         const val CREATED_BY = "created_by"
         const val UPDATED_AT = "updated_at"

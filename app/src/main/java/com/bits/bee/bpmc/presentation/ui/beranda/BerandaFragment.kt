@@ -14,12 +14,8 @@ import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.replaceNumberWithStars
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.presentation.ui.home.HomeViewModel
+import com.bits.bee.bpmc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -37,6 +33,7 @@ class BerandaFragment(
 
     private val viewModel : BerandaViewModel by viewModels()
     private val sharedViewModel : BukaTutupKasirSharedViewModel by activityViewModels()
+    private val homeViewModel : HomeViewModel by activityViewModels()
     private var mCounter: Int = 0
 
     @Inject
@@ -49,7 +46,7 @@ class BerandaFragment(
 
     override fun initComponents() {
         val isFirstRun = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.is_first_run), true) as Boolean
-
+        homeViewModel.validateLicense()
         if(isFirstRun){
 //            val action = BerandaFragmentDirections.actionBerandaFragmentToDownloadDialogBuilder()
 //            findNavController().navigate(action)
@@ -77,6 +74,7 @@ class BerandaFragment(
     }
 
     override fun subscribeObservers() {
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 sharedViewModel.viewStates().collect {

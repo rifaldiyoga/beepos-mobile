@@ -17,7 +17,7 @@ import com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragmentDirections
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
-import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.gone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -125,6 +125,8 @@ class InvoiceFragment(
                         InvoiceViewModel.UIEvent.RequestPembayaran -> {
                             if (mainViewModel.state.saledList.isEmpty()) {
                                 showSnackbar("Detail Kosong!")
+                            } else if(mainViewModel.state.sale.total < BigDecimal.ZERO) {
+                                showSnackbar("Total tidak boleh minus!")
                             } else {
                                 val action = when (BeePreferenceManager.ORIENTATION) {
                                     BPMConstants.SCREEN_POTRAIT -> InvoiceFragmentDirections.actionInvoiceFragmentToPembayaranFragment()

@@ -22,8 +22,8 @@ import com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog
 import com.bits.bee.bpmc.presentation.ui.pos.MainViewModel
 import com.bits.bee.bpmc.presentation.ui.setting_sistem.TAG
 import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.visible
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ItemDummyRepository {
 
-    fun getItemDummyList() : Flow<Resource<List<ItemDummy>>>
+    fun getItemDummyList() : Flow<List<ItemDummy>>
 
     suspend fun addItemDummy(itemDummy: ItemDummy) : Flow<Long>
 

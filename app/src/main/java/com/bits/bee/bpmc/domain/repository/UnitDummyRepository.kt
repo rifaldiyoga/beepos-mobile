@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface UnitDummyRepository {
     suspend fun addUpdate(unitDummyEntity: UnitDummyEntity, edit: Boolean)
 
-    fun getUnitById(id: Int): Flow<List<UnitDummy>>
+    fun getUnitByItemId(id: Int): Flow<List<UnitDummy>>
 
     suspend fun deleteByItem(id: Int)
 }

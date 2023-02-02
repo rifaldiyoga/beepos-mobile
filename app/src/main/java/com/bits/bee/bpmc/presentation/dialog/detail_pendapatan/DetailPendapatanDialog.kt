@@ -22,7 +22,6 @@ class DetailPendapatanDialog(
 ): BaseBottomSheetDialogFragment<DialogDetailPendapatanBinding>() {
 
     private val viewModel : DetailPendapatanViewModel by viewModels()
-    private var bigDecimalZero: BigDecimal = BigDecimal("0")
 
     override fun initComponents() {
         viewModel.updateState(
@@ -46,44 +45,46 @@ class DetailPendapatanDialog(
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.viewStates().collect {
+                viewModel.viewStates().collect { state ->
                     binding.apply {
-                        it?.let {
+                        state?.let {
                             it.posses?.let {
-                                tvTotalIncome.text = getString(
-                                    R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.total.add(it.startBal)))
-                                tvModal.text = getString(
-                                    R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.startBal))
-                                tvPemasukan.text = getString(
-                                    R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.totIn ?: BigDecimal.ZERO))
-                                tvPengeluaran.text = getString(
-                                    R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.totOut ?: BigDecimal.ZERO))
+
                                 viewModel.getValueDetail()
+                                var totalIncome = CurrencyUtils.formatCurrency(it.total.add(it.startBal))
+                                var startBal = CurrencyUtils.formatCurrency(it.startBal)
+                                var pemasukan = CurrencyUtils.formatCurrency(it.totIn ?: BigDecimal.ZERO)
+                                var pengeluaran = CurrencyUtils.formatCurrency(it.totOut ?: BigDecimal.ZERO)
+                                var totalTunai = CurrencyUtils.formatCurrency(state.totalTunai)
+                                var totalDebit = CurrencyUtils.formatCurrency(state.totalDebit)
+                                var totalGopay = CurrencyUtils.formatCurrency(state.totalGopay)
+                                var totalNonTunai = CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai())
+//                                if(viewModel.possesActualCashReg.first()?.value == "1"){
+//                                    totalIncome = totalIncome.replaceNumberWithStars()
+//                                    startBal = startBal.replaceNumberWithStars()
+//                                    pemasukan = pemasukan.replaceNumberWithStars()
+//                                    pengeluaran = pengeluaran.replaceNumberWithStars()
+//                                    totalTunai = totalTunai.replaceNumberWithStars()
+//                                    totalDebit = totalDebit.replaceNumberWithStars()
+//                                    totalGopay = totalGopay.replaceNumberWithStars()
+//                                    totalNonTunai = totalNonTunai.replaceNumberWithStars()
+//
+//                                }
+
+                                tvTotalIncome.text = getString(R.string.mata_uang_nominal, "Rp", totalIncome)
+                                tvModal.text = getString(R.string.mata_uang_nominal, "Rp", startBal)
+                                tvPemasukan.text = getString(R.string.mata_uang_nominal, "Rp", pemasukan)
+                                tvPengeluaran.text = getString(R.string.mata_uang_nominal, "Rp", pengeluaran)
+                                tvTotalTunai.text = getString(R.string.mata_uang_nominal, "Rp", totalTunai)
+                                tvTotalDebit.text = getString(R.string.mata_uang_nominal, "Rp", totalDebit)
+                                tvTotalGopay.text = getString(R.string.mata_uang_nominal, "Rp", totalGopay)
+                                tvTotalNonTunai.text = getString(R.string.mata_uang_nominal, "Rp", totalNonTunai)
                             }
 
-                            it.totalTunai?.let {
-                                tvTotalTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
-                            }
-                            it.totalDebit?.let {
-                                tvTotalDebit.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
-                            }
-                            it.totalGopay?.let {
-                                tvTotalGopay.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it ?: bigDecimalZero))
-                                tvTotalNonTunai.text = getString(R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(viewModel.getTotalNonTunai() ?: bigDecimalZero))
-                            }
                         }
                     }
                 }
             }
         }
     }
-
 }

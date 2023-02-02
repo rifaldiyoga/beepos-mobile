@@ -4,9 +4,11 @@ import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.model.Posses
 import com.bits.bee.bpmc.domain.printer.helper.PrinterHelper
 import com.bits.bee.bpmc.domain.usecase.common.GetActiveBranchUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetRegUseCase
 import com.bits.bee.bpmc.domain.usecase.rekap_sesi.GetUserByIdUseCase
 import com.bits.bee.bpmc.domain.usecase.riwayat_sesi.GetCashierByIdUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.utils.BPMConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,13 +18,16 @@ class DetailRiwayatSesiViewModel @Inject constructor(
     private val getActiveBranchUseCase: GetActiveBranchUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getCashierByIdUseCase: GetCashierByIdUseCase,
-    private val printerHelper: PrinterHelper
+    private val printerHelper: PrinterHelper,
+    private val getRegUseCase: GetRegUseCase
 ): BaseViewModel<DetailRiwayatSesiState, DetailRiwayatSesiViewModel.UIEvent>() {
 
     init {
         state = DetailRiwayatSesiState()
         getActiveBranch()
     }
+
+    val possesActualCashReg = getRegUseCase(BPMConstants.REG_POSSES_ACTUAL_ENDCASH)
 
     private fun getActiveBranch() = viewModelScope.launch {
         getActiveBranchUseCase.invoke().collect {

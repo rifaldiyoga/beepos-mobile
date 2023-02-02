@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -27,13 +26,7 @@ import com.bits.bee.bpmc.presentation.base.BaseActivity
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
 import com.bits.bee.bpmc.presentation.ui.buka_kasir.BukaTutupKasirSharedViewModel
-import com.bits.bee.bpmc.utils.BPMConstants
-import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.Utils
-import com.bits.bee.bpmc.utils.extension.getDateDiff
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -61,7 +54,6 @@ class HomeActivity(
         RetrofitClient.API_KEY = apiKey
 
         viewModel.checkLicense(BeePreferenceManager.getDataFromPreferences(this, getString(R.string.pref_nama_device), "") as String)
-
     }
 
     override fun initComponents() {
@@ -112,13 +104,12 @@ class HomeActivity(
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 if(navController.currentDestination?.id == R.id.berandaFragment || navController.currentDestination?.id == R.id.aturModalDialogBuilder) {
                     toolbar.navigationIcon = null
-                    viewModel.validateLicense()
                 } else {
-                    toolbar.navigationIcon =
-                        ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_back_black)
-
+                    toolbar.navigationIcon = ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_back_black)
                     viewModel.updateState(
-                        viewModel.state.copy(isShowLicense = false)
+                        viewModel.state.copy(
+                            isShowLicense = false
+                        )
                     )
                 }
 
@@ -143,6 +134,10 @@ class HomeActivity(
                 )
                 if(BeePreferenceManager.ORIENTATION == BPMConstants.SCREEN_LANDSCAPE)
                     toolbar.isVisible = destination.id != R.id.transaksiPenjualanFragment
+            }
+            bottomNavigationView.setOnItemReselectedListener {
+                navController.navigateUp()
+                navController.navigate(it.itemId)
             }
         }
     }
@@ -231,18 +226,17 @@ class HomeActivity(
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewStates().collect {
-                    it?.let {
+                    it?.let { state ->
                         binding.apply {
-                            llLicense.isVisible = it.isShowLicense
+                            llLicense.isVisible = state.isShowLicense
                             tvLisensi.text = getString(R.string.masa_aktif_lisensi_device_anda_akan_berakhir_,
-                                getDateDiff( Date(), it.activeLicense?.licExp ?: Date())
+                                getDateDiff( Date(), state.activeLicense?.licExp ?: Date())
                             )
                         }
                     }
                 }
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -253,14 +247,14 @@ class HomeActivity(
     fun setVisibilityBottom(isShow : Boolean){
         binding.apply {
             if(isShow) {
-                val param = mainHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+                val param = mainHostFragment.layoutParams as MarginLayoutParams
                 param.bottomMargin = bottomAppBar.height
                 mainHostFragment.layoutParams = param
                 bottomAppBar.visible()
                 fab.visible()
 
             } else {
-                val param = mainHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+                val param = mainHostFragment.layoutParams as MarginLayoutParams
                 param.bottomMargin = 0
                 mainHostFragment.layoutParams = param
                 bottomAppBar.gone()
@@ -268,14 +262,5 @@ class HomeActivity(
             }
         }
     }
-
-
-
-
-//    override fun onBackPressed() {
-//        when(navController.currentDestination?.id){
-//            else -> super.onBackPressed()
-//        }
-//    }
 }
 

@@ -2,9 +2,7 @@ package com.bits.bee.bpmc.presentation.ui.pos.pos
 
 import androidx.lifecycle.viewModelScope
 import com.bits.bee.bpmc.domain.repository.ItemGroupRepository
-import com.bits.bee.bpmc.domain.usecase.pos.GetActiveItemGroupUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
-import com.bits.bee.bpmc.utils.BeePreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

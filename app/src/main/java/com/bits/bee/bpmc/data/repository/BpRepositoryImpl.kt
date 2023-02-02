@@ -49,7 +49,7 @@ class BpRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: BpResponse) {
-                bpDao.insertBulk(data.data.map{BpDataMapper.fromNetworkToDb(it)})
+                bpDao.insertBulk(data.data.map{ BpDataMapper.fromNetworkToDb(it).copy(status = true) })
                 val bpAddrList = data.data.map {
                     BpAddrEntity(
                         cityCode = it.city_code ?: "",

@@ -15,7 +15,7 @@ import com.bits.bee.bpmc.databinding.FragmentSettingFavMemberBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.custom.LoadingStateAdapter
 import com.bits.bee.bpmc.presentation.ui.setting_favorite.SettingFavoriteFragmentMainDirections
-import com.bits.bee.bpmc.utils.extension.decideOnState
+import com.bits.bee.bpmc.utils.decideOnState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

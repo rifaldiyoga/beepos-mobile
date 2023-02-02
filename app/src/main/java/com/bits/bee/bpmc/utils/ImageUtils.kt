@@ -28,7 +28,7 @@ class ImageUtils {
 
         private var shareTargetsArray: MutableList<com.squareup.picasso.Target?> = ArrayList()
 
-        fun downloadImage(context: Context, bucketKey : String, objKey : String) : String{
+        fun downloadImage(bucketKey : String, objKey : String) : String{
             val path = BPMConstants.getDatapath() + BPMConstants.BPM_PRODUKPATH
 
             FileHandlerUtils.createFolder(path)

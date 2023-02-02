@@ -27,7 +27,7 @@ import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.Utils
-import com.bits.bee.bpmc.utils.extension.gone
+import com.bits.bee.bpmc.utils.gone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -67,6 +67,7 @@ class DetailTransaksiPenjualanFragment(
 
     override fun onResume() {
         super.onResume()
+        (requireActivity() as HomeActivity).setVisibilityBottom(false)
         viewModel.state.sale?.let {
             setToolbarTitle(it.trxNo)
         }
@@ -74,6 +75,7 @@ class DetailTransaksiPenjualanFragment(
 
     override fun onStart() {
         super.onStart()
+        (requireActivity() as HomeActivity).setVisibilityBottom(false)
         viewModel.state.sale?.let {
             setToolbarTitle(it.trxNo)
         }

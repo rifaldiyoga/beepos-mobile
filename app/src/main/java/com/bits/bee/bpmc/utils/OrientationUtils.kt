@@ -39,7 +39,7 @@ class OrientationUtils @Inject constructor(
 
         val isChange = beePreferenceManager.posPreferences.first().isChangeOrientasi
         Log.i("Display Inchies", diagonalInches.toString())
-
+        print("Display Inchies $diagonalInches")
         if (diagonalInches < 6.7 && !isChange) {
             screenDevice = BPMConstants.SCREEN_POTRAIT
             beePreferenceManager.updatePosPreferences(

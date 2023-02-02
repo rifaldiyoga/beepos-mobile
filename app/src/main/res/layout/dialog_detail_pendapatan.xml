@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size8"
-                    android:text="@string/mata_uang_nominal"
+                    android:text=""
                     android:textSize="@dimen/font24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView85"
@@ -109,7 +109,7 @@
                     android:id="@+id/tvModal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/modal"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView87"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -128,7 +128,7 @@
                     android:id="@+id/tvPemasukan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pemasukan"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView88"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -156,7 +156,7 @@
                         android:id="@+id/tvTotalTunai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tunai"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -187,7 +187,7 @@
                         android:id="@+id/tvTotalNonTunai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tunai"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -216,7 +216,7 @@
                         android:id="@+id/tvTotalGopay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/gopay"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintBaseline_toBaselineOf="@+id/textView91"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -235,7 +235,7 @@
                         android:id="@+id/tvTotalDebit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/debit"
+                        android:text=""
                         android:textColor="@color/black"
                         app:layout_constraintBaseline_toBaselineOf="@+id/textView92"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -256,16 +256,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size16"
-                    android:text="@string/pengeluaran"
+                    android:text=""
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <Button
                     android:id="@+id/buttonClosed"
                     android:layout_width="@dimen/size0"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size16"
+                    android:layout_marginBottom="@dimen/size16"
                     android:layout_marginTop="@dimen/size20"
                     android:background="@drawable/btn_rect_primary"
                     android:text="@string/tutup"
@@ -276,6 +276,5 @@
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

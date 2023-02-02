@@ -114,9 +114,8 @@ class DetailRiwayatSesiFragment(
                                     BPMConstants.DEFAULT_DATE_FORMAT, startTime)
                                 tvSelesaiOperasional.text = DateFormatUtils.formatDateToString(
                                     BPMConstants.DEFAULT_DATE_FORMAT, endTime)
-                                pemasukanTotal.text = getString(
-                                    R.string.mata_uang_nominal,
-                                    "Rp", CurrencyUtils.formatCurrency(it.posses!!.total.add(it.posses!!.startBal)))
+                                var modal = CurrencyUtils.formatCurrency(it.posses!!.total.add(it.posses!!.startBal))
+                                pemasukanTotal.text = getString(R.string.mata_uang_nominal, "Rp", modal)
                             }
                         }
                         it.user?.let {

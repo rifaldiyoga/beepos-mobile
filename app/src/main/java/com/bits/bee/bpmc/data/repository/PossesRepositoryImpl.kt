@@ -33,7 +33,7 @@ class PossesRepositoryImpl @Inject constructor(
     private val defaultDispatcher: CoroutineDispatcher
 ) : PossesRepository {
 
-    override suspend fun getActivePosses(): Flow<Posses?> = flow {
+    override fun getActivePosses(): Flow<Posses?> = flow {
         val posses = possesDao.getActivePosses()
         emit(posses?.let{PossesDataMapper.fromDbToDomain(posses)})
     }.flowOn(defaultDispatcher)

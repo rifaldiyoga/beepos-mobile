@@ -1,10 +1,12 @@
 package com.bits.bee.bpmc.presentation.ui.splash
 
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.bits.bee.bpmc.BuildConfig
 import com.bits.bee.bpmc.R
@@ -19,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SplashScreenActivity(
+class
+SplashScreenActivity(
     override val bindingInflater: (LayoutInflater) -> ActivitySplashScreenBinding = ActivitySplashScreenBinding::inflate
 ) : BaseActivity<ActivitySplashScreenBinding>() {
 

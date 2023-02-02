@@ -23,7 +23,7 @@ import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
 import com.bits.bee.bpmc.presentation.service.UploadWorker
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
 import com.bits.bee.bpmc.utils.ConnectionUtils
-import com.bits.bee.bpmc.utils.extension.decideOnState
+import com.bits.bee.bpmc.utils.decideOnState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

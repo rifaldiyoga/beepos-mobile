@@ -9,10 +9,10 @@ import com.bits.bee.bpmc.domain.model.SignUp
 import com.bits.bee.bpmc.domain.usecase.signup.PostSignUpUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.extension.isContainsLowerCase
-import com.bits.bee.bpmc.utils.extension.isContainsNumber
-import com.bits.bee.bpmc.utils.extension.isContainsUpperCase
-import com.bits.bee.bpmc.utils.extension.isValidEmail
+import com.bits.bee.bpmc.utils.isContainsLowerCase
+import com.bits.bee.bpmc.utils.isContainsNumber
+import com.bits.bee.bpmc.utils.isContainsUpperCase
+import com.bits.bee.bpmc.utils.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

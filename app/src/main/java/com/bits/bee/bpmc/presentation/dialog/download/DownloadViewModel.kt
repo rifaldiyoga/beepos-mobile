@@ -2,6 +2,9 @@ package com.bits.bee.bpmc.presentation.dialog.download
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.bits.bee.bpmc.data.data_source.remote.response.PostAllReturn
 import com.bits.bee.bpmc.domain.mapper.DistrictDataMapper
 import com.bits.bee.bpmc.domain.repository.DistrictRepository
@@ -12,6 +15,8 @@ import com.bits.bee.bpmc.domain.usecase.download.DownloadInteractor
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.presentation.dialog.DialogBuilderHelper
 import com.bits.bee.bpmc.presentation.dialog.error_dialog.ErrorDialogBuilder
+import com.bits.bee.bpmc.presentation.service.DownloadImageWorker
+import com.bits.bee.bpmc.presentation.service.UploadWorker
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.DateFormatUtils
 import com.bits.bee.bpmc.utils.ImageUtils
@@ -965,8 +970,14 @@ class DownloadViewModel @Inject constructor (
                 Resource.Status.SUCCESS -> {
                     it.data?.let {
                         it.forEach {
-                            if(it.bucket?.isNotEmpty() == true && it.objKey?.isNotEmpty() == true)
-                                ImageUtils.downloadImage(context, it.bucket ?: "", it.objKey ?: "")
+                            if(it.bucket?.isNotEmpty() == true && it.objKey?.isNotEmpty() == true) {
+                                val worker = OneTimeWorkRequest.Builder(DownloadImageWorker::class.java)
+                                val data = Data.Builder()
+                                data.putString("objKey", it.objKey)
+                                data.putString("bucketKey", it.bucket)
+                                worker.setInputData(data.build())
+                                WorkManager.getInstance(context).enqueue(worker.build())
+                            }
                         }
                     }
                     updateState(

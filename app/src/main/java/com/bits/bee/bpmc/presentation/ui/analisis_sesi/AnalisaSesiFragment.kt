@@ -19,8 +19,8 @@ import com.bits.bee.bpmc.presentation.dialog.InfoSetoranDialogBuilder
 import com.bits.bee.bpmc.utils.BPMConstants
 import com.bits.bee.bpmc.utils.CurrencyUtils
 import com.bits.bee.bpmc.utils.DateFormatUtils
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.replaceNumberWithStars
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.replaceNumberWithStars
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -150,7 +150,7 @@ class AnalisaSesiFragment(
                                 val program = CurrencyUtils.formatCurrency(data.total.add(data.startBal))
                                 val diffCash = CurrencyUtils.formatCurrency(data.totalDiffCash)
 
-                                if(viewModel.reg.first()?.value == "1"){
+                                if(viewModel.reg.first()?.value == "1" && viewModel.activePosses.first()?.possesId == data.possesId){
                                     modal = modal.replaceNumberWithStars()
                                     totalPendapatan = totalPendapatan.replaceNumberWithStars()
                                     pemasukan = pemasukan.replaceNumberWithStars()

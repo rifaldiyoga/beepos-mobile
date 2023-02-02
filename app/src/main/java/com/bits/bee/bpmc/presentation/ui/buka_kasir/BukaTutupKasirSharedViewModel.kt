@@ -50,6 +50,18 @@ class BukaTutupKasirSharedViewModel @Inject constructor(
         setShift()
     }
 
+    fun getLastPosses(context : Context) = viewModelScope.launch {
+        val lastPosses = getLastPossesUseCase().first()
+        if(lastPosses != null) {
+            val lastDate = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, lastPosses.endTime!!)
+            val dateNow = DateFormatUtils.formatDateToString(BPMConstants.NEW_DATE_FORMAT, Date())
+            if(lastDate != dateNow){
+                BeePreferenceManager.saveToPreferences(context, context.getString(R.string.pref_counter_sesi), 1)
+            }
+            BeePreferenceManager.getDataFromPreferences(context, context.getString(R.string.pref_counter_sesi), 1) as Int
+        }
+    }
+
     fun getActivePosses() = viewModelScope.launch {
         getActivePossesUseCase().collect {
             updateState(
