@@ -297,8 +297,8 @@ class TambahProdukFragment(
                             state.brand?.let {
                                 etBrandPrd.setText(it.brandName)
                             }
+                            unitAdapter.setError(viewModel.state.msgQty)
                             state.msgQty?.let {
-                                unitAdapter.setError(it)
                                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                             }
                             tilNama.error = it.msgNama
