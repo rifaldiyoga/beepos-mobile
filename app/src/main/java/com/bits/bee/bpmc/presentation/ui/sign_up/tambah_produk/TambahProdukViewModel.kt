@@ -67,9 +67,11 @@ class TambahProdukViewModel @Inject constructor(
                 unitList.add(unit)
                 updateState(
                     state.copy(
-                        unitList = unitList
+                        unitList = unitList,
+                        msgQty = null
                     )
                 )
+                val s= ""
             } else {
                 sendMessage("Harap isi Satuan 1 terlebih dahulu!")
             }
@@ -86,12 +88,20 @@ class TambahProdukViewModel @Inject constructor(
         val unit = state.unitList[pos]
         unit.conv = BigDecimal(value)
         if (pos == 2){
-                if(unit.conv <= state.unitList[1].conv){
-                    updateState(
-                        state.copy(
-                            msgQty = "Konversi 3 harus lebih besar dari 2"
+                if (unit.conv > BigDecimal.ONE){
+                    if(unit.conv <= state.unitList[1].conv){
+                        updateState(
+                            state.copy(
+                                msgQty = "Konversi 3 harus lebih besar dari 2"
+                            )
                         )
-                    )
+                    }else{
+                        updateState(
+                            state.copy(
+                                msgQty = null
+                            )
+                        )
+                    }
                 }
             }
     }
@@ -106,6 +116,13 @@ class TambahProdukViewModel @Inject constructor(
             unitList.removeAt(1)
         }else{
             unitList.removeAt(pos)
+        }
+        if (pos == 2){
+            updateState(
+                state.copy(
+                    msgQty = null
+                )
+            )
         }
         updateState(
             state.copy(

@@ -40,7 +40,7 @@ class SatuanAdapter(
         this.isFnb = fnb
     }
 
-    fun setError(error: String){
+    fun setError(error: String?){
         this.errorQty = error
     }
 
@@ -82,8 +82,10 @@ class SatuanAdapter(
                         onQtyChange(absoluteAdapterPosition, etQty.text.toString().trim())
                     }
                     if (absoluteAdapterPosition == 2){
-                        errorQty?.let {
+                        if (errorQty != null){
                             tilQty.error = it
+                        }else{
+                            tilQty.isErrorEnabled = false
                         }
                     }
                 }
