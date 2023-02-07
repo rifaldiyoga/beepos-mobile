@@ -2,11 +2,13 @@ package com.bits.bee.bpmc.utils
 
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import kotlinx.coroutines.CoroutineScope
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.TidakAdaAksesDialog
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 
@@ -21,22 +23,40 @@ abstract class NetworkDatabaseBoundResource<ResultType, RequestType> @MainThread
     private val result : Flow<Resource<ResultType>> = channelFlow {
         send(Resource.loading())
 
-        when(val apiResponse = createCall().first()){
-            is ApiErrorResponse -> {
-                send(Resource.error(null, apiResponse.errorMessage, apiResponse.code))
-            }
-            is ApiSuccessResponse -> {
-                withContext(Dispatchers.IO){
-                    val a = processResponse(apiResponse)
-                    saveCallResult(a)
-                    send(Resource.success(loadFormDB()!!))
+        if(shouldFetch(null)) {
+            when (val apiResponse = createCall().first()) {
+                is ApiErrorResponse -> {
+                    send(Resource.error(null, apiResponse.errorMessage, apiResponse.code))
+                }
+                is ApiSuccessResponse -> {
+                    withContext(Dispatchers.IO) {
+                        val a = processResponse(apiResponse)
+                        saveCallResult(a)
+                        val data = loadFormDB()
+                        data?.let {
+                            send(Resource.success(it))
+                        }
+                    }
+                }
+                is ApiTimeoutResponse -> {
+                    send(Resource.timeout(null, apiResponse.errorMessage))
+                }
+                is ApiUnAuthorizedResponse -> {
+                    send(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
+                }
+                is ApiEmptyResponse -> {
+
+                }
+                is ApiNoNetworkResponse -> {
+                    send(Resource.noInternet(null, apiResponse.errorMessage, 400))
                 }
             }
-            is ApiTimeoutResponse -> {
-                send(Resource.timeout(null, apiResponse.errorMessage))
-            }
-            is ApiUnAuthorizedResponse -> {
-                send(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
+        } else {
+            withContext(Dispatchers.IO) {
+                val data = loadFormDB()
+                data?.let {
+                    send(Resource.success(it))
+                }
             }
         }
     }
@@ -67,13 +87,13 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
 
     private val result : Flow<Resource<RequestObject>> = flow {
         emit(Resource.loading())
-
         when(val apiResponse = createCall().first()){
             is ApiErrorResponse -> {
                 emit(Resource.error(null, apiResponse.errorMessage, apiResponse.code))
             }
             is ApiSuccessResponse -> {
                 val a = processResponse(apiResponse)
+                saveCallResult(a)
                 emit(Resource.success(a))
             }
             is ApiTimeoutResponse -> {
@@ -81,6 +101,10 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
             }
             is ApiUnAuthorizedResponse -> {
                 emit(Resource.unauthorized(null, apiResponse.errorMessage, apiResponse.code))
+            }
+            is ApiEmptyResponse -> {}
+            is ApiNoNetworkResponse -> {
+                emit(Resource.noInternet(null, apiResponse.errorMessage, 505))
             }
         }
     }
@@ -96,4 +120,8 @@ abstract class NetworkBoundResource<RequestObject> @MainThread constructor(priva
 
     @MainThread
     protected abstract fun createCall(): Flow<ApiResponse<RequestObject>>
+
+    open suspend fun saveCallResult(data : RequestObject){
+
+    }
 }

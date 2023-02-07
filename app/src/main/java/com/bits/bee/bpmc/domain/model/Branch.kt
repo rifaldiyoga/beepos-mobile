@@ -1,9 +1,6 @@
 package com.bits.bee.bpmc.domain.model
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-import com.bits.bee.bpmc.data.source.local.model.BranchEntitiy
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -11,18 +8,19 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Branch (
-    val id : Int,
-    val code : String,
-    val name: String,
-    val version: String,
-    val cmpName : String,
-    val cmpPhone : String,
-    val active : Boolean,
-    val cmpAddress : String,
-    val cmpFax : String,
-    val custDeftId : Int?,
-    val createdAt : Long,
-    val createdBy : Int,
-    val updatedAt : Long,
-    val updatedBy : Int,
+    val id : Int = -1,
+    val code : String = "",
+    val name: String = "",
+    val version: Int = -1,
+    val cmpName : String = "",
+    val cmpPhone : String = "",
+    val active : Boolean = false,
+    val status : Boolean = false,
+    val cmpAddress : String = "",
+    val cmpFax : String = "",
+    val custDeftId : Int? = null,
+    val createdAt : Long = -1,
+    val createdBy : Int = -1,
+    val updatedAt : Long = -1,
+    val updatedBy : Int = -1
 ) : Parcelable

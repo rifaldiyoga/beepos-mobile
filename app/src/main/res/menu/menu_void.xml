@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_more_black"
+        android:id="@+id/menu_lainnya"
+        android:title="@string/lainnya">
+        <menu>
+            <item android:icon="@drawable/ic_delete_gray"
+                android:id="@+id/menu_void"
+                app:showAsAction="withText"
+                android:title="@string/hapus" />
+
+        </menu>
+
+    </item>
+
+</menu>

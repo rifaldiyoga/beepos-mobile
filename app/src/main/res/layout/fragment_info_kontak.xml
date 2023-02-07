@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size0"
+        app:layout_constraintBottom_toTopOf="@+id/btnLanjut"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/size24"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/TextHeader"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:text="@string/informasi_kontak"
+                android:textSize="@dimen/default_text_header_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size6"
+                android:text="@string/input_data_diri"
+                android:textColor="@color/dark_gray"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size24"
+                android:text="@string/nama"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNama"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+                <EditText
+                    android:id="@+id/etNama"
+                    style="@style/CustomEditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/size6"
+                    android:hint="@string/cth_budi" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size24"
+                android:text="@string/no_wa"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/tilNama" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNoWa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" >
+
+                <EditText
+                    android:id="@+id/etNo_wa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    style="@style/CustomEditTextLayout"
+                    android:hint="@string/cth_081234567890"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size24"
+                android:text="@string/email"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/tilNoWa" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/CustomTextInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" >
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size6"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/cth_budi_email_com"
+                    style="@style/CustomEditTextLayout"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size24"
+                android:text="@string/password"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPassword"
+                android:layout_width="@dimen/size0"
+                style="@style/CustomTextInputLayout"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/min_8_char_pass"
+                    style="@style/CustomEditTextLayout"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/llPassword"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                app:layout_constraintStart_toStartOf="@+id/tilPassword"
+                app:layout_constraintTop_toBottomOf="@+id/tilPassword">
+
+                <TextView
+                    android:textColor="@color/maroon"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Password harus memenuhi syarat dibawah ini :"/>
+
+                <TextView
+                    android:id="@+id/tvErrorNumber"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/font12"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size8"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="@string/mengandung_min_1_angka" />
+
+                <TextView
+                    android:id="@+id/tvErrorUpperCase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size2"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="@string/mengandung_min_1_huruf_kapital" />
+
+                <TextView
+                    android:id="@+id/tvErrorLowerCase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size2"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="@string/mengandung_huruf_kecil" />
+
+                <TextView
+                    android:id="@+id/tvErrorKarakter"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/font12"
+                    android:layout_marginTop="@dimen/size2"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_circle_close_red"
+                    android:drawablePadding="@dimen/size16"
+                    android:text="Minimal 8 karakter" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView8"
+                style="@style/TextHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/conf_pass"
+                android:layout_marginTop="@dimen/size24"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/llPassword" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilconf_Password"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:errorIconDrawable="@null"
+                style="@style/CustomTextInputLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/etconf_Password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ulangi_pass"
+                    style="@style/CustomEditTextLayout"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnLanjut"
+        android:background="@drawable/btn_rect_primary"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_lanjut"
+        android:layout_margin="@dimen/size24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

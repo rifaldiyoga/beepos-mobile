@@ -13,47 +13,183 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:text="@string/login_operator"
-        android:textSize="@dimen/font24"
+        android:textSize="@dimen/font18"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="@dimen/size0"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size6"
-        android:text="@string/masukkan_pin_untuk_melanjutkan"
-        android:textColor="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-
-    <com.chaos.view.PinView
-        android:id="@+id/pinView"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/size45"
-        android:layout_marginTop="@dimen/size56"
-        android:itemBackground="@drawable/bg_rect_light_gray"
-        app:itemCount="6"
-        android:textSize="@dimen/font8"
-        app:itemWidth="@dimen/size45"
-        android:inputType="numberPassword"
-        app:itemSpacing="@dimen/size6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:lineColor="@color/light_gray" />
-
-    <com.bits.bee.bpmc.presentation.custom.CustomNumpadPin
-        android:id="@+id/numpad"
-        android:layout_width="@dimen/size0"
+    <LinearLayout
+        android:id="@+id/ll_mode_pin"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/size0"
-        android:layout_marginTop="@dimen/size100"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="24dp">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size6"
+            android:text="@string/masukkan_pin_untuk_melanjutkan"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/tvNamaKasir"
+            style="@style/TextHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/surabaya"
+            android:textSize="@dimen/font18"
+            android:layout_marginTop="@dimen/size40"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/pinView"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size45"
+            android:layout_marginTop="@dimen/size24"
+            android:itemBackground="@drawable/bg_rect_light_gray"
+            app:itemCount="6"
+            android:textStyle="bold"
+            android:textSize="@dimen/font10"
+            app:itemWidth="@dimen/size45"
+            android:inputType="numberPassword"
+            android:focusable="false"
+            style="@style/PinWidget.PinView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDesc"
+            app:lineColor="@color/light_gray"/>
+
+        <TextView
+            android:id="@+id/tvPinSalah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pin_salah_coba_lagi"
+            android:visibility="invisible"
+            android:textColor="?colorPrimary"
+            android:layout_marginTop="@dimen/size16"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.bits.bee.bpmc.presentation.custom.CustomNumpadPin
+            android:id="@+id/numpad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/size40"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pinView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_mode_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size0"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_gray"
+            android:layout_marginTop="@dimen/size6"
+            android:text="@string/masukan_email_melanjutkan"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size24"
+            android:text="@string/email"
+            style="@style/TextHeader"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size8"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/CustomTextInputLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <EditText
+                style="@style/CustomEditTextLayout"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cth_budi_email_com"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size24"
+            android:text="@string/password"
+            style="@style/TextHeader"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:passwordToggleEnabled="true"
+            style="@style/CustomTextInputLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+            <EditText
+                style="@style/CustomEditTextLayout"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnMasuk"
+        android:background="@drawable/btn_rect_primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/masuk"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

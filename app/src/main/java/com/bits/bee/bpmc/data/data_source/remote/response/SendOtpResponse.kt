@@ -1,0 +1,17 @@
+package com.bits.bee.bpmc.data.data_source.remote.response
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+
+class SendOtpResponse (
+    @SerializedName("status")
+    @Expose
+    var status: Boolean,
+    @SerializedName("data")
+    @Expose
+    var responses: String,
+    @SerializedName("regid")
+    @Expose
+    var regId: String,
+)

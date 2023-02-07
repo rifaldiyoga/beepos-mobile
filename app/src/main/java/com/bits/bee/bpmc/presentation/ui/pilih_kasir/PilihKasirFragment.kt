@@ -3,16 +3,22 @@ package com.bits.bee.bpmc.presentation.ui.pilih_kasir
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPilihKasirBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * Created by aldi on 22/03/22.
@@ -26,20 +32,30 @@ class PilihKasirFragment(
 
     private lateinit var adapter: PilihKasirAdapter
 
+    private lateinit var dialog : LoadingDialogHelper
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getCashierList()
     }
 
     override fun initComponents() {
+        dialog = LoadingDialogHelper(requireContext())
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(
-                    R.string.page_pilih_kasir))
+            R.string.page_pilih_kasir))
         setHasOptionsMenu(true)
         binding.apply {
             adapter = PilihKasirAdapter(onItemClick = {
-                val action = PilihKasirFragmentDirections.actionPilihKasirFragmentToLoginOperatorFragment()
-                findNavController().navigate(action)
+                if(!it.status) {
+                    val device = BeePreferenceManager.getDataFromPreferences(
+                        requireActivity(),
+                        getString(R.string.pref_nama_device),
+                        ""
+                    ) as String
+                    viewModel.onItemClick(cashier = it, device)
+                } else {
+                    showSnackbar("Kasir sudah digunakan!")
+                }
             })
 
             rvList.layoutManager = LinearLayoutManager(requireActivity())
@@ -52,9 +68,41 @@ class PilihKasirFragment(
     }
 
     override fun subscribeObservers() {
-        viewModel.observeCashierResponse().observe(viewLifecycleOwner, {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.event.collect {
+                    when(it){
+                        PilihKasirViewModel.UIEvent.NavigateToPin -> {
+                            val action = PilihKasirFragmentDirections.actionPilihKasirFragmentToLoginOperatorFragment()
+                            findNavController().navigate(action)
+                        }
+                        is PilihKasirViewModel.UIEvent.ShowDialog -> {
+                            if(it.isShowDialog){
+                                dialog.show()
+                            } else {
+                                dialog.hide()
+                            }
+                        }
+                        PilihKasirViewModel.UIEvent.ShowNoInternet -> {
+                            val dialog = NoInternetDialogBuilder({
+                                val device = BeePreferenceManager.getDataFromPreferences(
+                                    requireActivity(),
+                                    getString(R.string.pref_nama_device),
+                                    ""
+                                ) as String
+                                viewModel.state.cashier?.let {
+                                    viewModel.onItemClick(it, device)
+                                }
+                            })
+                            dialog.show(parentFragmentManager, "")
+                        }
+                    }
+                }
+            }
+        }
+        viewModel.observeCashierResponse().observe(viewLifecycleOwner) {
             it?.let {
-                when(it.status){
+                when (it.status) {
                     Resource.Status.LOADING -> {
                         setVisibilityComponent(true)
                     }
@@ -68,15 +116,15 @@ class PilihKasirFragment(
                     Resource.Status.ERROR -> {
                         setVisibilityComponent(false)
                     }
-                    Resource.Status.TIMEOUT -> {
-                        setVisibilityComponent(false)
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
-                        setVisibilityComponent(false)
+                    Resource.Status.NOINTERNET -> {
+                        val dialog = NoInternetDialogBuilder({
+                            viewModel.getCashierList()
+                        })
+                        dialog.show(parentFragmentManager, "")
                     }
                 }
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -86,9 +134,11 @@ class PilihKasirFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_refresh -> viewModel.getCashierList()
+            R.id.menu_refresh -> {
+                viewModel.getCashierList()
+            }
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
 

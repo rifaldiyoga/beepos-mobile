@@ -6,12 +6,31 @@
         android:title="@string/search"
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always|collapseActionView"/>
 
     <item
         android:title="@string/member"
-        android:id="@+id/menu_member"
-        android:icon="@drawable/ic_people"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/menu_draft"
+        android:icon="@drawable/ic_draft"
+        app:showAsAction="always"/>
+
+    <item
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_more"
+        android:id="@+id/menu_lainnya"
+        android:title="@string/lainnya">
+        <menu>
+            <item android:icon="@drawable/ic_diskon_master"
+                android:id="@+id/menu_diskon"
+                app:showAsAction="withText"
+                android:title="@string/diskon_nota" />
+
+            <item android:icon="@drawable/ic_promo"
+                android:id="@+id/menu_promo"
+                app:showAsAction="withText"
+                android:title="@string/daftar_promo" />
+        </menu>
+
+    </item>
 
 </menu>

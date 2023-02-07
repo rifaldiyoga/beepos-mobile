@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/size32"
+    android:paddingEnd="@dimen/size32"
+    android:paddingTop="@dimen/size16"
+    android:paddingBottom="@dimen/size16"
+    >
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="@dimen/size150"
+        android:layout_height="@dimen/size150"
+        android:src="@drawable/image_transaksi_sukses"
+        app:layout_constraintBottom_toTopOf="@+id/textView43"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textView43"
+        style="@style/TextHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/transaksi_berhasil"
+        app:layout_constraintBottom_toTopOf="@+id/tvKembali"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+    <TextView
+        android:id="@+id/tvKembali"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size8"
+        android:text="@string/kembali_4_500_dibayar_tunai"
+        app:layout_constraintBottom_toTopOf="@+id/btnPrint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView43" />
+
+    <Button
+        android:id="@+id/btnPrint"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/size16"
+        android:background="@drawable/btn_rect_secondary"
+        android:text="@string/print_nota"
+        android:textColor="?colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/btnTutup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnTutup"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/tutup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

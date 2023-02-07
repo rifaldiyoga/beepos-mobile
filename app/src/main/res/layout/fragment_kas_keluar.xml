@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_kas_keluar"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imgEmpty"
+        android:layout_width="@dimen/size300"
+        android:layout_height="@dimen/size180"
+        android:src="@drawable/image_content_empty"
+        app:layout_constraintBottom_toTopOf="@+id/textDetai"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:visibility="gone"
+        android:layout_width="@dimen/size225"
+        android:layout_height="@dimen/size150"
+        android:src="@drawable/ic_rekap_produk_notfound"
+        app:layout_constraintBottom_toTopOf="@+id/textDetai"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/size100"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        style="@style/TextDetail"
+        android:visibility="gone"
+        android:id="@+id/txtNotFound"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/cari_kas_not_found"
+        android:textAlignment="center"
+        android:textSize="@dimen/font12"
+        android:layout_marginStart="@dimen/size32"
+        android:layout_marginEnd="@dimen/size32"
+        app:layout_constraintBottom_toTopOf="@+id/btnTambah"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17"  />
+
+    <TextView
+        style="@style/TextDetail"
+        android:id="@+id/textDetai"
+        android:layout_marginTop="@dimen/size16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data_kas_keluar"
+        android:textAlignment="center"
+        android:textSize="@dimen/font12"
+        app:layout_constraintBottom_toTopOf="@+id/btnTambah"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEmpty"  />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTambah"
+        android:layout_marginTop="@dimen/size16"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:textSize="@dimen/size14"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/tambah_baru"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDetai" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/float_btn_tambah"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size32"
+        android:layout_marginBottom="@dimen/size32"
+        android:src="@drawable/ic_plus"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imgEmpty,textDetai,btnTambah" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

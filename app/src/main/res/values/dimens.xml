@@ -71,6 +71,6 @@
     <dimen name="size0">0dp</dimen>
 
 
-    <dimen name="default_text_header_size">@dimen/font24</dimen>
+    <dimen name="default_text_header_size">@dimen/font18</dimen>
 
 </resources>

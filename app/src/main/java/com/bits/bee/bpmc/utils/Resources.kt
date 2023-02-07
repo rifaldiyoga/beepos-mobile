@@ -6,7 +6,7 @@ package com.bits.bee.bpmc.utils
 class Resource<out T>(val status: Status, val data: T?, val message: String?, val code: Int?) {
 
     enum class Status {
-        LOADING, SUCCESS, ERROR, TIMEOUT, UNAUTHORIZED
+        LOADING, SUCCESS, ERROR, NOINTERNET
     }
 
     companion object {
@@ -18,16 +18,22 @@ class Resource<out T>(val status: Status, val data: T?, val message: String?, va
             return Resource(Status.SUCCESS, data, null, null,)
         }
 
-        fun <T> error(data: T?, msg: String, code: Int): Resource<T> {
+        fun <T> error(data: T?, msg: String, code: Int = -1): Resource<T> {
             return Resource(Status.ERROR, data, msg, code,)
         }
 
         fun <T> timeout(data: T?, msg: String): Resource<T> {
-            return Resource(Status.TIMEOUT, data, msg, null,)
+            return Resource(Status.ERROR, data, msg, 502)
+//            return Resource(Status.TIMEOUT, data, msg, null,)
         }
 
         fun <T> unauthorized(data: T?, msg: String, code: Int): Resource<T> {
-            return Resource(Status.UNAUTHORIZED, data, msg, code,)
+            return Resource(Status.ERROR, data, msg, 502)
+//            return Resource(Status.UNAUTHORIZED, data, msg, code,)
+        }
+
+        fun <T> noInternet(data: T?, msg: String, code: Int): Resource<T> {
+            return Resource(Status.NOINTERNET, data, msg, 502)
         }
     }
 

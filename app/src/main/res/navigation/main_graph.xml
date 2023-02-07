@@ -8,7 +8,381 @@
     <fragment
         tools:layout="@layout/fragment_pos"
         android:id="@+id/posFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.pos.PosFragment"
-        android:label="PosFragment" />
+        android:label=""
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos.PosFragment">
+        <action
+            android:id="@+id/action_posFragment_to_invoiceFragment"
+            app:destination="@id/invoiceFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_draftListDialog"
+            app:destination="@id/draftListDialog" />
+        <action
+            android:id="@+id/action_posFragment_to_diskonNotaDialog"
+            app:destination="@id/diskonNotaDialog" />
+        <action
+            android:id="@+id/action_posFragment_to_cariItemFragment"
+            app:destination="@id/cariItemFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_cariItemFragment2"
+            app:destination="@id/cariItemFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_editItemDialog2"
+            app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_posFragment_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_promoFragment"
+            app:destination="@id/promoFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_pembayaranFragment"
+            app:destination="@id/pembayaranFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_klaimPromoFragment"
+            app:destination="@id/klaimPromoFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_salesmanFragment"
+            app:destination="@id/salesmanFragment" />
+        <action
+            android:id="@+id/action_posFragment_to_detailAddOnDialogBuilder"
+            app:destination="@id/detailAddOnDialogBuilder" />
+        <action
+            android:id="@+id/action_posFragment_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_member"
+        android:id="@+id/memberFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.member.MemberFragment"
+        android:label="@string/pilih_member" >
+        <action
+            android:id="@+id/action_memberFragment_to_tambahMemberFragment"
+            app:destination="@id/tambahMemberFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_detailMemberDialog"
+            app:destination="@id/detailMemberDialog" />
+        <action
+            android:id="@+id/action_memberFragment_to_posFragment"
+            app:destination="@id/posFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_tambah_member"
+        android:id="@+id/tambahMemberFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.tambah_member.TambahMemberFragment"
+        android:label="@string/tambah_member" >
+        <argument
+            android:name="district"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_tambahMemberFragment_to_taxInfoDialog"
+            app:destination="@id/taxInfoDialog" />
+        <action
+            android:id="@+id/action_tambahMemberFragment_to_cariKotaFragment"
+            app:destination="@id/cariKotaFragment" />
+        <action
+            android:id="@+id/action_tambahMemberFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
+    <dialog
+        tools:layout="@layout/dialog_tax_info"
+        android:id="@+id/taxInfoDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.TaxInfoDialog"
+        android:label="" />
+    <dialog
+        tools:layout="@layout/dialog_detail_member"
+        android:id="@+id/detailMemberDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_member.DetailMemberDialog"
+        android:label="DetailMemberDialog" >
+        <argument
+            android:name="member"
+            app:argType="com.bits.bee.bpmc.domain.model.Bp" />
+        <action
+            android:id="@+id/action_detailMemberDialog_to_taxInfoDialog"
+            app:destination="@id/taxInfoDialog" />
+    </dialog>
+    <fragment
+        tools:layout="@layout/fragment_invoice"
+        android:id="@+id/invoiceFragment"
+        android:label="@string/pesanan"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.invoice.InvoiceFragment">
+        <action
+            android:id="@+id/action_invoiceFragment_to_pembayaranFragment"
+            app:destination="@id/pembayaranFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_draftListDialog"
+            app:destination="@id/draftListDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_diskonNotaDialog"
+            app:destination="@id/diskonNotaDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_klaimPromoFragment"
+            app:destination="@id/klaimPromoFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_salesmanFragment"
+            app:destination="@id/salesmanFragment" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran"
+        android:id="@+id/pembayaranFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran.PembayaranFragment"
+        android:label="@string/pembayaran" >
+        <action
+            android:id="@+id/action_pembayaranFragment_to_pembayaranNonTunaiFragment"
+            app:destination="@id/pembayaranNonTunaiFragment" />
+        <action
+            android:id="@+id/action_pembayaranFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_cari_kota"
+        android:id="@+id/cariKotaFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cari_kota.CariKotaFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_cariKotaFragment_to_cariKecamatanFragment"
+            app:destination="@id/cariKecamatanFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_edit_item"
+        android:id="@+id/editItemDialog"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.edit_item.EditItemFragment"
+        android:label="@string/detail_produk" >
+        <argument
+            android:name="saled"
+            app:nullable="true"
+            android:defaultValue="@null"
+            app:argType="com.bits.bee.bpmc.domain.model.Saled" />
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="pid"
+            app:argType="com.bits.bee.bpmc.domain.model.Stock"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_editItemDialog_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+        <action
+            android:id="@+id/action_editItemDialog_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
+
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran_non_tunai"
+        android:id="@+id/pembayaranNonTunaiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_non_tunai.PembayaranNonTunaiFragment"
+        android:label="@string/non_tunai" >
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranGopayFragment"
+            app:destination="@id/pembayaranGopayFragment" />
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_pembayaranDebitKreditFragment"
+            app:destination="@id/pembayaranDebitKreditFragment" />
+        <action
+            android:id="@+id/action_pembayaranNonTunaiFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran_gopay"
+        android:id="@+id/pembayaranGopayFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_gopay.PembayaranGopayFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_pembayaranGopayFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pembayaran_kartu"
+        android:id="@+id/pembayaranDebitKreditFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pembayaran_kartu.PembayaranKartuFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_pembayaranDebitKreditFragment_to_transaksiBerhasilFragment"
+            app:destination="@id/transaksiBerhasilFragment" />
+        <argument
+            android:name="pmtd"
+            app:argType="com.bits.bee.bpmc.domain.model.Pmtd" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_transaksi_berhasil"
+        android:id="@+id/transaksiBerhasilFragment"
+        android:label=""
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.transaksi_berhasil.TransaksiBerhasilFragment"
+         >
+        <action
+            app:destination="@+id/posFragment"
+            app:popUpTo="@id/posFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_transaksiBerhasilFragment_to_posFragment" />
+    </fragment>
+
+    <dialog
+        tools:layout="@layout/dialog_draft_list"
+        android:id="@+id/draftListDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.draft_list.DraftListDialog"
+        android:label="@string/draft_penjualan" >
+        <action
+            android:id="@+id/action_draftListDialog_to_draftFragment"
+            app:destination="@id/draftFragment" />
+    </dialog>
+    <fragment
+        tools:layout="@layout/fragment_draft_list"
+        android:id="@+id/draftFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.draft.DraftFragment"
+        android:label="@string/draft_penjualan" />
+    <dialog
+        tools:layout="@layout/dialog_diskon_nota"
+        android:id="@+id/diskonNotaDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.diskon_nota.DiskonNotaDialog"
+        android:label="" >
+        <action
+            android:id="@+id/action_diskonNotaDialog_to_hakAksesFragment"
+            app:destination="@id/hakAksesFragment" />
+    </dialog>
+    <fragment
+        tools:layout="@layout/fragment_cari_kecamatan"
+        android:id="@+id/cariKecamatanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cari_kecamatan.CariKecamatanFragment"
+        android:label="" >
+        <argument
+            android:name="regency"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_cariKecamatanFragment_to_tambahMemberFragment"
+            app:destination="@id/tambahMemberFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_cari_item"
+        android:id="@+id/cariItemFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.cari_item.CariItemFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_cariItemFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_pilihPidFragment"
+            app:destination="@id/pilihPidFragment" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+        <action
+            android:id="@+id/action_cariItemFragment_to_detailAddOnDialogBuilder"
+            app:destination="@id/detailAddOnDialogBuilder" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_scanner"
+        android:id="@+id/scannerFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.scan.ScannerFragment"
+        android:label="" />
+    <fragment
+        tools:layout="@layout/fragment_pid"
+        android:id="@+id/pilihPidFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pid.PilihPidFragment"
+        android:label="@string/pilih_pid_produk" >
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item" />
+        <action
+            android:id="@+id/action_pilihPidFragment_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOnFragment"
+        tools:layout="@layout/fragment_addon"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.addon.AddOnFragment"
+        android:label="" >
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item" />
+        <argument
+            android:name="bp"
+            app:argType="com.bits.bee.bpmc.domain.model.Bp" />
+        <argument
+            android:name="priceLvlId"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <argument
+            android:name="saled"
+            app:argType="com.bits.bee.bpmc.domain.model.Saled"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/positemFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.pos_item.PositemFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_positemFragment_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/promoFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.promo.PromoFragment"
+        android:label="Promo" />
+    <fragment
+        android:id="@+id/klaimPromoFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.klaim_promo.KlaimPromoFragment"
+        android:label=""
+        tools:layout="@layout/fragment_klaim_promo"/>
+    <fragment
+        android:id="@+id/salesmanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.salesman.SalesmanFragment"
+        android:label="Pilih Salesman"
+        tools:layout="@layout/fragment_salesman">
+        <action
+            android:id="@+id/action_salesmanFragment_to_detailSalesmanFragment"
+            app:destination="@id/detailSalesmanFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/detailSalesmanFragment"
+        tools:layout="@layout/dialog_detail_salesman"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_salesman.DetailSalesmanDialog"
+        android:label="Detail Salesman" >
+        <argument
+            android:name="srep"
+            app:argType="com.bits.bee.bpmc.domain.model.Srep" />
+    </dialog>
+    <dialog
+        android:id="@+id/hakAksesFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
+        android:label="" >
+        <argument
+            android:name="acsType"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/detailAddOnDialogBuilder"
+        tools:layout="@layout/dialog_detail_addon"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_addon.DetailAddOnDialogBuilder"
+        android:label="" >
+        <argument
+            android:name="item"
+            app:argType="com.bits.bee.bpmc.domain.model.Item" />
+        <action
+            android:id="@+id/action_detailAddOnDialogBuilder_to_editItemDialog"
+            app:destination="@id/editItemDialog" />
+        <action
+            android:id="@+id/action_detailAddOnDialogBuilder_to_addOnFragment"
+            app:destination="@id/addOnFragment" />
+    </dialog>
 
 </navigation>

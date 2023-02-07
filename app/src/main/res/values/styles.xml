@@ -3,7 +3,9 @@
 
     <style name="ParentButton" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@null</item>
-        <item name="android:textSize">@dimen/font16</item>
+        <item name="android:textSize">@dimen/size14</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ButtonPrimary" parent="ParentButton">
@@ -27,23 +29,100 @@
     </style>
 
     <style name="TextDetail" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/gray</item>\
+        <item name="android:textColor">@color/dark_gray</item>
     </style>
     
-    <style name="ShapeAppearanceOverlay.Demo">
+    <style name="ShapeBottomSheetAppearanceOverlay">
         <item name="cornerSizeTopLeft">@dimen/size18</item>
         <item name="cornerSizeTopRight">@dimen/size18</item>
         <item name="cornerFamily">rounded</item>
     </style>
 
-    <style
-        name="ThemeOverlay.Demo.BottomSheetDialog"
+    <style name="ThemeOverlay.Demo.BottomSheetDialog"
         parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Widget.Demo.BottomSheet</item>
+        <item name="materialButtonStyle">@style/ParentButton</item>
     </style>
 
-    <style name="Widget.Demo.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Demo</item>
+    <style name="Widget.Demo.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_rounded_top_background_color</item>
+    </style>
+
+    <style name="SpinnerIcon" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/ic_chevron_down</item>
+    </style>
+
+    <style name="CardButton">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+
+    </style>
+
+    <style name="SpinnerTheme" parent="Widget.AppCompat.Spinner.Underlined">
+        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+    </style>
+
+    <style name="ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+        <item name="searchViewStyle">@style/MySearchViewStyleWhite</item>
+    </style>
+
+    <style name="MySearchViewStyleWhite" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="searchIcon">@drawable/ic_search</item>
+        <item name="searchHintIcon">@drawable/ic_search</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+    </style>
+
+    <style name="MySearchViewStyleBlack" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="searchIcon">@drawable/ic_search_black</item>
+        <item name="searchHintIcon">@drawable/ic_search_black</item>
+        <item name="closeIcon">@drawable/ic_close_black</item>
+    </style>
+
+    <style name="CustomTextAppearanceTab" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="hintEnabled">false</item>
+        <item name="android:paddingStart">@dimen/size0</item>
+        <item name="paddingStart">@dimen/size0</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomDropDownTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+        <item name="hintEnabled">false</item>
+        <item name="paddingStart">@dimen/size0</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomEditTextLayout">
+        <item name="android:paddingStart">@dimen/size0</item>
+        <item name="android:paddingEnd">@dimen/size0</item>
+        <item name="android:paddingBottom">@dimen/size4</item>
+        <item name="android:paddingTop">@dimen/size12</item>
+    </style>
+
+    <style name="ShapeDialogAppearanceOverlay">
+        <item name="cornerRadius">@dimen/size18</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style
+        name="ThemeOverlay.Demo.Dialog"
+        parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="dialogTheme">@style/Widget.Demo.BottomSheet</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.BeeposMobile">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
     </style>
 
 </resources>

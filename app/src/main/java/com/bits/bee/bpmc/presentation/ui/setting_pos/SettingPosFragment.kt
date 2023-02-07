@@ -3,15 +3,18 @@ package com.bits.bee.bpmc.presentation.ui.setting_pos
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentSettingPosBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
-import com.bits.bee.bpmc.presentation.dialog.radio_list.RadioListDialogBuilder
-import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.extension.collectLifecycleFlow
+import com.bits.bee.bpmc.presentation.dialog.orientasi.OrientasiDialogBuilder
+import com.bits.bee.bpmc.presentation.dialog.radio_list.list.RadioListDialogBuilder
+import com.bits.bee.bpmc.utils.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 04/04/22.
@@ -59,65 +62,143 @@ class SettingPosFragment(
             clOrientasi.setOnClickListener {
                 viewModel.onClickPosisiOrientasi()
             }
-
+            swMultiLine.setOnCheckedChangeListener { _, b ->
+                viewModel.onClickMultiLine(b)
+            }
+            clMultiLine.setOnClickListener {
+                swMultiLine.isChecked = !swMultiLine.isChecked
+            }
+            swKonfirmasiCust.setOnCheckedChangeListener { _, b ->
+                viewModel.onClickKonfirmasiCust(b)
+            }
+            clKonfirmasiCustomer.setOnClickListener {
+                swKonfirmasiCust.isChecked = !swKonfirmasiCust.isChecked
+            }
+            swMuatGambarProduk.setOnCheckedChangeListener { _, b ->
+                viewModel.onClickMuatGambar(b)
+            }
+            clMuatGambarProduk.setOnClickListener {
+                swMuatGambarProduk.isChecked = !swMuatGambarProduk.isChecked
+            }
         }
     }
 
     override fun subscribeObservers() {
-        viewLifecycleOwner.collectLifecycleFlow {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.posPreferences.collect {
+                viewModel.updateState(
+                    viewModel.state.copy(
+                        ukuranFont = it.ukuranFont,
+                        isMultiLine = it.isMultiLine,
+                        isKonfirmasiCustomer = it.isKonfirmasiCust,
+                        customer = it.customer,
+                        jumlahMeja = it.jumlahMeja,
+                        presetBukaKasir = it.presetBukaKasir,
+                        isMuatGambar = it.isMuatGambar,
+                        orientation = it.orientasi
+                    )
+                )
+                binding.apply {
+                    tvDetailUkuranFont.text = it.ukuranFont
+                    tvDetailJumlahMeja.text = it.jumlahMeja
+                    tvDetailCustomer.text = it.customer
+                    tvDetailPresetBukaKasir.text = CurrencyUtils.formatCurrency(BigDecimal(it.presetBukaKasir))
+
+                    swKonfirmasiCust.isChecked = it.isKonfirmasiCust
+                    setVisibilityKonfirmasiCust(it.isKonfirmasiCust)
+
+                    swMultiLine.isChecked = it.isMultiLine
+
+                    swMuatGambarProduk.isChecked = it.isMuatGambar
+
+                    swMultiLine.isChecked = it.isMultiLine
+
+                    tvDetailOrientasi.text = it.orientasi
+                }
+
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.event.collect { event ->
                 when(event){
                     SettingPosViewModel.UIEvent.RequestCustomer -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.customer), customerList, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_customer), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.customer))
+                            .setList(customerList)
+                            .setValue(viewModel.state.customer)
+                            .setOnSaveListener {
+                                viewModel.onSuccessCustomer(it.toString())
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestJumlahMeja -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.jumlah_meja), jumlahMejaList, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_jumlah_meja), data.toString().toInt())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.jumlah_meja))
+                            .setList(jumlahMejaList)
+                            .setValue(viewModel.state.jumlahMeja)
+                            .setOnSaveListener {
+                                viewModel.onSuccessJumlahMeja(it.toString())
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestPosisiOrientasi -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.posisi_orientasi), posisiOrientasiList, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_screen_orientation), data.toString())
+                        val dialog = OrientasiDialogBuilder(viewModel.state.orientation, onFinish = {
+                            viewModel.onSuccessOrientasi(it)
+                            requireActivity().finish()
+                            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                         })
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestPresetBukaKasir -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.preset_buka_kasir), presetBukaKasirList, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_preset_buka_kasir), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.preset_buka_kasir))
+                            .setList(presetBukaKasirList)
+                            .setValue(viewModel.state.presetBukaKasir)
+                            .setOnSaveListener {
+                                viewModel.onSuccessPresetBukaKasir(it.toString())
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                     SettingPosViewModel.UIEvent.RequestUkuranFont -> {
-                        val dialog = RadioListDialogBuilder(getString(R.string.ukuran_font), ukuranFontList, { data ->
-                            Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
-                            BeePreferenceManager.saveToPreferences(requireActivity(), getString(
-                                R.string.pref_ukuran_font), data.toString())
-                        })
+                        val dialog = RadioListDialogBuilder.Builder(requireActivity())
+                            .setTitle(getString(R.string.ukuran_font))
+                            .setList(ukuranFontList)
+                            .setValue(viewModel.state.ukuranFont)
+                            .setOnSaveListener {
+                                viewModel.onSuccessUkuranFont(it.toString())
+                                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                            }.build()
+
                         dialog.show(parentFragmentManager, TAG)
                     }
                 }
             }
         }
-        viewLifecycleOwner.collectLifecycleFlow {
-            viewModel.state.collect {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.viewStates().collect {
                 binding.apply {
-                    swKonfirmasiCust.isChecked = it.isKonfirmasiCustomer
-                    swMuatGambarProduk.isChecked = it.isMuatGambarProduk
-                    swMultiLine.isChecked = it.isMultiFont
+                    it?.let {
+
+                    }
                 }
             }
+        }
+    }
+
+    private fun setVisibilityKonfirmasiCust(isKonfirmasi : Boolean){
+        binding.apply {
+            clCustomer.isVisible = isKonfirmasi
+            vCustomer.isVisible = isKonfirmasi
+            clJumlahMeja.isVisible = isKonfirmasi
+            vJumlahMeja.isVisible = isKonfirmasi
         }
     }
 }

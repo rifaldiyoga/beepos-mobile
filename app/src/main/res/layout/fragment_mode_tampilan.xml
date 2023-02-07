@@ -24,6 +24,7 @@
         android:layout_marginTop="@dimen/size6"
         android:text="@string/pilih_tipe_bisinis"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/dark_gray"
         app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -87,10 +88,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvSelengkapnyaFnb"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size8"
-            android:text="@string/lihat_contoh_tampilan"
+            android:text="@string/pelajari_selengkapnya"
             android:textColor="?colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/textView17"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -157,10 +159,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvSelengkapnyaDist"
             android:layout_marginTop="@dimen/size6"
             android:layout_width="@dimen/size0"
             android:layout_height="wrap_content"
-            android:text="@string/lihat_contoh_tampilan"
+            android:text="@string/pelajari_selengkapnya"
             android:textColor="?colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/textView19"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />

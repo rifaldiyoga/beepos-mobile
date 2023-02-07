@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:text="@string/tentang_pajak"
         android:textSize="@dimen/font16"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/imag_close"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:padding="@dimen/size8"
-        android:id="@+id/imageView2"
+        android:id="@+id/imag_close"
         android:layout_width="@dimen/size36"
         android:layout_height="@dimen/size36"
         android:src="@drawable/ic_close_gray"
@@ -71,6 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <Button
+        android:id="@+id/btn_close"
         android:layout_marginTop="@dimen/size24"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"

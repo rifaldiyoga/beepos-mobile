@@ -1,0 +1,37 @@
+package com.bits.bee.bpmc.data.repository
+
+import com.bits.bee.bpmc.data.data_source.local.dao.SalePromoDao
+import com.bits.bee.bpmc.domain.mapper.SalePromoDataMapper
+import com.bits.bee.bpmc.domain.model.SalePromo
+import com.bits.bee.bpmc.domain.repository.SalePromoRepository
+import com.bits.bee.bpmc.utils.Resource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+class SalePromoRepositoryImpl @Inject constructor(
+    private val salePromoDao: SalePromoDao,
+    private val ioDispatcher: CoroutineDispatcher
+): SalePromoRepository {
+
+    override suspend fun addSalePromo(salePromoList: List<SalePromo>) {
+        withContext(ioDispatcher){
+            salePromoDao.insertBulk(salePromoList.map { SalePromoDataMapper.fromDomainToDb(it) })
+        }
+    }
+
+    override fun getSalePromoBySale(id: Int): Flow<List<SalePromo>> {
+        return flow {
+            val data = salePromoDao.getSalePromoBySale(id).map { SalePromoDataMapper.fromDbToDomain(it) }
+            emit(data)
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getPromoBySaledBonus(id: Int, saledId: Int): Flow<List<SalePromo>> = flow {
+        emit(salePromoDao.getPromoBySaledBonus(id, saledId).map { SalePromoDataMapper.fromDbToDomain(it) })
+    }.flowOn(ioDispatcher)
+
+}

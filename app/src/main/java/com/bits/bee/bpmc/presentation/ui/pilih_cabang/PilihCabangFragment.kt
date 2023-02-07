@@ -1,18 +1,22 @@
 package com.bits.bee.bpmc.presentation.ui.pilih_cabang
 
-import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentPilihCabangBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.extension.gone
-import com.bits.bee.bpmc.utils.extension.visible
+import com.bits.bee.bpmc.utils.gone
+import com.bits.bee.bpmc.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * Created by aldi on 17/03/22.
@@ -27,19 +31,13 @@ class PilihCabangFragment(
 
     private lateinit var adapter: PilihCabangAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getBranchList()
-    }
-
     override fun initComponents() {
+        viewModel.loadBranch()
         BeePreferenceManager.saveToPreferences(requireActivity(), getString(R.string.pref_last_page), getString(R.string.page_pilih_cabang))
         setHasOptionsMenu(true)
         binding.apply {
             adapter = PilihCabangAdapter(onItemClick = {
-                val action = PilihCabangFragmentDirections.actionPilihCabangFragmentToPilihKasirFragment()
-                findNavController().navigate(action)
+                viewModel.onItemClick(branch = it)
             })
 
             rvList.layoutManager = LinearLayoutManager(requireContext())
@@ -50,16 +48,28 @@ class PilihCabangFragment(
     override fun subscribeListeners() {
         binding.apply {
             swipeRefresh.setOnRefreshListener {
-                viewModel.getBranchList()
+                viewModel.loadBranch()
             }
         }
     }
 
     override fun subscribeObservers() {
-        viewModel.observeListBranch().removeObservers(viewLifecycleOwner)
-        viewModel.observeListBranch().observe(viewLifecycleOwner, {
-            it?.let {
-                when(it.status){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collect {
+                    when (it) {
+                        PilihCabangViewModel.UIEvent.NavigateToCashier -> {
+                            val action =
+                                PilihCabangFragmentDirections.actionPilihCabangFragmentToPilihKasirFragment()
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+        }
+        viewModel.observeBranchResponse().observe(viewLifecycleOwner) {
+            it.let {
+                when (it.status) {
                     Resource.Status.LOADING -> {
                         setVisibilityComponent(true)
                     }
@@ -67,21 +77,20 @@ class PilihCabangFragment(
                         setVisibilityComponent(false)
                         it.data?.let { data ->
                             adapter.submitList(data)
-                            adapter.notifyDataSetChanged()
                         }
                     }
                     Resource.Status.ERROR -> {
                         setVisibilityComponent(false)
                     }
-                    Resource.Status.TIMEOUT -> {
-                        setVisibilityComponent(false)
-                    }
-                    Resource.Status.UNAUTHORIZED -> {
-                        setVisibilityComponent(false)
+                    Resource.Status.NOINTERNET -> {
+                        val dialog = NoInternetDialogBuilder({
+                            viewModel.loadBranch()
+                        })
+                        dialog.show(parentFragmentManager, "")
                     }
                 }
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -91,7 +100,7 @@ class PilihCabangFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_refresh -> viewModel.getBranchList()
+            R.id.menu_refresh -> viewModel.loadBranch()
         }
         return super.onOptionsItemSelected(item)
     }

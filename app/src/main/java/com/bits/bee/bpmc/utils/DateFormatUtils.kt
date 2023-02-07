@@ -10,9 +10,65 @@ class DateFormatUtils  {
 
     companion object{
 
-        fun formatStringToDate(format : String, value : String) : Date {
+        fun formatStringToDate(format : String, value : String?) : Date {
             val sFormat = SimpleDateFormat(format, Locale.getDefault())
-            return sFormat.parse(value) ?: Date()
+            return value?.let { sFormat.parse(it) } ?: Date()
+        }
+
+        fun formatDateToString(format: String, value: Date): String{
+            val sFormat = SimpleDateFormat(format)
+            return sFormat.format(value)
+        }
+
+        fun formatLongToString(format: String, value: Long): String{
+            val sFormat = SimpleDateFormat(format)
+            return sFormat.format(value)
+        }
+
+        fun formatDateToLong(format: String, value: Date): Long{
+            val sFormat = SimpleDateFormat(format)
+            val str = sFormat.format(value)
+            val long = sFormat.parse(str).time
+            return long
+        }
+
+        fun convertStartDate(date: Long): Long{
+            val sdate = Date(date)
+            val calendar = Calendar.getInstance()
+            calendar.time = sdate
+
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+            return calendar.timeInMillis
+        }
+
+        fun convertEndDate(date: Long): Long{
+            val edate = Date(date)
+            val calendar = Calendar.getInstance()
+            calendar.time = edate
+
+            calendar.set(Calendar.HOUR_OF_DAY, 23)
+            calendar.set(Calendar.MINUTE, 59)
+            calendar.set(Calendar.SECOND, 59)
+            return calendar.timeInMillis
+        }
+
+        fun convertLongToTime(formats: String, time: Long): String {
+            val date = Date(time)
+            val sformat = SimpleDateFormat(
+                formats,
+                Locale.getDefault())
+            return sformat.format(date)
+        }
+
+        private val sf = SimpleDateFormat("dd-MM-yyyy")
+
+        fun getDate(dates: Date): String{
+            val dateToday = sf.format(Date())
+            val date = sf.format(dates)
+            return if (dateToday == date) "Hari ini" else date
         }
 
     }

@@ -9,38 +9,284 @@
         tools:layout="@layout/fragment_setting_list"
         android:id="@+id/settingListFragment"
         android:name="com.bits.bee.bpmc.presentation.ui.setting_list.SettingListFragment"
-        android:label="SettingListFragment" >
+        android:label="@string/pengaturan" >
         <action
-            android:id="@+id/action_settingListFragment_to_settingPosFragment"
-            app:destination="@id/settingPosFragment" />
+            android:id="@+id/action_settingListFragment_to_initialActivity2"
+            app:destination="@id/initialActivity" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_setting_pos"
-        android:id="@+id/settingPosFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.setting_pos.SettingPosFragment"
-        android:label="SettingPosFragment" />
-    <fragment
+        tools:layout="@layout/fragment_beranda"
         android:id="@+id/berandaFragment"
-        android:name="com.bits.bee.bpmc.presentation.ui.beranda.BerandaFragment"
-        android:label="BerandaFragment" >
+        android:label=""
+        android:name="com.bits.bee.bpmc.presentation.ui.beranda.BerandaFragment">
+
         <action
-            android:id="@+id/action_berandaFragment_to_settingListFragment"
+            android:id="@+id/action_berandaFragment_to_detailTutupKasirFragment"
+            app:destination="@id/detailTutupKasirFragment" />
+        <action
+            android:id="@+id/action_berandaFragment_to_aturModalDialogBuilder"
+            app:destination="@id/aturModalDialogBuilder" />
+        <action
+            android:id="@+id/action_berandaFragment_to_detailBukaKasirFragment"
+            app:destination="@id/detailBukaKasirFragment" />
+        <action
+            android:id="@+id/action_berandaFragment_to_setoranKasirDialogBuilder"
+            app:destination="@id/setoranKasirDialogBuilder" />
+    </fragment>
+    <activity
+        tools:layout="@layout/activity_main"
+        android:id="@+id/mainActivity"
+        android:name="com.bits.bee.bpmc.presentation.ui.pos.MainActivity"/>
+    <fragment
+        android:id="@+id/settingFavProdukFragment"
+        tools:layout="@layout/fragment_setting_fav_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.setting_favorite.setting_fav_produk.SettingFavProdukFragment"
+        android:label="@string/favorit" />
+    <fragment
+        tools:layout="@layout/fragment_analisa_sesi"
+        android:id="@+id/analasisiSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.analisis_sesi.AnalisaSesiFragment"
+        android:label="@string/analisa_sesi" >
+
+        <action
+            android:id="@+id/action_analasisiSesiFragment_to_riwayatSesiFragment"
+            app:destination="@id/riwayatSesiFragment" />
+        <action
+            android:id="@+id/action_analasisiSesiFragment_to_detailBukaKasirFragment"
+            app:destination="@id/detailBukaKasirFragment" />
+        <argument
+            android:name="posses"
+            app:argType="com.bits.bee.bpmc.domain.model.Posses" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_transaksi_penjualan"
+        android:id="@+id/transaksiPenjualanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.transaksi_penjualan.TransaksiPenjualanFragment"
+        android:label="@string/transaksi_penjualan" >
+        <action
+            android:id="@+id/action_transaksiPenjualanFragment_to_detailTransaksiPenjualanFragment"
+            app:destination="@id/detailTransaksiPenjualanFragment" />
+        <action
+            android:id="@+id/action_transaksiPenjualanFragment_to_hapusTransaksiDialog"
+            app:destination="@id/hapusTransaksiDialog" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_tutup_kasir"
+        android:id="@+id/detailTutupKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.tutup_kasir.DetailTutupKasirFragment"
+        android:label="@string/kasir" >
+        <action
+            android:id="@+id/action_detailTutupKasirFragment_to_rekapSesiFragment"
+            app:destination="@id/rekapSesiFragment" />
+        <action
+            android:id="@+id/action_detailTutupKasirFragment_to_setoranKasirDialogBuilder"
+            app:destination="@id/setoranKasirDialogBuilder" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_lainnya"
+        android:id="@+id/lainnyaFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.lainnya.LainnyaFragment"
+        android:label="@string/lainnya" >
+        <action
+            android:id="@+id/action_lainnyaFragment_to_settingListFragment"
             app:destination="@id/settingListFragment" />
         <action
-            android:id="@+id/action_berandaFragment_to_mainActivity"
+            android:id="@+id/action_lainnyaFragment_to_uploadManualFragment"
+            app:destination="@id/uploadManualFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_rekapKasFragment"
+            app:destination="@id/rekapKasFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_rekapProdukFragment"
+            app:destination="@id/rekapProdukFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_cekStokFragment"
+            app:destination="@id/cekStokFragment" />
+        <action
+            android:id="@+id/action_lainnyaFragment_to_insightKelolaProdukFragment"
+            app:destination="@id/insightKelolaProdukFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_upload_manual"
+        android:id="@+id/uploadManualFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.upload_manual.UploadManualFragment"
+        android:label="@string/upload_manual" />
+    <fragment
+        tools:layout="@layout/fragment_rekap_kas"
+        android:id="@+id/rekapKasFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_kas.RekapKasFragment"
+        android:label="@string/rekap_kas" />
+    <fragment
+        tools:layout="@layout/fragment_rekap_produk"
+        android:id="@+id/rekapProdukFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.RekapProdukFragment"
+        android:label="@string/rekap_produk" >
+        <action
+            android:id="@+id/action_rekapProdukFragment_to_detailProdukFragment"
+            app:destination="@id/detailProdukFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_cek_stok"
+        android:id="@+id/cekStokFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cek_stok.CekStokFragment"
+        android:label="@string/cek_stok" >
+        <action
+            android:id="@+id/action_cekStokFragment_to_cekStokDetailFragment"
+            app:destination="@id/cekStokDetailFragment" />
+    </fragment>
+
+    <dialog
+        tools:layout="@layout/dialog_atur_modal_kasir"
+        android:id="@+id/aturModalDialogBuilder"
+        android:name="com.bits.bee.bpmc.presentation.dialog.atur_modal.AturModalDialogBuilder"
+        android:label="AturModalDialogBuilder" >
+        <argument
+            android:name="cashier"
+            app:argType="com.bits.bee.bpmc.domain.model.Cashier" />
+        <argument
+            android:name="branch"
+            app:argType="com.bits.bee.bpmc.domain.model.Branch" />
+        <argument
+            android:name="shift"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_aturModalDialogBuilder_to_insightPresetKasirFragment"
+            app:destination="@id/insightPresetKasirFragment" />
+    </dialog>
+
+    <fragment
+        tools:layout="@layout/fragment_detail_buka_kasir"
+        android:id="@+id/detailBukaKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.buka_kasir.DetailBukaKasirFragment"
+        android:label="@string/kasir" >
+        <action
+            android:id="@+id/action_detailBukaKasirFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
         <action
-            android:id="@+id/action_berandaFragment_to_downloadActivity"
-            app:destination="@id/downloadActivity" />
+            android:id="@+id/action_detailBukaKasirFragment_to_insightPresetKasirFragment"
+            app:destination="@id/insightPresetKasirFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_transaksi_penjualan"
+        android:id="@+id/detailTransaksiPenjualanFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_transaksi_penjualan.DetailTransaksiPenjualanFragment"
+        android:label="" >
+        <argument
+            android:name="sale"
+            app:argType="com.bits.bee.bpmc.domain.model.Sale" />
+        <action
+            android:id="@+id/action_detailTransaksiPenjualanFragment_to_hapusTransaksiDialog"
+            app:destination="@id/hapusTransaksiDialog" />
+        <action
+            android:id="@+id/action_detailTransaksiPenjualanFragment_to_hakAksesFragment2"
+            app:destination="@id/hakAksesFragment2" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_rekap_sesi"
+        android:id="@+id/rekapSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_sesi_kasir.RekapSesiFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_rekapSesiFragment_to_detailSesiKasirFragment"
+            app:destination="@id/detailSesiKasirFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_rekap_sesi"
+        android:id="@+id/detailSesiKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_sesi_kasir.DetailSesiKasirFragment"
+        android:label="" >
+        <argument
+            android:name="posses"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailSesiKasirFragment_to_detailPendapatanDialog"
+            app:destination="@id/detailPendapatanDialog" />
+    </fragment>
+    <dialog
+        tools:layout="@layout/dialog_detail_pendapatan"
+        android:id="@+id/detailPendapatanDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.detail_pendapatan.DetailPendapatanDialog"
+        android:label="DetailPendapatanDialog" />
+    <fragment
+        tools:layout="@layout/fragment_riwayat_sesi"
+        android:id="@+id/riwayatSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.riwayat_sesi.RiwayatSesiFragment"
+        android:label="@string/riwayat_sesi" >
+
+        <action
+            android:id="@+id/action_riwayatSesiFragment_to_detailRiwayatSesiFragment"
+            app:destination="@id/detailRiwayatSesiFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_riwayat_sesi"
+        android:id="@+id/detailRiwayatSesiFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.detail_riwayat_sesi.DetailRiwayatSesiFragment"
+        android:label="@string/detail_riwayat_sesi" >
+
+        <argument
+            android:name="posses"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailRiwayatSesiFragment_to_detailPendapatanDialog"
+            app:destination="@id/detailPendapatanDialog" />
+        <action
+            android:id="@+id/action_detailRiwayatSesiFragment_to_analasisiSesiFragment"
+            app:destination="@id/analasisiSesiFragment" />
     </fragment>
     <activity
-        android:id="@+id/mainActivity"
-        android:name="com.bits.bee.bpmc.presentation.ui.main.MainActivity"
-        android:label="MainActivity" />
-    <activity
-        android:id="@+id/downloadActivity"
-        android:name="com.bits.bee.bpmc.presentation.ui.download.DownloadActivity"
-        android:label="DownloadActivity" />
-
+        android:id="@+id/initialActivity"
+        android:name="com.bits.bee.bpmc.presentation.ui.initial.InitialActivity"
+        android:label="InitialActivity" />
+    <fragment
+        tools:layout="@layout/fragment_insight_preset_kasir"
+        android:id="@+id/insightPresetKasirFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.insight_preset_kasir.InsightPresetKasirFragment"
+        android:label="@string/ubah_nilai_kasir" />
+    <fragment
+        android:id="@+id/insightKelolaProdukFragment"
+        tools:layout="@layout/fragment_insight_kelola_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.insight_kelola_produk.InsightKelolaProdukFragment"
+        android:label="@string/kelola_produk" />
+    <dialog
+        tools:layout="@layout/fragment_hak_akses"
+        android:id="@+id/hakAksesFragment2"
+        android:name="com.bits.bee.bpmc.presentation.ui.hak_akses.HakAksesFragment"
+        android:label="HakAksesFragment" >
+        <argument
+            android:name="acsType"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        tools:layout="@layout/dialog_hapus_transaksi"
+        android:id="@+id/hapusTransaksiDialog"
+        android:name="com.bits.bee.bpmc.presentation.dialog.hapus_transaksi.HapusTransaksiDialog">
+        <argument
+            android:name="sale"
+            app:argType="com.bits.bee.bpmc.domain.model.Sale" />
+        <action
+            android:id="@+id/action_hapusTransaksiDialog_to_hakAksesFragment2"
+            app:destination="@id/hakAksesFragment2" />
+    </dialog>
+    <fragment
+        android:id="@+id/detailProdukFragment"
+        tools:layout="@layout/fragment_detail_produk"
+        android:name="com.bits.bee.bpmc.presentation.ui.rekap_produk.DetailProdukFragment"
+        android:label="DetailProdukFragment" >
+        <argument
+            android:name="item"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cekStokDetailFragment"
+        android:name="com.bits.bee.bpmc.presentation.ui.cek_stok_detail.CekStokDetailFragment"
+        android:label="Detail Produk" >
+        <argument
+            android:name="stok"
+            app:argType="com.bits.bee.bpmc.domain.model.Stock" />
+    </fragment>
+    <dialog
+        android:id="@+id/setoranKasirDialogBuilder"
+        android:name="com.bits.bee.bpmc.presentation.dialog.setoran_kasir.SetoranKasirDialogBuilder"
+        android:label="SetoranKasirDialogBuilder" />
 
 </navigation>

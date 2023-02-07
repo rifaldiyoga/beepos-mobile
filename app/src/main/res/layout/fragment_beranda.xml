@@ -1,58 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/size16">
 
-    <LinearLayout
-        android:id="@+id/linearLayout15"
+    <TextView
+        android:id="@+id/tvGreeting"
+        style="@style/TextHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout14"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/halo_kasir_2"
+        android:textSize="@dimen/font16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="POS" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout14"
+    <TextView
+        android:id="@+id/tvKota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/size16"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout16"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/size8"
+        android:text="@string/di_surabaya"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout15">
+        app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Setting" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout16"
+    <TextView
+        android:id="@+id/tvDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/size16"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_rounded_stroke_primary"
+        android:drawablePadding="@dimen/font8"
+        android:text="@string/detail"
+        android:textColor="?colorPrimary"
+        android:textSize="@dimen/font12"
+        android:textStyle="bold"
+        app:drawableEndCompat="@drawable/ic_chevron_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tvKota"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView61"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/pendapatan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvKota" />
+
+    <TextView
+        android:id="@+id/tvTotalPendapatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size8"
+        style="@style/TextHeader"
+        android:text=""
+        android:textSize="@dimen/font16"
+        app:layout_constraintStart_toStartOf="@+id/textView61"
+        app:layout_constraintTop_toBottomOf="@+id/textView61" />
+
+    <TextView
+        android:id="@+id/tvInfoKasir"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:text="@string/klik_buka_kasir_untuk_memulai_shift_3_ya"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalPendapatan" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Download" />
+    <Button
+        android:id="@+id/btnBukaKasir"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size16"
+        android:background="@drawable/btn_rect_primary"
+        android:text="@string/buka_kasir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfoKasir" />
 
-    </LinearLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupPendapatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textView61,tvTotalPendapatan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

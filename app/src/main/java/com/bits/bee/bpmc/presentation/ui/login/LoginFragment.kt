@@ -1,5 +1,7 @@
 package com.bits.bee.bpmc.presentation.ui.login
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,11 +16,13 @@ import com.bits.bee.bpmc.R
 import com.bits.bee.bpmc.databinding.FragmentLoginBinding
 import com.bits.bee.bpmc.presentation.base.BaseFragment
 import com.bits.bee.bpmc.presentation.dialog.LoadingDialogHelper
-import com.bits.bee.bpmc.utils.BeePreferenceManager
+import com.bits.bee.bpmc.presentation.dialog.NoInternetDialogBuilder
 import com.bits.bee.bpmc.utils.Resource
+import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 /**
  * Created by aldi on 01/03/22.
@@ -37,40 +41,34 @@ class LoginFragment constructor (
     private lateinit var dialog : LoadingDialogHelper
 
     override fun initComponents() {
-        directPage()
         dialog = LoadingDialogHelper(requireContext())
         binding.apply {
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.event.collect { event ->
-                        when(event){
-                            LoginViewModel.UIEvent.RequestLogin -> {
-                                viewModel.login()
-                            }
-                            LoginViewModel.UIEvent.NavigateToNamaDevice -> {
-                                val value = viewModel.state.value
-                                val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
-                                findNavController().navigate(action)
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
     override fun subscribeListeners() {
         binding.apply {
             etEmail.addTextChangedListener {
-                viewModel.state.value.email = etEmail.text.toString().trim()
-                viewModel.validateEmail()
+                val email = etEmail.text.toString().trim()
+                viewModel.state.email = email
+                if(!Utils.isValidEmail(email))
+                    tilEmail.error = "Email tidak valid!"
+                else
+                    tilEmail.isErrorEnabled = false
+
+                viewModel.validateInput()
             }
             etPassword.addTextChangedListener {
-                viewModel.state.value.password = etPassword.text.toString().trim()
-                viewModel.validatePassword()
+                viewModel.state.password = etPassword.text.toString().trim()
+                viewModel.validateInput()
             }
             btnMasuk.setOnClickListener {
-                viewModel.onClickLogin()
+                onClickLogin()
+            }
+            tvLupaKataSandi.setOnClickListener {
+                val uri = Uri.parse("https://app.beecloud.id/resetpassword")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
             }
         }
     }
@@ -78,12 +76,30 @@ class LoginFragment constructor (
     override fun subscribeObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect {
-                    it.let {
+                viewModel.event.collectLatest { event ->
+                    when(event){
+                        LoginViewModel.UIEvent.RequestLogin -> {
+                            viewModel.login()
+                        }
+                        LoginViewModel.UIEvent.NavigateToNamaDevice -> {
+                            val value = viewModel.state
+                            val action = LoginFragmentDirections.actionLoginFragmentToNamaDeviceFragment(value.email, value.password)
+                            findNavController().navigate(action)
+                            binding.etEmail.setText("")
+                            binding.etPassword.setText("")
+                        }
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.viewStates().collect {
+                    it?.let {
                         binding.apply {
-                                tilEmail.error = it.messageEmail
+                            tilEmail.error = it.messageEmail
 
-                                tilPassword.error = it.messagePassword
+                            tilPassword.error = it.messagePassword
 
                             btnMasuk.apply {
                                 background = ContextCompat.getDrawable(requireContext(), when(it.isValid){
@@ -92,62 +108,55 @@ class LoginFragment constructor (
                                 })
                                 isEnabled = it.isValid
                             }
-
-                        }
-
-                    }
-                }
-            }
-        }
-
-        viewModel.observeLoginResponse().removeObservers(viewLifecycleOwner)
-        viewModel.observeLoginResponse().observe(viewLifecycleOwner) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    dialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    dialog.hide()
-                    it.data?.let {
-                        if (it.status == "ok") {
-                            Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG)
-                                .show()
-                            viewModel.onSuccessLogin()
-                        } else {
-                            Toast.makeText(requireContext(), "Error : ${it.msg}", Toast.LENGTH_LONG)
-                                .show()
                         }
                     }
-                }
-                Resource.Status.ERROR -> {
-                    dialog.hide()
-                    Toast.makeText(requireContext(), "Error : ${it.message}", Toast.LENGTH_LONG)
-                        .show()
-                }
-                Resource.Status.TIMEOUT -> {
-                    dialog.hide()
-                }
-                Resource.Status.UNAUTHORIZED -> {
-                    dialog.hide()
                 }
             }
         }
     }
 
-    /**
-     * check last page from prefences then direct to last page
-     */
-    private fun directPage(){
-        val action = when(BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_last_page), "")){
-            getString(R.string.page_pilih_cabang) -> LoginFragmentDirections.actionLoginFragmentToPilihCabangFragment()
-            getString(R.string.page_pilih_kasir) -> LoginFragmentDirections.actionLoginFragmentToPilihKasirFragment()
-            getString(R.string.page_pilih_operator) -> LoginFragmentDirections.actionLoginFragmentToLoginOperatorFragment()
-            getString(R.string.page_mode_tampilan) -> LoginFragmentDirections.actionLoginFragmentToModeTampilanFragment()
-            else -> null
-        }
-        action?.let {
-            findNavController().navigate(it)
+
+    private fun onClickLogin(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.login().collect {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        dialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        dialog.hide()
+                        it.data?.let {
+                            if (it.status == "ok") {
+                                Toast.makeText(requireContext(), "Berhasil Login", Toast.LENGTH_LONG).show()
+                                viewModel.onSuccessLogin()
+                            } else {
+                                viewModel.updateState(
+                                    viewModel.state.copy(
+                                        messageEmail = "Email atau Password anda salah"
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        dialog.hide()
+                        viewModel.updateState(
+                            viewModel.state.copy(
+                                messageEmail = "Email atau Password anda salah"
+                            )
+                        )
+//                        Toast.makeText(requireContext(), "Email atau Password salah, silakan coba lagi!", Toast.LENGTH_LONG)
+//                            .show()
+                    }
+                    Resource.Status.NOINTERNET -> {
+                        dialog.hide()
+                        val dialog = NoInternetDialogBuilder({
+                            onClickLogin()
+                        })
+                        dialog.show(parentFragmentManager, "")
+                    }
+                }
+            }
         }
     }
-
 }

@@ -1,8 +1,8 @@
 package com.bits.bee.bpmc.utils
 
-import org.json.JSONObject
 import retrofit2.Response
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 /**
  * Created by aldi on 02/03/22.
@@ -10,9 +10,11 @@ import java.net.SocketTimeoutException
 sealed class ApiResponse<T> {
 
     companion object {
-        fun <T> create(error: Throwable): ApiResponse<T> {
+        fun <T> create( error: Throwable): ApiResponse<T> {
             return if (error is SocketTimeoutException) {
                 ApiTimeoutResponse("ConnectionTimeout")
+            } else if(error is UnknownHostException){
+                ApiNoNetworkResponse("No Network!")
             } else {
                 ApiErrorResponse(
                     error.message ?: "unknown error",
@@ -66,5 +68,7 @@ data class ApiSuccessResponse<T>(val body: T) : ApiResponse<T>() {}
 data class ApiErrorResponse<T>(val errorMessage: String, val code: Int) : ApiResponse<T>()
 
 data class ApiTimeoutResponse<T>(val errorMessage: String) : ApiResponse<T>()
+
+data class ApiNoNetworkResponse<T>(val errorMessage: String) : ApiResponse<T>()
 
 data class ApiUnAuthorizedResponse<T>(val errorMessage: String, val code: Int) : ApiResponse<T>()

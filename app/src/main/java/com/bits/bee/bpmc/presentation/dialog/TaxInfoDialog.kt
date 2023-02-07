@@ -17,7 +17,14 @@ class TaxInfoDialog(
     }
 
     override fun subscribeListeners() {
-
+        binding.apply {
+            imagClose.setOnClickListener {
+                dismiss()
+            }
+            btnClose.setOnClickListener {
+                dismiss()
+            }
+        }
     }
 
     override fun subscribeObservers() {
