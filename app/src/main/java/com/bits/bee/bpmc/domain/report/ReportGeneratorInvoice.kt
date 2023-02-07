@@ -1013,7 +1013,7 @@ class ReportGeneratorInvoice @Inject constructor(
 
         val saleList = saleRepository.getSaleByPosses(posses.possesId!!).first()
         val cadjList= cadjRepository.getCashInOut(posses.possesId!!.toLong()).first()
-        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI && !it.isVoid }.sumOf { it.total }
+        val totCash = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI }.sumOf { it.total }
         val totVoid = saleList.filter { it.termType == BPMConstants.BPM_DEFAULT_TYPE_TUNAI && it.isVoid }.sumOf { it.total }
         val rounding = saleList.filter { !it.isVoid }.sumOf { it.rounding }
         val totExpIn = cadjList.filter { it.status == "i" }.sumOf { it.amount }

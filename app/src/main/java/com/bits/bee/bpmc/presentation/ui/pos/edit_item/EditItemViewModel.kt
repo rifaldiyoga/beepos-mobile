@@ -5,6 +5,8 @@ import com.bits.bee.bpmc.domain.helper.PrivilegeHelper
 import com.bits.bee.bpmc.domain.model.Item
 import com.bits.bee.bpmc.domain.model.ItemWithUnit
 import com.bits.bee.bpmc.domain.model.Saled
+import com.bits.bee.bpmc.domain.usecase.common.GetPriceItemUseCase
+import com.bits.bee.bpmc.domain.usecase.common.GetPriceUnitUseCase
 import com.bits.bee.bpmc.domain.usecase.common.GetUnitItemUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
 import com.bits.bee.bpmc.utils.BPMConstants
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EditItemViewModel @Inject constructor(
     private val getUnitItemUseCase: GetUnitItemUseCase,
-    private val privilegeHelper: PrivilegeHelper
+    private val privilegeHelper: PrivilegeHelper,
+    private val getPriceUnitUseCase: GetPriceUnitUseCase
 ): BaseViewModel<EditItemState, EditItemViewModel.UIEvent>() {
 
     init {
@@ -110,7 +113,8 @@ class EditItemViewModel @Inject constructor(
     fun onUnitChange(pos : Int) = viewModelScope.launch {
         updateState(
             state.copy(
-                unit = state.unitList[pos]
+                unit = state.unitList[pos],
+                listPrice = getPriceUnitUseCase(state.item?.id ?: state.saled?.itemId ?: 1,  state.bp?.priceLvlId ?: 1, state.bp!!, pos)
             )
         )
     }

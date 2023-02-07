@@ -14,7 +14,11 @@ data class Price (
     var itemId : Int,
     var priceLvlId: Int,
     var crcId: Int,
-    var price : BigDecimal,
-    var discExp : String?,
+    var price1 : BigDecimal,
+    var discExp1 : String?,
+    var price2 : BigDecimal,
+    var discExp2 : String?,
+    var price3 : BigDecimal,
+    var discExp3 : String?,
     var crcSymbol : String,
 ) : Parcelable

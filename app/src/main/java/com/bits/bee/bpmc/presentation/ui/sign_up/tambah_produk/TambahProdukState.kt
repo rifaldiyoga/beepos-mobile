@@ -3,6 +3,7 @@ package com.bits.bee.bpmc.presentation.ui.sign_up.tambah_produk
 import android.graphics.Bitmap
 import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
+import java.math.BigDecimal
 
 /**
  * Created by aldi on 31/08/22.
@@ -15,7 +16,7 @@ data class TambahProdukState (
     var itemGrp : ItemGroup? = null,
     var brand : Brand? = null,
     var itemDummy: ItemDummy? = null,
-    var unitList : MutableList<UnitDummy> = mutableListOf(),
+    var unitList : MutableList<UnitDummy> = mutableListOf(UnitDummy(idx = -1, unit= "", conv = BigDecimal.ONE,)),
     var bitmap: Bitmap? = null,
     var picPath: String? = null,
     var isEdit: Boolean = false,

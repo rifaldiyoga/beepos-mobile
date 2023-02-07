@@ -1,8 +1,6 @@
 package com.bits.bee.bpmc.presentation.ui.pos.edit_item
 
-import com.bits.bee.bpmc.domain.model.Item
-import com.bits.bee.bpmc.domain.model.Saled
-import com.bits.bee.bpmc.domain.model.Stock
+import com.bits.bee.bpmc.domain.model.*
 import com.bits.bee.bpmc.domain.model.Unit
 import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
 import java.math.BigDecimal
@@ -25,5 +23,6 @@ data class EditItemState (
     var addOnList : List<Item> = mutableListOf(),
     var diskonMsg : String = "",
     var isEditPrice : Boolean = true,
-    var isEditDisc : Boolean = true
+    var isEditDisc : Boolean = true,
+    var bp : Bp? = null
 )

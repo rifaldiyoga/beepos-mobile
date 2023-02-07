@@ -15,9 +15,13 @@ object PriceDataMapper : BaseMapper<PriceEntity, Price, PriceResponse.ItemPriceD
             id = model.id!!,
             itemId = model.itemId,
             priceLvlId = model.priceLvlId,
-            price = model.price,
             crcId = model.crcId,
-            discExp = model.discExp,
+            price1 = model.price1,
+            discExp1 = model.discExp1,
+            price2 = model.price2,
+            discExp2 = model.discExp2,
+            price3 = model.price3,
+            discExp3 = model.discExp3,
             crcSymbol = model.crcSymbol
         )
     }
@@ -27,9 +31,13 @@ object PriceDataMapper : BaseMapper<PriceEntity, Price, PriceResponse.ItemPriceD
             id = model.id,
             itemId = model.itemId,
             priceLvlId = model.priceLvlId,
-            price = model.price,
+            price1 = model.price1,
             crcId = model.crcId,
-            discExp = model.discExp,
+            discExp1 = model.discExp1,
+            price2 = model.price2,
+            discExp2 = model.discExp2,
+            price3 = model.price3,
+            discExp3 = model.discExp3,
             crcSymbol = model.crcSymbol
         )
     }
@@ -38,9 +46,13 @@ object PriceDataMapper : BaseMapper<PriceEntity, Price, PriceResponse.ItemPriceD
         return PriceEntity(
             itemId = model.itemId,
             priceLvlId = model.pricelvlId,
-            price = model.price1,
+            price1 = model.price1,
             crcId = model.crcId,
-            discExp = model.disc1exp,
+            discExp1 = model.disc1exp,
+            price2 = model.price2,
+            discExp2 = model.disc2exp,
+            price3 = model.price3,
+            discExp3 = model.disc3exp,
             crcSymbol = model.crcid
         )
     }

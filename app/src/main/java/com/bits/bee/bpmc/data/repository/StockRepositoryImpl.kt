@@ -75,7 +75,7 @@ class StockRepositoryImpl @Inject constructor(
                     stockList.forEach {
                         it.itemName = itemDao.getItemById(it.itemId)?.name1 ?: ""
                         val price = priceDao.getPriceByPriceLvlItem(1, it.itemId, 1)
-                        it.harga = price?.price ?: BigDecimal.ZERO
+                        it.harga = price?.price1 ?: BigDecimal.ZERO
                         it.symbol = price?.let { crcDao.getCrcById(it.crcId)?.symbol } ?: ""
                     }
                     stockList = stockList.filter { it.itemName.contains(query, ignoreCase = true) }

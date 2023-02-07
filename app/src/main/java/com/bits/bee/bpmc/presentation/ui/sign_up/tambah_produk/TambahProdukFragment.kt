@@ -113,7 +113,6 @@ class TambahProdukFragment(
             } ?: run {
                 viewModel.updateState(
                     viewModel.state.copy(
-                        unitList = mutableListOf(UnitDummy(idx = -1, unit= "", conv = BigDecimal.ONE,)),
                         isActivePid  = BeePreferenceManager.getDataFromPreferences(requireActivity(), getString(R.string.pref_active_pid), false) as Boolean,
                     )
                 )

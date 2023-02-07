@@ -71,7 +71,6 @@ class ModeTampilanFragment(
                                 else -> ModeTampilanFragmentDirections.actionModeTampilanFragmentToPilihCabangFragment()
                             }
                             findNavController().navigate(action)
-                            requireActivity().requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                         }
                     }
                 }

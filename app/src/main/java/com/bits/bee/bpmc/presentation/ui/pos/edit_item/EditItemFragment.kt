@@ -91,6 +91,7 @@ class EditItemFragment(
                 viewModel.loadUnit(it.id)
             }
         }
+        viewModel.state.bp = mViewModel.state.bp
         binding.apply {
             val state = viewModel.state
             etHarga.setText(CurrencyUtils.formatCurrency(state.listPrice))
@@ -202,7 +203,6 @@ class EditItemFragment(
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
                 }
-
             }
         }
     }
@@ -315,6 +315,7 @@ class EditItemFragment(
                                     val code = state.item?.code ?: state.saled?.itemCode ?: ""
                                     val name = state.item?.name1 ?: state.saled?.name ?: ""
                                     tvNamaItem.text = "$code - $name"
+                                    etHarga.setText(CurrencyUtils.formatCurrency(state.listPrice))
                                 }
                             }
                             state.saled?.let { saled ->

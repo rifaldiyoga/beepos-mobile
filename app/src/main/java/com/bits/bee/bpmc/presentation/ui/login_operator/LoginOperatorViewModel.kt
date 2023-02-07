@@ -15,6 +15,9 @@ import com.bits.bee.bpmc.domain.usecase.login.operator.GetUserEmailUseCase
 import com.bits.bee.bpmc.domain.usecase.login.operator.GetUserPinUseCase
 import com.bits.bee.bpmc.domain.usecase.setting.UpdateUserUseCase
 import com.bits.bee.bpmc.presentation.base.BaseViewModel
+import com.bits.bee.bpmc.presentation.ui.pos.PosModeState
+import com.bits.bee.bpmc.utils.BPMConstants
+import com.bits.bee.bpmc.utils.BeePreferenceManager
 import com.bits.bee.bpmc.utils.Resource
 import com.bits.bee.bpmc.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,6 +37,7 @@ class LoginOperatorViewModel @Inject constructor(
     private val getUserEmailUseCase: GetUserEmailUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
     private val userRepository: UserRepository,
+    private val beePreferenceManager: BeePreferenceManager,
     @ApplicationContext val context: Context
 ): BaseViewModel<LoginOperatorState, LoginOperatorViewModel.UIEvent>() {
 
@@ -164,11 +168,16 @@ class LoginOperatorViewModel @Inject constructor(
     }
 
     fun onSuccessLogin() = viewModelScope.launch {
+        if(beePreferenceManager.modePreferences.first() == PosModeState.RetailState){
+            beePreferenceManager.updatePosPreferences(
+                beePreferenceManager.posPreferences.first().copy(orientasi = BPMConstants.SCREEN_POTRAIT, isChangeOrientasi = true)
+            )
+            BeePreferenceManager.ORIENTATION = BPMConstants.SCREEN_POTRAIT
+        }
         eventChannel.send(UIEvent.NavigateToHome)
-
     }
 
-    fun menuInfo() = viewModelScope.launch{
+    fun menuInfo() = viewModelScope.launch {
         eventChannel.send(UIEvent.RequestDialogInfo)
     }
 

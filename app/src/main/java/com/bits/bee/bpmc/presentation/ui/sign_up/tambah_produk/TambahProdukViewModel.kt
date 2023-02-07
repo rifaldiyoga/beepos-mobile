@@ -85,26 +85,27 @@ class TambahProdukViewModel @Inject constructor(
         val unit =  state.unitList[pos]
         unit.unit = value
     }
+
     fun onQtyChange(pos : Int, value : String) = viewModelScope.launch{
         val unit = state.unitList[pos]
         unit.conv = BigDecimal(value)
         if (pos == 2){
-                if (unit.conv > BigDecimal.ONE){
-                    if(unit.conv <= state.unitList[1].conv){
-                        updateState(
-                            state.copy(
-                                msgQty = "Konversi 3 harus lebih besar dari 2"
-                            )
+            if (unit.conv > BigDecimal.ONE){
+                if(unit.conv <= state.unitList[1].conv){
+                    updateState(
+                        state.copy(
+                            msgQty = "Konversi 3 harus lebih besar dari 2"
                         )
-                    }else{
-                        updateState(
-                            state.copy(
-                                msgQty = null
-                            )
+                    )
+                }else{
+                    updateState(
+                        state.copy(
+                            msgQty = null
                         )
-                    }
+                    )
                 }
             }
+        }
     }
 
     fun onDelete (pos : Int) = viewModelScope.launch {
@@ -133,9 +134,16 @@ class TambahProdukViewModel @Inject constructor(
     }
 
     fun onSubmit(nama: String, harga: String, pid: String) = viewModelScope.launch {
-        if (state.unitList.size == 3 &&(state.unitList[1].conv >= state.unitList[2].conv)){
-            //
-        }else{
+        var isValid = true
+        state.unitList.forEachIndexed { index, unitDummy ->
+            if(unitDummy.unit.isEmpty()) {
+                isValid = false
+                sendMessage("Satuan tidak boleh kosong")
+                return@forEachIndexed
+            }
+        }
+
+        if(isValid) {
             val itemDummy = ItemDummy(
                 id = state.itemDummy?.id,
                 name = nama,

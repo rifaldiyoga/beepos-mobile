@@ -787,5 +787,6 @@ untuk memperbarui data dapur?</string>
     <string name="setoran_yang_dihitung_oleh_beepos_mobile_secara_otomatis">Setoran yang dihitung oleh Beepos Mobile secara otomatis</string>
     <string name="tentang_setoran_kasir">Tentang Setoran Kasir</string>
     <string name="masa_aktif_lisensi_device_anda_akan_berakhir_">Masa aktif lisensi device anda akan berakhir %1$d hari lagi. Mohon lakukan perpanjangan disini</string>
+    <string name="harga_satuan_1">Harga Satuan 1</string>
 
 </resources>

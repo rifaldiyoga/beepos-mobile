@@ -22,11 +22,9 @@ import com.bits.bee.bpmc.presentation.dialog.info_akun.InfoAkunDialogBuilder
 import com.bits.bee.bpmc.presentation.ui.initial.InitialActivity
 import com.bits.bee.bpmc.presentation.ui.initial.InitialViewModel
 import com.bits.bee.bpmc.presentation.ui.nama_device.TAG
-import com.bits.bee.bpmc.utils.BeePreferenceManager
-import com.bits.bee.bpmc.utils.ConnectionUtils
-import com.bits.bee.bpmc.utils.Resource
-import com.bits.bee.bpmc.utils.visible
+import com.bits.bee.bpmc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
